@@ -54,7 +54,7 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// This method gets the correct number from user and inserts it at the top of the ChosenNumbersStack. 
         /// </summary>
-        public void GetNumberFromPlayer()
+        private void GetNumberFromPlayer()
         {
             while (true)
             {
@@ -81,7 +81,7 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// This method proceeds to the next or previous level.
         /// </summary>
-        public void Proceed()
+        private void Proceed()
         {
             int choice = ChosenNumbers.Peek();
             // If choice is 0, then we should go back to the previous level or stay if we are at level 0.
@@ -125,7 +125,7 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// This method puts a Numbers array in output
         /// </summary>
-        public void PrintNumbers()
+        private void PrintNumbers()
         {
             foreach (long number in Numbers)
             {
