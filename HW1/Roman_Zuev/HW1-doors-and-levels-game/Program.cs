@@ -7,7 +7,7 @@ namespace HW1_doors_and_levels_game
     {
         static int[] NumbersArray = StartNumsGenerator(5); // array with the current numbers
         static List<int> UserNumbers = new List<int> { 1 }; // numbers entered by user from the start except 0
-        static string UserInput; // user input throung Console.Readline
+        static string UserInput; // user input through Console.Readline
         static void Main()
         {
             Console.WriteLine( 
@@ -54,7 +54,7 @@ You can quit the game by entering 'X' in the console");
         {
             int Temp;
             // validates entered string is a number
-            if (Int32.TryParse(UserInput,out Temp) == false)
+            if (!Int32.TryParse(UserInput,out Temp))
             {
                 Console.WriteLine("You have entered a wrong value. Please enter a number");
                 return;
