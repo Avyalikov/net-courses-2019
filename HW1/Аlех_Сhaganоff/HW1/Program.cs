@@ -55,7 +55,15 @@ namespace HW1
                     {
                         string input = Console.ReadLine();
                         inputValue = Convert.ToInt32(input);
-                        inputCheck = true;
+                        
+                        if(allNumbers.Peek().Contains(inputValue))
+                        {
+                            inputCheck = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please choose one of the numbers on the screen");
+                        }   
                     }
                     catch (Exception)
                     {
