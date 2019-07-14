@@ -16,10 +16,12 @@ namespace HW1
             Random rand = new Random();
             int[] numbers = new int[5];
 
-            for (int i = 0; i<numbers.Length; ++i)
+            for (int i = 0; i<numbers.Length-1; ++i)
             {
-                numbers[i] = rand.Next(0,10);
+                numbers[i] = rand.Next(1,10);
             }
+
+            numbers[numbers.Length-1] = 0;
 
             return numbers;
         }
