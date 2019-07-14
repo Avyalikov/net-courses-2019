@@ -75,10 +75,18 @@ namespace HW1
                                
                 if(inputValue!=0)
                 {
-                    for(int i = 0; i< currentNumbers.Length; ++i)
-                    {
-                        currentNumbers[i] = currentNumbers[i] * inputValue;
+                    try
+                    {  
+                        for(int i = 0; i< currentNumbers.Length; ++i)
+                        {
+                            currentNumbers[i] = checked(currentNumbers[i] * inputValue);
+                        }
                     }
+                    catch(Exception)
+                    {
+                        Console.WriteLine("Maximum number reached, all numbers will be reset to zero");
+                        currentNumbers = new int[5];
+                    } 
 
                     writeCurrentNumbers();
 
