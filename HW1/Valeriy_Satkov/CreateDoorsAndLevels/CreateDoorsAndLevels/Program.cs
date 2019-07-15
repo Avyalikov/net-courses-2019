@@ -31,7 +31,7 @@ namespace CreateDoorsAndLevels
                     continue;
                 }
 
-                level = list.Count - 1; // level position
+                level = list.Count - 1; // current level position
 
                 if (selectedNumber > 0)
                 {
