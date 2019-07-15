@@ -13,8 +13,9 @@ namespace DoorsAndLevels
 
         public DoorsAndLevels()
         {
-            m_arrayNum = new int[5] { 1, 2, 3, 4, 0 };
+            m_arrayNum = new int[5];
             m_levelCoeff = new Stack<int>();
+            this.Reset();
         }
 
         public void Show()      //output array of numbers
@@ -61,7 +62,8 @@ namespace DoorsAndLevels
                     catch (OverflowException)
                     {
                         // if some value in m_arrayNum > maxValueInt32
-                        this.GoToStart();
+                        this.Reset();
+                        m_levelCoeff.Clear();
                         throw new Exception("Congratulations! You have reached the maximum value. Lets try again.");
                     }
                 }
@@ -69,14 +71,24 @@ namespace DoorsAndLevels
             }
         }
 
-        private void GoToStart()
+        private void Reset()
         {
-            m_arrayNum[0] = 1;
-            m_arrayNum[1] = 2;
-            m_arrayNum[2] = 3;
-            m_arrayNum[3] = 4;
+            var random = new Random();
+            int sizeLst = 9;
+            List<int> lstWithNum = new List<int>(sizeLst);
+            for (int i = 0; i < sizeLst; i++) //Add to List values 1..9
+                lstWithNum.Add(i+1);
+
+            for (int i = 0; i < 4; i++)
+            {
+                //Get random value from List and Remove that value from List
+                int randNum = random.Next(1, sizeLst);
+                m_arrayNum[i] = lstWithNum[randNum - 1];
+                lstWithNum.RemoveAt(randNum - 1);
+                sizeLst--; //Size List decrement
+            }
+
             m_arrayNum[4] = 0;
-            m_levelCoeff.Clear();
         }
 
     }
