@@ -8,20 +8,32 @@ namespace HW1
 {
     class Program
     {
-        static Stack<int[]> allNumbers = new Stack<int[]>();
+        static Stack<int> allNumbers = new Stack<int>();
         static int[] currentNumbers;
+        static int numberOfValues = 5;
 
         static int[] getRandomNumbers()
         {
             Random rand = new Random();
-            int[] numbers = new int[5];
+            int[] numbers = new int[numberOfValues];
+            bool allValuesRandom = false;
+            int randCycleCounter = 0;
 
-            for (int i = 0; i<numbers.Length-1; ++i)
+            do
             {
-                numbers[i] = rand.Next(1,10);
-            }
+                for (int i = 0; i < numbers.Length - 1; ++i)
+                {
+                    numbers[i] = rand.Next(1, 10);
+                }
 
-            numbers[numbers.Length-1] = 0;
+                numbers[numbers.Length - 1] = 0;
+
+                if (numbers.Length == numbers.Distinct().Count())
+                {
+                    allValuesRandom = true;
+                }
+            }
+            while (!allValuesRandom && randCycleCounter < 1000);
 
             return numbers;
         }
@@ -37,15 +49,15 @@ namespace HW1
 
         static void Main(string[] args)
         {
-            allNumbers.Push((int[])getRandomNumbers().Clone());
-
-            currentNumbers = (int[])allNumbers.Peek().Clone();
+            currentNumbers = getRandomNumbers();
 
             writeCurrentNumbers();
 
-            while (allNumbers.Count!=0)
+            bool exitCondition = false;
+
+            while(!exitCondition)
             {
-                int inputValue = 0;
+                int inputValue = 1;
 
                 bool inputCheck = false;
 
@@ -55,15 +67,15 @@ namespace HW1
                     {
                         string input = Console.ReadLine();
                         inputValue = Convert.ToInt32(input);
-                        
-                        if(allNumbers.Peek().Contains(inputValue))
+
+                        if (currentNumbers.Contains(inputValue))
                         {
                             inputCheck = true;
                         }
                         else
                         {
                             Console.WriteLine("Please choose one of the numbers on the screen");
-                        }   
+                        }
                     }
                     catch (Exception)
                     {
@@ -72,43 +84,62 @@ namespace HW1
                     }
                 }
                 while (inputCheck == false);
-                               
-                if(inputValue!=0)
+
+                if (inputValue != 0)
                 {
+                    int[] tempNumbers = new int[numberOfValues];
+
                     try
-                    {  
-                        for(int i = 0; i< currentNumbers.Length; ++i)
-                        {
-                            currentNumbers[i] = checked(currentNumbers[i] * inputValue);
-                        }
-                    }
-                    catch(Exception)
                     {
-                        Console.WriteLine("Maximum number reached, all numbers will be reset to zero");
-                        currentNumbers = new int[5];
-                    } 
+                        for (int i = 0; i < currentNumbers.Length; ++i)
+                        {
+                            tempNumbers[i] = checked(currentNumbers[i] * inputValue);
+                        }
 
-                    writeCurrentNumbers();
+                        for (int i = 0; i < currentNumbers.Length; ++i)
+                        {
+                            currentNumbers[i] = tempNumbers[i];
+                        }
 
-                    allNumbers.Push((int[])currentNumbers.Clone());
+                        allNumbers.Push(inputValue);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Maximum level reached, going back");
+
+                        for (int i = 0; i < currentNumbers.Length; ++i)
+                        {
+                            currentNumbers[i] = checked(currentNumbers[i] / allNumbers.Peek());
+                        }
+
+                        allNumbers.Pop();
+                    }
+
+                    writeCurrentNumbers();   
                 }
                 else
                 {
-                    allNumbers.Pop();
-                    
-                    if (allNumbers.Count>0)
+                    if (allNumbers.Count > 0)
                     {
-                        currentNumbers = (int[])allNumbers.Peek().Clone();
+                        for (int i = 0; i < currentNumbers.Length; ++i)
+                        {
+                            currentNumbers[i] = checked(currentNumbers[i] / allNumbers.Peek());
+                        }
+
                         writeCurrentNumbers();
+
+                        allNumbers.Pop();
                     }
                     else
                     {
                         Console.WriteLine("End");
                         Console.WriteLine("Press enter to close the program");
                         Console.ReadKey();
+                        exitCondition = true;
                     }
-                }                
-            }                       
+                }
+            }
         }
     }
 }
+
