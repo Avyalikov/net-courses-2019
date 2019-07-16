@@ -107,12 +107,15 @@ namespace HW1
                     {
                         Console.WriteLine("Maximum level reached, going back");
 
-                        for (int i = 0; i < currentNumbers.Length; ++i)
+                        if(allNumbers.Count > 0)
                         {
-                            currentNumbers[i] = (currentNumbers[i] / allNumbers.Peek());
-                        }
+                            for (int i = 0; i < currentNumbers.Length; ++i)
+                            {
+                                currentNumbers[i] = (currentNumbers[i] / allNumbers.Peek());
+                            }
 
-                        allNumbers.Pop();
+                            allNumbers.Pop();
+                        }  
                     }
 
                     writeCurrentNumbers();   
