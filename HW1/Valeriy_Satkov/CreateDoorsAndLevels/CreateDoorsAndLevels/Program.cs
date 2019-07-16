@@ -5,13 +5,36 @@ namespace CreateDoorsAndLevels
 {
     class Program
     {
+        private int[] RandIntArrGenerator()
+        {
+            int[] result = new int[5];
+            int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            Random random = new Random();
+
+            for (int i = 0; i < result.Length - 1; i++)
+            {
+                int indexForDel = 0;
+
+                do
+                {
+                    result[i] = random.Next(1, 9);
+                    indexForDel = Array.IndexOf<int>(numbers, result[i]);
+                } while (indexForDel == -1);
+                numbers[indexForDel] = 0;
+            }
+
+            result[4] = 0;
+
+            return result;
+        }
+
         public void Start()
         {
             List<int[]> list = new List<int[]>();
 
-            Random random = new Random();
             // list.Add(new int[] { 2, 4, 3, 1, 0 }); // simple test
-            list.Add(new int[] { random.Next(1, 10), random.Next(1, 10), random.Next(1, 10), random.Next(1, 10), 0 });
+            list.Add(RandIntArrGenerator());
             int selectedNumber = 0;
             int level = 0;
 
