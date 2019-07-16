@@ -109,7 +109,7 @@ namespace HW1
 
                         for (int i = 0; i < currentNumbers.Length; ++i)
                         {
-                            currentNumbers[i] = checked(currentNumbers[i] / allNumbers.Peek());
+                            currentNumbers[i] = (currentNumbers[i] / allNumbers.Peek());
                         }
 
                         allNumbers.Pop();
@@ -123,7 +123,7 @@ namespace HW1
                     {
                         for (int i = 0; i < currentNumbers.Length; ++i)
                         {
-                            currentNumbers[i] = checked(currentNumbers[i] / allNumbers.Peek());
+                            currentNumbers[i] = (currentNumbers[i] / allNumbers.Peek());
                         }
 
                         writeCurrentNumbers();
