@@ -29,6 +29,57 @@ namespace CreateDoorsAndLevels
             return result;
         }
 
+        private int EnterTheNumber(int lvl, int[] levelNumbers, int lvlLimit)
+        {
+            int result = -1;
+
+            do
+            {
+                if (lvl <= lvlLimit)
+                {
+                    Console.Write("Select one of the current level numbers: ");
+                }
+                else
+                {
+                    Console.Write("You are on the last level. Enter 0 for continue: ");
+                }
+
+                try
+                {
+                    string s = Console.ReadLine();
+
+                    if (String.IsNullOrEmpty(s))
+                    {
+                        Console.WriteLine("You entered empty string. Try again.");
+                        continue;
+                    }
+
+                    int n = Int32.Parse(s);
+
+                    if (Array.IndexOf<int>(levelNumbers, n) == -1)
+                    {
+                        Console.WriteLine("Wrong number. Try again.");
+                        continue;
+                    }
+
+                    if (lvl > lvlLimit && n != 0)
+                    {
+                        Console.WriteLine("You entered not 0.");
+                        continue;
+                    }
+
+                    result = n;
+                }
+                catch
+                {
+                    Console.WriteLine("Input error. Try again.");
+                    continue;
+                }
+            } while (result == -1);            
+
+            return result;
+        }
+
         public void Start()
         {
             List<int[]> list = new List<int[]>();
@@ -37,24 +88,15 @@ namespace CreateDoorsAndLevels
             list.Add(RandIntArrGenerator());
             int selectedNumber = 0;
             int level = 0;
+            int levelLimit = 2;
 
             Console.WriteLine($"We have numbers: {list[0][0]} {list[0][1]} {list[0][2]} {list[0][3]} {list[0][4]}");
 
             do
             {
-                Console.Write("Enter the number: ");
-
-                try
-                {
-                    selectedNumber = Int32.Parse(Console.ReadLine());
-                }
-                catch
-                {
-                    Console.WriteLine("Wrong number. Try again.");
-                    continue;
-                }
-
                 level = list.Count - 1; // current level position
+
+                selectedNumber = EnterTheNumber(level, list[level], levelLimit);
 
                 if (selectedNumber > 0)
                 {
