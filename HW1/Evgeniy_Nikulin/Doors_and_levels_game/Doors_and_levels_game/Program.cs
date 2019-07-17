@@ -8,9 +8,11 @@ namespace Doors_and_levels_game
         static void Main(string[] args)
         {
             IPhraseProvider phraseProvider = new JsonPhraseProvider();
+            IInputOutputModule ioModule = new ConsoleIOModule();
 
             Game game = new Game (
-                phraseProvider: phraseProvider
+                phraseProvider: phraseProvider,
+                io: ioModule
             );
 
             game.Start();

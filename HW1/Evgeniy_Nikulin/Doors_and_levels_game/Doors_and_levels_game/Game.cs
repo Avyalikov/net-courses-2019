@@ -11,10 +11,15 @@ namespace Doors_and_levels_game
         List<ulong> doors = new List<ulong>();
 
         private readonly IPhraseProvider phraseProvider;
+        private readonly IInputOutputModule io;
 
-        public Game(IPhraseProvider phraseProvider)
+        public Game(
+            IPhraseProvider phraseProvider,
+            IInputOutputModule io
+            )
         {
             this.phraseProvider = phraseProvider;
+            this.io = io;
         }
 
         public void Start()
@@ -35,52 +40,32 @@ namespace Doors_and_levels_game
             doors.Add(0);
 
             // Start
-            Console.Write(phraseProvider.GetPhrase(Phrase.Welcome));
-            PrintArr(doors);
+            io.Print(phraseProvider.GetPhrase(Phrase.Welcome));
+            io.Print(doors);
 
             // Main loop
-            byte n = 0;
             ulong door;
             while (true)
             {
                 door = GetDoor();
-                Console.WriteLine();
-
+                io.Print();
                 if (door == 0)
                 {
-                    if (n != 0) n--;
-                    Console.WriteLine(phraseProvider.GetPhrase(Phrase.MoveBack));
-
+                    io.Print(phraseProvider.GetPhrase(Phrase.MoveBack));
                     PreviousLvl();
-                }
-                else
-                {
-                    n++;
-                    Ends end = (n == 1 || n == 2 || n == 3) ? (Ends)n : Ends.th;
-                    Console.WriteLine(phraseProvider.GetPhrase(Phrase.MoveForward));
-
+                } else {
+                    io.Print(phraseProvider.GetPhrase(Phrase.MoveForward));
                     NextLvl(door);
                 }
-
                 if (IsWin())
                 {
-                    Console.WriteLine(phraseProvider.GetPhrase(Phrase.YouWin));
+                    io.Print(phraseProvider.GetPhrase(Phrase.YouWin));
                     return;
                 }
-
-                PrintArr(doors);
+                io.Print(doors);
             }
 
-        }
-        enum Ends { th, st, nd, rd }
-        void PrintArr(List<ulong> arr)
-        {
-            foreach (ulong item in arr)
-            {
-                Console.Write(item + " ");
-            }
-            Console.Write("\n");
-        }
+        }     
 
         ulong GetDoor()
         {
@@ -89,8 +74,8 @@ namespace Doors_and_levels_game
 
             while (true)
             {
-                Console.Write(phraseProvider.GetPhrase(Phrase.YourChoose));
-                str = Console.ReadLine();
+                io.Print(phraseProvider.GetPhrase(Phrase.YourChoose), end: "");
+                str = io.Input();
                 try
                 {
                     num = Convert.ToUInt64(str);
@@ -100,7 +85,7 @@ namespace Doors_and_levels_game
                     }
                 } catch { }
 
-                Console.WriteLine(phraseProvider.GetPhrase(Phrase.WrongValue));
+                io.Print(phraseProvider.GetPhrase(Phrase.WrongValue));
             }
         } 
 
