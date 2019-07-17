@@ -34,7 +34,7 @@ namespace HW2
 
     public interface ITextMessagesProvider
     {
-        TextMessages getTextMessages();
+        //TextMessages getTextMessages();
     }
 
     public interface ISettingsProvider

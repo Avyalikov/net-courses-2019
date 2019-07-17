@@ -16,17 +16,17 @@ namespace HW2
             IReadInputProvider readInputProvider = new ConsoleInput();
             ISendOutputProvider sendOutputProvider = new ConsoleOutput();
             IRandomProvider randomProvider = new Rand();
-            ITextMessagesProvider textMessagesProvider = new XMLText();
-            ISettingsProvider settingsProvider = new XMLSettings();
+            //ITextMessagesProvider textMessagesProvider = new XMLText();
+            //ISettingsProvider settingsProvider = new XMLSettings();
 
             Game game = new Game
             (
              storageProvider: storageProvider,
              readInputProvider: readInputProvider,
              sendOutputProvider: sendOutputProvider,
-             randomProvider: randomProvider,
-             textMessagesProvider: textMessagesProvider,
-             settingsProvider: settingsProvider
+             randomProvider: randomProvider
+             //textMessagesProvider: textMessagesProvider,
+             //settingsProvider: settingsProvider
             );
 
             game.run();

@@ -8,9 +8,11 @@ using MyType = System.Int32;
 
 namespace HW2
 {
+ 
+
     public class Game
     {
-        private MyType[] currentNumbers = new MyType[Settings.NumberOfValues];
+        private MyType[] currentNumbers = new MyType[5];
         private MyType inputValue = 1;
 
         private readonly IStorageProvider storageProvider;
@@ -18,7 +20,7 @@ namespace HW2
         private readonly ISendOutputProvider sendOutputProvider;
         private readonly IRandomProvider randomProvider;
         private readonly ITextMessagesProvider textMessagesProvider;
-        private readonly ISettingsProvider settingsProvider;
+        //private readonly ISettingsProvider settingsProvider;
 
         public TextMessages textMessages = new TextMessages();
         //public Settings settings = new Settings();
@@ -29,9 +31,9 @@ namespace HW2
             IStorageProvider storageProvider,
             IReadInputProvider readInputProvider,
             ISendOutputProvider sendOutputProvider,
-            IRandomProvider randomProvider,
-            ITextMessagesProvider textMessagesProvider,
-            ISettingsProvider settingsProvider
+            IRandomProvider randomProvider
+            //ITextMessagesProvider textMessagesProvider,
+            //ISettingsProvider settingsProvider
             )
         {
 
@@ -39,8 +41,8 @@ namespace HW2
             this.readInputProvider = readInputProvider;
             this.sendOutputProvider = sendOutputProvider;
             this.randomProvider = randomProvider;
-            this.textMessagesProvider = textMessagesProvider;
-            this.settingsProvider = settingsProvider;
+            //this.textMessagesProvider = textMessagesProvider;
+            //this.settingsProvider = settingsProvider;
         }
 
         void checkInput()
@@ -74,7 +76,7 @@ namespace HW2
 
         public void run()
         {
-            var randomNumbers = randomProvider.rand();
+            var randomNumbers = randomProvider.rand(5,1,10);
 
             for (int i = 0; i < randomNumbers.Length; ++i)
             {
@@ -91,7 +93,7 @@ namespace HW2
 
                 if (inputValue != 0)
                 {
-                    MyType[] tempNumbers = new MyType[Settings.NumberOfValues];
+                    MyType[] tempNumbers = new MyType[5];
 
                     try
                     {
