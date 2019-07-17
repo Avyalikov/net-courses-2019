@@ -29,7 +29,7 @@ namespace HW2
 
     public interface IRandomProvider
     {
-        MyType[] rand();
+        MyType[] rand(int NumberOfValues, int MinRand, int MaxRand);
     }
 
     public interface ITextMessagesProvider
