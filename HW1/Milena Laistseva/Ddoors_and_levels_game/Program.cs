@@ -40,6 +40,7 @@ namespace doors_and_levels_game
             userDoors = new Stack<int>();
             bool findTheDoor = false;
             byte level = 1;
+            byte maxLevel = 4;
             int door;
 
             while(true)
@@ -57,7 +58,7 @@ namespace doors_and_levels_game
                     }
                 }
 
-                if (findTheDoor && door != 0)
+                if (level < maxLevel && findTheDoor && door != 0)
                 {
                     Console.WriteLine("Congratulations! You are on the next level!");
                     level++;
@@ -77,7 +78,7 @@ namespace doors_and_levels_game
                         doors[i] = doors[i] / door;
                     }
                 }
-                else if (door == 0)
+                else if (door == 0 || level == maxLevel)
                 {
                     Console.WriteLine("The End!");
                     Console.WriteLine("Thank you for the game!");
