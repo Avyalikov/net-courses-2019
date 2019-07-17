@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace DoorsAndLevelsAfterRefactoring
 {
-
     class Program
     {
         static IPhraseProvider phraseProvider = new JsonPhraseProvider();
         static IInputOutputDevice ioDevice = new ConsoleInputOutputDevice();
+        static IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
 
-
-        static int[] NumbersArray = StartNumsGenerator(5); // array with the current numbers
+        static int[] NumbersArray = doorsNumbersGenerator.GenerateDoorsNumbers(5); // array with the current numbers
         static List<int> UserNumbers = new List<int> { 1 }; // numbers entered by user from the start except 0
         static string UserInput; // user input through io device
         static void Main()
@@ -32,21 +31,6 @@ namespace DoorsAndLevelsAfterRefactoring
             }
             ioDevice.WriteOutput(phraseProvider.GetPhrase("ThankYouForPlaying"));
             ioDevice.ReadKey();
-        }
-
-        //method generates start numbers
-        static int[] StartNumsGenerator(int ArraySize)
-        {
-            int[] nums = new int[ArraySize];
-            Random random = new Random();
-            //fills array with random numbers from 1 to 9
-            for (int i = 0; i < nums.Length; i++)
-            {
-                nums[i] = random.Next(1, 9);
-            }
-            //adds 0 in random place of array
-            nums[random.Next(0, nums.Length - 1)] = 0;
-            return nums;
         }
 
         //validates the input and changes the numbers in array
