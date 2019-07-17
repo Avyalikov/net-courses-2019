@@ -3,13 +3,17 @@ using System.Collections.Generic;
 
 namespace DoorsAndLevelsAfterRefactoring
 {
+
     class Program
     {
         static IPhraseProvider phraseProvider = new JsonPhraseProvider();
         static IInputOutputDevice ioDevice = new ConsoleInputOutputDevice();
-        static IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
+        
+        static ISettingsProvider settingsProvider = new SettingsProvider();
+        static GameSettings gameSettings = settingsProvider.GetGameSettings();
+        static IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator(gameSettings);
 
-        static int[] NumbersArray = doorsNumbersGenerator.GenerateDoorsNumbers(5); // array with the current numbers
+        static int[] NumbersArray = doorsNumbersGenerator.GenerateDoorsNumbers(gameSettings.DoorsAmount); // array with the current numbers
         static List<int> UserNumbers = new List<int> { 1 }; // numbers entered by user from the start except 0
         static string UserInput; // user input through io device
         static void Main()
@@ -26,7 +30,7 @@ namespace DoorsAndLevelsAfterRefactoring
                 Numbers += phraseProvider.GetPhrase("SelectAndEnterNumber");
                 ioDevice.WriteOutput(Numbers);
                 UserInput = ioDevice.ReadInput();
-                if (UserInput == "x" || UserInput == "X") break; // x - exit command
+                if (UserInput.ToLowerInvariant() == gameSettings.ExitCode.ToLowerInvariant()) break; // exit command
                 NumbersChanger(UserInput);
             }
             ioDevice.WriteOutput(phraseProvider.GetPhrase("ThankYouForPlaying"));
@@ -44,11 +48,14 @@ namespace DoorsAndLevelsAfterRefactoring
                 return;
             }
             // goint to previous level
-            if (Temp == 0)
+            if (Temp == gameSettings.ExitDoorNumber)
             {
                 for (int i = 0; i < NumbersArray.Length; i++)
                 {
-                    NumbersArray[i] /= UserNumbers[UserNumbers.Count - 1];
+                    if (NumbersArray[i] != gameSettings.ExitDoorNumber)
+                    {
+                        NumbersArray[i] /= UserNumbers[UserNumbers.Count - 1];
+                    }
                 }
                 if (UserNumbers.Count > 1) UserNumbers.RemoveAt(UserNumbers.Count - 1);
                 return;
@@ -59,7 +66,13 @@ namespace DoorsAndLevelsAfterRefactoring
                 //if value contains in the array -> multiply array numbers
                 if (number == Temp)
                 {
-                    for (int i = 0; i < NumbersArray.Length; i++) NumbersArray[i] *= Temp;
+                    for (int i = 0; i < NumbersArray.Length; i++)
+                    {
+                        if (NumbersArray[i] != gameSettings.ExitDoorNumber)
+                        {
+                            NumbersArray[i] *= Temp;
+                        }
+                    }
                     UserNumbers.Add(Temp); // adding value to the List
                     return;
                 }

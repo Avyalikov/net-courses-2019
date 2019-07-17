@@ -4,6 +4,13 @@ namespace DoorsAndLevelsAfterRefactoring
 {
     public class DoorsNumbersGenerator : IDoorsNumbersGenerator
     {
+        private readonly GameSettings gameSettings;
+
+        public DoorsNumbersGenerator(GameSettings gameSettings)
+        {
+            this.gameSettings = gameSettings;
+        }
+
         public int[] GenerateDoorsNumbers(int doorsAmount)
         {
             int[] nums = new int[doorsAmount];
@@ -13,8 +20,8 @@ namespace DoorsAndLevelsAfterRefactoring
             {
                 nums[i] = random.Next(1, 9);
             }
-            //adds 0 in random place of array
-            nums[random.Next(0, nums.Length - 1)] = 0;
+            //adds 0 in random place of arraysss
+            nums[random.Next(0, nums.Length - 1)] = gameSettings.ExitDoorNumber;
             return nums;
         }
     }

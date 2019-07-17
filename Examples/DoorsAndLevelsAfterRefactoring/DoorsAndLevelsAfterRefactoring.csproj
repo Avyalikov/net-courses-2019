@@ -6,10 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="gamesettings.json" />
     <None Remove="Resources\LangRu.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="gamesettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\LangRu.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
