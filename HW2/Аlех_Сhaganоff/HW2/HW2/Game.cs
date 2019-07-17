@@ -20,10 +20,10 @@ namespace HW2
         private readonly ISendOutputProvider sendOutputProvider;
         private readonly IRandomProvider randomProvider;
         private readonly ITextMessagesProvider textMessagesProvider;
-        //private readonly ISettingsProvider settingsProvider;
+        private readonly ISettingsProvider settingsProvider;
 
         public TextMessages textMessages = new TextMessages();
-        //public Settings settings = new Settings();
+        public Settings settings = new Settings();
 
         public Game
             (
