@@ -6,9 +6,9 @@ namespace DoorsAndLevelsAfterRefactoring
     {
         private readonly GameSettings gameSettings;
 
-        public DoorsNumbersGenerator(GameSettings gameSettings)
+        public DoorsNumbersGenerator(ISettingsProvider settingsProvider)
         {
-            this.gameSettings = gameSettings;
+            this.gameSettings = settingsProvider.GetGameSettings();
         }
 
         public int[] GenerateDoorsNumbers(int doorsAmount)

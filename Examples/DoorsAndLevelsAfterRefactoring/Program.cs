@@ -1,85 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DoorsAndLevelsAfterRefactoring
+﻿namespace DoorsAndLevelsAfterRefactoring
 {
-
     class Program
     {
-        static IPhraseProvider phraseProvider = new JsonPhraseProvider();
-        static IInputOutputDevice ioDevice = new ConsoleInputOutputDevice();
         
-        static ISettingsProvider settingsProvider = new SettingsProvider();
-        static GameSettings gameSettings = settingsProvider.GetGameSettings();
-        static IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator(gameSettings);
-
-        static int[] NumbersArray = doorsNumbersGenerator.GenerateDoorsNumbers(gameSettings.DoorsAmount); // array with the current numbers
-        static List<int> UserNumbers = new List<int> { 1 }; // numbers entered by user from the start except 0
-        static string UserInput; // user input through io device
         static void Main()
         {
-            ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
 
-            while (true)
-            {
-                string Numbers = phraseProvider.GetPhrase("TheNumbersAre");
-                foreach (int number in NumbersArray)
-                {
-                    Numbers = Numbers + number + " ";
-                }
-                Numbers += phraseProvider.GetPhrase("SelectAndEnterNumber");
-                ioDevice.WriteOutput(Numbers);
-                UserInput = ioDevice.ReadInput();
-                if (UserInput.ToLowerInvariant() == gameSettings.ExitCode.ToLowerInvariant()) break; // exit command
-                NumbersChanger(UserInput);
-            }
-            ioDevice.WriteOutput(phraseProvider.GetPhrase("ThankYouForPlaying"));
-            ioDevice.ReadKey();
-        }
+            IPhraseProvider phraseProvider = new JsonPhraseProvider();
+            IInputOutputDevice inputOutputDevice = new ConsoleInputOutputDevice();
+            ISettingsProvider settingsProvider = new SettingsProvider();
+            IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator(settingsProvider);
 
-        //validates the input and changes the numbers in array
-        static void NumbersChanger(string UserInput)
-        {
-            int Temp;
-            // validates entered string is a number
-            if (!Int32.TryParse(UserInput, out Temp))
-            {
-                ioDevice.WriteOutput(phraseProvider.GetPhrase("YouHaveEnteredWrongValue"));
-                return;
-            }
-            // goint to previous level
-            if (Temp == gameSettings.ExitDoorNumber)
-            {
-                for (int i = 0; i < NumbersArray.Length; i++)
-                {
-                    if (NumbersArray[i] != gameSettings.ExitDoorNumber)
-                    {
-                        NumbersArray[i] /= UserNumbers[UserNumbers.Count - 1];
-                    }
-                }
-                if (UserNumbers.Count > 1) UserNumbers.RemoveAt(UserNumbers.Count - 1);
-                return;
-            }
-            //validating entered number
-            foreach (int number in NumbersArray)
-            {
-                //if value contains in the array -> multiply array numbers
-                if (number == Temp)
-                {
-                    for (int i = 0; i < NumbersArray.Length; i++)
-                    {
-                        if (NumbersArray[i] != gameSettings.ExitDoorNumber)
-                        {
-                            NumbersArray[i] *= Temp;
-                        }
-                    }
-                    UserNumbers.Add(Temp); // adding value to the List
-                    return;
-                }
-            }
-            //if array doesn't contain entered number
-            ioDevice.WriteOutput(phraseProvider.GetPhrase("YouHaveEnteredWrongValuePleaseEnterNumbersListed"));
-            return;
+            var game = new Game(phraseProvider, inputOutputDevice, settingsProvider, doorsNumbersGenerator);
+            game.Run();
         }
     }
 }
