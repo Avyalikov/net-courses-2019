@@ -8,8 +8,7 @@ namespace GameWithNumbers
         
         Random rnd = new Random();
         private int[] EngArr = new int[5];
-        Stack<Action> GameStory = new Stack<Action>();
-        Stack<int> NumbStory = new Stack<int>();
+        Stack<int> Divider = new Stack<int>();
 
         public EngGame()
         {
@@ -25,31 +24,47 @@ namespace GameWithNumbers
 
         public void Play(int a)
         {
-            if (a != 0)
+
+            if (!CheckDoor(a))
             {
-                Console.Write("Your number: {0}. We have next numbers:  ", a);
-                for (int i = 0; i < EngArr.Length; i++)
-                   EngArr[i] *= a;
-                NumbStory.Push(a);
-                GameStory.Push(LeftLevel);              
+                Console.WriteLine("Use other door pls");
                 Print();
             }
-            else if (a == 0)
+            else
             {
-                try
+                if (a != 0)
                 {
-                    GameStory.Pop().Invoke();
+                    Console.Write("Your number: {0}. We have next numbers:  ", a);
+                    for (int i = 0; i < EngArr.Length; i++)
+                        EngArr[i] *= a;
+                    Divider.Push(a);
+                    Print();
                 }
-                catch (InvalidOperationException e)
+                else if (a == 0)
                 {
-                    Console.WriteLine("You realy want to lose? {0}", e.Message);
+                    try
+                    {
+                        LeftLevel(Divider.Pop());
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        Console.WriteLine("You realy want to lose? {0}", e.Message);
+                    }
                 }
-            }       
+            }
         }
 
-        private void LeftLevel()
+        private bool CheckDoor(int a)
         {
-            int a = NumbStory.Pop();
+            foreach (int i in EngArr)
+                if (i == a)
+                    return true;
+
+            return false;
+        }
+
+        private void LeftLevel(int a)
+        {            
             Console.Write("Your number: 0. We have previous numbers: ");
             for (int i = 0; i < EngArr.Length; i++)
                 EngArr[i] /= a;
