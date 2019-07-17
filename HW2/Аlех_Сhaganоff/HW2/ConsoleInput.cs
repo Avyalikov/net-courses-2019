@@ -8,5 +8,11 @@ using MyType = System.Int32;
 
 namespace HW2
 {
-
+    public class ConsoleInput : IReadInputProvider
+    {
+        public string readInput()
+        {
+            return Console.ReadLine();
+        }
+    }
 }
