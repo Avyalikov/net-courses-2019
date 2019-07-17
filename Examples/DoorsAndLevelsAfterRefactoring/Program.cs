@@ -7,14 +7,15 @@ namespace DoorsAndLevelsAfterRefactoring
     class Program
     {
         static IPhraseProvider phraseProvider = new JsonPhraseProvider();
+        static IInputOutputDevice ioDevice = new ConsoleInputOutputDevice();
 
 
         static int[] NumbersArray = StartNumsGenerator(5); // array with the current numbers
         static List<int> UserNumbers = new List<int> { 1 }; // numbers entered by user from the start except 0
-        static string UserInput; // user input through Console.Readline
+        static string UserInput; // user input through io device
         static void Main()
         {
-            Console.WriteLine(phraseProvider.GetPhrase("Welcome"));
+            ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
 
             while (true)
             {
@@ -24,13 +25,13 @@ namespace DoorsAndLevelsAfterRefactoring
                     Numbers = Numbers + number + " ";
                 }
                 Numbers += phraseProvider.GetPhrase("SelectAndEnterNumber");
-                Console.WriteLine(Numbers);
-                UserInput = Console.ReadLine();
+                ioDevice.WriteOutput(Numbers);
+                UserInput = ioDevice.ReadInput();
                 if (UserInput == "x" || UserInput == "X") break; // x - exit command
                 NumbersChanger(UserInput);
             }
-            Console.WriteLine(phraseProvider.GetPhrase("ThankYouForPlaying"));
-            Console.ReadKey();
+            ioDevice.WriteOutput(phraseProvider.GetPhrase("ThankYouForPlaying"));
+            ioDevice.ReadKey();
         }
 
         //method generates start numbers
@@ -55,7 +56,7 @@ namespace DoorsAndLevelsAfterRefactoring
             // validates entered string is a number
             if (!Int32.TryParse(UserInput, out Temp))
             {
-                Console.WriteLine(phraseProvider.GetPhrase("YouHaveEnteredWrongValue"));
+                ioDevice.WriteOutput(phraseProvider.GetPhrase("YouHaveEnteredWrongValue"));
                 return;
             }
             // goint to previous level
@@ -80,7 +81,7 @@ namespace DoorsAndLevelsAfterRefactoring
                 }
             }
             //if array doesn't contain entered number
-            Console.WriteLine(phraseProvider.GetPhrase("YouHaveEnteredWrongValuePleaseEnterNumbersListed"));
+            ioDevice.WriteOutput(phraseProvider.GetPhrase("YouHaveEnteredWrongValuePleaseEnterNumbersListed"));
             return;
         }
     }
