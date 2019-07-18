@@ -15,6 +15,7 @@ namespace DoorsAndLevelsGame
         private List<int> _pickedDoors;
         private bool isRestarting;
         private readonly IPhraseProvider phraseProvider;
+        private readonly IInputOutputProvider inputOutputProvider;
 
         private void createRandomDoors()
         {
@@ -56,13 +57,14 @@ namespace DoorsAndLevelsGame
             }
         }
 
-        public GameManager(int doorCount, IPhraseProvider phraseProvider)
+        public GameManager(int doorCount, IPhraseProvider phraseProvider, IInputOutputProvider inputOutputProvider)
         {
             if (doorCount < 2)
             {
                 throw new Exception("Game must contain at least two doors");
             }
             this.phraseProvider = phraseProvider;
+            this.inputOutputProvider = inputOutputProvider;
             _doorsCount = doorCount;
             isRestarting = false;
             createRandomDoors();
@@ -106,21 +108,21 @@ namespace DoorsAndLevelsGame
 
         public void Run()
         {
-            Console.WriteLine(phraseProvider.GetPhrase("Rules"));
-            Console.WriteLine(showCurrentLevel());
+            inputOutputProvider.Write(phraseProvider.GetPhrase("Rules"));
+            inputOutputProvider.Write(showCurrentLevel());
             string key = "";
             int pickedDoor = 0;
             while (!key.Equals("e"))
             {
-                key = Console.ReadLine();
+                key = inputOutputProvider.Read();
                 bool isNumeric = int.TryParse(key, out pickedDoor);
                 if (isNumeric)
                 {
-                    Console.WriteLine(pickDoor(pickedDoor));
+                    inputOutputProvider.Write(pickDoor(pickedDoor));
                 }
                 else if (!key.ToLower().Equals("e"))
                 {
-                    Console.WriteLine(phraseProvider.GetPhrase("IncorrectInput"));
+                    inputOutputProvider.Write(phraseProvider.GetPhrase("IncorrectInput"));
                 }
             }
         }
