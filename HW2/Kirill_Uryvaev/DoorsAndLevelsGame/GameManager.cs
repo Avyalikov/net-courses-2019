@@ -16,12 +16,11 @@ namespace DoorsAndLevelsGame
         private bool isRestarting;
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputProvider inputOutputProvider;
+        private readonly INumberGenerator numberGenerator;
 
         private void createRandomDoors()
         {
-            Random rnd = new Random();
-            _currentDoors = Enumerable.Range(1, maxDoorNumber).OrderBy(x => rnd.Next()).Take(_doorsCount).ToArray(); // for generation without duplicates
-            _currentDoors[_doorsCount - 1] = 0;
+            _currentDoors = numberGenerator.GetNumbers(_doorsCount, maxDoorNumber);
             _levelNumber = 0;
             _pickedDoors = new List<int>();
         }
@@ -57,7 +56,7 @@ namespace DoorsAndLevelsGame
             }
         }
 
-        public GameManager(int doorCount, IPhraseProvider phraseProvider, IInputOutputProvider inputOutputProvider)
+        public GameManager(int doorCount, IPhraseProvider phraseProvider, IInputOutputProvider inputOutputProvider, INumberGenerator numberGenerator)
         {
             if (doorCount < 2)
             {
@@ -65,6 +64,7 @@ namespace DoorsAndLevelsGame
             }
             this.phraseProvider = phraseProvider;
             this.inputOutputProvider = inputOutputProvider;
+            this.numberGenerator = numberGenerator;
             _doorsCount = doorCount;
             isRestarting = false;
             createRandomDoors();

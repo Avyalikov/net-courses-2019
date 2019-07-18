@@ -13,7 +13,8 @@ namespace DoorsAndLevelsGame
             int numbers = 5;
             IPhraseProvider phraseProvider = new JsonPhraseProvider();
             IInputOutputProvider inputOutputProvider = new ConsoleIOProvider();
-            GameManager game = new GameManager(numbers, phraseProvider, inputOutputProvider);
+            INumberGenerator numberGenerator = new UniformNumberGenerator();
+            GameManager game = new GameManager(numbers, phraseProvider, inputOutputProvider, numberGenerator);
             game.Run();
         }
     }
