@@ -12,6 +12,7 @@ namespace DoorsAndLevelsGame
     {
 
         private int Level { get; set; }
+        private int selectedNum;
         private int[] genNumbers;
         private bool firstRun = true;
         public bool Exit { get; private set; }
@@ -150,39 +151,55 @@ namespace DoorsAndLevelsGame
         {
             if (this.Level == 1 && firstRun)
             {
+                firstRun = false;
                 genNumbers = this.GenerateNumbers();
                 PrintDoorsNumbers();
-                int selectedNum = this.EnteringNumber();
-                bool check = CheckInput(selectedNum);
-                if (check == true)
-                {
-                    levelsSelection.Add(this.Level, selectedNum);
-                    CountValues(genNumbers, selectedNum);
-                    this.Level++;
-                    firstRun = false;
-                }                
-            }
-            else
-            {
-                PrintDoorsNumbers();
-
-                int selectedNum = this.EnteringNumber();
+                selectedNum = this.EnteringNumber();
                 bool check = CheckInput(selectedNum);
                 if (check == true)
                 {
                     if (selectedNum != 0)
                     {
                         levelsSelection.Add(this.Level, selectedNum);
-                        CountValues(this.genNumbers, selectedNum);
+                        CountValues(genNumbers, selectedNum);
                         this.Level++;
+                        
                     }
 
+                    else this.Exit = true;
+                }  
+                
+
+            }
+            else
+            {
+                PrintDoorsNumbers();
+
+                selectedNum = this.EnteringNumber();
+                bool check = CheckInput(selectedNum);
+                if (check == true)
+                {
+                    if (selectedNum != 0)
+                    {
+                        if (!levelsSelection.ContainsKey(Level))
+                        {
+                            levelsSelection.Add(this.Level, selectedNum);
+                            
+                        }
+
+                        else { levelsSelection[Level] = selectedNum; }
+
+                        CountValues(this.genNumbers, selectedNum);
+                            this.Level++;
+                    }
+                   
                     else
                     {
                         if (this.Level != 1)
                         {
-                            levelsSelection.Remove(this.Level);
+                            
                             CountValues(this.genNumbers, selectedNum);
+                            levelsSelection.Remove(this.Level);
                             this.Level--;
                         }
                         else
