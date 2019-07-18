@@ -68,12 +68,21 @@ namespace NumbersGame
                 Console.Write("Enter one of this numbers: ");
                 num.WriteNumbers();
                 string input = Console.ReadLine();
-                if (input == "")
+                try
                 {
+                    if (input == "")
+                    {
+                        Console.WriteLine("\n!Invalid input!\n");
+                        continue;
+                    }
+                    else i = Convert.ToInt32(input);
+                }
+
+                catch (System.FormatException) {
                     Console.WriteLine("\n!Invalid input!\n");
                     continue;
-                } else i = Convert.ToInt32(input);
-                
+                }
+
                 if (i == 0)
                 {
                     if (!levelsHolder.Any()) { Console.WriteLine("\nThis is the 1st level!\n"); continue; }                 
