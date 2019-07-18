@@ -10,11 +10,12 @@ namespace DoorsAndLevelsGame
     {
         static void Main(string[] args)
         {
-            int numbers = 5;
             IPhraseProvider phraseProvider = new JsonPhraseProvider();
             IInputOutputProvider inputOutputProvider = new ConsoleIOProvider();
             INumberGenerator numberGenerator = new UniformNumberGenerator();
-            GameManager game = new GameManager(numbers, phraseProvider, inputOutputProvider, numberGenerator);
+            ISettingsProvider settingsProvider = new FileSettingsProvider();
+
+            GameManager game = new GameManager(phraseProvider, inputOutputProvider, numberGenerator, settingsProvider);
             game.Run();
         }
     }

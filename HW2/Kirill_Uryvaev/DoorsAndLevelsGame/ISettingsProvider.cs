@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DoorsAndLevelsGame
 {
-    public interface IPhraseProvider
+    public interface ISettingsProvider
     {
-        string GetPhrase(string key);
-        void SetLanguage(Languages language);
+        GameSettings GetSettings();
     }
 }

@@ -8,26 +8,28 @@ namespace DoorsAndLevelsGame
 {
     public class GameManager
     {
-        private const int maxDoorNumber = 10;
-        private int _doorsCount;
         private int[] _currentDoors;
         private int _levelNumber;
         private List<int> _pickedDoors;
         private bool isRestarting;
+
+        private GameSettings _settings;
+
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputProvider inputOutputProvider;
         private readonly INumberGenerator numberGenerator;
+        private readonly ISettingsProvider settingsProvider;
 
         private void createRandomDoors()
         {
-            _currentDoors = numberGenerator.GetNumbers(_doorsCount, maxDoorNumber);
+            _currentDoors = numberGenerator.GetNumbers(_settings.DoorsNumber, _settings.MaxDoorNumber);
             _levelNumber = 0;
             _pickedDoors = new List<int>();
         }
 
         private void goOnNextLevel()
         {
-            for (int i = 0; i < _doorsCount; i++)
+            for (int i = 0; i < _settings.DoorsNumber; i++)
             {
                 _currentDoors[i] *= _pickedDoors[_levelNumber];
                 if (_currentDoors[i] < 0)
@@ -44,7 +46,7 @@ namespace DoorsAndLevelsGame
             if (_levelNumber > 0)
             {
                 _levelNumber--;
-                for (int i = 0; i < _doorsCount; i++)
+                for (int i = 0; i < _settings.DoorsNumber; i++)
                 {
                     _currentDoors[i] /= _pickedDoors[_levelNumber];
                 }
@@ -56,16 +58,15 @@ namespace DoorsAndLevelsGame
             }
         }
 
-        public GameManager(int doorCount, IPhraseProvider phraseProvider, IInputOutputProvider inputOutputProvider, INumberGenerator numberGenerator)
+        public GameManager(IPhraseProvider phraseProvider, IInputOutputProvider inputOutputProvider, INumberGenerator numberGenerator, ISettingsProvider settingsProvider)
         {
-            if (doorCount < 2)
-            {
-                throw new Exception("Game must contain at least two doors");
-            }
             this.phraseProvider = phraseProvider;
             this.inputOutputProvider = inputOutputProvider;
             this.numberGenerator = numberGenerator;
-            _doorsCount = doorCount;
+            this.settingsProvider = settingsProvider;
+
+            _settings = settingsProvider.GetSettings();
+            phraseProvider.SetLanguage(_settings.Language);
             isRestarting = false;
             createRandomDoors();
         }

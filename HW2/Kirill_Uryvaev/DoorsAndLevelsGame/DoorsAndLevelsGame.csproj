@@ -47,10 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleIOProvider.cs" />
+    <Compile Include="FileSettingsProvider.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="IInputOutputProvider.cs" />
     <Compile Include="INumberGenerator.cs" />
     <Compile Include="IPhraseProvider.cs" />
+    <Compile Include="ISettingsProvider.cs" />
     <Compile Include="JsonPhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +63,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <Content Include="Resources\textEn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\textRu.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
