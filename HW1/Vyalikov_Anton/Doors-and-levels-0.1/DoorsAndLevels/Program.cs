@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DoorsAndLevels
 {
@@ -84,13 +85,18 @@ You can write 'exit' to leave the game or you can choose one of those doors if y
 
                     else
                     {
-                        Console.WriteLine("\nYou wrote wrong number, please try again.\n");
+                        Console.WriteLine("\nYou wrote incorrect number. Please try again.\n");
                     }
                 }
 
                 catch (FormatException)
                 {
                     Console.WriteLine("\nInvalid command. Please try again.\n");
+                }
+
+                catch (OverflowException)
+                {
+                    Console.WriteLine("\nYou wrote incorrect door number. Please try again.\n");
                 }
             }
         }
@@ -153,11 +159,12 @@ You can write 'exit' to leave the game or you can choose one of those doors if y
         //Method is using for printing to console current doors numbers.
         public void PrintList(List<int> lst)
         {
+            StringBuilder doors = new StringBuilder();
             foreach (int i in lst)
             {
-                Console.WriteLine(i + " ");
+                doors.Append(i + " ");
             }
-            Console.WriteLine("");
+            Console.WriteLine($"{doors}\n");
         }
 
     }
