@@ -30,7 +30,7 @@ namespace DoorsAndLevelsGame
             for (int i = 0; i < _doorsCount; i++)
             {
                 _currentDoors[i] *= _pickedDoors[_levelNumber];
-                if (_currentDoors[i]<0)
+                if (_currentDoors[i] < 0)
                 {
                     isRestarting = true;
                     return;
@@ -68,12 +68,12 @@ namespace DoorsAndLevelsGame
             createRandomDoors();
         }
 
-        public string ShowCurrentLevel()
+        private string showCurrentLevel()
         {
-            return phraseProvider.GetPhrase("NowLevelIs") + _levelNumber.ToString() +phraseProvider.GetPhrase("DoorsAre") + string.Join(" ",_currentDoors);
+            return phraseProvider.GetPhrase("NowLevelIs") + _levelNumber.ToString() + phraseProvider.GetPhrase("DoorsAre") + string.Join(" ", _currentDoors);
         }
 
-        public string PickDoor(int doorNumber)
+        private string pickDoor(int doorNumber)
         {
             if (!_currentDoors.Contains(doorNumber))
             {
@@ -94,13 +94,36 @@ namespace DoorsAndLevelsGame
                 {
                     isRestarting = false;
                     createRandomDoors();
-                    return phraseProvider.GetPhrase("Restart") + ShowCurrentLevel();
+                    return phraseProvider.GetPhrase("Restart") + showCurrentLevel();
                 }
                 else
                 {
-                    return ShowCurrentLevel();
+                    return showCurrentLevel();
+                }
+            }
+        }
+
+
+        public void Run()
+        {
+            Console.WriteLine(phraseProvider.GetPhrase("Rules"));
+            Console.WriteLine(showCurrentLevel());
+            string key = "";
+            int pickedDoor = 0;
+            while (!key.Equals("e"))
+            {
+                key = Console.ReadLine();
+                bool isNumeric = int.TryParse(key, out pickedDoor);
+                if (isNumeric)
+                {
+                    Console.WriteLine(pickDoor(pickedDoor));
+                }
+                else if (!key.ToLower().Equals("e"))
+                {
+                    Console.WriteLine(phraseProvider.GetPhrase("IncorrectInput"));
                 }
             }
         }
     }
+
 }
