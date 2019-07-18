@@ -10,23 +10,13 @@ namespace DoorsAndLevelsGame
     {
         static void Main(string[] args)
         {
-            Game game = new Game
-            {
-                Level = 0
-            };
+            Game game = new Game();
 
-            game.levelsResults = new Dictionary<int, int[]>();
-
-            //TO DO Create condition for exit
-            while (true)
+            while (game.Exit==false)
             {
                 game.PlayGame();
-                game.ShowCurrentResult();
+               
             }
-
-            
-                       
-           
         }
     }
 }

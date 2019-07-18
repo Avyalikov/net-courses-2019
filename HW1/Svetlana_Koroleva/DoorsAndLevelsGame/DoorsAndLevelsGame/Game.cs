@@ -4,105 +4,199 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DoorsAndLevelsGame
 {
-    
+
     class Game
     {
-        
-      public int Level { get; set; }
-      public  Dictionary<int, int[]> levelsResults;
 
+        private int Level { get; set; }
+        private int[] genNumbers;
+        private bool firstRun = true;
+        public bool Exit { get; private set; }
+        private Dictionary<int, int> levelsSelection;
 
-
-        public int[] GenerateNumbers()
+        public Game()
         {
-            int[] generatedNumbers = new int [5];
+            this.levelsSelection = new Dictionary<int, int>();
+            this.Level = 1;
+        }
+
+
+        //Generate doors
+        private int[] GenerateNumbers()
+        {
+            int[] generatedNumbers = new int[5];
             Random random = new Random();
-           
-            for (int i=0; i<generatedNumbers.Length; i++)
+
+            for (int i = 0; i < generatedNumbers.Length - 1; i++)
             {
-                generatedNumbers[i] = random.Next(0,9);
+                generatedNumbers[i] = random.Next(1, 9);
             }
+
+            generatedNumbers[4] = 0;
 
             return generatedNumbers;
         }
 
-        public int EnteringNumber()
+        //User input
+        private int EnteringNumber()
         {
-            try
+            int enteredNum;
+            Console.WriteLine("Please choose the door's number: ");
+
+            if (int.TryParse(Console.ReadLine(), out enteredNum))
             {
-                Console.WriteLine("Enter the number from 0 till 9: ");
-                int enteredNum = int.Parse(Console.ReadLine());
-                if (enteredNum < 10 && enteredNum >= 0)
-                    return enteredNum;
-                else return EnteringNumber();
+
+                Console.WriteLine($"You selected {enteredNum}");
+
             }
-            catch (Exception e)
-            {   Console.WriteLine(e);           
-                throw new Exception( );
+
+            else
+            {
+                Console.WriteLine("You entered not a number, try again");
             }
+
+            return enteredNum;
         }
 
-        public int[] CountValues(int[] numbers, int num)
+        //Input check up
+        private bool CheckInput(int num)
         {
-            int[] multiplNumbers = new int[numbers.Length];
-            for(int i=0; i<numbers.Length;i++)
+
+            bool check = false;
+            foreach (int val in this.genNumbers)
             {
-                multiplNumbers[i]=numbers[i]*num;
+                if (num == val)
+                {
+                    check = true;
+                    break;
+                }
+
             }
 
-            return multiplNumbers;
+            if (check == false)
+            {
+                Console.WriteLine("You entered wrong number");
+
+            }
+
+            return check;
+
+
         }
 
-        public void ShowCurrentResult()
+
+
+
+        //Calculate door numbers for next level
+        private int[] CountValues(int[] numbers, int num)
         {
             
-            Console.WriteLine($"Current Level {this.Level}");
-            int[] results = this.levelsResults.Last().Value.ToArray();
-            foreach(int value in results)
-            { 
-                Console.WriteLine($" {value} ");
+            if (num != 0)
+            {
+
+                try
+                {
+                    checked
+                    {
+                        for (int i = 0; i < numbers.Length; i++)
+                        {
+                            numbers[i] *= num;
+                        }
+
+                        return numbers;
+                    }
+                }
+                catch (OverflowException e)
+                {
+
+                    Console.WriteLine("Вы достигли максимума");
+                    this.Exit = true;
+                    return numbers;
+                }
+
             }
 
-            //TO DO overwrite on dictionary methods
+
+            else
+            {                               
+                for (int i = 0; i < numbers.Length; i++)
+                {
+                    numbers[i] /= levelsSelection.Values.Last();
+                }
+
+                return numbers;
+            }
         }
-        
-        
-      public void PlayGame()
+
+        private void PrintDoorsNumbers()
         {
-           
-            int selectNum = this.EnteringNumber();
-            if (this.Level == 0)
+            StringBuilder doorsToPrint = new StringBuilder();
+            foreach (int value in this.genNumbers)
             {
-                int[] genNumbers = this.GenerateNumbers();
-                int[] levelResult = this.CountValues(genNumbers, selectNum);                
-                this.Level++;
-                levelsResults.Add(this.Level, levelResult);
-                
-               
+                doorsToPrint.Append(value + " ");
+
+            }
+
+            Console.WriteLine($@" Select the door:
+{doorsToPrint}");
+        }
+
+
+
+        public void PlayGame()
+        {
+            if (this.Level == 1 && firstRun)
+            {
+                genNumbers = this.GenerateNumbers();
+                PrintDoorsNumbers();
+                int selectedNum = this.EnteringNumber();
+                bool check = CheckInput(selectedNum);
+                if (check == true)
+                {
+                    levelsSelection.Add(this.Level, selectedNum);
+                    CountValues(genNumbers, selectedNum);
+                    this.Level++;
+                    firstRun = false;
+                }                
             }
             else
             {
-                if (selectNum != 0)
-                {
-                    int[] levelResult = this.CountValues(this.levelsResults[this.Level], selectNum);                   
-                    this.Level++;
-                    levelsResults.Add(this.Level, levelResult);
-                    
-                    
-                }
+                PrintDoorsNumbers();
 
-                else {
-                    this.Level++;
-                    levelsResults.Add(this.Level, this.levelsResults[this.Level - 2] );//TO DO Create Method for changing levels (next/previous)
-                    
-                    return;                    
+                int selectedNum = this.EnteringNumber();
+                bool check = CheckInput(selectedNum);
+                if (check == true)
+                {
+                    if (selectedNum != 0)
+                    {
+                        levelsSelection.Add(this.Level, selectedNum);
+                        CountValues(this.genNumbers, selectedNum);
+                        this.Level++;
+                    }
+
+                    else
+                    {
+                        if (this.Level != 1)
+                        {
+                            levelsSelection.Remove(this.Level);
+                            CountValues(this.genNumbers, selectedNum);
+                            this.Level--;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Game over!");
+                            this.Exit = true;
+                        }
+
+                    }
                 }
             }
 
         }
-           
+
 
     }
 }
