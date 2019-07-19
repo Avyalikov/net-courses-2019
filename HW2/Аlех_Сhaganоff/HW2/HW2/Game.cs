@@ -75,24 +75,33 @@ namespace HW2
 
             do
             {
-                try
-                {
-                    string input = readInputProvider.readInput();
-                    inputValue = (MyType)Convert.ToUInt64(input);
+                string input = readInputProvider.readInput();
 
-                    if (currentNumbers.Contains(inputValue))
-                    {
-                        inputCheck = true;
-                    }
-                    else
-                    {
-                        sendOutputProvider.printOutput(textMessages.IncorrectChoice);
-                    }
-                }
-                catch (Exception)
+                if (input==settings.GoBack)
                 {
-                    sendOutputProvider.printOutput(textMessages.IncorrectInput);
+                    inputValue = 0;
+                    inputCheck = true;
                 }
+                else
+                {
+                    try
+                    {
+                        inputValue = (MyType)Convert.ToUInt64(input);
+
+                        if (currentNumbers.Contains(inputValue))
+                        {
+                            inputCheck = true;
+                        }
+                        else
+                        {
+                            sendOutputProvider.printOutput(textMessages.IncorrectChoice);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        sendOutputProvider.printOutput(textMessages.IncorrectInputP1 + settings.GoBack + textMessages.IncorrectInputP2);
+                    }
+                }        
             }
             while (inputCheck == false);
         }
@@ -114,7 +123,7 @@ namespace HW2
             {
                 checkInput();
 
-                if (inputValue != settings.GoBack)
+                if (inputValue != 0)
                 {
                     MyType[] tempNumbers = new MyType[settings.NumberOfValues];
 

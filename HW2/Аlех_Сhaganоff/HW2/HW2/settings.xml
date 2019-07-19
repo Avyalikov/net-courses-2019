@@ -3,5 +3,5 @@
   <NumberOfValues>5</NumberOfValues>
   <MinRand>1</MinRand>
   <MaxRand>10</MaxRand>
-  <EndReached>0</EndReached>
+  <GoBack>e</GoBack>
 </Settings>
