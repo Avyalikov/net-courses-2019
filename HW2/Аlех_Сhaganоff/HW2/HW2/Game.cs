@@ -12,18 +12,18 @@ namespace HW2
 
     public class Game
     {
-        private MyType[] currentNumbers = new MyType[5];
-        private MyType inputValue = 1;
+        private readonly TextMessages textMessages = new TextMessages();
+        private readonly Settings settings;
 
         private readonly IStorageProvider storageProvider;
         private readonly IReadInputProvider readInputProvider;
         private readonly ISendOutputProvider sendOutputProvider;
         private readonly IRandomProvider randomProvider;
         private readonly ITextMessagesProvider textMessagesProvider;
-        private readonly ISettingsProvider settingsProvider;
+        private readonly ISettingsProvider settingsProvider;      
 
-        public TextMessages textMessages = new TextMessages();
-        public Settings settings = new Settings();
+        private MyType[] currentNumbers;
+        private MyType inputValue = 1;
 
         public Game
             (
@@ -31,9 +31,9 @@ namespace HW2
             IStorageProvider storageProvider,
             IReadInputProvider readInputProvider,
             ISendOutputProvider sendOutputProvider,
-            IRandomProvider randomProvider
+            IRandomProvider randomProvider,
             //ITextMessagesProvider textMessagesProvider,
-            //ISettingsProvider settingsProvider
+            ISettingsProvider settingsProvider
             )
         {
 
@@ -42,10 +42,22 @@ namespace HW2
             this.sendOutputProvider = sendOutputProvider;
             this.randomProvider = randomProvider;
             //this.textMessagesProvider = textMessagesProvider;
-            //this.settingsProvider = settingsProvider;
+            this.settingsProvider = settingsProvider;
+            try
+            {
+                this.settings = settingsProvider.getSettings();
+            }
+            catch (Exception e)
+            {
+                sendOutputProvider.printOutput(e.ToString());
+                sendOutputProvider.printOutput("Using degault values instead");
+                this.settings = new Settings();
+            }
+            
+            this.currentNumbers = new MyType[settings.NumberOfValues];
         }
 
-        void checkInput()
+        private void checkInput()
         {
             bool inputCheck = false;
 
@@ -76,7 +88,7 @@ namespace HW2
 
         public void run()
         {
-            var randomNumbers = randomProvider.rand(5,1,10);
+            var randomNumbers = randomProvider.rand(settings);
 
             for (int i = 0; i < randomNumbers.Length; ++i)
             {
@@ -91,9 +103,9 @@ namespace HW2
             {
                 checkInput();
 
-                if (inputValue != 0)
+                if (inputValue != settings.GoBack)
                 {
-                    MyType[] tempNumbers = new MyType[5];
+                    MyType[] tempNumbers = new MyType[settings.NumberOfValues];
 
                     try
                     {

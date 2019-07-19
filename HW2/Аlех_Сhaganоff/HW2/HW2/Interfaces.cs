@@ -29,16 +29,16 @@ namespace HW2
 
     public interface IRandomProvider
     {
-        MyType[] rand(int NumberOfValues, int MinRand, int MaxRand);
+        MyType[] rand(Settings settings);
     }
 
     public interface ITextMessagesProvider
     {
-        //TextMessages getTextMessages();
+        TextMessages getTextMessages();
     }
 
     public interface ISettingsProvider
     {
-        void getSettings();
+        Settings getSettings();
     }
 }

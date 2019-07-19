@@ -11,10 +11,10 @@ namespace HW2
     public class Rand : IRandomProvider
     {
 
-        public MyType[] rand(int NumberOfValues, int MinRand, int MaxRand)
+        public MyType[] rand(Settings settings)
         {
             Random rand = new Random();
-            MyType[] numbers = new MyType[NumberOfValues];
+            MyType[] numbers = new MyType[settings.NumberOfValues];
             bool allValuesRandom = false;
             int randCycleCounter = 0;
 
@@ -22,7 +22,7 @@ namespace HW2
             {
                 for (int i = 0; i < numbers.Length - 1; ++i)
                 {
-                    numbers[i] = (MyType)rand.Next(MinRand, MaxRand);
+                    numbers[i] = (MyType)rand.Next(settings.MinRand, settings.MaxRand);
                 }
 
                 numbers[numbers.Length - 1] = 0;
