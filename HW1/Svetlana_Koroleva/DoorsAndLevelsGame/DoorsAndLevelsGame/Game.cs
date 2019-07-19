@@ -193,16 +193,9 @@ namespace DoorsAndLevelsGame
                 {
                     if (selectedNum != 0)
                     {
-                        if (!levelsSelection.ContainsKey(Level))
-                        {
-                            levelsSelection.Add(this.Level, selectedNum);
-
-                        }
-
-                        else { levelsSelection[Level] = selectedNum; }
-
+                        levelsSelection.Add(this.Level, selectedNum);
                         CountValues(this.genNumbers, selectedNum);
-                            this.Level++;
+                        this.Level++;
                     }
                    
                     else
@@ -210,7 +203,7 @@ namespace DoorsAndLevelsGame
                         if (this.Level != 1)
                         {
                             
-                            CountValues(this.genNumbers, selectedNum);                         
+                            CountValues(this.genNumbers, selectedNum);                    
 
                             this.Level--;
                         }
