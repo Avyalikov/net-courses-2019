@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MyType = System.Int32;
-
 namespace HW2
 {
     class Program
@@ -16,8 +14,8 @@ namespace HW2
             IReadInputProvider readInputProvider = new ConsoleInput();
             ISendOutputProvider sendOutputProvider = new ConsoleOutput();
             IRandomProvider randomProvider = new Rand();
-            ITextMessagesProvider textMessagesProvider = new XMLTextMessages();
-            ISettingsProvider settingsProvider = new XMLSettings();
+            ITextMessagesProvider textMessagesProvider = new XMLTextMessages("textmessages-eng.xml");
+            ISettingsProvider settingsProvider = new XMLSettings("settings.xml");
 
             Game game = new Game
             (

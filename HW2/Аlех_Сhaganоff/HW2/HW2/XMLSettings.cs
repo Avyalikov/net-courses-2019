@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 
-using MyType = System.Int32;
-
 namespace HW2
 {
     public class XMLSettings : ISettingsProvider
     {
+        string path;
         public Settings getSettings()
         {
             Stream stream = null;
@@ -20,7 +19,7 @@ namespace HW2
 
             try
             {
-                stream = new FileStream("settings.xml", FileMode.Open);
+                stream = new FileStream(path, FileMode.Open);
                 xmlSerazlizer = new XmlSerializer(typeof(Settings));
                 settings = (Settings)xmlSerazlizer.Deserialize(stream);
             }
@@ -34,6 +33,11 @@ namespace HW2
             }  
 
             return settings;
+        }
+
+        public XMLSettings(string path)
+        {
+            this.path = path;
         }
     }
 }

@@ -43,11 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRandomProvider.cs" />
+    <Compile Include="IReadInputProvider.cs" />
+    <Compile Include="ISendOutputProvider.cs" />
+    <Compile Include="IStorageProvider.cs" />
+    <Compile Include="ITextMessagesProvider.cs" />
     <Compile Include="XMLSettings.cs" />
     <Compile Include="ConsoleInput.cs" />
     <Compile Include="ConsoleOutput.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Interfaces.cs" />
+    <Compile Include="ISettingsProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rand.cs" />

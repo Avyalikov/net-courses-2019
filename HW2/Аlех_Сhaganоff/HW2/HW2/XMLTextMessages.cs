@@ -10,6 +10,8 @@ namespace HW2
 {
     class XMLTextMessages : ITextMessagesProvider
     {
+        string path;
+
         public TextMessages getTextMessages()
         {
             Stream stream = null;
@@ -18,7 +20,7 @@ namespace HW2
 
             try
             {
-                stream = new FileStream("textmessages-rus.xml", FileMode.Open);
+                stream = new FileStream(path, FileMode.Open);
                 xmlSerazlizer = new XmlSerializer(typeof(TextMessages));
                 textMessages = (TextMessages)xmlSerazlizer.Deserialize(stream);
             }
@@ -32,6 +34,11 @@ namespace HW2
             }
 
             return textMessages;
+        }
+
+        public XMLTextMessages(string path)
+        {
+            this.path = path;
         }
     }
 }
