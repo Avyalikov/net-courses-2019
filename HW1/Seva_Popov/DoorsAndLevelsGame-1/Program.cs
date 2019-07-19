@@ -21,41 +21,25 @@ namespace DoorsAndLevelsGame_1
 
             while (true)
             {
-                game.userDoorSelect = ReadAndCheckLine(Console.ReadLine());
-
-                Console.WriteLine("**********************");
-
-                if (game.userDoorSelect >= 0 && game.userDoorSelect != 10)
+                try
                 {
-                    if (game.userDoorSelect != 0)
-                    {
-                        game.levelDoorNumberArray.Add(game.userDoorSelect);
-                    }
+                    Console.WriteLine();
 
-                    if (game.doorNumbersArray.Contains(game.userDoorSelect) && game.userDoorSelect != 0)
-                    {
-                        game.doorNumbersArray = LevelUp(game.doorNumbersArray, game.userDoorSelect);
-                    }
-
-                    if (game.userDoorSelect == 0)
-                    {
-                        LevelDown(game.doorNumbersArray, game.levelDoorNumberArray[game.levelDoorNumberArray.Count - 1]);
-
-                        if (game.levelDoorNumberArray.Count > 1)
-                        {
-                            game.levelDoorNumberArray.RemoveAt(game.levelDoorNumberArray.Count - 1);
-                        }
-                    }
+                    game.userDoorSelect = int.Parse(Console.ReadLine());
 
                     if (game.userDoorSelect == 777)
                     {
-                        Console.WriteLine("End...");
-                        
                         break;
                     }
+                    ReadAndCheckLine(game.userDoorSelect, game);
+
+                    Console.WriteLine("**********************");
 
                     OutputNumbersToConsole(game.doorNumbersArray);
-                    Console.WriteLine(" ");
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine(" You have entered something wrong !!!");
                 }
             }
         }
@@ -67,10 +51,10 @@ namespace DoorsAndLevelsGame_1
 
             for (int i = 0; i < doorNumbers.Length; i++)
             {
-                doorNumbers[i] = random.Next(1, 9);   
+                doorNumbers[i] = random.Next(1, 9);
             }
 
-            doorNumbers[doorNumbers.Length -1] = 0;
+            doorNumbers[doorNumbers.Length - 1] = 0;
 
             return doorNumbers;
         }
@@ -86,24 +70,33 @@ namespace DoorsAndLevelsGame_1
 
         private void OutputNumbersToConsole(int[] doorNumbers)
         {
-            foreach (var item in doorNumbers )
+            foreach (var item in doorNumbers)
             {
                 Console.Write(item + " ");
             }
         }
 
-        private int ReadAndCheckLine(string userDoorSelect)
+        private void ReadAndCheckLine(int userDoorSelect, Game game)
         {
-            try
+            if (game.doorNumbersArray.Contains(userDoorSelect))
             {
-                int a = int.Parse(userDoorSelect);
-                return a;
+                if (userDoorSelect != 0)
+                {
+                    game.levelDoorNumberArray.Add(userDoorSelect);
+                    game.doorNumbersArray = LevelUp(game.doorNumbersArray, userDoorSelect);
+                }
+
+                if (userDoorSelect == 0)
+                {
+                    LevelDown(game.doorNumbersArray, game.levelDoorNumberArray[game.levelDoorNumberArray.Count - 1]);
+
+                    if (game.levelDoorNumberArray.Count > 1)
+                    {
+                        game.levelDoorNumberArray.RemoveAt(game.levelDoorNumberArray.Count - 1);
+                    }
+                }
             }
-            catch (System.FormatException)
-            {
-                Console.WriteLine(" You have entered something wrong !!!");
-                return 10;
-            }
+            Console.WriteLine(" You entered some wrong number !!!");
         }
 
         private int[] LevelUp(int[] doorNumbersArray, int userDoorSelect)
