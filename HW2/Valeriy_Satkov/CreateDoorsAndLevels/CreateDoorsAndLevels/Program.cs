@@ -16,7 +16,7 @@ namespace CreateDoorsAndLevels
 
     class Game
     {
-        int[] numbers;        
+        List<int> numbers;        
         List<int> selectedNumbers;
         int levelLimit;
 
@@ -59,26 +59,20 @@ namespace CreateDoorsAndLevels
             } while (!(this.selectedNumbers.Count - 1 == 0 && this.selectedNumbers[0] == 0));
         }
 
-        private int[] RandIntArrGenerator()
+        private List<int> RandIntArrGenerator()
         {
-            int[] result = new int[5];
-            int[] row = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            List<int> result = new List<int>();
+            int randomNumber;
 
             Random random = new Random();
 
-            for (int i = 0; i < result.Length - 1; i++)
+            for (int i = 0; i < 4; i++)
             {
-                int indexForDel = 0;
-
-                do
-                {
-                    result[i] = random.Next(1, 9);
-                    indexForDel = Array.IndexOf<int>(row, result[i]);
-                } while (indexForDel == -1);
-                row[indexForDel] = 0;
+                while (result.Contains(randomNumber = random.Next(1, 9)));
+                result.Add(randomNumber);
             }
 
-            result[4] = 0;
+            result.Add(0);
 
             return result;
         }
@@ -108,11 +102,11 @@ namespace CreateDoorsAndLevels
                         continue;
                     }
 
-                    if (s.Equals("exit")) break; // if 'exit' then break the circle. result will be -1
+                    if (s.ToLower().Equals("exit")) break; // if 'exit' then break the circle. result will be -1
 
                     int n = Int32.Parse(s);
 
-                    if (Array.IndexOf<int>(this.numbers, n) == -1)
+                    if (!this.numbers.Contains(n))
                     {
                         Console.WriteLine("Wrong number. Try again.");
                         continue;
@@ -125,6 +119,11 @@ namespace CreateDoorsAndLevels
                     }
 
                     result = n;
+                }
+                catch(OverflowException)
+                {
+                    Console.WriteLine("Toooooo large number. Try another one.");
+                    continue;
                 }
                 catch
                 {
@@ -140,7 +139,7 @@ namespace CreateDoorsAndLevels
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(intro);
-            for (int i = 0; i < numbers.Length; i++)
+            for (int i = 0; i < numbers.Count; i++)
             {
                 switch (operation)
                 {
@@ -156,16 +155,16 @@ namespace CreateDoorsAndLevels
                     default:
                         break;
                 }
-                sb.Append(i < numbers.Length - 1 ? " " : String.Empty); // add space between them
+                sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them
             }
 
             if (operation == Operation.NextLevel) // info about next level
             {
                 sb.Append(" (");
-                for (int i = 0; i < numbers.Length; i++)
+                for (int i = 0; i < numbers.Count; i++)
                 {
                     sb.Append($"{numbers[i] / this.selectedNumbers[this.selectedNumbers.Count - 1]}x{this.selectedNumbers[this.selectedNumbers.Count - 1]}");
-                    sb.Append(i < numbers.Length - 1 ? " " : String.Empty); // add space between them
+                    sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them
                 }
                 sb.Append(")");
             }
