@@ -9,9 +9,7 @@ namespace HashCodeVsEquals
 {
     class Program
     {
-
-
-        public class TestHome : System.Object
+        public class TestHome
         {
 
         }
@@ -61,6 +59,7 @@ namespace HashCodeVsEquals
 
             public override bool Equals(object obj)
             {
+                //return base.Equals(obj);
                 if (obj is Room room)
                 {
                     return room.Size == this.Size;
@@ -71,14 +70,10 @@ namespace HashCodeVsEquals
 
             public override int GetHashCode()
             {
-                 return (Size, ContainsWindow).GetHashCode();
+                return 0;
+                 //return (Size, ContainsWindow).GetHashCode();
             }
         }
-
-        ////public class TwoValues : ValueTuple<int, int>
-        ////{
-
-        ////}
 
         public struct Person : IEquatable<Person>
         {
@@ -117,6 +112,19 @@ namespace HashCodeVsEquals
 
         static void Main(string[] args)
         {
+            {                
+                var kitchenA = new Kitchen() { Size = 24, ContainsWindow = true };
+                var kitchenB = new Kitchen() { Size = 24, ContainsWindow = false };
+
+                var hashTable = new Hashtable();
+
+                hashTable.Add(kitchenA, $"This is kitchen A");
+                hashTable.Add(kitchenB, $"This is kitchen B");
+
+                Console.WriteLine(hashTable[kitchenA]);
+                Console.WriteLine(hashTable[kitchenB]);
+            }
+
             //{
             //    var pointA = new Point2D() { X = 1, Y = 2 };
             //    var pointB = new Point2D() { X = 1, Y = 2 };
@@ -159,18 +167,6 @@ namespace HashCodeVsEquals
             //    Console.WriteLine(kitchenA.Equals(kitchenB));
             //}
 
-            {
-                var kitchenA = new Kitchen() { Size = 24, ContainsWindow = false };
-                var kitchenB = new Kitchen() { Size = 24, ContainsWindow = true };
-
-                var hashTable = new Hashtable();
-
-                hashTable.Add(kitchenA, $"This is kitchen A with hashCode {kitchenA.GetHashCode()}");
-                hashTable.Add(kitchenB, $"This is kitchen B with hashCode {kitchenB.GetHashCode()}");
-
-                Console.WriteLine(hashTable[kitchenA]);
-                Console.WriteLine(hashTable[kitchenB]);
-            }
 
             //    {
             //        var personA = new Person() { Id = 1, Name = "PersonA" };
