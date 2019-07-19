@@ -13,26 +13,23 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// This array of longs represents a doors at every level. Long is used to handle OverflowException which raises too often because of multiplying a number by itself, but it still raises at levels 5-6.
         /// </summary>
-        private long[] Numbers { get; } = new long[5];
+        private long[] Numbers { get; set; } = new long[5];
         /// <summary>
         /// This is a stack that saves all chosen numbers.
         /// </summary>
         private Stack<int> ChosenNumbers { get; } = new Stack<int>();
+        public IArrayGenerator<long> ArrayGenerator { get; }
+
         /// <summary>
         /// Random for filling Numbers array.
         /// </summary>
         private readonly Random random = new Random();
         /// <summary>
-        /// Constructor which initializes Numbers array.
+        /// Constructor which initializes all game components.
         /// </summary>
-        public Game()
+        public Game(IArrayGenerator<long> arrayGenerator)
         {
-            for (int i = 0; i < Numbers.Length-1; i++)
-            {
-                Numbers[i] = random.Next(1, 10);
-            }
-
-            Numbers[Numbers.Length-1] = 0;
+            ArrayGenerator = arrayGenerator;
         }
 
         /// <summary>
@@ -41,6 +38,9 @@ namespace DoorsAndLevelsGame
         public void Play()
         {
             Console.WriteLine("Welcome to The Doors and Levels game!");
+
+            Numbers = ArrayGenerator.GetArray(5);
+
             while (true)
             {
                 Console.Write($"\nLevel {ChosenNumbers.Count + 1}\nWe have numbers: ");
