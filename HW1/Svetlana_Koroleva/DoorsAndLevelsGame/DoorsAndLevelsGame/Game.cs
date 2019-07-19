@@ -44,21 +44,27 @@ namespace DoorsAndLevelsGame
         //User input
         private int EnteringNumber()
         {
+            bool isNumber = false;
             int enteredNum;
-            Console.WriteLine("Please choose the door's number: ");
-
-            if (int.TryParse(Console.ReadLine(), out enteredNum))
+            do
             {
+                if (int.TryParse(Console.ReadLine(), out enteredNum))
+                {
 
-                Console.WriteLine($"You selected {enteredNum}");
+                    Console.WriteLine($"You selected  {enteredNum}");
+                    isNumber = true;
 
+                }
+                
+                else
+                {
+                    Console.WriteLine("You entered not a number, try again");
+                    
+
+                }
             }
 
-            else
-            {
-                Console.WriteLine("You entered not a number, try again");
-            }
-
+            while (!isNumber);
             return enteredNum;
         }
 
@@ -87,8 +93,6 @@ namespace DoorsAndLevelsGame
 
 
         }
-
-
 
 
         //Calculate door numbers for next level
@@ -126,7 +130,10 @@ namespace DoorsAndLevelsGame
                 for (int i = 0; i < numbers.Length; i++)
                 {
                     numbers[i] /= levelsSelection.Values.Last();
+                   
                 }
+
+                levelsSelection.Remove(levelsSelection.Keys.Last());
 
                 return numbers;
             }
@@ -141,7 +148,7 @@ namespace DoorsAndLevelsGame
 
             }
 
-            Console.WriteLine($@" Select the door:
+            Console.WriteLine($@"Level {Level}  Select the door:
 {doorsToPrint}");
         }
 
@@ -163,10 +170,15 @@ namespace DoorsAndLevelsGame
                         levelsSelection.Add(this.Level, selectedNum);
                         CountValues(genNumbers, selectedNum);
                         this.Level++;
-                        
+
                     }
 
-                    else this.Exit = true;
+
+                    else
+                    {
+                        Console.WriteLine("Game over!");
+                        this.Exit = true;
+                    }
                 }  
                 
 
@@ -184,7 +196,7 @@ namespace DoorsAndLevelsGame
                         if (!levelsSelection.ContainsKey(Level))
                         {
                             levelsSelection.Add(this.Level, selectedNum);
-                            
+
                         }
 
                         else { levelsSelection[Level] = selectedNum; }
@@ -198,8 +210,8 @@ namespace DoorsAndLevelsGame
                         if (this.Level != 1)
                         {
                             
-                            CountValues(this.genNumbers, selectedNum);
-                            levelsSelection.Remove(this.Level);
+                            CountValues(this.genNumbers, selectedNum);                         
+
                             this.Level--;
                         }
                         else
@@ -211,9 +223,6 @@ namespace DoorsAndLevelsGame
                     }
                 }
             }
-
         }
-
-
     }
 }

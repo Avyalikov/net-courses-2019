@@ -14,9 +14,11 @@ namespace DoorsAndLevelsGame
 
             while (game.Exit==false)
             {
-                game.PlayGame();
+                game.PlayGame();               
                
             }
+
+            Console.ReadLine();
         }
     }
 }
