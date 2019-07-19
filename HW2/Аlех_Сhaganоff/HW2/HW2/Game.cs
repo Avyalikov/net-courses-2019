@@ -12,7 +12,7 @@ namespace HW2
 
     public class Game
     {
-        private readonly TextMessages textMessages = new TextMessages();
+        private readonly TextMessages textMessages;
         private readonly Settings settings;
 
         private readonly IStorageProvider storageProvider;
@@ -32,7 +32,7 @@ namespace HW2
             IReadInputProvider readInputProvider,
             ISendOutputProvider sendOutputProvider,
             IRandomProvider randomProvider,
-            //ITextMessagesProvider textMessagesProvider,
+            ITextMessagesProvider textMessagesProvider,
             ISettingsProvider settingsProvider
             )
         {
@@ -41,8 +41,20 @@ namespace HW2
             this.readInputProvider = readInputProvider;
             this.sendOutputProvider = sendOutputProvider;
             this.randomProvider = randomProvider;
-            //this.textMessagesProvider = textMessagesProvider;
+            this.textMessagesProvider = textMessagesProvider;
             this.settingsProvider = settingsProvider;
+
+            try
+            {
+                this.textMessages = textMessagesProvider.getTextMessages();
+            }
+            catch (Exception e)
+            {
+                sendOutputProvider.printOutput(e.ToString());
+                sendOutputProvider.printOutput("Language settings failed to load, using default values instead");
+                this.textMessages = new TextMessages();
+            }
+
             try
             {
                 this.settings = settingsProvider.getSettings();
@@ -50,7 +62,7 @@ namespace HW2
             catch (Exception e)
             {
                 sendOutputProvider.printOutput(e.ToString());
-                sendOutputProvider.printOutput("Using degault values instead");
+                sendOutputProvider.printOutput(textMessages.SettingLoadingError);
                 this.settings = new Settings();
             }
             
@@ -74,13 +86,12 @@ namespace HW2
                     }
                     else
                     {
-                        sendOutputProvider.printOutput("Please choose one of the numbers on the screen");
+                        sendOutputProvider.printOutput(textMessages.IncorrectChoice);
                     }
                 }
                 catch (Exception)
                 {
-                    sendOutputProvider.printOutput("Incorrect input");
-                    sendOutputProvider.printOutput("Please enter a single integer value");
+                    sendOutputProvider.printOutput(textMessages.IncorrectInput);
                 }
             }
             while (inputCheck == false);
@@ -123,7 +134,7 @@ namespace HW2
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Maximum level reached, going back");
+                        Console.WriteLine(textMessages.MaxLevelReached);
 
                         if (storageProvider.Count > 0)
                         {
@@ -153,8 +164,7 @@ namespace HW2
                     }
                     else
                     {
-                        sendOutputProvider.printOutput("End");
-                        sendOutputProvider.printOutput("Press enter to close the program");
+                        sendOutputProvider.printOutput(textMessages.EndReached);
                         Console.ReadKey();
                         exitCondition = true;
                     }

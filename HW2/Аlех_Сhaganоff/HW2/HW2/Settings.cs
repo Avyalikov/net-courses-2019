@@ -10,10 +10,10 @@ namespace HW2
 {
     public class Settings
     {
-        public  int NumberOfValues;
-        public  int MinRand;
-        public  int MaxRand;
-        public  int GoBack;
+        public int NumberOfValues { get; set; }
+        public int MinRand { get; set; }
+        public int MaxRand { get; set; }
+        public int GoBack { get; set; }
 
         public Settings() { NumberOfValues = 5; MinRand = 1; MaxRand = 10; GoBack = 0; }
     }

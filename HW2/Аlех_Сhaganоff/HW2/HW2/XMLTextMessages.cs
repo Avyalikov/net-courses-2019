@@ -6,34 +6,32 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 
-using MyType = System.Int32;
-
 namespace HW2
 {
-    public class XMLSettings : ISettingsProvider
+    class XMLTextMessages : ITextMessagesProvider
     {
-        public Settings getSettings()
+        public TextMessages getTextMessages()
         {
             Stream stream = null;
             XmlSerializer xmlSerazlizer;
-            Settings settings;
+            TextMessages textMessages;
 
             try
             {
-                stream = new FileStream("settings.xml", FileMode.Open);
-                xmlSerazlizer = new XmlSerializer(typeof(Settings));
-                settings = (Settings)xmlSerazlizer.Deserialize(stream);
+                stream = new FileStream("textmessages-rus.xml", FileMode.Open);
+                xmlSerazlizer = new XmlSerializer(typeof(TextMessages));
+                textMessages = (TextMessages)xmlSerazlizer.Deserialize(stream);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
             finally
             {
                 stream?.Close();
-            }  
+            }
 
-            return settings;
+            return textMessages;
         }
     }
 }

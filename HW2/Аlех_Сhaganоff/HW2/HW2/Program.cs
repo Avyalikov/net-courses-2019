@@ -16,7 +16,7 @@ namespace HW2
             IReadInputProvider readInputProvider = new ConsoleInput();
             ISendOutputProvider sendOutputProvider = new ConsoleOutput();
             IRandomProvider randomProvider = new Rand();
-            //ITextMessagesProvider textMessagesProvider = new XMLTextMessages();
+            ITextMessagesProvider textMessagesProvider = new XMLTextMessages();
             ISettingsProvider settingsProvider = new XMLSettings();
 
             Game game = new Game
@@ -25,7 +25,7 @@ namespace HW2
              readInputProvider: readInputProvider,
              sendOutputProvider: sendOutputProvider,
              randomProvider: randomProvider,
-             //textMessagesProvider: textMessagesProvider,
+             textMessagesProvider: textMessagesProvider,
              settingsProvider: settingsProvider
             );
 

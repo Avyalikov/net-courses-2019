@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TextMessages>
+  <IncorrectChoice>Please choose one of the numbers on the screen</IncorrectChoice>
+  <IncorrectInput>Incorrect input, please enter a single integer value</IncorrectInput>
+  <MaxLevelReached>Maximum level reached, going back</MaxLevelReached>
+  <EndReached>End</EndReached>
+  <SettingLoadingError>Settings failed to load, using default values instead</SettingLoadingError>
+</TextMessages>
+
