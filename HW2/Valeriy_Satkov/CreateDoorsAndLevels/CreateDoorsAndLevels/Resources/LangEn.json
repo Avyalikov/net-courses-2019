@@ -1,0 +1,15 @@
+﻿{
+  "Welcome": "",
+  "YouHave": "You have numbers: ",
+  "Select": "Select one of the current level numbers or type 'exit': ",
+  "SelectZero": "You are on the last level. Enter 0 for continue or type 'exit': ",
+  "YouSelected": "You selected number ",
+  "GoNext": " and go to next level: ",
+  "YouSelectedZero": "You selected number 0 and go to previous level: ",  
+  "EmptyString": "You entered empty string. Try again.",
+  "WrongNumber": "Wrong number. Try again.",
+  "NotZero": "You entered not 0.",
+  "Overflow": "Toooooo large number. Try another one.",
+  "InputError": "Input error. Try again.",
+  "Bye": "Good Bye."
+}
