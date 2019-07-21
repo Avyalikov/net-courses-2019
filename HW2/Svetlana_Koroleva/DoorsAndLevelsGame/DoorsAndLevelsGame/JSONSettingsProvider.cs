@@ -8,27 +8,27 @@ using Newtonsoft.Json;
 
 namespace DoorsAndLevelsGame
 {
-    public class JSONPhraseProvider : IPhraseProvider
+    public class JSONSettingsProvider:ISettingsProvider
     {
-       public string GetPhrase(string keyword)
+        public GameSettings GetGameSettings()
         {
-            var resourceFile = new FileInfo("Resources\\PhrasesRuLang.json");
+            var resourceFile = new FileInfo("Resources\\GameSettings.json");
 
             if (!resourceFile.Exists)
             {
-                throw new ArgumentException($"The language file {resourceFile.Name} doesn't exist");
+                throw new ArgumentException($"The settings file {resourceFile.Name} doesn't exist");
             }
             var resourceFileContent = File.ReadAllText(resourceFile.FullName);
             try
             {
-                var resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
+                return JsonConvert.DeserializeObject<GameSettings>(resourceFileContent);
 
-                return resourceData[keyword];
+                
             }
             catch (Exception ex)
             {
                 throw new ArgumentException(
-                    $"There is no element under {keyword}", ex);
+                    $"Can't read the settings file", ex);
             }
         }
     }

@@ -21,12 +21,17 @@ namespace DoorsAndLevelsGame
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputComponent ioComp;
         private readonly IDoorsNumbersGenerator doorsGenerator;
+        private readonly ISettingsProvider settings;
 
-        public Game(IPhraseProvider phraseProvider, IInputOutputComponent ioComponent, IDoorsNumbersGenerator doorsGenerator)
+        private readonly GameSettings gameSettings;
+
+        public Game(IPhraseProvider phraseProvider, IInputOutputComponent ioComponent, IDoorsNumbersGenerator doorsGenerator, ISettingsProvider settingsProvider )
         {
             this.phraseProvider= phraseProvider;
             this.ioComp = ioComponent;
             this.doorsGenerator = doorsGenerator;
+            this.settings = settingsProvider;
+            this.gameSettings = settings.GetGameSettings();
 
             this.levelsSelection = new Dictionary<int, int>();
             this.Level = 1;
@@ -151,7 +156,7 @@ namespace DoorsAndLevelsGame
             if (this.Level == 1 && firstRun)
             {
                 firstRun = false;                
-                genNumbers = this.doorsGenerator.generatedNumbers(5);
+                genNumbers = this.doorsGenerator.generatedNumbers(gameSettings.doorsQuantity);
                 PrintDoorsNumbers();
                 selectedNum = this.EnteringNumber();
                 bool check = CheckInput(selectedNum);

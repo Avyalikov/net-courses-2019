@@ -48,19 +48,29 @@
   <ItemGroup>
     <Compile Include="ConsoleIOComponent.cs" />
     <Compile Include="DoorsGenerator.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="IDoorsNumbersGenerator.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="IInputOutputComponent.cs" />
     <Compile Include="IPhraseProvider.cs" />
+    <Compile Include="ISettingsProvider.cs" />
     <Compile Include="JSONPhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="JSONSettingsProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Resources\PhrasesEngLang.json" />
-    <None Include="Resources\PhrasesRuLang.json" />
+    <None Include="Resources\GameSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\PhrasesEngLang.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\PhrasesRuLang.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
