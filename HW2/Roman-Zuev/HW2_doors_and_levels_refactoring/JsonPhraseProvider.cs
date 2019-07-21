@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace HW2_doors_and_levels_refactoring
 {
@@ -9,8 +10,12 @@ namespace HW2_doors_and_levels_refactoring
     {
         public string GetPhrase(string phraseKey)
         {
-            var resourceFile = new FileInfo("Resources\\Eng.json");
+            string LanguageChanger;
+            var culture = System.Globalization.CultureInfo.CurrentCulture;
+            if (culture.ToString() == "ru-RU") LanguageChanger = "Resources\\Rus.json"; //choosing language
+            else LanguageChanger = "Resources\\Eng.json";
 
+            var resourceFile = new FileInfo(LanguageChanger);
             if (!resourceFile.Exists)
             {
                 throw new ArgumentException(
@@ -21,7 +26,7 @@ namespace HW2_doors_and_levels_refactoring
 
             try
             {
-                var resourceData = JsonConvert.DeserializeObject<Dictionary<string,string>>(resourceFileContent);
+                var resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
                 return resourceData[phraseKey];
             }
             catch (Exception ex)
