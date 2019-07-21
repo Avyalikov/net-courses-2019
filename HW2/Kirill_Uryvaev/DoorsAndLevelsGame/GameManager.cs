@@ -9,7 +9,7 @@ namespace DoorsAndLevelsGame
     public class GameManager
     {
         private int[] _currentDoors;
-        private List<int> _pickedDoors;
+        private Stack<int> _pickedDoors;
         private bool isRestarting;
 
         private GameSettings _settings;
@@ -56,14 +56,14 @@ namespace DoorsAndLevelsGame
         private void createRandomDoors()
         {
             _currentDoors = numberGenerator.GetNumbers(_settings.DoorsNumber, _settings.MaxDoorNumber);
-            _pickedDoors = new List<int>();
+            _pickedDoors = new Stack<int>();
         }
 
         private void goOnNextLevel()
         {
             for (int i = 0; i < _settings.DoorsNumber; i++)
             {
-                _currentDoors[i] *= _pickedDoors[_pickedDoors.Count - 1];
+                _currentDoors[i] *= _pickedDoors.First();
                 if (_currentDoors[i] < 0)
                 {
                     isRestarting = true;
@@ -78,9 +78,9 @@ namespace DoorsAndLevelsGame
             {
                 for (int i = 0; i < _settings.DoorsNumber; i++)
                 {
-                    _currentDoors[i] /= _pickedDoors[_pickedDoors.Count - 1];
+                    _currentDoors[i] /= _pickedDoors.First();
                 }
-                _pickedDoors.RemoveAt(_pickedDoors.Count - 1);
+                _pickedDoors.Pop();
             }
             else
             {
@@ -103,7 +103,7 @@ namespace DoorsAndLevelsGame
             {
                 if (doorNumber != 0)
                 {
-                    _pickedDoors.Add(doorNumber);
+                    _pickedDoors.Push(doorNumber);
                     goOnNextLevel();
                 }
                 else
