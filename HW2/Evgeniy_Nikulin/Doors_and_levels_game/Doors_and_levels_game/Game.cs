@@ -8,13 +8,13 @@ namespace Doors_and_levels_game
     {
         private readonly GameSettings settings;
         private readonly IPhraseProvider phraseProvider;
-        private readonly IInputOutputModule io;
+        private readonly InputOutputModule io;
         private readonly IDoorsGenerater<List<ulong>> doorsGenerater;
         private readonly IStorageModule<ulong, List<ulong>> st;
         public Game(
             GameSettings settings,
             IPhraseProvider phraseProvider,
-            IInputOutputModule io,
+            InputOutputModule io,
             IDoorsGenerater<List<ulong>> doorsGenerater,
             IStorageModule<ulong, List<ulong>> storage
             ) {
@@ -36,6 +36,7 @@ namespace Doors_and_levels_game
 
             // Main loop
             ulong door;
+            int lvl = 1;
             while (true)
             {
                 door = GetDoor();
@@ -44,18 +45,21 @@ namespace Doors_and_levels_game
                 {
                     io.Print(phraseProvider.GetPhrase(Phrase.MoveBack));
                     PreviousLvl();
+                    if(lvl > 1) lvl--;
                 } else {
                     io.Print(phraseProvider.GetPhrase(Phrase.MoveForward));
                     NextLvl(door);
+                    lvl++;
                 }
-                if (IsWin())
+
+                if (lvl > settings.maxLvL)
                 {
                     io.Print(phraseProvider.GetPhrase(Phrase.YouWin));
                     return;
                 }
+
                 io.Print(st.Doors);
             }
-
         }     
 
         ulong GetDoor()
@@ -98,18 +102,6 @@ namespace Doors_and_levels_game
                     st.Doors[i] /= door;
                 }
             }
-        }
-
-        bool IsWin()
-        {
-            for (byte i = 0; i < 4; i++)
-            {
-                if (st.Doors[i] == 0)
-                {                    
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

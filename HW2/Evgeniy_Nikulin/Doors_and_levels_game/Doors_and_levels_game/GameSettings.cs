@@ -9,5 +9,6 @@ namespace Doors_and_levels_game
     {
         public int doorsAmount;
         public string language;
+        public int maxLvL;
     }
 }
