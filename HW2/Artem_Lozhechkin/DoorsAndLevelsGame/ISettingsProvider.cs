@@ -11,16 +11,6 @@
         /// <returns>Instance of Settings class which contains Game settings.</returns>
         Settings GetSettings();
         /// <summary>
-        /// Updates the current Settings.
-        /// </summary>
-        void UpdateSettings();
-        /// <summary>
-        /// Returns a phrase stored in Settings.
-        /// </summary>
-        /// <param name="type">Type for phrase.</param>
-        /// <returns>A phrase string.</returns>
-        string GetPhrase(PhraseTypes type);
-        /// <summary>
         /// Returns number of doors which is stored in Settings.
         /// </summary>
         /// <returns>Integer number of doors.</returns>

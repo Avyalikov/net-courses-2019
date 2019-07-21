@@ -27,9 +27,14 @@ namespace DoorsAndLevelsGame
         /// </summary>
         public IInputOutputDevice InputOutputDevice { get; }
         /// <summary>
-        /// SettingsProvider gives us a Settings information like door numbers or phrases.
+        /// SettingsProvider gives us a Settings information like door numbers.
         /// </summary>
         public ISettingsProvider SettingsProvider { get; }
+        /// <summary>
+        /// PhraseProvider is used for getting phrases.
+        /// </summary>
+        public IPhraseProvider PhraseProvider { get; }
+
         /// <summary>
         /// Constructor which initializes all game components.
         /// </summary>
@@ -37,12 +42,14 @@ namespace DoorsAndLevelsGame
             IArrayGenerator<int> arrayGenerator, 
             IStackDataStorage<int> stackDataStorage,
             IInputOutputDevice inputOutputDevice,
-            ISettingsProvider settingsProvider)
+            ISettingsProvider settingsProvider,
+            IPhraseProvider phraseProvider)
         {
             ArrayGenerator = arrayGenerator;
             ChosenNumbers = stackDataStorage;
             InputOutputDevice = inputOutputDevice;
             SettingsProvider = settingsProvider;
+            PhraseProvider = phraseProvider;
         }
 
         /// <summary>
@@ -50,22 +57,22 @@ namespace DoorsAndLevelsGame
         /// </summary>
         public void Play()
         {
-            InputOutputDevice.WriteLine(SettingsProvider.GetPhrase(PhraseTypes.Welcome));
-            InputOutputDevice.WriteLine(SettingsProvider.GetPhrase(PhraseTypes.NumberOfDoors));
+            InputOutputDevice.WriteLine(PhraseProvider.GetPhrase(PhraseTypes.Welcome));
+            InputOutputDevice.WriteLine(PhraseProvider.GetPhrase(PhraseTypes.NumberOfDoors));
 
             Numbers = ArrayGenerator.GetArray(SettingsProvider.GetNumberOfDoors());
 
             while (ChosenNumbers.GetSize() < 4)
             {
-                InputOutputDevice.WriteLine(SettingsProvider.GetPhrase(PhraseTypes.LevelMessage) + (ChosenNumbers.GetSize() + 1));
-                InputOutputDevice.Write(SettingsProvider.GetPhrase(PhraseTypes.NumbersMessage));
+                InputOutputDevice.WriteLine(PhraseProvider.GetPhrase(PhraseTypes.LevelMessage) + (ChosenNumbers.GetSize() + 1));
+                InputOutputDevice.Write(PhraseProvider.GetPhrase(PhraseTypes.NumbersMessage));
                 PrintNumbers();
                 InputOutputDevice.WriteLine();
                 GetNumberFromPlayer();
                 Proceed();
             }
             InputOutputDevice.WriteLine();
-            InputOutputDevice.Write(SettingsProvider.GetPhrase(PhraseTypes.WinMessage));
+            InputOutputDevice.Write(PhraseProvider.GetPhrase(PhraseTypes.WinMessage));
         }
 
         /// <summary>
@@ -75,7 +82,7 @@ namespace DoorsAndLevelsGame
         {
             while (true)
             {
-                InputOutputDevice.Write(SettingsProvider.GetPhrase(PhraseTypes.SelectingNumber));
+                InputOutputDevice.Write(PhraseProvider.GetPhrase(PhraseTypes.SelectingNumber));
                 int choice;
                 // try-catch is used to detect incorrect choice
                 try
@@ -84,7 +91,7 @@ namespace DoorsAndLevelsGame
                 }
                 catch (Exception)
                 {
-                    InputOutputDevice.WriteError(SettingsProvider.GetPhrase(PhraseTypes.IncorrectChoice));
+                    InputOutputDevice.WriteError(PhraseProvider.GetPhrase(PhraseTypes.IncorrectChoice));
                     continue;
                 }
                 if (Numbers.Contains(choice))
@@ -92,7 +99,7 @@ namespace DoorsAndLevelsGame
                     ChosenNumbers.Push(choice);
                     break;
                 }
-                else InputOutputDevice.WriteError(SettingsProvider.GetPhrase(PhraseTypes.IncorrectNumberChoice));
+                else InputOutputDevice.WriteError(PhraseProvider.GetPhrase(PhraseTypes.IncorrectNumberChoice));
             }
         }
         /// <summary>
@@ -106,7 +113,7 @@ namespace DoorsAndLevelsGame
             {
                 if (ChosenNumbers.GetSize() > 1)
                 {
-                    InputOutputDevice.Write(SettingsProvider.GetPhrase(PhraseTypes.LevellingDownMessage));
+                    InputOutputDevice.Write(PhraseProvider.GetPhrase(PhraseTypes.LevellingDownMessage));
                     ChosenNumbers.Pop();
                     int previousChoice = ChosenNumbers.Pop();
                     for (int i = 0; i < Numbers.Length; i++)
@@ -119,14 +126,14 @@ namespace DoorsAndLevelsGame
                 else
                 {
                     ChosenNumbers.Pop();
-                    InputOutputDevice.WriteError(SettingsProvider.GetPhrase(PhraseTypes.LevellingDownErrorMessage));
+                    InputOutputDevice.WriteError(PhraseProvider.GetPhrase(PhraseTypes.LevellingDownErrorMessage));
                 }
             }
             // If choice is not 0, then we should go to the next level. Return if level 4, because it is a last level.
             else
             {
                 if (ChosenNumbers.GetSize() == 4) return;
-                InputOutputDevice.Write(string.Format(SettingsProvider.GetPhrase(PhraseTypes.LevellingUpMessage), choice));
+                InputOutputDevice.Write(string.Format(PhraseProvider.GetPhrase(PhraseTypes.LevellingUpMessage), choice));
 
                 StringBuilder levelLogs = new StringBuilder("( ");
 

@@ -14,10 +14,6 @@ namespace DoorsAndLevelsGame
         /// </summary>
         public readonly Languages language;
         /// <summary>
-        /// This dictionary contains all phrases which can be used in game. Key is an element of PhraseTypes enum, Value is a string with phrase.
-        /// </summary>
-        public readonly Dictionary<PhraseTypes, string> phrases;
-        /// <summary>
         /// This field contains number of doors which should be used in game.
         /// </summary>
         public readonly int numberOfDoors;
@@ -27,11 +23,10 @@ namespace DoorsAndLevelsGame
         /// <param name="language">Language for game.</param>
         /// <param name="phrases">Dictionary with phrases.</param>
         /// <param name="numberOfDoors">Number of doors.</param>
-        public Settings(Languages language, Dictionary<PhraseTypes, string> phrases, int numberOfDoors)
+        public Settings(Languages language, int numberOfDoors)
         {
             this.numberOfDoors = numberOfDoors;
             this.language = language;
-            this.phrases = phrases;
         }
     }
 }
