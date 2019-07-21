@@ -6,7 +6,11 @@ namespace ConsoleDrawGame
     {
         static void Main(string[] args)
         {
-            GameManager game = new GameManager();
+            IBoard board = new ConsoleBoard();
+            IInputOutputProvider inputOutputProvider = new ConsoleIOProvider();
+            ISettingsProvider settingsProvider = new FileSettingsProvider();
+            IFigureProvider figureProvider = new HardcodeFigureProvider();
+            GameManager game = new GameManager(inputOutputProvider, settingsProvider, figureProvider,board);
             game.Run();
         }
     }
