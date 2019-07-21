@@ -14,9 +14,10 @@ namespace DoorsAndLevelsGame
             IInputOutputComponent ioComponent = new ConsoleIOComponent();
             IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsGenerator();
             ISettingsProvider settings = new JSONSettingsProvider();
+            INumberSelector numberSelector = new NumberSelector();
 
 
-            Game game = new Game(phraseProvider, ioComponent, doorsNumbersGenerator, settings);
+            Game game = new Game(phraseProvider, ioComponent, doorsNumbersGenerator, settings, numberSelector);
 
             while (game.Exit==false)
             {

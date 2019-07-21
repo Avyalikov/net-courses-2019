@@ -16,54 +16,31 @@ namespace DoorsAndLevelsGame
         private int[] genNumbers;
         private bool firstRun = true;
         public bool Exit { get; private set; }
-        private Dictionary<int, int> levelsSelection;
+        private Stack<int> selectedNumbersHistory;
 
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputComponent ioComp;
         private readonly IDoorsNumbersGenerator doorsGenerator;
         private readonly ISettingsProvider settings;
+        private readonly INumberSelector numberSelector;
 
         private readonly GameSettings gameSettings;
 
-        public Game(IPhraseProvider phraseProvider, IInputOutputComponent ioComponent, IDoorsNumbersGenerator doorsGenerator, ISettingsProvider settingsProvider )
+        public Game(IPhraseProvider phraseProvider, IInputOutputComponent ioComponent, IDoorsNumbersGenerator doorsGenerator, ISettingsProvider settingsProvider,
+            INumberSelector numberSelector)
         {
             this.phraseProvider= phraseProvider;
             this.ioComp = ioComponent;
             this.doorsGenerator = doorsGenerator;
             this.settings = settingsProvider;
             this.gameSettings = settings.GetGameSettings();
+            this.numberSelector = numberSelector;
 
-            this.levelsSelection = new Dictionary<int, int>();
+            this.selectedNumbersHistory = new Stack<int>();            
             this.Level = 1;
         }
 
 
-        //User input
-        private int EnteringNumber()
-        {
-            bool isNumber = false;
-            int enteredNum;
-            do
-            {
-                if (int.TryParse(Console.ReadLine(), out enteredNum))
-                {
-
-                    ioComp.WriteOutput(phraseProvider.GetPhrase("Selected")+$"{enteredNum}");
-                    isNumber = true;
-
-                }
-                
-                else
-                {
-                    ioComp.WriteOutput(phraseProvider.GetPhrase("NotNumber"));
-                    
-
-                }
-            }
-
-            while (!isNumber);
-            return enteredNum;
-        }
 
         //Input check up
         private bool CheckInput(int num)
@@ -126,12 +103,12 @@ namespace DoorsAndLevelsGame
             {                               
                 for (int i = 0; i < numbers.Length; i++)
                 {
-                    numbers[i] /= levelsSelection.Values.Last();
-                   
+                    
+                    numbers[i] /= this.selectedNumbersHistory.Peek();                
+
                 }
-
-                levelsSelection.Remove(levelsSelection.Keys.Last());
-
+                               
+                selectedNumbersHistory.Pop();
                 return numbers;
             }
         }
@@ -158,13 +135,13 @@ namespace DoorsAndLevelsGame
                 firstRun = false;                
                 genNumbers = this.doorsGenerator.generatedNumbers(gameSettings.doorsQuantity);
                 PrintDoorsNumbers();
-                selectedNum = this.EnteringNumber();
+                selectedNum = this.numberSelector.EnteringNumber();                
                 bool check = CheckInput(selectedNum);
                 if (check == true)
                 {
                     if (selectedNum != 0)
                     {
-                        levelsSelection.Add(this.Level, selectedNum);
+                        selectedNumbersHistory.Push(selectedNum);                        
                         CountValues(genNumbers, selectedNum);
                         this.Level++;
 
@@ -184,13 +161,13 @@ namespace DoorsAndLevelsGame
             {
                 PrintDoorsNumbers();
 
-                selectedNum = this.EnteringNumber();
+                selectedNum = this.numberSelector.EnteringNumber();
                 bool check = CheckInput(selectedNum);
                 if (check == true)
                 {
                     if (selectedNum != 0)
                     {
-                        levelsSelection.Add(this.Level, selectedNum);
+                        selectedNumbersHistory.Push(selectedNum);
                         CountValues(this.genNumbers, selectedNum);
                         this.Level++;
                     }
