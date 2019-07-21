@@ -21,21 +21,10 @@ namespace DoorsAndLevelsGame
             return pharases[key];
         }
 
-        public void SetLanguage(Languages language)
+        public void SetLanguage(string language)
         {
-            string languageFile;
-            switch (language)
-            {
-                case Languages.English:
-                    languageFile = "textEn.json";
-                    break;
-                case Languages.Russian:
-                    languageFile = "textRu.json";
-                    break;
-                default:
-                    throw new Exception("Unknown language");
-            }
-            using (StreamReader languageReader = new StreamReader("Resources\\" + languageFile))
+            string languageFile = language+".json";
+            using (StreamReader languageReader = new StreamReader("Resources\\Localization\\" + languageFile))
             {
                 string rawFile = languageReader.ReadToEnd();
                 pharases = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawFile);

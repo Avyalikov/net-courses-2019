@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DoorsAndLevelsGame
 {
-    public enum Languages { English, Russian}
     public class GameSettings
     {
         private const int settingsNumber = 4;
 
-        public Languages Language;
+        public string LanguageFile;
         public string ExitString;
         public int DoorsNumber;
         public int MaxDoorNumber;
@@ -23,17 +23,11 @@ namespace DoorsAndLevelsGame
                 throw new Exception("Invalid settings number");
             }
 
-            switch (settings[0])
+            if (!File.Exists($"Resources\\Localization\\{settings[0]}.json"))
             {
-                case "English":
-                    Language = Languages.English;
-                    break;
-                case "Russian":
-                    Language = Languages.Russian;
-                    break;
-                default:
-                    throw new Exception($"Language {settings[0]} is not supported");                    
+                throw new Exception($"Language {settings[0]} is not supported");
             }
+            LanguageFile = settings[0];
 
             if (settings[1]=="")
             {

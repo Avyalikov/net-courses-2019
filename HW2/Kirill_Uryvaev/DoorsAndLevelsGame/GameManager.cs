@@ -27,7 +27,7 @@ namespace DoorsAndLevelsGame
             this.settingsProvider = settingsProvider;
 
             _settings = settingsProvider.GetSettings();
-            phraseProvider.SetLanguage(_settings.Language);
+            phraseProvider.SetLanguage(_settings.LanguageFile);
             isRestarting = false;
             createRandomDoors();
         }

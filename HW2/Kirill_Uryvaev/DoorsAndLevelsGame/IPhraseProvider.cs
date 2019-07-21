@@ -9,6 +9,6 @@ namespace DoorsAndLevelsGame
     public interface IPhraseProvider
     {
         string GetPhrase(string key);
-        void SetLanguage(Languages language);
+        void SetLanguage(string language);
     }
 }
