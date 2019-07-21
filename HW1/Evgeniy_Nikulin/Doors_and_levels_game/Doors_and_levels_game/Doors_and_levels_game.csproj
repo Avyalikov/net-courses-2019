@@ -13,6 +13,9 @@
     <None Update="Resources\enLanguage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\GameSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\ruLanguage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

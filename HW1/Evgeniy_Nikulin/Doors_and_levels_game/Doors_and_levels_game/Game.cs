@@ -6,29 +6,31 @@ namespace Doors_and_levels_game
 {
     public class Game
     {
-        Random rnd = new Random();
         Stack<ulong> chosenDoors = new Stack<ulong>();
         List<ulong> doors = new List<ulong>();
 
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputModule io;
         private readonly IDoorsGenerater<List<ulong>> doorsGenerater;
+        private readonly GameSettings settings;
+
 
         public Game(
             IPhraseProvider phraseProvider,
             IInputOutputModule io,
-            IDoorsGenerater<List<ulong>> doorsGenerater
-            )
-        {
+            IDoorsGenerater<List<ulong>> doorsGenerater,
+            GameSettings settings
+            ) {
             this.phraseProvider = phraseProvider;
             this.io = io;
             this.doorsGenerater = doorsGenerater;
+            this.settings = settings;
         }
 
         public void Start()
         {
             // Initiation random doors
-            doors = doorsGenerater.Generate(5);
+            doors = doorsGenerater.Generate(settings.doorsAmount);
             
             // Start
             io.Print(phraseProvider.GetPhrase(Phrase.Welcome));
