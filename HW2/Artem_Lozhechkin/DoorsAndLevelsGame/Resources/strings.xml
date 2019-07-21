@@ -21,7 +21,7 @@
     <phrase type="SelectingNumber" text="Выберите число: " />
     <phrase type="WinMessage" text="Вы выиграли! Поздравляем!" />
     <phrase type="NumbersMessage" text="Есть следующие числа: " />
-    <phrase type="IncorrectNumberChoice" text="Вы должны выбрать одно из перечисленных чисел. Попробуйте снова." />
+    <phrase type="IncorrectNumberChoice" text="Вы должны выбрать одно из перечисленных чисел. Попробуйте снова!" />
     <phrase type="LevellingDownMessage" text="Вы выбрали 0 и перешли на предыдущий уровень: " />
     <phrase type="LevellingDownErrorMessage" text="Вы не можете перейти на предыдущий уровень, так как находитесь на уровне 1." />
     <phrase type="LevellingUpMessage" text="Вы выбрали {0} и перешли на следующий уровень: " />
