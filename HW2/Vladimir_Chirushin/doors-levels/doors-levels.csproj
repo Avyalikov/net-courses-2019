@@ -50,6 +50,8 @@
     <Compile Include="IDataStorage.cs" />
     <Compile Include="IDoorsGenerator.cs" />
     <Compile Include="IInputOutputDevice.cs" />
+    <Compile Include="IPhraseProvider.cs" />
+    <Compile Include="PhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

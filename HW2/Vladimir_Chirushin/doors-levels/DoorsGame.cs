@@ -12,11 +12,14 @@ namespace doors_levels
         private readonly IInputOutputDevice inputOutputDevice;
         private readonly IDoorsGenerator doorsGenerator;
         private readonly IDataStorage dataStorage;
-        public DoorsGame(IInputOutputDevice inputOutputDevice, IDoorsGenerator doorsGenerator, IDataStorage dataStorage)
+        private readonly IPhraseProvider phraseProvider;
+
+        public DoorsGame(IInputOutputDevice inputOutputDevice, IDoorsGenerator doorsGenerator, IDataStorage dataStorage, IPhraseProvider phraseProvider)
         {
             this.inputOutputDevice = inputOutputDevice;
             this.doorsGenerator = doorsGenerator;
             this.dataStorage = dataStorage;
+            this.phraseProvider = phraseProvider;
 
             InitiateDoors();
         }
@@ -49,12 +52,14 @@ namespace doors_levels
                     {                                   
                         doors[i] /= lastDoor;
                     }
-                    inputOutputDevice.WriteOutput("We select number 0 and go to previous level: ");
+                    inputOutputDevice.WriteOutput(
+                        phraseProvider.GetPhrase(Phrase.weSelectNumber) + "0" + phraseProvider.GetPhrase(Phrase.andGoPrevLevel)
+                        );
                     inputOutputDevice.WriteOutput(ShowLevel());
                 }
                 else
                 {
-                    inputOutputDevice.WriteOutput("It's first level. Cant get higher.");
+                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase(Phrase.itsFirstLevel));
                 }
             }
             else //if door != 0
@@ -71,14 +76,16 @@ namespace doors_levels
                     }
                     catch (OverflowException)
                     {
-                        inputOutputDevice.WriteOutput("You get too far! Droped to first level");
+                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase(Phrase.youGetToFar));
                         InitiateDoors();
                         dataStorage.Clear();
                         ShowDoors();
                         return;
                     }
                 }
-                inputOutputDevice.WriteOutput($"We select number { currentDoor } and go to next level: ");
+                inputOutputDevice.WriteOutput(
+                        phraseProvider.GetPhrase(Phrase.weSelectNumber) + currentDoor.ToString() + phraseProvider.GetPhrase(Phrase.andGoNextLevel)
+                        );
                 inputOutputDevice.WriteOutput(ShowLevel());
             }
         }
@@ -100,14 +107,14 @@ namespace doors_levels
             }
             else
             {
-                inputOutputDevice.WriteOutput("Door doesn't exist");
+                inputOutputDevice.WriteOutput(phraseProvider.GetPhrase(Phrase.doorDoesntExist));
             }
 
         }
 
         public void ShowDoors()
         {
-            String outputMessage = "We have numbers: ";
+            String outputMessage = phraseProvider.GetPhrase(Phrase.weHaveDoors);
             
             for (Int32 i = 0; i < doors.Length; i++)
             {
@@ -118,6 +125,7 @@ namespace doors_levels
 
         public void Run()
         {
+            inputOutputDevice.WriteOutput(phraseProvider.GetPhrase(Phrase.welcome));
             ShowDoors();
             while (true)
             {
@@ -128,7 +136,7 @@ namespace doors_levels
                 }
                 catch
                 {
-                    inputOutputDevice.WriteOutput("Please enter a number.");
+                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase(Phrase.pleaseEnterANumber));
                 }
             }
         }
