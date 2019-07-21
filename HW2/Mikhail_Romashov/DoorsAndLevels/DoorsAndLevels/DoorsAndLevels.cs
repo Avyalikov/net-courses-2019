@@ -8,20 +8,22 @@ namespace DoorsAndLevels
 {
     class DoorsAndLevels
     {
+        private readonly IInputOutputComponent ioComponent;
+
         private int[] m_arrayDoorsValue;           //array of doors value
         private Stack<int> m_levelCoeff;    //stack witch contains coefficient for each level
         bool exitCode = false;          //flag to exit (if entered negative number)
 
         public void Run()
         {
-            Console.WriteLine("Let`s start to game");
+            ioComponent.WriteOutputLine("Let`s start to game");
 
             do
             {
-                Console.WriteLine("Choose one of the number for next level or \'0\' to previous level.");
-                Console.WriteLine("For exit enter a negative number:");
+                ioComponent.WriteOutputLine("Choose one of the number for next level or \'0\' to previous level.");
+                ioComponent.WriteOutputLine("For exit enter a negative number:");
                 this.Show();
-                string resultStr = Console.ReadLine();
+                string resultStr = ioComponent.ReadInputLine();
                 try
                 {
                     int result = Convert.ToInt32(resultStr);
@@ -29,16 +31,18 @@ namespace DoorsAndLevels
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine($"The value '{resultStr}' is not a number.");
+                    ioComponent.WriteOutputLine($"The value '{resultStr}' is not a number.");
                 }
 
             } while (!exitCode);
-            Console.WriteLine("Thank you for playing! Enter any key to exit.");
-            Console.ReadKey();
+            ioComponent.WriteOutputLine("Thank you for playing! Enter any key to exit.");
+            ioComponent.ReadInputKey();
         }
 
-        public DoorsAndLevels()
+        public DoorsAndLevels(IInputOutputComponent inputOutputComponent)
         {
+            ioComponent = inputOutputComponent;
+
             m_arrayDoorsValue = new int[5];
             m_levelCoeff = new Stack<int>();
             this.Reset();
@@ -46,13 +50,13 @@ namespace DoorsAndLevels
 
         private void Show()      //output array of numbers
         {
-            Console.WriteLine("--------------");
+            ioComponent.WriteOutputLine("--------------");
             foreach (int num in m_arrayDoorsValue)
             {
-                Console.Write(num + " ");
+                ioComponent.WriteOutput(num + " ");
             }
-            Console.WriteLine();
-            Console.WriteLine("--------------");
+            ioComponent.WriteOutputLine();
+            ioComponent.WriteOutputLine("--------------");
         }
 
         private void CalcLevel(int doorValue)
@@ -64,7 +68,7 @@ namespace DoorsAndLevels
             }
             if (!m_arrayDoorsValue.Contains(doorValue))    //array doesnt contains coeff
             {
-                Console.WriteLine("Number is not in list!");
+                ioComponent.WriteOutputLine("Number is not in list!");
                 return;
             }
 
@@ -73,7 +77,7 @@ namespace DoorsAndLevels
             {
                 if (m_levelCoeff.Count == 0)  //stack is empty
                 {
-                    Console.WriteLine("It is first level!");
+                    ioComponent.WriteOutputLine("It is first level!");
                     return;
 
                 }
@@ -98,7 +102,7 @@ namespace DoorsAndLevels
                         // if some value in m_arrayDoorsValue > maxValueInt32
                         this.Reset();
                         m_levelCoeff.Clear();
-                        Console.WriteLine("Congratulations! You have reached the maximum value. Lets try again.");
+                        ioComponent.WriteOutputLine("Congratulations! You have reached the maximum value. Lets try again.");
                         return;
                     }
                 }

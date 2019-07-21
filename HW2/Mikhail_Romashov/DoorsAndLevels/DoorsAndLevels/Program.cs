@@ -10,7 +10,9 @@ namespace DoorsAndLevels
     {
         static void Main(string[] args)
         {
-            DoorsAndLevels game = new DoorsAndLevels();
+            IInputOutputComponent inputOutputComponent = new ConsoleInputOutput();
+
+            DoorsAndLevels game = new DoorsAndLevels(inputOutputComponent);
 
             game.Run();
         }
