@@ -12,7 +12,7 @@ namespace DoorsAndLevelsGame
     {
        public string GetPhrase(string keyword)
         {
-            var resourceFile = new FileInfo("Resources\\PhrasesRuLang.json");
+            var resourceFile = new FileInfo("Resources\\PhrasesEngLang.json");
 
             if (!resourceFile.Exists)
             {
