@@ -9,11 +9,17 @@ namespace CreateDoorsAndLevels.Modules
      */
     class JsonPhraseProvider : Interfaces.IPhraseProvider
     {
+        private readonly string langPath;
+
+        public JsonPhraseProvider(string langPath)
+        {
+            this.langPath = langPath;
+        }
+
         public string GetPhrase(string phraseKey)
         {
-            // string filePath = "..\\..\\Resources\\LangEn.json"; // test local path
-            string filePath = "Resources\\LangEn.json";
-            var resourceFile = new FileInfo(filePath);
+            // var langPath = new FileInfo("..\\..\\Resources\\LangEn.json"); // test local path
+            var resourceFile = new FileInfo(langPath);
             
             if (!resourceFile.Exists)
             {

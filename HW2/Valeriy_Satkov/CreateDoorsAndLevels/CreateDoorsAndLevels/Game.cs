@@ -69,7 +69,7 @@ namespace CreateDoorsAndLevels
                     this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove 0 from selectedNumbers. Now top is prev.number
                                                                                    // "We select number 0 and go to previous level: 4 8 6 2 0"
                     inputOutputDevice.WriteOutput(
-                        StringFromNumbersArr(intro: phraseProvider.GetPhrase("YouSelectedZero"), operation: Operation.PrevLevel));
+                        StringFromNumbersArr(intro: $"{phraseProvider.GetPhrase("YouSelected")}{gameSettings.ExitDoorNumber}{phraseProvider.GetPhrase("GoPrev")}", operation: Operation.PrevLevel));
                     this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove prev.number from selectedNumbers. Now top is prev2.number
                 }
             } while (!(this.selectedNumbers.Count - 1 == 0 && this.selectedNumbers[0] == this.gameSettings.ExitDoorNumber));
@@ -84,11 +84,11 @@ namespace CreateDoorsAndLevels
             {
                 if (this.selectedNumbers.Count <= this.gameSettings.LevelLimit)
                 {
-                    Console.Write(phraseProvider.GetPhrase("Select"));
+                    inputOutputDevice.WriteSomeOutput($"{phraseProvider.GetPhrase("Select")}{gameSettings.ExitCode}{phraseProvider.GetPhrase("AfterExitCode")}");
                 }
                 else
                 {
-                    Console.Write(phraseProvider.GetPhrase("SelectZero"));
+                    inputOutputDevice.WriteSomeOutput($"{phraseProvider.GetPhrase("SelectExitDoor")}{gameSettings.ExitDoorNumber}{phraseProvider.GetPhrase("ToContinue")}{gameSettings.ExitCode}{phraseProvider.GetPhrase("AfterExitCode")}");
                 }
 
                 try
@@ -113,7 +113,7 @@ namespace CreateDoorsAndLevels
 
                     if (this.selectedNumbers.Count > this.gameSettings.LevelLimit && n != this.gameSettings.ExitDoorNumber)
                     {
-                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("NotZero"));
+                        inputOutputDevice.WriteOutput($"{phraseProvider.GetPhrase("NotExitDoor")}{gameSettings.ExitDoorNumber}");
                         continue;
                     }
 

@@ -20,5 +20,10 @@ namespace CreateDoorsAndLevels.Modules
         {
             Console.WriteLine(dataToOutPut);
         }
+
+        public void WriteSomeOutput(string dataToOutPut)
+        {
+            Console.Write(dataToOutPut);
+        }
     }
 }

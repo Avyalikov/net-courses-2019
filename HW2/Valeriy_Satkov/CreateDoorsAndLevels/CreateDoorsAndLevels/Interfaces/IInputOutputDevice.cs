@@ -7,5 +7,6 @@
         string ReadInput();
         char ReadKey();
         void WriteOutput(string dataToOutPut);
+        void WriteSomeOutput(string dataToOutPut);
     }
 }

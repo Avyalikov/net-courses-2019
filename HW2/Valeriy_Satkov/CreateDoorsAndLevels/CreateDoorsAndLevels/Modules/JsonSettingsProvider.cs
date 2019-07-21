@@ -8,9 +8,8 @@ namespace CreateDoorsAndLevels.Modules
     {
         public GameSettings GetGameSettings()
         {
-            // string filePath = "..\\..\\LangEn.json"; // test local path
-            string filePath = "GameSettings.json";
-            var gameSettingsFile = new FileInfo(filePath);
+            // var gameSettingsFile = new FileInfo("..\\..\\GameSettings.json"); // test local path
+            var gameSettingsFile = new FileInfo("GameSettings.json");
 
             if (!gameSettingsFile.Exists)
             {
