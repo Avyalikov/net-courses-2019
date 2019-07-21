@@ -9,7 +9,7 @@ namespace DoorsAndLevels
     class DoorsAndLevels
     {
         private readonly IInputOutputComponent ioComponent;
-
+        private readonly IDoorsNumbersGenerator doorsNumbersGenerator;
         private int[] m_arrayDoorsValue;           //array of doors value
         private Stack<int> m_levelCoeff;    //stack witch contains coefficient for each level
         bool exitCode = false;          //flag to exit (if entered negative number)
@@ -39,10 +39,13 @@ namespace DoorsAndLevels
             ioComponent.ReadInputKey();
         }
 
-        public DoorsAndLevels(IInputOutputComponent inputOutputComponent)
+        public DoorsAndLevels(
+            IInputOutputComponent inputOutputComponent,
+            IDoorsNumbersGenerator doorsNumbersGenerator
+            )
         {
             ioComponent = inputOutputComponent;
-
+            this.doorsNumbersGenerator = doorsNumbersGenerator;
             m_arrayDoorsValue = new int[5];
             m_levelCoeff = new Stack<int>();
             this.Reset();
@@ -112,21 +115,7 @@ namespace DoorsAndLevels
 
         private void Reset()
         {
-            var random = new Random();
-            int maxValue = 9;  //
-            var listWithValues = new List<int>(Enumerable.Range(1, 9));
-
-
-            for (int i = 0; i < 4; i++)
-            {
-                //Get random value from List and Remove that value from List
-                int index = random.Next(1, maxValue);
-                m_arrayDoorsValue[i] = listWithValues[index - 1];
-                listWithValues.RemoveAt(index - 1);
-                maxValue--; //max index value decrease
-            }
-
-            m_arrayDoorsValue[4] = 0;
+            m_arrayDoorsValue = doorsNumbersGenerator.GenerateDoorsNumbers(5);
         }
 
     }

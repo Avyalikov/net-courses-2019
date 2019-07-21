@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="ConsoleInputOutput.cs" />
     <Compile Include="DoorsAndLevels.cs" />
+    <Compile Include="DoorsNumbersGenerator.cs" />
+    <Compile Include="IDoorsNumbersGenerator.cs" />
     <Compile Include="IInputOutputComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

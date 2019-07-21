@@ -11,8 +11,8 @@ namespace DoorsAndLevels
         static void Main(string[] args)
         {
             IInputOutputComponent inputOutputComponent = new ConsoleInputOutput();
-
-            DoorsAndLevels game = new DoorsAndLevels(inputOutputComponent);
+            IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
+            DoorsAndLevels game = new DoorsAndLevels(inputOutputComponent, doorsNumbersGenerator);
 
             game.Run();
         }
