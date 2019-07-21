@@ -1,7 +1,9 @@
-﻿namespace doors_levels
+﻿using System;
+
+namespace doors_levels
 {
     public interface IDoorsGenerator
     {
-        int[] GetDoors(int doorsAmount);
+        Int32[] GetDoors(Int32 doorsAmount);
     }
 }
