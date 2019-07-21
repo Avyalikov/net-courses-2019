@@ -6,35 +6,33 @@ namespace Doors_and_levels_game
 {
     public class Game
     {
-        Stack<ulong> chosenDoors = new Stack<ulong>();
-        List<ulong> doors = new List<ulong>();
-
+        private readonly GameSettings settings;
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputModule io;
         private readonly IDoorsGenerater<List<ulong>> doorsGenerater;
-        private readonly GameSettings settings;
-
-
+        private readonly IStorageModule<ulong, List<ulong>> st;
         public Game(
+            GameSettings settings,
             IPhraseProvider phraseProvider,
             IInputOutputModule io,
             IDoorsGenerater<List<ulong>> doorsGenerater,
-            GameSettings settings
+            IStorageModule<ulong, List<ulong>> storage
             ) {
+            this.settings = settings;
             this.phraseProvider = phraseProvider;
             this.io = io;
             this.doorsGenerater = doorsGenerater;
-            this.settings = settings;
+            this.st = storage;
         }
 
         public void Start()
         {
             // Initiation random doors
-            doors = doorsGenerater.Generate(settings.doorsAmount);
+            st.Doors = doorsGenerater.Generate(settings.doorsAmount);
             
             // Start
             io.Print(phraseProvider.GetPhrase(Phrase.Welcome));
-            io.Print(doors);
+            io.Print(st.Doors);
 
             // Main loop
             ulong door;
@@ -55,7 +53,7 @@ namespace Doors_and_levels_game
                     io.Print(phraseProvider.GetPhrase(Phrase.YouWin));
                     return;
                 }
-                io.Print(doors);
+                io.Print(st.Doors);
             }
 
         }     
@@ -72,7 +70,7 @@ namespace Doors_and_levels_game
                 try
                 {
                     num = Convert.ToUInt64(str);
-                    if (doors.Contains(num))
+                    if (st.Doors.Contains(num))
                     {
                         return num;
                     }
@@ -84,19 +82,20 @@ namespace Doors_and_levels_game
 
         void NextLvl(ulong door)
         {
-            chosenDoors.Push(door);
-            for (int i = 0; i < doors.Count; i++)
+            st.PushChosenDoor(door);
+            for (int i = 0; i < st.Doors.Count; i++)
             {
-                doors[i] *= door;
+                st.Doors[i] *= door;
             }
         }
         void PreviousLvl()
         {
-            if (chosenDoors.TryPop(out ulong door))
+            if (!st.ChosenDoorIsEmpty())
             {
-                for (int i = 0; i < doors.Count; i++)
+                ulong door = st.PopChosenDoor();
+                for (int i = 0; i < st.Doors.Count; i++)
                 {
-                    doors[i] /= door;
+                    st.Doors[i] /= door;
                 }
             }
         }
@@ -105,7 +104,7 @@ namespace Doors_and_levels_game
         {
             for (byte i = 0; i < 4; i++)
             {
-                if (doors[i] == 0)
+                if (st.Doors[i] == 0)
                 {                    
                     return true;
                 }

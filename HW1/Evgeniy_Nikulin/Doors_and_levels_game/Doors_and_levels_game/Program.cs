@@ -8,17 +8,19 @@ namespace Doors_and_levels_game
     {
         static void Main(string[] args)
         {
-            IInputOutputModule ioModule = new ConsoleIOModule();
-            IDoorsGenerater<List<ulong>> doorsGenerater = new RandomDoorGenetater();
             ISettingsProvider settingsProvider = new SettingsProvider();
             GameSettings settings = settingsProvider.Get();
             IPhraseProvider phraseProvider = new JsonPhraseProvider(settings.language);
+            IInputOutputModule ioModule = new ConsoleIOModule();
+            IDoorsGenerater<List<ulong>> doorsGenerater = new RandomDoorGenetater();
+            IStorageModule<ulong, List<ulong>> storage = new StorageModule();
 
             Game game = new Game (
+                settings: settings,
                 phraseProvider: phraseProvider,
                 io: ioModule,
                 doorsGenerater: doorsGenerater,
-                settings: settings
+                storage: storage
             );
 
             game.Start();

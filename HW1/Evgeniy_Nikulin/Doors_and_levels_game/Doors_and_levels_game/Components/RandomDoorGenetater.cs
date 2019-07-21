@@ -1,6 +1,5 @@
 ﻿using Doors_and_levels_game.Interfaces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Doors_and_levels_game.Components
