@@ -9,6 +9,7 @@ namespace CreateDoorsAndLevels
     class Game
     {
         private readonly Interfaces.IPhraseProvider phraseProvider;
+        private readonly Interfaces.IInputOutputDevice inputOutputDevice;
 
         List<int> numbers;
         List<int> selectedNumbers;
@@ -21,9 +22,10 @@ namespace CreateDoorsAndLevels
             Print
         }
 
-        public Game(Interfaces.IPhraseProvider phraseProvider)
+        public Game(Interfaces.IPhraseProvider phraseProvider, Interfaces.IInputOutputDevice inputOutputDevice)
         {
             this.phraseProvider = phraseProvider;
+            this.inputOutputDevice = inputOutputDevice;
         }
 
         public void Run()
@@ -33,10 +35,10 @@ namespace CreateDoorsAndLevels
             this.selectedNumbers = new List<int>();
             this.levelLimit = 2;
 
-            Console.WriteLine(phraseProvider.GetPhrase("Welcome"));
+            inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
 
-            // Console.WriteLine($"We have numbers: 2, 4, 3, 1, 0");
-            Console.WriteLine(
+            // inputOutputDevice.WriteOutput($"We have numbers: 2, 4, 3, 1, 0");
+            inputOutputDevice.WriteOutput(
                 StringFromNumbersArr(intro: phraseProvider.GetPhrase("YouHave"), operation: Operation.Print));
 
             do
@@ -49,7 +51,7 @@ namespace CreateDoorsAndLevels
                 {
                     // Create "next level" numbers where numbers values calculate using formula: [number on previous level] * [choosed number on previous level].
                     // "We select number 2 and go to next level: 4 8 6 2 0 (2x2 4x2 3x2 1x2 0x2)"
-                    Console.WriteLine(
+                    inputOutputDevice.WriteOutput(
                         StringFromNumbersArr(
                             intro: $"{phraseProvider.GetPhrase("YouSelected")}{this.selectedNumbers[this.selectedNumbers.Count - 1]}{phraseProvider.GetPhrase("GoNext")}", 
                             operation: Operation.NextLevel));
@@ -58,12 +60,12 @@ namespace CreateDoorsAndLevels
                 {
                     this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove 0 from selectedNumbers. Now top is prev.number
                                                                                    // "We select number 0 and go to previous level: 4 8 6 2 0"
-                    Console.WriteLine(
+                    inputOutputDevice.WriteOutput(
                         StringFromNumbersArr(intro: phraseProvider.GetPhrase("YouSelectedZero"), operation: Operation.PrevLevel));
                     this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove prev.number from selectedNumbers. Now top is prev2.number
                 }
             } while (!(this.selectedNumbers.Count - 1 == 0 && this.selectedNumbers[0] == 0));
-            Console.WriteLine(phraseProvider.GetPhrase("Bye"));
+            inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Bye"));
         }
 
         private List<int> RandIntArrGenerator()
@@ -101,11 +103,11 @@ namespace CreateDoorsAndLevels
 
                 try
                 {
-                    string s = Console.ReadLine();
+                    string s = inputOutputDevice.ReadInput();
 
                     if (String.IsNullOrEmpty(s))
                     {
-                        Console.WriteLine(phraseProvider.GetPhrase("EmptyString"));
+                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("EmptyString"));
                         continue;
                     }
 
@@ -115,13 +117,13 @@ namespace CreateDoorsAndLevels
 
                     if (!this.numbers.Contains(n))
                     {
-                        Console.WriteLine(phraseProvider.GetPhrase("WrongNumber"));
+                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("WrongNumber"));
                         continue;
                     }
 
                     if (this.selectedNumbers.Count > this.levelLimit && n != 0)
                     {
-                        Console.WriteLine(phraseProvider.GetPhrase("NotZero"));
+                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("NotZero"));
                         continue;
                     }
 
@@ -129,12 +131,12 @@ namespace CreateDoorsAndLevels
                 }
                 catch (OverflowException)
                 {
-                    Console.WriteLine(phraseProvider.GetPhrase("Overflow"));
+                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Overflow"));
                     continue;
                 }
                 catch
                 {
-                    Console.WriteLine(phraseProvider.GetPhrase("InputError"));
+                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("InputError"));
                     continue;
                 }
             } while (result == -1);

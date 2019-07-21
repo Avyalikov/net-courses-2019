@@ -8,10 +8,14 @@ namespace CreateDoorsAndLevels
         static void Main()
         {
             Interfaces.IPhraseProvider phraseProvider = new Modules.JsonPhraseProvider();
+            Interfaces.IInputOutputDevice inputOutputDevice = new Modules.ConsoleInputOutputDevice();
 
-            new Game(phraseProvider: phraseProvider) { }.Run();
+            new Game(
+                phraseProvider: phraseProvider, 
+                inputOutputDevice: inputOutputDevice
+                ) { }.Run();
 
-            Console.ReadKey();
+            inputOutputDevice.ReadKey(); // pause
         }        
     }
 }

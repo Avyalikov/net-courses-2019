@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
+    <Compile Include="Interfaces\IInputOutputDevice.cs" />
     <Compile Include="Interfaces\IPhraseProvider.cs" />
+    <Compile Include="Modules\ConsoleInputOutputDevice.cs" />
     <Compile Include="Modules\JsonPhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
