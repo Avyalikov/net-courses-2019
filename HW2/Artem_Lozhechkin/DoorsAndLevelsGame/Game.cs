@@ -19,6 +19,7 @@ namespace DoorsAndLevelsGame
         /// </summary>
         public IArrayGenerator<long> ArrayGenerator { get; }
         public IStackDataStorage<int> ChosenNumbers { get; }
+        public IInputOutputDevice InputOutputDevice { get; }
 
         /// <summary>
         /// Random for filling Numbers array.
@@ -27,10 +28,14 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// Constructor which initializes all game components.
         /// </summary>
-        public Game(IArrayGenerator<long> arrayGenerator, IStackDataStorage<int> stackDataStorage)
+        public Game(
+            IArrayGenerator<long> arrayGenerator, 
+            IStackDataStorage<int> stackDataStorage,
+            IInputOutputDevice inputOutputDevice)
         {
             ArrayGenerator = arrayGenerator;
             ChosenNumbers = stackDataStorage;
+            InputOutputDevice = inputOutputDevice;
         }
 
         /// <summary>
@@ -38,15 +43,15 @@ namespace DoorsAndLevelsGame
         /// </summary>
         public void Play()
         {
-            Console.WriteLine("Welcome to The Doors and Levels game!");
+            InputOutputDevice.Write("Welcome to The Doors and Levels game!");
 
             Numbers = ArrayGenerator.GetArray(5);
 
             while (true)
             {
-                Console.Write($"\nLevel {ChosenNumbers.GetSize() + 1}\nWe have numbers: ");
+                InputOutputDevice.Write($"\nLevel {ChosenNumbers.GetSize() + 1}\nWe have numbers: ");
                 PrintNumbers();
-                Console.WriteLine();
+                InputOutputDevice.WriteLine();
                 GetNumberFromPlayer();
                 Proceed();
             }
@@ -59,16 +64,16 @@ namespace DoorsAndLevelsGame
         {
             while (true)
             {
-                Console.Write("Select your number: ");
+                InputOutputDevice.Write("Select your number: ");
                 int choice;
                 // try-catch is used to detect incorrect choice
                 try
                 {
-                    choice = int.Parse(Console.ReadLine());
+                    choice = int.Parse(InputOutputDevice.Read());
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("You should choose a correct number. Try again.");
+                    InputOutputDevice.WriteError("You should choose a correct number. Try again.\n");
                     continue;
                 }
                 if (Numbers.Contains(choice))
@@ -76,7 +81,7 @@ namespace DoorsAndLevelsGame
                     ChosenNumbers.Push(choice);
                     break;
                 }
-                else Console.WriteLine("You should choose one of the above numbers. Try again.");
+                else InputOutputDevice.WriteError("You should choose one of the above numbers. Try again.\n");
             }
         }
         /// <summary>
@@ -90,7 +95,7 @@ namespace DoorsAndLevelsGame
             {
                 if (ChosenNumbers.GetSize() > 1)
                 {
-                    Console.Write($"You сhose {choice} and went to previous level: ");
+                    InputOutputDevice.Write($"You сhose {choice} and went to previous level: ");
                     ChosenNumbers.Pop();
                     int previousChoice = ChosenNumbers.Pop();
                     for (int i = 0; i < Numbers.Length; i++)
@@ -98,18 +103,18 @@ namespace DoorsAndLevelsGame
                         Numbers[i] /= previousChoice;
                     }
                     PrintNumbers();
-                    Console.WriteLine();
+                    InputOutputDevice.WriteLine();
                 }
                 else
                 {
                     ChosenNumbers.Pop();
-                    Console.WriteLine("You cannot go back, because you are at level 1");
+                    InputOutputDevice.WriteError("You cannot go back, because you are at level 1");
                 }
             }
             // If choice is not 0, then we should go to the next level.
             else
             {
-                Console.Write($"You сhose {choice} and went to the next level: ");
+                InputOutputDevice.Write($"You сhose {choice} and went to the next level: ");
                 StringBuilder levelLogs = new StringBuilder("( ");
 
                 for (int i = 0; i < Numbers.Length; i++)
@@ -120,7 +125,7 @@ namespace DoorsAndLevelsGame
 
                 levelLogs.Append(")");
                 PrintNumbers();
-                Console.WriteLine(levelLogs);
+                InputOutputDevice.Write(levelLogs.ToString()+"\n");
             }
         }
         /// <summary>
@@ -130,7 +135,7 @@ namespace DoorsAndLevelsGame
         {
             foreach (long number in Numbers)
             {
-                Console.Write(number + " ");
+                InputOutputDevice.Write(number + " ");
             }
         }
     }

@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Game game = new Game(new SimpleRandomLongArrayGenerator(), new SimpleStackDataStorage<int>());
+            Game game = new Game(new SimpleRandomLongArrayGenerator(), new SimpleStackDataStorage<int>(), new GameConsole());
             game.Play();
         }
     }
