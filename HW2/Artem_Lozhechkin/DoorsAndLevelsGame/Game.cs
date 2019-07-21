@@ -17,8 +17,8 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// This is a stack that saves all chosen numbers.
         /// </summary>
-        private Stack<int> ChosenNumbers { get; } = new Stack<int>();
         public IArrayGenerator<long> ArrayGenerator { get; }
+        public IStackDataStorage<int> ChosenNumbers { get; }
 
         /// <summary>
         /// Random for filling Numbers array.
@@ -27,9 +27,10 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// Constructor which initializes all game components.
         /// </summary>
-        public Game(IArrayGenerator<long> arrayGenerator)
+        public Game(IArrayGenerator<long> arrayGenerator, IStackDataStorage<int> stackDataStorage)
         {
             ArrayGenerator = arrayGenerator;
+            ChosenNumbers = stackDataStorage;
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace DoorsAndLevelsGame
 
             while (true)
             {
-                Console.Write($"\nLevel {ChosenNumbers.Count + 1}\nWe have numbers: ");
+                Console.Write($"\nLevel {ChosenNumbers.GetSize() + 1}\nWe have numbers: ");
                 PrintNumbers();
                 Console.WriteLine();
                 GetNumberFromPlayer();
@@ -87,7 +88,7 @@ namespace DoorsAndLevelsGame
             // If choice is 0, then we should go back to the previous level or stay if we are at level 0.
             if (choice == 0)
             {
-                if (ChosenNumbers.Count > 1)
+                if (ChosenNumbers.GetSize() > 1)
                 {
                     Console.Write($"You сhose {choice} and went to previous level: ");
                     ChosenNumbers.Pop();
