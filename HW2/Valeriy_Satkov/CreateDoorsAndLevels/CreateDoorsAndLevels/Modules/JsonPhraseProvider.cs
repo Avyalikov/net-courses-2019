@@ -11,7 +11,8 @@ namespace CreateDoorsAndLevels.Modules
     {
         public string GetPhrase(string phraseKey)
         {
-            string filePath = "..\\..\\Resources\\LangEn.json";            
+            // string filePath = "..\\..\\Resources\\LangEn.json"; // test local path
+            string filePath = "Resources\\LangEn.json";
             var resourceFile = new FileInfo(filePath);
             
             if (!resourceFile.Exists)

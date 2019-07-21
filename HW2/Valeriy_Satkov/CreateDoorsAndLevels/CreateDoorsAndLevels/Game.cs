@@ -8,10 +8,12 @@ namespace CreateDoorsAndLevels
         private readonly Interfaces.IPhraseProvider phraseProvider;
         private readonly Interfaces.IInputOutputDevice inputOutputDevice;
         private readonly Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator;
+        private readonly Interfaces.ISettingsProvider settingsProvider;
+
+        private readonly GameSettings gameSettings;
 
         List<int> numbers;
         List<int> selectedNumbers;
-        int levelLimit;
 
         enum Operation
         {
@@ -23,19 +25,23 @@ namespace CreateDoorsAndLevels
         public Game(
             Interfaces.IPhraseProvider phraseProvider, 
             Interfaces.IInputOutputDevice inputOutputDevice, 
-            Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator)
+            Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator,
+            Interfaces.ISettingsProvider settingsProvider
+            )
         {
             this.phraseProvider = phraseProvider;
             this.inputOutputDevice = inputOutputDevice;
             this.doorsNumbersGenerator = doorsNumbersGenerator;
+            this.settingsProvider = settingsProvider;
+
+            this.gameSettings = this.settingsProvider.GetGameSettings();
         }
 
         public void Run()
         {
             // this.numbers = new List<int>() { 2, 4, 3, 1, 0 }; // simple test
-            this.numbers = doorsNumbersGenerator.generateDoorsNumbers(5);
+            this.numbers = doorsNumbersGenerator.generateDoorsNumbers(gameSettings.DoorsAmount);
             this.selectedNumbers = new List<int>();
-            this.levelLimit = 2;
 
             inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
 
@@ -49,7 +55,7 @@ namespace CreateDoorsAndLevels
 
                 if (this.selectedNumbers[this.selectedNumbers.Count - 1] == -1) break; // if -1 then break the circle - EXIT
 
-                if (this.selectedNumbers[this.selectedNumbers.Count - 1] > 0)
+                if (this.selectedNumbers[this.selectedNumbers.Count - 1] != this.gameSettings.ExitDoorNumber)
                 {
                     // Create "next level" numbers where numbers values calculate using formula: [number on previous level] * [choosed number on previous level].
                     // "We select number 2 and go to next level: 4 8 6 2 0 (2x2 4x2 3x2 1x2 0x2)"
@@ -66,7 +72,7 @@ namespace CreateDoorsAndLevels
                         StringFromNumbersArr(intro: phraseProvider.GetPhrase("YouSelectedZero"), operation: Operation.PrevLevel));
                     this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove prev.number from selectedNumbers. Now top is prev2.number
                 }
-            } while (!(this.selectedNumbers.Count - 1 == 0 && this.selectedNumbers[0] == 0));
+            } while (!(this.selectedNumbers.Count - 1 == 0 && this.selectedNumbers[0] == this.gameSettings.ExitDoorNumber));
             inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Bye"));
         }
 
@@ -76,7 +82,7 @@ namespace CreateDoorsAndLevels
 
             do
             {
-                if (this.selectedNumbers.Count <= this.levelLimit)
+                if (this.selectedNumbers.Count <= this.gameSettings.LevelLimit)
                 {
                     Console.Write(phraseProvider.GetPhrase("Select"));
                 }
@@ -95,7 +101,7 @@ namespace CreateDoorsAndLevels
                         continue;
                     }
 
-                    if (s.ToLower().Equals("exit")) break; // if 'exit' then break the circle. result will be -1
+                    if (s.ToLowerInvariant().Equals(gameSettings.ExitCode.ToLowerInvariant())) break; // if 'exit' then break the circle. result will be -1
 
                     int n = Int32.Parse(s);
 
@@ -105,7 +111,7 @@ namespace CreateDoorsAndLevels
                         continue;
                     }
 
-                    if (this.selectedNumbers.Count > this.levelLimit && n != 0)
+                    if (this.selectedNumbers.Count > this.gameSettings.LevelLimit && n != this.gameSettings.ExitDoorNumber)
                     {
                         inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("NotZero"));
                         continue;

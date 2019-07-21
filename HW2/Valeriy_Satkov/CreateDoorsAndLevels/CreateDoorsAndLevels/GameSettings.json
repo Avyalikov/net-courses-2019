@@ -1,0 +1,6 @@
+﻿{
+  "DoorsAmount": 5,
+  "LevelLimit": 2,
+  "ExitDoorNumber": 0,
+  "ExitCode":  "exit"
+}

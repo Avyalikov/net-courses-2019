@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CreateDoorsAndLevels
+﻿namespace CreateDoorsAndLevels
 {
     class Program
     {
@@ -10,11 +7,13 @@ namespace CreateDoorsAndLevels
             Interfaces.IPhraseProvider phraseProvider = new Modules.JsonPhraseProvider();
             Interfaces.IInputOutputDevice inputOutputDevice = new Modules.ConsoleInputOutputDevice();
             Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator = new Modules.DoorsNumbersGenerator();
+            Interfaces.ISettingsProvider settingsProvider = new Modules.JsonSettingsProvider();
 
             new Game(
                 phraseProvider: phraseProvider, 
                 inputOutputDevice: inputOutputDevice,
-                doorsNumbersGenerator: doorsNumbersGenerator
+                doorsNumbersGenerator: doorsNumbersGenerator, 
+                settingsProvider: settingsProvider
                 ) { }.Run();
 
             inputOutputDevice.ReadKey(); // pause
