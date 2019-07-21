@@ -12,33 +12,24 @@ namespace Doors_and_levels_game
 
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputModule io;
+        private readonly IDoorsGenerater<List<ulong>> doorsGenerater;
 
         public Game(
             IPhraseProvider phraseProvider,
-            IInputOutputModule io
+            IInputOutputModule io,
+            IDoorsGenerater<List<ulong>> doorsGenerater
             )
         {
             this.phraseProvider = phraseProvider;
             this.io = io;
+            this.doorsGenerater = doorsGenerater;
         }
 
         public void Start()
         {
             // Initiation random doors
-            for (int i = 0; i < 4; i++)
-            {
-                while (true)
-                {
-                    ulong r = (ulong)rnd.Next(2, 9);
-                    if (!doors.Contains(r))
-                    {
-                        doors.Add(r);
-                        break;
-                    }
-                }
-            }
-            doors.Add(0);
-
+            doors = doorsGenerater.Generate(5);
+            
             // Start
             io.Print(phraseProvider.GetPhrase(Phrase.Welcome));
             io.Print(doors);
