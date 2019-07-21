@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            SimpleRandomLongArrayGenerator simpleRandomLongArrayGenerator = new SimpleRandomLongArrayGenerator();
+            SimpleRandomIntArrayGenerator simpleRandomLongArrayGenerator = new SimpleRandomIntArrayGenerator();
             SimpleStackDataStorage<int> simpleStackDataStorage = new SimpleStackDataStorage<int>();
             GameConsole gameConsole = new GameConsole();
             SimpleSettingsProvider simpleSettingsProvider = new SimpleSettingsProvider(Languages.English, 5);
