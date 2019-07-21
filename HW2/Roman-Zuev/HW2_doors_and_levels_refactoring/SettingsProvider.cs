@@ -11,17 +11,17 @@ namespace HW2_doors_and_levels_refactoring
             this.inputOutputDevice = inputOutputDevice;
             this.phraseProvider = phraseProvider;
         }
-        public GameSettings gameSettings()
+        public GameSettings gameSettings()//provides User settings to a GameSettings object in a runtime
         {
             int DoorsAmount;
             int PreviousLevelNumber;
             string ExitCode;
             inputOutputDevice.Print(phraseProvider.GetPhrase("DoorsAmount"));
-            if (!Int32.TryParse(inputOutputDevice.InputValue(), out DoorsAmount)) DoorsAmount = 5;
+            if (!Int32.TryParse(inputOutputDevice.InputValue(), out DoorsAmount)) DoorsAmount = 5;//default value in case of wrong input
 
             inputOutputDevice.Print(phraseProvider.GetPhrase("PreviousLevelNumber"));
-            if (!Int32.TryParse(inputOutputDevice.InputValue(), out PreviousLevelNumber)) PreviousLevelNumber = 0;
-            
+            if (!Int32.TryParse(inputOutputDevice.InputValue(), out PreviousLevelNumber)) PreviousLevelNumber = 0;//default value in case of wrong input
+
             inputOutputDevice.Print(phraseProvider.GetPhrase("ExitCommand"));
             ExitCode = inputOutputDevice.InputValue();
             return new GameSettings(DoorsAmount, PreviousLevelNumber, ExitCode);

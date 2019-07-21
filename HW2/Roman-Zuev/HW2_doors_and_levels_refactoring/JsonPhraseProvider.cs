@@ -9,7 +9,7 @@ namespace HW2_doors_and_levels_refactoring
     {
         public string GetPhrase(string phraseKey)
         {
-            var resourceFile = new FileInfo("..\\..\\..\\Resources\\Eng.json");
+            var resourceFile = new FileInfo("Resources\\Eng.json");
 
             if (!resourceFile.Exists)
             {

@@ -1,6 +1,6 @@
 ﻿namespace HW2_doors_and_levels_refactoring
 {
-    public class GameSettings
+    public class GameSettings //only get accessors to prevent changing values in a runtime
     {
         public int DoorsAmount { get; }
         public int PreviousLevelNumber { get; }
