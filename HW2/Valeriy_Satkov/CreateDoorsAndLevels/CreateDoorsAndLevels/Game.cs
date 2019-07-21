@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CreateDoorsAndLevels
 {
@@ -10,6 +7,7 @@ namespace CreateDoorsAndLevels
     {
         private readonly Interfaces.IPhraseProvider phraseProvider;
         private readonly Interfaces.IInputOutputDevice inputOutputDevice;
+        private readonly Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator;
 
         List<int> numbers;
         List<int> selectedNumbers;
@@ -22,16 +20,20 @@ namespace CreateDoorsAndLevels
             Print
         }
 
-        public Game(Interfaces.IPhraseProvider phraseProvider, Interfaces.IInputOutputDevice inputOutputDevice)
+        public Game(
+            Interfaces.IPhraseProvider phraseProvider, 
+            Interfaces.IInputOutputDevice inputOutputDevice, 
+            Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator)
         {
             this.phraseProvider = phraseProvider;
             this.inputOutputDevice = inputOutputDevice;
+            this.doorsNumbersGenerator = doorsNumbersGenerator;
         }
 
         public void Run()
         {
-            // int[] numbers = new int[] { 2, 4, 3, 1, 0 }); // simple test
-            this.numbers = RandIntArrGenerator();
+            // this.numbers = new List<int>() { 2, 4, 3, 1, 0 }; // simple test
+            this.numbers = doorsNumbersGenerator.generateDoorsNumbers(5);
             this.selectedNumbers = new List<int>();
             this.levelLimit = 2;
 
@@ -66,24 +68,6 @@ namespace CreateDoorsAndLevels
                 }
             } while (!(this.selectedNumbers.Count - 1 == 0 && this.selectedNumbers[0] == 0));
             inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Bye"));
-        }
-
-        private List<int> RandIntArrGenerator()
-        {
-            List<int> result = new List<int>();
-            int randomNumber;
-
-            Random random = new Random();
-
-            for (int i = 0; i < 4; i++)
-            {
-                while (result.Contains(randomNumber = random.Next(1, 9))) ;
-                result.Add(randomNumber);
-            }
-
-            result.Add(0);
-
-            return result;
         }
 
         private int EnterTheNumber()

@@ -9,10 +9,12 @@ namespace CreateDoorsAndLevels
         {
             Interfaces.IPhraseProvider phraseProvider = new Modules.JsonPhraseProvider();
             Interfaces.IInputOutputDevice inputOutputDevice = new Modules.ConsoleInputOutputDevice();
+            Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator = new Modules.DoorsNumbersGenerator();
 
             new Game(
                 phraseProvider: phraseProvider, 
-                inputOutputDevice: inputOutputDevice
+                inputOutputDevice: inputOutputDevice,
+                doorsNumbersGenerator: doorsNumbersGenerator
                 ) { }.Run();
 
             inputOutputDevice.ReadKey(); // pause
