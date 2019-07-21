@@ -26,9 +26,8 @@ namespace DoorsAndLevelsGame
         {
             ConsoleColor temp = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
-
             Console.Write(msg);
-
+            Console.WriteLine();
             Console.ForegroundColor = temp;
         }
 

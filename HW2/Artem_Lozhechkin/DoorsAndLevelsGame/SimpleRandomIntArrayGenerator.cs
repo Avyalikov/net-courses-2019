@@ -4,12 +4,12 @@ using System.Text;
 
 namespace DoorsAndLevelsGame
 {
-    class SimpleRandomLongArrayGenerator : IArrayGenerator<long>
+    class SimpleRandomIntArrayGenerator : IArrayGenerator<int>
     {
         private Random rand = new Random();
-        long[] IArrayGenerator<long>.GetArray(int size)
+        int[] IArrayGenerator<int>.GetArray(int size)
         {
-            long[] numberArray = new long[size];
+            int[] numberArray = new int[size];
 
             for (int i = 0; i < numberArray.Length-1; i++)
             {

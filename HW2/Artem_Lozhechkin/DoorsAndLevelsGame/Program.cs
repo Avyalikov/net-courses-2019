@@ -4,7 +4,12 @@
     {
         static void Main(string[] args)
         {
-            Game game = new Game(new SimpleRandomLongArrayGenerator(), new SimpleStackDataStorage<int>(), new GameConsole());
+            SimpleRandomLongArrayGenerator simpleRandomLongArrayGenerator = new SimpleRandomLongArrayGenerator();
+            SimpleStackDataStorage<int> simpleStackDataStorage = new SimpleStackDataStorage<int>();
+            GameConsole gameConsole = new GameConsole();
+            SimpleSettingsProvider simpleSettingsProvider = new SimpleSettingsProvider(Languages.English, 5);
+
+            Game game = new Game(simpleRandomLongArrayGenerator, simpleStackDataStorage, gameConsole, simpleSettingsProvider);
             game.Play();
         }
     }

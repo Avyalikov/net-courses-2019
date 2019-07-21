@@ -9,4 +9,14 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\strings.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\strings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

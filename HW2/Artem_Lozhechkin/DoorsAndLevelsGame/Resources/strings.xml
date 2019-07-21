@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name = "English">
+    <phrase type="Welcome" text="Welcome to the Doors and Levels game!" />
+    <phrase type="IncorrectChoice" text="You should choose a correct number. Try again.!" />
+    <phrase type="LevelMessage" text="Level " />
+    <phrase type="NumberOfDoors" text="Please, select number of doors: " />
+    <phrase type="SelectingNumber" text="Select your number: " />
+    <phrase type="WinMessage" text="You have won! Congratulations!" />
+    <phrase type="NumbersMessage" text="We have numbers: " />
+    <phrase type="IncorrectNumberChoice" text="You should choose one of the above numbers. Try again." />
+    <phrase type="LevellingDownMessage" text="You сhose 0 and went to previous level: " />
+    <phrase type="LevellingDownErrorMessage" text="You cannot go back, because you are at level 1" />
+    <phrase type="LevellingUpMessage" text="You сhose {0} and went to the next level: " />
+  </language>
+  <language name ="Russian">
+    <phrase type="Welcome" text="Добро пожаловать в игру про двери и уровни!" />
+  </language>
+</languages>
