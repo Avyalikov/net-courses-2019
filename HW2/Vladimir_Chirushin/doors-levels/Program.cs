@@ -9,69 +9,64 @@ namespace doors_levels
     class DoorsGame
     {
         private const Int32 MAX_DOORS = 5;
-        private const Int32 MIN_DOOR_NUMBER = 0;
-        private const Int32 MAX_DOOR_NUMBER = 5;
+        private const Int32 MIN_DOOR_VALUE = 1;
+        private const Int32 MAX_DOOR_VALUE = 90;
+        private const Int32 GET_BACK_NUMBER = 0;
 
         private Int32[] doors = new Int32[MAX_DOORS];
-        private Int32[] level = new Int32[MAX_DOORS];
-        private List<Int32> doorsStack = new List<Int32>();
+        private Stack<Int32> levelsStack = new Stack<Int32>();
 
         public DoorsGame()
         {
-            Random rand = new Random();
+            InitiateDoors();
+        }
 
-            for (Int32 i = 0; i < doors.Length; i++) //create doors
+
+        private void InitiateDoors()
+        {
+            Random rand = new Random();
+            doors[0] = GET_BACK_NUMBER;  //initiating return to previous level ability
+            for (Int32 i = 1; i < doors.Length; i++) //create doors
             {
                 Boolean repeat = false;
                 do
                 {
                     repeat = false;
-                    doors[i]= rand.Next(MIN_DOOR_NUMBER, MAX_DOOR_NUMBER);
+                    doors[i] = rand.Next(MIN_DOOR_VALUE, MAX_DOOR_VALUE);
 
-                    for (Int32 j = 0; j < i; j++){   //check for unique
-                        if(doors[j] == doors[i]){
+                    for (Int32 j = 0; j < i; j++)
+                    {   //check for unique
+                        if (doors[j] == doors[i])
+                        {
                             repeat = true;          //door isn't unique; need to repeat
                             break;
                         }
                     }
-                } while(repeat);
+                } while (repeat);
             }
-
-            for (Int32 i = 0; i < doors.Length; i++) //initiate first level with doors
-            {
-                level[i] = doors[i];    
-            }
-            
         }
 
-
-        private Int32 PopLastDoor () 
-        {
-            Int32 lastDoor = doorsStack[doorsStack.Count - 1];
-            doorsStack.RemoveAt(doorsStack.Count - 1);
-            return lastDoor;
-        }
 
         private String ShowLevel()
         {
             String levelString = "";
-            for (Int32 i = 0; i < level.Length; i++) 
+            for (Int32 i = 0; i < doors.Length; i++)
             {
-                levelString = levelString + level[i].ToString() + " " ;
+                levelString = levelString + doors[i].ToString() + " ";
             }
             return levelString;
         }
 
-        private void ExecuteTheDoor(Int32 door)
+        private void ExecuteTheDoor(Int32 currentDoor)
         {
-            if(door == 0)
+            if (currentDoor == 0)
             {
-                if(doorsStack.Count>0)
+                if (levelsStack.Count > 0)
                 {
-                    Int32 lastDoor = PopLastDoor();
-                    for (Int32 i = 0; i < level.Length; i++) 
+                    Int32 lastDoor = levelsStack.Pop();
+                    for (Int32 i = 0; i < doors.Length; i++)
                     {
-                        level[i] /= lastDoor;
+                        doors[i] /= lastDoor;
                     }
                     Console.Write("We select number 0 and go to previous level: ");
                     Console.WriteLine(ShowLevel());
@@ -83,12 +78,26 @@ namespace doors_levels
             }
             else //if door != 0
             {
-                doorsStack.Add(door);
-                for (Int32 i = 0; i < level.Length; i++) 
+                levelsStack.Push(currentDoor);
+                for (Int32 i = 0; i < doors.Length; i++)
                 {
-                    level[i] *= door;
+                    try
+                    {
+                        checked
+                        {
+                            doors[i] *= currentDoor;
+                        }
+                    }
+                    catch (OverflowException)
+                    {
+                        Console.WriteLine("You get too far! Droped to first level");
+                        InitiateDoors();
+                        levelsStack.Clear();
+                        ShowDoors();
+                        return;
+                    }
                 }
-                Console.Write($"We select number { door } and go to next level: ");
+                Console.Write($"We select number { currentDoor } and go to next level: ");
                 Console.WriteLine(ShowLevel());
             }
         }
@@ -96,15 +105,15 @@ namespace doors_levels
         public void EnterTheDoor(Int32 doorToEnter)
         {
             Boolean doorExist = false;
-            for (Int32 i = 0; i < doors.Length; i++) 
-            {   
-                if(doorToEnter == doors[i])
+            for (Int32 i = 0; i < doors.Length; i++)
+            {
+                if (doorToEnter == doors[i])
                 {
-                    doorExist = true;       
+                    doorExist = true;
                     break;
                 }
             }
-            if(doorExist)
+            if (doorExist)
             {
                 ExecuteTheDoor(doorToEnter);
             }
@@ -112,15 +121,15 @@ namespace doors_levels
             {
                 Console.WriteLine("Door doesn't exist");
             }
-            
+
         }
 
         public void ShowDoors()
         {
             Console.Write("We have numbers: ");
-            for (Int32 i = 0; i < doors.Length; i++) 
+            for (Int32 i = 0; i < doors.Length; i++)
             {
-                Console.Write(doors[i]+" ");
+                Console.Write(doors[i] + " ");
             }
             Console.WriteLine("");
         }
@@ -137,7 +146,7 @@ namespace doors_levels
         {
             DoorsGame doorsGame = new DoorsGame();
             doorsGame.ShowDoors();
-            while(true)
+            while (true)
             {
                 try
                 {

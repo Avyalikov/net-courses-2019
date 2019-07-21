@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2E01DD33-8D12-49D0-A8C6-30B9820F4A94}</ProjectGuid>
+    <ProjectGuid>{EDE10273-D617-4B62-AE39-FE6042440DD1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>doors_levels</RootNamespace>
-    <AssemblyName>doors_levels</AssemblyName>
+    <AssemblyName>doors-levels</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
