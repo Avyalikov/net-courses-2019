@@ -11,15 +11,16 @@ namespace DoorsAndLevelsGame
         static void Main(string[] args)
         {
             IPhraseProvider phraseProvider = new JSONPhraseProvider();
-            Game game = new Game(phraseProvider);
+            IInputOutputComponent ioComponent = new ConsoleIOComponent();
+            Game game = new Game(phraseProvider, ioComponent);
 
             while (game.Exit==false)
             {
                 game.PlayGame();               
                
             }
-
-            Console.ReadLine();
+            
+            ioComponent.ReadInput();
         }
     }
 }

@@ -19,10 +19,12 @@ namespace DoorsAndLevelsGame
         private Dictionary<int, int> levelsSelection;
 
         private readonly IPhraseProvider phraseProvider;
+        private readonly IInputOutputComponent ioComp;
 
-        public Game(IPhraseProvider phraseProvider)
+        public Game(IPhraseProvider phraseProvider, IInputOutputComponent ioComponent)
         {
             this.phraseProvider= phraseProvider;
+            this.ioComp = ioComponent;
 
             this.levelsSelection = new Dictionary<int, int>();
             this.Level = 1;
@@ -55,14 +57,14 @@ namespace DoorsAndLevelsGame
                 if (int.TryParse(Console.ReadLine(), out enteredNum))
                 {
 
-                    Console.WriteLine(phraseProvider.GetPhrase("Selected")+$"{enteredNum}");
+                    ioComp.WriteOutput(phraseProvider.GetPhrase("Selected")+$"{enteredNum}");
                     isNumber = true;
 
                 }
                 
                 else
                 {
-                    Console.WriteLine(phraseProvider.GetPhrase("NotNumber"));
+                    ioComp.WriteOutput(phraseProvider.GetPhrase("NotNumber"));
                     
 
                 }
@@ -89,7 +91,7 @@ namespace DoorsAndLevelsGame
 
             if (check == false)
             {
-                Console.WriteLine(phraseProvider.GetPhrase("WrongNumber"));
+                ioComp.WriteOutput(phraseProvider.GetPhrase("WrongNumber"));
 
             }
 
@@ -121,7 +123,7 @@ namespace DoorsAndLevelsGame
                 catch (OverflowException e)
                 {
 
-                    Console.WriteLine(phraseProvider.GetPhrase("Maximum") + phraseProvider.GetPhrase("GameOver"));
+                    ioComp.WriteOutput(phraseProvider.GetPhrase("Maximum") + phraseProvider.GetPhrase("GameOver"));
                     this.Exit = true;
                     return numbers;
                 }
@@ -152,7 +154,7 @@ namespace DoorsAndLevelsGame
 
             }
 
-            Console.WriteLine(phraseProvider.GetPhrase("Level")+ $" {Level}"  + phraseProvider.GetPhrase("Select")+
+            ioComp.WriteOutput(phraseProvider.GetPhrase("Level")+ $" {Level}"  + phraseProvider.GetPhrase("Select")+
                 $"{doorsToPrint}");
         }
 
@@ -180,7 +182,7 @@ namespace DoorsAndLevelsGame
 
                     else
                     {
-                        Console.WriteLine(phraseProvider.GetPhrase("GameOver"));
+                        ioComp.WriteOutput(phraseProvider.GetPhrase("GameOver"));
                         this.Exit = true;
                     }
                 }  
@@ -213,7 +215,7 @@ namespace DoorsAndLevelsGame
                         }
                         else
                         {
-                            Console.WriteLine(phraseProvider.GetPhrase("GameOver"));
+                            ioComp.WriteOutput(phraseProvider.GetPhrase("GameOver"));
                             this.Exit = true;
                         }
 
