@@ -12,7 +12,9 @@ namespace DoorsAndLevelsGame
         {
             IPhraseProvider phraseProvider = new JSONPhraseProvider();
             IInputOutputComponent ioComponent = new ConsoleIOComponent();
-            Game game = new Game(phraseProvider, ioComponent);
+            IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsGenerator();
+
+            Game game = new Game(phraseProvider, ioComponent, doorsNumbersGenerator);
 
             while (game.Exit==false)
             {
