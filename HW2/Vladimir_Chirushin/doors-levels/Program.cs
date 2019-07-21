@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace doors_levels
 {
-    partial class Program
+    class Program
     {
         static void Main(string[] args)
         {
             IInputOutputDevice inputOutputDevice = new ConsoleIODevice();
-            DoorsGame doorsGame = new DoorsGame(inputOutputDevice: inputOutputDevice);
+            IDoorsGenerator doorsGenerator = new DoorsGenerator();
+            DoorsGame doorsGame = new DoorsGame(inputOutputDevice, doorsGenerator);
             doorsGame.Run();
         }
     }

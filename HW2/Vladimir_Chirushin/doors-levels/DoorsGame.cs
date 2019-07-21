@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace doors_levels
 {
-    class DoorsGame
+    public class DoorsGame
     {
         private const Int32 MAX_DOORS = 5;
-        private const Int32 MIN_DOOR_VALUE = 1;
-        private const Int32 MAX_DOOR_VALUE = 90;
-        private const Int32 GET_BACK_NUMBER = 0;
 
-        private Int32[] doors = new Int32[MAX_DOORS];
+        private Int32[] doors;
         private Stack<Int32> levelsStack = new Stack<Int32>();
-        private readonly IInputOutputDevice inputOutputDevice;
 
-        public DoorsGame(IInputOutputDevice inputOutputDevice)
+        private readonly IInputOutputDevice inputOutputDevice;
+        private readonly IDoorsGenerator doorsGenerator;
+
+        public DoorsGame(IInputOutputDevice inputOutputDevice, IDoorsGenerator doorsGenerator)
         {
             this.inputOutputDevice = inputOutputDevice;
+            this.doorsGenerator = doorsGenerator;
 
             InitiateDoors();
         }
@@ -24,27 +24,7 @@ namespace doors_levels
 
         private void InitiateDoors()
         {
-            Random rand = new Random();
-
-            doors[0] = GET_BACK_NUMBER;  //initiating return to previous level ability
-            for (Int32 i = 1; i < doors.Length; i++) //create doors
-            {
-                Boolean repeat = false;
-                do
-                {
-                    repeat = false;
-                    doors[i] = rand.Next(MIN_DOOR_VALUE, MAX_DOOR_VALUE);
-
-                    for (Int32 j = 0; j < i; j++)
-                    {   //check for unique
-                        if (doors[j] == doors[i])
-                        {
-                            repeat = true;          //door isn't unique; need to repeat
-                            break;
-                        }
-                    }
-                } while (repeat);
-            }
+            doors = doorsGenerator.GetDoors(MAX_DOORS);
         }
 
 
@@ -152,7 +132,5 @@ namespace doors_levels
                 }
             }
         }
-
-
     }
 }

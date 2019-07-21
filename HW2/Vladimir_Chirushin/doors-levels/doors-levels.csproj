@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="ConsoleIODevice.cs" />
     <Compile Include="DoorsGame.cs" />
+    <Compile Include="DoorsGenerator.cs" />
+    <Compile Include="IDoorsGenerator.cs" />
     <Compile Include="IInputOutputDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
