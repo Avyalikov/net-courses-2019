@@ -6,11 +6,15 @@ namespace doors_levels
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
             IInputOutputDevice inputOutputDevice = new ConsoleIODevice();
             IDoorsGenerator doorsGenerator = new DoorsGenerator();
-            DoorsGame doorsGame = new DoorsGame(inputOutputDevice, doorsGenerator);
+            IDataStorage dataStorage = new DataStorage();
+
+            DoorsGame doorsGame = new DoorsGame(inputOutputDevice, doorsGenerator, dataStorage);
+
             doorsGame.Run();
         }
     }

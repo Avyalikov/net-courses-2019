@@ -7,5 +7,6 @@ namespace doors_levels
         Int32 GetLastDoor();
         Boolean IsEmpty();
         void PushLastDoor(Int32 lastDoor);
+        void Clear();
     }
 }

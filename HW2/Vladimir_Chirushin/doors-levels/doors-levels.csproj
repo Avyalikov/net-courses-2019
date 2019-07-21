@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleIODevice.cs" />
+    <Compile Include="DataStorage.cs" />
     <Compile Include="DoorsGame.cs" />
     <Compile Include="DoorsGenerator.cs" />
     <Compile Include="IDataStorage.cs" />

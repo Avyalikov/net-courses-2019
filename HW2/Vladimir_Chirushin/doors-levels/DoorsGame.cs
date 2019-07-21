@@ -8,15 +8,15 @@ namespace doors_levels
         private const Int32 MAX_DOORS = 5;
 
         private Int32[] doors;
-        private Stack<Int32> levelsStack = new Stack<Int32>();
 
         private readonly IInputOutputDevice inputOutputDevice;
         private readonly IDoorsGenerator doorsGenerator;
-
-        public DoorsGame(IInputOutputDevice inputOutputDevice, IDoorsGenerator doorsGenerator)
+        private readonly IDataStorage dataStorage;
+        public DoorsGame(IInputOutputDevice inputOutputDevice, IDoorsGenerator doorsGenerator, IDataStorage dataStorage)
         {
             this.inputOutputDevice = inputOutputDevice;
             this.doorsGenerator = doorsGenerator;
+            this.dataStorage = dataStorage;
 
             InitiateDoors();
         }
@@ -42,9 +42,9 @@ namespace doors_levels
         {
             if (currentDoor == 0)
             {
-                if (levelsStack.Count > 0)
+                if (!dataStorage.IsEmpty())
                 {
-                    Int32 lastDoor = levelsStack.Pop();
+                    Int32 lastDoor = dataStorage.GetLastDoor();
                     for (Int32 i = 0; i < doors.Length; i++)
                     {                                   
                         doors[i] /= lastDoor;
@@ -59,7 +59,7 @@ namespace doors_levels
             }
             else //if door != 0
             {
-                levelsStack.Push(currentDoor);
+                dataStorage.PushLastDoor(currentDoor);
                 for (Int32 i = 0; i < doors.Length; i++)
                 {
                     try
@@ -73,7 +73,7 @@ namespace doors_levels
                     {
                         inputOutputDevice.WriteOutput("You get too far! Droped to first level");
                         InitiateDoors();
-                        levelsStack.Clear();
+                        dataStorage.Clear();
                         ShowDoors();
                         return;
                     }
