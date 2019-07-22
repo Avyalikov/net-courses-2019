@@ -11,5 +11,6 @@ namespace DoorsAndLevels
         public int doorsAmount { get; set; }
         public int exitCode { get; set; }
         public int previousLevelCode { get; set; }
+        public string gameLanguage { get; set; }
     }
 }

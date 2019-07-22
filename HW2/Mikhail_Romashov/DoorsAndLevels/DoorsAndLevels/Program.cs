@@ -10,11 +10,10 @@ namespace DoorsAndLevels
     {
         static void Main(string[] args)
         {
-            var lang = Languages.Eng;
             IInputOutputComponent inputOutputComponent = new ConsoleInputOutput();
             IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
             ISettingsProvider settingsProvider = new SettingsProvider();
-            IPhraseProvider phraseProvider = new PhraseProvider(lang);
+            IPhraseProvider phraseProvider = new PhraseProvider();
             IStorageComponent stackStorageComponent = new StackStorageComponent();
 
             DoorsAndLevels game = new DoorsAndLevels(

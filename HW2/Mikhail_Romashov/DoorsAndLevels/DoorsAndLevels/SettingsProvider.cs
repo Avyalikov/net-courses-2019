@@ -34,6 +34,8 @@ namespace DoorsAndLevels
                     settings.exitCode = Int32.Parse(childNode.InnerText);
                 if (childNode.Name == "previousLevelCode")
                     settings.previousLevelCode = Int32.Parse(childNode.InnerText);
+                if (childNode.Name == "language")
+                    settings.gameLanguage = childNode.InnerText;
             }
 
             return settings;

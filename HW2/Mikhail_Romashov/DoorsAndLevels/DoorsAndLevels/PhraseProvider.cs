@@ -8,24 +8,25 @@ using System.IO;
 
 namespace DoorsAndLevels
 {
-    public enum Languages
-    {
-        Eng,
-        Rus
-    }
     public class PhraseProvider : IPhraseProvider
     {
-        private Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
-
-        public PhraseProvider(Languages language)
+        private Dictionary<string, string> keyValuePairs;
+        private Dictionary<string, string> languagesFiles = new Dictionary<string, string>()
         {
+            { "Rus", "Resources/RusLang.xml" },
+            {  "Eng", "Resources/EngLang.xml" }
+        };
+        private GameSettings setting;
+        public PhraseProvider()
+        {
+            ISettingsProvider settingsProvider = new SettingsProvider();
+            setting = new GameSettings();
+            setting = settingsProvider.gameSettings();
+            keyValuePairs = new Dictionary<string, string>();
+
             XmlDocument xmlDoc = new XmlDocument();
-            string langFileName = "Resources/EngLang.xml"; //default language file name
 
-            if (language == Languages.Rus) 
-                langFileName = "Resources/RusLang.xml";
-
-            var resourceFile = new FileInfo(langFileName);
+            var resourceFile = new FileInfo(languagesFiles[setting.gameLanguage]);
 
             if (!resourceFile.Exists)
             {
@@ -43,7 +44,15 @@ namespace DoorsAndLevels
         }
         public string GetPhrase(string phraseKey)
         {
-            return keyValuePairs[phraseKey];
+            try
+            {
+                return keyValuePairs[phraseKey];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new Exception($"The string with the key = '{phraseKey}' is not contained in '{languagesFiles[setting.gameLanguage]}'");
+            }
+
         }
     }
 }
