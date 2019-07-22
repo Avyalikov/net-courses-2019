@@ -10,18 +10,38 @@ namespace DoorsAndLevels
     {
         private readonly IInputOutputComponent ioComponent;
         private readonly IDoorsNumbersGenerator doorsNumbersGenerator;
+        private readonly ISettingsProvider settingsProvider;
+
+        private readonly GameSettings gameSettings;
+
         private int[] m_arrayDoorsValue;           //array of doors value
         private Stack<int> m_levelCoeff;    //stack witch contains coefficient for each level
         bool exitCode = false;          //flag to exit (if entered negative number)
 
+
+        public DoorsAndLevels(
+           IInputOutputComponent inputOutputComponent,
+           IDoorsNumbersGenerator doorsNumbersGenerator,
+           ISettingsProvider settingsProvider
+           )
+        {
+            ioComponent = inputOutputComponent;
+            this.doorsNumbersGenerator = doorsNumbersGenerator;
+            this.settingsProvider = settingsProvider;
+
+            this.gameSettings = this.settingsProvider.gameSettings();
+
+            m_arrayDoorsValue = new int[gameSettings.doorsAmount];
+            m_levelCoeff = new Stack<int>();
+            this.Reset();
+        }
         public void Run()
         {
             ioComponent.WriteOutputLine("Let`s start to game");
-
             do
             {
-                ioComponent.WriteOutputLine("Choose one of the number for next level or \'0\' to previous level.");
-                ioComponent.WriteOutputLine("For exit enter a negative number:");
+                ioComponent.WriteOutputLine($"Choose one of the number for next level or {gameSettings.previousLevelCode} to previous level.");
+                ioComponent.WriteOutputLine($"For exit enter {gameSettings.exitCode}:");
                 this.Show();
                 string resultStr = ioComponent.ReadInputLine();
                 try
@@ -35,21 +55,11 @@ namespace DoorsAndLevels
                 }
 
             } while (!exitCode);
-            ioComponent.WriteOutputLine("Thank you for playing! Enter any key to exit.");
+            ioComponent.WriteOutputLine("Thank you for playing! Press any key to exit.");
             ioComponent.ReadInputKey();
         }
 
-        public DoorsAndLevels(
-            IInputOutputComponent inputOutputComponent,
-            IDoorsNumbersGenerator doorsNumbersGenerator
-            )
-        {
-            ioComponent = inputOutputComponent;
-            this.doorsNumbersGenerator = doorsNumbersGenerator;
-            m_arrayDoorsValue = new int[5];
-            m_levelCoeff = new Stack<int>();
-            this.Reset();
-        }
+       
 
         private void Show()      //output array of numbers
         {
@@ -64,7 +74,7 @@ namespace DoorsAndLevels
 
         private void CalcLevel(int doorValue)
         {
-            if (doorValue < 0)
+            if (doorValue == gameSettings.exitCode)
             {
                 exitCode = true;
                 return;
@@ -76,24 +86,23 @@ namespace DoorsAndLevels
             }
 
 
-            if (doorValue == 0)
+            if (doorValue == gameSettings.previousLevelCode)
             {
                 if (m_levelCoeff.Count == 0)  //stack is empty
                 {
                     ioComponent.WriteOutputLine("It is first level!");
                     return;
-
                 }
                 int divider = m_levelCoeff.Pop();
-                for (int i = 0; i < m_arrayDoorsValue.Count(); i++)
+                for (int i = 0; i < gameSettings.doorsAmount-1; i++)
                 {
-                    m_arrayDoorsValue[i] /= divider; // return for previous level
+                        m_arrayDoorsValue[i] /= divider; // return for previous level             
                 }
             }
             else
             {
 
-                for (int i = 0; i < m_arrayDoorsValue.Count(); i++)
+                for (int i = 0; i < gameSettings.doorsAmount-1; i++)
                 {
 
                     try
@@ -115,7 +124,7 @@ namespace DoorsAndLevels
 
         private void Reset()
         {
-            m_arrayDoorsValue = doorsNumbersGenerator.GenerateDoorsNumbers(5);
+            m_arrayDoorsValue = doorsNumbersGenerator.GenerateDoorsNumbers(gameSettings.doorsAmount, gameSettings.previousLevelCode);
         }
 
     }

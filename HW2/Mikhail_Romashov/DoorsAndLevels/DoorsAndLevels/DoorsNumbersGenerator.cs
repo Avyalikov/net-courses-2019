@@ -8,12 +8,16 @@ namespace DoorsAndLevels
 {
     class DoorsNumbersGenerator : IDoorsNumbersGenerator
     {
-        public int[] GenerateDoorsNumbers(int doorsAmount)
+        public int[] GenerateDoorsNumbers(int doorsAmount, int prevLevelCode)
         {
             int[] doorsNumbers = new int[doorsAmount];
             var random = new Random();
-            int maxValue = 9;  //
-            var listWithValues = new List<int>(Enumerable.Range(1, 9));
+
+
+            //if doors amount > 9 then the number of doors will contain random from 1 to amount
+            //if doors amount <= 9 then the number of doors will contain random from 1 to 9
+            int maxValue = doorsAmount <= 9 ? 9 : doorsAmount;  
+            var listWithValues = new List<int>(Enumerable.Range(1, maxValue));
 
 
             for (int i = 0; i < doorsAmount-1; i++)
@@ -22,11 +26,10 @@ namespace DoorsAndLevels
                 int index = random.Next(1, maxValue);
                 doorsNumbers[i] = listWithValues[index - 1];
                 listWithValues.RemoveAt(index - 1);
-                if (doorsAmount <= 9) 
-                    maxValue--; //max index value decrease
+                maxValue--; //max index value decrease
             }
 
-            doorsNumbers[doorsAmount - 1] = 0;
+            doorsNumbers[doorsAmount - 1] = prevLevelCode;
 
             return doorsNumbers;
         }

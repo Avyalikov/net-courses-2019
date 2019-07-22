@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DoorsAndLevels
 {
-    interface IDoorsNumbersGenerator
+    interface ISettingsProvider
     {
-            int[] GenerateDoorsNumbers(int doorsAmount, int prevLevelCode);
+        GameSettings gameSettings();
     }
 }

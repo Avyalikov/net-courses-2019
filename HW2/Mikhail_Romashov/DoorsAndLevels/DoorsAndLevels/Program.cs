@@ -12,7 +12,9 @@ namespace DoorsAndLevels
         {
             IInputOutputComponent inputOutputComponent = new ConsoleInputOutput();
             IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
-            DoorsAndLevels game = new DoorsAndLevels(inputOutputComponent, doorsNumbersGenerator);
+            ISettingsProvider settingsProvider = new SettingsProvider();
+
+            DoorsAndLevels game = new DoorsAndLevels(inputOutputComponent, doorsNumbersGenerator, settingsProvider);
 
             game.Run();
         }
