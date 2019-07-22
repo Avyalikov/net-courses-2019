@@ -27,7 +27,7 @@ namespace DoorsAndLevels
             XmlElement xmlRoot = xmlDoc.DocumentElement;
 
             foreach (XmlElement childNode in xmlRoot)
-            {  //add settings
+            {  
                 if (childNode.Name == "doorsAmount")
                     settings.doorsAmount = Int32.Parse(childNode.InnerText);
                 if (childNode.Name == "exitCode")

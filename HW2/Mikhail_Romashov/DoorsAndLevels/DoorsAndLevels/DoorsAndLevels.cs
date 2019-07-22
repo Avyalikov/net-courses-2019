@@ -17,7 +17,6 @@ namespace DoorsAndLevels
         private readonly GameSettings gameSettings;
 
         private int[] m_arrayDoorsValue;           //array of doors value
-//        private Stack<int> m_levelCoeff;    //stack witch contains coefficient for each level
         bool exitCode = false;          //flag to exit (if entered exit code)
 
 
@@ -42,12 +41,10 @@ namespace DoorsAndLevels
         }
         public void Run()
         {
-            //ioComponent.WriteOutputLine("Let`s start to game");
+
             ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Start"));
             do
             {
-                //ioComponent.WriteOutputLine($"Choose one of the number for next level or {gameSettings.previousLevelCode} to previous level.");
-                //ioComponent.WriteOutputLine($"For exit enter {gameSettings.exitCode}:");
                 ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Intro"));
                 this.Show();
                 string resultStr = ioComponent.ReadInputLine();
@@ -58,19 +55,17 @@ namespace DoorsAndLevels
                 }
                 catch (FormatException)
                 {
-                    //ioComponent.WriteOutputLine($"The value '{resultStr}' is not a number.");
                     ioComponent.WriteOutputLine(phraseProvider.GetPhrase("BadValue"));
                 }
 
             } while (!exitCode);
-            //ioComponent.WriteOutputLine("Thank you for playing! Press any key to exit.");
             ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Exit"));
             ioComponent.ReadInputKey();
         }
 
        
 
-        private void Show()      //output array of numbers
+        private void Show()
         {
             ioComponent.WriteOutputLine("--------------");
             foreach (int num in m_arrayDoorsValue)
@@ -81,9 +76,9 @@ namespace DoorsAndLevels
             ioComponent.WriteOutputLine("--------------");
         }
 
-        private void CalcLevel(int doorValue)  //recalculation level using door value
+        private void CalcLevel(int doorValue)
         {
-            if (doorValue == gameSettings.exitCode) //enetred exit code
+            if (doorValue == gameSettings.exitCode) //if enetred exit code
             {
                 exitCode = true;//exit flag
                 return;
@@ -98,7 +93,6 @@ namespace DoorsAndLevels
             {
                 if (stackStorageComponent.GetSize() == 0)  //stack is empty
                 {
-                        //ioComponent.WriteOutputLine("It is first level!");
                         ioComponent.WriteOutputLine(phraseProvider.GetPhrase("FirstLevel"));
                         return;
                 }
@@ -114,15 +108,14 @@ namespace DoorsAndLevels
                 {
 
                     try
-                    {
-                        m_arrayDoorsValue[i] = checked(m_arrayDoorsValue[i] * doorValue); // go to next level 
+                    { // "checked" - to check out of range int32
+                        m_arrayDoorsValue[i] = checked(m_arrayDoorsValue[i] * doorValue);  
                     }
                     catch (OverflowException)
                     {
                         // if some value in m_arrayDoorsValue > maxValueInt32
                         this.Reset();
                         stackStorageComponent.Clear();
-                        //ioComponent.WriteOutputLine("Congratulations! You have reached the maximum value. Lets try again.");
                         ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Win"));
                         return;
                     }

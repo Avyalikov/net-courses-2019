@@ -26,7 +26,7 @@ namespace DoorsAndLevels
                 int index = random.Next(1, maxValue);
                 doorsNumbers[i] = listWithValues[index - 1];
                 listWithValues.RemoveAt(index - 1);
-                maxValue--; //max index value decrease
+                maxValue--;
             }
 
             //add the code of the previous level to the last position in the array
