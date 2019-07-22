@@ -11,8 +11,9 @@ namespace Doors_and_levels_game_after_refactoring
         static void Main(string[] args)
         {
             IPhraseProvider phraseProvider = new JsonPhraseProvider();
+            IInputOutputDevice inputOutputDevice = new ConsoleInputOutputDevice();
 
-            Game DoorsAndLevels = new Game(phraseProvider);
+            Game DoorsAndLevels = new Game(phraseProvider, inputOutputDevice);
             DoorsAndLevels.Run();
 
             Console.ReadKey();
