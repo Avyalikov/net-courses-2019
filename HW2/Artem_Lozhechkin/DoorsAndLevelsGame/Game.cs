@@ -17,23 +17,23 @@ namespace DoorsAndLevelsGame
         /// <summary>
         /// This is an IArrayGenerator which gives a random array of ints.
         /// </summary>
-        public IArrayGenerator<int> ArrayGenerator { get; }
+        private IArrayGenerator<int> ArrayGenerator { get; }
         /// <summary>
         /// This is an IStackDataStorage that saves all chosen numbers.
         /// </summary>
-        public IStackDataStorage<int> ChosenNumbers { get; }
+        private IStackDataStorage<int> ChosenNumbers { get; }
         /// <summary>
         /// InputOutputDevice is used for interaction with user.
         /// </summary>
-        public IInputOutputDevice InputOutputDevice { get; }
+        private IInputOutputDevice InputOutputDevice { get; }
         /// <summary>
         /// SettingsProvider gives us a Settings information like door numbers.
         /// </summary>
-        public ISettingsProvider SettingsProvider { get; }
+        private ISettingsProvider SettingsProvider { get; }
         /// <summary>
         /// PhraseProvider is used for getting phrases.
         /// </summary>
-        public IPhraseProvider PhraseProvider { get; }
+        private IPhraseProvider PhraseProvider { get; }
 
         /// <summary>
         /// Constructor which initializes all game components.
