@@ -11,7 +11,7 @@ namespace DoorsAndLevels
         private readonly IInputOutputComponent ioComponent;
         private readonly IDoorsNumbersGenerator doorsNumbersGenerator;
         private readonly ISettingsProvider settingsProvider;
-
+        private readonly IPhraseProvider phraseProvider;
         private readonly GameSettings gameSettings;
 
         private int[] m_arrayDoorsValue;           //array of doors value
@@ -22,13 +22,14 @@ namespace DoorsAndLevels
         public DoorsAndLevels(
            IInputOutputComponent inputOutputComponent,
            IDoorsNumbersGenerator doorsNumbersGenerator,
-           ISettingsProvider settingsProvider
+           ISettingsProvider settingsProvider,
+           IPhraseProvider phraseProvider
            )
         {
             ioComponent = inputOutputComponent;
             this.doorsNumbersGenerator = doorsNumbersGenerator;
             this.settingsProvider = settingsProvider;
-
+            this.phraseProvider = phraseProvider;
             this.gameSettings = this.settingsProvider.gameSettings();
 
             m_arrayDoorsValue = new int[gameSettings.doorsAmount];
@@ -37,11 +38,13 @@ namespace DoorsAndLevels
         }
         public void Run()
         {
-            ioComponent.WriteOutputLine("Let`s start to game");
+            //ioComponent.WriteOutputLine("Let`s start to game");
+            ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Start"));
             do
             {
-                ioComponent.WriteOutputLine($"Choose one of the number for next level or {gameSettings.previousLevelCode} to previous level.");
-                ioComponent.WriteOutputLine($"For exit enter {gameSettings.exitCode}:");
+                //ioComponent.WriteOutputLine($"Choose one of the number for next level or {gameSettings.previousLevelCode} to previous level.");
+                //ioComponent.WriteOutputLine($"For exit enter {gameSettings.exitCode}:");
+                ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Intro"));
                 this.Show();
                 string resultStr = ioComponent.ReadInputLine();
                 try
@@ -51,11 +54,13 @@ namespace DoorsAndLevels
                 }
                 catch (FormatException)
                 {
-                    ioComponent.WriteOutputLine($"The value '{resultStr}' is not a number.");
+                    //ioComponent.WriteOutputLine($"The value '{resultStr}' is not a number.");
+                    ioComponent.WriteOutputLine(phraseProvider.GetPhrase("BadValue"));
                 }
 
             } while (!exitCode);
-            ioComponent.WriteOutputLine("Thank you for playing! Press any key to exit.");
+            //ioComponent.WriteOutputLine("Thank you for playing! Press any key to exit.");
+            ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Exit"));
             ioComponent.ReadInputKey();
         }
 
@@ -81,17 +86,17 @@ namespace DoorsAndLevels
             }
             if (!m_arrayDoorsValue.Contains(doorValue))    //array doesnt contains coeff
             {
-                ioComponent.WriteOutputLine("Number is not in list!");
+                //ioComponent.WriteOutputLine("Number is not in list!");
+                ioComponent.WriteOutputLine(phraseProvider.GetPhrase("ValueNotInList"));
                 return;
             }
-
-
             if (doorValue == gameSettings.previousLevelCode)
             {
                 if (m_levelCoeff.Count == 0)  //stack is empty
                 {
-                    ioComponent.WriteOutputLine("It is first level!");
-                    return;
+                        //ioComponent.WriteOutputLine("It is first level!");
+                        ioComponent.WriteOutputLine(phraseProvider.GetPhrase("FirstLevel"));
+                        return;
                 }
                 int divider = m_levelCoeff.Pop();
                 for (int i = 0; i < gameSettings.doorsAmount-1; i++)
@@ -114,7 +119,8 @@ namespace DoorsAndLevels
                         // if some value in m_arrayDoorsValue > maxValueInt32
                         this.Reset();
                         m_levelCoeff.Clear();
-                        ioComponent.WriteOutputLine("Congratulations! You have reached the maximum value. Lets try again.");
+                        //ioComponent.WriteOutputLine("Congratulations! You have reached the maximum value. Lets try again.");
+                        ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Win"));
                         return;
                     }
                 }

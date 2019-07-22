@@ -20,14 +20,14 @@ namespace DoorsAndLevels
             if (!resourceFile.Exists)
             {
                 throw new ArgumentException(
-                    $"Can't find file settings.xml. Trying to find it here: {resourceFile}");
+                    $"Can't find file settings.xml. Trying to find it here: {resourceFile.FullName}");
             }
 
             xmlDoc.Load(resourceFile.FullName);
             XmlElement xmlRoot = xmlDoc.DocumentElement;
 
             foreach (XmlElement childNode in xmlRoot)
-            {
+            {  //add settings
                 if (childNode.Name == "doorsAmount")
                     settings.doorsAmount = Int32.Parse(childNode.InnerText);
                 if (childNode.Name == "exitCode")
