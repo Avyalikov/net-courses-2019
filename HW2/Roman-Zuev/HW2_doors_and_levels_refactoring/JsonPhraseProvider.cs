@@ -19,10 +19,10 @@ namespace HW2_doors_and_levels_refactoring
             if (!resourceFile.Exists)
             {
                 throw new ArgumentException(
-                    $"Can't find language file Eng.json. Trying to find it here: {resourceFile}");
+                    $"Can't find language file {resourceFile.Name}. Trying to find it here: {resourceFile}");
             }
 
-            var resourceFileContent = File.ReadAllText(resourceFile.FullName);
+            var resourceFileContent = File.ReadAllText(resourceFile.FullName, Encoding.UTF8);
 
             try
             {
