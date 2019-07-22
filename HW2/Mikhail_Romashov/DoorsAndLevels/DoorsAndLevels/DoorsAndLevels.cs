@@ -12,28 +12,32 @@ namespace DoorsAndLevels
         private readonly IDoorsNumbersGenerator doorsNumbersGenerator;
         private readonly ISettingsProvider settingsProvider;
         private readonly IPhraseProvider phraseProvider;
+        private readonly IStorageComponent stackStorageComponent;
+
         private readonly GameSettings gameSettings;
 
         private int[] m_arrayDoorsValue;           //array of doors value
-        private Stack<int> m_levelCoeff;    //stack witch contains coefficient for each level
-        bool exitCode = false;          //flag to exit (if entered negative number)
+//        private Stack<int> m_levelCoeff;    //stack witch contains coefficient for each level
+        bool exitCode = false;          //flag to exit (if entered exit code)
 
 
         public DoorsAndLevels(
            IInputOutputComponent inputOutputComponent,
            IDoorsNumbersGenerator doorsNumbersGenerator,
            ISettingsProvider settingsProvider,
-           IPhraseProvider phraseProvider
+           IPhraseProvider phraseProvider,
+           IStorageComponent stackStorageComponent
            )
         {
-            ioComponent = inputOutputComponent;
+            this.ioComponent = inputOutputComponent;
             this.doorsNumbersGenerator = doorsNumbersGenerator;
             this.settingsProvider = settingsProvider;
             this.phraseProvider = phraseProvider;
+            this.stackStorageComponent = stackStorageComponent;
+
             this.gameSettings = this.settingsProvider.gameSettings();
 
             m_arrayDoorsValue = new int[gameSettings.doorsAmount];
-            m_levelCoeff = new Stack<int>();
             this.Reset();
         }
         public void Run()
@@ -77,11 +81,11 @@ namespace DoorsAndLevels
             ioComponent.WriteOutputLine("--------------");
         }
 
-        private void CalcLevel(int doorValue)
+        private void CalcLevel(int doorValue)  //recalculation level using door value
         {
-            if (doorValue == gameSettings.exitCode)
+            if (doorValue == gameSettings.exitCode) //enetred exit code
             {
-                exitCode = true;
+                exitCode = true;//exit flag
                 return;
             }
             if (!m_arrayDoorsValue.Contains(doorValue))    //array doesnt contains coeff
@@ -92,13 +96,13 @@ namespace DoorsAndLevels
             }
             if (doorValue == gameSettings.previousLevelCode)
             {
-                if (m_levelCoeff.Count == 0)  //stack is empty
+                if (stackStorageComponent.GetSize() == 0)  //stack is empty
                 {
                         //ioComponent.WriteOutputLine("It is first level!");
                         ioComponent.WriteOutputLine(phraseProvider.GetPhrase("FirstLevel"));
                         return;
                 }
-                int divider = m_levelCoeff.Pop();
+                int divider = stackStorageComponent.Pop();
                 for (int i = 0; i < gameSettings.doorsAmount-1; i++)
                 {
                         m_arrayDoorsValue[i] /= divider; // return for previous level             
@@ -106,7 +110,6 @@ namespace DoorsAndLevels
             }
             else
             {
-
                 for (int i = 0; i < gameSettings.doorsAmount-1; i++)
                 {
 
@@ -118,18 +121,18 @@ namespace DoorsAndLevels
                     {
                         // if some value in m_arrayDoorsValue > maxValueInt32
                         this.Reset();
-                        m_levelCoeff.Clear();
+                        stackStorageComponent.Clear();
                         //ioComponent.WriteOutputLine("Congratulations! You have reached the maximum value. Lets try again.");
                         ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Win"));
                         return;
                     }
                 }
-                m_levelCoeff.Push(doorValue);
+                stackStorageComponent.Push(doorValue);
             }
         }
 
         private void Reset()
-        {
+        {  //generate new random array of the doors numbers using doors amount and previous level code
             m_arrayDoorsValue = doorsNumbersGenerator.GenerateDoorsNumbers(gameSettings.doorsAmount, gameSettings.previousLevelCode);
         }
 

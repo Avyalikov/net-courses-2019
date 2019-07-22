@@ -51,10 +51,12 @@
     <Compile Include="IInputOutputComponent.cs" />
     <Compile Include="IPhraseProvider.cs" />
     <Compile Include="ISettingsProvider.cs" />
+    <Compile Include="IStorageComponent.cs" />
     <Compile Include="PhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsProvider.cs" />
+    <Compile Include="StackStorageComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

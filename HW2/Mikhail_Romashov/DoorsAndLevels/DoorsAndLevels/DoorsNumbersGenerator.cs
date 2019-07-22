@@ -29,6 +29,7 @@ namespace DoorsAndLevels
                 maxValue--; //max index value decrease
             }
 
+            //add the code of the previous level to the last position in the array
             doorsNumbers[doorsAmount - 1] = prevLevelCode;
 
             return doorsNumbers;

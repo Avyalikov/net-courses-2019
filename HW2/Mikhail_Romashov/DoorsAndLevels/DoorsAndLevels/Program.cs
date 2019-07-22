@@ -15,9 +15,15 @@ namespace DoorsAndLevels
             IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
             ISettingsProvider settingsProvider = new SettingsProvider();
             IPhraseProvider phraseProvider = new PhraseProvider(lang);
+            IStorageComponent stackStorageComponent = new StackStorageComponent();
 
-            DoorsAndLevels game = new DoorsAndLevels(inputOutputComponent, doorsNumbersGenerator, settingsProvider, phraseProvider);
-
+            DoorsAndLevels game = new DoorsAndLevels(
+                inputOutputComponent, 
+                doorsNumbersGenerator, 
+                settingsProvider, 
+                phraseProvider, 
+                stackStorageComponent
+            );
             game.Run();
         }
     }
