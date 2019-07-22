@@ -2,7 +2,7 @@
   "SelectAndEnterNumber": "\nВыберите и введите одно из выбранных чисел:\n",
   "ThankYouForPlaying": "Спасибо за игру!\nНажмите любую клавишу для выхода",
   "TheNumbersAre": "\nЧисла:\n",
-  "Welcome": "Добро пожаловать в \"Doors and levels game beta\" \nВы можете перейти на следующий уровень введя одно из чисел.\nВведите 'x' для выхода из игры",
+  "Welcome": "Добро пожаловать в \"Doors and levels game beta\" \n",
   "YouHaveEnteredWrongValue": "Вы ввели не верное значение. Пожалуйста, введите число",
   "YouHaveEnteredWrongValuePleaseEnterNumbersListed": "Вы ввели не верное число. Пожалуйста, введите одно из указанных чисел",
   "Settings": "Пожалуйста, введите настройки игры:",
