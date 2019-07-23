@@ -9,11 +9,14 @@ namespace doors_levels
         static void Main(string[] args)
         {
             IInputOutputDevice inputOutputDevice = new ConsoleIODevice();
-            IDoorsGenerator doorsGenerator = new DoorsGenerator();
             IDataStorage dataStorage = new DataStorage();
-            IPhraseProvider phraseProvider = new PhraseProvider();
+            IFileParser fileParser = new JsonFileParser();
+            IGameSettings gameSetting = new GameSettings(fileParser, "settings.json");
+            gameSetting.InitiateSettings();
+            IPhraseProvider phraseProvider = new PhraseProvider(fileParser, gameSetting.GetLanguagePath());
+            IDoorsGenerator doorsGenerator = new DoorsGenerator(gameSetting.GetMinDoorValue(), gameSetting.GetMaxDoorValue(), gameSetting.GetBackNumber());
 
-            DoorsGame doorsGame = new DoorsGame(inputOutputDevice, doorsGenerator, dataStorage, phraseProvider);
+            DoorsGame doorsGame = new DoorsGame(inputOutputDevice, doorsGenerator, dataStorage, phraseProvider, fileParser, gameSetting);
 
             doorsGame.Run();
         }

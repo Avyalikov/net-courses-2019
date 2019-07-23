@@ -4,23 +4,30 @@ namespace doors_levels
 {
     public class DoorsGenerator : IDoorsGenerator
     {
-        private const Int32 MIN_DOOR_VALUE = 1;
-        private const Int32 MAX_DOOR_VALUE = 90;
-        private const Int32 GET_BACK_NUMBER = 0;
+        private Int32 minDoorValue;
+        private Int32 maxDoorValue;
+        private Int32 getBackNumber;
+
+        public DoorsGenerator(Int32 minDoorValue, Int32 maxDoorValue, Int32 getBackNumber)
+        {
+            this.minDoorValue = minDoorValue;
+            this.maxDoorValue = maxDoorValue;
+            this.getBackNumber = getBackNumber;
+        }
 
         public int[] GetDoors(int doorsAmount)
         {
             Random rand = new Random();
             Int32[] doors = new Int32[doorsAmount];
 
-            doors[0] = GET_BACK_NUMBER;  //initiating return to previous level ability
+            doors[0] = getBackNumber;  //initiating return to previous level ability
             for (Int32 i =   1; i < doors.Length; i++) //create doors
             {
                 Boolean repeat = false;
                 do
                 {
                     repeat = false;
-                    doors[i] = rand.Next(MIN_DOOR_VALUE, MAX_DOOR_VALUE);
+                    doors[i] = rand.Next(minDoorValue, maxDoorValue);
 
                     for (Int32 j = 0; j < i; j++)
                     {   //check for unique

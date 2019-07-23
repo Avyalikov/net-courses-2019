@@ -5,7 +5,6 @@ namespace doors_levels
 {
     public class DoorsGame
     {
-        private const Int32 MAX_DOORS = 5;
 
         private Int32[] doors;
 
@@ -13,21 +12,30 @@ namespace doors_levels
         private readonly IDoorsGenerator doorsGenerator;
         private readonly IDataStorage dataStorage;
         private readonly IPhraseProvider phraseProvider;
+        private readonly IFileParser fileParser;
+        private readonly IGameSettings gameSettings;
 
-        public DoorsGame(IInputOutputDevice inputOutputDevice, IDoorsGenerator doorsGenerator, IDataStorage dataStorage, IPhraseProvider phraseProvider)
+        public DoorsGame(
+            IInputOutputDevice inputOutputDevice, 
+            IDoorsGenerator doorsGenerator, 
+            IDataStorage dataStorage, 
+            IPhraseProvider phraseProvider, 
+            IFileParser fileParser,
+            IGameSettings gameSettings)
         {
             this.inputOutputDevice = inputOutputDevice;
             this.doorsGenerator = doorsGenerator;
             this.dataStorage = dataStorage;
             this.phraseProvider = phraseProvider;
-
+            this.fileParser = fileParser;
+            this.gameSettings = gameSettings;
             InitiateDoors();
         }
 
 
         private void InitiateDoors()
         {
-            doors = doorsGenerator.GetDoors(MAX_DOORS);
+            doors = doorsGenerator.GetDoors(gameSettings.GetMaxDoors());
         }
 
 
@@ -125,6 +133,8 @@ namespace doors_levels
 
         public void Run()
         {
+            phraseProvider.InitiatePhrases();
+
             inputOutputDevice.WriteOutput(phraseProvider.GetPhrase(Phrase.welcome));
             ShowDoors();
             while (true)

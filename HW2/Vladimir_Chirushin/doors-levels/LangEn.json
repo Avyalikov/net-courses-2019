@@ -1,0 +1,11 @@
+{
+  "welcome": "Welcome to amazing doors levels game!",
+  "weHaveDoors": "We have numbers: ",
+  "weSelectNumber": "We select number ",
+  "andGoNextLevel": " and go to next level: ",
+  "andGoPrevLevel": " and go to previous level: ",
+  "itsFirstLevel": "It's first level. Cant get higher.",
+  "youGetToFar": "You get too far! Droped to first level",
+  "doorDoesntExist": "Door doesn't exist",
+  "pleaseEnterANumber": "Please enter a number."
+}

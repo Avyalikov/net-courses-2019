@@ -1,0 +1,7 @@
+{
+  "maxDoors": "2",
+  "languageFile": "LangEN.json",
+  "minDoorValue": "70",
+  "maxDoorValue": "100",
+  "getBackNumber": "0"
+}
