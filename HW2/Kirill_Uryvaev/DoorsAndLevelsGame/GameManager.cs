@@ -28,12 +28,12 @@ namespace DoorsAndLevelsGame
 
             _settings = settingsProvider.GetSettings();
             phraseProvider.SetLanguage(_settings.LanguageFile);
-            isRestarting = false;
-            createRandomDoors();
+            isRestarting = false;          
         }
 
         public void Run()
         {
+            createRandomDoors();
             inputOutputProvider.Write(phraseProvider.GetPhrase("Rules"));
             inputOutputProvider.Write(showCurrentLevel());
             string key = "";
@@ -55,13 +55,13 @@ namespace DoorsAndLevelsGame
 
         private void createRandomDoors()
         {
-            _currentDoors = numberGenerator.GetNumbers(_settings.DoorsNumber, _settings.MaxDoorNumber);
+            _currentDoors = numberGenerator.GetNumbers(_settings.DoorsNumber, _settings.MaxDoorNumber, _settings.ExitDoorNumber);
             _pickedDoors = new Stack<int>();
         }
 
         private void goOnNextLevel()
         {
-            for (int i = 0; i < _settings.DoorsNumber; i++)
+            for (int i = 0; i < _settings.DoorsNumber-1; i++)
             {
                 _currentDoors[i] *= _pickedDoors.First();
                 if (_currentDoors[i] < 0)
@@ -76,7 +76,7 @@ namespace DoorsAndLevelsGame
         {
             if (_pickedDoors.Count > 0)
             {
-                for (int i = 0; i < _settings.DoorsNumber; i++)
+                for (int i = 0; i < _settings.DoorsNumber-1; i++)
                 {
                     _currentDoors[i] /= _pickedDoors.First();
                 }
@@ -101,7 +101,7 @@ namespace DoorsAndLevelsGame
             }
             else
             {
-                if (doorNumber != 0)
+                if (doorNumber != _settings.ExitDoorNumber)
                 {
                     _pickedDoors.Push(doorNumber);
                     goOnNextLevel();

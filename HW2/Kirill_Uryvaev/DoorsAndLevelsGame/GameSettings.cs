@@ -9,12 +9,13 @@ namespace DoorsAndLevelsGame
 {
     public class GameSettings
     {
-        private const int settingsNumber = 4;
+        private const int settingsNumber = 5;
 
         public string LanguageFile;
         public string ExitString;
         public int DoorsNumber;
         public int MaxDoorNumber;
+        public int ExitDoorNumber;
 
         public GameSettings(List<string> settings)
         {
@@ -51,6 +52,10 @@ namespace DoorsAndLevelsGame
             if (MaxDoorNumber < 2)
             {
                 throw new Exception("Maximum initial door number must be more than 1");
+            }
+            if (!int.TryParse(settings[4], out ExitDoorNumber))
+            {
+                throw new Exception("ExitDoorNumber setting is not correct");
             }
         }
     }

@@ -1,4 +1,4 @@
 ﻿{
-  "SettingsNames": ["Language", "ExitCode", "DoorNumber", "MaxInitialDoorNumber"],
-  "Settings": [ "English", "e", "5", "10" ]
+  "SettingsNames": ["Language", "ExitCode", "DoorNumber", "MaxInitialDoorNumber", "ExitDoorNumber"],
+  "Settings": [ "English", "e", "5", "10","5" ]
 }

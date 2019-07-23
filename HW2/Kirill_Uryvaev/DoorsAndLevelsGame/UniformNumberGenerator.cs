@@ -8,12 +8,17 @@ namespace DoorsAndLevelsGame
 {
     class UniformNumberGenerator : INumberGenerator
     {
-        public int[] GetNumbers(int count, int maxValue)
+        public int[] GetNumbers(int count, int maxValue, int exitDoorNumber)
         {
             int[] numberArray = new int[count];
             Random rnd = new Random();
             numberArray = Enumerable.Range(1, maxValue).OrderBy(x => rnd.Next()).Take(count).ToArray();
-            numberArray[count - 1] = 0;
+            if (numberArray.Contains(exitDoorNumber))
+            {
+                int tempIndex = Array.IndexOf(numberArray, exitDoorNumber);
+                numberArray[tempIndex] = numberArray[count - 1];
+            }
+            numberArray[count - 1] = exitDoorNumber;
             return numberArray;
         }
     }
