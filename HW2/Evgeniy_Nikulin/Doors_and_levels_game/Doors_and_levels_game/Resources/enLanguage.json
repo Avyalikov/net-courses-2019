@@ -1,0 +1,8 @@
+{
+  "Welcome": "The game of doors\n\nWelcome in my castle, you must choose the right door.",
+  "YourChoose": "Your choose: ",
+  "MoveForward": "You move forward throught the door",
+  "MoveBack": "You return to the previouse doors",
+  "YouWin": "\nYou win!",
+  "WrongValue": "Look, do you see door like this?\nSo do i, try again."
+}
