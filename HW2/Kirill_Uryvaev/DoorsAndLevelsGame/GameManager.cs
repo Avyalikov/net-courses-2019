@@ -34,7 +34,10 @@ namespace DoorsAndLevelsGame
         public void Run()
         {
             createRandomDoors();
-            inputOutputProvider.Write(phraseProvider.GetPhrase("Rules"));
+            string rules = phraseProvider.GetPhrase("Rules");
+            rules = rules.Replace("@ExitCode", _settings.ExitString);
+            rules = rules.Replace("@ExitDoor", _settings.ExitDoorNumber.ToString());
+            inputOutputProvider.Write(rules);
             inputOutputProvider.Write(showCurrentLevel());
             string key = "";
             int pickedDoor = 0;
