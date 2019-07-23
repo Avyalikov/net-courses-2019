@@ -12,7 +12,6 @@ namespace doors_levels
         private readonly IDoorsGenerator doorsGenerator;
         private readonly IDataStorage dataStorage;
         private readonly IPhraseProvider phraseProvider;
-        private readonly IFileParser fileParser;
         private readonly IGameSettings gameSettings;
 
         public DoorsGame(
@@ -20,14 +19,12 @@ namespace doors_levels
             IDoorsGenerator doorsGenerator, 
             IDataStorage dataStorage, 
             IPhraseProvider phraseProvider, 
-            IFileParser fileParser,
             IGameSettings gameSettings)
         {
             this.inputOutputDevice = inputOutputDevice;
             this.doorsGenerator = doorsGenerator;
             this.dataStorage = dataStorage;
             this.phraseProvider = phraseProvider;
-            this.fileParser = fileParser;
             this.gameSettings = gameSettings;
             InitiateDoors();
         }
@@ -51,7 +48,7 @@ namespace doors_levels
 
         private void ExecuteTheDoor(Int32 currentDoor)
         {
-            if (currentDoor == 0)
+            if (currentDoor == gameSettings.GetBackNumber())
             {
                 if (!dataStorage.IsEmpty())
                 {
@@ -61,7 +58,7 @@ namespace doors_levels
                         doors[i] /= lastDoor;
                     }
                     inputOutputDevice.WriteOutput(
-                        phraseProvider.GetPhrase(Phrase.weSelectNumber) + "0" + phraseProvider.GetPhrase(Phrase.andGoPrevLevel)
+                        phraseProvider.GetPhrase(Phrase.weSelectNumber) + gameSettings.GetBackNumber().ToString() + phraseProvider.GetPhrase(Phrase.andGoPrevLevel)
                         );
                     inputOutputDevice.WriteOutput(ShowLevel());
                 }

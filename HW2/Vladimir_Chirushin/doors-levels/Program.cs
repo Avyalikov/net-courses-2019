@@ -16,7 +16,7 @@ namespace doors_levels
             IPhraseProvider phraseProvider = new PhraseProvider(fileParser, gameSetting.GetLanguagePath());
             IDoorsGenerator doorsGenerator = new DoorsGenerator(gameSetting.GetMinDoorValue(), gameSetting.GetMaxDoorValue(), gameSetting.GetBackNumber());
 
-            DoorsGame doorsGame = new DoorsGame(inputOutputDevice, doorsGenerator, dataStorage, phraseProvider, fileParser, gameSetting);
+            DoorsGame doorsGame = new DoorsGame(inputOutputDevice, doorsGenerator, dataStorage, phraseProvider, gameSetting);
 
             doorsGame.Run();
         }
