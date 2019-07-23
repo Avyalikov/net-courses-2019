@@ -15,13 +15,6 @@ namespace CreateDoorsAndLevels
         List<int> numbers;
         List<int> selectedNumbers;
 
-        enum Operation
-        {
-            NextLevel,
-            PrevLevel,
-            Print
-        }
-
         public Game(
             Interfaces.IPhraseProvider phraseProvider, 
             Interfaces.IInputOutputDevice inputOutputDevice, 
@@ -43,11 +36,10 @@ namespace CreateDoorsAndLevels
             this.numbers = doorsNumbersGenerator.generateDoorsNumbers(gameSettings.DoorsAmount);
             this.selectedNumbers = new List<int>();
 
-            inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
+            inputOutputDevice.WriteLineOutput(phraseProvider.GetPhrase("Welcome"));
 
             // inputOutputDevice.WriteOutput($"We have numbers: 2, 4, 3, 1, 0");
-            inputOutputDevice.WriteOutput(
-                StringFromNumbersArr(intro: phraseProvider.GetPhrase("YouHave"), operation: Operation.Print));
+            inputOutputDevice.WriteLineOutput(StartLevel());
 
             do
             {
@@ -57,23 +49,16 @@ namespace CreateDoorsAndLevels
 
                 if (this.selectedNumbers[this.selectedNumbers.Count - 1] != this.gameSettings.ExitDoorNumber)
                 {
-                    // Create "next level" numbers where numbers values calculate using formula: [number on previous level] * [choosed number on previous level].
-                    // "We select number 2 and go to next level: 4 8 6 2 0 (2x2 4x2 3x2 1x2 0x2)"
-                    inputOutputDevice.WriteOutput(
-                        StringFromNumbersArr(
-                            intro: $"{phraseProvider.GetPhrase("YouSelected")}{this.selectedNumbers[this.selectedNumbers.Count - 1]}{phraseProvider.GetPhrase("GoNext")}", 
-                            operation: Operation.NextLevel));
+                    inputOutputDevice.WriteLineOutput(NextLevel(this.selectedNumbers[this.selectedNumbers.Count - 1])); // "We select number 2 and go to next level: 4 8 6 2 0 (2x2 4x2 3x2 1x2 0x2)"
                 }
-                else if (this.selectedNumbers.Count - 1 > 0) // selectedNumber == 0, level > 0
+                else if (this.selectedNumbers.Count - 1 > 0) // selectedNumber == this.gameSettings.ExitDoorNumber, level > 0
                 {
-                    this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove 0 from selectedNumbers. Now top is prev.number
-                                                                                   // "We select number 0 and go to previous level: 4 8 6 2 0"
-                    inputOutputDevice.WriteOutput(
-                        StringFromNumbersArr(intro: $"{phraseProvider.GetPhrase("YouSelected")}{gameSettings.ExitDoorNumber}{phraseProvider.GetPhrase("GoPrev")}", operation: Operation.PrevLevel));
+                    this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove ExitDoorNumber from selectedNumbers. Now top is prev.number
+                    inputOutputDevice.WriteLineOutput(PrevLevel()); // "We select number 0 and go to previous level: 4 8 6 2 0"
                     this.selectedNumbers.RemoveAt(this.selectedNumbers.Count - 1); // remove prev.number from selectedNumbers. Now top is prev2.number
                 }
             } while (!(this.selectedNumbers.Count - 1 == 0 && this.selectedNumbers[0] == this.gameSettings.ExitDoorNumber));
-            inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Bye"));
+            inputOutputDevice.WriteLineOutput(phraseProvider.GetPhrase("Bye"));
         }
 
         private int EnterTheNumber()
@@ -84,49 +69,49 @@ namespace CreateDoorsAndLevels
             {
                 if (this.selectedNumbers.Count <= this.gameSettings.LevelLimit)
                 {
-                    inputOutputDevice.WriteSomeOutput($"{phraseProvider.GetPhrase("Select")}{gameSettings.ExitCode}{phraseProvider.GetPhrase("AfterExitCode")}");
+                    inputOutputDevice.WriteOutput($"{phraseProvider.GetPhrase("Select")}{gameSettings.ExitCode}{phraseProvider.GetPhrase("AfterExitCode")}");
                 }
                 else
                 {
-                    inputOutputDevice.WriteSomeOutput($"{phraseProvider.GetPhrase("SelectExitDoor")}{gameSettings.ExitDoorNumber}{phraseProvider.GetPhrase("ToContinue")}{gameSettings.ExitCode}{phraseProvider.GetPhrase("AfterExitCode")}");
+                    inputOutputDevice.WriteOutput($"{phraseProvider.GetPhrase("SelectExitDoor")}{gameSettings.ExitDoorNumber}{phraseProvider.GetPhrase("ToContinue")}{gameSettings.ExitCode}{phraseProvider.GetPhrase("AfterExitCode")}");
                 }
 
                 try
                 {
-                    string s = inputOutputDevice.ReadInput();
+                    string stringNumber = inputOutputDevice.ReadInput();
 
-                    if (String.IsNullOrEmpty(s))
+                    if (String.IsNullOrEmpty(stringNumber))
                     {
-                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("EmptyString"));
+                        inputOutputDevice.WriteLineOutput(phraseProvider.GetPhrase("EmptyString"));
                         continue;
                     }
 
-                    if (s.ToLowerInvariant().Equals(gameSettings.ExitCode.ToLowerInvariant())) break; // if 'exit' then break the circle. result will be -1
+                    if (stringNumber.ToLowerInvariant().Equals(gameSettings.ExitCode.ToLowerInvariant())) break; // if 'exit' then break the circle. result will be -1
 
-                    int n = Int32.Parse(s);
+                    int intNumber = Int32.Parse(stringNumber);
 
-                    if (!this.numbers.Contains(n))
+                    if (!this.numbers.Contains(intNumber))
                     {
-                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("WrongNumber"));
+                        inputOutputDevice.WriteLineOutput(phraseProvider.GetPhrase("WrongNumber"));
                         continue;
                     }
 
-                    if (this.selectedNumbers.Count > this.gameSettings.LevelLimit && n != this.gameSettings.ExitDoorNumber)
+                    if (this.selectedNumbers.Count > this.gameSettings.LevelLimit && intNumber != this.gameSettings.ExitDoorNumber)
                     {
-                        inputOutputDevice.WriteOutput($"{phraseProvider.GetPhrase("NotExitDoor")}{gameSettings.ExitDoorNumber}");
+                        inputOutputDevice.WriteLineOutput($"{phraseProvider.GetPhrase("NotExitDoor")}{gameSettings.ExitDoorNumber}");
                         continue;
                     }
 
-                    result = n;
+                    result = intNumber;
                 }
                 catch (OverflowException)
                 {
-                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Overflow"));
+                    inputOutputDevice.WriteLineOutput(phraseProvider.GetPhrase("Overflow"));
                     continue;
                 }
                 catch
                 {
-                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("InputError"));
+                    inputOutputDevice.WriteLineOutput(phraseProvider.GetPhrase("InputError"));
                     continue;
                 }
             } while (result == -1);
@@ -134,38 +119,54 @@ namespace CreateDoorsAndLevels
             return result;
         }
 
-        private string StringFromNumbersArr(string intro, Operation operation)
+        private string StartLevel()
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append(intro);
+
+            sb.Append(phraseProvider.GetPhrase("YouHave"));
+
             for (int i = 0; i < numbers.Count; i++)
             {
-                switch (operation)
-                {
-                    case Operation.NextLevel:
-                        sb.Append(numbers[i] *= this.selectedNumbers[this.selectedNumbers.Count - 1]);
-                        break;
-                    case Operation.PrevLevel:
-                        sb.Append(numbers[i] /= this.selectedNumbers[this.selectedNumbers.Count - 1]);
-                        break;
-                    case Operation.Print:
-                        sb.Append(numbers[i]);
-                        break;
-                    default:
-                        break;
-                }
+                sb.Append(numbers[i]);
                 sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them
             }
 
-            if (operation == Operation.NextLevel) // info about next level
+            return sb.ToString();
+        }
+
+        private string NextLevel(int selectedNumber)
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            sb.Append(phraseProvider.GetPhrase("YouSelected")).Append(selectedNumber).Append(phraseProvider.GetPhrase("GoNext"));
+
+            for (int i = 0; i < numbers.Count; i++)
             {
-                sb.Append(" (");
-                for (int i = 0; i < numbers.Count; i++)
-                {
-                    sb.Append($"{numbers[i] / this.selectedNumbers[this.selectedNumbers.Count - 1]}x{this.selectedNumbers[this.selectedNumbers.Count - 1]}");
-                    sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them
-                }
-                sb.Append(")");
+                sb.Append(numbers[i] *= selectedNumber);
+                sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them;
+            }
+
+            sb.Append(" (");
+            for (int i = 0; i < numbers.Count; i++)
+            {
+                sb.Append($"{numbers[i] / selectedNumber}x{selectedNumber}");
+                sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them
+            }
+            sb.Append(")");
+
+            return sb.ToString();
+        }
+
+        private string PrevLevel()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            sb.Append(phraseProvider.GetPhrase("YouSelected")).Append(gameSettings.ExitDoorNumber).Append(phraseProvider.GetPhrase("GoPrev"));
+
+            for (int i = 0; i < numbers.Count; i++)
+            {
+                sb.Append(numbers[i] /= this.selectedNumbers[this.selectedNumbers.Count - 1]);
+                sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them;
             }
 
             return sb.ToString();

@@ -16,12 +16,12 @@ namespace CreateDoorsAndLevels.Modules
             return Console.ReadKey().KeyChar;
         }
 
-        public void WriteOutput(string dataToOutPut)
+        public void WriteLineOutput(string dataToOutPut)
         {
             Console.WriteLine(dataToOutPut);
         }
 
-        public void WriteSomeOutput(string dataToOutPut)
+        public void WriteOutput(string dataToOutPut)
         {
             Console.Write(dataToOutPut);
         }
