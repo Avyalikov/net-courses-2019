@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleInputOutputDevice.cs" />
+    <Compile Include="DoorsNumbersGenerator.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="IDoorsNumbersGenerator.cs" />
     <Compile Include="IInputOutputDevice.cs" />
     <Compile Include="IPhraseProvider.cs" />
     <Compile Include="JsonPhraseProvider.cs" />

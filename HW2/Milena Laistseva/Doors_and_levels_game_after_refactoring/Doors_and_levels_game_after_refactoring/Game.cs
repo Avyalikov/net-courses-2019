@@ -10,14 +10,16 @@ namespace Doors_and_levels_game_after_refactoring
     {
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputDevice ioDevice;
+        private readonly IDoorsNumbersGenerator doorsNumbersGenerator;
 
         private int[] doors;
         private Stack<int> userDoors;
 
-        public Game(IPhraseProvider m_phraseProvider, IInputOutputDevice m_ioDevice)
+        public Game(IPhraseProvider m_phraseProvider, IInputOutputDevice m_ioDevice, IDoorsNumbersGenerator m_doorsNumbersGenerator)
         {
             phraseProvider = m_phraseProvider;
             ioDevice = m_ioDevice;
+            doorsNumbersGenerator = m_doorsNumbersGenerator;
         }
 
         private void GenerateDoors()
