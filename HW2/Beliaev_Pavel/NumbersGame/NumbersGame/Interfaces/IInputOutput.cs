@@ -1,4 +1,4 @@
-﻿namespace NumbersGame
+﻿namespace NumbersGame.Interfaces
 {
     public interface IInputOutput
     {
