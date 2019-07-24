@@ -32,7 +32,7 @@ namespace CreateDoorsAndLevels
 
         public void Run()
         {
-            // this.numbers = new List<int>() { 2, 4, 3, 1, 0 }; // simple test
+            phraseProvider.SetLanguage(gameSettings.Language);
             this.numbers = doorsNumbersGenerator.generateDoorsNumbers(gameSettings.DoorsAmount);
             this.selectedNumbers = new List<int>();
 
