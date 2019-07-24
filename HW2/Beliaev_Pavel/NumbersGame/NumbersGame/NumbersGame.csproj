@@ -43,9 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameSettings.cs" />
     <Compile Include="Interfaces\IDoorsNumbersGenerator.cs" />
     <Compile Include="Interfaces\IInputOutput.cs" />
     <Compile Include="Interfaces\IPhraseProvider.cs" />
+    <Compile Include="Interfaces\ISettingsProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
