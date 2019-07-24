@@ -1,6 +1,6 @@
 ﻿namespace NumbersGame
 {
-    interface IPhraseProvider
+    public interface IPhraseProvider
     {
         string GetPhrase(string phraseKey);
     }

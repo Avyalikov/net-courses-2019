@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPhraseProvider.cs" />
+    <Compile Include="Interfaces\IInputOutput.cs" />
+    <Compile Include="Interfaces\IPhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
