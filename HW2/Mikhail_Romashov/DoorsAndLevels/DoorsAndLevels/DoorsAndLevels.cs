@@ -44,7 +44,8 @@ namespace DoorsAndLevels
             ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Start"));
             do
             {
-                ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Intro"));
+                ioComponent.WriteOutputLine(phraseProvider.GetPhrase("FirstIntro") + gameSettings.previousLevelCode);
+                ioComponent.WriteOutputLine(phraseProvider.GetPhrase("SecondIntro") + gameSettings.exitCode);
                 this.Show();
                 string resultStr = ioComponent.ReadInputLine();
                 try
