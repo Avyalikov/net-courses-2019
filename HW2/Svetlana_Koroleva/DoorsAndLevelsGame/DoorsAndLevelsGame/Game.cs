@@ -90,10 +90,9 @@ namespace DoorsAndLevelsGame
                         return numbers;
                     }
                 }
-                catch (OverflowException e)
+                catch (OverflowException)
                 {
                     ioComp.WriteOutput(phraseProvider.GetPhrase("Maximum") + phraseProvider.GetPhrase("GameOver"));
-                    Console.WriteLine(e);
                     this.Exit = true;
                     return numbers;
                 }
