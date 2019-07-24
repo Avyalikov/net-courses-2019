@@ -10,10 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\config.xml" />
     <None Remove="Resources\strings.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\strings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

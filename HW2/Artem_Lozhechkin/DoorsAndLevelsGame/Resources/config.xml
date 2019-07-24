@@ -1,0 +1,4 @@
+﻿<configuration>
+  <setting type="language">English</setting>
+  <setting type="numberOfDoors">8</setting>
+</configuration>

@@ -1,4 +1,7 @@
-﻿namespace DoorsAndLevelsGame
+﻿using System;
+using System.Xml;
+
+namespace DoorsAndLevelsGame
 {
     /// <summary>
     /// This class implements ISettings provider and contains Settings for the game. 
@@ -14,15 +17,27 @@
         /// </summary>
         /// <param name="lang">Language for game.</param>
         /// <param name="numberOfDoors">Integer number of doors.</param>
-        public SimpleSettingsProvider(Languages lang, int numberOfDoors)
+        public SimpleSettingsProvider()
         {
+            (Languages lang, int numberOfDoors) = ReadConfigurationFile();
             SettingsData = new Settings(lang, numberOfDoors);
+        }
+        private (Languages, int) ReadConfigurationFile()
+        {
+            XmlDocument configFile = new XmlDocument();
+
+            configFile.Load("Resources/config.xml");
+
+            Languages lang = (Languages)Enum.Parse(typeof(Languages), configFile.SelectSingleNode("configuration/setting[@type='language']").InnerText);
+            int numberOfDoors = int.Parse(configFile.SelectSingleNode("configuration/setting[@type='numberOfDoors']").InnerText);
+
+            return (lang, numberOfDoors);
         }
         /// <summary>
         /// This method returns Settings instance.
         /// </summary>
         /// <returns></returns>
-        Settings ISettingsProvider.GetSettings()
+        public Settings GetSettings()
         {
             return SettingsData;
         }
