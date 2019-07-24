@@ -49,15 +49,19 @@
     <Compile Include="ConsoleInputOutputDevice.cs" />
     <Compile Include="DoorsNumbersGenerator.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="IDoorsNumbersGenerator.cs" />
     <Compile Include="IInputOutputDevice.cs" />
     <Compile Include="IPhraseProvider.cs" />
+    <Compile Include="ISettingsProvider.cs" />
     <Compile Include="JsonPhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="GameSettings.json" />
     <None Include="packages.config" />
     <None Include="Resources\LangEn.json" />
     <None Include="Resources\LangRu.json" />

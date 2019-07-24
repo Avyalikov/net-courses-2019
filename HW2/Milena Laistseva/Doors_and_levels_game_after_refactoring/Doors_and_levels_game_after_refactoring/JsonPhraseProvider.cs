@@ -7,14 +7,21 @@ namespace Doors_and_levels_game_after_refactoring
 {
     public class JsonPhraseProvider : IPhraseProvider
     {
+        private readonly string language;
+
+        public JsonPhraseProvider(string m_language)
+        {
+            language = m_language;
+        }
         public string GetPhrase(string phraseKey)
         {
-            var resourceFile = new FileInfo("..\\..\\Resources\\LangRu.json");
+            var resourceFile = new FileInfo(language);
+
 
             if (!resourceFile.Exists)
             {
                 throw new ArgumentException(
-                    $"Can't find language file LangEn.json. Trying to find it here: {resourceFile}");
+                    $"Can't find language file LangRu.json. Trying to find it here: {resourceFile}");
             }
 
             var resourceFileContent = File.ReadAllText(resourceFile.FullName);
