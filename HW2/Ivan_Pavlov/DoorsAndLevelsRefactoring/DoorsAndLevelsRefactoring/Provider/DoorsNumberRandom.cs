@@ -2,6 +2,7 @@
 {
     using DoorsAndLevelsRefactoring.Interface;
     using System;
+    using System.Collections.Generic;
 
     class DoorsNumberRandom : IGetDoorsNumber
     {
@@ -15,17 +16,21 @@
 
         public int[] GetDoorsNumber(int doorsAmount)
         {
-            int[] nums = new int[doorsAmount];
+            List<int> nums = new List<int>();
             Random rnd = new Random();
 
-            for(int i = 0; i < nums.Length; i++)
+            for(int i = 0; i < doorsAmount; )
             {
-                nums[i] = rnd.Next(1, 9);
+                int n = rnd.Next(1, doorsAmount * 2);
+                if (nums.Contains(n))
+                    continue;
+                nums.Add(n);
+                i++;
             }
 
-            nums[rnd.Next(0, nums.Length - 1)] = gameSettings.ExitDoorNumber;
+           nums.Add(gameSettings.ExitDoorNumber);
 
-            return nums;
+            return nums.ToArray();
         }
     }
 }

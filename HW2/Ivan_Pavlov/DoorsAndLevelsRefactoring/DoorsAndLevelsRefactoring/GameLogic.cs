@@ -1,8 +1,6 @@
 ﻿namespace DoorsAndLevelsRefactoring
 {
     using DoorsAndLevelsRefactoring.Interface;
-    using DoorsAndLevelsRefactoring.Provider;
-    using System;
     using System.Text;
 
     class GameLogic
