@@ -10,6 +10,6 @@ namespace DoorsAndLevelsGame
     {
         public int doorsQuantity;
         public int maxNumber;
-       
+
     }
 }

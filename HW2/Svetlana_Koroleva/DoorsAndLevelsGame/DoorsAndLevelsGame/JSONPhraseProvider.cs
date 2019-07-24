@@ -10,9 +10,26 @@ namespace DoorsAndLevelsGame
 {
     public class JSONPhraseProvider : IPhraseProvider
     {
-       public string GetPhrase(string keyword)
+
+        private Dictionary<string, string> SetFilePaths()
         {
-            var resourceFile = new FileInfo("Resources\\PhrasesEngLang.json");
+            Dictionary<string, string> fileNames = new Dictionary<string, string>();
+            fileNames.Add("eng", "Resources\\PhrasesEngLang.json");
+            fileNames.Add("ru", "Resources\\PhrasesRuLang.json");
+            return fileNames;
+        }
+
+        private string language = "eng";
+
+        public void SetLanguage(string language)
+        {
+            this.language = language;
+        }
+
+        public string GetPhrase(string keyword)
+        {
+            Dictionary<string, string> fileNames = this.SetFilePaths();
+            var resourceFile = new FileInfo(fileNames[this.language]);
 
             if (!resourceFile.Exists)
             {

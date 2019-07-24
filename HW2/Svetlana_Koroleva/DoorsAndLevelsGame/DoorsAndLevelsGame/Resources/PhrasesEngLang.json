@@ -1,9 +1,10 @@
 ﻿{
   "Selected": "You selected ",
   "NotNumber": "You entered not a number, try again",
-  "WrongNumber": "You entered wrong number",
+  "WrongValue": "You entered wrong value",
   "Maximum": "You have reached the maximum. ",
   "Level": "Level ",
   "Select": " Select the door: ",
-  "GameOver": "Game over!"
+  "GameOver": "Game over!",
+  "Language": "Select language: "
 }
