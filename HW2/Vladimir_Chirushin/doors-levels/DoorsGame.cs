@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace doors_levels
@@ -38,12 +39,12 @@ namespace doors_levels
 
         private String ShowLevel()
         {
-            String levelString = "";
+            StringBuilder levelString = new StringBuilder();
             for (Int32 i = 0; i < doors.Length; i++)
             {
-                levelString = levelString + doors[i].ToString() + " ";
+                levelString.Append(doors[i].ToString() + " ");
             }
-            return levelString;
+            return levelString.ToString();
         }
 
         private void ExecuteTheDoor(Int32 currentDoor)
@@ -97,16 +98,7 @@ namespace doors_levels
 
         public void EnterTheDoor(Int32 doorToEnter)
         {
-            Boolean doorExist = false;
-            for (Int32 i = 0; i < doors.Length; i++)
-            {
-                if (doorToEnter == doors[i])
-                {
-                    doorExist = true;
-                    break;
-                }
-            }
-            if (doorExist)
+            if (Array.IndexOf(doors, doorToEnter) != -1)
             {
                 ExecuteTheDoor(doorToEnter);
             }

@@ -7,10 +7,6 @@ namespace doors_levels
 {
     public class JsonFileParser : IFileParser
     {
-        public JsonFileParser()
-        {
-
-        }
 
         public Dictionary<String, String> ParseFile(String filePath)
         {
