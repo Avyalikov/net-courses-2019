@@ -8,8 +8,8 @@ namespace DoorsAndLevelsGame
 {
     public class GameSettings
     {
-        public int doorsQuantity;
-        public int maxNumber;
-
+        public int DoorsQuantity { get; set; }
+        public int MaxNumber { get; set; }
+        public string Language { get; set; }
     }
 }

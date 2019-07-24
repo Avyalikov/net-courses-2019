@@ -19,14 +19,30 @@ namespace DoorsAndLevelsGame
             return fileNames;
         }
 
-        private string language = "eng";
+        private string language;
 
-        public void SetLanguage(string language)
+        public JSONPhraseProvider(string language)
         {
             this.language = language;
         }
 
+        private Dictionary<string, string> phrases;
+       
         public string GetPhrase(string keyword)
+        {
+           
+             try
+            {
+                return phrases[keyword];
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(
+                    $"There is no element under {keyword}", ex);
+            }
+        }
+
+        public void ReadResourceFile()
         {
             Dictionary<string, string> fileNames = this.SetFilePaths();
             var resourceFile = new FileInfo(fileNames[this.language]);
@@ -38,15 +54,14 @@ namespace DoorsAndLevelsGame
             var resourceFileContent = File.ReadAllText(resourceFile.FullName);
             try
             {
-                var resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
-
-                return resourceData[keyword];
+                phrases = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);              
             }
             catch (Exception ex)
             {
                 throw new ArgumentException(
-                    $"There is no element under {keyword}", ex);
+                    $"Can't read file {resourceFile.Name}", ex);
             }
         }
     }
 }
+

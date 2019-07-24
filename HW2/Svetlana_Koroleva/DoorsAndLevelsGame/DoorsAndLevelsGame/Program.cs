@@ -10,16 +10,14 @@ namespace DoorsAndLevelsGame
     {
         static void Main(string[] args)
         {
-            IPhraseProvider phraseProvider = new JSONPhraseProvider();
+           
             IInputOutputComponent ioComponent = new ConsoleIOComponent();
             IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsGenerator();
             ISettingsProvider settings = new JSONSettingsProvider();
-           
+            IPhraseProvider phraseProvider = new JSONPhraseProvider(settings.GetGameSettings().Language);
             Game game = new Game(phraseProvider, ioComponent, doorsNumbersGenerator, settings);
-            {
-                game.PlayGame();  
-            }
-            
+            game.PlayGame();  
+                      
             ioComponent.ReadInput();
         }
     }

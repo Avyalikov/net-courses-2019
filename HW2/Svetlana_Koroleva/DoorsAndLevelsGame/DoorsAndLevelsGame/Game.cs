@@ -13,14 +13,14 @@ namespace DoorsAndLevelsGame
         private int Level { get; set; }
         private int selectedNum;
         private int[] genNumbers;
-        public bool Exit { get; private set; }
+        private bool Exit { get; set; }
         private Stack<int> selectedNumbersHistory;
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputComponent ioComp;
         private readonly IDoorsNumbersGenerator doorsGenerator;
         private readonly ISettingsProvider settings;
         private readonly GameSettings gameSettings;
-        private List<string> languages;
+       
 
         public Game(IPhraseProvider phraseProvider, IInputOutputComponent ioComponent, IDoorsNumbersGenerator doorsGenerator, ISettingsProvider settingsProvider)
         {
@@ -31,10 +31,10 @@ namespace DoorsAndLevelsGame
             this.gameSettings = settings.GetGameSettings();
             this.selectedNumbersHistory = new Stack<int>();
             this.Level = 1;
-            this.languages = new List<string>();
+            
         }
 
-        private int EnteringNumber()
+        private int GetUserNumber()
         {
             bool isNumber = false;
             int enteredNum;
@@ -93,6 +93,7 @@ namespace DoorsAndLevelsGame
                 catch (OverflowException e)
                 {
                     ioComp.WriteOutput(phraseProvider.GetPhrase("Maximum") + phraseProvider.GetPhrase("GameOver"));
+                    Console.WriteLine(e);
                     this.Exit = true;
                     return numbers;
                 }
@@ -119,46 +120,20 @@ namespace DoorsAndLevelsGame
                 doorsToPrint.Append(value + " ");
             }
 
-            ioComp.WriteOutput(phraseProvider.GetPhrase("Level") + $" {Level}" + phraseProvider.GetPhrase("Select") +
+            ioComp.WriteOutput(phraseProvider.GetPhrase("Level") + $" {Level}\n" + phraseProvider.GetPhrase("Select") +
                 $"{doorsToPrint}");
         }
 
-        private string SelectLanguage()
-        {
-            languages.AddRange(new string[] { "eng", "ru" });
-            ioComp.WriteOutput(phraseProvider.GetPhrase("Language"));
-            foreach (string lang in languages)
-            {
-                ioComp.WriteOutput(lang.ToString());
-            }
-
-            string language;
-            do
-            {
-                language = ioComp.ReadInput();
-                if (!(languages.Contains(language)))
-                {
-                    ioComp.WriteOutput(phraseProvider.GetPhrase("WrongValue"));
-                }
-
-
-            }
-            while (!(languages.Contains(language)));
-
-            return language;
-        }
-
+        
 
         public void PlayGame()
         {
-            genNumbers = this.doorsGenerator.generatedNumbers(gameSettings.doorsQuantity);
-            string lang = SelectLanguage();
-            phraseProvider.SetLanguage(lang);
+            phraseProvider.ReadResourceFile();
+            genNumbers = this.doorsGenerator.GenerateNumbers(gameSettings.DoorsQuantity, gameSettings.MaxNumber);
             while (!this.Exit)
             {
                 PrintDoorsNumbers();
-                selectedNum = EnteringNumber();
-                CheckInput(selectedNum);
+                selectedNum = GetUserNumber();
                 if (selectedNum != 0)
                 {
                     selectedNumbersHistory.Push(selectedNum);

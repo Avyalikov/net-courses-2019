@@ -8,6 +8,6 @@ namespace DoorsAndLevelsGame
 {
     public interface  IDoorsNumbersGenerator
     {
-        int[] generatedNumbers(int doorsQuantity);
+        int[] GenerateNumbers(int doorsQuantity,int maxNumber);
     }
 }

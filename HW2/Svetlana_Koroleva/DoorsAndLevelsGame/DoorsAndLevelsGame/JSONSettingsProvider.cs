@@ -8,8 +8,9 @@ using Newtonsoft.Json;
 
 namespace DoorsAndLevelsGame
 {
-    public class JSONSettingsProvider:ISettingsProvider
+    public class JSONSettingsProvider:ISettingsProvider 
     {
+
         public GameSettings GetGameSettings()
         {
             var resourceFile = new FileInfo("Resources\\GameSettings.json");
