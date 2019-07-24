@@ -1,6 +1,6 @@
 ﻿{
-  "DoorsAmount": 5,
+  "DoorsAmount": 10,
   "MaxLevel": 7,
-  "ExitDoorNumber": 666,
+  "ExitDoorNumber": 0,
   "ExitCode": "x"
 }

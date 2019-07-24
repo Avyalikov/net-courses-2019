@@ -10,7 +10,7 @@
             return Console.ReadLine();
         }
 
-        public void WriteDoors(string Doors)
+        public void WriteOutput(string Doors)
         {
             Console.WriteLine(Doors);
         }

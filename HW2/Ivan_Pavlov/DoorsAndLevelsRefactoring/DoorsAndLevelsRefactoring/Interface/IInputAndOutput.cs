@@ -4,7 +4,7 @@
     {
         string ReadInput();
 
-        void WriteDoors(string Doors);
+        void WriteOutput(string Doors);
 
         char ReadKeyForExit();
     }

@@ -9,5 +9,7 @@
         void Push(int Door);
 
         int Pop();
+
+        bool HasValue();
     }
 }
