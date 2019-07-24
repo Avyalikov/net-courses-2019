@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoorsNumbersGenerator.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Interfaces\IDoorsNumbersGenerator.cs" />
     <Compile Include="Interfaces\IInputOutput.cs" />
