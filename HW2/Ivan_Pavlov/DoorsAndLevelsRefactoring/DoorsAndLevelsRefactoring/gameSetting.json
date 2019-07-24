@@ -2,5 +2,6 @@
   "DoorsAmount": 10,
   "MaxLevel": 7,
   "ExitDoorNumber": 0,
-  "ExitCode": "x"
+  "ExitCode": "x",
+   "WinDoor": 10000000
 }

@@ -5,5 +5,6 @@
   "Bay": "Thank you for playing!\nPress any button to quit",
   "WrongValue": "You have entered a wrong value. Please enter a number",
   "OtherNumber": "You have entered a wrong number. Please enter one of the numbers listed",
-  "StorageExcept": "Now just go ahead "
+  "StorageExcept": "Now just go ahead ",
+  "Winner": "You are winner"
 }

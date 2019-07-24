@@ -7,5 +7,7 @@
         public int ExitDoorNumber { get; set; }
 
         public string ExitCode { get; set; }
+
+        public int WinDoor { get; set; }
     }
 }

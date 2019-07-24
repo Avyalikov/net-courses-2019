@@ -45,11 +45,19 @@
                 }
                 inputAndOutput.WriteOutput(doorsForUser.ToString());
                 inputAndOutput.WriteOutput(phraseProvider.GetPhrase("SelectAndEnterNumber"));
+
                 string UserInput;
                 if ((UserInput = inputAndOutput.ReadInput())
                     .ToLowerInvariant() == gameSetting.ExitCode.ToLowerInvariant())
                     break;
+
                 NumberChanger(UserInput);
+
+                if (WinTheGame())
+                {
+                    inputAndOutput.WriteOutput(phraseProvider.GetPhrase("Winner"));
+                    break;
+                }
             }
             inputAndOutput.WriteOutput(phraseProvider.GetPhrase("Bay"));
             inputAndOutput.ReadKeyForExit();       
@@ -77,6 +85,16 @@
                     return true;
 
             inputAndOutput.WriteOutput(phraseProvider.GetPhrase("OtherNumber"));
+            return false;
+        }
+
+        private bool WinTheGame()
+        {
+            foreach(int door in Doors)
+            {
+                if (door > gameSetting.WinDoor || door < 0) return true;
+            }
+
             return false;
         }
 
