@@ -3,6 +3,7 @@
   <Start>Let`s start to game</Start>
   <Intro>Choose one of the number for next level or -1 to previous level. For exit enter -2:</Intro>
   <BadValue>This value is not a number.</BadValue>
+  <Overflow>The value exceeds the maximum allowed.</Overflow>
   <ValueNotInList>Number is not in list!</ValueNotInList>
   <FirstLevel>It is first level!</FirstLevel>
   <Win>Congratulations! You have reached the maximum value. Lets try again.</Win>

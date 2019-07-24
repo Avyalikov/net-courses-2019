@@ -37,11 +37,10 @@ namespace DoorsAndLevels
             this.gameSettings = this.settingsProvider.gameSettings();
 
             m_arrayDoorsValue = new int[gameSettings.doorsAmount];
-            this.Reset();
         }
         public void Run()
         {
-
+            this.Reset();
             ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Start"));
             do
             {
@@ -56,6 +55,10 @@ namespace DoorsAndLevels
                 catch (FormatException)
                 {
                     ioComponent.WriteOutputLine(phraseProvider.GetPhrase("BadValue"));
+                }
+                catch (OverflowException)
+                {
+                    ioComponent.WriteOutputLine(phraseProvider.GetPhrase("Overflow"));
                 }
 
             } while (!exitCode);
