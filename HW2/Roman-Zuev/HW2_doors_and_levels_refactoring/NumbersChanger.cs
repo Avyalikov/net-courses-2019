@@ -36,6 +36,7 @@ namespace HW2_doors_and_levels_refactoring
                         NumbersToChange[i] /= divider;
                     }
                 }
+                if (usernums.Count>0) ioDevice.Print(phraseProvider.GetPhrase("PreviousLevel"));
                 return NumbersToChange;
             }
             //validating entered number
@@ -43,7 +44,12 @@ namespace HW2_doors_and_levels_refactoring
             {
                 //if value contains in the array -> multiply array numbers
                 if (number == Temp)
-                {
+                { 
+                    if(gameSettings.MaxLevel == usernums.Count) // MaxLevelCheck
+                    {
+                        ioDevice.Print(phraseProvider.GetPhrase("ReachedMaxLevel"));
+                        return NumbersToChange;
+                    }
                     for (int i = 0; i < NumbersToChange.Length; i++)
                     {
                         //if (NumbersToChange[i] != gameSettings.PreviousLevelNumber)
@@ -52,6 +58,7 @@ namespace HW2_doors_and_levels_refactoring
                         //}
                     }
                     usernums.Push(Temp); // adding value to the stack
+                    ioDevice.Print(phraseProvider.GetPhrase("NextLevel"));
                     return NumbersToChange;
                 }
             }

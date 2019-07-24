@@ -18,7 +18,7 @@ namespace HW2_doors_and_levels_refactoring
             //fills array with random numbers from 1 to 9
             for (int i = 0; i < nums.Length; i++)
             {
-                nums[i] = random.Next(1, 9);
+                nums[i] = random.Next(1, 6);
             }
             //adds 0 in random place of arraysss
             nums[random.Next(0, nums.Length - 1)] = gameSettings.PreviousLevelNumber;

@@ -5,11 +5,13 @@
         public int DoorsAmount { get; }
         public int PreviousLevelNumber { get; }
         public string ExitCode { get; }
-        public GameSettings (int doorsAmount, int previousLevelNumber, string exitCode)
+        public int MaxLevel { get; }
+        public GameSettings (int doorsAmount, int previousLevelNumber, string exitCode, int maxLevel)
         {
             this.DoorsAmount = doorsAmount;
             this.PreviousLevelNumber = previousLevelNumber;
             this.ExitCode = exitCode;
+            this.MaxLevel = maxLevel;
         }
     }
 }
