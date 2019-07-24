@@ -44,7 +44,7 @@ namespace Doors_and_levels_game_after_refactoring
             ioDevice.WriteOutput(Numbers);
         }
 
-        private int DoorIsNumber()
+        private int UserInput()
         {
             int result = -1;
             int enteredDoor;
@@ -88,7 +88,7 @@ namespace Doors_and_levels_game_after_refactoring
             while (true)
             {
                 Show();
-                door = DoorIsNumber();
+                door = UserInput();
                 findTheDoor = false;
 
                 if(door < 0)

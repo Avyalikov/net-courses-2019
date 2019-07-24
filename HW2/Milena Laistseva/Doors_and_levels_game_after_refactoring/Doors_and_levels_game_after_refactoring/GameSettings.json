@@ -2,5 +2,6 @@
   "DoorsAmount": 5,
   "MaxLevel": 4,
   "ExitDoorNumber": 0,
-  "ExitCode": "x"
+  "ExitCode": "x",
+  "Language": "En"
 }

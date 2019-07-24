@@ -10,11 +10,12 @@ namespace Doors_and_levels_game_after_refactoring
     {
         static void Main(string[] args)
         {
-            IPhraseProvider phraseProvider = new JsonPhraseProvider("..\\..\\Resources\\LangRu.json");
+            ISettingsProvider settingsProvider = new SettingsProvider();
+            GameSettings gameSettings = settingsProvider.GetGameSettings();
+            IPhraseProvider phraseProvider = new JsonPhraseProvider(gameSettings.Language);
             IInputOutputDevice inputOutputDevice = new ConsoleInputOutputDevice();
             IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
-            ISettingsProvider settingsProvider = new SettingsProvider();
-
+            
             Game DoorsAndLevels = new Game(phraseProvider, inputOutputDevice, doorsNumbersGenerator, settingsProvider);
             DoorsAndLevels.Run();
 

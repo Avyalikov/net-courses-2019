@@ -15,7 +15,7 @@ namespace Doors_and_levels_game_after_refactoring
         }
         public string GetPhrase(string phraseKey)
         {
-            var resourceFile = new FileInfo(language);
+            var resourceFile = new FileInfo($"..\\..\\Resources\\Lang{language}.json");
 
 
             if (!resourceFile.Exists)

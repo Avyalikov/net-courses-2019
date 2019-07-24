@@ -13,5 +13,6 @@ namespace Doors_and_levels_game_after_refactoring
         public int ExitDoorNumber { get; set; }
 
         public string ExitCode { get; set; }
+        public string Language { get; set; }
     }
 }
