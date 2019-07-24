@@ -2,8 +2,10 @@
 {
     interface IInputAndOutput
     {
-        string ReadLine();
+        string ReadInput();
 
-        void WriteLine(string Doors);
+        void WriteDoors(string Doors);
+
+        char ReadKeyForExit();
     }
 }

@@ -4,7 +4,7 @@
     using System;
     using System.Collections.Generic;
 
-    class StackStorageProvider : IDoorsStorage
+    class StackStorageProvider : IChooseDoorsStorage
     {
         private Stack<int> doorsStorage = new Stack<int>();
 

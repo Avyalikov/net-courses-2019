@@ -75,7 +75,7 @@
   <ItemGroup>
     <Compile Include="GameLogic.cs" />
     <Compile Include="GameSettings.cs" />
-    <Compile Include="Interface\IDoorsStorage.cs" />
+    <Compile Include="Interface\IChooseDoorsStorage.cs" />
     <Compile Include="Interface\IGetDoorsNumber.cs" />
     <Compile Include="Interface\IInputAndOutput.cs" />
     <Compile Include="Interface\IPhraseProvider.cs" />

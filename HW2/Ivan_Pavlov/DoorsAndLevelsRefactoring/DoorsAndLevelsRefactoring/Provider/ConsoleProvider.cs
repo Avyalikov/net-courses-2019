@@ -5,20 +5,19 @@
 
     class ConsoleProvider : IInputAndOutput
     {
-        public string ReadLine()
+        public string ReadInput()
         {
             return Console.ReadLine();
         }
 
-        public void WriteLine(string Doors)
+        public void WriteDoors(string Doors)
         {
             Console.WriteLine(Doors);
         }
 
-        // a special method for the console provider
-        public void Wait()
+        public char ReadKeyForExit()
         {
-            Console.ReadKey();
+            return Console.ReadKey().KeyChar;
         }
     }
 }

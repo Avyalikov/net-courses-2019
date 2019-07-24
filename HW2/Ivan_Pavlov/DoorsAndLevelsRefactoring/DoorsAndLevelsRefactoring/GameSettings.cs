@@ -1,6 +1,6 @@
 ﻿namespace DoorsAndLevelsRefactoring
 {
-    class GameSettings
+    public class GameSettings
     {
         public int DoorsAmount { get; set; }
 
