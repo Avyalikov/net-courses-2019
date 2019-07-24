@@ -10,7 +10,7 @@ namespace HW2
 {
     public class StackStorage : IStorageProvider
     {
-        Stack<MyType> numbers = new Stack<MyType>();
+        private Stack<MyType> numbers = new Stack<MyType>();
 
         public int Count => numbers.Count;
 
