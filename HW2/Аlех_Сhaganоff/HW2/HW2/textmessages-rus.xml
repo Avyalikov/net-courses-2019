@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TextMessages>
+  <IncorrectChoice>Пожалуйста, выберите одно из чисел на экране</IncorrectChoice>
+  <IncorrectInputP1>Неправильный ввод, пожалуйста, введите одно целое число; введите '0' или '</IncorrectInputP1>
+  <IncorrectInputP2>', чтобы вернуться</IncorrectInputP2>
+  <MaxLevelReached>Достигнут максимальный уровень, возвращаюсь</MaxLevelReached>
+  <EndReached>Конец</EndReached>
+  <SettingLoadingError>Ошибка при закгрузке настроек, используются значения по умолчанию</SettingLoadingError>
+</TextMessages>
