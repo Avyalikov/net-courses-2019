@@ -1,0 +1,8 @@
+﻿{
+  "Rules": "########################################### \n The rules: \n To exit the game, enter \"@ExitCode\". \n To go on the next level enter door number. \n To go on the previous level enter @ExitDoor. \n If you already at zero level, \n Going on previous level will regenerate doors \n ###########################################",
+  "IncorrectInput": "Incorrect input",
+  "DoorAbsent": "There is no such door on this level",
+  "Restart": "You reach the end! Game Restarting...",
+  "NowLevelIs": "Now level is ",
+  "DoorsAre": " and doors are "
+}

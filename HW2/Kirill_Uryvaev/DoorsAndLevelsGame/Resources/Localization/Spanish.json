@@ -1,0 +1,8 @@
+﻿{
+  "Rules": "########################################### \n Las normas: \n Para salir del juego, ingrese el carácter \"@ExitCode\". \n Para pasar al siguiente nivel, ingrese el número de la puerta. \n Para ir al nivel anterior ingrese @ExitDoor. \n Si ya está en el nivel cero, \n Pasando al nivel anterior regenerará puertas \n ########################################### ",
+  "IncorrectInput": "Incorrect input",
+  "DoorAbsent": "No hay tal puerta en este nivel",
+  "Restart": "Llegas al final! El reinicio del juego ...",
+  "NowLevelIs": "Ahora el nivel es ",
+  "DoorsAre": " y las puertas son "
+}
