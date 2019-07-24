@@ -7,7 +7,7 @@ namespace doors_levels
         Int32 GetMaxDoors();
         Int32 GetMaxDoorValue();
         Int32 GetMinDoorValue();
-        Int32 GetBackNumber();
+        String GetExitCommand();
         String GetLanguagePath();
         void InitiateSettings();
     }

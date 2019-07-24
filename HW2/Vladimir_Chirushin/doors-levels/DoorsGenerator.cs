@@ -6,13 +6,12 @@ namespace doors_levels
     {
         private Int32 minDoorValue;
         private Int32 maxDoorValue;
-        private Int32 getBackNumber;
+        private const Int32 infinityLoopProtectionMaxValue = 100000;
 
-        public DoorsGenerator(Int32 minDoorValue, Int32 maxDoorValue, Int32 getBackNumber)
+        public DoorsGenerator(Int32 minDoorValue, Int32 maxDoorValue)
         {
             this.minDoorValue = minDoorValue;
             this.maxDoorValue = maxDoorValue;
-            this.getBackNumber = getBackNumber;
         }
 
         public int[] GetDoors(int doorsAmount)
@@ -20,10 +19,11 @@ namespace doors_levels
             Random rand = new Random();
             Int32[] doors = new Int32[doorsAmount];
 
-            doors[0] = getBackNumber;  //initiating return to previous level ability
+            doors[0] = 0;  //initiating return to previous level ability only works with "0" iteam
             for (Int32 i =   1; i < doors.Length; i++) //create doors
             {
                 Boolean repeat = false;
+                Int32 infinityLoopProtection = 0;
                 do
                 {
                     repeat = false;
@@ -36,6 +36,12 @@ namespace doors_levels
                             repeat = true;          //door isn't unique; need to repeat
                             break;
                         }
+                    }
+
+                    infinityLoopProtection++;
+                    if(infinityLoopProtection > infinityLoopProtectionMaxValue)
+                    {
+                        throw new Exception("Infinity loop in doors generator. Check game Settings.");
                     }
                 } while (repeat);
             }

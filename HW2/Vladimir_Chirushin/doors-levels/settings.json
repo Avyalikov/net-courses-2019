@@ -3,5 +3,5 @@
   "languageFile": "LangEN.json",
   "minDoorValue": "2",
   "maxDoorValue": "8",
-  "getBackNumber": "0"
+  "gameExitCommand": "exit"
 }

@@ -11,7 +11,7 @@ namespace doors_levels
         private Int32 MaxDoors;
         private Int32 minDoorValue;
         private Int32 maxDoorValue;
-        private Int32 getBackNumber;
+        private String gameExitCommand;
 
         private String languageFilePath;
 
@@ -55,14 +55,7 @@ namespace doors_levels
                 throw new Exception("Errors in settings.json");
             }
 
-            try
-            {
-                getBackNumber = Convert.ToInt32(rawParsedData["getBackNumber"]);
-            }
-            catch
-            {
-                throw new Exception("Errors in settings.json");
-            }
+            gameExitCommand = rawParsedData["gameExitCommand"];
         }
 
 
@@ -81,9 +74,9 @@ namespace doors_levels
             return minDoorValue;
         }
 
-        public Int32 GetBackNumber()
+        public String GetExitCommand()
         {
-            return getBackNumber;
+            return gameExitCommand;
         }
 
 

@@ -48,7 +48,7 @@ namespace doors_levels
 
         private void ExecuteTheDoor(Int32 currentDoor)
         {
-            if (currentDoor == gameSettings.GetBackNumber())
+            if (currentDoor == 0)
             {
                 if (!dataStorage.IsEmpty())
                 {
@@ -58,7 +58,7 @@ namespace doors_levels
                         doors[i] /= lastDoor;
                     }
                     inputOutputDevice.WriteOutput(
-                        phraseProvider.GetPhrase(Phrase.weSelectNumber) + gameSettings.GetBackNumber().ToString() + phraseProvider.GetPhrase(Phrase.andGoPrevLevel)
+                        phraseProvider.GetPhrase(Phrase.weSelectNumber) + "0" + phraseProvider.GetPhrase(Phrase.andGoPrevLevel)
                         );
                     inputOutputDevice.WriteOutput(ShowLevel());
                 }
@@ -134,11 +134,17 @@ namespace doors_levels
 
             inputOutputDevice.WriteOutput(phraseProvider.GetPhrase(Phrase.welcome));
             ShowDoors();
+            String rawUserInput;
             while (true)
             {
+                rawUserInput = inputOutputDevice.ReadInput();
+                if(rawUserInput.ToLower() == gameSettings.GetExitCommand().ToLower())
+                {
+                    break;
+                }
                 try
                 {
-                    int door = Convert.ToInt32(inputOutputDevice.ReadInput());
+                    int door = Convert.ToInt32(rawUserInput);
                     EnterTheDoor(door);
                 }
                 catch
