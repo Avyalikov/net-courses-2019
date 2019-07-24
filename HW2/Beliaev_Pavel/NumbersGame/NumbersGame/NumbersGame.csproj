@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,16 +48,22 @@
   <ItemGroup>
     <Compile Include="ConsoleIO.cs" />
     <Compile Include="DoorsNumbersGenerator.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Interfaces\IDoorsNumbersGenerator.cs" />
     <Compile Include="Interfaces\IInputOutput.cs" />
     <Compile Include="Interfaces\IPhraseProvider.cs" />
     <Compile Include="Interfaces\ISettingsProvider.cs" />
+    <Compile Include="JsonPhraseProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Resources\English.json" />
+    <None Include="gameSettings.json" />
+    <None Include="Resources\Russian.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
