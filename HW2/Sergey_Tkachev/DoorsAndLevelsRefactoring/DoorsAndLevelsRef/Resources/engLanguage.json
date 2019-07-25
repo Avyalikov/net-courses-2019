@@ -3,12 +3,12 @@
   "WelcomeEnd": "' to exit.",
   "Level": "\nLevel #",
   "TheDoorsAre": ". There are the next doors: ",
-  "Select": "\nSelect one of existing numbers: ",
+  "Select": "Select one of existing numbers: ",
   "Thanks": "\nThanks for playing!",
   "YouSelected": "You selected '",
   "Previous": "' and go to the previous level.",
   "AlreadyFirst": "\nThis is a first level already. Choose another number: ",
   "Next": "' and go to the next level.",
   "MaxLevelReached": "\nYou are on the max level now. The only way is back.",
-  "Incorrect": "\nIncorrect input. Please try again: "
+  "Incorrect": "Incorrect input. Please try again: "
 }

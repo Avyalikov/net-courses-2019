@@ -4,13 +4,20 @@ namespace DoorsAndLevelsRef
 {
     internal class ConsoleInputOutput : IInputOutput
     {
+        private readonly JsonPhraseProvider jsonPhraseProvider;
+
+        public ConsoleInputOutput(IPhraseProvider phraseProvider)
+        {
+            this.jsonPhraseProvider = (JsonPhraseProvider) phraseProvider;
+        }
+
         /// <summary>Checks if entered number is integer, if not then number should be entered again.</summary>
         /// <returns></returns>
         public string ReadInput()
         {
             while (true)
                 if (!int.TryParse(Console.ReadLine(), out int enteredNum))
-                    Console.Write("Incorrect input. Please try again: ");
+                    WriteOutput(jsonPhraseProvider.GetPhrase("Incorrect"));
                 else return enteredNum.ToString();
         }
         /// <summary>Returns a char from Console input.</summary>
@@ -34,7 +41,7 @@ namespace DoorsAndLevelsRef
             {
                 Console.Write(array[i] + " ");
             }
-            Console.Write(".");
+            Console.WriteLine(".");
         }
     }
 }
