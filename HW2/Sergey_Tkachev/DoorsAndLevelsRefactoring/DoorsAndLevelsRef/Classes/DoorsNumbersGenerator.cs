@@ -2,11 +2,16 @@
 {
     internal class DoorsNumbersGenerator : IArrayGenerator
     {
-        private ISettingsProvider settingsProvider;
+        private readonly GameSettings gameSettings;
 
         public DoorsNumbersGenerator(ISettingsProvider settingsProvider)
         {
-            this.settingsProvider = settingsProvider;
+            this.gameSettings = settingsProvider.GetGameSettings();
+        }
+
+        public int[] GenerateArray(int elementsAmount)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
