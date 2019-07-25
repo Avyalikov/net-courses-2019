@@ -2,8 +2,7 @@
 {
     public interface IInputOutput
     {
-        string ReadInput();
-        char ReadKey();
+        string ReadInput();             
         void WriteOutput(string dataToOutput);
     }
 }

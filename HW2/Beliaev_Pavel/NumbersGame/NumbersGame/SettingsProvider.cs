@@ -9,8 +9,12 @@ namespace NumbersGame
     {
         public GameSettings GetGameSettings()
         {
+            //Environment.GetFolderPath(Environment)
+            //Path.;
+            //var path = Environment.CurrentDirectory.;//"bin\\Debug");'\\'
+            //Console.WriteLine(path);
             var gameSettingsFile = new FileInfo("gameSettings.json");
-
+            
             if (!gameSettingsFile.Exists)
             {
                 throw new ArgumentException(

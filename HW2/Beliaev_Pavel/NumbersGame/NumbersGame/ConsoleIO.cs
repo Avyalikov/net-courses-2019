@@ -10,14 +10,14 @@ namespace NumbersGame
             return Console.ReadLine();
         }
 
-        public char ReadKey()
+        public void WriteLineOutput(string dataToOutput)
         {
-            return Console.ReadKey().KeyChar;
+            Console.WriteLine(dataToOutput);
         }
 
         public void WriteOutput(string dataToOutput)
         {
-            Console.WriteLine(dataToOutput);
+            Console.Write(dataToOutput);
         }
     }
 }

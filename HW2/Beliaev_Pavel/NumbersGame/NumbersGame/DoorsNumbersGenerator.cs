@@ -12,7 +12,7 @@ namespace NumbersGame
             Random rnd = new Random();
             for(int door = 1; door < doorsAmount; door++)
             {
-                door = rnd.Next(1, 9);
+                doorsNumbers[door] = rnd.Next(1, 9);
             }
             return doorsNumbers;
         }
