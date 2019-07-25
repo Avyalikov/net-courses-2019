@@ -34,7 +34,7 @@ namespace DoorsAndLevelsRef
             {
                 Console.Write(array[i] + " ");
             }
-            Console.WriteLine(".");
+            Console.Write(".");
         }
     }
 }

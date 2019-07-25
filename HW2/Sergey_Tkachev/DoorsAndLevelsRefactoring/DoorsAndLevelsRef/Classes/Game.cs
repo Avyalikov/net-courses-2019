@@ -58,7 +58,7 @@ namespace DoorsAndLevelsRef
                 {
                     io.WriteOutput(phraseProvider.GetPhrase("Select"));
                     selectedNum = int.Parse(io.ReadInput());
-                    if (selectedNum == gameSettings.ExitDoorNumber)
+                    if (selectedNum == gameSettings.ExitCode)
                         break;
                 } while (!operationWithData.Contains(levelNumbers, selectedNum));
 

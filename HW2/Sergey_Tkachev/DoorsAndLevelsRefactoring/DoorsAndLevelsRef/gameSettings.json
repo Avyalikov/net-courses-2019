@@ -1,6 +1,6 @@
 ﻿{
 	"DoorsAmount": 5,
-	"MaxLevel": 6,
+	"MaxLevel": 5,
 	"ExitDoorNumber": 0,
 	"ExitCode":  -1,
 	"maxInitialValue": 6,
