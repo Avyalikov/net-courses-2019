@@ -16,8 +16,6 @@ namespace DoorsAndLevelsRef
             Game game = new Game(phraseProvider, inputOutput, settingsProvider, arrayGenerator, operationWithData);
 
             game.Run();
-
-            Console.ReadKey();
         }
     }
 }

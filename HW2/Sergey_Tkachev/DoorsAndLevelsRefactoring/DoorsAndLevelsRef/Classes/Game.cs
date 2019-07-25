@@ -98,6 +98,7 @@ namespace DoorsAndLevelsRef
                 }
 
             }
+            io.ReadKey();
         }
     }
 }
