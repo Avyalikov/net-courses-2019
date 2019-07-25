@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<phrases>
+  <Start>Let`s start to game</Start>
+  <FirstIntro>Choose one of the number for next level. For previous level enter </FirstIntro>
+  <SecondIntro>For exit enter </SecondIntro>
+  <BadValue>This value is not a number.</BadValue>
+  <Overflow>The value exceeds the maximum allowed.</Overflow>
+  <ValueNotInList>Number is not in list!</ValueNotInList>
+  <FirstLevel>It is first level!</FirstLevel>
+  <Win>Congratulations! You have reached the maximum value. Lets try again.</Win>
+  <Exit>Thank you for playing! Press any key to exit </Exit>
+</phrases>
