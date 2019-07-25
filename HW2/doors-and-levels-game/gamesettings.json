@@ -2,5 +2,6 @@
 	"DoorsAmount": 5,
 	"UpperThresholdValue": 10,
 	"BackToPreviousLevelDoorNumber": 0,
-	"ExitCode": "exit"
+	"ExitCode": "exit",
+	"Lang": "Eng"
 }

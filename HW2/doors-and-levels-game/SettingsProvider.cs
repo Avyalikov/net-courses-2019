@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace DoorsAndLevelsAfterRefactoring
+namespace doors_and_levels_game
 {
     public class SettingsProvider : ISettingsProvider
     {
