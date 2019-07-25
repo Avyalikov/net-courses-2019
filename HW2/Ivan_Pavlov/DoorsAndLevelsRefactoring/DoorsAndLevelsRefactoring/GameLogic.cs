@@ -11,7 +11,7 @@
 
         private readonly GameSettings gameSetting;
         
-        public int[] Doors { get; set; }
+        private int[] Doors { get; set; }
                 
         public GameLogic(
             IPhraseProvider phraseProvider,
@@ -31,6 +31,8 @@
         public void StartGame()
         {
             inputAndOutput.WriteOutput(phraseProvider.GetPhrase("Welcome"));
+            inputAndOutput.WriteOutput(phraseProvider.GetPhrase("ExitDoor") + gameSetting.ExitDoorNumber.ToString());
+            inputAndOutput.WriteOutput(phraseProvider.GetPhrase("ExitCode") + gameSetting.ExitCode.ToString());
 
             while (true)
             {

@@ -9,5 +9,7 @@
         public string ExitCode { get; set; }
 
         public int WinDoor { get; set; }
+
+        public string Lang { get; set; }
     }
 }

@@ -8,7 +8,7 @@
             SettingProvider settingProvider = new SettingProvider();
 
             GameLogic game = new GameLogic(
-                phraseProvider:     new JsonPhraseProvider("Resource/LangRu.json"),
+                phraseProvider:     new JsonPhraseProvider(string.Format("Resource/Lang{0}.json", settingProvider.GetGameSettings().Lang)),
                 inputAndOutput:     new ConsoleProvider(),
                 getDoors:           new DoorsNumberRandom(settingProvider),
                 doorsStorage:       new StackStorageProvider(),

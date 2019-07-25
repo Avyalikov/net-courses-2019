@@ -19,7 +19,7 @@
             List<int> nums = new List<int>();
             Random rnd = new Random();
 
-            for(int i = 0; i < doorsAmount; )
+            for(int i = 0; i < doorsAmount - 1; )
             {
                 int n = rnd.Next(1, doorsAmount * 2);
                 if (nums.Contains(n))
