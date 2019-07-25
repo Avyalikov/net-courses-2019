@@ -5,5 +5,6 @@
         string ReadInput();
         char ReadKey();
         void WriteOutput(string dataToOutput);
+        void printArray(int[] array);
     }
 }
