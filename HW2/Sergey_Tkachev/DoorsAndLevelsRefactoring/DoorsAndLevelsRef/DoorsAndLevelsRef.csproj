@@ -50,6 +50,8 @@
     <Compile Include="Classes\DoorsNumbersGenerator.cs" />
     <Compile Include="Classes\Game.cs" />
     <Compile Include="Classes\GameSettings.cs" />
+    <Compile Include="Classes\OperationWithArrays.cs" />
+    <Compile Include="Interfaces\IOperationWithData.cs" />
     <Compile Include="Classes\JsonPhraseProvider.cs" />
     <Compile Include="Classes\SettingsProvider.cs" />
     <Compile Include="Interfaces\ISettingsProvider.cs" />

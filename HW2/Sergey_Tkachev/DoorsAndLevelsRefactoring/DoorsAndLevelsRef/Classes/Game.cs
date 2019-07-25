@@ -45,22 +45,6 @@ namespace DoorsAndLevelsRef
             currentLevel = 1;
         }
 
-        /// <summary>Fills array with unique numbers from 1 to 7 except the last element.</summary>
-        /// <param name="nums">Array to fill</param>
-        void FillArray(ref int[] nums)
-        {
-            Random random = new Random();
-            int num;
-            for (int i = 0; i < nums.Length - 1; i++)
-            {
-                do
-                {
-                    num = random.Next(1, 7);
-                } while (ContainsInArray(ref nums, num));
-                nums[i] = num;
-            }
-        }
-
         /// <summary>Prints array into console.</summary>
         /// <param name="nums">Array of integers to print</param>
         void printArray(ref int[] nums)
@@ -80,40 +64,6 @@ namespace DoorsAndLevelsRef
                 if (!int.TryParse(Console.ReadLine(), out int enteredNum))
                     Console.Write("Incorrect input. Please try again: ");
                 else return enteredNum;
-        }
-
-        /// <summary>Checks if array contains a number as an element.</summary>
-        /// <param name="nums">Array to check</param>
-        /// <param name="num">Number to find</param>
-        /// <returns></returns>
-        bool ContainsInArray(ref int[] nums, int num)
-        {
-            for (int i = 0; i < nums.Length; i++)
-                if (num == nums[i])
-                    return true;
-            return false;
-        }
-
-        /// <summary>Divides all elements of array to a number.</summary>
-        /// <param name="nums">Array of integers</param>
-        /// <param name="denominator">Denominator</param>
-        void DivideArrayElements(ref int[] nums, int denominator)
-        {
-            for (int i = 0; i < nums.Length; i++)
-            {
-                nums[i] /= denominator;
-            }
-        }
-
-        /// <summary>Multiplies all elements of array to a number.</summary>
-        /// <param name="nums">Array of integers</param>
-        /// <param name="multiplier">Multiplier</param>
-        void MultiplyArrayElements(ref int[] nums, int multiplier)
-        {
-            for (int i = 0; i < nums.Length; i++)
-            {
-                nums[i] *= multiplier;
-            }
         }
 
         public void Run()
