@@ -12,109 +12,88 @@ namespace DoorsAndLevelsRef
         private readonly IInputOutput io;
         private readonly ISettingsProvider settingsProvider;
         private readonly IArrayGenerator arrayGenerator;
+        private readonly IOperationWithData operationWithData;
 
         private readonly GameSettings gameSettings;
 
-        private int[] NumbersArray;
-        private List<int> UserNumbers;
-
-        ///--------------------------
         int[] levelNumbers;
         Stack<int> history;
         int selectedNum;
-        int maxLevel;
         int currentLevel;
-        int exitNum;
 
         public Game(IPhraseProvider phraseProvider,
                     IInputOutput io,
                     ISettingsProvider settingsProvider,
-                    IArrayGenerator arrayGenerator)
+                    IArrayGenerator arrayGenerator,
+                    IOperationWithData operationWithData)
         {
             this.phraseProvider = phraseProvider;
             this.io = io;
             this.settingsProvider = settingsProvider;
             this.arrayGenerator = arrayGenerator;
+            this.operationWithData = operationWithData;
 
             this.gameSettings = this.settingsProvider.GetGameSettings();
-            ///----------------------
-            this.levelNumbers = new int[] { 0, 0, 0, 0, 0 };
             this.history = new Stack<int>();
-            this.maxLevel = 6;
-            exitNum = -1;
             currentLevel = 1;
-        }
-
-        /// <summary>Prints array into console.</summary>
-        /// <param name="nums">Array of integers to print</param>
-        void printArray(ref int[] nums)
-        {
-            for (int i = 0; i < nums.Length; i++)
-            {
-                Console.Write(nums[i] + " ");
-            }
-            Console.WriteLine(".");
-        }
-
-        /// <summary>Checks if entered number is integer, if not then number should be entered again.</summary>
-        /// <returns></returns>
-        int GetNum()
-        {
-            while (true)
-                if (!int.TryParse(Console.ReadLine(), out int enteredNum))
-                    Console.Write("Incorrect input. Please try again: ");
-                else return enteredNum;
         }
 
         public void Run()
         {
 
-            FillArray(ref levelNumbers);
+            levelNumbers = arrayGenerator.GenerateArray(gameSettings.DoorsAmount);
 
-            Console.WriteLine($"Welcome to the Doors and Levels game. Enter '{exitNum}' to exit.");
+            phraseProvider.GetPhrase("WelcomeStart");
+            io.WriteOutput($"{gameSettings.ExitCode}");
+            phraseProvider.GetPhrase("WelcomeEnd");
 
             while (true)
             {
-                Console.Write($"Level #{currentLevel}. There are the next doors: ");
-
-                printArray(ref levelNumbers);
+                phraseProvider.GetPhrase("Level");
+                io.WriteOutput($"{currentLevel}");
+                phraseProvider.GetPhrase("TheDoorsAre");
+                io.printArray(levelNumbers);
 
                 do
                 {
-                    Console.Write("Select one of existing numbers: ");
-                    selectedNum = GetNum();
-                    if (selectedNum == exitNum)
+                    phraseProvider.GetPhrase("Select");
+                    selectedNum = int.Parse(io.ReadInput());
+                    if (selectedNum == gameSettings.ExitDoorNumber)
                         break;
-                } while (!ContainsInArray(ref levelNumbers, selectedNum));
+                } while (!operationWithData.Contains(levelNumbers, selectedNum));
 
-                if (selectedNum == exitNum)
+                if (selectedNum == gameSettings.ExitCode)
                 {
-                    Console.WriteLine("Thanks for playing!");
+                    phraseProvider.GetPhrase("Thanks");
                     break;
                 }
-                else if (selectedNum == 0)
+                else if (selectedNum == gameSettings.ExitDoorNumber)
                 {
                     if (currentLevel > 1)
                     {
-                        DivideArrayElements(ref levelNumbers, history.Pop());
-                        Console.WriteLine($"You selected {selectedNum} and go to the previous level.");
+                        operationWithData.Divide(levelNumbers, history.Pop());
+                        phraseProvider.GetPhrase("YouSelected");
+                        io.WriteOutput($"{selectedNum}");
+                        phraseProvider.GetPhrase("Previous");
                         currentLevel--;
                     }
                     else if (currentLevel == 1) {
-                        Console.WriteLine("This is a first level already. Choose another number.");
+                        phraseProvider.GetPhrase("AlreadyFirst");
                     }
                 }
                 else 
                 {
-                    if (currentLevel < maxLevel)
+                    if (currentLevel < gameSettings.MaxLevel)
                     {
-                        MultiplyArrayElements(ref levelNumbers, selectedNum);
+                        operationWithData.Multiply(levelNumbers, selectedNum);
                         history.Push(selectedNum);
-                        Console.WriteLine($"You selected '{selectedNum}' and go to the next level.");
+                        phraseProvider.GetPhrase("YouSelected");
+                        io.WriteOutput($"{selectedNum}");
+                        phraseProvider.GetPhrase("Next");
                         currentLevel++;
                     }
                     else {
-                       Console.WriteLine("You are on the max level now. The only way is back.");
+                        phraseProvider.GetPhrase("MaxLevelReached");
                     }
                 }
 

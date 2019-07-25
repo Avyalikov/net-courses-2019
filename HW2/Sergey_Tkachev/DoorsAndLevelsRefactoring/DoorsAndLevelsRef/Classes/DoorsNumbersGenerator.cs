@@ -13,6 +13,9 @@ namespace DoorsAndLevelsRef
             this.operationWithArrays = (OperationWithArrays) operationWithData;
         }
 
+        /// <summary>Generates Array of integers. Last element always 0.</summary>
+        /// <param name="elementsAmount">Amount of elements in Array</param>
+        /// <returns></returns>
         public int[] GenerateArray(int elementsAmount)
         {
             int[] generatedArray = new int[elementsAmount];
@@ -26,6 +29,7 @@ namespace DoorsAndLevelsRef
                 } while (operationWithArrays.Contains(generatedArray, num));
                 generatedArray[i] = num;
             }
+            generatedArray[generatedArray.Length - 1] = 0;
             return generatedArray;
         }
     }

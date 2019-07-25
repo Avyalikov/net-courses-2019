@@ -13,7 +13,7 @@ namespace DoorsAndLevelsRef
             IPhraseProvider phraseProvider = new JsonPhraseProvider(settingsProvider);
             IArrayGenerator arrayGenerator = new DoorsNumbersGenerator(settingsProvider, operationWithData);
 
-            Game game = new Game(phraseProvider, inputOutput, settingsProvider, arrayGenerator);
+            Game game = new Game(phraseProvider, inputOutput, settingsProvider, arrayGenerator, operationWithData);
 
             game.Run();
 

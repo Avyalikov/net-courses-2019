@@ -23,7 +23,7 @@ namespace DoorsAndLevelsRef
         /// <param name="dataToOutput">String to print.</param>
         public void WriteOutput(string dataToOutput)
         {
-            Console.Write(dataToOutput); ;
+            Console.Write(dataToOutput);
         }
 
         /// <summary>Prints array into console.</summary>
