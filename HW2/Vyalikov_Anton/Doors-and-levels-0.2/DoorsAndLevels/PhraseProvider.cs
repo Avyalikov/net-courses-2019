@@ -12,7 +12,7 @@ namespace DoorsAndLevels
         private Dictionary<string, string> keyValuePairs;
         private Dictionary<string, string> languages = new Dictionary<string, string>()
         {
-            { "Rus", ".\\Res\\rusText.xml" },
+            { "Rus", "..\\..\\..\\Res\\rusText.xml" },
             {  "Eng", "..\\..\\..\\Res\\engText.xml" }
         };
 
@@ -26,7 +26,7 @@ namespace DoorsAndLevels
             if (!resFile.Exists)
             {
                 throw new ArgumentException(
-                    $"Can't find file engText.xml.");
+                    $"Requirement file doesn't exists.");
             }
 
             textFile.Load(resFile.FullName);

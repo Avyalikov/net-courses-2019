@@ -18,31 +18,39 @@ namespace DoorsAndLevels
         //Bool needs to stop the game on the max level.
         private bool finish = false;
 
+
         private readonly Interfaces.IDoorsGenerator doorsGenerator;
         private readonly Interfaces.IInputOutputModule ioModule;
         private readonly Interfaces.IPhraseProvider phraseProvider;
+        private readonly Interfaces.ISettingsProvider settingsProvider;
 
         public Game(Interfaces.IDoorsGenerator doorsGenerator,
             Interfaces.IInputOutputModule ioModule,
-            Interfaces.IPhraseProvider phraseProvider)
+            Interfaces.IPhraseProvider phraseProvider,
+            Interfaces.ISettingsProvider settingsProvider)
         {
             this.doorsGenerator = doorsGenerator;
             this.ioModule = ioModule;
             this.phraseProvider = phraseProvider;
+            this.settingsProvider = settingsProvider;
         }
 
         //Main loop
         public void Start(int doorsNum)
         {
-            phraseProvider.ParseXML("Eng");
+            settingsProvider.ParseXML();
+            phraseProvider.ParseXML(settingsProvider.GetSetting("Language"));
 
             ioModule.WriteOutput(phraseProvider.GetMessage("Start"));
 
-            List<int> doorsNumbers;
-            doorsNumbers = doorsGenerator.GetDoorsNumbers(5);
+            int amountOfDoors = Convert.ToInt32(settingsProvider.GetSetting("DoorsCount"));
+            int minDoorNum = Convert.ToInt32(settingsProvider.GetSetting("MinRandom"));
+            int maxDoorNum = Convert.ToInt32(settingsProvider.GetSetting("MaxRandom"));
+
+            doorsNumbers = doorsGenerator.GetDoorsNumbers(amountOfDoors, minDoorNum, maxDoorNum);
             PrintList(doorsNumbers);
 
-            ioModule.WriteOutput(phraseProvider.GetMessage("ExitCommand"));
+            ioModule.WriteOutput(phraseProvider.GetMessage("ExitCommand") + "\n");
 
             string door;
             int curDoor;
@@ -159,7 +167,7 @@ namespace DoorsAndLevels
             {
                 doors.Append(i + " ");
             }
-            ioModule.WriteOutput($"{doors}\n");
+            ioModule.WriteOutput($"\n{doors}\n");
         }
 
     }

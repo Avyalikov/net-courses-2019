@@ -4,8 +4,10 @@ using System.Text;
 
 namespace DoorsAndLevels.Interfaces
 {
-    interface IDoorsGenerator
+    interface ISettingsProvider
     {
-        List<int> GetDoorsNumbers(int doorsCount, int minRandom, int maxRandom);
+        void ParseXML();
+
+        string GetSetting(string xmlKey);
     }
 }

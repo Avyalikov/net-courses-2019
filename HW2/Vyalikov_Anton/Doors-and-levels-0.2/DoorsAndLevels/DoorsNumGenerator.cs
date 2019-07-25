@@ -5,7 +5,7 @@ namespace DoorsAndLevels
 {
     class DoorsNumGenerator : Interfaces.IDoorsGenerator
     {
-        public List<int> GetDoorsNumbers(int doorsCount)
+        public List<int> GetDoorsNumbers(int doorsCount, int minRandom, int maxRandom)
         {
             List<int> doorsNumbers = new List<int>();
             Random genNum = new Random();
