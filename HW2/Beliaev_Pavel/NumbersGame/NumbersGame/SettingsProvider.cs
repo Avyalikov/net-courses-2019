@@ -8,12 +8,8 @@ namespace NumbersGame
     public class SettingsProvider : ISettingsProvider
     {
         public GameSettings GetGameSettings()
-        {
-            //Environment.GetFolderPath(Environment)
-            //Path.;
-            //var path = Environment.CurrentDirectory.;//"bin\\Debug");'\\'
-            //Console.WriteLine(path);
-            var gameSettingsFile = new FileInfo("gameSettings.json");
+        {            
+            var gameSettingsFile = new FileInfo("gameSttings.json");
             
             if (!gameSettingsFile.Exists)
             {

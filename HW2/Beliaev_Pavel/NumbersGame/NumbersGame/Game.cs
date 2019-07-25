@@ -4,17 +4,15 @@ using System.Linq;
 using NumbersGame.Interfaces;
 
 namespace NumbersGame
-{   public enum Language {Eng, Rus}
+{   
     public enum InputCheckResult {Valid, Invalid, Exit, Info}
 
     public class Game
     {
         private readonly IPhraseProvider phraseProvider;
-        private readonly IInputOutput ioModule;        
-        private readonly IDoorsNumbersGenerator doorsNumbersGenerator;
+        private readonly IInputOutput ioModule;               
 
         private readonly GameSettings gameSettings;
-        private readonly Language ChosenLang;
                 
         private int[] doorNumbersHolder;
         private Stack<int> userInputHolder;
@@ -25,26 +23,20 @@ namespace NumbersGame
         {
             this.phraseProvider = phraseProvider;
             this.ioModule = ioModule;
-
-            this.gameSettings = settingsProvider.GetGameSettings();
+            try
+            {
+                this.gameSettings = settingsProvider.GetGameSettings();
+            }
+            catch (ArgumentException ex)
+            {
+                ioModule.WriteOutput(ex.Message);
+                this.gameSettings = null;
+                return;
+            }
             this.doorNumbersHolder = doorsNumbersGenerator.GenerateDoorsNumbers(this.gameSettings.DoorsAmount);
-            this.ChosenLang = SelectLang(this.phraseProvider, this.ioModule);
             this.userInputHolder = new Stack<int>();
         }
-
-        private Language SelectLang(IPhraseProvider phraseProvider, IInputOutput ioModule)
-        {
-            while (true)
-            {
-                ioModule.WriteOutput(phraseProvider.GetPhrase("SelectLang", Language.Eng));
-                string strInput = ioModule.ReadInput();
-                if (string.IsNullOrEmpty(strInput)) continue;
-                int numInput = Convert.ToInt32(strInput);
-                if (numInput == 1) return Language.Eng;
-                if (numInput == 2) return Language.Rus;
-            }     
-        }
-
+        
         private InputCheckResult CheckIfInputIsValid(string input)
         {
             if (input == "q") return InputCheckResult.Exit;
@@ -75,12 +67,12 @@ namespace NumbersGame
 
         private void ShowInfo()
         {
-            ioModule.WriteOutput(phraseProvider.GetPhrase("Info", ChosenLang));
-            ioModule.WriteOutput(phraseProvider.GetPhrase("WinValueIs", ChosenLang));
+            ioModule.WriteOutput(phraseProvider.GetPhrase("Info", gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase("WinValueIs", gameSettings.LangPackName));
             ioModule.WriteOutput(gameSettings.WinNumber.ToString());
-            ioModule.WriteOutput(phraseProvider.GetPhrase("ExitKey", ChosenLang));
+            ioModule.WriteOutput(phraseProvider.GetPhrase("ExitKey", gameSettings.LangPackName));
             ioModule.WriteOutput(gameSettings.ExitButton);
-            ioModule.WriteOutput(phraseProvider.GetPhrase("InfoKey", ChosenLang));
+            ioModule.WriteOutput(phraseProvider.GetPhrase("InfoKey", gameSettings.LangPackName));
             ioModule.WriteOutput(gameSettings.InfoButton);
         }
 
@@ -89,14 +81,24 @@ namespace NumbersGame
         {
             bool exit = false;
             string userInput;
-            
             InputCheckResult checkResult;
-            ioModule.WriteOutput(phraseProvider.GetPhrase("Intro", ChosenLang));
+
+            if (gameSettings == null) return;
+
+            try
+            {
+            ioModule.WriteOutput(phraseProvider.GetPhrase("Intro", gameSettings.LangPackName));
+            }
+            catch(ArgumentException ex)
+            {
+                ioModule.WriteOutput(ex.Message);
+                return;
+            }
             ShowInfo();
 
             while (!CheckWinCondition() && !exit)
             {
-                string enterThisNum = phraseProvider.GetPhrase("EnterNumber", ChosenLang);
+                string enterThisNum = phraseProvider.GetPhrase("EnterNumber", gameSettings.LangPackName);
                 foreach (int number in doorNumbersHolder)
                 {
                     enterThisNum = enterThisNum + number + " ";
@@ -107,7 +109,8 @@ namespace NumbersGame
                 userInput = ioModule.ReadInput();
                 if (string.IsNullOrEmpty(userInput))
                 {
-                    ioModule.WriteOutput(phraseProvider.GetPhrase("InvalidInput", ChosenLang)); continue;
+                    ioModule.WriteOutput(phraseProvider.GetPhrase("InvalidInput", gameSettings.LangPackName));
+                    continue;
                 }
                 checkResult = CheckIfInputIsValid(userInput);
 
@@ -115,7 +118,8 @@ namespace NumbersGame
                 {
                     case InputCheckResult.Invalid :
                         {
-                            ioModule.WriteOutput(phraseProvider.GetPhrase("InvalidInput", ChosenLang)); continue;
+                            ioModule.WriteOutput(phraseProvider.GetPhrase("InvalidInput", gameSettings.LangPackName));
+                            continue;
                         }
 
                     case InputCheckResult.Exit : { exit = true; break; }
@@ -132,21 +136,22 @@ namespace NumbersGame
             
             if (CheckWinCondition())
             {
-                ioModule.WriteOutput(phraseProvider.GetPhrase("Win", ChosenLang));                
+                ioModule.WriteOutput(phraseProvider.GetPhrase("Win", gameSettings.LangPackName));                
             }
 
-            ioModule.WriteOutput(phraseProvider.GetPhrase("Goodbye", ChosenLang));
+            ioModule.WriteOutput(phraseProvider.GetPhrase("Goodbye", gameSettings.LangPackName));
         }
 
-        private void NumbersChanger(string UserInput)
+
+        private void NumbersChanger(string userInput)
         {
-            int userInputNum = Convert.ToInt32(UserInput);
+            int userInputNum = Convert.ToInt32(userInput);
 
             if (userInputNum == 0)
             {
                 if (!userInputHolder.Any())
                 {
-                    ioModule.WriteOutput(phraseProvider.GetPhrase("FirstLvl", ChosenLang));
+                    ioModule.WriteOutput(phraseProvider.GetPhrase("FirstLvl", gameSettings.LangPackName));
                     return;
                 }
 

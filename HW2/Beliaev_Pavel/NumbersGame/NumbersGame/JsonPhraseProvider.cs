@@ -8,16 +8,9 @@ namespace NumbersGame
 {
     public class JsonPhraseProvider : IPhraseProvider
     {
-        public string GetPhrase(string phraseKey, Language ChosenLang)
+        public string GetPhrase(string phraseKey, string langPackName)
         {
-            string path = "";
-            
-            switch (ChosenLang)
-            {
-                case Language.Eng: { path = "Resources/English.json"; break; }
-                case Language.Rus: { path = "Resources/Russian.json"; break; }                
-            }
-            var resourceFile = new FileInfo(path);
+            var resourceFile = new FileInfo($"Resources/{langPackName}.json");
 
             if (!resourceFile.Exists)
             {
