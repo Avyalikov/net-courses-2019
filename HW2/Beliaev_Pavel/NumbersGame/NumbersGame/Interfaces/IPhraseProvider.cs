@@ -2,6 +2,6 @@
 {
     public interface IPhraseProvider
     {
-        string GetPhrase(string phraseKey, string langPackName);
+        string GetPhrase(KeysForPhrases keyPhrase, string langPackName);
     }
 }

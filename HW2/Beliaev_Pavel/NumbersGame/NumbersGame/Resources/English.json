@@ -9,5 +9,6 @@
   "SelectLang": "Select language: \n1. English\n2. Russian\n",
   "FirstLvl": "\nThis is the first level!\n",
   "Goodbye": "\nGoodbye, thank you for playing.\n",
-  "Win": "\n*******VICTORY*******\n"
+  "Win": "\n*******VICTORY*******\n",
+  "CloseProg": "Press any key..."
 }

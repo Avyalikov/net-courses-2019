@@ -10,9 +10,9 @@ namespace NumbersGame
             return Console.ReadLine();
         }
 
-        public void WriteLineOutput(string dataToOutput)
+        public char ReadKey()
         {
-            Console.WriteLine(dataToOutput);
+            return Console.ReadKey().KeyChar;
         }
 
         public void WriteOutput(string dataToOutput)

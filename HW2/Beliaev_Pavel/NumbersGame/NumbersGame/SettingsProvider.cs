@@ -9,7 +9,7 @@ namespace NumbersGame
     {
         public GameSettings GetGameSettings()
         {            
-            var gameSettingsFile = new FileInfo("gameSttings.json");
+            var gameSettingsFile = new FileInfo("gameSettings.json");
             
             if (!gameSettingsFile.Exists)
             {

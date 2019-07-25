@@ -8,7 +8,7 @@ namespace NumbersGame
 {
     public class JsonPhraseProvider : IPhraseProvider
     {
-        public string GetPhrase(string phraseKey, string langPackName)
+        public string GetPhrase(KeysForPhrases phraseKey, string langPackName)
         {
             var resourceFile = new FileInfo($"Resources/{langPackName}.json");
 
@@ -23,12 +23,12 @@ namespace NumbersGame
             try
             {
                 var resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
-                return resourceData[phraseKey];
+                return resourceData[phraseKey.ToString()];
             }
             catch (Exception ex)
             {
                 throw new ArgumentException(
-                    $"Can't extract phrase value {phraseKey}", ex);
+                    $"Can't extract phrase value {phraseKey.ToString()}", ex);
             }
         }
     }

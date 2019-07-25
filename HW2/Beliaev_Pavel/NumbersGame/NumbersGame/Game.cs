@@ -6,6 +6,11 @@ using NumbersGame.Interfaces;
 namespace NumbersGame
 {   
     public enum InputCheckResult {Valid, Invalid, Exit, Info}
+    public enum KeysForPhrases
+    {
+        Intro, Info , WinValueIs, ExitKey, InfoKey, EnterNumber,
+        InvalidInput, SelectLang, FirstLvl, Goodbye, Win, CloseProg
+    }
 
     public class Game
     {
@@ -65,14 +70,32 @@ namespace NumbersGame
             return false;
         }
 
+        private bool TestLangPack()
+        {
+            try
+            {
+                foreach (KeysForPhrases phraseKey in Enum.GetValues(typeof(KeysForPhrases)))
+                {
+                    phraseProvider.GetPhrase(phraseKey, gameSettings.LangPackName);
+                }
+            }
+            catch(System.FormatException ex)
+            {
+                ioModule.WriteOutput(ex.Message);
+                return false;
+            }
+            return true;
+            
+        }
+
         private void ShowInfo()
         {
-            ioModule.WriteOutput(phraseProvider.GetPhrase("Info", gameSettings.LangPackName));
-            ioModule.WriteOutput(phraseProvider.GetPhrase("WinValueIs", gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.Info, gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.WinValueIs, gameSettings.LangPackName));
             ioModule.WriteOutput(gameSettings.WinNumber.ToString());
-            ioModule.WriteOutput(phraseProvider.GetPhrase("ExitKey", gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.ExitKey, gameSettings.LangPackName));
             ioModule.WriteOutput(gameSettings.ExitButton);
-            ioModule.WriteOutput(phraseProvider.GetPhrase("InfoKey", gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.InfoKey, gameSettings.LangPackName));
             ioModule.WriteOutput(gameSettings.InfoButton);
         }
 
@@ -84,10 +107,11 @@ namespace NumbersGame
             InputCheckResult checkResult;
 
             if (gameSettings == null) return;
+            if (TestLangPack() == false) return;
 
             try
             {
-            ioModule.WriteOutput(phraseProvider.GetPhrase("Intro", gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.Intro, gameSettings.LangPackName));
             }
             catch(ArgumentException ex)
             {
@@ -98,7 +122,7 @@ namespace NumbersGame
 
             while (!CheckWinCondition() && !exit)
             {
-                string enterThisNum = phraseProvider.GetPhrase("EnterNumber", gameSettings.LangPackName);
+                string enterThisNum = phraseProvider.GetPhrase(KeysForPhrases.EnterNumber, gameSettings.LangPackName);
                 foreach (int number in doorNumbersHolder)
                 {
                     enterThisNum = enterThisNum + number + " ";
@@ -109,7 +133,7 @@ namespace NumbersGame
                 userInput = ioModule.ReadInput();
                 if (string.IsNullOrEmpty(userInput))
                 {
-                    ioModule.WriteOutput(phraseProvider.GetPhrase("InvalidInput", gameSettings.LangPackName));
+                    ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.InvalidInput, gameSettings.LangPackName));
                     continue;
                 }
                 checkResult = CheckIfInputIsValid(userInput);
@@ -118,7 +142,7 @@ namespace NumbersGame
                 {
                     case InputCheckResult.Invalid :
                         {
-                            ioModule.WriteOutput(phraseProvider.GetPhrase("InvalidInput", gameSettings.LangPackName));
+                            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.InvalidInput, gameSettings.LangPackName));
                             continue;
                         }
 
@@ -136,10 +160,13 @@ namespace NumbersGame
             
             if (CheckWinCondition())
             {
-                ioModule.WriteOutput(phraseProvider.GetPhrase("Win", gameSettings.LangPackName));                
+                ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.Win, gameSettings.LangPackName));                
             }
 
-            ioModule.WriteOutput(phraseProvider.GetPhrase("Goodbye", gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.Goodbye, gameSettings.LangPackName));
+            ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.CloseProg, gameSettings.LangPackName));
+            
+            ioModule.ReadKey();
         }
 
 
@@ -151,7 +178,7 @@ namespace NumbersGame
             {
                 if (!userInputHolder.Any())
                 {
-                    ioModule.WriteOutput(phraseProvider.GetPhrase("FirstLvl", gameSettings.LangPackName));
+                    ioModule.WriteOutput(phraseProvider.GetPhrase(KeysForPhrases.FirstLvl, gameSettings.LangPackName));
                     return;
                 }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using NumbersGame.Interfaces;
+﻿using NumbersGame.Interfaces;
 
 namespace NumbersGame
 {
@@ -13,8 +12,7 @@ namespace NumbersGame
             IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator();
 
             Game game = new Game(phraseProvider, ioModule, settingsProvider, doorsNumbersGenerator);
-            game.Run();
-            Console.ReadLine();
+            game.Run();            
         }
     }
 }
