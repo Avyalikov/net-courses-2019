@@ -7,15 +7,13 @@ namespace HW2_doors_and_levels_refactoring
     {
         static void Main()
         {
-            IPhraseProvider phraseProvider = new JsonPhraseProvider();
+            ISettingsProvider settingsProvider = new SettingsProvider();
+            IPhraseProvider phraseProvider = new JsonPhraseProvider(settingsProvider);
             IInputOutputDevice inputOutputDevice = new ConsoleIODevice();
-            ISettingsProvider settingsProvider = new SettingsProvider(inputOutputDevice, phraseProvider);
-            inputOutputDevice.Print(phraseProvider.GetPhrase("Welcome"));
-            GameSettings gameSettings = settingsProvider.gameSettings(); //settings setup in a runtime
-            IStartNumbersGenerator startNumbersGenerator = new StartNumbersGenerator(gameSettings);
-            INumbersChanger numbersChanger = new NumbersChanger(inputOutputDevice,phraseProvider, gameSettings);
+            IStartNumbersGenerator startNumbersGenerator = new StartNumbersGenerator(settingsProvider);
+            INumbersChanger numbersChanger = new NumbersChanger(inputOutputDevice,phraseProvider, settingsProvider);
 
-            var game = new Game(phraseProvider, inputOutputDevice, startNumbersGenerator,numbersChanger, gameSettings);
+            var game = new Game(phraseProvider, inputOutputDevice, startNumbersGenerator,numbersChanger, settingsProvider);
             game.Run();
         }
     }

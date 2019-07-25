@@ -9,7 +9,7 @@ namespace HW2_doors_and_levels_refactoring
         private readonly IInputOutputDevice ioDevice;
         private readonly IStartNumbersGenerator startNumbersGenerator; 
         private readonly INumbersChanger numbersChanger;
-        private GameSettings gameSettings;
+        private readonly GameSettings gameSettings;
         private int[] NumbersArray;
         private Stack<int> usernums;
 
@@ -19,13 +19,13 @@ namespace HW2_doors_and_levels_refactoring
             IInputOutputDevice ioDevice, 
             IStartNumbersGenerator startNumbersGenerator,
             INumbersChanger numbersChanger,
-            GameSettings gameSettings)
+            ISettingsProvider gameSettings)
         {
             this.phraseProvider = phraseProvider;
             this.ioDevice = ioDevice;
             this.startNumbersGenerator = startNumbersGenerator;
             this.numbersChanger = numbersChanger;
-            this.gameSettings = gameSettings;
+            this.gameSettings = gameSettings.GetGameSettings();
         }
 
         public void Run()
@@ -33,6 +33,11 @@ namespace HW2_doors_and_levels_refactoring
             NumbersArray = startNumbersGenerator.GenerateStartNumbers(gameSettings.DoorsAmount); // array with the current numbers
             usernums = new Stack<int>();
             string UserInput; // user input through io device
+            string PreviousLevel = phraseProvider.GetPhrase("PreviousLevelNumber") + gameSettings.PreviousLevelNumber;
+            string ExitCode = phraseProvider.GetPhrase("ExitCode") + gameSettings.ExitCode;
+            ioDevice.Print(phraseProvider.GetPhrase("Welcome"));
+            ioDevice.Print(PreviousLevel);
+            ioDevice.Print(ExitCode);
 
             while (true)
             {

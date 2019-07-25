@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="gamesettings.json" />
     <None Remove="Resources\Eng.json" />
     <None Remove="Resources\Rus.json" />
   </ItemGroup>
@@ -18,6 +19,12 @@
     <Content Include="Resources\Rus.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="gamesettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

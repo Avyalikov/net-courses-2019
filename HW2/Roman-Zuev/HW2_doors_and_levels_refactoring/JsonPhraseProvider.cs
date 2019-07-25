@@ -8,11 +8,17 @@ namespace HW2_doors_and_levels_refactoring
 {
     public class JsonPhraseProvider : IPhraseProvider
     {
+        private readonly GameSettings gameSettings;
+
+        public JsonPhraseProvider(ISettingsProvider settingsProvider)
+        {
+            this.gameSettings = settingsProvider.GetGameSettings();
+        }
         public string GetPhrase(string phraseKey)
         {
             string LanguageChanger;
             var culture = System.Globalization.CultureInfo.CurrentCulture;
-            if (culture.ToString() == "ru-RU") LanguageChanger = "Resources\\Rus.json"; //choosing language
+            if (gameSettings.Language == "Rus") LanguageChanger = "Resources\\Rus.json"; //choosing language
             else LanguageChanger = "Resources\\Eng.json";
 
             var resourceFile = new FileInfo(LanguageChanger);

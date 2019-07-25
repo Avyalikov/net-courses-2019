@@ -9,9 +9,9 @@ namespace HW2_doors_and_levels_refactoring
         private IInputOutputDevice ioDevice;
         private IPhraseProvider phraseProvider;
 
-        public NumbersChanger(IInputOutputDevice ioDevice, IPhraseProvider phraseProvider, GameSettings gameSettings)
+        public NumbersChanger(IInputOutputDevice ioDevice, IPhraseProvider phraseProvider, ISettingsProvider settingsProvider)
         {
-            this.gameSettings = gameSettings;
+            this.gameSettings = settingsProvider.GetGameSettings();
             this.ioDevice = ioDevice;
             this.phraseProvider = phraseProvider;
         }

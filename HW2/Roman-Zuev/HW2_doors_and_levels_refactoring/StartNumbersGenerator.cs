@@ -6,9 +6,9 @@ namespace HW2_doors_and_levels_refactoring
     {
         private readonly GameSettings gameSettings;
 
-        public StartNumbersGenerator(GameSettings gameSettings)
+        public StartNumbersGenerator(ISettingsProvider settingsProvider)
         {
-            this.gameSettings = gameSettings;
+            this.gameSettings = settingsProvider.GetGameSettings();
         }
 
         public int[] GenerateStartNumbers(int doorsAmount)
