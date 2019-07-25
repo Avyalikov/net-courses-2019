@@ -13,5 +13,6 @@
   "NotExitDoor": "You entered not ",
   "Overflow": "Toooooo large number. Try another one.",
   "InputError": "Input error. Try again.",
+  "OverflowDoor": "You have too large numbers of doors. Game over.",
   "Bye": "Good Bye."
 }
