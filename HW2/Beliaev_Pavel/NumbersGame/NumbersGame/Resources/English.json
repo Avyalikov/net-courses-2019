@@ -1,0 +1,14 @@
+{
+  "Intro": "Welcome to the game \"Doors and Levels\"\nYou will be given a set of numbers.\nIf you enter one of them (exept \"0\"), you will go to the next level.\nIf you enter \"0\" you will go to the previous level.\nYou will win when at least one of the numbers will be equal or greater then \"Win Value\".\n",
+  "Info": "\nGame info",
+  "WinValueIs": "\nWin Value: ",
+  "ExitKey": "\nExit button: ",
+  "InfoKey": "\nInfo button: ",
+  "EnterNumber": "\n\nEnter one of these numbers:\n",
+  "InvalidInput": "\nInvalid input!\n",
+  "SelectLang": "Select language: \n1. English\n2. Russian\n",
+  "FirstLvl": "\nThis is the first level!\n",
+  "Goodbye": "\nGoodbye, thank you for playing.\n",
+  "Win": "\n*******VICTORY*******\n",
+  "CloseProg": "Press any key..."
+}
