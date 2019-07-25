@@ -20,26 +20,29 @@ namespace DoorsAndLevels
 
         private readonly Interfaces.IDoorsGenerator doorsGenerator;
         private readonly Interfaces.IInputOutputModule ioModule;
+        private readonly Interfaces.IPhraseProvider phraseProvider;
 
         public Game(Interfaces.IDoorsGenerator doorsGenerator,
-            Interfaces.IInputOutputModule ioModule)
+            Interfaces.IInputOutputModule ioModule,
+            Interfaces.IPhraseProvider phraseProvider)
         {
             this.doorsGenerator = doorsGenerator;
             this.ioModule = ioModule;
+            this.phraseProvider = phraseProvider;
         }
 
         //Main loop
         public void Start(int doorsNum)
         {
+            phraseProvider.ParseXML("Eng");
 
-
-            ioModule.WriteOutput(@"Welcome to Doors And Levels game.
-You can write 'exit' to leave the game or you can choose one of those doors if you want to play:
-");
+            ioModule.WriteOutput(phraseProvider.GetMessage("Start"));
 
             List<int> doorsNumbers;
             doorsNumbers = doorsGenerator.GetDoorsNumbers(5);
             PrintList(doorsNumbers);
+
+            ioModule.WriteOutput(phraseProvider.GetMessage("ExitCommand"));
 
             string door;
             int curDoor;
@@ -50,7 +53,7 @@ You can write 'exit' to leave the game or you can choose one of those doors if y
 
                 if (door.ToLower().Equals("exit"))
                 {
-                    ioModule.WriteOutput("\nThank you for playing.\n");
+                    ioModule.WriteOutput(phraseProvider.GetMessage("Exit"));
                     break;
                 }
 
@@ -61,7 +64,7 @@ You can write 'exit' to leave the game or you can choose one of those doors if y
                     if (curDoor == 0 && finish)
                     {
                         finish = false;
-                        ioModule.WriteOutput("\nYou return to the previous level.\n");
+                        ioModule.WriteOutput(phraseProvider.GetMessage("LevelDown"));
                         PrintList(doorsNumbers);
                     }
 
@@ -77,18 +80,18 @@ You can write 'exit' to leave the game or you can choose one of those doors if y
 
                     else
                     {
-                        ioModule.WriteOutput("\nYou wrote incorrect number. Please try again.\n");
+                        ioModule.WriteOutput(phraseProvider.GetMessage("IncorrectNumber"));
                     }
                 }
 
                 catch (FormatException)
                 {
-                    ioModule.WriteOutput("\nInvalid command. Please try again.\n");
+                    ioModule.WriteOutput(phraseProvider.GetMessage("InvalidCommand"));
                 }
 
                 catch (OverflowException)
                 {
-                    ioModule.WriteOutput("\nYou wrote incorrect door number. Please try again.\n");
+                    ioModule.WriteOutput(phraseProvider.GetMessage("Overflow"));
                 }
             }
         }
@@ -103,12 +106,12 @@ You can write 'exit' to leave the game or you can choose one of those doors if y
                 {
                     doorsNumbers[i] = doorsNumbers[i] / previousDoor;
                 }
-                ioModule.WriteOutput("\nYou've returned to the previous level.\n");
+                ioModule.WriteOutput(phraseProvider.GetMessage("LevelDown"));
             }
             
             else
             {
-                ioModule.WriteOutput("\nYou are on the first level already.\n");
+                ioModule.WriteOutput(phraseProvider.GetMessage("FirstLevel"));
             }
             PrintList(doorsNumbers);
         }
@@ -137,12 +140,12 @@ You can write 'exit' to leave the game or you can choose one of those doors if y
 
             if (finish)
             {
-                ioModule.WriteOutput("\nYou've reached max level of the game.\nYou can print 0 to return to the previous level, or write exit to leave the game.\n");
+                ioModule.WriteOutput(phraseProvider.GetMessage("Victory"));
             }
 
             else
             {
-                ioModule.WriteOutput("\nYou've moved to the next level.\nPlease choose one of those doors:\n");
+                ioModule.WriteOutput(phraseProvider.GetMessage("LevelUp"));
                 PrintList(doorsNumbers);
             }
 

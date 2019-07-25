@@ -5,4 +5,18 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Res\engText.xml" />
+    <None Remove="Res\rusText.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Res\engText.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Res\rusText.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>
