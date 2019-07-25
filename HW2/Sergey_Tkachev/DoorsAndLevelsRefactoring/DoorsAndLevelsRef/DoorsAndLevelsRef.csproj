@@ -67,7 +67,7 @@
     <Content Include="Resources\engLanguage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\gameSettings.json">
+    <Content Include="gameSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\rusLanguage.json">

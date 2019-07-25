@@ -2,7 +2,7 @@
   "WelcomeStart": "Welcome to the Doors and Levels game. Enter '",
   "WelcomeEnd": "' to exit.\n",
   "Level": "Level #",
-  "TheDoorsAre": "There are the next doors: ",
+  "TheDoorsAre": ". There are the next doors: ",
   "Select": "\nSelect one of existing numbers: ",
   "Thanks": "\nThanks for playing!",
   "YouSelected": "\nYou selected '",

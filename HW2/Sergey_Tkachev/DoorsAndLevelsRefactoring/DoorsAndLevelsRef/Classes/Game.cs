@@ -43,20 +43,20 @@ namespace DoorsAndLevelsRef
 
             levelNumbers = arrayGenerator.GenerateArray(gameSettings.DoorsAmount);
 
-            phraseProvider.GetPhrase("WelcomeStart");
+            io.WriteOutput(phraseProvider.GetPhrase("WelcomeStart"));
             io.WriteOutput($"{gameSettings.ExitCode}");
-            phraseProvider.GetPhrase("WelcomeEnd");
+            io.WriteOutput(phraseProvider.GetPhrase("WelcomeEnd"));
 
             while (true)
             {
-                phraseProvider.GetPhrase("Level");
+                io.WriteOutput(phraseProvider.GetPhrase("Level"));
                 io.WriteOutput($"{currentLevel}");
-                phraseProvider.GetPhrase("TheDoorsAre");
+                io.WriteOutput(phraseProvider.GetPhrase("TheDoorsAre"));
                 io.printArray(levelNumbers);
 
                 do
                 {
-                    phraseProvider.GetPhrase("Select");
+                    io.WriteOutput(phraseProvider.GetPhrase("Select"));
                     selectedNum = int.Parse(io.ReadInput());
                     if (selectedNum == gameSettings.ExitDoorNumber)
                         break;
@@ -64,7 +64,7 @@ namespace DoorsAndLevelsRef
 
                 if (selectedNum == gameSettings.ExitCode)
                 {
-                    phraseProvider.GetPhrase("Thanks");
+                    io.WriteOutput(phraseProvider.GetPhrase("Thanks"));
                     break;
                 }
                 else if (selectedNum == gameSettings.ExitDoorNumber)
@@ -72,13 +72,13 @@ namespace DoorsAndLevelsRef
                     if (currentLevel > 1)
                     {
                         operationWithData.Divide(levelNumbers, history.Pop());
-                        phraseProvider.GetPhrase("YouSelected");
+                        io.WriteOutput(phraseProvider.GetPhrase("YouSelected"));
                         io.WriteOutput($"{selectedNum}");
-                        phraseProvider.GetPhrase("Previous");
+                        io.WriteOutput(phraseProvider.GetPhrase("Previous"));
                         currentLevel--;
                     }
                     else if (currentLevel == 1) {
-                        phraseProvider.GetPhrase("AlreadyFirst");
+                        io.WriteOutput(phraseProvider.GetPhrase("AlreadyFirst"));
                     }
                 }
                 else 
@@ -87,13 +87,13 @@ namespace DoorsAndLevelsRef
                     {
                         operationWithData.Multiply(levelNumbers, selectedNum);
                         history.Push(selectedNum);
-                        phraseProvider.GetPhrase("YouSelected");
+                        io.WriteOutput(phraseProvider.GetPhrase("YouSelected"));
                         io.WriteOutput($"{selectedNum}");
-                        phraseProvider.GetPhrase("Next");
+                        io.WriteOutput(phraseProvider.GetPhrase("Next"));
                         currentLevel++;
                     }
                     else {
-                        phraseProvider.GetPhrase("MaxLevelReached");
+                        io.WriteOutput(phraseProvider.GetPhrase("MaxLevelReached"));
                     }
                 }
 
