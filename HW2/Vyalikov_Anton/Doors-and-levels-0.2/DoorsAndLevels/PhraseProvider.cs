@@ -9,7 +9,7 @@ namespace DoorsAndLevels
 {
     class PhraseProvider : Interfaces.IPhraseProvider
     {
-        private Dictionary<string, string> keyValuePairs;
+        private Dictionary<string, string> phrasesDict;
         private Dictionary<string, string> languages = new Dictionary<string, string>()
         {
             { "Rus", "..\\..\\..\\Res\\rusText.xml" },
@@ -18,7 +18,7 @@ namespace DoorsAndLevels
 
         public void ParseXML(string requireLang)
         {
-            keyValuePairs = new Dictionary<string, string>();
+            phrasesDict = new Dictionary<string, string>();
 
             XmlDocument textFile = new XmlDocument();
 
@@ -35,7 +35,7 @@ namespace DoorsAndLevels
             //add all phrases to dictionary
             foreach (XmlElement child in root)
             {
-                keyValuePairs.Add(child.Name, child.InnerText);
+                phrasesDict.Add(child.Name, child.InnerText);
             }
         }
 
@@ -43,7 +43,7 @@ namespace DoorsAndLevels
         {
             try
             {
-                return keyValuePairs[key];
+                return phrasesDict[key];
             }
             catch (KeyNotFoundException)
             {
