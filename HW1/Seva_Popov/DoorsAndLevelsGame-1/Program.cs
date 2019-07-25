@@ -95,8 +95,10 @@ namespace DoorsAndLevelsGame_1
                         game.levelDoorNumberArray.RemoveAt(game.levelDoorNumberArray.Count - 1);
                     }
                 }
-            }
-            Console.WriteLine(" You entered some wrong number !!!");
+            } else
+	                {
+                        Console.WriteLine(" You entered some wrong number !!!");
+	                }         
         }
 
         private int[] LevelUp(int[] doorNumbersArray, int userDoorSelect)

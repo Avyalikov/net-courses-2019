@@ -78,14 +78,15 @@ namespace DoorsAndLevelsGame
 
                 if (userDoorSelect == 0)
                 {
-                    try
+                    if (levelDoorNumberStack.Count > 0)
                     {
                         LevelDown(doorNumbersArray, levelDoorNumberStack.Pop());
                     }
-                    catch (System.InvalidOperationException)
+                    else
                     {
+                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("StackIsEmpty"));
                         levelDoorNumberStack.Push(1);
-                    }                  
+                    }           
                 }
             }
             else
