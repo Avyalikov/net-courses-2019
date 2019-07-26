@@ -8,62 +8,119 @@ namespace ConsoleCanvas
 {
     public struct Canvas
     {
-        public int x1;
+        public int x1;  //upper left corner
         public int y1;
 
-        public int x2;
+        public int x2;  //bottom right corner
         public int y2;
     }
 
-    delegate void DrawDelegate(Canvas canvas);
+    public delegate void DrawDelegate(Canvas canvas);
 
 
-    class DrawDotClass
+    public class DrawDotClass
     {
+        DrawManager drawManager;
+        public DrawDotClass(DrawManager drawManager)
+        {
+            this.drawManager = drawManager;
+        }
         public void DrawDot(Canvas canvas)
         {
             int dotXPos = (int)(canvas.x1 + (canvas.x2 - canvas.x1) * 0.3);
             int dotYPos = (int)(canvas.y1 + (canvas.y2 - canvas.y1) * 0.3);
 
-            //WriteAt(".", dotXPos, dotYPos);
+            drawManager.WriteAt(".", dotXPos, dotYPos);
         }
     }
-   
 
-    class Program
+    public class DrawCanvasClass
     {
-        protected static int origRow;
-        protected static int origCol;
-
-        public static void DrawCanvas(Canvas canvas)
+        DrawManager drawManager;
+        public DrawCanvasClass(DrawManager drawManager)
         {
-            for(int i = canvas.x1; i<canvas.x2; i++)    //drawing horizontal lines
+            this.drawManager = drawManager;
+        }
+        public void DrawCanvas(Canvas canvas)
+        {
+            for (int i = canvas.x1; i < canvas.x2; i++)    //drawing horizontal lines
             {
-                WriteAt("-", i, canvas.y1);
-                WriteAt("-", i, canvas.y2);
+                drawManager.WriteAt("-", i, canvas.y1);
+                drawManager.WriteAt("-", i, canvas.y2);
             }
 
             for (int i = canvas.y1; i < canvas.y2; i++)   //drawing vertical lines
             {
-                WriteAt("|", canvas.x1, i);
-                WriteAt("|", canvas.x2, i);
+                drawManager.WriteAt("|", canvas.x1, i);
+                drawManager.WriteAt("|", canvas.x2, i);
             }
 
 
-            WriteAt("+", canvas.x1, canvas.y1);     //drawing fancy corners
-            WriteAt("+", canvas.x1, canvas.y2);
+            drawManager.WriteAt("+", canvas.x1, canvas.y1);     //drawing fancy corners
+            drawManager.WriteAt("+", canvas.x1, canvas.y2);
 
-            WriteAt("+", canvas.x2, canvas.y1);
-            WriteAt("+", canvas.x2, canvas.y2);
+            drawManager.WriteAt("+", canvas.x2, canvas.y1);
+            drawManager.WriteAt("+", canvas.x2, canvas.y2);
+        }
+    }
+
+    public class DrawVerticalLineClass
+    {
+        DrawManager drawManager;
+        public DrawVerticalLineClass(DrawManager drawManager)
+        {
+            this.drawManager = drawManager;
+        }
+        public void DrawVerticalLine(Canvas canvas)
+        {
+            int lineXPos = (int)((canvas.x2 - canvas.x1) / 2);
+            for (int i = canvas.y1; i < canvas.y2; i++)
+            {
+                drawManager.WriteAt("|", lineXPos, i);
+            }
+            drawManager.WriteAt("+", lineXPos, canvas.y1);     //drawing fancy ends
+            drawManager.WriteAt("+", lineXPos, canvas.y2);
         }
 
+    }
 
-        protected static void WriteAt(string s, int x, int y)
+    public class DrawHorizontalLineClass
+    {
+        DrawManager drawManager;
+        public DrawHorizontalLineClass(DrawManager drawManager)
+        {
+            this.drawManager = drawManager;
+        }
+        public void DrawHorizontallLine(Canvas canvas)
+        {
+
+            int dotYPos = (int)((canvas.y2 - canvas.y1) / 2);
+            for (int i = canvas.x1; i < canvas.x2; i++)
+            {
+                drawManager.WriteAt("-", i, dotYPos);
+            }
+            drawManager.WriteAt("+", canvas.x1, dotYPos);     //drawing fancy ends
+            drawManager.WriteAt("+", canvas.x2, dotYPos);
+        }
+
+    }
+
+    public class DrawManager
+    {
+        protected static int origRow;
+        protected static int origCol;
+        public void DrawInitiate()
+        {
+            Console.Clear();
+            origRow = Console.CursorTop;
+            origCol = Console.CursorLeft;
+        }
+        public void WriteAt(string userString, int x, int y)
         {
             try
             {
                 Console.SetCursorPosition(origCol + x, origRow + y);
-                Console.Write(s);
+                Console.Write(userString);
             }
             catch (ArgumentOutOfRangeException e)
             {
@@ -72,31 +129,8 @@ namespace ConsoleCanvas
             }
         }
 
-        public static void DrawVerticalLine(Canvas canvas)
-        {
-            int lineXPos = (int)((canvas.x2 - canvas.x1)/2);
-            for(int i = canvas.y1; i < canvas.y2; i++)
-            {
-                WriteAt("|", lineXPos, i);
-            }
-            WriteAt("+", lineXPos, canvas.y1);     //drawing fancy corners
-            WriteAt("+", lineXPos, canvas.y2);
-        }
 
-
-        public static void DrawHorizontallLine(Canvas canvas)
-        {
-
-            int dotYPos = (int)((canvas.y2 - canvas.y1) / 2);
-            for (int i = canvas.x1; i < canvas.x2; i++)
-            {
-                WriteAt("-", i, dotYPos);
-            }
-            WriteAt("+", canvas.x1, dotYPos);     //drawing fancy corners
-            WriteAt("+", canvas.x2, dotYPos);
-        }
-
-        public static void ProceedDrawing(DrawDelegate drawDelegat, Canvas canvas)
+        public void ProceedDrawing(DrawDelegate drawDelegat, Canvas canvas)
         {
             Console.Clear();
             if (drawDelegat != null)
@@ -109,16 +143,17 @@ namespace ConsoleCanvas
                 WriteAt($"Canvas is clean!", 0, 28);
             }
         }
+    }
 
-        static void Main(string[] args)
+
+
+
+
+    class Program
+    {
+
+        private static Canvas GetCanvas()
         {
-            Console.Clear();
-            origRow = Console.CursorTop;
-            origCol = Console.CursorLeft;
-            Boolean dontShow = true;
-
-            ConsoleKeyInfo consoleKeyPressed;
-
             Canvas canvas = new Canvas();
             canvas.x1 = 3;
             canvas.y1 = 2;
@@ -126,9 +161,25 @@ namespace ConsoleCanvas
             canvas.x2 = 62;
             canvas.y2 = 16;
 
-            DrawDelegate drawingDelegates = null;
+            return canvas;
+        }
 
-            DrawDotClass dotDrawClass = new DrawDotClass();
+        static void Main(string[] args)
+        {
+           
+            Boolean dontShow = true;
+            ConsoleKeyInfo consoleKeyPressed;
+
+            Canvas canvas;
+            canvas = GetCanvas();
+
+            DrawDelegate drawingDelegates = null;
+            DrawManager drawManager = new DrawManager();
+            DrawDotClass dotDrawClass = new DrawDotClass(drawManager);
+            DrawCanvasClass drawCanvas = new DrawCanvasClass(drawManager);
+            DrawVerticalLineClass drawVerticalLineClass = new DrawVerticalLineClass(drawManager);
+            DrawHorizontalLineClass drawHorizontalLineClass = new DrawHorizontalLineClass(drawManager);
+
 
             do
             {
@@ -137,7 +188,7 @@ namespace ConsoleCanvas
                 switch (consoleKeyPressed.Key) //Switch on Key enum
                 {
                     case ConsoleKey.D1: //Key "1"
-                        drawingDelegates += DrawCanvas;
+                        drawingDelegates += new DrawDelegate(drawCanvas.DrawCanvas);
                         break;
 
                     case ConsoleKey.D2: //Key "2"
@@ -145,11 +196,11 @@ namespace ConsoleCanvas
                             break;
 
                     case ConsoleKey.D3: //Key "3"
-                        drawingDelegates += DrawVerticalLine;
+                        drawingDelegates += new DrawDelegate(drawVerticalLineClass.DrawVerticalLine);
                         break;
 
                     case ConsoleKey.D4: //Key "4"
-                        drawingDelegates += DrawHorizontallLine;
+                        drawingDelegates += new DrawDelegate(drawHorizontalLineClass.DrawHorizontallLine);
                         break;
                     case ConsoleKey.D6: //Key "4"
                         //drawingDelegates += DrawRandomDot;
@@ -157,19 +208,19 @@ namespace ConsoleCanvas
 
 
                     case ConsoleKey.Q: //Key "Q"
-                        drawingDelegates -= DrawCanvas;
+                        drawingDelegates -= new DrawDelegate(drawCanvas.DrawCanvas);
                         break;
 
                     case ConsoleKey.W: //Key "W"
-                        //drawingDelegates -= DrawDot;
+                        drawingDelegates -= new DrawDelegate(dotDrawClass.DrawDot);
                         break;
 
                     case ConsoleKey.E: //Key "E"
-                        drawingDelegates -= DrawVerticalLine;
+                        drawingDelegates -= new DrawDelegate(drawVerticalLineClass.DrawVerticalLine);
                         break;
 
                     case ConsoleKey.R: //Key "R"
-                        drawingDelegates -= DrawHorizontallLine;
+                        drawingDelegates -= new DrawDelegate(drawHorizontalLineClass.DrawHorizontallLine);
                         break;
                     case ConsoleKey.T: //Key "R"
                         //drawingDelegates -= DrawRandomDot;
@@ -177,9 +228,10 @@ namespace ConsoleCanvas
                     default:
                         break;
                 }
-                ProceedDrawing(drawingDelegates, canvas);
+                drawManager.ProceedDrawing(drawingDelegates, canvas);
             } while (consoleKeyPressed.Key != ConsoleKey.Escape);
         }
+
     }
 }
 
