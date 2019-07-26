@@ -1,5 +1,6 @@
 ﻿{
-  "DoorsAmount": 5, 
+  "DoorsAmount": 5,
   "ExitDoorNumber": 0,
-  "ExitCode":  -1
+  "Language": "Resources\\rus.json",
+  "ExitCode": -1
 }

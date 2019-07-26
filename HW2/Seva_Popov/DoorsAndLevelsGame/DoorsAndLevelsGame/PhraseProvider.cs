@@ -12,16 +12,16 @@ namespace DoorsAndLevelsGame
         public string GetPhrase(string phraseKey)
         {
             string Language;
-            
-          Language = "Resources\\Rus.json"; 
-          //Language = "Resources\\Eng.json";
+            ISettingsProvider settingsProvider = new SettingsProvider();
+            Language = settingsProvider.GetGameSettings().Language;
+            //You can change language in GameSettings: "Resources\\eng.json";
 
             var resourceFile = new FileInfo(Language);
 
             if (!resourceFile.Exists)
             {
                 throw new ArgumentException(
-                     $"Can't find language file LangRu.json. Trying to find it here: {resourceFile}");
+                     $"Can't find language file rus.json. Trying to find it here: {resourceFile}");
             }
 
             var resourceFileContent = File.ReadAllText(resourceFile.FullName);

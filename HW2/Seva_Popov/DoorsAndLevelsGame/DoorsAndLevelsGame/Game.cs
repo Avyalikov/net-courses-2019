@@ -36,33 +36,33 @@ namespace DoorsAndLevelsGame
         public void Run()
         {
             inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Start"));
-            inputOutputDevice.WriteOutputArray(doorNumbersArray);
+            inputOutputDevice.WriteOutputArray(doorNumbersArray);  
 
-            while (true)
-            {
-                inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("SelectNumber"));
+            //while (true)
+            //{
+            //    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("SelectNumber"));
 
-                string userNumbrInput = inputOutputDevice.ReadInput();
-                int tryParse;
+            //    string userNumbrInput = inputOutputDevice.ReadInput();
+            //    int tryParse;
 
-                if (int.TryParse(userNumbrInput, out tryParse))
-                {
-                    if (userDoorSelect == settingsProvider.GetGameSettings().ExitCode)
-                    {
-                        break;
-                    }
+            //    if (int.TryParse(userNumbrInput, out tryParse))
+            //    {
+            //        if (userDoorSelect == settingsProvider.GetGameSettings().ExitCode)
+            //        {
+            //            break;
+            //        }
 
-                    CheckLine(userDoorSelect);
+            //        CheckLine(userDoorSelect);
 
-                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("#"));
+            //        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("#"));
 
-                    inputOutputDevice.WriteOutputArray(doorNumbersArray);
-                }
-                else
-                {
-                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("WrongValue"));
-                }
-            }
+            //        inputOutputDevice.WriteOutputArray(doorNumbersArray);
+            //    }
+            //    else
+            //    {
+            //        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("WrongValue"));
+            //    }
+            //}
         }
 
         private void CheckLine(int userDoorSelect)

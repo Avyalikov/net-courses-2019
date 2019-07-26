@@ -8,6 +8,7 @@ namespace DoorsAndLevelsGame
     {
         public int DoorsAmount { get; set; }
         public int ExitDoorNumber { get; set; }
+        public string Language { get; set; }
         public int ExitCode { get; set; }
     }
 }
