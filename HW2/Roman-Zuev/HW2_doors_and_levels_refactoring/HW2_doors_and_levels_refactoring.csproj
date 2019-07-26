@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>HW2_doors_and_levels_refactoring.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="gamesettings.json" />
+    <None Remove="Resources\Eng.json" />
+    <None Remove="Resources\Rus.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Eng.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Rus.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="gamesettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+</Project>
