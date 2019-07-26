@@ -36,33 +36,36 @@ namespace DoorsAndLevelsGame
         public void Run()
         {
             inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Start"));
-            inputOutputDevice.WriteOutputArray(doorNumbersArray);  
+            inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Select-0") + settingsProvider.GetGameSettings().ExitDoorNumber);
+            inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("Select-1") + settingsProvider.GetGameSettings().ExitCode);
 
-            //while (true)
-            //{
-            //    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("SelectNumber"));
+            inputOutputDevice.WriteOutputArray(doorNumbersArray);
 
-            //    string userNumbrInput = inputOutputDevice.ReadInput();
-            //    int tryParse;
+            while (true)
+            {
+                inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("SelectNumber"));
 
-            //    if (int.TryParse(userNumbrInput, out tryParse))
-            //    {
-            //        if (userDoorSelect == settingsProvider.GetGameSettings().ExitCode)
-            //        {
-            //            break;
-            //        }
+                string userNumbrInput = inputOutputDevice.ReadInput();
+                int tryParse;
 
-            //        CheckLine(userDoorSelect);
+                if (int.TryParse(userNumbrInput, out tryParse))
+                {
+                    if (userDoorSelect == settingsProvider.GetGameSettings().ExitCode)
+                    {
+                        break;
+                    }
 
-            //        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("#"));
+                    CheckLine(userDoorSelect);
 
-            //        inputOutputDevice.WriteOutputArray(doorNumbersArray);
-            //    }
-            //    else
-            //    {
-            //        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("WrongValue"));
-            //    }
-            //}
+                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("#"));
+
+                    inputOutputDevice.WriteOutputArray(doorNumbersArray);
+                }
+                else
+                {
+                    inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("WrongValue"));
+                }
+            }
         }
 
         private void CheckLine(int userDoorSelect)
