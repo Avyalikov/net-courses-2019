@@ -50,6 +50,7 @@ namespace DoorsAndLevelsGame
 
                 if (int.TryParse(userNumbrInput, out tryParse))
                 {
+                    userDoorSelect = tryParse;
                     if (userDoorSelect == settingsProvider.GetGameSettings().ExitCode)
                     {
                         break;
