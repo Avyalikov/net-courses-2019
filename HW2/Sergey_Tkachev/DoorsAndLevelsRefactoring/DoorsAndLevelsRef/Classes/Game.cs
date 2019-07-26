@@ -16,10 +16,10 @@ namespace DoorsAndLevelsRef
 
         private readonly GameSettings gameSettings;
 
-        int[] levelNumbers;
-        Stack<int> history;
-        int selectedNum;
-        int currentLevel;
+        private int[] levelNumbers;
+        private Stack<int> history;
+        private int selectedNum;
+        private int currentLevel;
 
         public Game(IPhraseProvider phraseProvider,
                     IInputOutput io,
@@ -36,6 +36,16 @@ namespace DoorsAndLevelsRef
             this.gameSettings = this.settingsProvider.GetGameSettings();
             this.history = new Stack<int>();
             currentLevel = 1;
+        }
+        /// <summary>Checks if entered number is integer, if not then number should be entered again.</summary>
+        /// <returns></returns>
+        private int InputCheck()
+        {
+            while (true)
+                if (!int.TryParse(io.ReadInput(), out int enteredNum))
+                    io.WriteOutput(phraseProvider.GetPhrase("Incorrect"));
+                else
+                    return selectedNum = enteredNum;
         }
 
         public void Run()
@@ -57,9 +67,12 @@ namespace DoorsAndLevelsRef
                 do
                 {
                     io.WriteOutput(phraseProvider.GetPhrase("Select"));
-                    selectedNum = int.Parse(io.ReadInput());
+
+                    InputCheck();
+
                     if (selectedNum == gameSettings.ExitCode)
                         break;
+
                 } while (!operationWithData.Contains(levelNumbers, selectedNum));
 
                 if (selectedNum == gameSettings.ExitCode)

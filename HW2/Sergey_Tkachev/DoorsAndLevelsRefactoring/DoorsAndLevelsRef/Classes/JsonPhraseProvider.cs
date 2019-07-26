@@ -9,9 +9,9 @@ namespace DoorsAndLevelsRef
     {
         private readonly string selectedLanguage;
         private readonly GameSettings gameSettings;
-        private FileInfo resourceFile;
-        private string resourceFileContent;
-        Dictionary<string, string> jsonFilePath = new Dictionary<string, string>
+
+        private Dictionary<string, string> resourceData = new Dictionary<string, string>();
+        private Dictionary<string, string> jsonFilePath = new Dictionary<string, string>
         {
             {"english", "Resources/engLanguage.json"},
             {"russian", "Resources/rusLanguage.json"}
@@ -26,13 +26,16 @@ namespace DoorsAndLevelsRef
         /// <summary>Loads data from json file.</summary>
         private void GetData()
         {
-            resourceFile = new FileInfo(jsonFilePath[selectedLanguage]);
+            var resourceFile = new FileInfo(jsonFilePath[selectedLanguage]);
             if (!resourceFile.Exists)
             {
                 throw new ArgumentException(
                     $"Can't find language file LangRu.json. Trying to find it here: {resourceFile}");
             }
-            resourceFileContent = File.ReadAllText(resourceFile.FullName);
+            var resourceFileContent = File.ReadAllText(resourceFile.FullName);
+            resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
+
+
         }
 
         /// <summary>Returns phare by key</summary>
@@ -40,11 +43,10 @@ namespace DoorsAndLevelsRef
         /// <returns></returns>
         public string GetPhrase(string phraseKey)
         {
-            if (resourceFile is null)
+            if (resourceData.Count == 0)
                 GetData();
             try
             {
-                var resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
                 return resourceData[phraseKey];
             }
             catch (Exception ex)
