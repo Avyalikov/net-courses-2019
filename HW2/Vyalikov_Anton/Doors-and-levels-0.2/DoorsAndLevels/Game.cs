@@ -13,13 +13,6 @@ namespace DoorsAndLevels
         //This list is using for store current doors, that user can choose.
         List<int> doorsNumbers = new List<int>();
 
-        //This list is using for store doors of the previous level.
-        private List<int> prevDoors = new List<int>();
-
-        //Bool needs to stop the game on the max level.
-        private bool finish = false;
-
-
         private readonly Interfaces.IDoorsGenerator doorsGenerator;
         private readonly Interfaces.IInputOutputModule ioModule;
         private readonly Interfaces.IPhraseProvider phraseProvider;
@@ -48,8 +41,17 @@ namespace DoorsAndLevels
             int minDoorNum = Convert.ToInt32(settingsProvider.GetSetting("MinRandom"));
             int maxDoorNum = Convert.ToInt32(settingsProvider.GetSetting("MaxRandom"));
 
-            doorsNumbers = doorsGenerator.GetDoorsNumbers(amountOfDoors, minDoorNum, maxDoorNum);
-            PrintList(doorsNumbers);
+            if (maxDoorNum - minDoorNum > amountOfDoors)
+            {
+                doorsNumbers = doorsGenerator.GetDoorsNumbers(amountOfDoors, minDoorNum, maxDoorNum);
+                PrintList(doorsNumbers);
+            }
+
+            else
+            {
+                throw new Exception ("Incorrect settings. Amount of door less, than should be.");
+            }
+            
 
             ioModule.WriteOutput(phraseProvider.GetMessage("ExitCommand") + "\n");
 
@@ -70,22 +72,7 @@ namespace DoorsAndLevels
                 {
                     curDoor = Convert.ToInt32(door);
 
-                    if (finish)
-                    {
-                        if (curDoor == 0)
-                        {
-                            finish = false;
-                            ioModule.WriteOutput(phraseProvider.GetMessage("LevelDown"));
-                            PrintList(doorsNumbers);
-                        }
-                        
-                        else
-                        {
-                            ioModule.WriteOutput(phraseProvider.GetMessage("IncorrectNumber"));
-                        }
-                    }
-
-                    else if (curDoor == 0)
+                    if (curDoor == 0)
                     {
                         PreviousLevel();
                     }
@@ -137,25 +124,13 @@ namespace DoorsAndLevels
         private void NextLevel(int door)
         {
             chosenDoors.Push(door);
-            prevDoors = doorsNumbers;
+            List<int> prevDoors = new List<int>();
             for (int i = 0; i < doorsNumbers.Count; i++)
             {
-                if (chosenDoors.Count() == 4)
-                {
-                    finish = true;
-                    doorsNumbers = prevDoors;
-                    chosenDoors.Pop();
-                    break;
-                }
-
-                else
-                {
-                    doorsNumbers[i] = doorsNumbers[i] * door;
-                }
-
+                doorsNumbers[i] = doorsNumbers[i] * door;
             }
 
-            if (finish)
+            if (doorsNumbers.Max() >= 46000)
             {
                 ioModule.WriteOutput(phraseProvider.GetMessage("Victory"));
             }

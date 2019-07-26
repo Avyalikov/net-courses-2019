@@ -6,17 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Res\engText.xml" />
-    <None Remove="Res\rusText.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Res\engText.xml">
+    <None Update="Res\engText.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Res\rusText.xml">
+    </None>
+    <None Update="Res\rusText.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </None>
+    <None Update="Res\settings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -15,8 +15,7 @@ namespace DoorsAndLevels
             {
                 while (true)
                 {
-
-                    int number = genNum.Next(2, 9);
+                    int number = genNum.Next(minRandom, maxRandom);
                     if (!doorsNumbers.Contains(number))
                     {
                         doorsNumbers.Add(number);
