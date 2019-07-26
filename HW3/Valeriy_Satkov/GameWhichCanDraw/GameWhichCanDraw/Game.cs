@@ -52,7 +52,7 @@
             {
                 this.inputOutputDevice.SetPosition(0, this.gameSettings.Width);
                 this.inputOutputDevice.WriteLineOutput(this.phraseProvider.GetPhrase("Description"));
-                this.inputOutputDevice.WriteOutput(this.phraseProvider.GetPhrase("Enter"));
+                this.inputOutputDevice.WriteOutput(this.phraseProvider.GetPhraseAndReplace("Enter", "@ExitCode", this.gameSettings.ExitCode));
 
                 enteredString = this.inputOutputDevice.ReadInput();
                 

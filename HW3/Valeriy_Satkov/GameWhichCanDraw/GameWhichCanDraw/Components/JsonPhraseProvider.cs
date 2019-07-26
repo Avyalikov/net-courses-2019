@@ -36,6 +36,11 @@
             }
         }
 
+        public string GetPhraseAndReplace(string phraseKey, string rewriteStr, string rightStr)
+        {
+            return this.GetPhrase(phraseKey).Replace(rewriteStr, rightStr);
+        }
+
         private string GetData(string phraseKey)
         {
             var resourceFile = new FileInfo(this.langPath);

@@ -8,6 +8,8 @@
          */
         string GetPhrase(string phraseKey);
 
+        string GetPhraseAndReplace(string phraseKey, string rewriteStr, string rightStr);
+
         void SetLanguage(string lang);
     }
 }
