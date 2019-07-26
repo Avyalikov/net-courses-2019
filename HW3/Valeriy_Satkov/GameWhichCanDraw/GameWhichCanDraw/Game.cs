@@ -5,91 +5,115 @@
 
     internal class Game
     {
-        delegate void Draw(IBoard board);
-        private bool exitFlag;
+        private readonly ISettingsProvider settingsProvider;
+        private readonly IInputOutputDevice inputOutputDevice;
+        private readonly IPhraseProvider phraseProvider;
+        private readonly IBoard board;
+        private readonly IFigureProvider figureProvider;
+
+        private readonly GameSettings gameSettings;
+
         private bool simpleDotFlag;
         private bool horizontalLineFlag;
         private bool verticalLineFlag;
         private bool curveFlag;
 
+        public Game(
+            ISettingsProvider settingsProvider, 
+            IInputOutputDevice inputOutputDevice, 
+            IPhraseProvider phraseProvider, 
+            IBoard board, 
+            IFigureProvider figureProvider)
+        {
+            this.settingsProvider = settingsProvider;
+            this.inputOutputDevice = inputOutputDevice;
+            this.phraseProvider = phraseProvider;
+            this.board = board;
+            this.figureProvider = figureProvider;            
+
+            this.gameSettings = this.settingsProvider.GetGameSettings();
+        }
+
+        private delegate void Draw(IBoard board);
+
         public void Start()
         {
-            int length = 25;
-            int width = 30;
+            this.phraseProvider.SetLanguage(this.gameSettings.Language);
 
-            IBoard dashBoard = new Components.DashBoard(length, width);            
-            IFigureProvider figureProvider = new Components.FigureProvider();
+            this.board.BoardSizeX = this.gameSettings.Length;
+            this.board.BoardSizeY = this.gameSettings.Width;            
             
-            Draw draw = figureProvider.Empty;
+            Draw draw = this.figureProvider.Empty;
 
-            dashBoard.Create();
+            this.board.Create();
+            string enteredString = string.Empty;
 
-            while (!exitFlag)
+            while (enteredString != null && !enteredString.Equals(this.gameSettings.ExitCode))
             {
-                Console.SetCursorPosition(0, width);
-                Console.Write("Enter the number: ");
+                this.inputOutputDevice.SetPosition(0, this.gameSettings.Width);
+                this.inputOutputDevice.WriteLineOutput(this.phraseProvider.GetPhrase("Description"));
+                this.inputOutputDevice.WriteOutput(this.phraseProvider.GetPhrase("Enter"));
 
-                string enteredString = Console.ReadLine();
+                enteredString = this.inputOutputDevice.ReadInput();
                 
                 switch (enteredString)
                 {
                     case "1":                        
-                        if (simpleDotFlag)
+                        if (this.simpleDotFlag)
                         {
-                            draw -= figureProvider.SimpleDot;
+                            draw -= this.figureProvider.SimpleDot;
                         }
                         else
                         {
-                            draw += figureProvider.SimpleDot;
+                            draw += this.figureProvider.SimpleDot;
                         }
-                        simpleDotFlag = !simpleDotFlag;
+
+                        this.simpleDotFlag = !this.simpleDotFlag;
                         break;
                     case "2":                        
-                        if (horizontalLineFlag)
+                        if (this.horizontalLineFlag)
                         {
-                            draw -= figureProvider.HorizontalLine;
+                            draw -= this.figureProvider.HorizontalLine;
                         }
                         else
                         {
-                            draw += figureProvider.HorizontalLine;
+                            draw += this.figureProvider.HorizontalLine;
                         }
-                        horizontalLineFlag = !horizontalLineFlag;
+
+                        this.horizontalLineFlag = !this.horizontalLineFlag;
                         break;
                     case "3":
-                        if (verticalLineFlag)
+                        if (this.verticalLineFlag)
                         {
-                            draw -= figureProvider.VerticalLine;
+                            draw -= this.figureProvider.VerticalLine;
                         }
                         else
                         {
-                            draw += figureProvider.VerticalLine;
+                            draw += this.figureProvider.VerticalLine;
                         }
-                        verticalLineFlag = !verticalLineFlag;
+
+                        this.verticalLineFlag = !this.verticalLineFlag;
                         break;
                     case "4":
-                        if (curveFlag)
+                        if (this.curveFlag)
                         {
-                            draw -= figureProvider.Curve;
+                            draw -= this.figureProvider.Curve;
                         }
                         else
                         {
-                            draw += figureProvider.Curve;
+                            draw += this.figureProvider.Curve;
                         }
-                        curveFlag = !curveFlag;
-                        break;
-                    case "exit":
-                        exitFlag = true;
-                        break;
+
+                        this.curveFlag = !this.curveFlag;
+                        break;                    
                     default:
                         break;
                 }
 
-                Console.Clear();
-                dashBoard.Create();
-                draw(dashBoard);
+                this.inputOutputDevice.Clear();
+                this.board.Create();
+                draw(this.board);
             }
-
-            //// Console.ReadLine(); // pause
         }
     }
 }

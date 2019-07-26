@@ -3,7 +3,7 @@
     using System;
     using Interfaces;
 
-    class FigureProvider : IFigureProvider
+    internal class FigureProvider : IFigureProvider
     {
         public void Empty(IBoard board)
         {
@@ -14,7 +14,11 @@
             for (int i = 1; i < board.BoardSizeX - 1; i++)
             {
                 int func = board.BoardSizeY - (int)Math.Pow(i, 2);
-                if (func < 1) break;
+                if (func < 1)
+                {
+                    break;
+                }
+
                 board.WriteAt('*', i, func); // Draw the dot
             }
         }
@@ -23,7 +27,7 @@
         {
             for (int i = 1; i < board.BoardSizeX - 1; i++)
             {
-                board.WriteAt('-', i, board.BoardSizeY / 2 + 2); // Draw the horizontal line, from left to right.                
+                board.WriteAt('-', i, (board.BoardSizeY / 2) + 2); // Draw the horizontal line, from left to right.                
             }
         }
 
@@ -36,7 +40,7 @@
         {
             for (int i = 1; i < board.BoardSizeY - 1; i++)
             {
-                board.WriteAt('|', board.BoardSizeX / 2 + 2, i); // Draw the vertical line, from up to down
+                board.WriteAt('|', (board.BoardSizeX / 2) + 2, i); // Draw the vertical line, from up to down
             }
         }
     }

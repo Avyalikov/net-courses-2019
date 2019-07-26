@@ -11,11 +11,13 @@
         private int origRow;
         private int origCol;
 
+        /*
         public DashBoard(int length, int width)
         {
             this.BoardSizeX = length;
             this.BoardSizeY = width;
         }
+        */
 
         public int BoardSizeX { get; set; }
 
