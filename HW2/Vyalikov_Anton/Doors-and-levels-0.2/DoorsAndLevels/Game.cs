@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace DoorsAndLevels
 {
@@ -69,18 +70,26 @@ namespace DoorsAndLevels
                 {
                     curDoor = Convert.ToInt32(door);
 
-                    if (curDoor == 0 && finish)
+                    if (finish)
                     {
-                        finish = false;
-                        ioModule.WriteOutput(phraseProvider.GetMessage("LevelDown"));
-                        PrintList(doorsNumbers);
+                        if (curDoor == 0)
+                        {
+                            finish = false;
+                            ioModule.WriteOutput(phraseProvider.GetMessage("LevelDown"));
+                            PrintList(doorsNumbers);
+                        }
+                        
+                        else
+                        {
+                            ioModule.WriteOutput(phraseProvider.GetMessage("IncorrectNumber"));
+                        }
                     }
 
                     else if (curDoor == 0)
                     {
                         PreviousLevel();
                     }
-
+                     
                     else if (doorsNumbers.Contains(curDoor))
                     {
                         NextLevel(curDoor);
@@ -131,7 +140,7 @@ namespace DoorsAndLevels
             prevDoors = doorsNumbers;
             for (int i = 0; i < doorsNumbers.Count; i++)
             {
-                if (doorsNumbers[i] * door < 0 || i>0 && doorsNumbers[i] * door == 0)
+                if (chosenDoors.Count() == 4)
                 {
                     finish = true;
                     doorsNumbers = prevDoors;
@@ -169,6 +178,5 @@ namespace DoorsAndLevels
             }
             ioModule.WriteOutput($"\n{doors}\n");
         }
-
     }
 }
