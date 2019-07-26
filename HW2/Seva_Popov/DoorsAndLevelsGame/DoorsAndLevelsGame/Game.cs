@@ -42,11 +42,11 @@ namespace DoorsAndLevelsGame
             {
                 inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("SelectNumber"));
 
-                try
-                {
-                    string userNumbrInput = inputOutputDevice.ReadInput();
-                    userDoorSelect =int.Parse(userNumbrInput);
+                string userNumbrInput = inputOutputDevice.ReadInput();
+                int tryParse;
 
+                if (int.TryParse(userNumbrInput, out tryParse))
+                {
                     if (userDoorSelect == settingsProvider.GetGameSettings().ExitCode)
                     {
                         break;
@@ -57,9 +57,8 @@ namespace DoorsAndLevelsGame
                     inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("#"));
 
                     inputOutputDevice.WriteOutputArray(doorNumbersArray);
-
                 }
-                catch (System.FormatException)
+                else
                 {
                     inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("WrongValue"));
                 }
@@ -84,8 +83,7 @@ namespace DoorsAndLevelsGame
                     }
                     else
                     {
-                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("StackIsEmpty"));
-                        levelDoorNumberStack.Push(1);
+                        inputOutputDevice.WriteOutput(phraseProvider.GetPhrase("StackIsEmpty"));                       
                     }           
                 }
             }

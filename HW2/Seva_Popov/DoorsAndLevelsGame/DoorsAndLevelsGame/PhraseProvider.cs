@@ -13,8 +13,8 @@ namespace DoorsAndLevelsGame
         {
             string Language;
             
-          Language = "Resources\\rus.json"; 
-          //Language = "Resources\\eng.json";
+          Language = "Resources\\Rus.json"; 
+          //Language = "Resources\\Eng.json";
 
             var resourceFile = new FileInfo(Language);
 
