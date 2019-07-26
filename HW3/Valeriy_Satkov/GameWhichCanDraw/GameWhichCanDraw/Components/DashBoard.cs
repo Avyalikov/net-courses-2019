@@ -45,10 +45,10 @@
                 this.WriteAt(this.vertical, this.BoardSizeX - 1, i);  // Draw the right side, from bottom to top.
             }
 
-            this.WriteAt('\r', 0, this.BoardSizeY + 1);
+            // this.WriteAt('\r', 0, this.BoardSizeY);
         }
 
-        protected virtual void WriteAt(char c, int x, int y)
+        public virtual void WriteAt(char c, int x, int y)
         {
             try
             {
