@@ -1,0 +1,5 @@
+﻿<configuration>
+  <setting type="language">English</setting>
+  <setting type="boardHeight">600</setting>
+  <setting type="boardWidth">800</setting>
+</configuration>

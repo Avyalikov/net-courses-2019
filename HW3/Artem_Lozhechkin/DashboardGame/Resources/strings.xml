@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name = "English">
+    <phrase type="Welcome" text="Welcome to the Doors and Levels game!" />
+    <phrase type="IncorrectChoice" text="You should choose a correct number. Try again.!" />
+    <phrase type="NumberOfDoors" text="Please, select number of doors: " />
+    <phrase type="SelectingNumber" text="Select your number: " />
+
+  </language>
+  <language name ="Russian">
+    <phrase type="Welcome" text="Добро пожаловать в игру про двери и уровни!" />
+  </language>
+</languages>
