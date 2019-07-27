@@ -2,10 +2,11 @@
 {
     public interface ISettings
     {
-        public int GetDotXOffset();
-        public int GetDotYOffset();
-        public int GetVerticalLineXOffset();
-        public int GetHorizontalLineYOffset();
+        int GetDotXOffset();
+        int GetDotYOffset();
+        int GetVerticalLineXOffset();
+        int GetHorizontalLineYOffset();
+        Canvas GetCanvas();
     }
 }
 

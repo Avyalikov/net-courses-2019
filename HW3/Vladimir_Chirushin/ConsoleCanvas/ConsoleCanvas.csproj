@@ -54,6 +54,7 @@
     <Compile Include="IDrawManager.cs" />
     <Compile Include="IFileParser.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="ISettingsProvider.cs" />
     <Compile Include="JsonFileParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +64,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Content Include="settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,10 +11,20 @@ namespace ConsoleCanvas
 
         public int x2;  //bottom right corner
         public int y2;
+
+        public Canvas(int x1, int y1, int x2, int y2)
+        {
+            this.x1 = x1;
+            this.y1 = y1;
+
+            this.x2 = x2;
+            this.y2 = y2;
+        }
     }
 
     public delegate void DrawDelegate(Canvas canvas);
-    class Program
+
+    partial class Program
     {
 
         public static Canvas GetCanvas()
@@ -28,26 +38,27 @@ namespace ConsoleCanvas
 
             return canvas;
         }
-
         static void Main(string[] args)
         {
            
             Boolean dontShow = true;
             ConsoleKeyInfo consoleKeyPressed;
+            string settingsFilePath = "settings.json";
 
-            Canvas canvas;
-            canvas = GetCanvas();
-
+            
             DrawDelegate drawingDelegates = null;
+
             IDrawManager drawManager = new DrawManager();
             DrawDotClass dotDrawClass = new DrawDotClass(drawManager);
             DrawCanvasClass drawCanvas = new DrawCanvasClass(drawManager);
             IFileParser jsonParser = new JsonFileParser();
-            ISettingsProvider settingsProvider = new SettingsProvider(jsonParser);
-            ISettings settings = SettingsProvider.GetSettings();
+            ISettingsProvider settingsProvider = new SettingsProvider(jsonParser, settingsFilePath);
+            ISettings settings = settingsProvider.GetSettings();
 
             DrawVerticalLineClass drawVerticalLineClass = new DrawVerticalLineClass(drawManager);
             DrawHorizontalLineClass drawHorizontalLineClass = new DrawHorizontalLineClass(drawManager);
+
+            Canvas canvas = settings.GetCanvas();
 
             drawManager.DrawInitiate();
             drawManager.WriteAt(@"You can draw things by pressing key:
@@ -110,7 +121,6 @@ namespace ConsoleCanvas
                 drawManager.ProceedDrawing(drawingDelegates, canvas);
             } while (consoleKeyPressed.Key != ConsoleKey.Escape);
         }
-
     }
 }
 
