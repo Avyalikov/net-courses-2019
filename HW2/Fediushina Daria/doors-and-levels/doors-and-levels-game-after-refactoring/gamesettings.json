@@ -1,0 +1,7 @@
+{
+	"doorsAmount":5,
+    "backDoor": 0,
+    "exitCode": "exit",
+	"highNumCloser": 2147483647,
+	"numRange":10
+}
