@@ -1,15 +1,17 @@
 ﻿namespace ConsoleCanvas
 {
-    public class DrawVerticalLineClass
+    public class DrawVerticalLineClass : IDrawVerticalLineClass
     {
-        IDrawManager drawManager;
-        public DrawVerticalLineClass(IDrawManager drawManager)
+        private readonly IDrawManager drawManager;
+        private int verticalLineXOffsetPercent;
+        public DrawVerticalLineClass(IDrawManager drawManager, int verticalLineXOffsetPercent)
         {
             this.drawManager = drawManager;
+            this.verticalLineXOffsetPercent = verticalLineXOffsetPercent;
         }
         public void DrawVerticalLine(Canvas canvas)
         {
-            int lineXPos = (int)((canvas.x2 - canvas.x1) / 2);
+            int lineXPos = (int)(canvas.x1 + ((canvas.x2 - canvas.x1) * verticalLineXOffsetPercent / 100));
             for (int i = canvas.y1; i < canvas.y2; i++)
             {
                 drawManager.WriteAt("|", lineXPos, i);

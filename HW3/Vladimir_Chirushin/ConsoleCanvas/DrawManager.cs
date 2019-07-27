@@ -5,8 +5,8 @@ namespace ConsoleCanvas
 {
     public class DrawManager : IDrawManager
     {
-        protected static int origRow;
-        protected static int origCol;
+        private int origRow;
+        private int origCol;
         public void DrawInitiate()
         {
             Console.Clear();
@@ -40,6 +40,10 @@ namespace ConsoleCanvas
             {
                 WriteAt($"Canvas is clean!", 0, 28);
             }
+        }
+        public void WriteLine(string outputString)
+        {
+            Console.WriteLine(outputString);
         }
     }
 }

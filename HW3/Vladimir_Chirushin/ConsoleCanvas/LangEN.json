@@ -1,0 +1,13 @@
+{
+  "welcome": "You can draw things by pressing key:",
+  "canvasDrawMessage": "'1' - Draw canvas",
+  "dotDrawMessage": "'2' - Draw dot",
+  "horizontalDrawMessage": "'4' - Draw horizontal line",
+  "verticalDrawMessage": "'3' - Draw vertical line",
+  "gooseDrawMessage": "'5' - Draw goose image",
+  "canvasErraseMesage": "'q' - Errase canvas ",
+  "dotErraseMessage": "'w' - Errase dot",
+  "horizontalErraseMessage": "'r' - Errase horizontal line",
+  "verticalErraseMessage": "'e' - Errase vertical line",
+  "gooseErraseMessage": "'t' - Errase goose picture"
+}

@@ -7,6 +7,7 @@
         int GetVerticalLineXOffset();
         int GetHorizontalLineYOffset();
         Canvas GetCanvas();
+        string GetLanguage();
     }
 }
 

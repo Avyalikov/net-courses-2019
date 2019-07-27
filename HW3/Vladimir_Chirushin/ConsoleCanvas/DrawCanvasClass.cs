@@ -1,8 +1,8 @@
 ﻿namespace ConsoleCanvas
 {
-    public class DrawCanvasClass
+    public class DrawCanvasClass : IDrawCanvasClass
     {
-        IDrawManager drawManager;
+        private readonly IDrawManager drawManager;
         public DrawCanvasClass(IDrawManager drawManager)
         {
             this.drawManager = drawManager;

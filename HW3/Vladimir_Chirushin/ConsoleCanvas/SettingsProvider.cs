@@ -6,7 +6,7 @@ namespace ConsoleCanvas
     public class SettingsProvider: ISettingsProvider
     {
         private Dictionary<String, String> rawSettings;
-        string settingsFilePath;
+        private string settingsFilePath;
         private IFileParser fileParser;
 
 
@@ -19,6 +19,7 @@ namespace ConsoleCanvas
         private int canvasY1;
         private int canvasX2;
         private int canvasY2;
+        private string language;
         public SettingsProvider(IFileParser fileParser, string settingsFilePath)
         {
             this.fileParser = fileParser;
@@ -36,7 +37,8 @@ namespace ConsoleCanvas
                 canvasX1,
                 canvasY1,
                 canvasX2,
-                canvasY2
+                canvasY2,
+                language
                 );
         }
 
@@ -124,6 +126,15 @@ namespace ConsoleCanvas
                 throw new Exception("Cant parse canvasY2 check settings file.");
             }
 
+            //canvasY2
+            try
+            {
+                language = rawSettings["language"];
+            }
+            catch
+            {
+                throw new Exception("Cant parse language check settings file.");
+            }
         }
     }
 }
