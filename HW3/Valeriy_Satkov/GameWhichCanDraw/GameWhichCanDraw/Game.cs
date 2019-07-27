@@ -1,6 +1,7 @@
 ﻿namespace GameWhichCanDraw
 {
     using System;
+    using System.Collections.Generic;
     using GameWhichCanDraw.Interfaces;
 
     internal class Game
@@ -43,7 +44,7 @@
             this.board.BoardSizeX = this.gameSettings.Length;
             this.board.BoardSizeY = this.gameSettings.Width;            
             
-            Draw draw = this.figureProvider.Empty;
+            Draw draw = delegate (IBoard board) { }; // Create anonymus delegate for initialize delegate Draw
 
             this.board.Create();
             string enteredString = string.Empty;

@@ -5,10 +5,6 @@
 
     internal class FigureProvider : IFigureProvider
     {
-        public void Empty(IBoard board)
-        {
-        }
-
         public void Curve(IBoard board)
         {
             for (int i = 1; i < board.BoardSizeX - 1; i++)

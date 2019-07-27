@@ -12,7 +12,5 @@
         void HorizontalLine(IBoard board);
 
         void Curve(IBoard board);
-
-        void Empty(IBoard board);
     }
 }
