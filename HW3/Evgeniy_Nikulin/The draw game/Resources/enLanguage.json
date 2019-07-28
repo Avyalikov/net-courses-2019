@@ -1,0 +1,6 @@
+{
+  "Welcome": "Hello it's draw simulator. You can select one of four figure.",
+  "Choose": "Choose one: ",
+  "YourChosenFigure": "Your chosen figure: ",
+  "WrongValue": "You typed wrong value."
+}
