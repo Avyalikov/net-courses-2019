@@ -10,7 +10,7 @@
         {
             this.board = board;
         }
-        public void ShowMenu()
+        public void ShowInfo()
         {
             board.DrawAtPosition(-15, 10, "Добро пожаловать в игру!");
             board.DrawAtPosition(-20, 9, "Здесь вы можете построить 4 элемента:");
@@ -23,12 +23,12 @@
             board.DrawAtPosition(-25, 2, "и параболу. Для возврата в меню нажмите \"E\".");
             board.DrawAtPosition(-25, 1, "Выберите элементы: ");
         }
-        public string SetUserChoice()
+        public string GetUserChoice()
         {
             board.DrawAtPosition(-25 + 19, 1, string.Empty);
             return board.ReadLine();
         }
-        public bool ShowUserChoice(string choice)
+        public bool ParseUserChoice(string choice)
         {
             board.Clear();
             int y = 9;

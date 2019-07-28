@@ -18,7 +18,6 @@ namespace DashboardGame
             Console.OutputEncoding = Encoding.UTF8;
             Console.CursorVisible = false;
             defaultConsoleColor = Console.ForegroundColor;
-            DrawBoard();
         }
 
         public void DrawBoard()
@@ -46,7 +45,7 @@ namespace DashboardGame
             Console.Write(s);
         }
         public string ReadLine() => Console.ReadLine();
-        public void DrawLines()
+        public void DrawAxis()
         {
             Console.ForegroundColor = ConsoleColor.Green;
             for (int i = -boardHeight / 2 + 2; i < boardHeight / 2; i++)

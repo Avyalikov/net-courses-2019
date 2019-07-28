@@ -15,17 +15,24 @@ namespace DashboardGame
         {
             this.board = board;
             this.menu = menu;
+        }
+        public void Play()
+        {
+            string userInput;
             do
             {
                 board.Clear();
-                this.menu.ShowMenu();
-                while (!this.menu.ShowUserChoice(board.ReadLine())) { }
+                menu.ShowInfo();
+                do
+                {
+                    userInput = board.ReadLine();
+                } while (!menu.ParseUserChoice(userInput));
                 board.Clear();
                 board.DrawBoard();
                 menu.DrawFigures(board);
-                board.DrawLines();
+                board.DrawAxis();
                 menu.DrawFigures = null;
-            } while (Console.ReadLine() != "E");
+            } while (Console.ReadKey().Key == ConsoleKey.E);
         }
     }
 }
