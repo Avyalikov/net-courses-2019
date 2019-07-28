@@ -14,7 +14,6 @@ namespace DashboardGame
             GameMenu gm = new GameMenu(b);
             Game g = new Game(b, gm);
             g.Play();
-            Console.ReadLine();
         }
     }
 }

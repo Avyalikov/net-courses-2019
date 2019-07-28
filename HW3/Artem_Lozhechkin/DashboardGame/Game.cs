@@ -8,8 +8,8 @@ namespace DashboardGame
 {
     class Game
     {
-        private ConsoleBoard board;
-        private GameMenu menu;
+        private readonly ConsoleBoard board;
+        private readonly GameMenu menu;
 
         public Game(ConsoleBoard board, GameMenu menu)
         {
@@ -23,16 +23,18 @@ namespace DashboardGame
             {
                 board.Clear();
                 menu.ShowInfo();
+
                 do
                 {
                     userInput = board.ReadLine();
                 } while (!menu.ParseUserChoice(userInput));
+
                 board.Clear();
-                board.DrawBoard();
-                menu.DrawFigures(board);
                 board.DrawAxis();
+                menu.DrawFigures(board);
                 menu.DrawFigures = null;
-            } while (Console.ReadKey().Key == ConsoleKey.E);
+
+            } while (board.ReadKey().Key != ConsoleKey.Escape);
         }
     }
 }

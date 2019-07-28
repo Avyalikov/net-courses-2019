@@ -44,6 +44,7 @@ namespace DashboardGame
             Console.SetCursorPosition(boardWidth / 2 + x, boardHeight / 2 - y);
             Console.Write(s);
         }
+        public ConsoleKeyInfo ReadKey() => Console.ReadKey(false);
         public string ReadLine() => Console.ReadLine();
         public void DrawAxis()
         {

@@ -20,8 +20,9 @@
             board.DrawAtPosition(-20, 5, "4 - Парабола");
             board.DrawAtPosition(-25, 4, "Вы можете выбрать элементы просто перечислив их.");
             board.DrawAtPosition(-25, 3, "Например, \"124\" построит точку, вертикальную линию");
-            board.DrawAtPosition(-25, 2, "и параболу. Для возврата в меню нажмите \"E\".");
-            board.DrawAtPosition(-25, 1, "Выберите элементы: ");
+            board.DrawAtPosition(-25, 2, "и параболу. Для возврата в меню нажмите любую клавишу.");
+            board.DrawAtPosition(-25, 1, "Для выхода нажмите Esc после построения.");
+            board.DrawAtPosition(-25, 0, "Выберите элементы: ");
         }
         public string GetUserChoice()
         {
@@ -62,13 +63,12 @@
             if (isCorrect)
             {
                 board.DrawAtPosition(-20, y--, "Нажмите любую клавишу, чтобы построить.");
+                board.ReadKey();
             }
             if (!isCorrect)
             {
                 board.DrawAtPosition(-25, y--, "В вашем выборе нет подходящих значений, попробуйте снова: ");
             }
-
-            board.ReadLine();
             return isCorrect;
         }
     }

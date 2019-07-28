@@ -16,5 +16,6 @@ namespace DashboardGame
         void ResetColor();
         string ReadLine();
         void Clear();
+        ConsoleKeyInfo ReadKey();
     }
 }
