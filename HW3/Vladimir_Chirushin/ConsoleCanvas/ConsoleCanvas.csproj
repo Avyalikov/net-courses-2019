@@ -47,27 +47,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleDrawer.cs" />
-    <Compile Include="DrawCanvasClass.cs" />
-    <Compile Include="DrawDotClass.cs" />
-    <Compile Include="DrawGooseClass.cs" />
-    <Compile Include="DrawHorizontalLineClass.cs" />
-    <Compile Include="DrawManager.cs" />
-    <Compile Include="DrawVerticalLineClass.cs" />
-    <Compile Include="IConsoleDrawer.cs" />
-    <Compile Include="IDrawCanvasClass.cs" />
-    <Compile Include="IDrawDotClass.cs" />
-    <Compile Include="IDrawGooseClass.cs" />
-    <Compile Include="IDrawHorizontalLineClass.cs" />
-    <Compile Include="IDrawManager.cs" />
-    <Compile Include="IDrawVerticalLineClass.cs" />
-    <Compile Include="IFileParser.cs" />
-    <Compile Include="IKeyboardManager.cs" />
-    <Compile Include="IPhraseProvider.cs" />
-    <Compile Include="ISettings.cs" />
-    <Compile Include="ISettingsProvider.cs" />
+    <Compile Include="Drawers\CanvasDrawer.cs" />
+    <Compile Include="Drawers\DotDrawer.cs" />
+    <Compile Include="Drawers\GooseDrawer.cs" />
+    <Compile Include="Drawers\HorizontalLineDrawer.cs" />
+    <Compile Include="ConsoleDrawManager.cs" />
+    <Compile Include="Drawers\VerticalLineDrawer.cs" />
+    <Compile Include="Interfaces\IBoard.cs" />
+    <Compile Include="Interfaces\IConsoleDrawer.cs" />
+    <Compile Include="Interfaces\IObjectDrawer.cs" />
+    <Compile Include="Interfaces\IDrawManager.cs" />
+    <Compile Include="Interfaces\IDictionaryParser.cs" />
+    <Compile Include="Interfaces\IKeyboardManager.cs" />
+    <Compile Include="Interfaces\IPhraseProvider.cs" />
+    <Compile Include="Interfaces\ISettings.cs" />
+    <Compile Include="Interfaces\ISettingsProvider.cs" />
     <Compile Include="JsonFileParser.cs" />
     <Compile Include="KeyboardManager.cs" />
-    <Compile Include="PhaseProvider.cs" />
+    <Compile Include="PhraseProvider.cs" />
+    <Compile Include="Board.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -86,5 +84,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

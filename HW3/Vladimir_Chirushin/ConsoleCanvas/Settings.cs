@@ -1,15 +1,15 @@
-﻿namespace ConsoleCanvas
+﻿using ConsoleCanvas.Interfaces;
+
+namespace ConsoleCanvas
 {
-    public class Settings :ISettings
+    public class Settings : ISettings
     {
-        Canvas canvas;
-        private int dotXOffsetPercent;
-        private int dotYOffsetPercent;
-
-        private int verticalLineXOffsetPercent;
-        private int horizontalLineYOffsetPercent;
-
-        private string language;
+        public int DotXOffset { get; private set; }
+        public int DotYOffset { get; private set; }
+        public int VerticalLineXOffsetPercent { get; private set; }
+        public int HorizontalLineYOffsetPercent { get; private set; }
+        public string Language { get; private set; }
+        public IBoard Board { get; private set; }
 
         public Settings(
             int dotXOffsetPercent,
@@ -23,23 +23,13 @@
             string language
             )
         {
-            this.dotXOffsetPercent = dotXOffsetPercent;
-            this.dotYOffsetPercent = dotYOffsetPercent;           
-            this.verticalLineXOffsetPercent = verticalLineXOffsetPercent;
-            this.horizontalLineYOffsetPercent = horizontalLineYOffsetPercent;
-            this.language = language;
-
-            this.canvas = new Canvas(canvasX1, canvasY1, canvasX2, canvasY2);
-
+            this.DotXOffset = dotXOffsetPercent;
+            this.DotYOffset = dotYOffsetPercent;           
+            this.VerticalLineXOffsetPercent = verticalLineXOffsetPercent;
+            this.HorizontalLineYOffsetPercent = horizontalLineYOffsetPercent;
+            this.Language = language;
+            this.Board = new Board(canvasX1, canvasY1, canvasX2, canvasY2);
         }
-
-        public int GetDotXOffset() { return dotXOffsetPercent; }
-        public int GetDotYOffset() { return dotYOffsetPercent; }
-        public int GetVerticalLineXOffset() { return verticalLineXOffsetPercent; }
-        public int GetHorizontalLineYOffset() { return horizontalLineYOffsetPercent; }
-        public Canvas GetCanvas() { return canvas; }
-        public string GetLanguage() { return language; }
-
     }
 }
 

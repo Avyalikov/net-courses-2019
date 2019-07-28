@@ -1,32 +1,31 @@
-﻿using Newtonsoft.Json;
+﻿using ConsoleCanvas.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ConsoleCanvas
 {
-    public class JsonFileParser : IFileParser
+    public class JsonFileParser : IDictionaryParser
     {
-
-        public Dictionary<String, String> ParseFile(String filePath)
+        public Dictionary<string, string> ParseFile(string filePath)
         {
             FileInfo resourceFile = new FileInfo(filePath);
             if (!resourceFile.Exists)
             {
-                throw new ArgumentException(
+                throw new FileNotFoundException(
                     $"Can't find language file LangEN.json. Trying to find it here: {resourceFile}");
             }
 
-            String resourceFileContent = File.ReadAllText(resourceFile.FullName);
-            Dictionary<String, String> resourceData;
+            string resourceFileContent = File.ReadAllText(resourceFile.FullName);
+            Dictionary<string, string> resourceData;
             try
             {
-                resourceData = JsonConvert.DeserializeObject<Dictionary<String, String>>(resourceFileContent);
+                resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new ArgumentException(
-                    $"Can't extract json value", ex);
+                throw new ArgumentException($"Can't extract json value", e);
             }
 
             return resourceData;

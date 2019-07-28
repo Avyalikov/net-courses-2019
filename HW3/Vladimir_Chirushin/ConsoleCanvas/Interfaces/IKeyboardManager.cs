@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleCanvas
+namespace ConsoleCanvas.Interfaces
 {
     public interface IKeyboardManager
     {

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ConsoleCanvas.Interfaces;
+using ConsoleCanvas;
+using System;
 
 namespace ConsoleCanvas
 {
-    public class SettingsProvider: ISettingsProvider
+    public class FileSettingsProvider : ISettingsProvider
     {
-        private Dictionary<String, String> rawSettings;
-        private string settingsFilePath;
-        private IFileParser fileParser;
-
-
-
+        private readonly string settingsFilePath;
+        private readonly IDictionaryParser fileParser;
         private int dotXOffsetPercent;
         private int dotYOffsetPercent;
         private int verticalLineXOffsetPercent;
@@ -20,15 +17,17 @@ namespace ConsoleCanvas
         private int canvasX2;
         private int canvasY2;
         private string language;
-        public SettingsProvider(IFileParser fileParser, string settingsFilePath)
+
+        public FileSettingsProvider(IDictionaryParser parser, string settingsFilePath)
         {
-            this.fileParser = fileParser;
+            this.fileParser = parser;
             this.settingsFilePath = settingsFilePath;
         }
 
-        public Settings GetSettings()
+        public ISettings GetSettings()
         {
             ParseSettings();
+
             return new Settings(
                 dotXOffsetPercent,
                 dotYOffsetPercent,
@@ -37,14 +36,13 @@ namespace ConsoleCanvas
                 canvasX1,
                 canvasY1,
                 canvasX2,
-                canvasY2,
-                language
-                );
+                canvasY2, 
+                language);
         }
 
         private void ParseSettings()
         {
-            rawSettings = fileParser.ParseFile(settingsFilePath);
+            var rawSettings = fileParser.ParseFile(settingsFilePath);
 
             //dotXOffsetPercent
             try

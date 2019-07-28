@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ConsoleCanvas.Interfaces;
+using System;
 
 namespace ConsoleCanvas
 {
     public class KeyboardManager : IKeyboardManager
     {
-        private Boolean dontShow = true;
+        private const bool dontShow = true;
+
         public ConsoleKeyInfo ReadKey()
         {
             return Console.ReadKey(dontShow);

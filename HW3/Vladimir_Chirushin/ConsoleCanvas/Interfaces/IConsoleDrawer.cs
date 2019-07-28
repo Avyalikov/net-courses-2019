@@ -1,4 +1,4 @@
-﻿namespace ConsoleCanvas
+﻿namespace ConsoleCanvas.Interfaces
 {
     public interface IConsoleDrawer
     {

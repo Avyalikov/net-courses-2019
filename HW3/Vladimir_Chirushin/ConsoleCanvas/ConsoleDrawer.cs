@@ -1,116 +1,128 @@
-﻿using System;
+﻿using ConsoleCanvas.Interfaces;
+using System;
 
 namespace ConsoleCanvas
 {
-
-    public delegate void DrawDelegate(Canvas canvas);
+    public delegate void DrawDelegate(IBoard board);
 
     public class ConsoleDrawer : IConsoleDrawer
     {
         private readonly IDrawManager drawManager;
         private readonly IPhraseProvider phraseProvider;
-        private readonly IDrawCanvasClass drawCanvas;
-        private readonly IDrawDotClass dotDrawClass;
-        private readonly IDrawVerticalLineClass drawVerticalLineClass;
-        private readonly IDrawHorizontalLineClass drawHorizontalLineClass;
-        private readonly IDrawGooseClass drawGooseClass;
+        private readonly IObjectDrawer canvasDrawer;
+        private readonly IObjectDrawer dotDrawer;
+        private readonly IObjectDrawer verticalLineDrawer;
+        private readonly IObjectDrawer horizontalLineDrawer;
+        private readonly IObjectDrawer gooseDrawer;
         private readonly IKeyboardManager keyboardManager;
-        private readonly Canvas canvas;
+        private readonly IBoard board;
 
         private DrawDelegate drawingDelegates = null;
-
         private ConsoleKeyInfo consoleKeyPressed;
+
         public ConsoleDrawer(
             IDrawManager drawManager,
             IKeyboardManager keyboardManager,
             IPhraseProvider phraseProvider,
-            IDrawCanvasClass drawCanvas,
-            IDrawDotClass dotDrawClass,
-            IDrawVerticalLineClass drawVerticalLineClass,
-            IDrawHorizontalLineClass drawHorizontalLineClass,
-            IDrawGooseClass drawGooseClass,
-            Canvas canvas)
+            IObjectDrawer canvasDrawer,
+            IObjectDrawer dotDarwer,
+            IObjectDrawer verticalLineDrawer,
+            IObjectDrawer horizontalLineDrawer,
+            IObjectDrawer gooseDrawer,
+            IBoard board)
         {
             this.drawManager = drawManager;
             this.keyboardManager = keyboardManager;
             this.phraseProvider = phraseProvider;
-            this.drawCanvas = drawCanvas;
-            this.dotDrawClass = dotDrawClass;
-            this.drawVerticalLineClass = drawVerticalLineClass;
-            this.drawHorizontalLineClass = drawHorizontalLineClass;
-            this.drawGooseClass = drawGooseClass;
-            this.canvas = canvas;
-
+            this.canvasDrawer = canvasDrawer;
+            this.dotDrawer = dotDarwer;
+            this.verticalLineDrawer = verticalLineDrawer;
+            this.horizontalLineDrawer = horizontalLineDrawer;
+            this.gooseDrawer = gooseDrawer;
+            this.board = board;
         }
 
         public void Run()
         {
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.welcome));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.canvasDrawMessage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.dotDrawMessage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.verticalDrawMessage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.horizontalDrawMessage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.gooseDrawMessage));
-            drawManager.WriteLine(String.Empty);
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.canvasErraseMesage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.dotErraseMessage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.verticalErraseMessage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.horizontalErraseMessage));
-            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.gooseErraseMessage));
+            ShowMenu();
 
-
+            DrawDelegate canvasDelegate = new DrawDelegate(canvasDrawer.DrawObject);
+            DrawDelegate dotDelegate = new DrawDelegate(dotDrawer.DrawObject);
+            DrawDelegate verticalLineDelegate = new DrawDelegate(verticalLineDrawer.DrawObject);
+            DrawDelegate horizontalLineDelegate = new DrawDelegate(horizontalLineDrawer.DrawObject);
+            DrawDelegate gooseDelegate = new DrawDelegate(gooseDrawer.DrawObject);
 
             do
             {
                 consoleKeyPressed = keyboardManager.ReadKey();
 
-                switch (consoleKeyPressed.Key) //Switch on Key enum
+                switch (consoleKeyPressed.Key)
                 {
-                    case ConsoleKey.D1: //Key "1"
-                        drawingDelegates += new DrawDelegate(drawCanvas.DrawCanvas);
+                    case ConsoleKey.D1:
+                        drawingDelegates += canvasDelegate;
                         break;
 
-                    case ConsoleKey.D2: //Key "2"
-                        drawingDelegates += new DrawDelegate(dotDrawClass.DrawDot);
+                    case ConsoleKey.D2:
+                        drawingDelegates += dotDelegate;
                         break;
 
-                    case ConsoleKey.D3: //Key "3"
-                        drawingDelegates += new DrawDelegate(drawVerticalLineClass.DrawVerticalLine);
+                    case ConsoleKey.D3:
+                        drawingDelegates += verticalLineDelegate;
                         break;
 
-                    case ConsoleKey.D4: //Key "4"
-                        drawingDelegates += new DrawDelegate(drawHorizontalLineClass.DrawHorizontallLine);
+                    case ConsoleKey.D4:
+                        drawingDelegates += horizontalLineDelegate;
                         break;
-                    case ConsoleKey.D5: //Key "5"
-                        drawingDelegates += new DrawDelegate(drawGooseClass.DrawGoose);
-                        break;
-
-
-
-                    case ConsoleKey.Q: //Key "Q"
-                        drawingDelegates -= new DrawDelegate(drawCanvas.DrawCanvas);
+                    case ConsoleKey.D5:
+                        drawingDelegates += gooseDelegate;
                         break;
 
-                    case ConsoleKey.W: //Key "W"
-                        drawingDelegates -= new DrawDelegate(dotDrawClass.DrawDot);
+
+                    case ConsoleKey.Q:
+                        drawingDelegates -= canvasDelegate;
                         break;
 
-                    case ConsoleKey.E: //Key "E"
-                        drawingDelegates -= new DrawDelegate(drawVerticalLineClass.DrawVerticalLine);
+                    case ConsoleKey.W:
+                        drawingDelegates -= dotDelegate;
                         break;
 
-                    case ConsoleKey.R: //Key "R"
-                        drawingDelegates -= new DrawDelegate(drawHorizontalLineClass.DrawHorizontallLine);
+                    case ConsoleKey.E:
+                        drawingDelegates -= verticalLineDelegate;
                         break;
-                    case ConsoleKey.T: //Key "R"
-                        drawingDelegates -= new DrawDelegate(drawGooseClass.DrawGoose);
+
+                    case ConsoleKey.R:
+                        drawingDelegates -= horizontalLineDelegate;
                         break;
+                    case ConsoleKey.T:
+                        drawingDelegates -= gooseDelegate;
+                        break;
+
+                    case ConsoleKey.Escape:
+                        continue;
                     default:
-                        break;
+                        ShowMenu();
+                        continue;
                 }
-                drawManager.ProceedDrawing(drawingDelegates, canvas);
-            } while (consoleKeyPressed.Key != ConsoleKey.Escape);
 
+                drawManager.Draw(drawingDelegates, board);
+            }
+            while (consoleKeyPressed.Key != ConsoleKey.Escape);
+        }
+
+        private void ShowMenu()
+        {
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.Welcome));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.CanvasDrawMessage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.DotDrawMessage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.VerticalDrawMessage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.HorizontalDrawMessage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.GooseDrawMessage));
+            drawManager.WriteLine(string.Empty);
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.CanvasEraseMesage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.DotEraseMessage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.VerticalEraseMessage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.HorizontalEraseMessage));
+            drawManager.WriteLine(phraseProvider.GetPhrase(Phrase.GooseEraseMessage));
         }
     }
 }

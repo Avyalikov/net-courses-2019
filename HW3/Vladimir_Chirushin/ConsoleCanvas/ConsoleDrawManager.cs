@@ -1,50 +1,62 @@
-﻿using System;
+﻿using ConsoleCanvas.Interfaces;
+using System;
 using System.Linq;
 
 namespace ConsoleCanvas
 {
-    public class DrawManager : IDrawManager
+    public class ConsoleDrawManager : IDrawManager
     {
         private int origRow;
         private int origCol;
-        public void DrawInitiate()
+        private bool isInitialized = false;
+
+        public void Initialize()
         {
+            if (isInitialized)
+            {
+                return;
+            }
+
             Console.Clear();
             origRow = Console.CursorTop;
             origCol = Console.CursorLeft;
+            isInitialized = true;
         }
+
         public void WriteAt(string userString, int x, int y)
         {
             try
             {
+                Initialize();
                 Console.SetCursorPosition(origCol + x, origRow + y);
                 Console.Write(userString);
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (Exception e)
             {
                 Console.Clear();
                 Console.WriteLine(e.Message);
             }
         }
 
-
-        public void ProceedDrawing(DrawDelegate drawDelegat, Canvas canvas)
+        public void Draw(DrawDelegate drawDelegate, IBoard board)
         {
+            Initialize();
             Console.Clear();
-            if (drawDelegat != null)
+            if (drawDelegate != null)
             {
-                drawDelegat(canvas);
-                WriteAt($"There is {drawDelegat.GetInvocationList().Count().ToString()} objects on canvas!", 0, 28);
+                drawDelegate(board);
+                WriteAt($"There is {drawDelegate.GetInvocationList().Count().ToString()} objects on canvas!", 0, 28);
             }
             else
             {
                 WriteAt($"Canvas is clean!", 0, 28);
             }
         }
+
         public void WriteLine(string outputString)
         {
+            Initialize();
             Console.WriteLine(outputString);
         }
     }
 }
-
