@@ -23,8 +23,16 @@ namespace The_draw_game.Components
         /// <param name="height">Window height</param>
         public void SetWindowSize(int width, int height)
         {
-            Console.SetWindowSize(width, height);
-            Console.SetBufferSize(width, height);
+            try
+            {
+                Console.SetWindowSize(width, height);
+                Console.SetBufferSize(width, height);
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Window size is very big.");
+            }
         }
 
         /// <summary>

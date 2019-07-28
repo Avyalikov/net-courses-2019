@@ -19,12 +19,23 @@ namespace The_draw_game
         /// </summary>
         public static void Main()
         {
+
             ISettingsProvider settingsProvider = new SettingsProvider();
             var settings = settingsProvider.Get();
-
+            
             IInputOutput inputOutput = new ConsoleIOModule();
 
-            IBoard board = new Board(inputOutput, settings.BorderWidth, settings.BorderHeight, settings.BorserStile);
+            IBoard board;
+            try
+            {
+                board = new Board(inputOutput, settings.BorderWidth, settings.BorderHeight, settings.BorserStile);
+            }
+            catch (System.Exception e)
+            {
+                inputOutput.Print("Please set the correct board size. " + e.Message);
+                inputOutput.Input();
+                return;
+            }
 
             IPhraseProvider phraseProvider = new JsonPhraseProvider();
             phraseProvider.Init(settings.Language);

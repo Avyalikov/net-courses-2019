@@ -24,14 +24,14 @@ namespace The_draw_game.Components.DataTypes
 
             if (start.X == finish.X)
             {
-                for (int i = start.Y; i < finish.Y; i++)
+                for (int i = start.Y; i <= finish.Y; i++)
                 {
                     this.Body.Add(new Point(start.X, i));
                 }
             }
             else if (start.Y == finish.Y)
             {
-                for (int i = start.X; i < finish.X; i += 2)
+                for (int i = start.X; i <= finish.X; i += 2)
                 {
                     this.Body.Add(new Point(i, start.Y));
                 }

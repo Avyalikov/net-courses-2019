@@ -50,6 +50,14 @@ namespace The_draw_game.Components
         public Board(IInputOutput io, int width, int height, string boardStile)
         {
             this.io = io;
+            try
+            {
+                io.SetWindowSize(width + 1, height + 10);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
 
             this.Width = width;
             this.Height = height;
@@ -103,9 +111,7 @@ namespace The_draw_game.Components
         /// </summary>
         /// <param name="board">Board component</param>
         public void Draw(IBoard board)
-        {
-            this.io.SetWindowSize(board.Width + 1, board.Height + 10);
-            
+        {            
             if (this.borderline == null)
             {
                 this.borderline = new Rectangle(

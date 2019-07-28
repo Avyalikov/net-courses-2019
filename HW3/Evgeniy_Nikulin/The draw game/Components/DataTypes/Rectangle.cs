@@ -26,10 +26,10 @@ namespace The_draw_game.Components.DataTypes
             Point bottomLeft = new Point(topLeft.X, bottomRight.Y);
 
             Line top = new Line(topLeft, topRight);
-            Line right = new Line(bottomLeft, bottomRight);
-            Line bottom = new Line(topRight, bottomRight);
+            Line bottom = new Line(bottomLeft, bottomRight);
+            Line right = new Line(topRight, bottomRight);
             Line left = new Line(topLeft, bottomLeft);
-
+            
             foreach (var point in top.Body)
             {
                 this.Body.Add(point);
