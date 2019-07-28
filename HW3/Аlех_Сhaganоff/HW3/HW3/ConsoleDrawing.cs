@@ -98,6 +98,8 @@
         public bool ExecuteCommand(string command)
         {
             bool exitConfirmed = false;
+            var a = draw.GetInvocationList();
+            
 
             switch (command)
             {
@@ -106,11 +108,12 @@
                 case nameof(settings.KeyDrawVerticalLine): draw += commands.DrawVerticalLine; break;
                 case nameof(settings.KeyDrawSnowFlake): draw += commands.DrawSnowFlake;  break;
                 case nameof(settings.KeyClear):
-                    draw -= commands.DrawDot;
-                    draw -= commands.DrawHorizontalLine;
-                    draw -= commands.DrawVerticalLine;
-                    draw -= commands.DrawSnowFlake;
-                    break;
+                    foreach(Delegate d in draw.GetInvocationList())
+                    {
+                        draw -= (Draw)d;
+                    }
+
+                    draw += this.commands.DrawDashboard; break;
                 case nameof(settings.KeyExit): exitConfirmed =  true; break;
             }
 
