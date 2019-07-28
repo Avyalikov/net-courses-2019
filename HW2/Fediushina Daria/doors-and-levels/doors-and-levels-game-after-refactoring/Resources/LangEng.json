@@ -5,5 +5,5 @@
 	"GameOver": "\nThe Game is over!\n",
 	"PutNumber": "\nYou have entered a wrong value. Please enter a number\n",
 	"WrongNumber": "\nYou have entered a wrong number. Please enter one of the numbers listed\n",
-	"Quit": "\nPress any button to quit"
+	"Quit": "\nPress 'Enter' to quit"
 }

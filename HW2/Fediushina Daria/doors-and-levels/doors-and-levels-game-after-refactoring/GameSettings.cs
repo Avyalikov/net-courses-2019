@@ -2,12 +2,11 @@
 {
     public class GameSettings
     {
-        public int doorsAmount { get; set; }
-        public int backDoor { get; set; }
-        public string exitCode { get; set; }
-
-        public int highNumCloser { get; set; }
-
-        public int numRange { get; set; }
+        public int DoorsAmount { get; set; }
+        public int BackDoor { get; set; }
+        public string ExitCode { get; set; }
+        public int NumRange { get; set; }
+        public string Language  { get; set; }
+        
     }
 }

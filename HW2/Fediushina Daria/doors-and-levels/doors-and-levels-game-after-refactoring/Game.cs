@@ -30,11 +30,12 @@ namespace doors_and_levels_game_after_refactoring
         public void Run()
         {
             //var gameDoors = new Doors(settingsProvider);
-            doorsNumbers = doorsNumbersGenerator.GenerateIntArr(gameSettings.doorsAmount, gameSettings.numRange); // array of doors numbers for the start
+            doorsNumbers = doorsNumbersGenerator.GenerateIntArr(gameSettings.DoorsAmount, gameSettings.NumRange); // array of doors numbers for the start
             userNumbers = new List<int> { 1 };
 
             ioDevice.WriteOutput(phraseProvider.getPhrase("Welcome"));
-            while (true)
+            var stop = true;
+            while (stop)
             {
                 ioDevice.WriteOutput(phraseProvider.getPhrase("Doors"));
                 string result = string.Join(" ", doorsNumbers);
@@ -49,17 +50,19 @@ namespace doors_and_levels_game_after_refactoring
                     {
                         for (int i = 0; i < doorsNumbers.Length; i++)
                         {
+                            var temp = doorsNumbers[i];
                             doorsNumbers[i] *= t;
 
-                            if (doorsNumbers[i] >= gameSettings.highNumCloser) //if at least one number is to big
+                            if (doorsNumbers[i] < temp) //if at least one number is to big
                             {
                                 ioDevice.WriteOutput(phraseProvider.getPhrase("GameOver"));
+                                stop=false;
                                 break;
                             }
                         }
                         userNumbers.Add(t);
                     }
-                    else if (t == gameSettings.backDoor)        /*if user put 0 */
+                    else if (t == gameSettings.BackDoor)        /*if user put 0 */
                     {
                         if (userNumbers.Count != 0)
                         {
@@ -91,7 +94,7 @@ namespace doors_and_levels_game_after_refactoring
                 }
                 else
                 {
-                    if (userInput == "exit")
+                    if (userInput == gameSettings.ExitCode)
                     {
                         ioDevice.WriteOutput(phraseProvider.getPhrase("GameOver"));
                         break;

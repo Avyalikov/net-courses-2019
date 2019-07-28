@@ -10,11 +10,11 @@ namespace doors_and_levels_game_after_refactoring
     {
         static void Main(string[] args)
         {
-            IPhraseProvider phraseProvider = new PhraseProviderFromJson();
-            IDeviceInOut ioDevice = new ConsoleIO();
             ISettingsProvider settingsProvider = new SettingsProvider();
+            IPhraseProvider phraseProvider = new PhraseProviderFromJson(settingsProvider);
+            IDeviceInOut ioDevice = new ConsoleIO();            
             INumbersArrayGenerator doorsNumbersGenerator = new Doors(settingsProvider);
-           //IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator(settingsProvider);
+           
 
             var game = new Game(settingsProvider, ioDevice, phraseProvider, doorsNumbersGenerator);
             game.Run();

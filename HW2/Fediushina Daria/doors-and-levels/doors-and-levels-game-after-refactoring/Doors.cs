@@ -17,10 +17,15 @@ namespace doors_and_levels_game_after_refactoring
         public int [] GenerateIntArr(int doorsAmount, int numRange)
         {
             Random r = new Random();
-            int [] numbersArr = new int [doorsAmount];
-            for (int i = 0; i < doorsAmount; i++)
-            {
-                numbersArr[i]=r.Next(minValue:1,maxValue:numRange);
+            int[] numbersArr = new int[doorsAmount];
+            Boolean duplicateExists = true;
+            while (duplicateExists)
+            {                
+                for (int i = 0; i < doorsAmount; i++)
+                {
+                    numbersArr[i] = r.Next(minValue: 1, maxValue: numRange);
+                }
+                duplicateExists = numbersArr.GroupBy(n => n).Any(g => g.Count() > 1);
             }
             return numbersArr;
         }

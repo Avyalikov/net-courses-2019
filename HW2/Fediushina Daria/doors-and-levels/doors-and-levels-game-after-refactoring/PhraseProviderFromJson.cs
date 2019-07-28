@@ -7,9 +7,14 @@ namespace doors_and_levels_game_after_refactoring
 {
     class PhraseProviderFromJson : IPhraseProvider
     {
-        public string getPhrase(string phrase)
+        private readonly GameSettings gameSettings;
+        //public string language;
+        private Dictionary <string, string> FileData;
+        public PhraseProviderFromJson(ISettingsProvider settingsProvider)
         {
-            var jsonFile = new FileInfo("Resources/LangEng.json");
+            this.gameSettings = settingsProvider.GetGameSettings();
+            var language = gameSettings.Language;
+            var jsonFile = new FileInfo($"Resources/{language}.json"); 
             if (!jsonFile.Exists)
             {
                 throw new ArgumentException(
@@ -21,13 +26,17 @@ namespace doors_and_levels_game_after_refactoring
             try
             {
                 var jsonFileData = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonFileContent);
-                return jsonFileData[phrase];
+                FileData = jsonFileData;
             }
             catch (Exception ex)
             {
                 throw new ArgumentException(
-                    $"Can't extract phrase value {phrase}", ex);
+                    $"Can't extract file {gameSettings.Language}", ex);
             }
+        }
+        public string getPhrase(string phrase)
+        {
+            return FileData[phrase];
         }
     }
 }
