@@ -1,18 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="AVLozhechkin">
+//     Copyright (c) AVLozhechkin. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------   
 namespace DashboardGame
 {
-    class Program
+    /// <summary>
+    /// This class contains an entry point.
+    /// </summary>
+    internal class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// This method is an entry point.
+        /// </summary>
+        /// <param name="args">Arguments for entry point.</param>
+        private static void Main(string[] args)
         {
-            ConsoleBoard b = new ConsoleBoard();
-            GameMenu gm = new GameMenu(b);
-            Game g = new Game(b, gm);
+            ISettingsProvider simpleSettingsProvider = new SimpleSettingsProvider();
+            IPhraseProvider simplePhraseProvider = new SimplePhraseProvider(simpleSettingsProvider.GetSettings().CurrentLanguage);
+            IBoard consoleBoard = new ConsoleBoard(simpleSettingsProvider.GetSettings());
+            GameMenu gm = new GameMenu(consoleBoard, simplePhraseProvider);
+            Game g = new Game(consoleBoard, gm);
             g.Play();
         }
     }

@@ -1,40 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Game.cs" company="AVLozhechkin">
+//     Copyright (c) AVLozhechkin. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace DashboardGame
 {
-    class Game
-    {
-        private readonly ConsoleBoard board;
-        private readonly GameMenu menu;
+    using System;
 
-        public Game(ConsoleBoard board, GameMenu menu)
+    /// <summary>
+    /// This class contains Game app logic.
+    /// </summary>
+    internal class Game
+    {
+        /// <summary>
+        /// Initializes a new instance of the Game class.
+        /// </summary>
+        /// <param name="board">IBoard implementation where the game must be run.</param>
+        /// <param name="menu">GameMenu class which is used for controlling gameplay.</param>
+        public Game(IBoard board, GameMenu menu)
         {
-            this.board = board;
-            this.menu = menu;
+            this.Board = board;
+            this.Menu = menu;
         }
+
+        /// <summary>
+        /// Gets IBoard implementation where the game must be run.
+        /// </summary>
+        private IBoard Board { get; }
+
+        /// <summary>
+        /// Gets GameMenu implementation which is used for controlling gameplay.
+        /// </summary>
+        private GameMenu Menu { get; }
+
+        /// <summary>
+        /// This methods starts the game.
+        /// </summary>
         public void Play()
         {
             string userInput;
             do
             {
-                board.Clear();
-                menu.ShowInfo();
+                this.Board.Clear();
+                this.Menu.ShowInfo();
 
                 do
                 {
-                    userInput = board.ReadLine();
-                } while (!menu.ParseUserChoice(userInput));
+                    userInput = this.Board.ReadLine();
+                }
+                while (!this.Menu.ParseUserChoice(userInput));
 
-                board.Clear();
-                board.DrawAxis();
-                menu.DrawFigures(board);
-                menu.DrawFigures = null;
-
-            } while (board.ReadKey().Key != ConsoleKey.Escape);
+                this.Board.Clear();
+                this.Board.DrawAxis();
+                this.Menu.DrawFigures(this.Board);
+                this.Menu.DrawFigures = null;
+            }
+            while (this.Board.ReadKey().Key != ConsoleKey.Escape);
         }
     }
 }
