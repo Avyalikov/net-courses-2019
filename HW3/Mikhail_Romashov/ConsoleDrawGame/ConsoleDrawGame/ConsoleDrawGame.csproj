@@ -53,7 +53,9 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="GameSettings.cs" />
-    <Compile Include="Components\PhraseProvider.cs" />
+    <Compile Include="Components\PhraseProvider.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\IFigureProvider.cs" />
     <Compile Include="Interfaces\IInputOutput.cs" />

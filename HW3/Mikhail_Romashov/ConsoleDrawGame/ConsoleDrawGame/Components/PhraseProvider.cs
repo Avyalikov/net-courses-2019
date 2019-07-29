@@ -9,19 +9,48 @@ namespace Components
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Newtonsoft.Json;
     using Interfaces;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Class for work with language files (Resources folder)
     /// </summary>
     public class PhraseProvider : IPhraseProvider
     {
         /// <summary>
-        /// Get phrase from language file
+        /// Storage with pairs key phrase
         /// </summary>
-        /// <param name="phraseKey">phrase key from language file</param>
-        /// <returns>string value from language file</returns>
+        private Dictionary<string, string> phrases;
+
+        /// <summary>
+        /// Get phrase from dictionary
+        /// </summary>
+        /// <param name="phraseKey">Phrase key</param>
+        /// <returns>Phrase from dictionary</returns>
         public string GetPhrase(string phraseKey)
+        {
+            if (this.phrases == null)
+            {
+                return this.GetDictPharses(phraseKey);
+            }
+
+            try
+            {
+                return this.phrases[phraseKey];
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException(
+                    $"Can't extract phrase value {phraseKey}. It is not in the dictionary.", e);
+            }
+        }
+
+        /// <summary>
+        /// Get phrases from language file and initialize dictionary
+        /// </summary>
+        /// <param name="phraseKey">Phrase key</param>
+        /// <returns>Phrase with key phraseKey</returns>
+        public string GetDictPharses(string phraseKey)
         {
             var resourceFile = new FileInfo("Resources/langEng.json");
 
@@ -35,8 +64,8 @@ namespace Components
 
             try
             {
-                var resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
-                return resourceData[phraseKey];
+                this.phrases = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent);
+                return this.phrases[phraseKey];
             }
             catch (Exception ex)
             {

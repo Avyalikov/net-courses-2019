@@ -6,13 +6,9 @@
 
 namespace ConsoleDrawGame
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Interfaces;
     using Components;
+    using Interfaces;
+
     /// <summary>
     /// This class contains an entry point.
     /// </summary>
@@ -31,7 +27,6 @@ namespace ConsoleDrawGame
 
             Game game = new Game(settingsProvider, inputOutputComponent, phraseProvider, board, figureProvider);
             game.Run();
-
         }
     }
 }

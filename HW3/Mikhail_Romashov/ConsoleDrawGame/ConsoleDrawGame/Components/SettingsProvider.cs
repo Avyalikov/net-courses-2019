@@ -8,9 +8,10 @@ namespace Components
 {
     using System;
     using System.IO;
-    using Newtonsoft.Json;
-    using Interfaces;
     using ConsoleDrawGame;
+    using Interfaces;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Class for work with setting file (Resources folder)
     /// </summary>
