@@ -7,7 +7,8 @@ namespace ConsoleDrawGame
     interface IBoard
     {
         void DrawAt(char symbol, int x, int y);
-        void DrawBoard();
+        void DrawBoard(IBoard board);
         void SetBoardSize(int width, int heigh);
+        void Clear();
     }
 }

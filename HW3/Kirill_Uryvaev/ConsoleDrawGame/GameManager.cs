@@ -4,11 +4,11 @@ using System.Text;
 
 namespace ConsoleDrawGame
 {
-    delegate void Draw(IBoard board);
     class GameManager
     {
         GameSettings settings;
-        Dictionary<string, Draw> figures;
+
+        delegate void Draw(IBoard board);
 
         private readonly IBoard board;
         private readonly IInputOutputProvider inputOutputProvider;
@@ -23,7 +23,6 @@ namespace ConsoleDrawGame
             this.board = board;
 
             settings = settingsProvider.GetSettings();
-            figures = figureProvider.GetFigures();
             board.SetBoardSize(settings.BoardWidth, settings.BoardHeight);
         }
 
@@ -31,18 +30,31 @@ namespace ConsoleDrawGame
         {
             string key = "";
             string exitCode = settings.ExitString.ToLower();
-            board.DrawBoard();
+            Draw drawOnDashboard = board.DrawBoard;
             while (key.ToLower()!= exitCode)
             {
+                board.Clear();
+                drawOnDashboard.Invoke(board);
                 key = inputOutputProvider.Read();
-                if (figures.ContainsKey(key))
+                switch (key)
                 {
-                    figures[key].Invoke(board);
+                    case "1":
+                        drawOnDashboard += figureProvider.DrawDot;
+                        break;
+                    case "2":
+                        drawOnDashboard += figureProvider.DrawHorizontalLine;
+                        break;
+                    case "3":
+                        drawOnDashboard += figureProvider.DrawVerticalLine;
+                        break;
+                    case "4":
+                        drawOnDashboard += figureProvider.DrawSinus;
+                        break;
+                    case "5":
+                        drawOnDashboard = board.DrawBoard;
+                        break;
                 }
-                else
-                {
-                    board.DrawAt('\n', 0, 0);
-                }
+                
             }
             
         }

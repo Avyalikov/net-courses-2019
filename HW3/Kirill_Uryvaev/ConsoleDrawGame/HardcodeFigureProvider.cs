@@ -1,47 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace ConsoleDrawGame
 {
     class HardcodeFigureProvider : IFigureProvider
     {
-        public Dictionary<string,Draw> GetFigures()
-        {
-            Dictionary<string, Draw> figures = new Dictionary<string, Draw>();
-            figures.Add("Dot", DrawDot);
-            figures.Add("Hline", DrawHorizontalLine);
-            figures.Add("Vline", DrawVerticalLine);
-            figures.Add("Something", DrawSomething);
-            return figures;
-        }
-
         // Default board considered as 10x10
 
-        void DrawDot(IBoard board)
+        public void DrawDot(IBoard board)
         {
-            board.DrawAt('.',2,2);
+            board.DrawAt('.', 5, 5);
         }
 
-        void DrawVerticalLine(IBoard board)
+        public void DrawVerticalLine(IBoard board)
         {
-            for (int i=1;i<10;i++)
+            for (int i=1;i< 10; i++)
             {
-                board.DrawAt('|', 3, i);
+                board.DrawAt('|', 5, i);
             }         
         }
 
-        void DrawHorizontalLine(IBoard board)
+        public void DrawHorizontalLine(IBoard board)
         {
             for (int i = 1; i < 10; i++)
             {
-                board.DrawAt('-', i, 3);
+                board.DrawAt('-', i, 5);
             }
         }
-        void DrawSomething(IBoard board)
+        public void DrawSinus(IBoard board)
         {
-            board.DrawAt('@', 1, 1);
-            board.DrawAt('@', 10, 1);
+            for (int i = 1; i < 10; i++)
+            {
+                int y = (int)((Math.Sin(i * 2 * Math.PI / 10) + 1) * (10 - 1) / 2);
+                board.DrawAt('@', i, y);
+            }
         }
     }
 

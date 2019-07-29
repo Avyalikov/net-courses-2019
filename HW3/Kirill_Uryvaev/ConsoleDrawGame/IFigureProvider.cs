@@ -6,6 +6,9 @@ namespace ConsoleDrawGame
 {
     interface IFigureProvider
     {
-        Dictionary<string, Draw> GetFigures();
+        void DrawDot(IBoard board);
+        void DrawVerticalLine(IBoard board);
+        void DrawHorizontalLine(IBoard board);
+        void DrawSinus(IBoard board);
     }
 }

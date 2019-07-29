@@ -45,7 +45,7 @@ namespace ConsoleDrawGame
             {
                 throw new Exception("BoardWidth setting is not correct");
             }
-            if (BoardWidth<1)
+            if (BoardWidth<10)
             {
                 throw new Exception("BoardWidth must be greater than 1");
             }
@@ -54,7 +54,7 @@ namespace ConsoleDrawGame
             {
                 throw new Exception("VerticalChar setting is not correct");
             }
-            if (BoardHeight < 1)
+            if (BoardHeight < 10)
             {
                 throw new Exception("BoardHeight must be greater than 1");
             }

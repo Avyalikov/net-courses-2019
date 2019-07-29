@@ -11,18 +11,21 @@ namespace ConsoleDrawGame
         private const int dashboardOffset = 50;
 
         private const int defaultBoardSize = 10;
+
         private int boardSizeX = 10;
         private int boardSizeY = 10;
-
 
         public void DrawAt(char symbol, int x, int y)
         {
             float localX = computeLocalCoordinate(x, boardSizeX);
             float localY = computeLocalCoordinate(y, boardSizeY);
-            WriteAt(symbol, (int)localX + dashboardOffset, (int)localY);            
-            WriteAt('\t', 0, 1);    // Not nice temporary solution for input string cleaning
-            WriteAt('\t', 8, 1);
-            WriteAt('\n',0,0);
+            WriteAt(symbol, (int)localX + dashboardOffset, (int)localY);
+            WriteAt('\0', 0, 0);
+        }
+
+        public void Clear()
+        {
+            Console.Clear();
         }
 
         public void SetBoardSize(int width, int heigh)
@@ -46,7 +49,7 @@ namespace ConsoleDrawGame
         }
         // Below is creating of dashboard from here https://msdn.microsoft.com/ru-ru/library/system.console.setcursorposition(v=vs.110).aspx
 
-        public void DrawBoard()
+        public void DrawBoard(IBoard board)
         {
             // Clear the screen, then save the top and left coordinates.
             Console.Clear();
