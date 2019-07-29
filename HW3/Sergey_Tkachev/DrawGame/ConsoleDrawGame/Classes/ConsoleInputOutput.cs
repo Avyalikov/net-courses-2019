@@ -5,14 +5,21 @@ namespace ConsoleDrawGame.Classes
 {
     class ConsoleInputOutput : IInputOutput
     {
-        private int origRow;
+
         private int origCol;
+        private int origRow;
 
         public ConsoleInputOutput()
         {
-            Console.Clear();
-            origRow = Console.CursorTop;
+            ClearConsole();
             origCol = Console.CursorLeft;
+            origRow = Console.CursorTop;
+        }
+
+        /// <summary>Clears the console.</summary>
+        public void ClearConsole()
+        {
+            Console.Clear();
         }
 
         /// <summary>Returns string from console</summary>
@@ -49,6 +56,15 @@ namespace ConsoleDrawGame.Classes
                 Console.Clear();
                 Console.WriteLine(e.Message);
             }
+        }
+
+        public void SetCursor(int x, int y)
+        {
+            Console.CursorLeft = x;
+            Console.CursorTop = y;
+
+            origCol = x;
+            origRow = y;
         }
     }
 }

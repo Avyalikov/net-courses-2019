@@ -8,6 +8,8 @@ namespace ConsoleDrawGame.Interfaces
 {
     interface IInputOutput
     {
+        /// <summary>Clears the console.</summary>
+        void ClearConsole();
         /// <summary>Reds data and returns it.</summary>
         /// <returns></returns>
         string ReadInput();
@@ -22,5 +24,9 @@ namespace ConsoleDrawGame.Interfaces
         /// <param name="x">X coord.</param>
         /// <param name="y">Y coord.</param>
         void WriteAt(string s, int x, int y);
+        /// <summary>Set coordinates of Cursor. 0 is the upper left corner.</summary>
+        /// <param name="x">X coordinate.</param>
+        /// <param name="y">Y coordinate.</param>
+        void SetCursor(int x, int y);
     }
 }

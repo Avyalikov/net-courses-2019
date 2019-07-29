@@ -11,7 +11,7 @@ namespace ConsoleDrawGame
             ISettingsProvider settingsProvider = new SettingsProvider();
             IPhraseProvider phraseProvider = new JsonPhraseProvider(settingsProvider);
             IInputOutput inputOutput = new ConsoleInputOutput();
-            IBoard board = new Board(inputOutput);
+            IBoard board = new Board(inputOutput, settingsProvider);
 
             Game game = new Game(phraseProvider, inputOutput, settingsProvider, board);
 

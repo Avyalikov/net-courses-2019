@@ -10,57 +10,96 @@ namespace ConsoleDrawGame.Classes
     class Board : IBoard
     {
         private readonly ConsoleInputOutput cio;
+        private readonly GameSettings gameSettings;
 
-        public Board(IInputOutput concoleInputOutput)
+        public Board(IInputOutput concoleInputOutput, ISettingsProvider settingsProvider)
         {
             this.cio = (ConsoleInputOutput) concoleInputOutput;
+            this.gameSettings = settingsProvider.GetGameSettings();
         }
         public void PrintBoard()
         {
-            // Draw the left side of a 5x5 rectangle, from top to bottom.
+            cio.SetCursor(0, 0);
+            // Draw the left side of a (ex.: 10x10) rectangle, from top to bottom.
             cio.WriteAt("+", 0, 0);
-            cio.WriteAt("|", 0, 1);
-            cio.WriteAt("|", 0, 2);
-            cio.WriteAt("|", 0, 3);
-            cio.WriteAt("+", 0, 4);
+            for (int i = 1; i < gameSettings.BoardSizeY - 1; i++)
+            {
+                cio.WriteAt("|", 0, i);
+            }
+            cio.WriteAt("+", 0, gameSettings.BoardSizeY - 1);
 
             // Draw the bottom side, from left to right.
-            cio.WriteAt("-", 1, 4); // shortcut: WriteAt("---", 1, 4)
-            cio.WriteAt("-", 2, 4); // ...
-            cio.WriteAt("-", 3, 4); // ...
-            cio.WriteAt("+", 4, 4);
+            for (int i = 1; i < gameSettings.BoardSizeX - 1; i++) // shortcut: WriteAt("---", 1, 9)
+            {
+                cio.WriteAt("—", i, gameSettings.BoardSizeY - 1);
+            }
+            cio.WriteAt("+", gameSettings.BoardSizeX - 1, gameSettings.BoardSizeY - 1);
 
             // Draw the right side, from bottom to top.
-            cio.WriteAt("|", 4, 3);
-            cio.WriteAt("|", 4, 2);
-            cio.WriteAt("|", 4, 1);
-            cio.WriteAt("+", 4, 0);
+            for (int i = gameSettings.BoardSizeY - 2; i > 0; i--) // shortcut: WriteAt("---", 9, 8)
+            {
+                cio.WriteAt("|", gameSettings.BoardSizeX - 1, i);
+            }
+            cio.WriteAt("+", gameSettings.BoardSizeX - 1, 0);
 
             // Draw the top side, from right to left.
-            cio.WriteAt("-", 3, 0); // shortcut: WriteAt("---", 1, 0)
-            cio.WriteAt("-", 2, 0); // ...
-            cio.WriteAt("-", 1, 0); // ...
-            //
+            for (int i = gameSettings.BoardSizeX - 2; i > 0; i--) // shortcut: WriteAt("---", 8, 0)
+            {
+                cio.WriteAt("―", i, 0);
+            }
+            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
         }
 
         public void PrintDot()
         {
-            throw new NotImplementedException();
+            double x = gameSettings.BoardSizeX;
+            double y = gameSettings.BoardSizeY;
+            cio.SetCursor((int)Math.Floor(x * 0.25), (int)Math.Floor(y * 0.3));
+
+            cio.WriteAt(".", 0, 0);
+            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
         }
 
         public void PrintHorizontal()
         {
-            throw new NotImplementedException();
+            double x = gameSettings.BoardSizeX;
+            double y = gameSettings.BoardSizeY;
+            cio.SetCursor((int)Math.Ceiling(x * 0.55), (int)Math.Ceiling(y * 0.3));
+            for (int i = 0; i < (gameSettings.BoardSizeX - (int)Math.Ceiling(x * 0.55) - 1); i++)
+            {
+                cio.WriteAt("—", i, 0);
+            }
+            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
         }
 
         public void PrintOtherCurve()
         {
-            throw new NotImplementedException();
+            double x = gameSettings.BoardSizeX;
+            double y = gameSettings.BoardSizeY;
+            bool invert = false;
+            cio.SetCursor((int)Math.Ceiling(x * 0.55), (int)Math.Ceiling(y * 0.55));
+            for (int i = 0; i < (gameSettings.BoardSizeX - (int)Math.Ceiling(x * 0.55) - 1); i++)
+            {
+                if (i % 2 == 0)
+                    invert = !invert;
+                if(invert)
+                    cio.WriteAt("/", i, -i % 2);
+                else
+                    cio.WriteAt("\\", i, -1 + i % 2);
+            }
+            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
         }
 
         public void PrintVertical()
         {
-            throw new NotImplementedException();
+            double x = gameSettings.BoardSizeX;
+            double y = gameSettings.BoardSizeY;
+            cio.SetCursor((int)Math.Floor(x * 0.55), 0 + 1);
+            for (int i = 0; i < gameSettings.BoardSizeY - 1 - 1; i++)
+            {
+                cio.WriteAt("|", 0, i);
+            }
+            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
         }
     }
 }

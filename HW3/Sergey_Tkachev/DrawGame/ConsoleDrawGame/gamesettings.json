@@ -1,5 +1,7 @@
 ﻿{
-	"boardSizeX" : 10,
-	"boardSizeY" : 10,
+	"ExitCode" : -1,
+	"BoardSizeX" : 30,
+	"BoardSizeY" : 10,
+	"NumberOfChoices" : 4,
 	"Language": "English"
 }
