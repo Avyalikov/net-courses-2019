@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<setting>
+  <doorsAmount>5</doorsAmount>
+  <exitCode>-2</exitCode>
+  <previousLevelCode>-1</previousLevelCode>
+  <language>Rus</language>
+</setting>

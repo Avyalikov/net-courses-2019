@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phrases>
+  <Start>Добро пожаловать в игру "Doors And Levels". Выберите одну из этих дверей для начала игры:</Start>
+  <ExitCommand>Вы можете ввести 'exit' для выхода из игры.</ExitCommand>
+  <LevelUp>Вы перешли на следующий уровень. Выберите одну из этих дверей:</LevelUp>
+  <LevelDown>Вы вернулись на предыдущий уровень.</LevelDown>
+  <InvalidCommand>Неверная команда. Попробуйте еще раз.</InvalidCommand>
+  <Overflow>Вы ввели слишком большое число. Попробуйте еще раз.</Overflow>
+  <IncorrectNumber>Вы ввели некорректный номер двери. Попробуйте еще раз.</IncorrectNumber>
+  <FirstLevel>Вы уже на первом уровне.</FirstLevel>
+  <Victory>Вы достигли финального уровня. Вы можете ввести "0" для перехода не предыдущий уровень.</Victory>
+  <Exit>Спасибо за игру, до свидания.</Exit>
+</phrases>

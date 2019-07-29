@@ -1,0 +1,8 @@
+﻿{
+  "DoorsAmount": 10,
+  "MaxLevel": 7,
+  "ExitDoorNumber": 0,
+  "ExitCode": "f",
+  "WinDoor": 10000000,
+  "Lang" :  "Ru"
+}

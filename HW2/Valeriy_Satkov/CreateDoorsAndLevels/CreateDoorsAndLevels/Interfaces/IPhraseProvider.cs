@@ -7,5 +7,6 @@
         /* Return text from source by phraseKey
          */
         string GetPhrase(string phraseKey);
+        void SetLanguage(string lang);
     }
 }

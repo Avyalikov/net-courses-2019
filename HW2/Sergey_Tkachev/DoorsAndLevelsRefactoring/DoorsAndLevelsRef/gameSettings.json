@@ -1,0 +1,8 @@
+﻿{
+	"DoorsAmount": 5,
+	"MaxLevel": 4,
+	"ExitDoorNumber": 0,
+	"ExitCode":  -1,
+	"maxInitialValue": 6,
+	"Language": "English"
+}

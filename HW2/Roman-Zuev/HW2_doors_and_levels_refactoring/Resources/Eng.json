@@ -1,0 +1,17 @@
+{
+  "Welcome": "Welcome to \"Doors and levels game beta\" \n You can go to a next level by choosing and entering one of the given numbers. ",
+  "TheNumbersAre": "\nThe numbers are:\n",
+  "SelectAndEnterNumber": "\nSelect and enter one of the given numbers:\n",
+  "ThankYouForPlaying": "Thank you for playing!\nPress any button to quit",
+  "YouHaveEnteredWrongValue": "You have entered a wrong value. Please enter a number",
+  "YouHaveEnteredWrongValuePleaseEnterNumbersListed": "You have entered a wrong number. Please enter one of the numbers listed",
+  "Settings": "Please, enter your settings:",
+  "DoorsAmount": "Please, enter amount of numbers (5 is default)",
+  "PreviousLevelNumber": "To go to a previous level enter: ",
+  "ExitCode": "To exit enter: ",
+  "MaxLevel": "Please enter Max level 1-4 (4 is default)",
+  "ReachedMaxLevel": "You have reached the Max level! You can go to a previous level.",
+  "NextLevel": "You've reached the next level!",
+  "PreviousLevel":  "You've returned to the previous level!"
+
+}

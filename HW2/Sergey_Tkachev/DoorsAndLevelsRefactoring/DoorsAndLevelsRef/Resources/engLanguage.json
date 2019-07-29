@@ -1,0 +1,14 @@
+﻿{
+  "WelcomeStart": "Welcome to the Doors and Levels game. Enter '",
+  "WelcomeEnd": "' to exit.",
+  "Level": "\nLevel #",
+  "TheDoorsAre": ". There are the next doors: ",
+  "Select": "Select one of existing numbers: ",
+  "Thanks": "\nThanks for playing!",
+  "YouSelected": "You selected '",
+  "Previous": "' and go to the previous level.",
+  "AlreadyFirst": "\nThis is a first level already. Choose another number: ",
+  "Next": "' and go to the next level.",
+  "MaxLevelReached": "\nYou are on the max level now. The only way is back.",
+  "Incorrect": "Incorrect input. Please try again: "
+}

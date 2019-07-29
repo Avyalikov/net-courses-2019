@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phrases>
+  <Start>Welcome to Doors And Levels game. You can choose one of those doors to start the game:</Start>
+  <ExitCommand>You can write 'exit' to leave the game.</ExitCommand>
+  <LevelUp>You've moved to the next level. Please choose one of those doors:</LevelUp>
+  <LevelDown>You've returned to the previous level.</LevelDown>
+  <InvalidCommand>Invalid command. Please try again.</InvalidCommand>
+  <Overflow>You wrote too big door number. Please try again.</Overflow>
+  <IncorrectNumber>You wrote incorrect door number. Please try again.</IncorrectNumber>
+  <FirstLevel>You are on the first level already.</FirstLevel>
+  <Victory>You've reached max level. You can print "0" to return to the previous level, or write exit to leave the game.</Victory>
+  <Exit>Thank you for playing, goodbye.</Exit>
+</phrases>

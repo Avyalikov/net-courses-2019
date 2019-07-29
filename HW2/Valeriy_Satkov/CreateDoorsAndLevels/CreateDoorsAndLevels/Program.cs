@@ -4,7 +4,7 @@
     {
         static void Main()
         {
-            Interfaces.IPhraseProvider phraseProvider = new Modules.JsonPhraseProvider("Resources\\LangRuStory.json");
+            Interfaces.IPhraseProvider phraseProvider = new Modules.JsonPhraseProvider();
             Interfaces.IInputOutputDevice inputOutputDevice = new Modules.ConsoleInputOutputDevice();
             Interfaces.IDoorsNumbersGenerator doorsNumbersGenerator = new Modules.DoorsNumbersGenerator();
             Interfaces.ISettingsProvider settingsProvider = new Modules.JsonSettingsProvider();

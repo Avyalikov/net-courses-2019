@@ -12,6 +12,8 @@ namespace CreateDoorsAndLevels
 
         private readonly GameSettings gameSettings;
 
+        private bool hardExit;
+
         List<int> numbers;
         List<int> selectedNumbers;
 
@@ -32,7 +34,7 @@ namespace CreateDoorsAndLevels
 
         public void Run()
         {
-            // this.numbers = new List<int>() { 2, 4, 3, 1, 0 }; // simple test
+            phraseProvider.SetLanguage(gameSettings.Language);
             this.numbers = doorsNumbersGenerator.generateDoorsNumbers(gameSettings.DoorsAmount);
             this.selectedNumbers = new List<int>();
 
@@ -50,6 +52,11 @@ namespace CreateDoorsAndLevels
                 if (this.selectedNumbers[this.selectedNumbers.Count - 1] != this.gameSettings.ExitDoorNumber)
                 {
                     inputOutputDevice.WriteLineOutput(NextLevel(this.selectedNumbers[this.selectedNumbers.Count - 1])); // "We select number 2 and go to next level: 4 8 6 2 0 (2x2 4x2 3x2 1x2 0x2)"
+                    if (hardExit)
+                    {
+                        inputOutputDevice.WriteLineOutput(phraseProvider.GetPhrase("OverflowDoor"));
+                        break;
+                    }
                 }
                 else if (this.selectedNumbers.Count - 1 > 0) // selectedNumber == this.gameSettings.ExitDoorNumber, level > 0
                 {
@@ -143,6 +150,11 @@ namespace CreateDoorsAndLevels
             for (int i = 0; i < numbers.Count; i++)
             {
                 sb.Append(numbers[i] *= selectedNumber);
+                if (numbers[i] < 0)
+                {
+                    hardExit = true;
+                    return "";
+                }
                 sb.Append(i < numbers.Count - 1 ? " " : String.Empty); // add space between them;
             }
 

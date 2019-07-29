@@ -1,0 +1,8 @@
+﻿{
+  "Welcome": "1 - dot \n2 - horizontal line \n3 - vertical line \n4 - rectangle \n5 - resize length \n6 - resize width",
+  "Exit": "For exit enter: ",
+  "EnterL": "Enter a length from the range of  6..",
+  "EnterW": "Enter a width from the range of  6..",
+  "BadValue": "You are enter wrong value. Cancel operation.",
+  "End": "Thanks for drawing. Good bye!"
+}

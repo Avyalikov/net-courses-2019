@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TextMessages>
+  <Welcome>Добро пожаловать! Пожалуйста, нажмите «ввод», чтобы продолжить</Welcome>
+  <Menu>Пожалуйста, выберите:</Menu>
+  <DrawDot> - нарисовать точку</DrawDot>
+  <DrawHorizontalLine> - нарисовать горизонтальную линию</DrawHorizontalLine>
+  <DrawVerticalLine> - нарисовать вертикальную линию</DrawVerticalLine>
+  <DrawSnowFlake> - нарисовать звездочку</DrawSnowFlake>
+  <Clear> - очистить</Clear>
+  <Exit> - выйти</Exit>
+  <IncorrectOption>Пожалуйтса, выберите опцию из списка</IncorrectOption>
+</TextMessages>

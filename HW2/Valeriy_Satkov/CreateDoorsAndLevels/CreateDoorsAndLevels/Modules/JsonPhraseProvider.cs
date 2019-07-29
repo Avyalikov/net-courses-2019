@@ -9,11 +9,11 @@ namespace CreateDoorsAndLevels.Modules
      */
     class JsonPhraseProvider : Interfaces.IPhraseProvider
     {
-        private readonly string langPath;
+        private string langPath;
 
-        public JsonPhraseProvider(string langPath)
+        public void SetLanguage(string lang)
         {
-            this.langPath = langPath;
+            this.langPath = $"Resources\\Lang{lang}.json";
         }
 
         public string GetPhrase(string phraseKey)

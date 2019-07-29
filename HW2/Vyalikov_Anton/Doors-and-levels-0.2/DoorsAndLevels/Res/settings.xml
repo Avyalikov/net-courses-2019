@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Settings>
+  <DoorsCount>5</DoorsCount>
+  <MinRandom>2</MinRandom>
+  <MaxRandom>9</MaxRandom>
+  <Language>Eng</Language>
+</Settings>

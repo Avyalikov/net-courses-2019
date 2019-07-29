@@ -14,7 +14,7 @@ namespace CreateDoorsAndLevels.Modules
 
             for (int i = 0; i < doorsAmount - 1; i++)
             {
-                while (result.Contains(randomNumber = random.Next(1, 9))) ;
+                while (result.Contains(randomNumber = random.Next(1, doorsAmount * 2)));
                 result.Add(randomNumber);
             }
 

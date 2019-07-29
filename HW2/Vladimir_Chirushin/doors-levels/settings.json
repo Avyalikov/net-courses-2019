@@ -1,0 +1,7 @@
+{
+  "maxDoors": "3",
+  "languageFile": "LangEN.json",
+  "minDoorValue": "2",
+  "maxDoorValue": "8",
+  "gameExitCommand": "exit"
+}

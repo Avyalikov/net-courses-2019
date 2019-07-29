@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings>
+  <NumberOfValues>5</NumberOfValues>
+  <MinRand>1</MinRand>
+  <MaxRand>10</MaxRand>
+  <GoBack>e</GoBack>
+</Settings>

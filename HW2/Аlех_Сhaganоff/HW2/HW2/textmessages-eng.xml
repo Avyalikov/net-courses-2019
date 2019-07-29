@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TextMessages>
+  <IncorrectChoice>Please choose one of the numbers on the screen</IncorrectChoice>
+  <IncorrectInputP1>Incorrect input, please enter a single integer value; enter '0' or '</IncorrectInputP1>
+  <IncorrectInputP2>' to go back</IncorrectInputP2>
+  <MaxLevelReached>Maximum level reached, going back</MaxLevelReached>
+  <EndReached>End</EndReached>
+  <SettingLoadingError>Settings failed to load, using default values instead</SettingLoadingError>
+</TextMessages>
+
