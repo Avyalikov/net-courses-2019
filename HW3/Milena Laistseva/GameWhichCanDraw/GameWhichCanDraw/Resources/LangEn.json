@@ -1,0 +1,7 @@
+﻿{
+  "Welcome": "Welcome to \"Drawing game\"! \nYou can draw one of the figures by entering their numbers. \nYou can also end your game by entering \"x\".",
+  "TheFiguresAre": "\nThe figures are:\n \n1 - simple dot \n2 - horizontal line \n3 - vertical line \n4 - circle",
+  "ChooseYourFigure": "\nChoose your figure or enter \"x\" to quit.",
+  "ThankYouForPlaying": "Thank you for playing!\nPress any button to quit.",
+  "ItIsNotANumber": "It is not a number. Let's try again"
+}
