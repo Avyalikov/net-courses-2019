@@ -7,5 +7,6 @@
     public interface IOutputWriter
     {
         void Write(string message);
+        void WriteAt(string s, int x, int y);
     }
 }

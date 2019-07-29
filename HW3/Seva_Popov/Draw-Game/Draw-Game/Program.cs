@@ -14,8 +14,10 @@ using Draw_Game.Interfaces;
             IOutputWriter writer = new OutputWriter();
             ISettingsProvider settingsProvider = new SettingsProvider();
             IPhraseProvider phraseProvider = new PhraseProvider();
+            GameSettings gameSettings = new GameSettings();
+            IBoard board = new Board();
 
-            GameLogics gameLogics = new GameLogics(reader, writer, settingsProvider, phraseProvider);
+            GameLogics gameLogics = new GameLogics(reader, writer, settingsProvider, phraseProvider,gameSettings, board);
             gameLogics.RunGame();
         }
     }
