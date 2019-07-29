@@ -86,14 +86,6 @@ namespace DashboardGame
             {
                 this.Board.DrawAtPosition(-20, y--, this.PhraseProvider.GetPhrase(ChoiceIs) + choice);
 
-                if (choice.Contains("1"))
-                {
-                    this.Board.DrawAtPosition(-20, y--, $"1 - { this.PhraseProvider.GetPhrase(DotOption) }");
-
-                    this.DrawFigures += Drawer.DrawPoint;
-                    isCorrect = true;
-                }
-
                 if (choice.Contains("2"))
                 {
                     this.Board.DrawAtPosition(-20, y--, $"2 - { this.PhraseProvider.GetPhrase(VerLineOption) }");
@@ -112,6 +104,14 @@ namespace DashboardGame
                 {
                     this.Board.DrawAtPosition(-20, y--, $"4 - { this.PhraseProvider.GetPhrase(ParOption) }");
                     this.DrawFigures += Drawer.DrawParabola;
+                    isCorrect = true;
+                }
+
+                if (choice.Contains("1"))
+                {
+                    this.Board.DrawAtPosition(-20, y--, $"1 - { this.PhraseProvider.GetPhrase(DotOption) }");
+
+                    this.DrawFigures += Drawer.DrawPoint;
                     isCorrect = true;
                 }
 
