@@ -22,6 +22,16 @@ namespace ConsoleDrawGame
         public int Width { get; set; }
 
         /// <summary>
+        /// Gets or sets max length of board
+        /// </summary>
+        public int MaxLength { get; set; }
+
+        /// <summary>
+        /// Gets or sets max length of board
+        /// </summary>
+        public int MaxWidth { get; set; }
+
+        /// <summary>
         /// Gets or sets code to exit from application
         /// </summary>
         public string ExitCode { get; set; }

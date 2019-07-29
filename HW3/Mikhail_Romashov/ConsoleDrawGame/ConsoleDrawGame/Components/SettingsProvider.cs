@@ -4,16 +4,17 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace ConsoleDrawGame
+namespace Components
 {
     using System;
     using System.IO;
     using Newtonsoft.Json;
-
+    using Interfaces;
+    using ConsoleDrawGame;
     /// <summary>
     /// Class for work with setting file (Resources folder)
     /// </summary>
-    internal class SettingsProvider : Interfaces.ISettingsProvider
+    internal class SettingsProvider : ISettingsProvider
     {
         /// <summary>
         /// Include necessary option for game

@@ -12,7 +12,7 @@ namespace ConsoleDrawGame
     using System.Text;
     using System.Threading.Tasks;
     using Interfaces;
-
+    using Components;
     /// <summary>
     /// This class contains an entry point.
     /// </summary>
@@ -23,9 +23,15 @@ namespace ConsoleDrawGame
         /// </summary>
         private static void Main()
         {
+            IInputOutput inputOutputComponent = new ConsoleInputOutput();
             ISettingsProvider settingsProvider = new SettingsProvider();
-            GameSettings gameSettings = settingsProvider.GameSettings();
-            Console.ReadKey();
+            IPhraseProvider phraseProvider = new PhraseProvider();
+            IBoard board = new Board();
+            IFigureProvider figureProvider = new FigureComponent();
+
+            Game game = new Game(settingsProvider, inputOutputComponent, phraseProvider, board, figureProvider);
+            game.Run();
+
         }
     }
 }

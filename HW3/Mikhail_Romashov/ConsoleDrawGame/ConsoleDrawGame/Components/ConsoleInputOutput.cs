@@ -4,18 +4,18 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace ConsoleDrawGame
+namespace Components
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using Interfaces;
     /// <summary>
     /// Class for work with input output to screen
     /// </summary>
-    public class ConsoleInputOutput : Interfaces.IInputOutput
+    public class ConsoleInputOutput : IInputOutput
     {
         /// <summary>
         /// Get string from input information
@@ -59,6 +59,24 @@ namespace ConsoleDrawGame
         public void WriteOutput(string dataToOutput)
         {
             Console.Write(dataToOutput);
+        }
+
+        /// <summary> 
+        /// Clear screen
+        /// </summary>
+        public void Clear()
+        {
+            Console.Clear();
+        }
+
+        /// <summary>
+        /// Set screen position for output line
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public void CursorPosition(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
         }
     }
 }

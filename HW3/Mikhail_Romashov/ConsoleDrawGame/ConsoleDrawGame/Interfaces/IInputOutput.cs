@@ -39,5 +39,17 @@ namespace Interfaces
         /// </summary>
         /// <param name="dataToOutput">Line to screen</param>
         void WriteOutput(string dataToOutput);
+
+        /// <summary> 
+        /// Clear screen
+        /// </summary>
+        void Clear();
+
+        /// <summary>
+        /// Set screen position for output line
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        void CursorPosition(int x, int y);
     }
 }

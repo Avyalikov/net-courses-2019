@@ -1,5 +1,7 @@
 ﻿{
-  "length": "25",
-  "width": "25",
+  "length": "80",
+  "width": "20",
+  "maxLength": "80",
+  "maxWidth":  "20",
   "exitCode" :  "exit"
 }

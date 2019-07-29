@@ -4,17 +4,17 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace ConsoleDrawGame
+namespace Components
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using Newtonsoft.Json;
-
+    using Interfaces;
     /// <summary>
     /// Class for work with language files (Resources folder)
     /// </summary>
-    public class PhraseProvider : Interfaces.IPhraseProvider
+    public class PhraseProvider : IPhraseProvider
     {
         /// <summary>
         /// Get phrase from language file
