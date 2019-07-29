@@ -347,6 +347,6 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
-/HW2/Seva_Popov/DoorsAndLevelsGame/DoorsAndLevelsGame
+/HW1/Vladimir_Chirushin/doors-levels/Properties/AssemblyInfo.cs
+
 /HW1/Vladimir_Chirushin/doors-levels
-/HW3/Vladimir_Chirushin/ConsoleCanvas/Settings.StyleCop
