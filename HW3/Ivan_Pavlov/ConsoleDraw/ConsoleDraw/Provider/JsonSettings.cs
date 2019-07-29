@@ -1,12 +1,20 @@
-﻿namespace ConsoleDraw.Provider
+﻿// <copyright file="JsonSettings.cs" company="IPavlov">
+// Copyright (c) IPavlov. All rights reserved.
+// </copyright>
+
+namespace ConsoleDraw.Provider
 {
-    using Interfaces;
-    using Newtonsoft.Json;
     using System;
     using System.IO;
+    using ConsoleDraw.Interfaces;
+    using Newtonsoft.Json;
 
-    class JsonSettings : ISettingsProvider
+    /// <summary>
+    /// Settongs provider class.
+    /// </summary>
+    internal class JsonSettings : ISettingsProvider
     {
+        /// <inheritdoc/>
         public GameSettings GetGameSettings()
         {
             var gameSetting = new FileInfo("Resources\\GameSettings.json");
@@ -14,8 +22,7 @@
             if (!gameSetting.Exists)
             {
                 throw new ArgumentException(string.Format(
-                    "Can't find gamesettings json file. Trying to find it here {0}", 
-                    gameSetting.FullName));
+                    "Can't find gamesettings json file. Trying to find it here {0}", gameSetting.FullName));
             }
 
             var texttContent = File.ReadAllText(gameSetting.FullName);
@@ -26,8 +33,9 @@
             }
             catch (Exception e)
             {
-                throw new ArgumentException(string.Format(
-                    "Can't read GameSetting content. {0}"), e.Message);
+                throw new ArgumentException(
+                    string.Format(
+                    "Can't read GameSetting content."), e.Message);
             }
         }
     }

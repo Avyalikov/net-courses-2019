@@ -1,21 +1,34 @@
-﻿namespace ConsoleDraw.Provider
+﻿// <copyright file="Board.cs" company="IPavlov">
+// Copyright (c) IPavlov. All rights reserved.
+// </copyright>
+
+namespace ConsoleDraw.Provider
 {
     using ConsoleDraw.Interfaces;
 
-    class Board : IBoard
+    /// <summary>
+    /// board provider class.
+    /// </summary>
+    internal class Board : IBoard
     {
         private readonly char angle = '+';
         private readonly char vertical = '|';
         private readonly char horizontal = '-';
 
+        /// <inheritdoc/>
+        /// X-axis size
         public int BoardSizeX { get; set; }
+
+        /// <inheritdoc/>
+        /// Y-axis size
         public int BoardSizeY { get; set; }
 
-        private ConsoleIO console = new ConsoleIO();
+        private readonly IInputOutputDevice console = new ConsoleIO();
 
+        /// <inheritdoc/>
+        /// create board
         public void Create()
         {
-
             this.WriteAt(this.angle, 0, 0);
             this.WriteAt(this.angle, 0, this.BoardSizeY - 1);
             this.WriteAt(this.angle, this.BoardSizeX - 1, 0);
@@ -24,8 +37,8 @@
             for (int i = 1; i < this.BoardSizeX - 1; i++)
             {
                 this.WriteAt(this.horizontal, i, 0);
-                this.WriteAt(this.horizontal, i, this.BoardSizeY - 1)
-;           }
+                this.WriteAt(this.horizontal, i, this.BoardSizeY - 1);
+            }
 
             for (int i = 1; i < this.BoardSizeY - 1; i++)
             {
@@ -34,12 +47,12 @@
             }
         }
 
+        /// <inheritdoc/>
+        /// draw on board
         public void WriteAt(char c, int x, int y)
         {
-           //try?
-            console.SetCursorPosition(x, y);
-            console.WriteOutput(c.ToString());
-
+            this.console.SetCursorPosition(x, y);
+            this.console.WriteOutput(c.ToString());
         }
     }
 }
