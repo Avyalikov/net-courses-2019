@@ -1,0 +1,11 @@
+{
+  // Min value is 15
+  //Max value is 50
+  "BorderHeight": 60,
+  // Min value is 30
+  //Max value is 100
+  "BorderWidth": 50,
+  "BorserStile": "#",
+  "FigureStile": "*",
+  "Language": "en"
+}
