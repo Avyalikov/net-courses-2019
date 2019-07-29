@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings>
+  <KeyDrawDot>1</KeyDrawDot>
+  <KeyDrawHorizontalLine>2</KeyDrawHorizontalLine>
+  <KeyDrawVerticalLine>3</KeyDrawVerticalLine>
+  <KeyDrawSnowFlake>4</KeyDrawSnowFlake>
+  <KeyClear>5</KeyClear>
+  <KeyExit>0</KeyExit>
+  <BoardSizeX>32</BoardSizeX>
+  <BoardSizeY>16</BoardSizeY>
+</Settings>
