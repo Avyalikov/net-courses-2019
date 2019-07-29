@@ -8,7 +8,6 @@ namespace doors_and_levels_game_after_refactoring
     class PhraseProviderFromJson : IPhraseProvider
     {
         private readonly GameSettings gameSettings;
-        //public string language;
         private Dictionary <string, string> FileData;
         public PhraseProviderFromJson(ISettingsProvider settingsProvider)
         {
@@ -31,7 +30,7 @@ namespace doors_and_levels_game_after_refactoring
             catch (Exception ex)
             {
                 throw new ArgumentException(
-                    $"Can't extract file {gameSettings.Language}", ex);
+                    $"Can't extract file {language}.json", ex);
             }
         }
         public string getPhrase(string phrase)

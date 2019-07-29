@@ -29,7 +29,6 @@ namespace doors_and_levels_game_after_refactoring
 
         public void Run()
         {
-            //var gameDoors = new Doors(settingsProvider);
             doorsNumbers = doorsNumbersGenerator.GenerateIntArr(gameSettings.DoorsAmount, gameSettings.NumRange); // array of doors numbers for the start
             userNumbers = new List<int> { 1 };
 
