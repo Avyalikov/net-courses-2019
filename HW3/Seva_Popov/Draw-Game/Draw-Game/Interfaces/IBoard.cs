@@ -6,10 +6,13 @@
 
    public interface IBoard
     {
-         void Create(CoundDel coundDel);
-         void Curve(CoundDel coundDel);
-         void HorizontalLine(CoundDel coundDel);
-         void SimpleDot(CoundDel coundDel);
-         void VerticalLine(CoundDel coundDel);
+        int SizeX { get; set; }
+        int SizeY { get; set; }
+        void WriteAt(string s, int x, int y);
+        void Create(IBoard board);
+         void Curve(IBoard board);
+         void HorizontalLine(IBoard board);
+         void SimpleDot(IBoard board);
+         void VerticalLine(IBoard board);
     }
 }

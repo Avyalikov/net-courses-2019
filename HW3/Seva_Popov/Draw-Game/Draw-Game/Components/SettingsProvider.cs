@@ -11,7 +11,7 @@
     {
         public GameSettings GetGameSettings()
         {
-            var gameSettingsFile = new FileInfo("GameSettings.json");
+            var gameSettingsFile = new FileInfo("Resources\\GameSettings.json");
 
             if (!gameSettingsFile.Exists)
             {

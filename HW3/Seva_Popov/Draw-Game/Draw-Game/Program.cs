@@ -1,10 +1,8 @@
 ﻿namespace Draw_Game
 {
-using System;
-using Draw_Game.Components;
-using Draw_Game.Interfaces;
-
-    //private delegate void Draw(IBoard board);
+    using System;
+    using Draw_Game.Components;
+    using Draw_Game.Interfaces;
 
     public class Program
     {

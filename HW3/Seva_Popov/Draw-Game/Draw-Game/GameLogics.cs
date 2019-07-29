@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Draw_Game.Interfaces;
 
-    public delegate void CoundDel(string desm, int a, int b);
+    public delegate void Draw(IBoard board);
 
     public class GameLogics
     {
@@ -24,16 +24,44 @@ using Draw_Game.Interfaces;
             this.settingsProvider = settingsProvider;         
             this.gameSettings = gameSettings;
             this.board = board;
+            this.gameSettings = this.settingsProvider.GetGameSettings();
         }
 
         public void RunGame()
         {
-            CoundDel coundDel = writer.WriteAt;
-            board.Create(coundDel);
-            board.HorizontalLine(coundDel);
-            board.SimpleDot(coundDel);
-            board.VerticalLine(coundDel);
-            board.Curve(coundDel);
+
+            Console.WriteLine(phraseProvider.GetPhrase("Start"));
+            Console.ReadKey();
+            while (true)
+            {
+                this.board.Create(board);
+                Draw draw = delegate (IBoard board) { };
+                string st = reader.ReadLine();
+
+                if (st.Equals("1"))
+                {
+                    draw += this.board.HorizontalLine;
+                    draw(board);
+                }
+
+                if (st.Equals("2"))
+                {
+                    draw += this.board.VerticalLine;
+                    draw(board);
+                }
+
+                if (st.Equals("3"))
+                {
+                    draw += this.board.SimpleDot;
+                    draw(board);
+                }
+
+                if (st.Equals("4"))
+                {
+                    draw += this.board.Curve;
+                    draw(board);
+                }
+            }
         }
     }
 }

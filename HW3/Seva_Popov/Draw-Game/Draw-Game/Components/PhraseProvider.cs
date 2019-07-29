@@ -11,7 +11,7 @@
     {
         public string GetPhrase(string phraseKey)
         {
-            string Language = "eng.json";
+            string Language = "Resources\\eng.json";
             ISettingsProvider settingsProvider = new SettingsProvider();
             //Language = settingsProvider.GetGameSettings().Language;
             //You can change language in GameSettings: "Resources\\eng.json";
