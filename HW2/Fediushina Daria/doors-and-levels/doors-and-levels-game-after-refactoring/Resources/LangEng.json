@@ -1,0 +1,9 @@
+{
+	"Welcome": "Welcome to \"Doors and Levels!\" \n The rules are: each shown number is a door number.\nPick any door and write its number to the console.\nYou can back to the previous level by choosing door number 0 \nwrite \"exit\" to the console to quit the game",
+	"Doors": "\nDoors:",
+	"SelectDoor": "\nPlease select the one of the doors numbers\n",
+	"GameOver": "\nThe Game is over!\n",
+	"PutNumber": "\nYou have entered a wrong value. Please enter a number\n",
+	"WrongNumber": "\nYou have entered a wrong number. Please enter one of the numbers listed\n",
+	"Quit": "\nPress any button to quit"
+}
