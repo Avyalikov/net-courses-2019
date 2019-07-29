@@ -19,7 +19,6 @@ namespace The_draw_game
         /// </summary>
         public static void Main()
         {
-
             ISettingsProvider settingsProvider = new SettingsProvider();
             var settings = settingsProvider.Get();
             

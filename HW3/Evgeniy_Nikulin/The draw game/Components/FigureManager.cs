@@ -64,8 +64,8 @@ namespace The_draw_game.Components
         public void DrawFirst(IBoard board)
         {
             this.point = new Point(
-                board.Width / 4,
-                board.Height / 4);        
+                board.boardSizeX / 4,
+                board.boardSizeY / 4);        
 
             this.io.Print(this.point, this.figureStile);
         }
@@ -80,11 +80,11 @@ namespace The_draw_game.Components
             {
                 this.verticalLine = new Line(
                     new Point(
-                        board.Width - (board.Width / 4),
+                        board.boardSizeX - (board.boardSizeX / 4),
                         2),
                     new Point(
-                        board.Width - (board.Width / 4),
-                        (board.Height / 2) - 2));
+                        board.boardSizeX - (board.boardSizeX / 4),
+                        (board.boardSizeY / 2) - 2));
             }
 
             foreach (var point in this.verticalLine.Body)
@@ -104,10 +104,10 @@ namespace The_draw_game.Components
                 this.horizontalLine = new Line(
                     new Point(
                         4,
-                        board.Height - (board.Height / 4)),
+                        board.boardSizeY - (board.boardSizeY / 4)),
                     new Point(
-                        (board.Width / 2) - 4,
-                        board.Height - (board.Height / 4)));
+                        (board.boardSizeX / 2) - 4,
+                        board.boardSizeY - (board.boardSizeY / 4)));
             }
 
             foreach (var point in this.horizontalLine.Body)
@@ -126,11 +126,11 @@ namespace The_draw_game.Components
             {
                 this.rectangle = new Rectangle(
                     new Point(
-                        (board.Width / 2) + 4,
-                        (board.Height / 2) + 2),
+                        (board.boardSizeX / 2) + 4,
+                        (board.boardSizeY / 2) + 2),
                     new Point(
-                        board.Width - 4,
-                        board.Height - 2));
+                        board.boardSizeX - 4,
+                        board.boardSizeY - 2));
             }
 
             foreach (var point in this.rectangle.Body)
