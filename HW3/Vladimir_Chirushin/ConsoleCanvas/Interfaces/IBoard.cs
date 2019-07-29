@@ -3,11 +3,15 @@
     public interface IBoard
     {
         int BoardSizeX { get; }
+
         int BoardSizeY { get; }
 
-        int x1 { get; }  //upper left corner
-        int y1 { get; }
-        int x2 { get; }  //bottom right corner
-        int y2 { get; }
+        int X1 { get; } // upper left corner
+
+        int Y1 { get; }
+
+        int X2 { get; } // bottom right corner
+
+        int Y2 { get; }
     }
 }

@@ -1,9 +1,9 @@
-﻿using ConsoleCanvas.Interfaces;
-using ConsoleCanvas;
-using System;
-
-namespace ConsoleCanvas
+﻿namespace ConsoleCanvas
 {
+    using System;
+    using ConsoleCanvas;
+    using ConsoleCanvas.Interfaces;
+
     public class FileSettingsProvider : ISettingsProvider
     {
         private readonly string settingsFilePath;
@@ -26,108 +26,108 @@ namespace ConsoleCanvas
 
         public ISettings GetSettings()
         {
-            ParseSettings();
+            this.ParseSettings();
 
             return new Settings(
-                dotXOffsetPercent,
-                dotYOffsetPercent,
-                verticalLineXOffsetPercent,
-                horizontalLineYOffsetPercent,
-                canvasX1,
-                canvasY1,
-                canvasX2,
-                canvasY2, 
-                language);
+                this.dotXOffsetPercent,
+                this.dotYOffsetPercent,
+                this.verticalLineXOffsetPercent,
+                this.horizontalLineYOffsetPercent,
+                this.canvasX1,
+                this.canvasY1,
+                this.canvasX2,
+                this.canvasY2,
+                this.language);
         }
 
         private void ParseSettings()
         {
-            var rawSettings = fileParser.ParseFile(settingsFilePath);
+            var rawSettings = this.fileParser.ParseFile(this.settingsFilePath);
 
-            //dotXOffsetPercent
+            // dotXOffsetPercent
             try
             {
-                dotXOffsetPercent = Int32.Parse(rawSettings["dotXOffsetPercent"]);
+                this.dotXOffsetPercent = int.Parse(rawSettings["dotXOffsetPercent"]);
             }
             catch
             {
                 throw new Exception("Cant parse dotXOffsetPercent check settings file.");
             }
 
-            //dotYOffsetPercent
+            // dotYOffsetPercent
             try
             {
-                dotYOffsetPercent = Int32.Parse(rawSettings["dotYOffsetPercent"]);
+                this.dotYOffsetPercent = int.Parse(rawSettings["dotYOffsetPercent"]);
             }
             catch
             {
                 throw new Exception("Cant parse dotYOffsetPercent check settings file.");
             }
 
-            //verticalLineXOffsetPercent
+            // verticalLineXOffsetPercent
             try
             {
-                verticalLineXOffsetPercent = Int32.Parse(rawSettings["verticalLineXOffsetPercent"]);
+                this.verticalLineXOffsetPercent = int.Parse(rawSettings["verticalLineXOffsetPercent"]);
             }
             catch
             {
                 throw new Exception("Cant parse verticalLineXOffsetPercent check settings file.");
             }
 
-            //horizontalLineYOffsetPercent
+            // horizontalLineYOffsetPercent
             try
             {
-                horizontalLineYOffsetPercent = Int32.Parse(rawSettings["horizontalLineYOffsetPercent"]);
+                this.horizontalLineYOffsetPercent = int.Parse(rawSettings["horizontalLineYOffsetPercent"]);
             }
             catch
             {
                 throw new Exception("Cant parse horizontalLineYOffsetPercent check settings file.");
             }
 
-            //canvasX1
+            // canvasX1
             try
             {
-                canvasX1 = Int32.Parse(rawSettings["canvasX1"]);
+                this.canvasX1 = int.Parse(rawSettings["canvasX1"]);
             }
             catch
             {
                 throw new Exception("Cant parse canvasX1 check settings file.");
             }
 
-            //canvasY1
+            // canvasY1
             try
             {
-                canvasY1 = Int32.Parse(rawSettings["canvasY1"]);
+                this.canvasY1 = int.Parse(rawSettings["canvasY1"]);
             }
             catch
             {
                 throw new Exception("Cant parse canvasY1 check settings file.");
             }
 
-            //canvasX2
+            // canvasX2
             try
             {
-                canvasX2 = Int32.Parse(rawSettings["canvasX2"]);
+                this.canvasX2 = int.Parse(rawSettings["canvasX2"]);
             }
             catch
             {
                 throw new Exception("Cant parse canvasX2 check settings file.");
             }
 
-            //canvasY2
+            // canvasY2
             try
             {
-                canvasY2 = Int32.Parse(rawSettings["canvasY2"]);
+                this.canvasY2 = int.Parse(rawSettings["canvasY2"]);
             }
             catch
             {
                 throw new Exception("Cant parse canvasY2 check settings file.");
             }
 
-            //canvasY2
+            // canvasY2
             try
             {
-                language = rawSettings["language"];
+                this.language = rawSettings["language"];
             }
             catch
             {
@@ -136,4 +136,3 @@ namespace ConsoleCanvas
         }
     }
 }
-

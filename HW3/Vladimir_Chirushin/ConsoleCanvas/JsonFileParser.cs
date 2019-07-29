@@ -1,11 +1,11 @@
-﻿using ConsoleCanvas.Interfaces;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace ConsoleCanvas
+﻿namespace ConsoleCanvas
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using ConsoleCanvas.Interfaces;
+    using Newtonsoft.Json;
+
     public class JsonFileParser : IDictionaryParser
     {
         public Dictionary<string, string> ParseFile(string filePath)
@@ -32,4 +32,3 @@ namespace ConsoleCanvas
         }
     }
 }
-

@@ -1,13 +1,14 @@
-﻿using ConsoleCanvas.Interfaces;
-
-namespace ConsoleCanvas.Drawers
+﻿namespace ConsoleCanvas.Drawers
 {
+    using ConsoleCanvas.Interfaces;
+
     public class HorizontalLineDrawer : IObjectDrawer
     {
+        private const string HorizontalSymbol = "-";
+        private const string CornerSymbol = "+";
+
         private readonly IDrawManager drawManager;
         private readonly int yOffsetPercent;
-        private const string horizontalSymbol = "-";
-        private const string cornerSymbol = "+";
 
         public HorizontalLineDrawer(IDrawManager drawManager, int yOffsetPercent)
         {
@@ -17,16 +18,16 @@ namespace ConsoleCanvas.Drawers
 
         public void DrawObject(IBoard board)
         {
-            int lineYPos = board.y1 + (board.BoardSizeY * yOffsetPercent / 100);
+            int lineYPos = board.Y1 + (board.BoardSizeY * this.yOffsetPercent / 100);
 
-            for (int i = board.x1; i < board.x2; i++)
+            for (int i = board.X1; i < board.X2; i++)
             {
-                drawManager.WriteAt(horizontalSymbol, i, lineYPos);
+                this.drawManager.WriteAt(HorizontalSymbol, i, lineYPos);
             }
 
             // drawing fancy ends
-            drawManager.WriteAt(cornerSymbol, board.x1, lineYPos);     
-            drawManager.WriteAt(cornerSymbol, board.x2, lineYPos);
+            this.drawManager.WriteAt(CornerSymbol, board.X1, lineYPos);
+            this.drawManager.WriteAt(CornerSymbol, board.X2, lineYPos);
         }
     }
 }

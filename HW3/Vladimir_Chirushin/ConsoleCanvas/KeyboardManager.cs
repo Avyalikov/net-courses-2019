@@ -1,15 +1,15 @@
-﻿using ConsoleCanvas.Interfaces;
-using System;
-
-namespace ConsoleCanvas
+﻿namespace ConsoleCanvas
 {
+    using System;
+    using ConsoleCanvas.Interfaces;
+
     public class KeyboardManager : IKeyboardManager
     {
-        private const bool dontShow = true;
+        private const bool DontShow = true;
 
         public ConsoleKeyInfo ReadKey()
         {
-            return Console.ReadKey(dontShow);
+            return Console.ReadKey(DontShow);
         }
     }
 }

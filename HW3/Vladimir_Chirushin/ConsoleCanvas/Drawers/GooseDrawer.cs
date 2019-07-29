@@ -1,14 +1,15 @@
-﻿using ConsoleCanvas.Interfaces;
-using System.IO;
-
-namespace ConsoleCanvas.Drawers
+﻿namespace ConsoleCanvas.Drawers
 {
+    using System.IO;
+    using ConsoleCanvas.Interfaces;
+
     public class GooseDrawer : IObjectDrawer
     {
+        private const string FilePath = "goose.txt";
+
         private readonly IDrawManager drawManager;
         private string[] lines;
         private bool isInitialized = false;
-        const string filePath = "goose.txt";
 
         public GooseDrawer(IDrawManager drawManager)
         {
@@ -17,48 +18,49 @@ namespace ConsoleCanvas.Drawers
         
         public void DrawObject(IBoard board)
         {
-            if (!isInitialized)
+            if (!this.isInitialized)
             {
-                InitiateGoose();
+                this.InitiateGoose();
             }
 
-            int currentLine = board.y1;
+            int currentLine = board.Y1;
             int linesNumberFromArray;
             int lineLength;
 
-            while (currentLine < (board.y2 - 1) && (currentLine - board.y1) < lines.Length)
+            while (currentLine < (board.Y2 - 1) && (currentLine - board.Y1) < this.lines.Length)
             {
-                linesNumberFromArray = currentLine - board.y1;
-                if (board.BoardSizeY - 1 < lines[currentLine - board.y1].Length)    
+                linesNumberFromArray = currentLine - board.Y1;
+                if (board.BoardSizeY - 1 < this.lines[currentLine - board.Y1].Length)    
                 {
                     // if canvas smaller than picture
                     lineLength = board.BoardSizeY - 1;
+
                     // trim string to fit canvas 
-                    drawManager.WriteAt(
-                        lines[linesNumberFromArray].Substring(0, lineLength),   
-                        board.x1 + 1, 
+                    this.drawManager.WriteAt(
+                        this.lines[linesNumberFromArray].Substring(0, lineLength),   
+                        board.X1 + 1, 
                         currentLine + 1);
                 }
                 else
                 {
-                    drawManager.WriteAt(
-                    lines[linesNumberFromArray], board.x1 + 1, currentLine + 1);
+                    this.drawManager.WriteAt(
+                    this.lines[linesNumberFromArray], board.X1 + 1, currentLine + 1);
                 }
+
                 currentLine++;
             }
         }
 
         private void InitiateGoose()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(FilePath))
             {
-                throw new FileNotFoundException(filePath);
+                throw new FileNotFoundException(FilePath);
             }
 
-            lines = File.ReadAllLines(filePath);
+            this.lines = File.ReadAllLines(FilePath);
 
-            isInitialized = true;
+            this.isInitialized = true;
         }
     }
 }
-

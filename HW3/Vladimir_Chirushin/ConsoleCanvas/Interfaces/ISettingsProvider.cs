@@ -5,4 +5,3 @@
         ISettings GetSettings();
     }
 }
-

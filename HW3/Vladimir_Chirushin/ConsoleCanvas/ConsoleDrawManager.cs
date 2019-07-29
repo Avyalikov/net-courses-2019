@@ -1,9 +1,9 @@
-﻿using ConsoleCanvas.Interfaces;
-using System;
-using System.Linq;
-
-namespace ConsoleCanvas
+﻿namespace ConsoleCanvas
 {
+    using System;
+    using System.Linq;
+    using ConsoleCanvas.Interfaces;
+
     public class ConsoleDrawManager : IDrawManager
     {
         private int origRow;
@@ -12,23 +12,23 @@ namespace ConsoleCanvas
 
         public void Initialize()
         {
-            if (isInitialized)
+            if (this.isInitialized)
             {
                 return;
             }
 
             Console.Clear();
-            origRow = Console.CursorTop;
-            origCol = Console.CursorLeft;
-            isInitialized = true;
+            this.origRow = Console.CursorTop;
+            this.origCol = Console.CursorLeft;
+            this.isInitialized = true;
         }
 
         public void WriteAt(string userString, int x, int y)
         {
             try
             {
-                Initialize();
-                Console.SetCursorPosition(origCol + x, origRow + y);
+                this.Initialize();
+                Console.SetCursorPosition(this.origCol + x, this.origRow + y);
                 Console.Write(userString);
             }
             catch (Exception e)
@@ -40,22 +40,22 @@ namespace ConsoleCanvas
 
         public void Draw(DrawDelegate drawDelegate, IBoard board)
         {
-            Initialize();
+            this.Initialize();
             Console.Clear();
             if (drawDelegate != null)
             {
                 drawDelegate(board);
-                WriteAt($"There is {drawDelegate.GetInvocationList().Count().ToString()} objects on canvas!", 0, 28);
+                this.WriteAt($"There is {drawDelegate.GetInvocationList().Count().ToString()} objects on canvas!", 0, 28);
             }
             else
             {
-                WriteAt($"Canvas is clean!", 0, 28);
+                this.WriteAt($"Canvas is clean!", 0, 28);
             }
         }
 
         public void WriteLine(string outputString)
         {
-            Initialize();
+            this.Initialize();
             Console.WriteLine(outputString);
         }
     }

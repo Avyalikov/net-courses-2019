@@ -1,9 +1,9 @@
-﻿using ConsoleCanvas.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace ConsoleCanvas
+﻿namespace ConsoleCanvas
 {
+    using System;
+    using System.Collections.Generic;
+    using ConsoleCanvas.Interfaces;
+
     public enum Phrase
     {
         Welcome, CanvasDrawMessage, DotDrawMessage, HorizontalDrawMessage, VerticalDrawMessage, GooseDrawMessage,
@@ -27,30 +27,30 @@ namespace ConsoleCanvas
 
         public void Initialize()
         {
-            if (isInitialized)
+            if (this.isInitialized)
             {
                 return;
             }
 
-            rawParsedData = fileParser.ParseFile(languageFilePath);
+            this.rawParsedData = this.fileParser.ParseFile(this.languageFilePath);
             foreach (string phraseKey in Enum.GetNames(typeof(Phrase)))
             {
-                if (rawParsedData.ContainsKey(phraseKey))
+                if (this.rawParsedData.ContainsKey(phraseKey))
                 {
-                    phrases[(Phrase)Enum.Parse(typeof(Phrase), phraseKey)] = rawParsedData[phraseKey];
+                    this.phrases[(Phrase)Enum.Parse(typeof(Phrase), phraseKey)] = this.rawParsedData[phraseKey];
                 }
             }
 
-            isInitialized = true;
+            this.isInitialized = true;
         }
 
         public string GetPhrase(Phrase phrase)
         {
-            Initialize();
+            this.Initialize();
 
-            if (phrases.ContainsKey(phrase))
+            if (this.phrases.ContainsKey(phrase))
             {
-                return phrases[phrase];
+                return this.phrases[phrase];
             }
             else
             {
@@ -59,4 +59,3 @@ namespace ConsoleCanvas
         }
     }
 }
-

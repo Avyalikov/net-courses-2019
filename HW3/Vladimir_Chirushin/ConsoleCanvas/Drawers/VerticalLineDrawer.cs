@@ -1,13 +1,14 @@
-﻿using ConsoleCanvas.Interfaces;
-
-namespace ConsoleCanvas.Drawers
+﻿namespace ConsoleCanvas.Drawers
 {
+    using ConsoleCanvas.Interfaces;
+
     public class VerticalLineDrawer : IObjectDrawer
     {
+        private const string VerticalSymbol = "|";
+        private const string CornerSymbol = "+";
+
         private readonly IDrawManager drawManager;
         private readonly int xOffsetPercent;
-        private const string verticalSymbol = "|";
-        private const string cornerSymbol = "+";
 
         public VerticalLineDrawer(IDrawManager drawManager, int xOffsetPercent)
         {
@@ -18,17 +19,16 @@ namespace ConsoleCanvas.Drawers
         public void DrawObject(IBoard board)
         {
             // TODO:cvhange to size
-            int lineXPos = board.x1 + (board.BoardSizeX * xOffsetPercent / 100);
+            int lineXPos = board.X1 + (board.BoardSizeX * this.xOffsetPercent / 100);
 
-            for (int i = board.y1; i < board.y2; i++)
+            for (int i = board.Y1; i < board.Y2; i++)
             {
-                drawManager.WriteAt(verticalSymbol, lineXPos, i);
+                this.drawManager.WriteAt(VerticalSymbol, lineXPos, i);
             }
 
             // drawing fancy ends
-            drawManager.WriteAt(cornerSymbol, lineXPos, board.y1);     
-            drawManager.WriteAt(cornerSymbol, lineXPos, board.y2);
+            this.drawManager.WriteAt(CornerSymbol, lineXPos, board.Y1);
+            this.drawManager.WriteAt(CornerSymbol, lineXPos, board.Y2);
         }
     }
 }
-

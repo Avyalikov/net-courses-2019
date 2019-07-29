@@ -1,13 +1,14 @@
-﻿using ConsoleCanvas.Interfaces;
-
-namespace ConsoleCanvas.Drawers
+﻿namespace ConsoleCanvas.Drawers
 {
+    using ConsoleCanvas.Interfaces;
+
     public class DotDrawer : IObjectDrawer
     {
+        private const string DotSymbol = ".";
+
         private readonly IDrawManager drawManager;
         private readonly int xOffsetPercent;
         private readonly int yOffsetPercent;
-        private const string dotSymbol = ".";
 
         public DotDrawer(IDrawManager drawManager, int dotXOffsetPercent, int dotYOffsetPercent)
         {
@@ -18,10 +19,10 @@ namespace ConsoleCanvas.Drawers
 
         public void DrawObject(IBoard board)
         {
-            int dotXPos = board.x1 + (board.BoardSizeX * xOffsetPercent / 100);
-            int dotYPos = board.y1 + (board.BoardSizeY * yOffsetPercent / 100);
+            int dotXPos = board.X1 + (board.BoardSizeX * this.xOffsetPercent / 100);
+            int dotYPos = board.Y1 + (board.BoardSizeY * this.yOffsetPercent / 100);
 
-            drawManager.WriteAt(dotSymbol, dotXPos, dotYPos);
+            this.drawManager.WriteAt(DotSymbol, dotXPos, dotYPos);
         }
     }
 }

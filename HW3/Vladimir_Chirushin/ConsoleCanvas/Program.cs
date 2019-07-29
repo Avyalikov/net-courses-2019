@@ -1,16 +1,16 @@
-﻿using ConsoleCanvas.Drawers;
-using ConsoleCanvas.Interfaces;
-
-namespace ConsoleCanvas
+﻿namespace ConsoleCanvas
 {
-    class Program
-    {
-        const string settingsFilePath = "settings.json";
+    using ConsoleCanvas.Drawers;
+    using ConsoleCanvas.Interfaces;
 
-        static void Main(string[] args)
+    public class Program
+    {
+        private const string SettingsFilePath = "settings.json";
+
+        public static void Main(string[] args)
         {
             IDictionaryParser jsonParser = new JsonFileParser();
-            ISettingsProvider settingsProvider = new FileSettingsProvider(jsonParser, settingsFilePath);
+            ISettingsProvider settingsProvider = new FileSettingsProvider(jsonParser, SettingsFilePath);
             ISettings settings = settingsProvider.GetSettings();
             IDrawManager drawManager = new ConsoleDrawManager();
             IKeyboardManager keyboardManager = new KeyboardManager();
@@ -41,4 +41,3 @@ namespace ConsoleCanvas
         }
     }
 }
-
