@@ -46,12 +46,5 @@ namespace ConsoleDraw.Provider
         {
             Console.Write(dataToOutPut);
         }
-
-        /// <inheritdoc/>
-        /// set cursor on start position
-        public void SetCursorPosition(int x, int y)
-        {
-            Console.SetCursorPosition(0 + x, 0 + y);
-        }
     }
 }

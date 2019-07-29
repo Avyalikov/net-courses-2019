@@ -32,7 +32,7 @@ namespace ConsoleDraw.Provider
         /// draw horizontal line
         public void HorizontalLine(IBoard board)
         {
-            for (int i = 0; i < board.BoardSizeX - 1; i++)
+            for (int i = 1; i < board.BoardSizeX - 1; i++)
             {
                 board.WriteAt('-', i, board.BoardSizeY / 2);
             }
@@ -49,9 +49,9 @@ namespace ConsoleDraw.Provider
         /// draw verttical line
         public void VerticalLine(IBoard board)
         {
-            for (int i = 0; i < board.BoardSizeY - 1; i++)
+            for (int i = 1; i < board.BoardSizeY - 1; i++)
             {
-                board.WriteAt('|', board.BoardSizeX / 2, i);
+                board.WriteAt('|', (board.BoardSizeX / 2) + 1, i);
             }
         }
     }

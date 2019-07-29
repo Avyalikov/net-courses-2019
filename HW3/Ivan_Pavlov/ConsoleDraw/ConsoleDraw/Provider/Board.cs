@@ -15,6 +15,17 @@ namespace ConsoleDraw.Provider
         private readonly char vertical = '|';
         private readonly char horizontal = '-';
 
+        private readonly IInputOutputDevice iOProvider;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Board"/> class.
+        /// </summary>
+        /// <param name="iOProvider">IODevice.</param>
+        public Board(IInputOutputDevice iOProvider)
+        {
+            this.iOProvider = iOProvider;
+        }
+
         /// <inheritdoc/>
         /// X-axis size
         public int BoardSizeX { get; set; }
@@ -22,8 +33,6 @@ namespace ConsoleDraw.Provider
         /// <inheritdoc/>
         /// Y-axis size
         public int BoardSizeY { get; set; }
-
-        private readonly IInputOutputDevice console = new ConsoleIO();
 
         /// <inheritdoc/>
         /// create board
@@ -51,8 +60,8 @@ namespace ConsoleDraw.Provider
         /// draw on board
         public void WriteAt(char c, int x, int y)
         {
-            this.console.SetCursorPosition(x, y);
-            this.console.WriteOutput(c.ToString());
+            this.iOProvider.SetPosition(x, y);
+            this.iOProvider.WriteOutput(c.ToString());
         }
     }
 }

@@ -35,13 +35,6 @@ namespace ConsoleDraw.Interfaces
         void WriteOutput(string dataToOutPut);
 
         /// <summary>
-        /// set cursor on conosle.
-        /// </summary>
-        /// <param name="x">x-coordinate.</param>
-        /// <param name="y">y-coordinate.</param>
-        void SetCursorPosition(int x, int y);
-
-        /// <summary>
         /// clear console.
         /// </summary>
         void Clear();
