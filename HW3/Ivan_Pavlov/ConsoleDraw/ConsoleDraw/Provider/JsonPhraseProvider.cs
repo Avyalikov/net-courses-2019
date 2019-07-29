@@ -4,8 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    
-
+    using Newtonsoft.Json;
 
     public class JsonPhraseProvider : IPhraseProvider
     {
@@ -39,15 +38,16 @@
             if (!resourceFile.Exists)
             {
                 throw new ArgumentException(
-                    string.Format("Can't find language file LangRu.json. Trying to find it here: {0}", 
-                    resourceFile));
+                    string.Format("Can't find language file Lang{0}.json. Trying to find it here: {1}", 
+                    langPath, resourceFile));
             }
 
             var resourceFileContent = File.ReadAllText(resourceFile.FullName); 
 
             try
             {
-                this.resourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceFileContent); 
+                this.resourceData = JsonConvert.DeserializeObject
+                    <Dictionary<string, string>>(resourceFileContent); 
                 return this.resourceData[phraseKey];
             }
             catch (Exception e)
@@ -60,12 +60,12 @@
 
         public string GetPhraseAndReplace(string phraseKey, string rewriteStr, string rightStr)
         {
-            throw new System.NotImplementedException();
+            return this.GetPhrase(phraseKey).Replace(rewriteStr, rightStr);
         }
 
         public void SetLanguage(string lang)
         {
-            this.langPath = string.Format("Resource\\Lang{0}.json", lang);
+            this.langPath = string.Format("Resources\\Lang{0}.json", lang);
         }
     }
 }

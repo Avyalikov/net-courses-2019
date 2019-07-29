@@ -32,7 +32,7 @@
 
         public void SetCursorPosition(int x, int y)
         {
-            Console.SetCursorPosition(Console.CursorLeft + x, Console.CursorTop + y);
+            Console.SetCursorPosition(0 + x, 0 + y);
         }
     }
 }

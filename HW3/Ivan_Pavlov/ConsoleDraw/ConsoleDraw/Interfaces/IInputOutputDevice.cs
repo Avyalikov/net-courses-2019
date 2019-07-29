@@ -10,7 +10,7 @@
 
         void WriteOutput(string dataToOutPut);
 
-        public void SetCursorPosition(int x, int y)
+        void SetCursorPosition(int x, int y);
 
         void Clear();
     }

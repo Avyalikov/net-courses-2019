@@ -2,7 +2,7 @@
 {
     public interface IFigureProvider
     {
-        void SimpleDot(IBoard board);
+        void Dot(IBoard board);
 
         void VerticalLine(IBoard board);
 

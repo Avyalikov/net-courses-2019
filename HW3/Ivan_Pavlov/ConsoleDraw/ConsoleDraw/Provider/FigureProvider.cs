@@ -25,7 +25,7 @@
             }
         }
 
-        public void SimpleDot(IBoard board)
+        public void Dot(IBoard board)
         {
             board.WriteAt('.', board.BoardSizeX / 2, board.BoardSizeY / 2);
         }
