@@ -1,0 +1,9 @@
+{
+  "Welcome": "Welcome to the Console Draw game!",
+  "ChooseBoardSize": "Please, choose size of the board (or it will be set as 50x20)",
+  "ExitCode": "To exit the game enter: ",
+  "Draw": "Enter 1 to draw a Simple dot\nEnter 2 to draw a Vertical Line\nEnter 3 to draw a Horizontal Line\nEnter 4 to draw 'V'\nTo Clear board enter: ",
+  "ThankYouForPlaying": "Thank you for playing! Press any button to quit",
+  "ChooseHorizontalLength": "Please enter horizontal length of the board: ",
+  "ChooseVerticalHeight":  "Please enter vertical height of the board: "
+}
