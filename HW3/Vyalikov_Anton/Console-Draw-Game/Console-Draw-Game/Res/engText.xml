@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phrases>
+  <Start>Welcome to Draw game. You can write a number to draw a figure and write this number again to delete it.</Start>
+  <Rules>You can write 1 to print dot, 2 - horizontal line, 3 - vertical line and 4 - sharp line.</Rules>
+  <ExitCommand>You can write 'exit' to leave the game.</ExitCommand>
+</phrases>
