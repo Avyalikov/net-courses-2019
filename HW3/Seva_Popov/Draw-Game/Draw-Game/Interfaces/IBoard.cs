@@ -6,11 +6,11 @@
 
    public interface IBoard
     {
-        int SizeX { get; set; }
-        int SizeY { get; set; }
-        void WriteAt(string s, int x, int y);
-        void Create(IBoard board);
-         void Curve(IBoard board);
+         int SizeX { get; set; }
+         int SizeY { get; set; }
+         void WriteAt(string s, int x, int y);
+         void Create(IBoard board);
+         void AnotherShape(IBoard board);
          void HorizontalLine(IBoard board);
          void SimpleDot(IBoard board);
          void VerticalLine(IBoard board);

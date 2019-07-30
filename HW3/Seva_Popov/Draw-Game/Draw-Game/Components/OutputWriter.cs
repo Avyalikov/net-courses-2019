@@ -11,5 +11,10 @@
         {
             Console.WriteLine(message);
         }
+
+        public void СlearСonsole()
+        {
+            Console.Clear();
+        }
     }
 }

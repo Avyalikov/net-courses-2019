@@ -16,7 +16,13 @@ using Draw_Game.Interfaces;
         private readonly IBoard board;
         private GameSettings gameSettings;
 
-        public GameLogics(IInputReader reader, IOutputWriter writer, ISettingsProvider settingsProvider, IPhraseProvider phraseProvider, GameSettings gameSettings, IBoard board)
+        public GameLogics(
+            IInputReader reader, 
+            IOutputWriter writer, 
+            ISettingsProvider settingsProvider, 
+            IPhraseProvider phraseProvider, 
+            GameSettings gameSettings, 
+            IBoard board)
         {
             this.reader = reader;
             this.writer = writer;
@@ -29,13 +35,23 @@ using Draw_Game.Interfaces;
 
         public void RunGame()
         {
-
+            board.SizeX = settingsProvider.GetGameSettings().Length;
+            board.SizeY = settingsProvider.GetGameSettings().Width;
             Console.WriteLine(phraseProvider.GetPhrase("Start"));
+            Console.WriteLine(phraseProvider.GetPhrase("Select1234"));
+            Console.WriteLine(phraseProvider.GetPhrase("Select0")+ settingsProvider.GetGameSettings().ExitCode);
+            Console.WriteLine(phraseProvider.GetPhrase("#"));
             Console.ReadKey();
+            writer.СlearСonsole();
+
             while (true)
             {
                 this.board.Create(board);
                 Draw draw = delegate (IBoard board) { };
+                Console.WriteLine(phraseProvider.GetPhrase("1"));
+                Console.WriteLine(phraseProvider.GetPhrase("2"));
+                Console.WriteLine(phraseProvider.GetPhrase("3"));
+                Console.WriteLine(phraseProvider.GetPhrase("4"));
                 string st = reader.ReadLine();
 
                 if (st.Equals("1"))
@@ -58,8 +74,12 @@ using Draw_Game.Interfaces;
 
                 if (st.Equals("4"))
                 {
-                    draw += this.board.Curve;
+                    draw += this.board.AnotherShape;
                     draw(board);
+                }
+                if (st.Equals(settingsProvider.GetGameSettings().ExitCode))
+                {
+                    break;
                 }
             }
         }

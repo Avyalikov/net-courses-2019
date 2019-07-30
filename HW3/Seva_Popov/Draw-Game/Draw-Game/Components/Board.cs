@@ -7,59 +7,44 @@
 
    public class Board : IBoard
     {
-        private readonly string angle = "+";
-        private readonly string vertical = "|";
-        private readonly string horizontal = "-";
+        private readonly string plus = "+";
+        private readonly string line = "|";
+        private readonly string dash = "-";
 
-        //private int origRow;
-        //private int origCol;
-
-       
-
-        public int SizeX { get; set; } = 40;
-
-        public int SizeY { get; set; } = 20;
-        public string ST { get; set; } 
+        public int SizeX { get; set; }
+        public int SizeY { get; set; }
 
         public void Create(IBoard board)
         {
-            // Console.Clear();
-            //this.origCol = Console.CursorLeft; 
-            //this.origRow = Console.CursorTop;            
-
-            // Draw the angles
-            WriteAt(this.angle, 0, 0);
-            WriteAt(this.angle, 0, this.SizeY - 1);
-            WriteAt(this.angle, this.SizeX - 1, 0);
-            WriteAt(this.angle, this.SizeX - 1, this.SizeY - 1);
+            WriteAt(this.plus, 0, 0);
+            WriteAt(this.plus, 0, this.SizeY - 1);
+            WriteAt(this.plus, this.SizeX - 1, 0);
+            WriteAt(this.plus, this.SizeX - 1, this.SizeY - 1);
 
             for (int i = 1; i < this.SizeX - 1; i++)
             {
-                WriteAt(this.horizontal, i, 0);
-                WriteAt(this.horizontal, i, this.SizeY - 1);                 
+                WriteAt(this.dash, i, 0);
+                WriteAt(this.dash, i, this.SizeY - 1);                 
             }
 
             for (int i = 1; i < this.SizeY - 1; i++)
             {
-                WriteAt(this.vertical, 0, i);
-                WriteAt(this.vertical, this.SizeX - 1, i);  
+                WriteAt(this.line, 0, i);
+                WriteAt(this.line, this.SizeX - 1, i);  
             }
 
             WriteAt("\n", 0, this.SizeY);
         }
 
-        public void Curve(IBoard board)
+        public void AnotherShape(IBoard board)
         {
             for (int i = 1; i < SizeX - 1; i++)
             {
-                int func = SizeY - (int)Math.Pow(i, 2);
-                if (func < 1)
-                {
-                    break;
-                }
-
-                WriteAt("*", i, func); // Draw the dot
-                WriteAt("\n", 0, this.SizeY);
+                WriteAt("$", i, (SizeY / 4) + 2);
+            }
+            for (int i = 1; i < SizeY - 1; i++)
+            {
+                WriteAt("$", (SizeX / 4) + 2, i);
             }
         }
 
@@ -67,14 +52,14 @@
         {
             for (int i = 1; i < SizeX - 1; i++)
             {
-                WriteAt("-", i, (SizeY / 2) + 2); // Draw the horizontal line, from left to right.                
+                WriteAt("-", i, (SizeY / 2) + 2);            
             }
             WriteAt("\n", 0, this.SizeY);
         }
 
         public void SimpleDot(IBoard board)
         {
-            WriteAt(".", SizeX / 2, SizeY / 2); // Draw the dot
+            WriteAt(".", SizeX / 2, SizeY / 2);
             WriteAt("\n", 0, this.SizeY);
         }
 
@@ -82,7 +67,7 @@
         {
             for (int i = 1; i < SizeY - 1; i++)
             {
-                WriteAt("|", (SizeX / 2) + 2, i); // Draw the vertical line, from up to down
+                WriteAt("|", (SizeX / 2) + 2, i);
             }
             WriteAt("\n", 0, this.SizeY);
         }
