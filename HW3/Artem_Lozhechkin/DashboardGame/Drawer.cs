@@ -23,8 +23,8 @@ namespace DashboardGame
         /// <param name="board">IBoard for drawing on it.</param>
         public static void DrawPoint(IBoard board)
         {
-            int x = Rand.Next((-board.GetWidth() / 2) + 2, (board.GetWidth() / 2) - 3);
-            int y = Rand.Next((-board.GetHeight() / 2) + 2, (board.GetHeight() / 2) - 1);
+            int x = Rand.Next((-board.BoardSizeX / 2) + 2, (board.BoardSizeX / 2) - 3);
+            int y = Rand.Next((-board.BoardSizeY / 2) + 2, (board.BoardSizeY / 2) - 1);
 
             board.SetColor(ConsoleColor.Red);
             board.DrawAtPosition(x, y, "•");
@@ -37,10 +37,10 @@ namespace DashboardGame
         /// <param name="board">IBoard for drawing on it.</param>
         public static void DrawVerticalLine(IBoard board)
         {
-            int x = Rand.Next((-board.GetWidth() / 2) + 1, (board.GetWidth() / 2) - 3);
+            int x = Rand.Next((-board.BoardSizeX / 2) + 1, (board.BoardSizeX / 2) - 3);
             board.SetColor(ConsoleColor.Yellow);
 
-            for (int i = (-board.GetHeight() / 2) + 2; i < (board.GetHeight() / 2); i++)
+            for (int i = (-board.BoardSizeY / 2) + 2; i < (board.BoardSizeY / 2); i++)
             {
                 board.DrawAtPosition(x, i, "|");
             }
@@ -54,10 +54,10 @@ namespace DashboardGame
         /// <param name="board">IBoard for drawing on it.</param>
         public static void DrawHorizontalLine(IBoard board)
         {
-            int y = Rand.Next((-board.GetHeight() / 2) + 2, (board.GetHeight() / 2) - 1);
+            int y = Rand.Next((-board.BoardSizeY / 2) + 2, (board.BoardSizeY / 2) - 1);
             board.SetColor(ConsoleColor.Cyan);
 
-            for (int i = (-board.GetWidth() / 2) + 1; i < (board.GetWidth() / 2) - 2; i++)
+            for (int i = (-board.BoardSizeX / 2) + 1; i < (board.BoardSizeX / 2) - 2; i++)
             {
                 board.DrawAtPosition(i, y, "―");
             }
@@ -73,10 +73,10 @@ namespace DashboardGame
         {
             board.SetColor(ConsoleColor.DarkMagenta);
 
-            for (int i = (-board.GetHeight() / 2) + 1; i < (board.GetHeight() / 2) - 3; i++)
+            for (int i = (-board.BoardSizeY / 2) + 1; i < (board.BoardSizeY / 2) - 3; i++)
             {
                 int j = Parabola(i);
-                if (j < (board.GetHeight() / 2))
+                if (j < (board.BoardSizeY / 2))
                 {
                     board.DrawAtPosition(i, j, "•");
                 }
