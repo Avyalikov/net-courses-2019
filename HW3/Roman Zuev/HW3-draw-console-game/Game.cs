@@ -81,8 +81,12 @@ namespace HW3_console_draw_game
             this.board.BoardSizeY = boardSizeY;
             this.inputOutputDevice.Print(this.phraseProvider.GetPhrase("ExitCode") + this.gameSettings.ExitCode);
             string userInput;
-            Draw draw = new Draw(this.drawOnBoard.ClearConsole);
+            var draw = new Draw(this.drawOnBoard.ClearConsole);
             draw += this.drawOnBoard.DrawBoard;
+            var figure1 = new Draw(this.drawOnBoard.DrawSimpleDot);
+            var figure2 = new Draw(this.drawOnBoard.DrawVerticalLine);
+            var figure3 = new Draw(this.drawOnBoard.DrawHorizontalLine);
+            var figure4 = new Draw(this.drawOnBoard.DrawV);
             while (true)
             {
                 this.inputOutputDevice.Print("\n" + this.phraseProvider.GetPhrase("Draw") + this.gameSettings.ClearBoard);
@@ -94,28 +98,43 @@ namespace HW3_console_draw_game
 
                 if (userInput.ToLowerInvariant() == this.gameSettings.FirstFigure.ToLowerInvariant())
                 {
-                    draw += this.drawOnBoard.DrawSimpleDot;
+                    foreach (var item in draw.GetInvocationList())
+	                {
+                        if (item == figure1) draw -= figure1;
+	                }
+                    draw += figure1;
                 }
 
                 if (userInput.ToLowerInvariant() == this.gameSettings.SecondFigure.ToLowerInvariant())
                 {
-                    draw += this.drawOnBoard.DrawVerticalLine;
+                    foreach (var item in draw.GetInvocationList())
+                    {
+                        if (item == figure2) draw -= figure2;
+                    }
+                    draw += figure2;
                 }
 
                 if (userInput.ToLowerInvariant() == this.gameSettings.Third.ToLowerInvariant())
                 {
-                    draw += this.drawOnBoard.DrawHorizontalLine;
+                    foreach (var item in draw.GetInvocationList())
+                    {
+                        if (item == figure3) draw -= figure3;
+                    }
+                    draw += figure3;
                 }
 
                 if (userInput.ToLowerInvariant() == this.gameSettings.ForthFigure.ToLowerInvariant())
                 {
-                    draw += this.drawOnBoard.DrawV;
+                    foreach (var item in draw.GetInvocationList())
+                    {
+                        if (item == figure1) draw -= figure4;
+                    }
+                    draw += figure4;
                 }
 
                 if (userInput.ToLowerInvariant() == this.gameSettings.ClearBoard.ToLowerInvariant())
                 {
-                    draw = new Draw(this.drawOnBoard.ClearConsole);
-                    draw += this.drawOnBoard.DrawBoard;
+                    draw = draw - figure1 - figure2 - figure3 - figure4;
                 }
 
                 draw(this.board);
