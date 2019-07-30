@@ -1,0 +1,9 @@
+{
+  "Intro": "Welcome to the \"DrawGame\"\nPress Enter to start\n",
+  "SelectWhatToDraw": "Select figure which you want to draw:\n1)Dot\n2)Vertical line\n3)Horizontal line\n4)Diamond\n",
+  "ClearKey": ")Clear board\n",
+  "ExitKey": ")Exit\n",
+  "InvalidInput": "\nInvalid input!\n",
+  "Goodbye": "\nGoodbye, thank you for playing.\n",
+  "CloseProg": "Press any key..."
+}
