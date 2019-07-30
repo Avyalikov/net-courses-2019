@@ -1,0 +1,25 @@
+{
+  "boardSizeX": 50,
+  "boardSizeY": 20,
+  "StartCoordinateX": 3,
+  "StartCoordinateY": 3,
+  "horizontalFiller": "-",
+  "verticalFiller": "|",
+  "cornerFiller": "*",
+  "slashFiller": "/",
+  "language": "eng",
+  "exit": "x",
+  "infoCoordinateY": 24,
+  "InputCoordinateY": 25,
+  "OutputCoordinateY": 26,
+  "WrongNumCoordinateY": 27,
+  "ExitCoordinateY": 28,
+  "FirstFigPos": "",
+  "SecondFigPos": "",
+  "ThirdFigPos": "",
+  "FhFigPos": "",
+  "Startpoints": ""
+
+
+
+}
