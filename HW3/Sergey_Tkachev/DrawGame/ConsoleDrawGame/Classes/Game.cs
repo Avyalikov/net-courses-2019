@@ -10,7 +10,7 @@ namespace ConsoleDrawGame.Classes
         private readonly IBoard board;
         private readonly GameSettings gameSettings;
 
-        private delegate void Draw();
+        private delegate void Draw(IBoard board);
         private int selectedNum;
         Draw draw = null;
 
@@ -25,18 +25,43 @@ namespace ConsoleDrawGame.Classes
             this.settingsProvider = settingsProvider;
             this.board = board;
             this.gameSettings = this.settingsProvider.GetGameSettings();
-            draw = board.PrintBoard;
+            draw = PrintBoard;
+        }
+
+        void PrintBoard(IBoard board)
+        {
+            board.PrintBoard();
+        }
+
+        void PrintDot(IBoard board)
+        {
+            board.PrintDot();
+        }
+
+        void PrintVertical(IBoard board)
+        {
+            board.PrintVertical();
+        }
+
+        void PrintHorizontal(IBoard board)
+        {
+            board.PrintHorizontal();
+        }
+
+        void PrintOtherCurve(IBoard board)
+        {
+            board.PrintOtherCurve();
         }
 
         /// <summary>Checks if entered number is integer, if not then number should be entered again.</summary>
         /// <returns></returns>
-        private int InputCheck()
+        private int GetInt()
         {
             while (true)
                 if (!int.TryParse(io.ReadInput(), out int enteredNum))
                     io.WriteOutput(phraseProvider.GetPhrase("Incorrect"));
                 else
-                    return selectedNum = enteredNum;
+                    return enteredNum;
         }
         /// <summary>Retrns true if value more then zero and less or equal maxValue</summary>
         /// <param name="maxValue">Maximal value.</param>
@@ -62,7 +87,7 @@ namespace ConsoleDrawGame.Classes
                 {
                     io.WriteOutput(phraseProvider.GetPhrase("Select"));
 
-                    InputCheck();
+                    selectedNum = GetInt();
 
                     if (selectedNum == gameSettings.ExitCode)
                         break;
@@ -78,23 +103,23 @@ namespace ConsoleDrawGame.Classes
                 switch (selectedNum)
                 {
                     case 1:
-                        draw += board.PrintDot;
+                        draw += PrintDot;
                         break;
                     case 2:
-                        draw += board.PrintVertical;
+                        draw += PrintVertical;
                         break;
                     case 3:
-                        draw += board.PrintHorizontal;
+                        draw += PrintHorizontal;
                         break;
                     case 4:
-                        draw += board.PrintOtherCurve;
+                        draw += PrintOtherCurve;
                         break;
                     default:
                         break;
                 }
 
                 io.ClearConsole();
-                draw();
+                draw(board);
             }
 
             io.ReadKey();
