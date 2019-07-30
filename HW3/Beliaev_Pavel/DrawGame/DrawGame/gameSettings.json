@@ -1,0 +1,7 @@
+{
+  "BoardHeight": 16,
+  "BoardWidth": 27,
+  "ExitButton": "q",
+  "ClearButton": "c",
+  "LangPackName": "English"
+}
