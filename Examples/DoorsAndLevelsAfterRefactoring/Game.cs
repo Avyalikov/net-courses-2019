@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DoorsAndLevelsAfterRefactoring
 {
-    public class Game
+    public class Game : IGame
     {
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutputDevice ioDevice;
@@ -18,15 +18,13 @@ namespace DoorsAndLevelsAfterRefactoring
         public Game(
             IPhraseProvider phraseProvider, 
             IInputOutputDevice ioDevice, 
-            ISettingsProvider settingsProvider, 
+            GameSettings gameSettings, 
             IDoorsNumbersGenerator doorsNumbersGenerator)
         {
             this.phraseProvider = phraseProvider;
             this.ioDevice = ioDevice;
-            this.settingsProvider = settingsProvider;
+            this.gameSettings = gameSettings;
             this.doorsNumbersGenerator = doorsNumbersGenerator;
-
-            this.gameSettings = this.settingsProvider.GetGameSettings();
         }
 
         public void Run()

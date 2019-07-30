@@ -1,17 +1,14 @@
-﻿namespace DoorsAndLevelsAfterRefactoring
+﻿using StructureMap;
+
+namespace DoorsAndLevelsAfterRefactoring
 {
     class Program
-    {
-        
+    {        
         static void Main()
         {
+            var container = new Container(new DoorsAndLevelsRegistry());
+            var game = container.GetInstance<IGame>();
 
-            IPhraseProvider phraseProvider = new JsonPhraseProvider();
-            IInputOutputDevice inputOutputDevice = new ConsoleInputOutputDevice();
-            ISettingsProvider settingsProvider = new SettingsProvider();
-            IDoorsNumbersGenerator doorsNumbersGenerator = new DoorsNumbersGenerator(settingsProvider);
-
-            var game = new Game(phraseProvider, inputOutputDevice, settingsProvider, doorsNumbersGenerator);
             game.Run();
         }
     }
