@@ -2,6 +2,8 @@
 	"ExitCode" : -1,
 	"BoardSizeX" : 30,
 	"BoardSizeY" : 10,
+	"StartPointX" : 1,
+	"StartPointY" : 1,
 	"NumberOfChoices" : 4,
 	"Language": "English"
 }

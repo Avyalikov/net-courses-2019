@@ -19,7 +19,7 @@ namespace ConsoleDrawGame.Classes
         }
         public void PrintBoard()
         {
-            cio.SetCursor(0, 0);
+            cio.SetCursor(gameSettings.StartPointX, gameSettings.StartPointY);
             // Draw the left side of a (ex.: 10x10) rectangle, from top to bottom.
             cio.WriteAt("+", 0, 0);
             for (int i = 1; i < gameSettings.BoardSizeY - 1; i++)
@@ -31,7 +31,7 @@ namespace ConsoleDrawGame.Classes
             // Draw the bottom side, from left to right.
             for (int i = 1; i < gameSettings.BoardSizeX - 1; i++) // shortcut: WriteAt("---", 1, 9)
             {
-                cio.WriteAt("—", i, gameSettings.BoardSizeY - 1);
+                cio.WriteAt("-", i, gameSettings.BoardSizeY - 1);
             }
             cio.WriteAt("+", gameSettings.BoardSizeX - 1, gameSettings.BoardSizeY - 1);
 
@@ -45,31 +45,31 @@ namespace ConsoleDrawGame.Classes
             // Draw the top side, from right to left.
             for (int i = gameSettings.BoardSizeX - 2; i > 0; i--) // shortcut: WriteAt("---", 8, 0)
             {
-                cio.WriteAt("―", i, 0);
+                cio.WriteAt("-", i, 0);
             }
-            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
+            cio.SetCursor(0, gameSettings.StartPointY + gameSettings.BoardSizeY + 1);
         }
 
         public void PrintDot()
         {
             double x = gameSettings.BoardSizeX;
             double y = gameSettings.BoardSizeY;
-            cio.SetCursor((int)Math.Floor(x * 0.25), (int)Math.Floor(y * 0.3));
+            cio.SetCursor(gameSettings.StartPointX + (int)Math.Floor(x * 0.25), gameSettings.StartPointY + (int)Math.Floor(y * 0.3));
 
             cio.WriteAt(".", 0, 0);
-            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
+            cio.SetCursor(0, gameSettings.StartPointY + gameSettings.BoardSizeY + 1);
         }
 
         public void PrintHorizontal()
         {
             double x = gameSettings.BoardSizeX;
             double y = gameSettings.BoardSizeY;
-            cio.SetCursor((int)Math.Ceiling(x * 0.55), (int)Math.Ceiling(y * 0.3));
+            cio.SetCursor(gameSettings.StartPointX + (int)Math.Ceiling(x * 0.55), gameSettings.StartPointY + (int)Math.Ceiling(y * 0.3));
             for (int i = 0; i < (gameSettings.BoardSizeX - (int)Math.Ceiling(x * 0.55) - 1); i++)
             {
-                cio.WriteAt("—", i, 0);
+                cio.WriteAt("-", i, 0);
             }
-            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
+            cio.SetCursor(0, gameSettings.StartPointY + gameSettings.BoardSizeY + 1);
         }
 
         public void PrintOtherCurve()
@@ -77,7 +77,7 @@ namespace ConsoleDrawGame.Classes
             double x = gameSettings.BoardSizeX;
             double y = gameSettings.BoardSizeY;
             bool invert = false;
-            cio.SetCursor((int)Math.Ceiling(x * 0.55), (int)Math.Ceiling(y * 0.55));
+            cio.SetCursor(gameSettings.StartPointX + (int)Math.Ceiling(x * 0.55), gameSettings.StartPointY + (int)Math.Ceiling(y * 0.55));
             for (int i = 0; i < (gameSettings.BoardSizeX - (int)Math.Ceiling(x * 0.55) - 1); i++)
             {
                 if (i % 2 == 0)
@@ -87,19 +87,19 @@ namespace ConsoleDrawGame.Classes
                 else
                     cio.WriteAt("\\", i, -1 + i % 2);
             }
-            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
+            cio.SetCursor(0, gameSettings.StartPointY + gameSettings.BoardSizeY + 1);
         }
 
         public void PrintVertical()
         {
             double x = gameSettings.BoardSizeX;
             double y = gameSettings.BoardSizeY;
-            cio.SetCursor((int)Math.Floor(x * 0.55), 0 + 1);
+            cio.SetCursor(gameSettings.StartPointX + (int)Math.Floor(x * 0.55), gameSettings.StartPointY + 0 + 1);
             for (int i = 0; i < gameSettings.BoardSizeY - 1 - 1; i++)
             {
                 cio.WriteAt("|", 0, i);
             }
-            cio.SetCursor(0, gameSettings.BoardSizeY + 1);
+            cio.SetCursor(0, gameSettings.StartPointY + gameSettings.BoardSizeY + 1);
         }
     }
 }
