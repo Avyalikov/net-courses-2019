@@ -12,14 +12,14 @@ namespace The_draw_game.Interfaces
     public interface IBoard
     {
         /// <summary>
-        /// Gets or sets Width
+        /// Gets or sets boardSizeX
         /// </summary>
-        int Width { get; set; }
+        int boardSizeX { get; set; }
 
         /// <summary>
-        /// Gets or sets Height
+        /// Gets or sets boardSizeY
         /// </summary>
-        int Height { get; set; }
+        int boardSizeY { get; set; }
 
         /// <summary>
         ///  Draw board

@@ -30,7 +30,6 @@ namespace The_draw_game.Components
             }
             catch (Exception)
             {
-
                 throw new Exception("Window size is very big.");
             }
         }

@@ -33,12 +33,12 @@ namespace The_draw_game.Components
         /// <summary>
         /// Board width
         /// </summary>
-        private int width;
+        private int _boardSizeX;
 
         /// <summary>
         /// Board height
         /// </summary>
-        private int height;
+        private int _boardSizeY;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Board" /> class
@@ -59,19 +59,19 @@ namespace The_draw_game.Components
                 throw new Exception(e.Message);
             }
 
-            this.Width = width;
-            this.Height = height;
+            this.boardSizeX = width;
+            this.boardSizeY = height;
             this.boardStile = boardStile;
         }
 
         /// <summary>
         /// Gets or sets board width
         /// </summary>
-        public int Width
+        public int boardSizeX
         {
             get
             {
-                return this.width;
+                return this._boardSizeX;
             }
 
             set
@@ -81,18 +81,18 @@ namespace The_draw_game.Components
                     throw new Exception("Window width is very low");
                 }
 
-                this.width = value;
+                this._boardSizeX = value;
             }
         }
 
         /// <summary>
         /// Gets or sets board height
         /// </summary>
-        public int Height
+        public int boardSizeY
         {
             get
             {
-                return this.height;
+                return this._boardSizeY;
             }
 
             set
@@ -102,7 +102,7 @@ namespace The_draw_game.Components
                     throw new Exception("Window height is very low");
                 }
 
-                this.height = value;
+                this._boardSizeY = value;
             }
         }
 
@@ -116,7 +116,7 @@ namespace The_draw_game.Components
             {
                 this.borderline = new Rectangle(
                     new Point(0, 0),
-                    new Point(board.Width, board.Height));
+                    new Point(board.boardSizeX, board.boardSizeY));
             }
 
             foreach (var point in this.borderline.Body)
