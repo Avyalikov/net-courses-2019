@@ -15,14 +15,14 @@ namespace ConsoleDrawer
     /// </summary>
     public interface ICurveDrawer
     {
-        
+
         void DrawDot(IBoard board);
         void DrawHorizontalLine(IBoard board);
         void DrawVerticalLine(IBoard board);
         void DrawAnotherCurve(IBoard board);
-       
-       void DrawAt(string symbol, int xCoordinate, int yCoordinate);
-       void DrawSymbolWithOffset(string symbol, int step, Point2D.MoveDirection direction, Point2D startPoint);
-       void DrawLine(int amountOfSymbols, string symbol, int step, Point2D.MoveDirection direction, Point2D startPoint);
+
+        void DrawAt(string symbol, int xCoordinate, int yCoordinate);
+        void DrawSymbolWithOffset(string symbol, int step, Point2D.MoveDirection direction, Point2D startPoint);
+        void DrawLine(int amountOfSymbols, string symbol, int step, Point2D.MoveDirection direction, Point2D startPoint);
     }
 }

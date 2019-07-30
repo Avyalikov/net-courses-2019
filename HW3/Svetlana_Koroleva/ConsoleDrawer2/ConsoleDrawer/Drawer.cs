@@ -24,7 +24,7 @@ namespace ConsoleDrawer
         delegate void Draw(IBoard board);
         private delegate void DrawMethod(IBoard board);
         private Dictionary<int, DrawMethod> drawers;
-
+       
         public Drawer(IBoard board, ICurveDrawer cdrawer, ISettingsProvider settingsProvider, IIOComponent iOComponent, IPhraseProvider phraseProvider)
         {
             this.board = board;
@@ -33,6 +33,7 @@ namespace ConsoleDrawer
             this.drawSettings = settingsProvider.GetDrawSettings();
             this.iO = iOComponent;
             this.phraseProvider = phraseProvider;
+            
 
             this.drawers = new Dictionary<int, DrawMethod>();
             drawers.Add(1, this.curveDrawer.DrawDot);
@@ -40,6 +41,7 @@ namespace ConsoleDrawer
             drawers.Add(3, this.curveDrawer.DrawVerticalLine);
             drawers.Add(4, this.curveDrawer.DrawAnotherCurve);
         }
+        
 
 
         private int GetUserNumber()
@@ -48,17 +50,24 @@ namespace ConsoleDrawer
             int enteredNum;
             do
             {
-               iO.SetCursor(0, drawSettings.InputCoordinateY);
+                iO.ClearRow(drawSettings.InputCoordinateY);
                 if (int.TryParse(iO.ReadInput(), out enteredNum))
                 {
-                    
-                    iO.WriteOutput(phraseProvider.GetPhrase("Selected") + $"{enteredNum}");
+
+                    iO.ClearRow(drawSettings.WrongNumCoordinateY);
+
                     if (drawers.ContainsKey(enteredNum))
                     {
+                        iO.WriteOutput(phraseProvider.GetPhrase("Selected") + $"{enteredNum}");
                         isNumber = true;
                     }
+                    else
+                    {
+                        iO.SetCursor(0, drawSettings.WrongNumCoordinateY);
+                        iO.WriteOutput(phraseProvider.GetPhrase("WrongValue"));
+                       
+                    }
                 }
-
                 else
                 {
                     iO.SetCursor(0, drawSettings.WrongNumCoordinateY);
@@ -70,11 +79,6 @@ namespace ConsoleDrawer
             return enteredNum;
         }
 
-        private void DrawInputes()
-        {
-        }
-
-
 
         public void RunDrawer()
         {
@@ -82,6 +86,7 @@ namespace ConsoleDrawer
             Board dboard = new Board(this.curveDrawer, drawSettings.BoardSizeX, drawSettings.BoardSizeY, drawSettings.StartCoordinateX, drawSettings.StartCoordinateY);
            
             phraseProvider.ReadResourceFile();
+            
             
             string exit = String.Empty;
 
@@ -98,16 +103,30 @@ namespace ConsoleDrawer
            
                 iO.SetCursor(settingsProvider.GetDrawSettings().StartCoordinateX + 1, settingsProvider.GetDrawSettings().StartCoordinateY + 1);
                 DrawMethod draw = null;
-                int count = 0;
-                while (count != drawers.Count())
+               
+                for (int i=0;i<drawers.Count(); i++)
                 {
+                   
                     int number = this.GetUserNumber();
-                    draw = this.drawers[number];
+                     dboard.inputes.Push(i+1);
+                    
+                    if (i != 0)
+                    {
 
+
+                        foreach(KeyValuePair<int, DrawMethod> kv in drawers)
+                        
+                        { draw -= this.drawers[kv.Key];
+                        
+                        }
+                    }
+
+                    draw += this.drawers[number];
                     draw(dboard);
-                    count++;
+                    iO.SetCursor(drawSettings.StartCoordinateX, drawSettings.StartCoordinateY);
                 }
-
+               
+                
 
                 iO.SetCursor(0, drawSettings.ExitCoordinateY);
                 iO.WriteOutput(phraseProvider.GetPhrase("Exit"));

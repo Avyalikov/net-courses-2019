@@ -19,51 +19,57 @@ namespace ConsoleDrawer
      
         private readonly IIOComponent iOComponent = new ConsoleIOComponent();
         DrawSettings drawSettings;
+       
+       
+
+
         public CurveDrawer(DrawSettings drawSettings)
         {
+
             this.drawSettings = drawSettings;
-            
-        }
+                 }
 
 
         public void DrawAnotherCurve(IBoard board)
         {
+
+            Stack<int> i = board.GetInputes();
+            
+            Point2D position = new Point2D(drawSettings.Startpoints[i.Peek()].XCoordinate, drawSettings.Startpoints[i.Peek()].YCoordinate+drawSettings.BoardSizeY/2);
            
-            if(board.GetSizeSideX()>board.GetSizeSideY())
-            {
-                board.GetCurrenttPosition().YCoordinate = (board.GetSizeSideY() / 4) - 2 + board.GetStartPosition().YCoordinate;
-                board.GetCurrenttPosition().XCoordinate++;
-                DrawLine((board.GetSizeSideY() / 4) - 2, drawSettings.SlashFiller, 1, Point2D.MoveDirection.RightUp, board.GetCurrenttPosition());
-            }
-            else
-            {
-                board.GetCurrenttPosition().YCoordinate = (board.GetSizeSideY() / 4) - 2 + board.GetStartPosition().YCoordinate;
-                board.GetCurrenttPosition().XCoordinate++;
-                DrawLine((board.GetSizeSideX() / 4) - 2, drawSettings.SlashFiller, 1, Point2D.MoveDirection.RightUp, board.GetCurrenttPosition());
-            }
+          DrawLine((board.GetSizeSideY() / 4) , drawSettings.SlashFiller, 1, Point2D.MoveDirection.RightUp, position);
+           
             
         }
 
 
         public void DrawDot(IBoard board)
         {
-            Point2D startDrawPoint = board.GetCurrenttPosition();
-            startDrawPoint.XCoordinate++;
-            startDrawPoint.YCoordinate++;
-            DrawLine(1, ".", 1, Point2D.MoveDirection.Right, board.GetCurrenttPosition());
+
+            Stack<int> i = board.GetInputes();
+         
+            Point2D position = new Point2D(drawSettings.Startpoints[i.Peek()].XCoordinate, drawSettings.Startpoints[i.Peek()].YCoordinate);
+           
+            DrawLine(1, ".", 1, Point2D.MoveDirection.Right, position);
+
         }
 
         public void DrawHorizontalLine(IBoard board)
         {
-           DrawLine((board.GetSizeSideX() / 4)-1, drawSettings.HorizontalFiller, 1, Point2D.MoveDirection.Right, board.GetCurrenttPosition());
+            Stack<int> i = board.GetInputes();
+            
+            Point2D position = new Point2D(drawSettings.Startpoints[i.Peek()].XCoordinate, drawSettings.Startpoints[i.Peek()].YCoordinate);
+
+            DrawLine((board.GetSizeSideX() / 4)-2, drawSettings.HorizontalFiller, 1, Point2D.MoveDirection.Right, position);//board.GetCurrenttPosition()
         }
 
         public void DrawVerticalLine(IBoard board)
         {
-            Point2D startDrawPoint = board.GetCurrenttPosition();
-            startDrawPoint.XCoordinate++;
-            startDrawPoint.YCoordinate=board.GetStartPosition().YCoordinate+1;
-            DrawLine((board.GetSizeSideY()/4)-1, drawSettings.VerticalFiller, 1, Point2D.MoveDirection.Down, startDrawPoint);
+            Stack<int> i = board.GetInputes();
+            
+            Point2D position = new Point2D(drawSettings.Startpoints[i.Peek()].XCoordinate, drawSettings.Startpoints[i.Peek()].YCoordinate);
+         
+            DrawLine(board.GetSizeSideY()-2, drawSettings.VerticalFiller, 1, Point2D.MoveDirection.Down, position);
         }
 
 

@@ -21,10 +21,18 @@ namespace ConsoleDrawer
         private Point2D currentPoint;
         delegate void Draw(string s, int interval);
         private readonly ICurveDrawer curveDrawer;
+        public Stack<int> inputes = new Stack<int>();
+
+        public Stack<int> GetInputes()
+        {
+            return this.inputes;
+        }
+
 
         public Board(ICurveDrawer curveDrawer)
         {
             this.curveDrawer = curveDrawer;
+            this.inputes = new Stack<int>();
         }
 
         public Board(ICurveDrawer curveDrawer,
@@ -35,11 +43,8 @@ namespace ConsoleDrawer
             this.currentPoint = new Point2D(xStart, yStart);
             this.SizeX = x;
             this.SizeY = y;
-            
         }
 
-     
-       
 
         private bool Condition(Point2D.MoveDirection moveDirection)
         {
@@ -48,13 +53,13 @@ namespace ConsoleDrawer
             {
                 case Point2D.MoveDirection.Right:
                     {
-                        return currentPoint.XCoordinate != (this.startPoint.XCoordinate + this.SizeX-1);
+                        return currentPoint.XCoordinate != (this.startPoint.XCoordinate + this.SizeX - 1);
 
                     }
 
                 case Point2D.MoveDirection.Down:
                     {
-                        return currentPoint.YCoordinate != (this.startPoint.YCoordinate + this.SizeY-1);
+                        return currentPoint.YCoordinate != (this.startPoint.YCoordinate + this.SizeY - 1);
                     }
                 case Point2D.MoveDirection.Left:
                     {
@@ -77,7 +82,7 @@ namespace ConsoleDrawer
             bool condition = Condition(direction);
             while (condition)
             {
-                this.curveDrawer.DrawLine(lenght - 1, symb, 1, direction,currentPoint);
+                this.curveDrawer.DrawLine(lenght - 1, symb, 1, direction, currentPoint);
                 condition = Condition(direction);
 
             }
@@ -85,15 +90,15 @@ namespace ConsoleDrawer
 
         public void DrawBoard(string gorizontal, string vertical, string corner)
         {
-            DrawBoardFragment(corner, gorizontal, Point2D.MoveDirection.Right, SizeX-1);
-            DrawBoardFragment(corner, vertical, Point2D.MoveDirection.Down, SizeY-1);
-            DrawBoardFragment(corner, gorizontal, Point2D.MoveDirection.Left, SizeX-1);
-            DrawBoardFragment(corner, vertical, Point2D.MoveDirection.Up, SizeY-1);
-            currentPoint.Move(Point2D.MoveDirection.RightDown,2);
+            DrawBoardFragment(corner, gorizontal, Point2D.MoveDirection.Right, SizeX - 1);
+            DrawBoardFragment(corner, vertical, Point2D.MoveDirection.Down, SizeY - 1);
+            DrawBoardFragment(corner, gorizontal, Point2D.MoveDirection.Left, SizeX - 1);
+            DrawBoardFragment(corner, vertical, Point2D.MoveDirection.Up, SizeY - 1);
+            currentPoint.Move(Point2D.MoveDirection.RightDown, 2);
         }
 
 
-     
+
 
         public Point2D GetStartPosition()
         {
@@ -107,12 +112,18 @@ namespace ConsoleDrawer
 
         public int GetSizeSideX()
         {
-           return this.SizeX;
+            return this.SizeX;
         }
 
         public int GetSizeSideY()
         {
             return this.SizeY;
+        }
+
+        public void SetPosition(Point2D point)
+        {
+            this.currentPoint.XCoordinate = point.XCoordinate;
+            this.currentPoint.YCoordinate = point.YCoordinate;
         }
     }
 }

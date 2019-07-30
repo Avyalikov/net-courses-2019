@@ -22,5 +22,7 @@ namespace ConsoleDrawer
         void Clear();
 
         void SetCursor(int x, int y);
+
+        void ClearRow(int y);
     }
 }

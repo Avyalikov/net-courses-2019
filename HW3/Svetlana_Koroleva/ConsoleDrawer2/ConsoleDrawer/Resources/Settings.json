@@ -11,7 +11,15 @@
   "exit": "x",
   "infoCoordinateY": 24,
   "InputCoordinateY": 25,
-  "WrongNumCoordinateY": 26,
-  "ExitCoordinateY": 27
-   
+  "OutputCoordinateY": 26,
+  "WrongNumCoordinateY": 27,
+  "ExitCoordinateY": 28,
+  "FirstFigPos": "",
+  "SecondFigPos": "",
+  "ThirdFigPos": "",
+  "FhFigPos": "",
+  "Startpoints": ""
+
+
+
 }

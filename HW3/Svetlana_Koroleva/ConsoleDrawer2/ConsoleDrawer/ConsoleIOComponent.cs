@@ -20,6 +20,18 @@ namespace ConsoleDrawer
             Console.Clear();
         }
 
+        public void ClearRow(int y)
+        {
+            StringBuilder s = new StringBuilder();
+            s.Length = 50;
+            Console.ForegroundColor = ConsoleColor.Black;
+            this.SetCursor(0, y);
+            this.WriteOutput(s.ToString());
+            this.SetCursor(0, y);
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
+
         public string ReadInput()
         {
             return Console.ReadLine();

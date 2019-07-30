@@ -18,8 +18,10 @@ namespace ConsoleDrawer
         void DrawBoard(string gorizontal, string vertical, string corner);
         Point2D GetStartPosition();
         Point2D GetCurrenttPosition();
+        void SetPosition(Point2D point);
         int GetSizeSideX();
         int GetSizeSideY();
+        Stack<int> GetInputes();
 
     }
 }

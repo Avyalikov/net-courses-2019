@@ -53,6 +53,7 @@
     <Compile Include="DrawSettings.cs" />
     <Compile Include="IBoard.cs" />
     <Compile Include="ICurveDrawer.cs" />
+    <Compile Include="IDrawer.cs" />
     <Compile Include="IIOComponent.cs" />
     <Compile Include="IPhraseProvider.cs" />
     <Compile Include="ISettingsProvider.cs" />
