@@ -1,36 +1,37 @@
 ﻿namespace HW3
 {
     using System;
-    internal class Board : IBoard
+
+    public class Board : IBoard
     {
-        public int BoardSizeX {get; set;}
-
-        public int BoardSizeY {get; set;}
-
-        public Board (int BoardSizeX, int BoardSizeY)
+        public Board(int boardSizeX, int boardSizeY)
         {
-            if(BoardSizeX<10)
+            if (boardSizeX < 10)
             {
-                BoardSizeX = 10;
+                boardSizeX = 10;
             }
 
-            if (BoardSizeX >= Console.BufferWidth)
+            if (boardSizeX >= Console.BufferWidth)
             {
-                BoardSizeX = Console.BufferWidth - 2;
+                boardSizeX = Console.BufferWidth - 2;
             }
 
-            if (BoardSizeY<10)
+            if (boardSizeY < 10)
             {
-                BoardSizeY = 10;
+                boardSizeY = 10;
             }
 
-            if (BoardSizeY >= Console.BufferHeight)
+            if (boardSizeX >= Console.BufferHeight)
             {
-                BoardSizeY = Console.BufferHeight - 2;
+                boardSizeY = Console.BufferHeight - 2;
             }
 
-            this.BoardSizeX = BoardSizeX;
-            this.BoardSizeY = BoardSizeY;
+            this.BoardSizeX = boardSizeX;
+            this.BoardSizeY = boardSizeY;
         }
+
+        public int BoardSizeX { get; set; }
+
+        public int BoardSizeY { get; set; }
     }
 }

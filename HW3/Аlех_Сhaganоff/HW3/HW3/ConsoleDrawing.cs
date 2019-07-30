@@ -2,7 +2,7 @@
 {
     using System;
         
-    class ConsoleDrawing
+    public class ConsoleDrawing
     {
         private readonly TextMessages textMessages;
         private readonly Settings settings;
@@ -14,17 +14,14 @@
         private readonly ISettingsProvider settingsProvider;
         private readonly ICommands commands;
 
-        delegate void Draw(IBoard board);
-        Draw draw;
+        private Draw draw;
 
-        public ConsoleDrawing
-        (
+        public ConsoleDrawing(
             IReadInputProvider readInputProvider,
             ISendOutputProvider sendOutputProvider,
             ITextMessagesProvider textMessagesProvider,
             ISettingsProvider settingsProvider,
-            ICommands commands
-        )
+            ICommands commands)
         {
             this.readInputProvider = readInputProvider;
             this.sendOutputProvider = sendOutputProvider;
@@ -34,31 +31,33 @@
 
             try
             {
-                this.settings = settingsProvider.GetSettings();
+                settings = settingsProvider.GetSettings();
             }
             catch (Exception e)
             {
                 sendOutputProvider.PrintOutput(e.ToString());
                 sendOutputProvider.PrintOutput("Settings failed to load, using default values instead");
-                this.settings = new Settings();
+                settings = new Settings();
             }
 
             try
             {
-                this.textMessages = textMessagesProvider.GetTextMessages();
+                textMessages = textMessagesProvider.GetTextMessages();
             }
             catch (Exception e)
             {
                 sendOutputProvider.PrintOutput(e.ToString());
                 sendOutputProvider.PrintOutput("Language settings failed to load, using default values instead");
-                this.textMessages = new TextMessages();
+                textMessages = new TextMessages();
             }         
 
-            this.settings.InitializeAllMenuKeys();
+            settings.InitializeAllMenuKeys();
 
-            this.board = new Board(this.settings.BoardSizeX, this.settings.BoardSizeY);
+            board = new Board(this.settings.BoardSizeX, settings.BoardSizeY);
             draw += this.commands.DrawDashboard;
         }
+
+        private delegate void Draw(IBoard board);
 
         public void DisplayMenu()
         {
@@ -90,7 +89,7 @@
                     exitCondition = true;
                 }
             }
-            while(!exitCondition);
+            while (!exitCondition);
 
             return userInput;
         }
@@ -100,21 +99,26 @@
             bool exitConfirmed = false;
             var a = draw.GetInvocationList();
             
-
             switch (command)
             {
-                case nameof(settings.KeyDrawDot): draw += commands.DrawDot;  break;
-                case nameof(settings.KeyDrawHorizontalLine): draw += commands.DrawHorizontalLine;  break;
-                case nameof(settings.KeyDrawVerticalLine): draw += commands.DrawVerticalLine; break;
-                case nameof(settings.KeyDrawSnowFlake): draw += commands.DrawSnowFlake;  break;
+                case nameof(settings.KeyDrawDot): draw += commands.DrawDot;
+                    break;
+                case nameof(settings.KeyDrawHorizontalLine): draw += commands.DrawHorizontalLine;
+                    break;
+                case nameof(settings.KeyDrawVerticalLine): draw += commands.DrawVerticalLine;
+                    break;
+                case nameof(settings.KeyDrawSnowFlake): draw += commands.DrawSnowFlake;
+                    break;
                 case nameof(settings.KeyClear):
-                    foreach(Delegate d in draw.GetInvocationList())
+                    foreach (Delegate d in draw.GetInvocationList())
                     {
                         draw -= (Draw)d;
                     }
 
-                    draw += this.commands.DrawDashboard; break;
-                case nameof(settings.KeyExit): exitConfirmed =  true; break;
+                    draw += commands.DrawDashboard;
+                    break;
+                case nameof(settings.KeyExit): exitConfirmed = true;
+                    break;
             }
 
             return exitConfirmed;
@@ -130,18 +134,17 @@
 
             do
             {
-                if(draw!=null)
+                if (draw != null)
                 {
                     try
                     {
-                        draw.Invoke(this.board);
+                        draw.Invoke(board);
                     }
                     catch (Exception ex)
                     {
                         sendOutputProvider.PrintOutput(ex.ToString());
                         readInputProvider.ReadInput();
-                    }
-                    
+                    }   
                 }
 
                 DisplayMenu();
