@@ -3,9 +3,15 @@
     using System;
     using System.IO;
     using System.Xml.Serialization;
-    class XMLTextMessages : ITextMessagesProvider
+
+    public class XMLTextMessages : ITextMessagesProvider
     {
-        string path;
+        private string path;
+
+        public XMLTextMessages(string path)
+        {
+            this.path = path;
+        }
 
         public TextMessages GetTextMessages()
         {
@@ -29,11 +35,6 @@
             }
 
             return textMessages;
-        }
-
-        public XMLTextMessages(string path)
-        {
-            this.path = path;
         }
     }
 }

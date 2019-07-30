@@ -1,8 +1,9 @@
 ﻿namespace HW3
 {
-    internal interface IBoard
+    public interface IBoard
     {
         int BoardSizeX { get; }
+
         int BoardSizeY { get; }    
     }
 }

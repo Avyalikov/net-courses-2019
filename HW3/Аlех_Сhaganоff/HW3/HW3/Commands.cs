@@ -1,13 +1,14 @@
 ﻿namespace HW3
 {
     using System;
-    class Commands: ICommands
+
+    public class Commands : ICommands
     {
         public void DrawDashboard(IBoard board)
         {
             Console.Clear();
 
-            for(int i = 0; i<board.BoardSizeX; ++i)
+            for (int i = 0; i < board.BoardSizeX; ++i)
             {
                 Console.SetCursorPosition(i, 0);
                 Console.Write("X");
@@ -61,25 +62,25 @@
 
         public void DrawSnowFlake(IBoard board)
         {
-            for (int i = board.BoardSizeX/2 - 3; i < board.BoardSizeX/2 +4; ++i)
+            for (int i = (board.BoardSizeX / 2) - 3; i < (board.BoardSizeX / 2) + 4; ++i)
             {
                 Console.SetCursorPosition(i, board.BoardSizeY / 2);
                 Console.Write("X");    
             }
 
-            for (int i = board.BoardSizeY / 2 - 3; i < board.BoardSizeY / 2 + 4; ++i)
+            for (int i = (board.BoardSizeY / 2) - 3; i < (board.BoardSizeY / 2) + 4; ++i)
             {
                 Console.SetCursorPosition(board.BoardSizeX / 2, i);
                 Console.Write("X");
             }
 
-            for (int x = board.BoardSizeX / 2 - 3, y = board.BoardSizeY / 2 - 3; x < board.BoardSizeX / 2 + 4; ++x, ++y)
+            for (int x = (board.BoardSizeX / 2) - 3, y = (board.BoardSizeY / 2) - 3; x < (board.BoardSizeX / 2) + 4; ++x, ++y)
             {
                 Console.SetCursorPosition(x, y);
                 Console.Write("X");
             }
 
-            for (int x = board.BoardSizeX / 2 - 3, y = board.BoardSizeY / 2 + 3; x < board.BoardSizeX / 2 + 4 ; ++x, --y)
+            for (int x = (board.BoardSizeX / 2) - 3, y = (board.BoardSizeY / 2) + 3; x < (board.BoardSizeX / 2) + 4; ++x, --y)
             {
                 Console.SetCursorPosition(x, y);
                 Console.Write("X");

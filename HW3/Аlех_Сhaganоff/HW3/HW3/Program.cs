@@ -1,8 +1,8 @@
 ﻿namespace HW3
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             IReadInputProvider readInputProvider = new ConsoleInput();
             ISendOutputProvider sendOutputProvider = new ConsoleOutput();
@@ -10,14 +10,12 @@
             ISettingsProvider settingsProvider = new XMLSettings("settings.xml");
             ICommands commands = new Commands();
 
-            ConsoleDrawing consoleDrawing = new ConsoleDrawing
-            (
+            ConsoleDrawing consoleDrawing = new ConsoleDrawing(
                 readInputProvider: readInputProvider,
                 sendOutputProvider: sendOutputProvider,
                 textMessagesProvider: textMessagesProvider,
                 settingsProvider: settingsProvider,
-                commands: commands
-            );
+                commands: commands);
 
             consoleDrawing.Run();
         }

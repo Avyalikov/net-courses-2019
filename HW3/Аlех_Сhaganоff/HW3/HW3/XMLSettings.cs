@@ -1,12 +1,18 @@
 ﻿namespace HW3
 {
+    using System;
     using System.IO;
     using System.Xml.Serialization;
-    using System;
-
+    
     public class XMLSettings : ISettingsProvider
     {
-        string path;
+        private string path;      
+
+        public XMLSettings(string path)
+        {
+            this.path = path;
+        }
+
         public Settings GetSettings()
         {
             Stream stream = null;
@@ -29,11 +35,6 @@
             }
 
             return settings;
-        }
-
-        public XMLSettings(string path)
-        {
-            this.path = path;
         }
     }
 }
