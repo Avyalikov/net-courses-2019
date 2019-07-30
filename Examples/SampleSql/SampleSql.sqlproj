@@ -203,6 +203,7 @@
     <None Include="Scripts\Post-Deployment\Shippers.sql" />
     <None Include="Scripts\Post-Deployment\Suppliers.sql" />
     <None Include="Scripts\Post-Deployment\Territories.sql" />
+    <None Include="Scripts\CreateNortwind.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Post-Deployment\Script.PostDeployment.sql" />
