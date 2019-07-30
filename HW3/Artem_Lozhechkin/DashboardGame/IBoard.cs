@@ -13,6 +13,15 @@ namespace DashboardGame
     internal interface IBoard
     {
         /// <summary>
+        /// Gets a board height.
+        /// </summary>
+        int BoardSizeY { get; }
+
+        /// <summary>
+        /// Gets a board width.
+        /// </summary>
+        int BoardSizeX { get; }
+        /// <summary>
         /// This method should draw a plotting area.
         /// </summary>
         void DrawBoard();
@@ -24,18 +33,6 @@ namespace DashboardGame
         /// <param name="y">Y-coordinate for drawing.</param>
         /// <param name="s">String for drawing.</param>
         void DrawAtPosition(int x, int y, string s);
-
-        /// <summary>
-        /// This method should return a height of the plotting area.
-        /// </summary>
-        /// <returns>Height of the board.</returns>
-        int GetHeight();
-
-        /// <summary>
-        /// This method should return a width of the plotting area.
-        /// </summary>
-        /// <returns>Width of the board.</returns>
-        int GetWidth();
 
         /// <summary>
         /// This method should draw an axis on the plotting area.
