@@ -1,8 +1,8 @@
-﻿using ConsoleDrawGame.Interfaces;
-
-namespace ConsoleDrawGame.Classes
+﻿namespace ConsoleDrawGame.Classes
 {
-    class Game
+    using ConsoleDrawGame.Interfaces;
+
+    internal class Game
     {
         private readonly IPhraseProvider phraseProvider;
         private readonly IInputOutput io;
@@ -10,45 +10,100 @@ namespace ConsoleDrawGame.Classes
         private readonly IBoard board;
         private readonly GameSettings gameSettings;
 
-        private delegate void Draw(IBoard board);
         private int selectedNum;
-        Draw draw = null;
 
-        public Game(IPhraseProvider phraseProvider,
-                    IInputOutput io,
-                    ISettingsProvider settingsProvider,
-                    IBoard board
-                    )
+        public Game(
+            IPhraseProvider phraseProvider,
+            IInputOutput io,
+            ISettingsProvider settingsProvider,
+            IBoard board)
         {
             this.phraseProvider = phraseProvider;
             this.io = io;
             this.settingsProvider = settingsProvider;
             this.board = board;
             this.gameSettings = this.settingsProvider.GetGameSettings();
-            draw = PrintBoard;
+            this.draw = this.PrintBoard;
         }
 
-        void PrintBoard(IBoard board)
+        private delegate void Draw(IBoard board);
+
+        private Draw draw = null;
+
+        public void Run()
+        {
+            while (true)
+            {
+                this.io.WriteOutput(this.phraseProvider.GetPhrase("WelcomeStart"));
+                this.io.WriteOutput($"{this.gameSettings.ExitCode}");
+                this.io.WriteOutput(this.phraseProvider.GetPhrase("WelcomeEnd"));
+                this.io.WriteOutput(this.phraseProvider.GetPhrase("Instructions"));
+
+                do
+                {
+                    this.io.WriteOutput(this.phraseProvider.GetPhrase("Select"));
+
+                    this.selectedNum = this.GetInt();
+
+                    if (this.selectedNum == this.gameSettings.ExitCode)
+                    {
+                        break;
+                    }
+                }
+                while (!this.Contains(this.gameSettings.NumberOfChoices, this.selectedNum));
+
+                if (this.selectedNum == this.gameSettings.ExitCode)
+                {
+                    this.io.WriteOutput(this.phraseProvider.GetPhrase("Thanks"));
+                    break;
+                }
+
+                switch (this.selectedNum)
+                {
+                    case 1:
+                        this.draw += this.PrintDot;
+                        break;
+                    case 2:
+                        this.draw += this.PrintVertical;
+                        break;
+                    case 3:
+                        this.draw += this.PrintHorizontal;
+                        break;
+                    case 4:
+                        this.draw += this.PrintOtherCurve;
+                        break;
+                    default:
+                        break;
+                }
+
+                this.io.ClearConsole();
+                this.draw(this.board);
+            }
+
+            this.io.ReadKey();
+        }
+
+        private void PrintBoard(IBoard board)
         {
             board.PrintBoard();
         }
 
-        void PrintDot(IBoard board)
+        private void PrintDot(IBoard board)
         {
             board.PrintDot();
         }
 
-        void PrintVertical(IBoard board)
+        private void PrintVertical(IBoard board)
         {
             board.PrintVertical();
         }
 
-        void PrintHorizontal(IBoard board)
+        private void PrintHorizontal(IBoard board)
         {
             board.PrintHorizontal();
         }
 
-        void PrintOtherCurve(IBoard board)
+        private void PrintOtherCurve(IBoard board)
         {
             board.PrintOtherCurve();
         }
@@ -58,71 +113,30 @@ namespace ConsoleDrawGame.Classes
         private int GetInt()
         {
             while (true)
-                if (!int.TryParse(io.ReadInput(), out int enteredNum))
-                    io.WriteOutput(phraseProvider.GetPhrase("Incorrect"));
+            {
+                if (!int.TryParse(this.io.ReadInput(), out int enteredNum))
+                {
+                    this.io.WriteOutput(this.phraseProvider.GetPhrase("Incorrect"));
+                }
                 else
+                {
                     return enteredNum;
+                }
+            }
         }
-        /// <summary>Retrns true if value more then zero and less or equal maxValue</summary>
+
+        /// <summary>Returns true if value more then zero and less or equal maxValue</summary>
         /// <param name="maxValue">Maximal value.</param>
         /// <param name="element">Element to compare.</param>
         /// <returns></returns>
-        public bool Contains(int maxValue, int element)
+        private bool Contains(int maxValue, int element)
         {
             if (element > 0 && element <= maxValue)
-                return true;
-            return false;
-        }
-
-        public void Run()
-        {
-            while (true)
             {
-                io.WriteOutput(phraseProvider.GetPhrase("WelcomeStart"));
-                io.WriteOutput($"{gameSettings.ExitCode}");
-                io.WriteOutput(phraseProvider.GetPhrase("WelcomeEnd"));
-                io.WriteOutput(phraseProvider.GetPhrase("Instructions"));
-
-                do
-                {
-                    io.WriteOutput(phraseProvider.GetPhrase("Select"));
-
-                    selectedNum = GetInt();
-
-                    if (selectedNum == gameSettings.ExitCode)
-                        break;
-
-                } while (!Contains(gameSettings.NumberOfChoices, selectedNum));
-
-                if (selectedNum == gameSettings.ExitCode)
-                {
-                    io.WriteOutput(phraseProvider.GetPhrase("Thanks"));
-                    break;
-                }
-
-                switch (selectedNum)
-                {
-                    case 1:
-                        draw += PrintDot;
-                        break;
-                    case 2:
-                        draw += PrintVertical;
-                        break;
-                    case 3:
-                        draw += PrintHorizontal;
-                        break;
-                    case 4:
-                        draw += PrintOtherCurve;
-                        break;
-                    default:
-                        break;
-                }
-
-                io.ClearConsole();
-                draw(board);
+                return true;
             }
 
-            io.ReadKey();
+            return false;
         }
     }
 }

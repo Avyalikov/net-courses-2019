@@ -1,8 +1,8 @@
-﻿using ConsoleDrawGame.Classes;
-
-namespace ConsoleDrawGame.Interfaces
+﻿namespace ConsoleDrawGame.Interfaces
 {
-    interface ISettingsProvider
+    using ConsoleDrawGame.Classes;
+
+    internal interface ISettingsProvider
     {
         /// <summary>Returns game settings from a file.</summary>
         /// <returns></returns>

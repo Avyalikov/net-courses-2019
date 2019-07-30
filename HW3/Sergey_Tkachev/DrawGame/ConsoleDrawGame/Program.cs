@@ -1,13 +1,12 @@
-﻿using ConsoleDrawGame.Interfaces;
-using ConsoleDrawGame.Classes;
-
-namespace ConsoleDrawGame
+﻿namespace ConsoleDrawGame
 {
-    class Program
+    using ConsoleDrawGame.Classes;
+    using ConsoleDrawGame.Interfaces;
+
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-           
             ISettingsProvider settingsProvider = new SettingsProvider();
             IPhraseProvider phraseProvider = new JsonPhraseProvider(settingsProvider);
             IInputOutput inputOutput = new ConsoleInputOutput();
