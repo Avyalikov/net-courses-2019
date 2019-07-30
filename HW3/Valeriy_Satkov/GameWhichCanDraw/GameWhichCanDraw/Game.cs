@@ -1,24 +1,77 @@
-﻿namespace GameWhichCanDraw
+﻿// <copyright file="Game.cs" company="Valeriy Satkov">
+// All rights reserved.
+// </copyright>
+// <author>Valeriy Satkov</author>
+
+namespace GameWhichCanDraw
 {
     using System;
     using System.Collections.Generic;
     using GameWhichCanDraw.Interfaces;
 
+    /// <summary>
+    /// Basic game logic class
+    /// </summary>
     internal class Game
     {
+        /// <summary>
+        /// Provides settings from a file
+        /// </summary>
         private readonly ISettingsProvider settingsProvider;
+
+        /// <summary>
+        /// Provides Input-Output device, Console
+        /// </summary>
         private readonly IInputOutputDevice inputOutputDevice;
+
+        /// <summary>
+        /// Provides descriptions(phrases) from a file
+        /// </summary>
         private readonly IPhraseProvider phraseProvider;
+
+        /// <summary>
+        /// Defines board
+        /// </summary>
         private readonly IBoard board;
+
+        /// <summary>
+        /// Defines class with figures
+        /// </summary>
         private readonly IFigureProvider figureProvider;
 
+        /// <summary>
+        /// Defines game settings
+        /// </summary>
         private readonly GameSettings gameSettings;
 
+        /// <summary>
+        /// simpleDot Flag - is it on the board
+        /// </summary>
         private bool simpleDotFlag;
+
+        /// <summary>
+        /// simpleDot Flag - is it on the board
+        /// </summary>
         private bool horizontalLineFlag;
+
+        /// <summary>
+        /// simpleDot Flag - is it on the board
+        /// </summary>
         private bool verticalLineFlag;
+
+        /// <summary>
+        /// simpleDot Flag - is it on the board
+        /// </summary>
         private bool curveFlag;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Game"/> class.
+        /// </summary>
+        /// <param name="settingsProvider">The settingsProvider<see cref="ISettingsProvider"/></param>
+        /// <param name="inputOutputDevice">The inputOutputDevice<see cref="IInputOutputDevice"/></param>
+        /// <param name="phraseProvider">The phraseProvider<see cref="IPhraseProvider"/></param>
+        /// <param name="board">The board<see cref="IBoard"/></param>
+        /// <param name="figureProvider">The figureProvider<see cref="IFigureProvider"/></param>
         public Game(
             ISettingsProvider settingsProvider, 
             IInputOutputDevice inputOutputDevice, 
@@ -35,8 +88,15 @@
             this.gameSettings = this.settingsProvider.GetGameSettings();
         }
 
+        /// <summary>
+        /// Delegate that used for output figures
+        /// </summary>
+        /// <param name="board">The board<see cref="IBoard"/></param>
         private delegate void Draw(IBoard board);
 
+        /// <summary>
+        /// Game logic start method
+        /// </summary>
         public void Start()
         {
             this.phraseProvider.SetLanguage(this.gameSettings.Language);
@@ -44,7 +104,7 @@
             this.board.BoardSizeX = this.gameSettings.Length;
             this.board.BoardSizeY = this.gameSettings.Width;            
             
-            Draw draw = delegate (IBoard board) { }; // Create anonymus delegate for initialize delegate Draw
+            Draw draw = delegate(IBoard board) { }; // Create anonymus delegate for initialize delegate Draw
 
             this.board.Create();
             string enteredString = string.Empty;

@@ -1,11 +1,23 @@
-﻿namespace GameWhichCanDraw.Components
+﻿// <copyright file="JsonSettingsProvider.cs" company="Valeriy Satkov">
+// All rights reserved.
+// </copyright>
+// <author>Valeriy Satkov</author>
+
+namespace GameWhichCanDraw.Components
 {
     using System;
     using System.IO;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Class - Get Game Settings from JSON-file
+    /// </summary>
     internal class JsonSettingsProvider : Interfaces.ISettingsProvider
     {
+        /// <summary>
+        /// Get Game Settings from JSON-file
+        /// </summary>
+        /// <returns>GameSettings object with setting properties</returns>
         public GameSettings GetGameSettings()
         {
             // var gameSettingsFile = new FileInfo("..\\..\\GameSettings.json"); // test local path

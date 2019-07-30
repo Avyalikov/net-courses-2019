@@ -1,28 +1,55 @@
-﻿namespace GameWhichCanDraw.Components
+﻿// <copyright file="DashBoard.cs" company="Valeriy Satkov">
+// All rights reserved.
+// </copyright>
+// <author>Valeriy Satkov</author>
+
+namespace GameWhichCanDraw.Components
 {
     using System;
 
+    /// <summary>
+    /// Board class - area of output
+    /// </summary>
     internal class DashBoard : Interfaces.IBoard
     {
+        /// <summary>
+        /// Angle symbol
+        /// </summary>
         private readonly char angle = '+';
+
+        /// <summary>
+        /// Vertical line symbol
+        /// </summary>
         private readonly char vertical = '|';
+
+        /// <summary>
+        /// Horizontal line symbol
+        /// </summary>
         private readonly char horizontal = '-';
 
+        /// <summary>
+        /// X (left) start position
+        /// </summary>
         private int origRow;
+
+        /// <summary>
+        /// Y (top) start position
+        /// </summary>
         private int origCol;
 
-        /*
-        public DashBoard(int length, int width)
-        {
-            this.BoardSizeX = length;
-            this.BoardSizeY = width;
-        }
-        */
-
+        /// <summary>
+        /// Gets or sets the Length of board
+        /// </summary>
         public int BoardSizeX { get; set; }
 
-        public int BoardSizeY { get; set; }        
-        
+        /// <summary>
+        /// Gets or sets the Width of board
+        /// </summary>
+        public int BoardSizeY { get; set; }
+
+        /// <summary>
+        /// Create the board
+        /// </summary>
         public virtual void Create()
         {
             // Console.Clear();
@@ -50,6 +77,12 @@
             // this.WriteAt('\r', 0, this.BoardSizeY);
         }
 
+        /// <summary>
+        /// Write a symbol on board
+        /// </summary>
+        /// <param name="c">Symbol to print</param>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
         public virtual void WriteAt(char c, int x, int y)
         {
             try
