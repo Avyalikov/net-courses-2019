@@ -1,14 +1,20 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿// <copyright file="Program.cs" company="Epam">
+// Copyright (c) Epam. All rights reserved.
+// </copyright>
 
 namespace GameWhichCanDraw
-{    
+{
+    using System;
+
+    /// <summary>
+    /// Class with entering point
+    /// </summary>
     public class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Main method
+        /// </summary>
+        public static void Main(string[] args)
         {
             ISettingsProvider settingsProvider = new JsonSettingsProvider();
             GameSettings gameSettings = settingsProvider.GetGameSettings();
@@ -17,11 +23,10 @@ namespace GameWhichCanDraw
             IBoard board = new ConsoleBoard();
             IDrawOnBoard drawOnBoard = new DrawOnConsoleBoard();
 
-            Game DrawingGame = new Game(board, phraseProvider, inputOutputDevice, drawOnBoard, settingsProvider);
-            DrawingGame.Run();
+            Game drawingGame = new Game(board, phraseProvider, inputOutputDevice, drawOnBoard, settingsProvider);
+            drawingGame.Run();
 
             Console.ReadKey();
-
         }
     }
 }

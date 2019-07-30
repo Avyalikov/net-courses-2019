@@ -1,13 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Newtonsoft.Json;
+﻿// <copyright file="JsonSettingsProvider.cs" company="Epam">
+// Copyright (c) Epam. All rights reserved.
+// </copyright>
 
 namespace GameWhichCanDraw
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using Newtonsoft.Json;
+
+    /// <summary>
+    /// Defines the <see cref="JsonSettingsProvider" />
+    /// </summary>
     public class JsonSettingsProvider : ISettingsProvider
     {
+        /// <summary>
+        /// Gets game settings from json file
+        /// </summary>
+        /// <returns>game settings</returns>
         public GameSettings GetGameSettings()
         {
             var gameSettingsFile = new FileInfo("..\\..\\GameSettings.json");
