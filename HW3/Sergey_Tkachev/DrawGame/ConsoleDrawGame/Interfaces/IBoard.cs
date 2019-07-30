@@ -18,5 +18,7 @@ namespace ConsoleDrawGame.Interfaces
         void PrintVertical();
         /// <summary>Prints Other Curve.</summary>
         void PrintOtherCurve();
+        int boardSizeX { get; set; }
+        int boardSizeY { get; set; }
     }
 }
