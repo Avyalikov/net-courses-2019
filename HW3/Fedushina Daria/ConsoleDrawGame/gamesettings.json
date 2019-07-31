@@ -1,6 +1,6 @@
 ﻿{
-  "HorizontalBoardSize": 60,
-  "VerticalBoardSize": 20,
+  "HorizontalBoardSize": 120,
+  "VerticalBoardSize": 60,
   "ExitCode": "exit",
   "Language": "LangEng"
 }

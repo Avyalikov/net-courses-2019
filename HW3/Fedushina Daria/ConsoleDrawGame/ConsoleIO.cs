@@ -13,7 +13,7 @@ namespace ConsoleDrawGame
             return Console.ReadLine();
         }
 
-        public void WriteSymb(string output)
+        public void WriteWithStayOnLine(string output)
         {
             Console.Write(output);
         }
@@ -26,6 +26,17 @@ namespace ConsoleDrawGame
         public void Clear()
         {
             Console.Clear();
+        }
+        public void ClearRow(int y)                         // (c) by Svetlana Koroleva
+        {
+            StringBuilder s = new StringBuilder();
+            s.Length = 50;// or add int parametr to method 
+            Console.ForegroundColor = ConsoleColor.Black;
+            this.SetCursorPosition(0, y);
+            this.WriteOutput(s.ToString());
+            this.SetCursorPosition(0, y);
+            Console.ForegroundColor = ConsoleColor.White;
+
         }
 
         public void SetCursorPosition(int x, int y)

@@ -8,23 +8,17 @@ namespace ConsoleDrawGame
 {
     class Game
     {
-
-        private readonly ISettingsProvider settingsProvider;
         private readonly IInputOutputDevice ioDevice;
         private readonly IPhraseProvider phraseProvider;
-        private readonly IBoard board;
         private readonly IFigureDrawing figureDrawing;
 
         private readonly GameSettings gameSettings;
-
-
 
         public Game(ISettingsProvider settingsProvider, IInputOutputDevice ioDevice, IPhraseProvider phraseProvider, IBoard board, IFigureDrawing figureDrawing)
         {
             this.gameSettings = settingsProvider.GetGameSettings();
             this.phraseProvider = phraseProvider;
             this.ioDevice = ioDevice;
-            this.board = board;
             this.figureDrawing = figureDrawing;
         }
 
@@ -32,79 +26,64 @@ namespace ConsoleDrawGame
 
         public void Run()
         {
-            string userNumber="";
-            int FigureCount = 1;
+            string userNumber=String.Empty;
             int[] NumArray = { 1, 2, 3, 4 };
-            List<int> userArray = new List<int> { 1 };
+            int countFigures=0;
             IBoard ConsoleBoard = new Board();
             ConsoleBoard.boardSizeX = gameSettings.HorizontalBoardSize;
             ConsoleBoard.boardSizeY = gameSettings.VerticalBoardSize;
-            ConsoleBoard.ConteinerSizeX = ConsoleBoard.boardSizeX;
-            ConsoleBoard.ConteinerSizeY = ConsoleBoard.boardSizeY;
+            Draw draw;
 
-
-
-            ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
+            ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));       
             ioDevice.WriteOutput(phraseProvider.GetPhrase("SelectFigure"));
-            int OrigX = ConsoleBoard.OrigX;
-            int OrigY = ConsoleBoard.OrigY;
+            int OX = ConsoleBoard.OX;                                          
+            int OY = ConsoleBoard.OY;
 
+            draw = new Draw(ConsoleBoard.DrawBoard);                //define an instance of delegate
+            draw(ConsoleBoard);                                     //drawing board
 
-            ConsoleBoard.Draw(ConsoleBoard);
-
-            Draw drawDot = figureDrawing.DrawDot;            
-            Draw drawVerticalLine = figureDrawing.DrawVerticalLine;
-            Draw drawHorizontalLine = figureDrawing.DrawHorisontalLine;
-            Draw drawSquare = figureDrawing.DrawSquare;
-
-            while (userNumber != gameSettings.ExitCode.ToLower())
+            while (userNumber.ToLower() != gameSettings.ExitCode.ToLower())       //untill user put 'exit' word
             {
-                ioDevice.SetCursorPosition(OrigX,OrigY);
+                
+                ioDevice.SetCursorPosition(OX,OY);                      //put cursor above the board (the board is one point lower than a originall dot)
+                ioDevice.ClearRow(OY);                                  // (c)method by  Svetlana Koroleva
                 userNumber = ioDevice.ReadOutput();
                 Boolean isSuccsess = int.TryParse(userNumber, out int temp);
-                if (isSuccsess && (Array.IndexOf(NumArray, temp)!=-1))
+                if ((countFigures != 4) && isSuccsess && (Array.IndexOf(NumArray, temp)!=-1))  //if there is less than 4 figures on the board
                 {
-                    userArray.Add(temp);
-                    for(int i=0; i< userArray.Count; i++)
-                    {
-                        ioDevice.Clear();
-                        ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
-                        ioDevice.WriteOutput(phraseProvider.GetPhrase("SelectFigure"));
-                        OrigX = ConsoleBoard.OrigX;
-                        OrigY = ConsoleBoard.OrigY;
-                        ConsoleBoard.Draw(ConsoleBoard);
-                        userNumber = userArray[i].ToString();
-                        ConsoleBoard.boardSizeX /= FigureCount;
-                        // ConsoleBoard.boardSizeY /= FigureCount;
+                    countFigures++;                                                             // count figures
                         switch (userNumber)
                         {
-                            case "1":
-                                drawDot(ConsoleBoard);
+                            case "1":                               
+                                draw = new Draw(figureDrawing.DrawDot);             //define a meaning of an delegate at this moment
                                 break;
                             case "2":
-                                drawVerticalLine(ConsoleBoard);
-                                break;
+                            draw = new Draw(figureDrawing.DrawVerticalLine);
+                            break;
                             case "3":
-                                drawHorizontalLine(ConsoleBoard);
-                                break;
+                            draw = new Draw(figureDrawing.DrawHorisontalLine);
+                            break;
                             case "4":
-                                ConsoleBoard.boardSizeX /= FigureCount;
-                                ConsoleBoard.boardSizeY /= FigureCount;
-                                drawSquare(ConsoleBoard);
-                                break;
+                            draw = new Draw(figureDrawing.DrawSquare);
+                            break;
                         }
-                        FigureCount++;
-
-                    }
-                    
-                    
+                    draw(ConsoleBoard);                                             //draw figure
+                }
+                else if (userNumber == "0" || countFigures == 4)                //if user put 0 the game starts from the clean board
+                {
+                    ioDevice.Clear();
+                    ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
+                    ioDevice.WriteOutput(phraseProvider.GetPhrase("SelectFigure"));
+                    draw = new Draw(ConsoleBoard.DrawBoard);
+                    draw(ConsoleBoard);
+                    countFigures = 0;
                 }
                 else
                 {
-                    ioDevice.SetCursorPosition(OrigX, OrigY-2);
-                    ioDevice.WriteSymb(phraseProvider.GetPhrase("PutNumber"));
+                    ioDevice.SetCursorPosition(OX, OY-2);
+                    ioDevice.WriteWithStayOnLine(phraseProvider.GetPhrase("PutNumber"));
                 }
-
+                
             }
         }
     }

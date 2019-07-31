@@ -9,38 +9,22 @@ namespace ConsoleDrawGame
     class Board : IBoard
     {
         ConsoleIO ioDevice = new ConsoleIO();
-        int OriginalX;
-        int OriginalY;
-        public int ConteinerSizeX { get; set; }
-        public int ConteinerSizeY { get; set; }
-        public int OrigX
+        public int FigOX { get; set; }                      // get the adress of origin dot of the figure container
+        public int FigOY { get; set; }                      // get the adress of origin dot of the figure container
+        public int OX
         {
-            get
-            {
-                return ioDevice.GetCursorPosition().Item1;
-            }
-            set
-            {
-                
-            }
-        }
-        public int OrigY
+            get{ return ioDevice.GetCursorPosition().Item1;}   // get the adress of origin dot of the board
+        }                                                                   
+        public int OY
         {
-            get
-            {
-                return ioDevice.GetCursorPosition().Item2;
-            }
-            set
-            {
-
-            }
+            get { return ioDevice.GetCursorPosition().Item2; } // get the adress of origin dot of the board;
         }
         public void WriteAt(string s, int x, int y)
         {
             try
             {
-                ioDevice.SetCursorPosition(OriginalX + x, OriginalY + y);
-                ioDevice.WriteSymb(s);
+                ioDevice.SetCursorPosition(FigOX + x, FigOY + y);
+                ioDevice.WriteWithStayOnLine(s);
             }
             catch (ArgumentOutOfRangeException e)
             {
@@ -57,8 +41,8 @@ namespace ConsoleDrawGame
             get { return Horizontal; }
             set
             {
-                if (value < 2 || value > 60)
-                    Horizontal = 60;
+                if (value < 2 || value > 70)
+                    Horizontal = 70;
                 else
                     Horizontal = value;
             }
@@ -77,52 +61,41 @@ namespace ConsoleDrawGame
         }
 
 
-        public void Draw(IBoard board)
+
+        public void DrawBoard(IBoard board)
         {
-            OriginalX = OrigX;
-            OriginalY = OrigY+1;
+            FigOX = OX;
+            FigOY = OY+1;
             WriteAt("+", 0, 0);
             // Draw the left side of a 5x5 rectangle, from top to bottom.
-            for (int i = 1; i < ConteinerSizeY; i++)
+            for (int i = 1; i < boardSizeY; i++)
             {
                 WriteAt("|", 0, i);
             }
-            WriteAt("+", 0, ConteinerSizeY);
+            WriteAt("+", 0, boardSizeY);
 
 
             // Draw the bottom side, from left to right.
-            for (int i = 1; i < ConteinerSizeX; i++)
+            for (int i = 1; i < boardSizeX; i++)
             {
-                WriteAt("-", i, ConteinerSizeY);   // shortcut: WriteAt("---", 1, 4)
+                WriteAt("-", i, boardSizeY);
             }
-            WriteAt("+", ConteinerSizeX, ConteinerSizeY);
+            WriteAt("+", boardSizeX, boardSizeY);
 
             // Draw the right side, from bottom to top.
-            for (int i = ConteinerSizeY - 1; i >0; i--)
+            for (int i = boardSizeY - 1; i > 0; i--)
             {
-                WriteAt("|", ConteinerSizeX, i);
+                WriteAt("|", boardSizeX, i);
             }
-            WriteAt("+", ConteinerSizeX, 0);
+            WriteAt("+", boardSizeX, 0);
 
             // Draw the top side, from right to left.
-            for (int i = ConteinerSizeX - 1; i >0; i--)
+            for (int i = boardSizeX - 1; i > 0; i--)
             {
-                WriteAt("-", i, 0);   // shortcut: WriteAt("---", 1, 4)
+                WriteAt("-", i, 0);
             }
 
         }
     }
-    /*
-    This example produces the following results:
-
-    +---+
-    |   |
-    |   |
-    |   |
-    +---+
-
-    All done!
-
-    */
 }
 

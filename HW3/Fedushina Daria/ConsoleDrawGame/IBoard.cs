@@ -10,15 +10,13 @@ namespace ConsoleDrawGame
     {
         int boardSizeX { get; set; }
         int boardSizeY { get; set; }
-        int ConteinerSizeX { get; set; }
-        int ConteinerSizeY { get; set; }
-
-        int OrigX { get; set; }
-        int OrigY { get; set; }
-
+        int OX { get; }
+        int OY { get; }
+       int FigOX { get; set; }
+       int FigOY { get; set; }
         void WriteAt(string symbol, int x, int y);
 
-        void Draw(IBoard board);
+        void DrawBoard(IBoard board);
 
 
     }
