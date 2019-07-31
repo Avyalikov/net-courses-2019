@@ -29,18 +29,17 @@ namespace ConsoleDrawGame
             string userNumber=String.Empty;
             int[] NumArray = { 1, 2, 3, 4 };
             int countFigures=0;
-            IBoard ConsoleBoard = new Board();
-            ConsoleBoard.boardSizeX = gameSettings.HorizontalBoardSize;
-            ConsoleBoard.boardSizeY = gameSettings.VerticalBoardSize;
-            Draw draw;
+            IBoard consoleBoard = new Board(ioDevice);
+            consoleBoard.boardSizeX = gameSettings.HorizontalBoardSize;
+            consoleBoard.boardSizeY = gameSettings.VerticalBoardSize;
+            Draw draw = new Draw(consoleBoard.DrawBoard);              //define an instance of delegate
 
             ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));       
             ioDevice.WriteOutput(phraseProvider.GetPhrase("SelectFigure"));
-            int OX = ConsoleBoard.OX;                                          
-            int OY = ConsoleBoard.OY;
-
-            draw = new Draw(ConsoleBoard.DrawBoard);                //define an instance of delegate
-            draw(ConsoleBoard);                                     //drawing board
+            int OX = consoleBoard.OX;                                          
+            int OY = consoleBoard.OY;
+               
+            draw(consoleBoard);                                     //drawing board
 
             while (userNumber.ToLower() != gameSettings.ExitCode.ToLower())       //untill user put 'exit' word
             {
@@ -51,31 +50,32 @@ namespace ConsoleDrawGame
                 Boolean isSuccsess = int.TryParse(userNumber, out int temp);
                 if ((countFigures != 4) && isSuccsess && (Array.IndexOf(NumArray, temp)!=-1))  //if there is less than 4 figures on the board
                 {
-                    countFigures++;                                                             // count figures
-                        switch (userNumber)
+                    countFigures++;    // count figures
+                    draw -= consoleBoard.DrawBoard;
+                    switch (userNumber)
                         {
                             case "1":                               
-                                draw = new Draw(figureDrawing.DrawDot);             //define a meaning of an delegate at this moment
+                            draw = figureDrawing.DrawDot;             //define a meaning of an delegate at this moment
                                 break;
                             case "2":
-                            draw = new Draw(figureDrawing.DrawVerticalLine);
+                            draw = figureDrawing.DrawVerticalLine;
                             break;
                             case "3":
-                            draw = new Draw(figureDrawing.DrawHorisontalLine);
+                            draw = figureDrawing.DrawHorisontalLine;
                             break;
                             case "4":
-                            draw = new Draw(figureDrawing.DrawSquare);
+                            draw = figureDrawing.DrawSquare;
                             break;
                         }
-                    draw(ConsoleBoard);                                             //draw figure
+                    draw(consoleBoard);                                             //draw figure
                 }
                 else if (userNumber == "0" || countFigures == 4)                //if user put 0 the game starts from the clean board
                 {
                     ioDevice.Clear();
                     ioDevice.WriteOutput(phraseProvider.GetPhrase("Welcome"));
                     ioDevice.WriteOutput(phraseProvider.GetPhrase("SelectFigure"));
-                    draw = new Draw(ConsoleBoard.DrawBoard);
-                    draw(ConsoleBoard);
+                    draw = consoleBoard.DrawBoard;
+                    draw(consoleBoard);
                     countFigures = 0;
                 }
                 else

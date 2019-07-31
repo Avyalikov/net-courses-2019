@@ -13,7 +13,7 @@ namespace ConsoleDrawGame
             ISettingsProvider settingsProvider = new SettingsProvider();
             IPhraseProvider phraseProvider = new PhraseProvider(settingsProvider);
             IInputOutputDevice ioDevice = new ConsoleIO();
-            IBoard board = new Board();
+            IBoard board = new Board(ioDevice);
             IFigureDrawing figureDrawing = new FigureDrawing();
 
 

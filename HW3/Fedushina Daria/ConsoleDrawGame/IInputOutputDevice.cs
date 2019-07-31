@@ -10,5 +10,7 @@
         void ClearRow(int y);
 
         void SetCursorPosition(int x, int y);
+
+        (int,int) GetCursorPosition();
     }
 }

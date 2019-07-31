@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleDrawGame
 {
     class Board : IBoard
     {
-        ConsoleIO ioDevice = new ConsoleIO();
+
+        private readonly IInputOutputDevice ioDevice;
+        public Board(IInputOutputDevice ioDevice)
+        {
+            this.ioDevice = ioDevice ?? new ConsoleIO();
+        }
+        
         public int FigOX { get; set; }                      // get the adress of origin dot of the figure container
         public int FigOY { get; set; }                      // get the adress of origin dot of the figure container
         public int OX
         {
-            get{ return ioDevice.GetCursorPosition().Item1;}   // get the adress of origin dot of the board
+            get { return ioDevice.GetCursorPosition().Item1; }   // get the adress of origin dot of the board
         }                                                                   
         public int OY
         {
