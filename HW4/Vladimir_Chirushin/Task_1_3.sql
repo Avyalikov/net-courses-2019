@@ -12,5 +12,5 @@ ORDER BY Country
 -- Task 1.3 #3
 SELECT CustomerID, Country
 FROM dbo.Customers
-WHERE Country like '[B-G]%'
+WHERE Country LIKE '[B-G]%'
 ORDER BY Country
