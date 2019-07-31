@@ -50,8 +50,7 @@ namespace ConsoleDrawGame
                 Boolean isSuccsess = int.TryParse(userNumber, out int temp);
                 if ((countFigures != 4) && isSuccsess && (Array.IndexOf(NumArray, temp)!=-1))  //if there is less than 4 figures on the board
                 {
-                    countFigures++;    // count figures
-                    draw -= consoleBoard.DrawBoard;
+                    countFigures++;                                   // count figures
                     switch (userNumber)
                         {
                             case "1":                               

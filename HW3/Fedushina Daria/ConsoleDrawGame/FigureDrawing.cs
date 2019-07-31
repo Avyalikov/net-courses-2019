@@ -40,7 +40,7 @@ namespace ConsoleDrawGame
         public void DrawSquare(IBoard board)
         {
             board.FigOX = (board.boardSizeX / 8) * 7;
-            board.FigOY += board.boardSizeY / 2 - board.boardSizeY / 8;
+            board.FigOY = board.OY+(board.boardSizeY/ 2 - board.boardSizeY / 8);
             int height = board.boardSizeY/4 ;                               //define a height of squear
             int width = board.boardSizeX/8;                                 //define a width of squear
             board.WriteAt("+", 0, 0);
