@@ -13,7 +13,7 @@ namespace ConsoleDrawGame
         {
             this.gameSettings = settingsProvider.GetGameSettings();
             var language = gameSettings.Language;
-            FileInfo jsonFile = new FileInfo("LangEng.json");
+            FileInfo jsonFile = new FileInfo($"{language}.json");
             if (!jsonFile.Exists)
             {
                 throw new ArgumentException(
