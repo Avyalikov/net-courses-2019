@@ -48,7 +48,6 @@ AS
 /*2.1.1*/
 	SELECT SUM(UnitPrice*Quantity*(1-Discount)) as 'Totals' 
 	FROM [Order Details]  
-	GROUP BY ProductID;
 /*2.1.2*/
 	SELECT SUM(CASE WHEN ShippedDate IS NULL THEN 1 END)
 	FROM Orders;
