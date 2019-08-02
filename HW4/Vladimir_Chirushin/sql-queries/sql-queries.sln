@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "sql-queries", "sql-queries.sqlproj", "{D5F42B86-A126-4BA5-803A-51AC88141180}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQ-SQL", "..\LINQ-SQL\LINQ-SQL.csproj", "{5E526325-0D4C-4447-A401-0D2789885697}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5F42B86-A126-4BA5-803A-51AC88141180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F42B86-A126-4BA5-803A-51AC88141180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F42B86-A126-4BA5-803A-51AC88141180}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D5F42B86-A126-4BA5-803A-51AC88141180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F42B86-A126-4BA5-803A-51AC88141180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F42B86-A126-4BA5-803A-51AC88141180}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5E526325-0D4C-4447-A401-0D2789885697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E526325-0D4C-4447-A401-0D2789885697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E526325-0D4C-4447-A401-0D2789885697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E526325-0D4C-4447-A401-0D2789885697}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DCD7117-1B5F-42DE-BE93-3CAE4CC006DE}
+	EndGlobalSection
+EndGlobal
