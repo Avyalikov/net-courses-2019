@@ -6,7 +6,8 @@ SELECT
 	OrderID, 
 	ShippedDate, 
 	ShipVia
-FROM dbo.Orders
+FROM 
+	dbo.Orders
 WHERE 
 	ShippedDate >= CAST(@ShippedDateLimit as date) AND 
 	ShipVia >= 2

@@ -103,5 +103,20 @@
     <Build Include="dbo\Stored Procedures\111OrdersFilteredByDate.sql" />
     <Build Include="dbo\Stored Procedures\112OrdersThatNotShipped.sql" />
     <Build Include="dbo\Stored Procedures\113OrderNumberAndShippedDate.sql" />
+    <Build Include="dbo\Stored Procedures\121CustomersInCountry.sql" />
+    <Build Include="dbo\Stored Procedures\122CustomersNotInCountry.sql" />
+    <Build Include="dbo\Stored Procedures\123DistinctCountry.sql" />
+    <Build Include="dbo\Stored Procedures\131OrdersWithProducts.sql" />
+    <Build Include="dbo\Stored Procedures\132CountriesWithBG.sql" />
+    <Build Include="dbo\Stored Procedures\133CountriesLikeBG.sql" />
+    <Build Include="dbo\Stored Procedures\141LikeSchokolade.sql" />
+    <Build Include="dbo\Stored Procedures\211SumOfAllOrders.sql" />
+    <Build Include="dbo\Stored Procedures\212NotShippedCountOnly.sql" />
+    <Build Include="dbo\Stored Procedures\213CountDistinctCustomers.sql" />
+    <Build Include="dbo\Stored Procedures\221OrdersByYears.sql" />
+    <Build Include="dbo\Stored Procedures\221Test_FullOrders.sql" />
+    <Build Include="dbo\Stored Procedures\222OrdersByEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\223OrdersByEmployeeIn1998.sql" />
+    <Build Include="dbo\Stored Procedures\225FindCustomersInCity.sql" />
   </ItemGroup>
 </Project>
