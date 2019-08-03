@@ -1,20 +1,25 @@
 ﻿-- Task 2.2 #3
 CREATE PROCEDURE OrdersByEmployeeIn1998
 AS
-DECLARE @OrderDateLimit datetime = '1998'
-SELECT 
-	CONCAT(Employees.FirstName, ' ', Employees.LastName) AS 'Seller', 
-	Customers.ContactName AS 'Customer'
-FROM 
-	dbo.Employees, 
-	dbo.Orders, 
-	dbo.Customers
+DECLARE @OrderDate datetime = '1998'
+SELECT
+	(SELECT 
+		CONCAT(Employees.FirstName, ' ', Employees.LastName)
+	FROM
+		dbo.Employees
+	WHERE
+		Employees.EmployeeID = Orders.EmployeeID) AS 'Seller',
+	
+	(SELECT
+		Customers.ContactName
+	FROM
+		dbo.Customers
+	WHERE 
+		Customers.CustomerID = Orders.CustomerID) AS 'Customer',
+		COUNT(OrderID) AS 'Amount'
+FROM
+	dbo.Orders
 WHERE 
-	Employees.EmployeeID = Orders.EmployeeID AND 
-	Orders.CustomerID = Customers.CustomerID AND 
-	Orders.OrderDate = CAST(@OrderDateLimit as date) 
-GROUP BY 
-	Customers.ContactName , 
-	CONCAT(Employees.FirstName, ' ', Employees.LastName)
-ORDER BY 
-	'Seller'
+	YEAR(Orders.OrderDate) =  YEAR(CAST(@OrderDate AS DATE)) 
+GROUP BY
+	Orders.EmployeeID, Orders.CustomerID
