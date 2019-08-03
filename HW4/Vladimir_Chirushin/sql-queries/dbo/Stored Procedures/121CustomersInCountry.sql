@@ -8,6 +8,5 @@ FROM
 	dbo.Customers
 WHERE
 	Country IN ('USA', 'Canada')
-GROUP BY 
-	ContactName, 
-	Country
+ORDER BY
+	Customers.Country
