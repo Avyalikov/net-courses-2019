@@ -2,7 +2,7 @@
 CREATE PROCEDURE OrdersWithProducts
 AS
 SELECT 
-	OrderID
+	DISTINCT OrderID
 FROM 
 	dbo.[Order Details]
 WHERE 
