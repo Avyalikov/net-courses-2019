@@ -110,6 +110,6 @@
     <Build Include="dbo\Stored Procedures\CountOrders1.sql" />
     <Build Include="dbo\Stored Procedures\Ten Most Expensive Products.sql" />
     <Build Include="dbo\Stored Procedures\Employee Sales by Country.sql" />
-    <Build Include="dbo\Stored Procedures\HomeWork4.sql" />
+    <Build Include="dbo\Stored Procedures\131-HomeWork4.sql" />
   </ItemGroup>
 </Project>
