@@ -2,6 +2,6 @@
       
 AS   
 
-select count(OrderDate) - count(ShippedDate) as Count
+select count(OrderID) - count(ShippedDate) as Count
 from Orders
 

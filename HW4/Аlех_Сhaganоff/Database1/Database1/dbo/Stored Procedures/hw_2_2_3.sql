@@ -9,7 +9,7 @@ from Employees
 where Employees.EmployeeID = Orders.EmployeeID) as "Employee", 
 (select Customers.ContactName
 from Customers
-where Customers.CustomerID = Orders.CustomerID) as "Customer", count(OrderID)
+where Customers.CustomerID = Orders.CustomerID) as "Customer", count(OrderID) as "Orders"
 from orders
 where Year(OrderDate) = 1998
 group by EmployeeID, CustomerID

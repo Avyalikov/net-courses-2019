@@ -3,7 +3,7 @@
 AS   
 
 
-select ContactName, count(OrderDate) as "Number of orders"
+select ContactName, count(OrderID) as "Number of orders"
 from Customers
 left outer join Orders on Customers.CustomerID = Orders.CustomerID
 group by ContactName

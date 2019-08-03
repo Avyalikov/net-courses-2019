@@ -10,6 +10,6 @@ where EmployeeID in
 (select EmployeeID
 from Orders
 group by EmployeeID
-having count(OrderDate)>150)
+having count(OrderID)>150)
 
 

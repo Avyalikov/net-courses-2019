@@ -9,4 +9,4 @@ where Customers.City in
 (select City
 from Customers
 group by City
-having count(ContactName)>1)
+having count(CustomerID)>1)
