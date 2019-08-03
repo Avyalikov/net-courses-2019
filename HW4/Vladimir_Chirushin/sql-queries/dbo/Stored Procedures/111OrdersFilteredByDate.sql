@@ -9,5 +9,5 @@ SELECT
 FROM 
 	dbo.Orders
 WHERE 
-	ShippedDate >= CAST(@ShippedDateLimit as date) AND 
+	ShippedDate >= CAST(@ShippedDateLimit AS DATE) AND 
 	ShipVia >= 2

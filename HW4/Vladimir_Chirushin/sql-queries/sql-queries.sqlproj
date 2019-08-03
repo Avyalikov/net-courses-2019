@@ -118,5 +118,12 @@
     <Build Include="dbo\Stored Procedures\222OrdersByEmployee.sql" />
     <Build Include="dbo\Stored Procedures\223OrdersByEmployeeIn1998.sql" />
     <Build Include="dbo\Stored Procedures\225FindCustomersInCity.sql" />
+    <Build Include="dbo\Stored Procedures\231EmployeesServiceWestern.sql" />
+    <Build Include="dbo\Stored Procedures\232CustomersHaveOrders.sql" />
+    <Build Include="dbo\Stored Procedures\241SuppliersUnitsInStock0.sql" />
+    <Build Include="dbo\Stored Procedures\242AllSellersWith150.sql" />
+    <Build Include="dbo\Stored Procedures\243CustomersWithNoOrders.sql" />
+    <Build Include="dbo\Stored Procedures\224CustomerEmploySameCity.sql" />
+    <Build Include="dbo\Stored Procedures\226EmployeeReportsTo.sql" />
   </ItemGroup>
 </Project>

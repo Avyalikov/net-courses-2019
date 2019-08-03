@@ -3,10 +3,10 @@ CREATE PROCEDURE OrdersThatNotShipped
 AS
 SELECT 
 	OrderID, 
-CASE 
- WHEN ShippedDate IS NULL 
- THEN 'Not Shipped' 
- END ShippedDate
+	CASE 
+	 WHEN ShippedDate IS NULL 
+	 THEN 'Not Shipped' 
+	 END ShippedDate
 FROM 
 	dbo.Orders
 WHERE 

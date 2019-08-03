@@ -4,10 +4,10 @@ AS
 DECLARE @ShippedDateLimit datetime = '06-may-1998'
 SELECT 
 	OrderID AS 'Order Number',
-CASE 
- WHEN ShippedDate IS NULL 
- THEN 'Not Shipped' 
- END ShippedDate
+	CASE 
+	 WHEN ShippedDate IS NULL 
+	 THEN 'Not Shipped' 
+	 END ShippedDate
 FROM 
 	dbo.Orders
 WHERE 
