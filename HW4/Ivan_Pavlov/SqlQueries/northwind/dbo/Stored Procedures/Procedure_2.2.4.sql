@@ -4,6 +4,6 @@ AS
 	FROM Customers c, Employees emp
 	WHERE c.City = emp.City
 	UNION 
-	SELECT (LastName + ' ' + FirstName) AS 'Name'
+	SELECT (LastName + ' ' + FirstName)
 	FROM Employees emp, Customers c
 	WHERE emp.City = c.City
