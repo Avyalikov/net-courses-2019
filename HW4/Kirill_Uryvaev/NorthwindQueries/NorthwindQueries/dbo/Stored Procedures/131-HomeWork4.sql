@@ -11,7 +11,7 @@ AS
 	ELSE CONVERT(varchar,ShippedDate,101) 
 	END AS 'Shipped Date' 
 	FROM Orders 
-	WHERE ShippedDate IS NULL OR ShippedDate>='5/6/1998';
+	WHERE ShippedDate IS NULL OR ShippedDate>'5/6/1998';
 /*1.2.1*/
 	SELECT ContactName, Country
 	FROM Customers 
