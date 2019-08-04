@@ -49,7 +49,7 @@ AS
 	SELECT SUM(UnitPrice*Quantity*(1-Discount)) as 'Totals' 
 	FROM [Order Details]  
 /*2.1.2*/
-	SELECT SUM(CASE WHEN ShippedDate IS NULL THEN 1 END)
+	SELECT COUNT(OrderDate) - COUNT(ShippedDate) as 'Not shipped'
 	FROM Orders;
 /*2.1.3*/
 	SELECT COUNT(DISTINCT CustomerID)
@@ -67,9 +67,9 @@ AS
 	GROUP BY EmployeeID
 	ORDER BY COUNT(EmployeeID) DESC
 /*2.2.3*/
-	SELECT EmployeeID, CustomerID, COUNT(ShippedDate) as 'Orders'
+	SELECT EmployeeID, CustomerID, COUNT(OrderDate) as 'Orders'
 	FROM Orders
-	WHERE YEAR(ShippedDate) = '1998'
+	WHERE YEAR(OrderDate) = '1998'
 	GROUP BY EmployeeID, CustomerID
 /*2.2.4*/
 	SELECT Employees.City, CONCAT(LastName,' ', FirstName) as 'Employee', ContactName as 'Customer'
