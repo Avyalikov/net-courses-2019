@@ -3,4 +3,4 @@ AS
 	SELECT ContactName, Country
 	FROM Customers
 	WHERE Country IN ('USA', 'Canada')
-	ORDER BY Country, ContactName
+	ORDER BY ContactName, Country

@@ -1,17 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[Task2_2_4 Get sellers and custmers who lived in one city without JOIN]
 AS
 	SELECT
-		(SELECT CONCAT( employs.LastName, ' ', employs.FirstName)
-			FROM Employees AS employs
-			WHERE employs.EmployeeID = ordrs.EmployeeID) AS Seller,
-		(SELECT custmrs.CompanyName
-			FROM Customers AS custmrs
-			WHERE custmrs.CustomerID = ordrs.CustomerID) AS Customer,
-		ordrs.ShipCity AS 'City'
-	FROM Orders AS ordrs, Employees AS employs
-	WHERE 
-		ordrs.ShipCity = employs.City AND 
-		ordrs.ShipCountry = employs.Country AND
-		(ordrs.ShipRegion = employs.Region OR ordrs.ShipRegion IS NULL)
-	GROUP BY ordrs.ShipCity, ordrs.EmployeeID, ordrs.CustomerID
-	ORDER BY 'City', Seller, Customer
+		cstmrs.CompanyName AS 'Person'  
+		--, cstmrs.City AS 'City', 'WhoIs' = 'Customer'
+	FROM Customers AS cstmrs
+	WHERE cstmrs.City IN (SELECT City FROM Employees)
+	UNION
+	SELECT
+		CONCAT(empls.LastName, ' ', empls.FirstName) AS 'Person'  
+		--, empls.City AS 'City', 'WhoIs' = 'Seller'
+	FROM Employees AS empls
+	WHERE empls.City IN (SELECT City FROM Customers)
+	--ORDER BY 'City'

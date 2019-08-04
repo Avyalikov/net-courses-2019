@@ -3,6 +3,10 @@
 AS
 	SELECT
 		ordrs.OrderID AS 'Order Number',
-		ordrs.ShippedDate AS 'Shipped Date'
+		'Shipped Date' =
+			CASE
+				WHEN ordrs.ShippedDate IS NULL THEN 'Not Shipped'
+				ELSE CONVERT ( nvarchar , ShippedDate, 21 )
+			END
 	FROM Orders AS ordrs
 	WHERE ordrs.ShippedDate > @date OR ordrs.ShippedDate IS NULL

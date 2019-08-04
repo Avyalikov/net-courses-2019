@@ -11,4 +11,4 @@ AS
 	FROM Orders AS ordrs
 	WHERE YEAR(ordrs.OrderDate)=1998
 	GROUP BY ordrs.EmployeeID, ordrs.CustomerID
-	ORDER BY Seller, Customer
+	--ORDER BY Seller, Customer
