@@ -7,5 +7,3 @@ FROM [Orders]
 Group by Year(OrderDate)
 
 END
-
-

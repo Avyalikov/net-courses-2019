@@ -4,7 +4,7 @@
 AS 
 BEGIN
 
-SELECT DISTINCT [OrderID], [Quantity]
+SELECT DISTINCT [OrderID]
 FROM [dbo].[Order Details]
 WHERE [Quantity] BETWEEN @int1 AND @int2
 

@@ -4,8 +4,7 @@ BEGIN
 
 SELECT [Customers].[ContactName]
 FROM [Customers]
-WHERE [Customers].[CustomerID] 
-NOT IN  
+WHERE NOT EXISTS 
 (SELECT [Orders].[CustomerID] 
 FROM [Orders]
 WHERE [Orders].[CustomerID]=[Customers].[CustomerID])

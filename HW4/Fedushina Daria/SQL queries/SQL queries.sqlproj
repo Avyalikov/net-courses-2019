@@ -119,5 +119,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Build>
     <Build Include="dbo\Stored Procedures\2.4.3SelectCustomers.sql" />
+    <Build Include="dbo\Stored Procedures\2.2.1Test.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="dbo\Stored Procedures\Script.PreDeployment1.sql" />
   </ItemGroup>
 </Project>

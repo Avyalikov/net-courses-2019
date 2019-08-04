@@ -2,7 +2,7 @@
 AS
 BEGIN
 
-SELECT [Employees].[FirstName] + [Employees].[LastName] AS 'Employee', [Region].[RegionDescription] AS 'Region'
+SELECT DISTINCT [Employees].[FirstName] + [Employees].[LastName] AS 'Employee', [Region].[RegionDescription] AS 'Region'
 FROM 
 	[Employees]
 	JOIN [EmployeeTerritories]

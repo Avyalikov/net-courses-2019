@@ -6,7 +6,7 @@ BEGIN
 
 SELECT [ContactName], [Country]
 FROM [dbo].[Customers]
-WHERE [Country] IN (@country1 ,
+WHERE [Country] NOT IN (@country1 ,
 	@country2)
 ORDER BY [ContactName] ASC
 

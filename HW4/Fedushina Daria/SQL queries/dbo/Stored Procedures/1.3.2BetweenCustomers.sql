@@ -11,7 +11,7 @@ Order By [Country]
 
 END
 
---EXECUTE Northwind.dbo.131BetweenCustomers @char1  = 'b',@char2 = 'g'
+--EXECUTE Northwind.dbo.[131BetweenCustomers] @char1  = 'b',@char2 = 'g'
 
 
 
