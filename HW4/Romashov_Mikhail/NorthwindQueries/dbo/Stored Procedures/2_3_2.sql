@@ -10,3 +10,4 @@ SELECT d.CustomerID as 'Customer', COUNT(o.OrderID) as 'Orders'
 	FROM Customers as d
 	FULL OUTER JOIN Orders as o on d.CustomerID = o.CustomerID
 	GROUP BY d.CustomerID
+	ORDER BY COUNT(o.OrderID)
