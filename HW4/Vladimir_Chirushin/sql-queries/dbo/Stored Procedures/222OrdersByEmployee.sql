@@ -2,7 +2,7 @@
 CREATE PROCEDURE OrdersByEmployee
 AS
 SELECT 
-	CONCAT(Employees.FirstName, ' ', Employees.LastName) AS 'Seller', 
+	CONCAT(Employees.LastName, ' ', Employees.FirstName) AS 'Seller', 
 	COUNT(Orders.EmployeeID) AS  'Amount'
 FROM 
 	dbo.Employees, 
