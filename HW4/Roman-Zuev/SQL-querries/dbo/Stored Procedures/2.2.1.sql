@@ -8,3 +8,5 @@ AS
 SELECT year(OrderDate) AS 'Year', COUNT (OrderID) AS 'Total'
 FROM Orders
 GROUP BY year(OrderDate)
+
+SELECT COUNT(OrderID) AS 'Orders Amount' FROM Orders

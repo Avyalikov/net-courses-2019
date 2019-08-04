@@ -9,4 +9,4 @@ AS
 SELECT ContactName, Country
 FROM Customers
 WHERE Country IN ('USA', 'Canada')
-ORDER BY Country, Region, City, Address
+ORDER BY ContactName, Country

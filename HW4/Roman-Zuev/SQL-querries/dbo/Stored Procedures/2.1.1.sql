@@ -5,5 +5,5 @@
 CREATE PROCEDURE [2.1.1]
 AS
 
-SELECT SUM( (UnitPrice-Discount)*Quantity ) AS 'Totals'
+SELECT SUM( (UnitPrice * (1-Discount))*Quantity ) AS 'Totals'
 FROM [Order Details]
