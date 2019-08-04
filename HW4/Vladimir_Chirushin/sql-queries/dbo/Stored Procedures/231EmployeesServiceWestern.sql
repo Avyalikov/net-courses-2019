@@ -3,7 +3,7 @@ CREATE PROCEDURE EmployeesServiceWestern
 AS
 DECLARE @SearchingRegion nvarchar(100) = 'Western'
 SELECT 
-	DISTINCT CONCAT(Employees.FirstName, ' ', Employees.LastName) AS 'Seller'
+	DISTINCT CONCAT(Employees.LastName, ' ', Employees.FirstName) AS 'Seller'
 FROM 
 	dbo.Employees
 
