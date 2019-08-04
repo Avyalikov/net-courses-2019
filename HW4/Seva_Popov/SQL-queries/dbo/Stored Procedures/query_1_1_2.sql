@@ -5,6 +5,7 @@ AS
 	CASE
 	WHEN ShippedDate IS NULL
 	THEN 'Not Shipped'
+	ELSE CAST(ShippedDate AS NVARCHAR)
 	END ShippedDate
 	FROM Orders
 	WHERE ShippedDate IS NULL
