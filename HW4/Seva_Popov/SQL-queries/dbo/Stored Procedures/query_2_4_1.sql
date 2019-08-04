@@ -3,6 +3,6 @@ AS
 	SELECT CompanyName
 	FROM Suppliers
 	WHERE SupplierID IN 
-		(SELECT SupplierID
-		FROM Products
-		WHERE UnitsInStock = 0)
+	(SELECT SupplierID
+	FROM Products
+	WHERE UnitsInStock = 0)
