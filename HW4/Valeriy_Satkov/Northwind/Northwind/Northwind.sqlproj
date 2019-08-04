@@ -292,5 +292,6 @@
     <Build Include="dbo\Stored Procedures\Task2_4_1 Get suppliers witohout any product in stock using inserted SELECT and IN.sql" />
     <Build Include="dbo\Stored Procedures\Task2_4_2 Get sellers with over 150 orders using inserted SELECT.sql" />
     <Build Include="dbo\Stored Procedures\Task2_4_3 Get customers without orders using EXISTS.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_2_1 Get quantity orders.sql" />
   </ItemGroup>
 </Project>
