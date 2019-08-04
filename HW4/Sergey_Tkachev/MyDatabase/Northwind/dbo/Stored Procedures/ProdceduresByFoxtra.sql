@@ -142,14 +142,17 @@ AS
 	FROM [dbo].[Employees] as e1;
 	
 --2.3.1
-	Select  
+	Select distinct
 		e.[LastName] + ' ' + e.[FirstName] as Employee
 		,r.[RegionDescription]
 	FROM [dbo].[Employees] as e
-	inner join [dbo].[Territories] as t
-	on e.[City] = t.[TerritoryDescription]
-	inner join [dbo].Region as r
-	on t.[RegionID] = r.[RegionID];
+	inner join [EmployeeTerritories] as et
+			on (e.[EmployeeID] = et.[EmployeeID])
+	inner join [Territories] as t
+			on et.[TerritoryID] = t.[TerritoryID]
+	inner join [Region] as r
+		on t.[RegionID] = r.[RegionID]
+	where r.[RegionDescription] = 'Western';
 
 --2.3.2
 	Select c.[ContactName], Count(o.OrderID) as 'Amount of orders'
