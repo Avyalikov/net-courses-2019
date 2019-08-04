@@ -1,0 +1,4 @@
+﻿CREATE PROCEDURE [query_2_1_3]
+AS	
+	SELECT COUNT(DISTINCT CustomerID) 
+	FROM Orders
