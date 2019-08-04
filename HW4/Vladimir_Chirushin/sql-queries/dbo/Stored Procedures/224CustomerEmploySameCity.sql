@@ -2,7 +2,7 @@
 CREATE PROCEDURE CustomerEmploySameCity
 AS
 SELECT 
-	CONCAT(Employees.FirstName, ' ', Employees.LastName) AS 'Seller', 
+	CONCAT(Employees.LastName, ' ', Employees.FirstName) AS 'Seller', 
 	Customers.ContactName AS 'Customer'
 FROM
 	dbo.Employees,
