@@ -2,5 +2,5 @@
 AS
 	SELECT CustomerID, Country
 	FROM Customers
-	WHERE Country BETWEEN  'b%' AND  'h%'
+	WHERE Country BETWEEN  'b%' AND  'g%'
 	ORDER BY Country
