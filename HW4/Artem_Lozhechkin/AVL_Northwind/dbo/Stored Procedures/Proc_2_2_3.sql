@@ -11,5 +11,4 @@ AS
 	FROM Orders
 	WHERE YEAR(OrderDate) = 1998
 	GROUP BY EmployeeID, CustomerID
-	ORDER BY Amount desc
 RETURN 0
