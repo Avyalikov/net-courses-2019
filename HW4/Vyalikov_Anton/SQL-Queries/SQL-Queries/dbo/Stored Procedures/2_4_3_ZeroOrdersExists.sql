@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[2_4_2_ZeroOrdersExists]
+﻿CREATE PROCEDURE [dbo].[2_4_3_ZeroOrdersExists]
 AS
 	SELECT cust.ContactName
     FROM Customers as cust
