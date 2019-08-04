@@ -147,11 +147,12 @@ AS
 	on t.[RegionID] = r.[RegionID];
 
 --2.3.2
-	Select c.[ContactName], SUM(o.OrderID) as 'Amount of orders'
+	Select c.[ContactName], Count(o.OrderID) as 'Amount of orders'
 	FROM [dbo].[Customers] c
 	left join [dbo].[Orders] o
 	on c.[CustomerID] = o.[CustomerID]
-	group by c.[ContactName];
+	group by c.[ContactName]
+	ORDER BY 'Amount of orders';
 
 --2.4.1
   SELECT s.[CompanyName]
