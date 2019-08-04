@@ -9,4 +9,4 @@ WHERE [Customers].[City] =  @city
 END
 
 
---EXECUTE Northwind.dbo.225GroupByEmployee 'México D.F.'
+--EXECUTE Northwind.dbo.[225GroupByEmployee] 'México D.F.'

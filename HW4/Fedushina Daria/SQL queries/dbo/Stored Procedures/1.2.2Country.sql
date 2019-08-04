@@ -12,7 +12,7 @@ ORDER BY [ContactName] ASC
 
 END
 
---EXECUTE Northwind.dbo.122Country @country1  = 'USA',@country2 = 'Canada'
+--EXECUTE Northwind.dbo.[122Country] @country1  = 'USA',@country2 = 'Canada'
 
 
 

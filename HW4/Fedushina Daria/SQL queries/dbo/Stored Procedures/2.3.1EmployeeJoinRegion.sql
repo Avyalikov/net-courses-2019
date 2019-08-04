@@ -16,4 +16,4 @@ WHERE [Region].[RegionDescription] = @region
 END
 
 
---EXECUTE Northwind.dbo.231EmployeeJoinRegion 'Western'
+--EXECUTE Northwind.dbo.[231EmployeeJoinRegion] 'Western'

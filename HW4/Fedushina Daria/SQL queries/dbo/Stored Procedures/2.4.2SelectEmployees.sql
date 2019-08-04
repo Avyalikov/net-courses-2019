@@ -12,4 +12,4 @@ GROUP BY EmployeeID
 HAVING COUNT([Orders].[OrderID]) > @ordersCount)
 END
 
---EXECUTE Northwind.dbo.242SelectEmployees 150
+--EXECUTE Northwind.dbo.[242SelectEmployees] 150

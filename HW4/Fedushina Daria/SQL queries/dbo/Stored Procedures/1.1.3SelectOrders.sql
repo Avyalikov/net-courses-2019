@@ -11,6 +11,6 @@ WHERE [ShippedDate] >= @shipDate OR [ShippedDate] Is NULL
 
 END
 
---EXECUTE Northwind.dbo.113SelectOrders '1998-05-06 00:00:00.000'
+--EXECUTE Northwind.dbo.[113SelectOrders] '1998-05-06 00:00:00.000'
 
 
