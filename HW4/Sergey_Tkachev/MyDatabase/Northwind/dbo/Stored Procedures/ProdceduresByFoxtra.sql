@@ -156,7 +156,8 @@ AS
 	FROM [dbo].[Customers] c
 	left join [dbo].[Orders] o
 	on c.[CustomerID] = o.[CustomerID]
-	group by c.[ContactName];
+	group by c.[ContactName]
+	order by 'Amount of orders';
 
 --2.4.1
   SELECT s.[CompanyName]
