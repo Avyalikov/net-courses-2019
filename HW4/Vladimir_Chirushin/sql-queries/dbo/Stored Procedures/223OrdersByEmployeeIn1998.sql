@@ -4,7 +4,7 @@ AS
 DECLARE @OrderDate datetime = '1998'
 SELECT
 	(SELECT 
-		CONCAT(Employees.FirstName, ' ', Employees.LastName)
+		CONCAT(Employees.LastName, ' ', Employees.FirstName)
 	FROM
 		dbo.Employees
 	WHERE
