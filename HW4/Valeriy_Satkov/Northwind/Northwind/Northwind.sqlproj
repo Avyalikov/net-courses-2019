@@ -268,5 +268,29 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
+    <Build Include="dbo\Stored Procedures\Task1_1_1 Get orders after Date incl and ShipVia over 2.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_1_2 Get undelivered orders.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_1_3 Get orders after date not incl.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_2_1 Get customers from USA and Canada using IN.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_2_2 Get customers not from USA and Canada using IN.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_2_3 Get countries with customers without GROUP BY.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_3_1 Get order IDs with products quantity between 3 and 10 incl.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_3_3 Get customers which countries start from b to g without using BETWEEN.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_3_2 Get customers which countries start from b to g using BETWEEN.sql" />
+    <Build Include="dbo\Stored Procedures\Task1_4 Get products with substr chocolade using LIKE.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_1_1 Get sum of orders based on quantity and discounts.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_1_2 Get undelivered orders quantity using COUNT without WHERE and GROUP.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_1_3 Get quantity of different customers with orders using COUNT and witohut WHERE and GROUP.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_2_1 Get quantity of orders with GROUPing BY year.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_2_2 Get quantity orders of every seller.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_2_3 Get quantity orders of every seller for every customer in 1998.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_2_4 Get sellers and custmers who lived in one city without JOIN.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_2_5 Get all customers who live in the same city.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_2_6 Get boss for all employees.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_3_1 Get sellers who serve Western region using JOIN.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_3_2 Get names of customers and quantity of them orders.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_4_1 Get suppliers witohout any product in stock using inserted SELECT and IN.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_4_2 Get sellers with over 150 orders using inserted SELECT.sql" />
+    <Build Include="dbo\Stored Procedures\Task2_4_3 Get customers without orders using EXISTS.sql" />
   </ItemGroup>
 </Project>
