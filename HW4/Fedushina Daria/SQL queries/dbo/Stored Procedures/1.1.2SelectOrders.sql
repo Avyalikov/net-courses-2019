@@ -2,10 +2,8 @@
 AS 
 BEGIN
 
-SELECT [OrderID], [ShippedDate] 
-FROM [dbo].[Orders]
-SELECT CASE
-WHEN [ShippedDate] is NULL THEN 'Not Shipped' ELSE CAST([ShippedDate] AS DATETIME)
+SELECT [OrderID], CASE
+WHEN [ShippedDate] is NULL THEN 'Not Shipped' ELSE CAST([ShippedDate] AS nvarchar)
 END AS [ShippedDate]
 FROM [dbo].[Orders]
 
