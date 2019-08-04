@@ -6,5 +6,5 @@ AS
 
 SELECT CustomerID, Country
 FROM Customers
-WHERE Country >'b' AND Country <'h'
+WHERE LEFT (Country,1) >='b' AND LEFT (Country,1) <='g'
 ORDER BY Country

@@ -9,5 +9,5 @@ AS
 
 SELECT CustomerID, Country
 FROM Customers
-WHERE Country BETWEEN 'b' AND 'h'
+WHERE LEFT (Country,1) BETWEEN 'b' AND 'g'
 ORDER BY Country
