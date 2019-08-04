@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE [dbo].[Proc_1_2_3]
+AS
+	SELECT DISTINCT Country
+	FROM Customers
+	ORDER BY Country DESC
+RETURN 0
