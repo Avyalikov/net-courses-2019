@@ -122,11 +122,16 @@ AS
 	where  [Customers].[City] = [Employees].[City];
 	
 --2.2.5
-	Select  
-		[ContactName]
-		,[City]
-	FROM [dbo].[Customers]
-	group by [City], [ContactName];
+	select 
+	[ContactName],
+	[City]
+	from [dbo].[Customers] 
+	where [City] in (
+			select [City]
+			from [dbo].[Customers]
+			group by [City]
+			having count([City]) > 1)
+	group by [City], [ContactName]
 
 --2.2.6
 	Select  
