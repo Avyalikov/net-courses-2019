@@ -3,8 +3,8 @@
 DECLARE @date datetime = '1998-05-06';
 SELECT
    ordrs.OrderID AS 'Order Number',   
-   ordrs.OrderDate AS 'Order Date',
+   --ordrs.OrderDate AS 'Order Date',
    ordrs.ShippedDate AS 'Shipped Date'
 FROM Orders AS ordrs
-WHERE ordrs.ShippedDate > @date
+WHERE ordrs.ShippedDate > @date OR ordrs.ShippedDate IS NULL
 /*ORDER BY 'Order Date'*/;
