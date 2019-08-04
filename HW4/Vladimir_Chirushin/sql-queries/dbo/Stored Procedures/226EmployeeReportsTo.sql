@@ -2,7 +2,7 @@
 CREATE PROCEDURE EmployeeReportsTo
 AS
 SELECT
-	CONCAT(Employees.FirstName, ' ', Employees.LastName) AS 'Seller', 
+	CONCAT(Employees.LastName, ' ', Employees.FirstName) AS 'Seller', 
 	(SELECT
 		CONCAT(ManagerEmployees.FirstName, ' ', ManagerEmployees.LastName)
 	FROM 
