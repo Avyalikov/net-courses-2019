@@ -11,7 +11,7 @@ as
 			where [CustomerID] = [Orders].[CustomerID]),
 		'Count' = count([CustomerID])
 	from [Orders]
-	where year([shippedDate]) = '1998'
+	where year([OrderDate]) = '1998'
 	group by [EmployeeID], [CustomerID]
 	order by [Seller];
 return 0

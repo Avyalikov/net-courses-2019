@@ -2,9 +2,9 @@
 as
 	select 
 		'Employee' = [LastName] + ' ' + [FirstName],
-		'Menagers' = (
-			select [Menagers].[LastName] + ' ' + [Menagers].[FirstName]
-			from [Employees] as [Menagers]
-			where [Menagers].[EmployeeID] = [Employees].[ReportsTo])
+		'Managers' = (
+			select [Managers].[LastName] + ' ' + [Managers].[FirstName]
+			from [Employees] as [Managers]
+			where [Managers].[EmployeeID] = [Employees].[ReportsTo])
 	from [Employees]
 return 0
