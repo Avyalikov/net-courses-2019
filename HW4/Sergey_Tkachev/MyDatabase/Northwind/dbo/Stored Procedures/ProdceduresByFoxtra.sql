@@ -5,10 +5,10 @@ AS
 		  ,[ShippedDate]
 		  ,[ShipVia]
 	  from [dbo].[Orders]
-	  where [ShippedDate] > (1998-05-06)
+	  where [ShippedDate] > '1998-05-06'
 	  and [ShipVia] >= 2;
 
-  --1.1.1
+  --1.1.2
   Select [OrderID], 
   case 
 	  when [ShippedDate] IS NULL 
@@ -25,7 +25,7 @@ AS
 	  else cast ([ShippedDate] AS VARCHAR(50) ) 
   end as N'Shipped Date'
   from [dbo].[Orders]
-  where [ShippedDate] > (1998-05-06)
+  where [ShippedDate] > '1998-05-06'
   or [ShippedDate] is null;
   
   --1.2.1
@@ -72,7 +72,7 @@ AS
   where  lower ( [ProductName] ) like '%cho[a-z0-9]olade%';
 
   --2.1.1
-    SELECT Sum( [UnitPrice] * (1 - [Discount]) * [Quantity]  )
+    SELECT Sum( [UnitPrice] * (1 - [Discount]) * [Quantity]  ) as 'Totals'
     FROM [dbo].[Order Details];
 
 --2.1.2 
