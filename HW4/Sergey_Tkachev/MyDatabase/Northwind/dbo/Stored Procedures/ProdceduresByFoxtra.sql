@@ -152,7 +152,7 @@ AS
 	on t.[RegionID] = r.[RegionID];
 
 --2.3.2
-	Select c.[ContactName], SUM(o.OrderID) as 'Amount of orders'
+	Select c.[ContactName], Count(o.OrderID) as 'Amount of orders'
 	FROM [dbo].[Customers] c
 	left join [dbo].[Orders] o
 	on c.[CustomerID] = o.[CustomerID]
@@ -177,7 +177,7 @@ AS
 	group by o.[EmployeeID]
 	having count(o.OrderID) > 150); 
 
---2.4.5
+--2.4.3
 	Select c.[ContactName]
 	FROM [dbo].[Customers] c
 	where not exists
