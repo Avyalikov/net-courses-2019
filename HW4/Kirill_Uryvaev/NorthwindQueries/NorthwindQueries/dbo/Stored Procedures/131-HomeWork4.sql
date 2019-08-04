@@ -52,7 +52,7 @@ AS
 	SELECT COUNT(OrderDate) - COUNT(ShippedDate) as 'Not shipped'
 	FROM Orders;
 /*2.1.3*/
-	SELECT COUNT(DISTINCT CustomerID)
+	SELECT COUNT(DISTINCT CustomerID) as 'Amount of customers'
 	FROM Orders;
 /*2.2.1*/
 	SELECT YEAR(OrderDate) as 'Year', COUNT(YEAR(OrderDate)) as 'Total'
@@ -105,7 +105,7 @@ AS
 	FROM Suppliers
 	WHERE 0 IN (SELECT UnitsInStock  FROM Products WHERE Suppliers.SupplierID = Products.SupplierID)
 /*2.4.2*/
-	SELECT CONCAT(FirstName, ' ', LastName)
+	SELECT CONCAT(FirstName, ' ', LastName) as 'Employee'
 	FROM Employees
 	WHERE (SELECT COUNT(ShippedDate)  FROM Orders WHERE Orders.EmployeeID = Employees.EmployeeID GROUP BY Orders.EmployeeID)>150
 /*2.4.3*/
