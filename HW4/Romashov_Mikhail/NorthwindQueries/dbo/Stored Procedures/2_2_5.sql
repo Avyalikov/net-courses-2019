@@ -5,5 +5,5 @@ AS
 
 SELECT DISTINCT x.ContactName as 'Name', x.City
 	FROM Customers as x, Customers as y
-	WHERE x.City = y.City AND x.CompanyName != y.CompanyName
+	WHERE x.City = y.City AND x.ContactName != y.ContactName
 	ORDER BY x.City
