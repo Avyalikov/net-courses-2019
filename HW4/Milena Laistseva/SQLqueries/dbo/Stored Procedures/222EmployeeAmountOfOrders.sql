@@ -1,6 +1,4 @@
 ﻿CREATE PROCEDURE [dbo].[222EmployeeAmountOfOrders]
-	@param1 int = 0,
-	@param2 int
 AS
 	SELECT 
       (SELECT CONCAT (LastName, ' ', FirstName) 
