@@ -4,7 +4,7 @@ AS
 		(SELECT FirstName + ' ' + LastName 
 		FROM Employees 
 		WHERE Orders.EmployeeID = Employees.EmployeeID) as Seller, 
-		(SELECT CompanyName 
+		(SELECT ContactName 
 		FROM Customers 
 		WHERE Orders.CustomerID = Customers.CustomerID) as Customer,
 	Count(OrderID) as Amount

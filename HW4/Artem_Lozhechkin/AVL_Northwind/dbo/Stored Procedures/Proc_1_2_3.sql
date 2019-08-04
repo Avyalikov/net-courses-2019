@@ -2,4 +2,5 @@
 AS
 	SELECT DISTINCT Country
 	FROM Customers
+	ORDER BY Country DESC
 RETURN 0
