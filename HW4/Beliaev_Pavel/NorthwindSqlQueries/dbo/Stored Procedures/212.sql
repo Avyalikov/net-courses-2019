@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [dbo].[212]
+AS
+	SELECT COUNT(*) - COUNT(ShippedDate)
+	FROM Orders
+RETURN 0
