@@ -61,7 +61,7 @@ namespace SampleQueries
 			}
 		}
 
-        [Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq001")]
         [Description("This sample return all customers that have order ")]
 
@@ -80,7 +80,7 @@ namespace SampleQueries
             }
         }
 
-        [Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq002")]
         [Description("This sample return all customers and suppliers in same city and country ")]
 
@@ -98,25 +98,34 @@ namespace SampleQueries
             }
         }
 
-        /*[Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq002x")]
         [Description("This sample return all customers and suppliers in same city and country with group by")]
 
         public void Linq002x()
         {
-            var clients =
-                from c in dataSource.Customers
-                from s in dataSource.Suppliers
-                group new {c,s} by new { s.City, s.Country } into g
-                select g;
+            var suppliers = dataSource.Suppliers.GroupBy(x => new { x.City, x.Country });
+            var clients = dataSource.Customers.GroupBy(x => new { x.City, x.Country }).Select(g => new
+            {
+                g.Key,
+                Subgroups = g.Select(x => new { x, Suppliers = suppliers.Where(y => y.Key.Equals(g.Key)) })
+            });
 
             foreach (var c in clients)
             {
-                ObjectDumper.Write(c);
+                ObjectDumper.Write(c.Key);
+                foreach (var cs in c.Subgroups)
+                {
+                    ObjectDumper.Write(cs.x);
+                    foreach (var s in cs.Suppliers)
+                    {
+                        ObjectDumper.Write(s);
+                    }
+                }
             }
-        }*/
+        }
 
-        [Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq003")]
         [Description("This sample return all customers that have order bigger than r ")]
 
@@ -132,7 +141,7 @@ namespace SampleQueries
             }
         }
 
-        [Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq004")]
         [Description("This sample return all customers with orders and date of their first order ")]
 
@@ -147,7 +156,7 @@ namespace SampleQueries
             }
         }
 
-        [Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq005")]
         [Description("This sample return all customers with orders and date of their first order and ordered by")]
 
@@ -163,7 +172,7 @@ namespace SampleQueries
             }
         }
 
-        [Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq006")]
         [Description("This sample return all customers with specific properties")]
 
@@ -177,18 +186,99 @@ namespace SampleQueries
             }
         }
 
-        /*[Category("Home Task XML")]
+        [Category("Home Task")]
         [Title("Linq007")]
         [Description("This sample return categorized products")]
 
         public void Linq007()
         {
-            var products = dataSource.Products.GroupBy(x=>x.Category).GroupBy(x=>x);
+            var products = dataSource.Products.GroupBy(x=>x.Category).
+                Select(g=> new {
+                    g.Key,
+                    Subgroups = g.GroupBy(x=>x.UnitsInStock>0).Select(x=>new { x.Key, Units = x.OrderBy(y => y.UnitPrice) })
+            });
+
+                foreach (var p in products)
+            {
+
+                ObjectDumper.Write(p.Key);
+                foreach (var s in p.Subgroups)
+                {
+                    ObjectDumper.Write($" {s.Key}");
+                    foreach (var u in s.Units)
+                    {
+                        ObjectDumper.Write(u);
+                    }
+                }
+            }
+        }
+
+        [Category("Home Task")]
+        [Title("Linq008")]
+        [Description("This sample return products grouped by price")]
+
+        public void Linq008()
+        {
+            int[] priceRange = { 0, 10, 100 };
+            var products = dataSource.Products.GroupBy(x=>priceRange.FirstOrDefault(r=>r>x.UnitPrice));
 
             foreach (var p in products)
             {
-                ObjectDumper.Write(p);
+
+                ObjectDumper.Write(p.Key);
+                foreach (var u in p)
+                {
+                    ObjectDumper.Write(u);
+                }
             }
-        }*/
+        }
+
+        [Category("Home Task")]
+        [Title("Linq009")]
+        [Description("This sample return avarage city values")]
+
+        public void Linq009()
+        {
+            var clients = dataSource.Customers.GroupBy(x=>x.City);
+            var statistic = clients.Select(x => new { x.Key,
+                Income = x.Average(y => y.Orders.Sum(z => z.Total)),
+                Frequency = x.Average(y => y.Orders.Count()) });
+            foreach (var s in statistic)
+            {
+
+                ObjectDumper.Write(s);
+            }
+        }
+
+        [Category("Home Task")]
+        [Title("Linq010")]
+        [Description("This sample return customers activity")]
+
+        public void Linq010()
+        {
+            var ordersDate = dataSource.Customers.SelectMany(x=>x.Orders.Select(y=>y.OrderDate));
+            var statisticMonth = ordersDate.GroupBy(x => x.Month).Select(x=>new {x.Key, MonthsOrders = x.Count() }).OrderBy(x=>x.Key);
+            var avarageMonth = statisticMonth.Average(x => x.MonthsOrders);
+
+            ObjectDumper.Write(avarageMonth);
+            foreach (var m in statisticMonth)
+            {
+                ObjectDumper.Write(m,2);
+            }
+
+            var statisticYear = ordersDate.GroupBy(x => x.Year).Select(x => new { x.Key, YearsOrders = x.Count() }).OrderBy(x => x.Key);
+
+            foreach (var y in statisticYear)
+            {
+                ObjectDumper.Write(y);
+            }
+
+            var statisticYearMonth = ordersDate.GroupBy(x => new { x.Year, x.Month }).Select(x => new { Key = x.Key.ToString(), YearsMonthOrders = x.Count() });
+
+            foreach (var ym in statisticYearMonth)
+            {
+                ObjectDumper.Write(ym);
+            }
+        }
     }
 }
