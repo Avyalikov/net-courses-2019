@@ -27,8 +27,11 @@ namespace SampleQueries
 			
 			LinqSamples linqHarness = new LinqSamples();
 			harnesses.Add(linqHarness);
-						
-			Application.EnableVisualStyles();
+            LinqSQL linSql = new LinqSQL();
+            harnesses.Add(linSql);
+
+
+            Application.EnableVisualStyles();
 				
 			using (SampleForm form = new SampleForm("HomeWork", harnesses))
 			{
