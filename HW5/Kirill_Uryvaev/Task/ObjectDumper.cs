@@ -27,7 +27,7 @@ public class ObjectDumper {
 
     private ObjectDumper(int depth) {
         this.writer = Console.Out;
-        this.depth = depth;
+        this.level = depth;
     }
 
     private void Write(string s) {

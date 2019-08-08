@@ -12,6 +12,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using SampleSupport;
+using Task;
 using Task.Data;
 
 // Version Mad01
@@ -109,17 +110,17 @@ namespace SampleQueries
             {
                 g.Key,
                 Subgroups = g.Select(x => new { x, Suppliers = suppliers.Where(y => y.Key.Equals(g.Key)) })
-            });
+            }).Where(x=>x.Subgroups.Sum(y=>y.Suppliers.Count())!=0);
 
             foreach (var c in clients)
             {
-                ObjectDumper.Write(c.Key);
+               ObjectDumper.Write(c.Key,0);
                 foreach (var cs in c.Subgroups)
                 {
-                    ObjectDumper.Write(cs.x);
+                    ObjectDumper.Write(cs.x,1);
                     foreach (var s in cs.Suppliers)
                     {
-                        ObjectDumper.Write(s);
+                        ObjectDumper.Write(s,2);
                     }
                 }
             }
@@ -178,7 +179,8 @@ namespace SampleQueries
 
         public void Linq006()
         {
-            var clients = dataSource.Customers.Where(x => x.Region == null || x.Phone[0]!='(' || !x.PostalCode.All(char.IsDigit));
+            var clients = dataSource.Customers.Where(x => x.Region == null || !x.Phone.StartsWith("(") || !x.PostalCode.All(char.IsDigit)).
+                Select(x => new { x.CustomerID, x.CompanyName, x.Region, x.Phone, x.PostalCode }); ;
 
             foreach (var c in clients)
             {
@@ -201,13 +203,13 @@ namespace SampleQueries
                 foreach (var p in products)
             {
 
-                ObjectDumper.Write(p.Key);
+                ObjectDumper.Write(p.Key,0);
                 foreach (var s in p.Subgroups)
                 {
-                    ObjectDumper.Write($" {s.Key}");
+                    ObjectDumper.Write(s.Key, 1);
                     foreach (var u in s.Units)
                     {
-                        ObjectDumper.Write(u);
+                        ObjectDumper.Write(u, 2);
                     }
                 }
             }
@@ -225,11 +227,21 @@ namespace SampleQueries
             foreach (var p in products)
             {
 
-                ObjectDumper.Write(p.Key);
+                ObjectDumper.Write(changeKeyLinq008(p.Key.ToString()),0);
                 foreach (var u in p)
                 {
-                    ObjectDumper.Write(u);
+                    ObjectDumper.Write(u,1);
                 }
+            }
+        }
+
+        private string changeKeyLinq008(string key)
+        {
+            switch(key)
+            {
+                case "0": return "Expensive";
+                case "10": return "Cheap";
+                default: return "Average";
             }
         }
 
@@ -260,24 +272,87 @@ namespace SampleQueries
             var statisticMonth = ordersDate.GroupBy(x => x.Month).Select(x=>new {x.Key, MonthsOrders = x.Count() }).OrderBy(x=>x.Key);
             var avarageMonth = statisticMonth.Average(x => x.MonthsOrders);
 
-            ObjectDumper.Write(avarageMonth);
+            ObjectDumper.Write(avarageMonth,0);
             foreach (var m in statisticMonth)
             {
-                ObjectDumper.Write(m,2);
+                ObjectDumper.Write(m,1);
             }
 
             var statisticYear = ordersDate.GroupBy(x => x.Year).Select(x => new { x.Key, YearsOrders = x.Count() }).OrderBy(x => x.Key);
 
+            ObjectDumper.Write("Year Statistic", 0);
             foreach (var y in statisticYear)
             {
-                ObjectDumper.Write(y);
+                ObjectDumper.Write(y,1);
             }
 
             var statisticYearMonth = ordersDate.GroupBy(x => new { x.Year, x.Month }).Select(x => new { Key = x.Key.ToString(), YearsMonthOrders = x.Count() });
 
+            ObjectDumper.Write("Year Month Statistic", 0);
             foreach (var ym in statisticYearMonth)
             {
-                ObjectDumper.Write(ym);
+                ObjectDumper.Write(ym,1);
+            }
+        }
+    }
+
+    [Title("LINQ to SQL Module")]
+    [Prefix("Linq")]
+    public class LinqSqlSamples : SampleHarness
+    {
+        private NorthwindDataClassesDataContext dataSource = new NorthwindDataClassesDataContext();
+
+        [Category("Home Task")]
+        [Title("Linq001")]
+        [Description("This sample return all customers that have order ")]
+        public void Linq001()
+        {
+            int[] requeredSum = { 10000, 5000, 15000 };
+            foreach (int r in requeredSum)
+            {
+                var clients = dataSource.Customers.Where(x => x.Orders.
+                Sum(y => y.Order_Details.Sum(z=>(z.UnitPrice*z.Quantity* (decimal)(1-z.Discount)))) > r).
+                    Select(x => new { x.CustomerID, x.CompanyName, OrdersSum = x.Orders.
+                    Sum(y => y.Order_Details.Sum(z => (z.UnitPrice * z.Quantity * (decimal)(1 - z.Discount))))
+                    });
+                ObjectDumper.Write($"Requested sum {r}:");
+                foreach (var c in clients)
+                {
+                    ObjectDumper.Write(c);
+                }
+            }
+        }
+
+        [Category("Home Task")]
+        [Title("Linq003")]
+        [Description("This sample return all customers that have order bigger than r ")]
+
+        public void Linq003()
+        {
+            int r = 1000;
+            var clients = dataSource.Customers.Where(x => x.Orders.
+            Any(y => y.Order_Details.Sum(z => (z.UnitPrice * z.Quantity * (decimal)(1 - z.Discount))) > r)).
+                Select(x => new { x.CompanyName, MaxValue = x.Orders.
+                Max(y => y.Order_Details.Sum(z => (z.UnitPrice * z.Quantity * (decimal)(1 - z.Discount)))) });
+
+            foreach (var c in clients)
+            {
+                ObjectDumper.Write(c);
+            }
+        }
+
+        [Category("Home Task")]
+        [Title("Linq006")]
+        [Description("This sample return all customers with specific properties")]
+
+        public void Linq006()
+        {
+            var clients = dataSource.Customers.Where(x => x.Region == null || !x.Phone.StartsWith("(") || !x.PostalCode.Contains("%[0-9]%")).
+                Select(x=>new { x.CustomerID, x.ContactName, x.Region, x.Phone, x.PostalCode });
+
+            foreach (var c in clients)
+            {
+                ObjectDumper.Write(c);
             }
         }
     }
