@@ -38,37 +38,43 @@ namespace SampleQueries
         [Description("Get all customers that spend more than X on our products")]
         public void LinqB01()
         {
-            decimal threshold = 1500;
-            var customers = dataBase.ExecuteQuery<Customers>(@"
-                SELECT C.ContactName, CAST(O.Total AS DECIMAL(10,4)) AS Total 
-                FROM dbo.Customers C 
-	                INNER JOIN 
-	                (
-		                SELECT
-			                O.CustomerID,
-			                SUM(OD.UnitPrice * OD.quantity * (1 - OD.Discount)) Total
-		                FROM
-			                dbo.[Order Details] OD 
-				                INNER JOIN dbo.Orders O ON OD.OrderID = O.OrderID
-		                GROUP BY
-			                O.CustomerID
-	                ) O ON C.CustomerID = O.CustomerID");
+            decimal minTotalSum = 7900;
+            var customers =
+                from o in dataBase.Orders
+                join c in dataBase.Customers on o.CustomerID equals c.CustomerID into ords
+                join od in dataBase.Order_Details on o.OrderID equals od.OrderID into custOdet
+                let orderSumTotal = o.Order_Details.Sum(od => od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))
+                where orderSumTotal > minTotalSum
+                orderby orderSumTotal descending
+                select new { orderSumTotal, o.Customer.CompanyName };
 
-            ObjectDumper.Write($"Customers with Total more than {threshold}");
-            foreach (Customers customer in customers)
+            foreach (var customer in customers)
             {
-                if (customer.Total > threshold)
-                    ObjectDumper.Write(customer);
+                ObjectDumper.Write(customer);
             }
         }
 
 
         [Category("Work With SQL")]
         [Title("TaskB03-Customers w/products")]
-        [Description("Get all customers that bought produt with price more than X")]
+        [Description("Get all customers that made order with price more than X")]
         public void LinqB03()
         {
-            
+            decimal orderMinValue = 7900;
+            var customers =
+                from o in dataBase.Orders
+                join c in dataBase.Customers on o.CustomerID equals c.CustomerID into ords
+                join od in dataBase.Order_Details on o.OrderID equals od.OrderID into custOdet
+                let orderMaxValue = o.Order_Details.Max(od => od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))
+                where orderMaxValue > orderMinValue
+                orderby orderMaxValue descending
+                select new { orderMaxValue, o.Customer.CompanyName };
+
+            foreach (var customer in customers)
+            {
+                ObjectDumper.Write(customer);
+            }
+
         }
 
         [Category("Work With SQL")]
