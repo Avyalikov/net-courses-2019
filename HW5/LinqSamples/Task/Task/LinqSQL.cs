@@ -1,38 +1,16 @@
-﻿// Copyright © Microsoft Corporation.  All Rights Reserved.
-// This code released under the terms of the 
-// Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
-//
-//Copyright (C) Microsoft Corporation.  All rights reserved.
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Linq.Mapping;
-using System.Data.Linq.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using SampleSupport;
-using Task;
-using Task.Data;
-
-// Version Mad01
-
-namespace SampleQueries
+﻿namespace SampleQueries
 {
+    using System.Data.Linq.SqlClient;
+    using System.Linq;
+    using SampleSupport;
+    using Task;
+
     [Title("LINQ To SQL")]
     [Prefix("Linq")]
     public class LinqSQL : SampleHarness
     {
         private NorthwindDataContext dataBase = new NorthwindDataContext();
-
-        public class Customers
-        {
-            public string ContactName;
-            public decimal Total;
-        }
-
+        
         [Category("Work With SQL")]
         [Title("TaskB01-Customers w/total")]
         [Description("Get all customers that spend more than X on our products")]
@@ -40,9 +18,9 @@ namespace SampleQueries
         {
             decimal minTotalSum = 7900;
             var customers =
-                from o in dataBase.Orders
-                join c in dataBase.Customers on o.CustomerID equals c.CustomerID into ords
-                join od in dataBase.Order_Details on o.OrderID equals od.OrderID into custOdet
+                from o in this.dataBase.Orders
+                join c in this.dataBase.Customers on o.CustomerID equals c.CustomerID into ords
+                join od in this.dataBase.Order_Details on o.OrderID equals od.OrderID into custOdet
                 let orderSumTotal = o.Order_Details.Sum(od => od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))
                 where orderSumTotal > minTotalSum
                 orderby orderSumTotal descending
@@ -54,7 +32,6 @@ namespace SampleQueries
             }
         }
 
-
         [Category("Work With SQL")]
         [Title("TaskB03-Customers w/products")]
         [Description("Get all customers that made order with price more than X")]
@@ -62,9 +39,9 @@ namespace SampleQueries
         {
             decimal orderMinValue = 7900;
             var customers =
-                from o in dataBase.Orders
-                join c in dataBase.Customers on o.CustomerID equals c.CustomerID into ords
-                join od in dataBase.Order_Details on o.OrderID equals od.OrderID into custOdet
+                from o in this.dataBase.Orders
+                join c in this.dataBase.Customers on o.CustomerID equals c.CustomerID into ords
+                join od in this.dataBase.Order_Details on o.OrderID equals od.OrderID into custOdet
                 let orderMaxValue = o.Order_Details.Max(od => od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))
                 where orderMaxValue > orderMinValue
                 orderby orderMaxValue descending
@@ -74,7 +51,6 @@ namespace SampleQueries
             {
                 ObjectDumper.Write(customer);
             }
-
         }
 
         [Category("Work With SQL")]
@@ -83,7 +59,7 @@ namespace SampleQueries
         public void LinqB06()
         {
             var customers =
-                from cust in dataBase.Customers
+                from cust in this.dataBase.Customers
                 where (cust.Region == null) || (cust.Phone[0] != '(') || !SqlMethods.Like(cust.PostalCode, "%[^0-9]%")
                 select new { cust.CompanyName, cust.Region, cust.PostalCode, cust.Phone };
 
@@ -94,4 +70,3 @@ namespace SampleQueries
         }
     }
 }
-

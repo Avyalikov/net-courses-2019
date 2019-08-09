@@ -33,12 +33,12 @@ namespace SampleQueries
                from cust in dataSource.Customers
                orderby cust.Orders.Sum(o => o.Total) descending
                select new Customers { CompanyName = cust.CompanyName, Total = cust.Orders.Sum(o => o.Total) };
-            
+
             void ShowCustomerIfTotal(decimal total)
             {
                 foreach (var customer in customers)
                 {
-                    if(customer.Total>total)
+                    if (customer.Total > total)
                         ObjectDumper.Write(customer);
                 }
             }
@@ -61,7 +61,7 @@ namespace SampleQueries
                 from supp in dataSource.Suppliers
                 where cust.City == supp.City
                 select new { cust.CompanyName, supp.SupplierName };
-            
+
             foreach (var customer in customers)
             {
                 ObjectDumper.Write(customer);
@@ -69,7 +69,7 @@ namespace SampleQueries
 
             //second variant with join
             ObjectDumper.Write("________________");
-            var customers2 = 
+            var customers2 =
                from cust in dataSource.Customers
                join supp in dataSource.Suppliers on cust.City equals supp.City into custSupGroup
                select new
@@ -100,8 +100,8 @@ namespace SampleQueries
             ObjectDumper.Write($"Customers with order more than {minOrderValue}");
             foreach (var customer in customers)
             {
-                if(customer.maxOrder > minOrderValue)
-                ObjectDumper.Write(customer);
+                if (customer.maxOrder > minOrderValue)
+                    ObjectDumper.Write(customer);
             }
         }
 
@@ -113,7 +113,8 @@ namespace SampleQueries
             var customers =
                 from cust in dataSource.Customers
                 where cust.Orders.Any()
-                select new {
+                select new
+                {
                     cust.CompanyName,
                     Year = cust.Orders.ElementAt(0).OrderDate.Year,
                     Month = cust.Orders.ElementAt(0).OrderDate.Month
@@ -122,7 +123,7 @@ namespace SampleQueries
             ObjectDumper.Write($"Select first order of customer");
             foreach (var customer in customers)
             {
-                    ObjectDumper.Write(customer);
+                ObjectDumper.Write(customer);
             }
         }
 
@@ -154,8 +155,6 @@ namespace SampleQueries
             }
         }
 
-
-
         [Category("Basic LINQ Operations")]
         [Title("TaskA06-CustomersAddressIssues")]
         [Description("Select customers that have non numerical index, or region is null, or phone entered withou operators code")]
@@ -166,13 +165,12 @@ namespace SampleQueries
                 from cust in dataSource.Customers
                 where ((cust.Region == null) || (!int.TryParse(cust.PostalCode, out tryInteger)) || (cust.Phone[0] != '('))
                 select new { cust.CompanyName, cust.Region, cust.PostalCode, cust.Phone };
-            
+
             foreach (var customer in customers)
             {
                 ObjectDumper.Write(customer);
             }
         }
-
 
         [Category("Basic LINQ Operations")]
         [Title("TaskA07-GroupProductByCategory")]
@@ -224,7 +222,6 @@ namespace SampleQueries
             }
         }
 
-
         [Category("Basic LINQ Operations")]
         [Title("TaskA09-Average city profit")]
         [Description("Average profit for every city and average intensity")]
@@ -246,7 +243,6 @@ namespace SampleQueries
             }
         }
 
-
         [Category("Basic LINQ Operations")]
         [Title("TaskA10-Average year profit")]
         [Description("Average profit for every year")]
@@ -254,14 +250,14 @@ namespace SampleQueries
         {
             var customersOrdersByMonth =
                 from cust in dataSource.Customers
-                    from ordrs in cust.Orders
-                    group ordrs by ordrs.OrderDate.Month into monthGroup
-                    orderby monthGroup.Key
-                    select new
-                    {
-                        Month = monthGroup.Key,
-                        TotalOrders = monthGroup.Count() 
-                    };
+                from ordrs in cust.Orders
+                group ordrs by ordrs.OrderDate.Month into monthGroup
+                orderby monthGroup.Key
+                select new
+                {
+                    Month = monthGroup.Key,
+                    TotalOrders = monthGroup.Count()
+                };
 
             foreach (var customer in customersOrdersByMonth)
             {
@@ -271,14 +267,14 @@ namespace SampleQueries
             ObjectDumper.Write("_____________________________");
             var customersOrdersByYear =
                 from cust in dataSource.Customers
-                    from ordrs in cust.Orders
-                    group ordrs by ordrs.OrderDate.Year into yearGroup
-                    orderby yearGroup.Key
-                    select new
-                    {
-                        Year = yearGroup.Key,
-                        TotalOrders = yearGroup.Count()
-                    };
+                from ordrs in cust.Orders
+                group ordrs by ordrs.OrderDate.Year into yearGroup
+                orderby yearGroup.Key
+                select new
+                {
+                    Year = yearGroup.Key,
+                    TotalOrders = yearGroup.Count()
+                };
 
             foreach (var customer in customersOrdersByYear)
             {
@@ -288,16 +284,15 @@ namespace SampleQueries
             ObjectDumper.Write("_____________________________");
             var customersOrdersByYearAndMonth =
                 from cust in dataSource.Customers
-                    from ordrs in cust.Orders
-                    group ordrs by new {Year = ordrs.OrderDate.Year, Month = ordrs.OrderDate.Month } into dateGroup
-                    orderby dateGroup.Key.Year, dateGroup.Key.Month
-                    select new
-                    {
-                        Year = dateGroup.Key.Year,
-                        Month = dateGroup.Key.Month,
-                        TotalOrders = dateGroup.Count()
-                    };
-
+                from ordrs in cust.Orders
+                group ordrs by new { Year = ordrs.OrderDate.Year, Month = ordrs.OrderDate.Month } into dateGroup
+                orderby dateGroup.Key.Year, dateGroup.Key.Month
+                select new
+                {
+                    Year = dateGroup.Key.Year,
+                    Month = dateGroup.Key.Month,
+                    TotalOrders = dateGroup.Count()
+                };
 
             foreach (var customer in customersOrdersByYearAndMonth)
             {
