@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Linq.Mapping;
+using System.Data.Linq.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -67,8 +68,7 @@ namespace SampleQueries
         [Description("Get all customers that bought produt with price more than X")]
         public void LinqB03()
         {
-
-
+            
         }
 
         [Category("Work With SQL")]
@@ -76,8 +76,15 @@ namespace SampleQueries
         [Description("Get all customers that have address issues")]
         public void LinqB06()
         {
+            var customers =
+                from cust in dataBase.Customers
+                where (cust.Region == null) || (cust.Phone[0] != '(') || !SqlMethods.Like(cust.PostalCode, "%[^0-9]%")
+                select new { cust.CompanyName, cust.Region, cust.PostalCode, cust.Phone };
 
-
+            foreach (var customer in customers)
+            {
+                ObjectDumper.Write(customer);
+            }
         }
     }
 }
