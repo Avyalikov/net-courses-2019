@@ -9,7 +9,7 @@
     {
         public string CustomerId { get; set; }
         public string CompName { get; set; }
-        public decimal TotalSumOrders { get; set; }
+        public decimal? TotalSumOrders { get; set; }
         public DateTime FirstOrderDate { get; set; }
 
         public override string ToString()

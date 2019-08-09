@@ -23,10 +23,11 @@ namespace SampleQueries
 		static void Main(string[] args)
 		{
 			List<SampleHarness> harnesses = new List<SampleHarness>();
-
 			
 			LinqSamples linqHarness = new LinqSamples();
 			harnesses.Add(linqHarness);
+            LinqSamples.LinqSqlSample linqSqlHarness = new LinqSamples.LinqSqlSample();
+            harnesses.Add(linqSqlHarness);
 						
 			Application.EnableVisualStyles();
 				
