@@ -47,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Northwind.designer.cs">
+    <Compile Include="LinqToSqlSamples.cs" />
+    <Compile Include="Data\Northwind.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Northwind.dbml</DependentUpon>
@@ -57,7 +58,6 @@
     <Compile Include="Data\Order.cs" />
     <Compile Include="Data\Product.cs" />
     <Compile Include="Data\Supplier.cs" />
-    <Compile Include="LinqToSqlSamples.cs" />
     <Compile Include="LinqSamples.cs" />
     <Compile Include="ObjectDumper.cs" />
     <Compile Include="Program.cs" />
@@ -82,12 +82,12 @@
     <EmbeddedResource Include="SampleForm.resx">
       <DependentUpon>SampleForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Northwind.dbml">
+    <None Include="Data\Northwind.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Northwind.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Northwind.dbml.layout">
+    <None Include="Data\Northwind.dbml.layout">
       <DependentUpon>Northwind.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">

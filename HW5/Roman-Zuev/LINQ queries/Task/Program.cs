@@ -20,16 +20,17 @@ namespace SampleQueries
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main(string[] args)
+		static void Main()
 		{
 			List<SampleHarness> harnesses = new List<SampleHarness>();
 
 			
 			LinqSamples linqHarness = new LinqSamples();
-            LinqToSqlSamples linqToSql = new LinqToSqlSamples();
+            LinqToSqlSamples linqToSqlHarness = new LinqToSqlSamples();
 
             harnesses.Add(linqHarness);
-            harnesses.Add(linqToSql);
+            harnesses.Add(linqToSqlHarness);
+            
 
             Application.EnableVisualStyles();
 				

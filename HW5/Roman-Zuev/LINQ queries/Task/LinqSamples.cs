@@ -18,48 +18,48 @@ using Task.Data;
 
 namespace SampleQueries
 {
-	[Title("LINQ Module")]
-	[Prefix("Linq")]
-	public class LinqSamples : SampleHarness
-	{
+    [Title("LINQ Module")]
+    [Prefix("Linq")]
+    public class LinqSamples : SampleHarness
+    {
 
-		private DataSource dataSource = new DataSource();
+        private DataSource dataSource = new DataSource();
 
-		[Category("Restriction Operators")]
-		[Title("Where - Task 1")]
-		[Description("This sample uses the where clause to find all elements of an array with a value less than 5.")]
-		public void Linq1()
-		{
-			int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+        [Category("Restriction Operators")]
+        [Title("Where - Task 1")]
+        [Description("This sample uses the where clause to find all elements of an array with a value less than 5.")]
+        public void Linq1()
+        {
+            int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
-			var lowNums =
-				from num in numbers
-				where num < 5
-				select num;
+            var lowNums =
+                from num in numbers
+                where num < 5
+                select num;
 
-			Console.WriteLine("Numbers < 5:");
-			foreach (var x in lowNums)
-			{
-				Console.WriteLine(x);
-			}
-		}
+            Console.WriteLine("Numbers < 5:");
+            foreach (var x in lowNums)
+            {
+                Console.WriteLine(x);
+            }
+        }
 
-		[Category("Restriction Operators")]
-		[Title("Where - Task 2")]
-		[Description("This sample return return all presented in market products")]
+        [Category("Restriction Operators")]
+        [Title("Where - Task 2")]
+        [Description("This sample return return all presented in market products")]
 
-		public void Linq2()
-		{
-			var products =
-				from p in dataSource.Products
-				where p.UnitsInStock > 0
-				select p;
+        public void Linq2()
+        {
+            var products =
+                from p in dataSource.Products
+                where p.UnitsInStock > 0
+                select p;
 
-			foreach (var p in products)
-			{
-				ObjectDumper.Write(p);
-			}
-		}
+            foreach (var p in products)
+            {
+                ObjectDumper.Write(p);
+            }
+        }
 
         [Category("LINQ Queries")]
         [Title("Task 1")]
@@ -69,10 +69,10 @@ namespace SampleQueries
         public void Linq001()
         {
             decimal x = 30000;
-            
+
             var customers = dataSource.Customers.Where(c => c.Orders.Sum(o => o.Total) > x)
                 .Select(c => c.CompanyName);
-            
+
             Console.WriteLine($"{Environment.NewLine}Customers with total orders > {x} :");
             foreach (var i in customers)
             {
@@ -116,11 +116,11 @@ namespace SampleQueries
                 }
             }
 
-                var clients =
-                from customer in dataSource.Customers
-                join sup in dataSource.Suppliers on customer.City equals sup.City into supGroup
-                from sup2 in supGroup
-                select new { Customer = customer.CompanyName, customer.City, customer.Country, Suppliers = supGroup};
+            var clients =
+            from customer in dataSource.Customers
+            join sup in dataSource.Suppliers on customer.City equals sup.City into supGroup
+            from sup2 in supGroup
+            select new { Customer = customer.CompanyName, customer.City, customer.Country, Suppliers = supGroup };
 
             Console.WriteLine($"{Environment.NewLine}Customers and Suppliers in the same city: ");
             foreach (var i in clients)
@@ -187,7 +187,7 @@ namespace SampleQueries
                 from customer in dataSource.Customers
                 let orders = customer.Orders
                 where orders.Length >= 1
-                orderby orders.Min(o => o.OrderDate).Year, orders.Min(o => o.OrderDate).Month, 
+                orderby orders.Min(o => o.OrderDate).Year, orders.Min(o => o.OrderDate).Month,
                 orders.Sum(s => s.Total), customer.CompanyName
                 select new { customer.CompanyName, FirstOrder = customer.Orders.Min(o => o.OrderDate).ToShortDateString() };
 
@@ -253,8 +253,8 @@ namespace SampleQueries
                                {
                                    AreInstock = innerGroup.Key,
                                    products = from o in innerGroup
-                                             orderby o.UnitPrice
-                                             select o.ProductName
+                                              orderby o.UnitPrice
+                                              select o.ProductName
                                }
 
                 };
@@ -265,7 +265,7 @@ namespace SampleQueries
                 Console.WriteLine($"{Environment.NewLine}Products category: {i.Category}");
                 foreach (var j in i.Products)
                 {
-                    Console.WriteLine(j.AreInstock? $"{Environment.NewLine}Products in stock:" : 
+                    Console.WriteLine(j.AreInstock ? $"{Environment.NewLine}Products in stock:" :
                         $"{Environment.NewLine}Products out of stock:");
                     foreach (var k in j.products)
                     {
@@ -307,7 +307,7 @@ namespace SampleQueries
         {
             var averages =
                 from customers in dataSource.Customers
-                where customers.Orders.Length>0
+                where customers.Orders.Length > 0
                 orderby customers.City
                 group
                      from o in customers.Orders
@@ -364,7 +364,7 @@ namespace SampleQueries
                 where customers.Orders.Length > 0
                 from orders in customers.Orders
                 orderby orders.OrderDate.Date
-                group orders.OrderID by new {year = orders.OrderDate.Year, month = orders.OrderDate.Month} 
+                group orders.OrderID by new { year = orders.OrderDate.Year, month = orders.OrderDate.Month }
                 into YearMonthActivity
                 select new
                 {
@@ -377,7 +377,7 @@ namespace SampleQueries
             foreach (var i in monthActivity)
             {
                 Console.WriteLine($"{Environment.NewLine}{mfi.GetMonthName(i.Month)}");
-                Console.WriteLine(i.Activity); 
+                Console.WriteLine(i.Activity);
             }
 
             Console.WriteLine($"{Environment.NewLine}Year activity: ");
