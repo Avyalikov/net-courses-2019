@@ -340,6 +340,9 @@ namespace SampleQueries
 
             foreach (var city in cities)
             {
+                string cityName = city.numberOfClients.Select(c => c.City).FirstOrDefault();
+                string countryName = city.numberOfClients.Select(c => c.Country).FirstOrDefault();
+
                 // Number of all orders in this city
                 var numberOfOrders = city.numberOfClients.Select(n => n.numberOfOrders).Sum();
 
@@ -353,7 +356,7 @@ namespace SampleQueries
                  */
                 var averageProfitabilit = city.numberOfClients.Select(n => n.sumOrderPrices).Sum() / city.numberOfClients.Count();
 
-                ObjectDumper.Write($"City: {city.numberOfClients.Select(c => c.City)}({city.numberOfClients.Select(c => c.Country)}), Average city profitability: {Math.Round(averageProfitabilit, 2)}, Average intensity: {averageIntensity}");
+                ObjectDumper.Write($"City: {cityName}({countryName}), Average city profitability: {Math.Round(averageProfitabilit, 2)}, Average intensity: {averageIntensity}");
             }
 
             //// 1st ver.
@@ -398,7 +401,7 @@ namespace SampleQueries
             Dictionary<int, int> yearsStatistic;
             Dictionary<string, int> yearsAndMonthsStatistic;
 
-            var clients = dataSource.Customers.Select(c => 
+            var clients = dataSource.Customers.Select(c =>
             new {
                 c.CompanyName,
                 ordersDates = c.Orders.Select(o => o.OrderDate)
