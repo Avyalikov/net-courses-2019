@@ -82,7 +82,7 @@ namespace SampleQueries
                 || System.Data.Linq.SqlClient.SqlMethods.Like(c.PostalCode.Trim(), "%[^0-9]%")
                 || c.Region == null                
                 || !System.Data.Linq.SqlClient.SqlMethods.Like(c.Phone.Trim(), "(%") // check that 1st symbol in Phone is '('
-                 select c).ToList();
+                 select c);
 
             // ObjectDumper.Write(clients.Count);
             foreach (var client in clients)

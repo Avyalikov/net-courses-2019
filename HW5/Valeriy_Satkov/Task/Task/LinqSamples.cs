@@ -326,33 +326,64 @@ namespace SampleQueries
             /* A9
              * Рассчитайте среднюю прибыльность каждого города (среднюю сумму заказа по всем клиентам из данного города) и среднюю интенсивность (среднее количество заказов, приходящееся на клиента из каждого города)
              */
-            var cities =
-                (from c in dataSource.Customers
-                select new { c.City, c.Country }).Distinct();
+            var cities = dataSource.Customers.
+                Select(c => new { c.City, c.Country }).Distinct().
+                Select(c => new {
+                    numberOfClients = dataSource.Customers.Where(cstmr => cstmr.City == c.City && cstmr.Country == c.Country).
+                    Select(cstmr => new {
+                        numberOfOrders = cstmr.Orders.Length,
+                        sumOrderPrices = cstmr.Orders.Select(p => p.Total).Sum(),
+                        cstmr.City,
+                        cstmr.Country
+                    })
+                });
 
             foreach (var city in cities)
             {
-                // Number of all clients in this city
-                var numberOfClients =
-                    from c in dataSource.Customers
-                    where c.City == city.City && c.Country == city.Country
-                    select new { numberOfOrders = c.Orders.Length, sumOrderPrices = c.Orders.Select(p => p.Total).Sum() };
-
                 // Number of all orders in this city
-                var numberOfOrders = numberOfClients.Select(n => n.numberOfOrders).Sum();
+                var numberOfOrders = city.numberOfClients.Select(n => n.numberOfOrders).Sum();
 
                 /* Средняя интенсивность (среднее количество заказов, приходящееся на клиента из этого города)
                  * Average intensity = Number of all orders in this city / Number of all clients in this city
                  */
-                var averageIntensity = numberOfOrders / numberOfClients.Count();
+                var averageIntensity = numberOfOrders / city.numberOfClients.Count();
 
                 /* Средняя прибыльность города (средняя сумма заказа по всем клиентам из данного города)
                  * Average city profitability = Total value of all orders in this city / Number of all customers in this city
                  */
-                var averageProfitabilit = numberOfClients.Select(n => n.sumOrderPrices).Sum() / numberOfClients.Count();
+                var averageProfitabilit = city.numberOfClients.Select(n => n.sumOrderPrices).Sum() / city.numberOfClients.Count();
 
-                ObjectDumper.Write($"City: {city.City}({city.Country}), Average city profitability: {Math.Round(averageProfitabilit, 2)}, Average intensity: {averageIntensity}");
+                ObjectDumper.Write($"City: {city.numberOfClients.Select(c => c.City)}({city.numberOfClients.Select(c => c.Country)}), Average city profitability: {Math.Round(averageProfitabilit, 2)}, Average intensity: {averageIntensity}");
             }
+
+            //// 1st ver.
+            //var cities =
+            //    (from c in dataSource.Customers
+            //    select new { c.City, c.Country }).Distinct();
+
+            //foreach (var city in cities)
+            //{
+            //    // Number of all clients in this city
+            //    var numberOfClients =
+            //        from c in dataSource.Customers
+            //        where c.City == city.City && c.Country == city.Country
+            //        select new { numberOfOrders = c.Orders.Length, sumOrderPrices = c.Orders.Select(p => p.Total).Sum() };
+
+            //    // Number of all orders in this city
+            //    var numberOfOrders = numberOfClients.Select(n => n.numberOfOrders).Sum();
+
+            //    /* Средняя интенсивность (среднее количество заказов, приходящееся на клиента из этого города)
+            //     * Average intensity = Number of all orders in this city / Number of all clients in this city
+            //     */
+            //    var averageIntensity = numberOfOrders / numberOfClients.Count();
+
+            //    /* Средняя прибыльность города (средняя сумма заказа по всем клиентам из данного города)
+            //     * Average city profitability = Total value of all orders in this city / Number of all customers in this city
+            //     */
+            //    var averageProfitabilit = numberOfClients.Select(n => n.sumOrderPrices).Sum() / numberOfClients.Count();
+
+            //    ObjectDumper.Write($"City: {city.City}({city.Country}), Average city profitability: {Math.Round(averageProfitabilit, 2)}, Average intensity: {averageIntensity}");
+            //}            
         }
 
         [Category("HW5 Linq queries")]
