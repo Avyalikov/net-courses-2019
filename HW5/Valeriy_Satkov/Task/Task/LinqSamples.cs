@@ -219,7 +219,7 @@ namespace SampleQueries
              */
             var clients =
                 from c in dataSource.Customers
-                let ParsedPostalCode = 0 // this variable create only for int.TryParse method correctly work
+                // let ParsedPostalCode = 0 // this variable create only for int.TryParse method correctly work
                 where c.PostalCode == null 
                 || int.TryParse(c.PostalCode.Trim(), out int ParsedPostalCode) == false 
                 || c.Region == null
