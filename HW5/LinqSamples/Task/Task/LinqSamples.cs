@@ -47,7 +47,8 @@
             var customers =
                 from cust in this.dataSource.Customers
                 join supp in this.dataSource.Suppliers
-                on cust.City equals supp.City  into custSupp
+                on new { cust.City, cust.Country } equals new { supp.City, supp.Country } into custSupp
+                where custSupp.Any()
                 select new { cust.CompanyName, custSupp };
 
             foreach (var customer in customers)
@@ -59,10 +60,11 @@
             ObjectDumper.Write("*****************************");
             var customer2 = 
                 from cust in this.dataSource.Customers
-                group cust by cust.City into cityGroup
+                group cust by new { cust.City, cust.Country } into cityGroup
                 select new
                 {
-                    City = cityGroup.Key,
+                    Country = cityGroup.Key.Country,
+                    City = cityGroup.Key.City,
                     Customer =
                         from cust in cityGroup
                         select new
@@ -70,11 +72,11 @@
                             Name = cust.CompanyName,
                             Supplier =
                                 from supp in this.dataSource.Suppliers
-                                where supp.City == cityGroup.Key
-                                    select new
-                                    {
-                                        supp.SupplierName
-                                    }
+                                where new { supp.City, supp.Country } == cityGroup.Key
+                                select new
+                                {
+                                    supp.SupplierName
+                                }
                         }
                 };
 
