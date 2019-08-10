@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Linq.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -347,7 +348,7 @@ namespace SampleQueries
 
         public void Linq006()
         {
-            var clients = dataSource.Customers.Where(x => x.Region == null || !x.Phone.StartsWith("(") || !x.PostalCode.Contains("%[0-9]%")).
+            var clients = dataSource.Customers.Where(x => x.Region == null || !x.Phone.StartsWith("(") || !SqlMethods.Like(x.PostalCode, "%[^0-9]%")).
                 Select(x=>new { x.CustomerID, x.ContactName, x.Region, x.Phone, x.PostalCode });
 
             foreach (var c in clients)
