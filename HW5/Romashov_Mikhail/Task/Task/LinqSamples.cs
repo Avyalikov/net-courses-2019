@@ -66,14 +66,14 @@ namespace SampleQueries
 
         public void Linq1()
         {
-            int someValueX = 10;
+            decimal someValueX = 34563.0M;
             var customers =
                 dataSource.Customers
-                    .Where(o => o.Orders.Count() > someValueX)
+                    .Where(o => o.Orders.Sum(t => t.Total) > someValueX)
                     .Select(c => new
                     {
                         customers = c.CustomerID,
-                        total = c.Orders.Count()
+                        total = c.Orders.Sum(t => t.Total)
                     }
                     );
 
@@ -83,7 +83,7 @@ namespace SampleQueries
                 ObjectDumper.Write("Name: " + customer.customers + " Total orders = " + customer.total);
             }
 
-            someValueX = 25;
+            someValueX = 55563.0M;
             ObjectDumper.Write("Value to check: " + someValueX);
             foreach (var customer in customers)
             {
@@ -133,6 +133,7 @@ namespace SampleQueries
                             country = c.Country
                         }).GroupBy(c => c.name);
 
+
             foreach (var p in customers)
             {
                 ObjectDumper.Write(p.Key);
@@ -178,15 +179,14 @@ namespace SampleQueries
                 .Select(c => new
                 {
                     customers = c.CustomerID,
-                    firstOrderMonth = c.Orders.Min(m => m.OrderDate.Month),
-                    firstOrderYear = c.Orders.Min(m => m.OrderDate.Year)
+                    firstOrder = c.Orders.Min(m => m.OrderDate),
                 }
                 );
 
             foreach (var customer in customers)
             {
-                ObjectDumper.Write("Name: " + customer.customers + " Month = " + months[customer.firstOrderMonth - 1] +
-                    " Year = " + customer.firstOrderYear);
+                ObjectDumper.Write("Name: " + customer.customers + " Month = " + months[customer.firstOrder.Month - 1] +
+                    " Year = " + customer.firstOrder.Year);
             }
         }
 
