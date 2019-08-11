@@ -188,8 +188,8 @@ namespace SampleQueries
                 let orders = customer.Orders
                 where orders.Length >= 1
                 orderby orders.Min(o => o.OrderDate).Year, orders.Min(o => o.OrderDate).Month,
-                orders.Sum(s => s.Total), customer.CompanyName
-                select new { customer.CompanyName, FirstOrder = customer.Orders.Min(o => o.OrderDate).ToShortDateString() };
+                orders.Sum(s => s.Total) descending, customer.CompanyName
+                select new { customer.CompanyName, FirstOrder = customer.Orders.Min(o => o.OrderDate).ToShortDateString(), Total = orders.Sum(s => s.Total) };
 
             Console.WriteLine($"{Environment.NewLine}Customers and theirs first orders sorted: ");
             foreach (var i in clients)
