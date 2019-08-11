@@ -1,17 +1,18 @@
-﻿using SampleSupport;
-using System;
-using System.Data.Linq.SqlClient;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Task;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="LinqToSQLSamples.cs" company="AVLozhechkin">
+//     Copyright
+// </copyright>
+//-----------------------------------------------------------------------
 namespace SampleQueries
 {
+    using System.Data.Linq.SqlClient;
+    using System.Linq;
+    using SampleSupport;
+    using Task;
     [Title("LINQToSql Module")]
     [Prefix("Linq")]
     public class LinqToSQLSamples : SampleHarness
     {
-
         private NorthwindDBDataContext dataSource = new NorthwindDBDataContext();
 
         [Category("LinqToSQL queries")]
@@ -19,15 +20,14 @@ namespace SampleQueries
         [Description(@"Выдайте список всех клиентов, чей суммарный оборот (сумма всех заказов) 
 превосходит некоторую величину X. Продемонстрируйте выполнение запроса с различными X 
 (подумайте, можно ли обойтись без копирования запроса несколько раз)")]
-
         public void LinqToSQLTask1()
         {
             int x = 20000;
+
             // int x = 15000;
             // int x = 10000;
-
             var customers =
-                from c in dataSource.Customers
+                from c in this.dataSource.Customers
                 where c.Orders.Sum(price => price.Order_Details.Sum(ord => ord.UnitPrice * ord.Quantity * (decimal)(1 - ord.Discount))) > x
                 select c.CompanyName;
 
@@ -44,7 +44,7 @@ namespace SampleQueries
         public void LinqToSQLTask3()
         {
             int x = 1000;
-            var customers = dataSource.Customers
+            var customers = this.dataSource.Customers
                 .Where(c => c.Orders.Any(t => t.Order_Details.Sum(ord => ord.UnitPrice * ord.Quantity * (decimal)(1 - ord.Discount)) > x))
                 .Select(c => c.CompanyName).Distinct();
 
@@ -54,7 +54,6 @@ namespace SampleQueries
             }
         }
 
-
         [Category("LinqToSQL queries")]
         [Title("Task 6")]
         [Description(@"Укажите всех клиентов, у которых указан нецифровой почтовый код или не заполнен 
@@ -63,7 +62,7 @@ namespace SampleQueries
         public void LinqToSQLTask6()
         {
             string regex = @"^[\d -]+$";
-            var customers = dataSource.Customers
+            var customers = this.dataSource.Customers
                 .Where(c => c.PostalCode != null && !SqlMethods.Like(c.PostalCode, regex) | (c.Region == null) | (!c.Phone.StartsWith("(")))
                 .Select(c => new { c.CompanyName, c.PostalCode, c.Region, c.Phone });
 

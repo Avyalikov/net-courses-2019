@@ -1,24 +1,20 @@
-﻿// Copyright © Microsoft Corporation.  All Rights Reserved.
-// This code released under the terms of the 
-// Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
-//
-//Copyright (C) Microsoft Corporation.  All rights reserved.
-
-using SampleSupport;
-using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Task.Data;
-
-// Version Mad01
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="LinqSamples.cs" company="AVLozhechkin">
+//     Copyright
+// </copyright>
+//-----------------------------------------------------------------------
 namespace SampleQueries
 {
+    using System;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using SampleSupport;
+    using Task.Data;
+
     [Title("LINQ Module")]
     [Prefix("Linq")]
     public class LinqSamples : SampleHarness
     {
-
         private DataSource dataSource = new DataSource();
 
         [Category("Restriction Operators")]
@@ -47,7 +43,7 @@ namespace SampleQueries
         public void Linq2()
         {
             var products =
-                from p in dataSource.Products
+                from p in this.dataSource.Products
                 where p.UnitsInStock > 0
                 select p;
 
@@ -66,12 +62,11 @@ namespace SampleQueries
         public void LinqTask1()
         {
             int x = 20000;
+
             // int x = 15000;
             // int x = 10000;
-
-
             var customers =
-                from c in dataSource.Customers
+                from c in this.dataSource.Customers
                 where c.Orders.Select(price => price.Total).Sum() > x
                 select c.CompanyName;
 
@@ -89,8 +84,8 @@ namespace SampleQueries
 
         public void LinqTask2WithoutGrouping()
         {
-            var query = from c in dataSource.Customers
-                        join s in dataSource.Suppliers on new { c.Country, c.City } equals new { s.Country, s.City }
+            var query = from c in this.dataSource.Customers
+                        join s in this.dataSource.Suppliers on new { c.Country, c.City } equals new { s.Country, s.City }
                         select new { c.CompanyName, c.Country, c.City, s.SupplierName };
 
             foreach (var q in query)
@@ -107,8 +102,8 @@ namespace SampleQueries
 
         public void LinqTask2WithGrouping()
         {
-            var query = from c in dataSource.Customers
-                        join s in dataSource.Suppliers on new { c.Country, c.City } equals new { s.Country, s.City }
+            var query = from c in this.dataSource.Customers
+                        join s in this.dataSource.Suppliers on new { c.Country, c.City } equals new { s.Country, s.City }
                         group c by new { c.Country, c.City, c.CompanyName, s.SupplierName } into g
                         select g.Key;
 
@@ -125,7 +120,7 @@ namespace SampleQueries
         public void LinqTask3()
         {
             int x = 1000;
-            var customers = dataSource.Customers.Where(c => c.Orders.Any(t => t.Total > x)).Select(c => c.CompanyName).Distinct();
+            var customers = this.dataSource.Customers.Where(c => c.Orders.Any(t => t.Total > x)).Select(c => c.CompanyName).Distinct();
 
             foreach (var c in customers)
             {
@@ -140,7 +135,7 @@ namespace SampleQueries
 
         public void LinqTask4()
         {
-            var customers = dataSource.Customers
+            var customers = this.dataSource.Customers
                 .Select(c => new
                 {
                     c.CompanyName,
@@ -164,7 +159,7 @@ namespace SampleQueries
 
         public void LinqTask5()
         {
-            var customers = dataSource.Customers
+            var customers = this.dataSource.Customers
                 .Select(c => new
                 {
                     c.CompanyName,
@@ -191,8 +186,8 @@ namespace SampleQueries
         public void LinqTask6()
         {
             Regex regex = new Regex(@"^[\d -]+$");
-            var customers = dataSource.Customers
-                .Where(c => c.PostalCode != null && !(regex.IsMatch(c.PostalCode)) | (c.Region == null) | (!c.Phone.StartsWith("(")))
+            var customers = this.dataSource.Customers
+                .Where(c => c.PostalCode != null && !regex.IsMatch(c.PostalCode) | (c.Region == null) | (!c.Phone.StartsWith("(")))
                 .Select(c => new { c.CompanyName, c.PostalCode, c.Region, c.Phone });
 
             foreach (var c in customers)
@@ -207,15 +202,21 @@ namespace SampleQueries
 внутри последней группы отсортируйте по стоимости")]
         public void LinqTask7()
         {
-            
-            var products = dataSource.Products
+            var products = this.dataSource.Products
                 .GroupBy(p => p.Category)
-                .Select(c => new { Category = c.Key, Stocks = c.GroupBy(s => s.UnitsInStock)
-                .Select(e => new { Left = e.Key == 0 ? "Sold" : $"{e.Key} species left", Prices=e
-                .Select(pr => new { Name=pr.ProductName, Price = pr.UnitPrice }).OrderBy(pr=> pr.Price) }) });
-            
-                ObjectDumper.Write(products, 2);
-            
+                .Select(c => new
+                {
+                    Category = c.Key,
+                    Stocks = c.GroupBy(s => s.UnitsInStock)
+                .Select(e => new
+                {
+                    Left = e.Key == 0 ? "Sold" : $"{e.Key} species left",
+                    Prices = e
+                .Select(pr => new { Name = pr.ProductName, Price = pr.UnitPrice }).OrderBy(pr => pr.Price)
+                })
+                });
+
+            ObjectDumper.Write(products, 2);
         }
 
         [Category("Linq queries")]
@@ -224,13 +225,11 @@ namespace SampleQueries
         public void LinqTask8()
         {
             decimal[] ranges = { 0M, 10M, 20M };
-            var products = dataSource.Products
+            var products = this.dataSource.Products
                 .GroupBy(p => new { Price = (p.UnitPrice <= ranges[1]) ? "Cheap" : (p.UnitPrice < ranges[2]) ? "Medium price" : "Expensive" })
-                .Select(p => new { PriceGroup=p.Key.Price , Product=p.Select(g => new { Name=g.ProductName, Price=g.UnitPrice })});
-
+                .Select(p => new { PriceGroup = p.Key.Price, Product = p.Select(g => new { Name = g.ProductName, Price = g.UnitPrice }) });
 
             ObjectDumper.Write(products, 1);
-            
         }
 
         [Category("Linq queries")]
@@ -239,11 +238,16 @@ namespace SampleQueries
 и среднюю интенсивность (среднее количество заказов, приходящееся на клиента из каждого города)")]
         public void LinqTask9()
         {
-            var cities = dataSource.Customers.GroupBy(c => c.City)
-                .Select(c => new { City = c.Key, OrdersSum = c
-                .Select(o => o.Orders.Sum(t => t.Total)), OrderNumber = c
-                .Select(o => o.Orders.Count()) })
-                .Select(c => new { c.City, Sum=c.OrdersSum.Average(), AverageNumber=c.OrderNumber.Average()}) ;
+            var cities = this.dataSource.Customers.GroupBy(c => c.City)
+                .Select(c => new
+                {
+                    City = c.Key,
+                    OrdersSum = c
+                .Select(o => o.Orders.Sum(t => t.Total)),
+                    OrderNumber = c
+                .Select(o => o.Orders.Count())
+                })
+                .Select(c => new { c.City, Sum = c.OrdersSum.Average(), AverageNumber = c.OrderNumber.Average() });
 
             ObjectDumper.Write(cities, 1);
         }
@@ -254,17 +258,17 @@ namespace SampleQueries
 (без учета года), статистику по годам, по годам и месяцам (т.е. когда один месяц в разные годы имеет своё значение).")]
         public void LinqTask10()
         {
-            var staticticByMonths = dataSource.Customers
+            var staticticByMonths = this.dataSource.Customers
                 .SelectMany(o => o.Orders.GroupBy(g => g.OrderDate)
                 .Select(s => s.Key)).GroupBy(g => g.Month)
-                .Select(s => new { s.Key, Count=s.Count() }).OrderBy(o => o.Key);
+                .Select(s => new { s.Key, Count = s.Count() }).OrderBy(o => o.Key);
 
-            var statisticByYears = dataSource.Customers
+            var statisticByYears = this.dataSource.Customers
                 .SelectMany(o => o.Orders.GroupBy(g => g.OrderDate)
                 .Select(s => s.Key)).GroupBy(g => g.Year)
                 .Select(s => new { s.Key, Count = s.Count() }).OrderBy(o => o.Key);
 
-            var statisticByMonthsAndYears = dataSource.Customers
+            var statisticByMonthsAndYears = this.dataSource.Customers
                 .SelectMany(o => o.Orders.GroupBy(g => g.OrderDate)
                 .Select(s => s.Key)).GroupBy(g => new { g.Month, g.Year })
                 .Select(s => new { s.Key.Month, s.Key.Year, Count = s.Count() }).OrderBy(o => o.Year).ThenBy(o => o.Month);
