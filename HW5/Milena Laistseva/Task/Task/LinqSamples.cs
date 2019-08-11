@@ -275,76 +275,62 @@ namespace SampleQueries
         public void LinqA10()
         {
             var statisticByMonths = dataSource.Customers.
-                Select(c => new
+                SelectMany(o => o.Orders.Select(d => d.OrderDate)).
+                GroupBy(m => m.Month).
+                Select(s => new
                 {
-                    Customer = c.CompanyName,
-                    OrdersByMonth = c.Orders.
-                    GroupBy(o => o.OrderDate.Month).
-                    Select(g => new
-                    {
-                        Month = g.Key,
-                        Total = g.Count()
-                    })
-                });
+                    Month = s.Key,
+                    Total = s.Count()
+                }).OrderBy(m => m.Month);
 
             ObjectDumper.Write("Statistics by months");
             foreach (var i in statisticByMonths)
-            {
-                ObjectDumper.Write(i.Customer);
-                foreach (var month in i.OrdersByMonth)
-                {
-                    ObjectDumper.Write(month);
-                }
+            {              
+                    ObjectDumper.Write(i);                
             }
 
-            var statisticByYears = dataSource.Customers.
-                Select(c => new
-                {
-                    Customer = c.CompanyName,
-                    OrdersByYear = c.Orders.
-                    GroupBy(o => o.OrderDate.Year).
-                    Select(g => new
-                    {
-                        Year = g.Key,
-                        Total = g.Count()
-                    })
-                });
+            var averageMonth = statisticByMonths.Average(x => x.Total);
+            ObjectDumper.Write($"Average amount of orders per months: {averageMonth}");
 
-            ObjectDumper.Write("____________________________");
+            var statisticByYears = dataSource.Customers.
+                SelectMany(o => o.Orders.Select(d => d.OrderDate)).
+                GroupBy(m => m.Year).
+                Select(s => new
+                {
+                    Year = s.Key,
+                    Total = s.Count()
+                }).OrderBy(m => m.Year);
+
+            ObjectDumper.Write("___________________________");
             ObjectDumper.Write("Statistics by years");
             foreach (var i in statisticByYears)
             {
-                ObjectDumper.Write(i.Customer);
-                foreach (var year in i.OrdersByYear)
-                {
-                    ObjectDumper.Write(year);
-                }
+                ObjectDumper.Write(i);
             }
 
-            var statisticByYearsAndMonths = dataSource.Customers.
-                Select(c => new
-                {
-                    Customer = c.CompanyName,
-                    OrdersByYearAndMonths = c.Orders.
-                    GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month }).
-                    Select(g => new
-                    {
-                        Year = g.Key.Year,
-                        Month = g.Key.Month,
-                        Total = g.Count()
-                    })
-                });
+            var averageYear = statisticByYears.Average(x => x.Total);
+            ObjectDumper.Write($"Average amount of orders per years: {averageYear}");
 
-            ObjectDumper.Write("____________________________");
-            ObjectDumper.Write("Statistics by years and months");
-            foreach (var i in statisticByYearsAndMonths)
+
+            var statisticByMonthsAndYears = dataSource.Customers.
+                SelectMany(o => o.Orders.Select(d => d.OrderDate)).
+                GroupBy(d => new { d.Year, d.Month }).
+                Select(s => new
+                {
+                    Month = s.Key.Month,
+                    Year = s.Key.Year,
+                    Total = s.Count()
+                }).OrderBy(y => y.Year).ThenBy(m => m.Month);
+
+            ObjectDumper.Write("___________________________");
+            ObjectDumper.Write("Statistics by months and years");
+            foreach (var i in statisticByMonthsAndYears)
             {
-                ObjectDumper.Write(i.Customer);
-                foreach (var date in i.OrdersByYearAndMonths)
-                {
-                    ObjectDumper.Write(date);
-                }
+                ObjectDumper.Write(i);
             }
+
+            var averageMonthAndYear = statisticByMonthsAndYears.Average(x => x.Total);
+            ObjectDumper.Write($"Average amount of orders: {averageMonthAndYear}");
         }
         
     }
