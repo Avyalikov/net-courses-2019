@@ -37,7 +37,7 @@ namespace SampleQueries
             decimal v = 10000;
             var customers =
                  from c in dataSource.Customers
-                 where c.Orders.Sum(o => o.Total)>v
+                 where c.Orders.Sum(o => o.Total) > v
                  select c;
 
             foreach (var c in customers)
@@ -47,7 +47,7 @@ namespace SampleQueries
 
         }
 
-       
+
         [Category("Restriction Operators")]
         [Title("Where - Task 2")]
         [Description("This sample returns suppliers foreach customer located in the same country and city")]
@@ -63,7 +63,42 @@ namespace SampleQueries
 
             foreach (var c in customersAndSuppliers)
             {
-                ObjectDumper.Write(c);
+                ObjectDumper.Write(c, 2);
+            }
+
+        }
+
+        [Category("Restriction Operators")]
+        [Title("Where - Task 2a")]
+        [Description("This sample returns suppliers foreach customer located in the same country and city with grouping")]
+
+        public void Linq002a()
+        {
+            var customersAndSuppliers =
+                 from cust in dataSource.Customers
+                 join sup in dataSource.Suppliers
+                 on cust.Country equals sup.Country
+                 where cust.City == sup.City
+                 select new { cust.CompanyName, sup.SupplierName, cust.Country, cust.City };
+
+            var grouped = from c in customersAndSuppliers
+                          group c by c.City into cities
+                          select new
+                          {
+                              cities.Key,
+                              CompanySuppliers = from g in cities
+                                                 select new
+                                                 {
+                                                     g.CompanyName,
+                                                     g.SupplierName
+                                                 }
+                          };
+
+
+
+            foreach (var c in grouped)
+            {
+                ObjectDumper.Write(c, 2);
             }
 
         }
@@ -123,7 +158,7 @@ namespace SampleQueries
             var customers =
                  from c in dataSource.Customers
                  where
-                 notnumeric.IsMatch(c.PostalCode, 0)
+                 c.PostalCode == null ? false : notnumeric.IsMatch(c.PostalCode, 0)
                  || c.Region is null
                  || !c.Phone.StartsWith("(")
                  select new { c.CompanyName, c.PostalCode, c.Region, c.Phone };
@@ -148,7 +183,7 @@ namespace SampleQueries
              cust.CompanyName,
              Year = (cust.Orders.First().OrderDate.Year),
              Month = (cust.Orders.First().OrderDate.Month),
-             Total= cust.Orders.Sum(or=>or.Total)
+             Total = cust.Orders.Sum(or => or.Total)
          };
             var sorted = customers.OrderBy(o => o.Year).ThenBy(o => o.Month).ThenByDescending(o => o.Total).ThenBy(c => c.CompanyName);
 
@@ -156,7 +191,7 @@ namespace SampleQueries
             foreach (var c in sorted)
             {
                 if (c != null)
-                    ObjectDumper.Write(c.CompanyName + "\t" + c.Year + "\t" + c.Month+ "\t" + c.Total);
+                    ObjectDumper.Write(c.CompanyName + "\t" + c.Year + "\t" + c.Month + "\t" + c.Total);
             }
         }
 
@@ -180,18 +215,18 @@ namespace SampleQueries
                         StockGroup = stockGroups.Key,
                         Product =
                          (from prod in stockGroups
-                                 orderby prod.UnitPrice
-                                 select new { prod.ProductName, prod.UnitPrice }
+                          orderby prod.UnitPrice
+                          select new { prod.ProductName, prod.UnitPrice }
                           )
                     })
            };
             ObjectDumper.Write(queryGroup, 2);
         }
 
-    
 
 
-    [Category("Grouping Operators")]
+
+        [Category("Grouping Operators")]
         [Title("Where - Task 8")]
         [Description("This sample returns products grouped by ranges")]
 
@@ -203,58 +238,61 @@ namespace SampleQueries
             ranges.Add("average", Math.Round(avgPrice * (decimal)1.33));
             ranges.Add("expensive", Math.Round(dataSource.Products.Max(p => p.UnitPrice)));
 
-            var grouped = dataSource.Products.Select(p => new { p.ProductName, p.UnitPrice }).OrderBy(p => p.UnitPrice).GroupBy(x => ranges.FirstOrDefault(r => r.Value > x.UnitPrice)).Select(gProduct => new { gProduct.Key, gProduct  });
+            var grouped = dataSource.Products.Select(p => new { p.ProductName, p.UnitPrice }).OrderBy(p => p.UnitPrice).GroupBy(x => ranges.FirstOrDefault(r => r.Value > x.UnitPrice)).Select(gProduct => new { gProduct.Key, gProduct });
             ObjectDumper.Write(grouped, 2);
         }
 
-    
 
-    [Category("Grouping Operators")]
-    [Title("Where - Task 9")]
-    [Description("This sample return return all presented in market products")]
 
-    public void Linq009()
-    {
+        [Category("Grouping Operators")]
+        [Title("Where - Task 9")]
+        [Description("This sample return average income statistics ")]
+
+        public void Linq009()
+        {
             var sumbycity = from ord in dataSource.Customers.Where(o => o.Orders.Any())
-                            select new {
+                            select new
+                            {
                                 ord.City,
-                                Totals=ord.Orders.Sum(o=>o.Total),
-                                Amount=ord.Orders.Count()};
+                                Totals = ord.Orders.Sum(o => o.Total),
+                                Amount = ord.Orders.Count()
+                            };
 
             var grouped = from q in sumbycity
                           group q by q.City into cities
-                          select new {
+                          select new
+                          {
                               City = cities.Key,
-                              Totals=cities.Sum(c=>c.Totals),
-                              Amount= cities.Sum(c => c.Amount),
+                              Totals = cities.Sum(c => c.Totals),
+                              Amount = cities.Sum(c => c.Amount),
                           };
-            
+
 
             foreach (var c in grouped)
             {
                 if (c != null)
                     ObjectDumper.Write(c);
             }
-        
-    }
+
+        }
 
         [Category("Grouping Operators")]
         [Title("Where - Task 10")]
-        [Description("This sample return return all presented in market products")]
+        [Description("This sample return activity statistics")]
 
         public void Linq010()
         {
-            
-            var ordersstatisticsm = from c in dataSource.Customers.SelectMany(o => o.Orders.Select(od => od.OrderDate)).OrderBy(m=>m.Month).GroupBy(m => m.Month)
-                             select new { c.Key, AverageOrdersPerMonth = (c.Count() / c.Select(oy => oy.Year).Distinct().Count()) };
-          
+
+            var ordersstatisticsm = from c in dataSource.Customers.SelectMany(o => o.Orders.Select(od => od.OrderDate)).OrderBy(m => m.Month).GroupBy(m => m.Month)
+                                    select new { c.Key, AverageOrdersPerMonth = (c.Count() / c.Select(oy => oy.Year).Distinct().Count()) };
+
             foreach (var m in ordersstatisticsm)
             {
                 ObjectDumper.Write(m);
             }
 
-            var ordersstatisticsy= from c in dataSource.Customers.SelectMany(o => o.Orders.Select(od => od.OrderDate)).OrderBy(y => y.Year).GroupBy(y => y.Year)
-                                    select new { c.Key, OrdersPerYear = c.Count()};
+            var ordersstatisticsy = from c in dataSource.Customers.SelectMany(o => o.Orders.Select(od => od.OrderDate)).OrderBy(y => y.Year).GroupBy(y => y.Year)
+                                    select new { c.Key, OrdersPerYear = c.Count() };
 
             foreach (var y in ordersstatisticsy)
             {
@@ -262,19 +300,19 @@ namespace SampleQueries
             }
 
 
-            var ordersstatisticsym = from c in dataSource.Customers.SelectMany(o => o.Orders.Select(od => od.OrderDate)).OrderBy(y => y.Year).ThenBy(m=>m.Month)//GroupBy(ym => new { ym.Year, ym.Month })
-                                    group c by c.Year into years
-                                    select new
-                                    {
-                                        Year = years.Key,
-                                        Month = from m in years
-                                                group m by m.Month into months
-                                                select new { Month = months.Key, OrdersPerYear_Month = months.Count() }
-                                    };
+            var ordersstatisticsym = from c in dataSource.Customers.SelectMany(o => o.Orders.Select(od => od.OrderDate)).OrderBy(y => y.Year).ThenBy(m => m.Month)//GroupBy(ym => new { ym.Year, ym.Month })
+                                     group c by c.Year into years
+                                     select new
+                                     {
+                                         Year = years.Key,
+                                         Month = from m in years
+                                                 group m by m.Month into months
+                                                 select new { Month = months.Key, OrdersPerYear_Month = months.Count() }
+                                     };
 
             foreach (var o in ordersstatisticsym)
             {
-                ObjectDumper.Write(o,2);
+                ObjectDumper.Write(o, 2);
             }
         }
 
