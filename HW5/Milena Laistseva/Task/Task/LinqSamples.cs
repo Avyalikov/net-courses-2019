@@ -236,12 +236,16 @@ namespace SampleQueries
             decimal maxPrice = 80;
 
             var products = dataSource.Products.OrderBy(o => o.UnitPrice).
-                GroupBy(p => p.UnitPrice < minPrice ? "Cheap" : p.UnitPrice > maxPrice ? "Expensive"
-                : "Average").Select(g => new { ProductPrice = g.Key, Count = g.Count() });
+                GroupBy(p => p.UnitPrice <= minPrice ? "Cheap" : p.UnitPrice > maxPrice ? "Expensive"
+                : "Average");
 
             foreach (var p in products)
             {
-                ObjectDumper.Write(p);
+                ObjectDumper.Write(p.Key);
+                foreach(var s in p)
+                {
+                    ObjectDumper.Write($"Product: {s.ProductName} | Price = {s.UnitPrice}");
+                }
             }
 
         }
