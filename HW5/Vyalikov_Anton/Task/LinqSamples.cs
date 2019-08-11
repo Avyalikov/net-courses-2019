@@ -99,29 +99,27 @@ namespace SampleQueries
 
         [Category("Homework")]
         [Title("Linq022")]
-        [Description("This querie return all providers from the same city or country for each customer (with group).")]
+        [Description("This querie return all providers from the same city or country for each customer (with group by cities).")]
 
         public void Linq022()
         {
-            var suppliers = dataSource.Suppliers.GroupBy(a => new { a.City, a.Country });
+            var suppliers = from s in dataSource.Suppliers
+                            from c in dataSource.Customers
+                            where c.Country == s.Country && c.City == s.City
+                            select new { s.Country, s.City, s.SupplierName, c.CompanyName };
 
-            var customers = dataSource.Customers.GroupBy(a => new { a.City, a.Country }).Select(gr => new
-            {gr.Key, Subgroups = gr.Select(a => new { a, Suppliers = suppliers.Where(b => b.Key.Equals(gr.Key)) })})
-                .Where(a => a.Subgroups.Sum(b => b.Suppliers.Count()) != 0);
+            var groups = from s in suppliers
+                         group s by s.City into cityGroups
+                         select new
+                         {
+                             cityGroups.Key,
+                             Names = from city in cityGroups
+                                     select new { city.CompanyName, city.SupplierName }
+                         };
 
-            foreach (var c in customers)
+            foreach (var g in groups)
             {
-                ObjectDumper.Write(c.Key, 0);
-
-                foreach (var csub in c.Subgroups)
-                {
-                    ObjectDumper.Write(csub.a, 1);
-
-                    foreach (var s in csub.Suppliers)
-                    {
-                        ObjectDumper.Write(s, 2);
-                    }
-                }
+                ObjectDumper.Write(g, 2);
             }
         }
 
@@ -185,7 +183,7 @@ namespace SampleQueries
         public void Linq006()
         {
             var customers = dataSource.Customers
-                .Where(a => !a.PostalCode.All(char.IsDigit) || a.Region == null || !a.Phone.StartsWith("("))
+                .Where(a => a.PostalCode == null ? false : a.PostalCode.All(char.IsDigit) || a.Region is null || !a.Phone.StartsWith("("))
                 .Select(a => new { a.CustomerID, a.CompanyName, a.PostalCode, a.Region, a.Phone});
 
             foreach (var c in customers)
@@ -355,8 +353,8 @@ namespace SampleQueries
 
         public void Linq006()
         {
-            var customers = dataSource.Customers
-                .Where(a => !SqlMethods.Like(a.PostalCode, "%[0-9]%") || a.Region == null || !a.Phone.StartsWith("("))
+            var customers = dataSource.Customers 
+                .Where(a => SqlMethods.Like(a.PostalCode, "%[^0-9]%") || a.Region == null || !a.Phone.StartsWith("("))
                 .Select(a => new { a.CustomerID, a.ContactName, a.Region, a.Phone, a.PostalCode });
 
             foreach (var c in customers)
