@@ -114,16 +114,6 @@ namespace SampleQueries
             {
                 ObjectDumper.Write(c, 2);
             }
-
-            //foreach (var item in customers2)
-            //{
-            //    ObjectDumper.Write($"City: {item.City}, Customer: {item.Name}");
-            //    foreach (var supl in item.Suppls)
-            //    {
-            //        ObjectDumper.Write($"Supplier: {supl}");
-            //    }
-            //    ObjectDumper.Write(String.Empty);
-            //}
         }
 
         [Category("HW5 Linq queries")]
@@ -170,26 +160,6 @@ namespace SampleQueries
             {
                 ObjectDumper.Write($"Name: {client.Name}, Year: {client.StartYear}, Month: {client.StartMonth}");
             }
-
-            //// 1st ver.
-            //var clients =
-            //    from c in dataSource.Customers
-            //    where c.Orders.Length > 0
-            //    select new
-            //    {
-            //        Name = c.CompanyName,
-            //        FirstOrder = c.Orders.Take(1)
-            //    };
-
-            //foreach (var client in clients)
-            //{
-            //    ObjectDumper.Write($"Client: {client.Name}");
-            //    foreach (var order in client.FirstOrder)
-            //    {
-            //        ObjectDumper.Write($"Year: {order.OrderDate.Year} Month: {order.OrderDate.Month}");
-            //    }
-            //    ObjectDumper.Write(String.Empty);
-            //}
         }
 
         [Category("HW5 Linq queries")]
@@ -266,41 +236,6 @@ namespace SampleQueries
             {
                 ObjectDumper.Write(p, 2);
             }
-
-            // 2nd ver.
-            //var products =
-            //    from p in datasource.products
-            //    group p by p.category into c
-            //    group c by c.first().unitsinstock into s
-            //    group s by s.first().first().unitprice                
-            //    ;
-
-            //foreach (var categoryGroup in products)
-            //{
-            //    foreach (var unitsInStockGroup in categoryGroup)
-            //    {
-            //        foreach (var unitPriceGroup in unitsInStockGroup)
-            //        {
-            //            foreach (var product in unitPriceGroup)
-            //            {
-            //                ObjectDumper.Write($"Category: {product.Category}, In stock: {product.UnitsInStock}, Price: {product.UnitPrice}");
-            //            }
-            //        }
-            //    }
-            //}            
-
-            //// 1st ver.
-            //var products =
-            //    from p in dataSource.Products
-            //    group p by new { p.Category, p.UnitsInStock, p.UnitPrice} into g
-            //    orderby g.Key.Category, g.Key.UnitsInStock, g.Key.UnitPrice
-            //    select new { PCategory = g.Key.Category, InStock = g.Key.UnitsInStock, Price = g.Key.UnitPrice}
-            //    ;
-
-            //foreach (var product in products)
-            //{
-            //    ObjectDumper.Write($"Category: {product.PCategory}, In stock: {product.InStock}, Price: {product.Price}");
-            //}
         }
 
         [Category("HW5 Linq queries")]
@@ -319,46 +254,7 @@ namespace SampleQueries
             {
                 ObjectDumper.Write(p, 1);
             }
-
-            // 2nd ver.
-            //var products = dataSource.Products.GroupBy(p => GetRank(p)).
-            //        Select(p2 => new { GroupName = p2.Key, Products = p2 });
-
-            // 1st ver.
-            //var products2 =
-            //    from p in dataSource.Products
-            //    let rank = GetRank(p)
-            //    group p by rank
-            //    ;
-
-            //foreach (var group in products)
-            //{
-            //    ObjectDumper.Write(group.Key);
-            //    foreach (var product in group)
-            //    {
-            //        ObjectDumper.Write($"   {product.ProductName} — {product.UnitPrice}");
-            //    }
-            //}
         }
-
-        // 2nd ver. for Linq10()
-        //protected virtual string GetRank(Product p)
-        //{
-        //    decimal price = p.UnitPrice;
-
-        //    if (price > 30M)
-        //    {
-        //        return "Expensive";
-        //    }
-        //    else if (price > 15M)
-        //    {
-        //        return "Middle";
-        //    }
-        //    else
-        //    {
-        //        return "Cheap";
-        //    }
-        //}
 
         [Category("HW5 Linq queries")]
         [Title("A9")]
@@ -399,36 +295,7 @@ namespace SampleQueries
                 var averageProfitabilit = city.numberOfClients.Select(n => n.sumOrderPrices).Sum() / city.numberOfClients.Count();
 
                 ObjectDumper.Write($"City: {cityName}({countryName}), Average city profitability: {Math.Round(averageProfitabilit, 2)}, Average intensity: {averageIntensity}");
-            }
-
-            //// 1st ver.
-            //var cities =
-            //    (from c in dataSource.Customers
-            //    select new { c.City, c.Country }).Distinct();
-
-            //foreach (var city in cities)
-            //{
-            //    // Number of all clients in this city
-            //    var numberOfClients =
-            //        from c in dataSource.Customers
-            //        where c.City == city.City && c.Country == city.Country
-            //        select new { numberOfOrders = c.Orders.Length, sumOrderPrices = c.Orders.Select(p => p.Total).Sum() };
-
-            //    // Number of all orders in this city
-            //    var numberOfOrders = numberOfClients.Select(n => n.numberOfOrders).Sum();
-
-            //    /* Средняя интенсивность (среднее количество заказов, приходящееся на клиента из этого города)
-            //     * Average intensity = Number of all orders in this city / Number of all clients in this city
-            //     */
-            //    var averageIntensity = numberOfOrders / numberOfClients.Count();
-
-            //    /* Средняя прибыльность города (средняя сумма заказа по всем клиентам из данного города)
-            //     * Average city profitability = Total value of all orders in this city / Number of all customers in this city
-            //     */
-            //    var averageProfitabilit = numberOfClients.Select(n => n.sumOrderPrices).Sum() / numberOfClients.Count();
-
-            //    ObjectDumper.Write($"City: {city.City}({city.Country}), Average city profitability: {Math.Round(averageProfitabilit, 2)}, Average intensity: {averageIntensity}");
-            //}            
+            }     
         }
 
         [Category("HW5 Linq queries")]
@@ -457,80 +324,6 @@ namespace SampleQueries
             {
                 ObjectDumper.Write(c, 1);
             }
-
-
-            //Dictionary<int, int> monthsStatistic;
-            //Dictionary<int, int> yearsStatistic;
-            //Dictionary<string, int> yearsAndMonthsStatistic;
-
-            //var clients2 = dataSource.Customers.Select(c =>
-            //new
-            //{
-            //    c.CompanyName,
-            //    ordersDates = c.Orders.Select(o => o.OrderDate)
-            //});
-
-            //foreach (var client in clients2)
-            //{
-            //    monthsStatistic = new Dictionary<int, int>();
-            //    yearsStatistic = new Dictionary<int, int>();
-            //    yearsAndMonthsStatistic = new Dictionary<string, int>();
-
-            //    foreach (var date in client.ordersDates)
-            //    {
-            //        int month = date.Month;
-            //        int year = date.Year;
-
-            //        if (monthsStatistic.ContainsKey(month))
-            //        {
-            //            monthsStatistic[month]++;
-            //        }
-            //        else
-            //        {
-            //            monthsStatistic.Add(month, 1);
-            //        }
-
-            //        if (yearsStatistic.ContainsKey(year))
-            //        {
-            //            yearsStatistic[year]++;
-            //        }
-            //        else
-            //        {
-            //            yearsStatistic.Add(year, 1);
-            //        }
-
-            //        if (yearsAndMonthsStatistic.ContainsKey($"{year}_{month}"))
-            //        {
-            //            yearsAndMonthsStatistic[$"{year}_{month}"]++;
-            //        }
-            //        else
-            //        {
-            //            yearsAndMonthsStatistic.Add($"{year}_{month}", 1);
-            //        }
-            //    }
-
-            //    ObjectDumper.Write($"Client — {client.CompanyName}");
-            //    StringBuilder sb = new StringBuilder("   Months: ");
-            //    foreach (var month in monthsStatistic)
-            //    {
-            //        sb.Append($"{month.Key} — {month.Value}, ");
-            //    }
-            //    ObjectDumper.Write(sb.ToString());
-
-            //    sb = new StringBuilder("   Years: ");
-            //    foreach (var year in yearsStatistic)
-            //    {
-            //        sb.Append($"{year.Key} — {year.Value}, ");
-            //    }
-            //    ObjectDumper.Write(sb.ToString());
-
-            //    sb = new StringBuilder("   Years & Months: ");
-            //    foreach (var ym in yearsAndMonthsStatistic)
-            //    {
-            //        sb.Append($"{ym.Key} — {ym.Value}, ");
-            //    }
-            //    ObjectDumper.Write(sb.ToString());
-            //}
         }
     }
 }
