@@ -14,7 +14,7 @@ using System.Xml.Linq;
 using SampleSupport;
 using Task.Data;
 
-// Version Mad01
+// Version Mad01////
 
 namespace SampleQueries
 {
@@ -392,21 +392,15 @@ namespace SampleQueries
                    select new
                    {
                        City.Key,
-                       averageAmount =
-                             from cust in City
-                             where cust.Orders.Any()
-                             select cust.Orders.Average(o => o.Total),
-                       averageIntensity =
-                             from cust in City
-                             where cust.Orders.Any()
-                             select cust.Orders.Count()
+                       averageAmount = City.Average(c => c.Orders.Sum(s => s.Total)),
+                       averageIntensity = City.Average(c => c.Orders.Count())
                    };
 
             foreach (var prod in products)
             {
                 ObjectDumper.Write(prod.Key);
-                ObjectDumper.Write($"Average order amount: {Math.Round(prod.averageAmount.Average(), 2)}");
-                ObjectDumper.Write($"Average intensity: {Math.Round(prod.averageIntensity.Average(), 1)}");
+                ObjectDumper.Write($"Average order amount: {Math.Round(prod.averageAmount, 2)}");
+                ObjectDumper.Write($"Average intensity: {Math.Round(prod.averageIntensity,2)}");
                 ObjectDumper.Write(" ");
             }
 
@@ -436,56 +430,47 @@ namespace SampleQueries
                 {11,"November"},
                 {12,"December"}
             };
+
+           
             var monthActivity =
             from cust in dataSource.Customers
             from order in cust.Orders
             orderby order.OrderDate.Month
-            group cust by order.OrderDate.Month into monthAverage
+            group order by order.OrderDate.Month into monthAverage
             select new
             {
                 monthAverage.Key,
-                averageActivity =
-                      from cust in monthAverage
-                      where cust.Orders.Any()
-                      select cust.Orders.Count()
+                averageActivity = monthAverage.Count()
             };
-
-
             var yearActivity =
                    from cust in dataSource.Customers
                    from order in cust.Orders
                    orderby order.OrderDate.Year
-                   group cust by order.OrderDate.Year into YearAverage
+                   group order by order.OrderDate.Year into YearAverage
                    select new
                    {
                        YearAverage.Key,
-                       averageActivity =
-                             from cust in YearAverage
-                             where cust.Orders.Any()
-                             select cust.Orders.Count(),
-                       monthsAverageActivity =
-                            from cust in YearAverage
-                            from order in cust.Orders
-                            orderby order.OrderDate.Month
-                            group cust by order.OrderDate.Month into monthAverage
-                            select new
-                            {
-                                monthAverage.Key,
-                                averageActivity =
-                                from cust in monthAverage
-                                where cust.Orders.Any()
-                                select cust.Orders.Count()
-
-                            }
-
+                       averageActivity = YearAverage.Count()
                    };
+            var yearAndMonthActivity =
+                from cust in dataSource.Customers
+                from orders in cust.Orders
+                group orders by new { Year = orders.OrderDate.Year, Month = orders.OrderDate.Month } into yearAndMonthGroupped
+                orderby yearAndMonthGroupped.Key.Year, yearAndMonthGroupped.Key.Month
+                select new
+                {
+                    Year = yearAndMonthGroupped.Key.Year,
+                    Month = yearAndMonthGroupped.Key.Month,
+                    Total = yearAndMonthGroupped.Count()
+                };
+           
 
             ///* Сделайте среднегодовую статистику активности клиентов по месяцам (без учета года)
             ObjectDumper.Write("Average annual statistical customer activity by months (excluding year)");
             ObjectDumper.Write(" ");
             foreach (var prod in monthActivity)
             {
-                ObjectDumper.Write($"{Calendar[prod.Key]}  {Math.Round(prod.averageActivity.Average(), 2)}");
+                ObjectDumper.Write($"{Calendar[prod.Key]}  {prod.averageActivity}");
                 ObjectDumper.Write(" ");
             }
 
@@ -496,17 +481,18 @@ namespace SampleQueries
             ObjectDumper.Write(" ");
             foreach (var prod in yearActivity)
             {
-                ObjectDumper.Write($"Year {prod.Key}  {Math.Round(prod.averageActivity.Average(), 2)}");
+                ObjectDumper.Write($"Year {prod.Key}  {prod.averageActivity}");
                 ObjectDumper.Write(" ");
 
-                //...по годам и месяцам (т.е. когда один месяц в разные годы имеет своё значение). 
-
-                foreach (var month in prod.monthsAverageActivity)
-                {
-                    ObjectDumper.Write($"{null,15}{Calendar[month.Key]}  {Math.Round(month.averageActivity.Average(), 2)}");
-                    ObjectDumper.Write(" ");
-                }
+   
             }
+            //...по годам и месяцам (т.е. когда один месяц в разные годы имеет своё значение). 
+            foreach (var month in yearAndMonthActivity)
+            {
+                ObjectDumper.Write($"{ month.Year}  {null,15}{Calendar[month.Month]}  { month.Total}");
+                ObjectDumper.Write(" ");
+            }
+
         }
     }
 }
