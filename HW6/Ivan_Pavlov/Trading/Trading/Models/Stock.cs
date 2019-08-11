@@ -12,5 +12,10 @@
         public string Company { get; set; }
         public decimal Price { get; set; }
         public virtual TypeStock Type { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

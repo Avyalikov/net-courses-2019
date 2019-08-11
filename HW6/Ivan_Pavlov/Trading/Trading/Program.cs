@@ -11,11 +11,13 @@
         {
             using (AppDbContext db = new AppDbContext())
             {
-                var users = db.Users.Include("UserStocks");
-                               
-                foreach (var user in users)
+                var users = db.Users.Select(u => new 
                 {
-                    Console.WriteLine(user.ToString());
+         
+                });
+                foreach (var user in users) 
+                {
+                    Console.WriteLine(user.UserStocks.Count());
                 }
             }
 
