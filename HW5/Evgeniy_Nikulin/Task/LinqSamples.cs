@@ -158,7 +158,8 @@ namespace SampleQueries
                 .Select(c => new
                 {
                     CompanyName = c.CompanyName,
-                    FirstOrder = c.Orders.Min(o => o.OrderDate)
+                    Year = c.Orders.Min(o => o.OrderDate).Year,
+                    Month = c.Orders.Min(o => o.OrderDate).Month,
                 });
 
             foreach (var q in query)
@@ -174,12 +175,15 @@ namespace SampleQueries
         {
             var query = this.dataSource.Customers
                 .Where(c => c.Orders.Length > 0)
-                .OrderBy(c => c.CompanyName)
-                .OrderByDescending(c => c.Orders[0].OrderDate)
+                .OrderBy(c => c.Orders[0].OrderDate)
+                .ThenByDescending(c => c.Orders.Sum(o => o.Total))
+                .ThenBy(c => c.CompanyName)
                 .Select(c => new
                 {
                     CompanyName = c.CompanyName,
-                    FirstOrder = c.Orders.Min(o => o.OrderDate)
+                    Total = c.Orders.Sum(o => o.Total),
+                    Year = c.Orders.Min(o => o.OrderDate).Year,
+                    Month = c.Orders.Min(o => o.OrderDate).Month,
                 });
 
             foreach (var q in query)
@@ -291,16 +295,16 @@ namespace SampleQueries
                 .Select(c => new
                     {
                         c.City,
-                        AverageProfit = c.Orders.Length == 0 ? 0 : c.Orders.Average(o => o.Total),
-                        AverageIntensity = c.Orders.Length == 0 ? 0 : c.Orders.Count()
+                        AP = c.Orders.Length == 0 ? 0 : c.Orders.Sum(o => o.Total),
+                        AI = c.Orders.Length == 0 ? 0 : c.Orders.Count()
                     })
                 .GroupBy(
                     c => c.City,
                     (key, item) => new
                     {
                         City = key,
-                        AverageProfit = Math.Round(item.Average(i => i.AverageProfit)),
-                        AverageIntensity = item.Average(i => i.AverageIntensity)
+                        AverageProfit = item.Sum(i => i.AP) / item.Sum(i => i.AI),
+                        AverageIntensity = item.Average(i => i.AI)
                     })
                 .OrderBy(c => c.City);
 
@@ -323,7 +327,7 @@ namespace SampleQueries
                     (key, item) => new
                     {
                         Month = key,
-                        Orders = item.Count()
+                        Orders = item.Count() / item.Select(i => i.Year).Distinct().Count()
                     })
                 .OrderBy(m => m.Month);
 
