@@ -440,7 +440,7 @@ namespace SampleQueries
             select new
             {
                 monthAverage.Key,
-                averageActivity = monthAverage.Count()
+                averageActivity = monthAverage.Count()/ monthAverage.Select(item=>item.OrderDate.Year).Distinct().Count()
             };
             var yearActivity =
                    from cust in dataSource.Customers
@@ -486,7 +486,9 @@ namespace SampleQueries
 
    
             }
+            ObjectDumper.Write("---------------------------------------------------------------------------------------- ");
             //...по годам и месяцам (т.е. когда один месяц в разные годы имеет своё значение). 
+            ObjectDumper.Write("Average annual statistical customer activity by months and years");
             foreach (var month in yearAndMonthActivity)
             {
                 ObjectDumper.Write($"{ month.Year}  {null,15}{Calendar[month.Month]}  { month.Total}");
