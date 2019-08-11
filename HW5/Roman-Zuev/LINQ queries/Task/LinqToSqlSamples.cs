@@ -86,10 +86,9 @@ namespace SampleQueries
             "(для простоты считаем, что это равнозначно «нет круглых скобочек в начале»))")]
         public void Linq006()
         {
-            decimal temp;
             var clients =
                 from customer in db.Customers
-                where !customer.PostalCode.Contains("%[^0 - 9] %")
+                where System.Data.Linq.SqlClient.SqlMethods.Like(customer.PostalCode.Trim(), "%[^0-9]%")
                 || customer.Region == null
                 || customer.Phone[0] != '('
                 select customer.CompanyName;
