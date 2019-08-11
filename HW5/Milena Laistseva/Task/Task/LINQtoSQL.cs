@@ -90,5 +90,31 @@ namespace SampleQueries
             }
         }
 
+        [Category("Homework")]
+        [Title("Linq001")]
+        [Description("This querie return all cutomers with revenue more than some x_sum.")]
+        public void Linq001()
+        {
+            int[] x_sum = { 5000, 10000, 20000 };
+            foreach (int x in x_sum)
+            {
+                var customers = dataSource.Customers
+                    .Where(a => a.Orders.Sum(b => b.Order_Details.Sum(c => (c.UnitPrice * c.Quantity * (decimal)(1 - c.Discount)))) > x)
+                    .Select(a => new {
+                        a.CustomerID,
+                        a.CompanyName,
+                        Revenue = a.Orders.Sum(b => b.Order_Details.Sum(c => (c.UnitPrice * c.Quantity * (decimal)(1 - c.Discount))))
+                    });
+                ObjectDumper.Write($"Customers for required sum {x}:");
+
+                foreach (var c in customers)
+                {
+                    ObjectDumper.Write(c);
+                }
+            }
+        }
+
+
+
     }
 }

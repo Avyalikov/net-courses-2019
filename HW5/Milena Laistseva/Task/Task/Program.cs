@@ -26,7 +26,10 @@ namespace SampleQueries
 
 			
 			LinqSamples linqHarness = new LinqSamples();
+            LINQtoSQL linqSQLHarness = new LINQtoSQL();
+
 			harnesses.Add(linqHarness);
+            harnesses.Add(linqSQLHarness);
 						
 			Application.EnableVisualStyles();
 				

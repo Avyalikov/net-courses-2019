@@ -18,49 +18,49 @@ using Task.Data;
 
 namespace SampleQueries
 {
-	[Title("LINQ Module")]
-	[Prefix("Linq")]
-	public class LinqSamples : SampleHarness
-	{
+    [Title("LINQ Module")]
+    [Prefix("Linq")]
+    public class LinqSamples : SampleHarness
+    {
 
-		private DataSource dataSource = new DataSource();
+        private DataSource dataSource = new DataSource();
 
-		[Category("Restriction Operators")]
-		[Title("Where - Task 1")]
-		[Description("This sample uses the where clause to find all elements of an array with a value less than 5.")]
-		public void Linq1()
-		{
-			int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+        [Category("Restriction Operators")]
+        [Title("Where - Task 1")]
+        [Description("This sample uses the where clause to find all elements of an array with a value less than 5.")]
+        public void Linq1()
+        {
+            int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
 
-			var lowNums =
-				from num in numbers
-				where num < 5
-				select num;
+            var lowNums =
+                from num in numbers
+                where num < 5
+                select num;
 
-			Console.WriteLine("Numbers < 5:");
-			foreach (var x in lowNums)
-			{
-				Console.WriteLine(x);
-			}
-		}
+            Console.WriteLine("Numbers < 5:");
+            foreach (var x in lowNums)
+            {
+                Console.WriteLine(x);
+            }
+        }
 
-		[Category("Restriction Operators")]
-		[Title("Where - Task 2")]
-		[Description("This sample return return all presented in market products")]
+        [Category("Restriction Operators")]
+        [Title("Where - Task 2")]
+        [Description("This sample return return all presented in market products")]
 
-		public void Linq2()
-		{
-			var products =
-				from p in dataSource.Products
-				where p.UnitsInStock > 0
-				select p;
+        public void Linq2()
+        {
+            var products =
+                from p in dataSource.Products
+                where p.UnitsInStock > 0
+                select p;
 
-			foreach (var p in products)
-			{
-				ObjectDumper.Write(p);
-			}
-		}
-        
+            foreach (var p in products)
+            {
+                ObjectDumper.Write(p);
+            }
+        }
+
         [Category("Homework")]
         [Title("HW - Task 1")]
         [Description("Shows customers whose orders total is more than X")]
@@ -70,7 +70,7 @@ namespace SampleQueries
             var customers = dataSource.Customers.
                 Select(c => new { c.CustomerID, c.CompanyName, Total = c.Orders.Sum(o => o.Total) });
 
-            void CustomerTotalMoreThanX (decimal X)
+            void CustomerTotalMoreThanX(decimal X)
             {
                 foreach (var customer in customers)
                 {
@@ -97,7 +97,7 @@ namespace SampleQueries
                 {
                     Customers = c.CompanyName,
                     Suppliers = dataSource.Suppliers.Where(s => s.City == c.City && s.Country == c.Country).
-                    Select (s => new
+                    Select(s => new
                     {
                         Customer = c.CompanyName,
                         Supplier = s.SupplierName,
@@ -122,30 +122,22 @@ namespace SampleQueries
 
         public void LinqA02_2()
         {
-            var customers = dataSource.Customers.GroupBy(x => new { x.Country, x.City}).
-                Select(c => new
+            var customers = dataSource.Customers.Join(dataSource.Suppliers,
+                c => new {c.City, c.Country},
+                s => new { s.City, s.Country},
+                (c, s) => new
                 {
-                    Countries = c.Key.Country,
-                    Cities = c.Key.City,
-                    Suppliers = dataSource.Suppliers.
-                    Where(s => s.Country == c.Key.Country && s.City == c.Key.City).
-                    Select(y => new
-                    {
-                        Supplier = y.SupplierName,
-                        Country = y.Country,
-                        City = y.City,                       
-                    })
-
-                });
+                    Customer = c.CompanyName,
+                    Supplier = s.SupplierName,
+                    City = c.City,
+                    Country = c.Country
+                }).GroupBy(c => c.City);
 
             foreach (var c in customers)
             {
-                //ObjectDumper.Write(c.Customer);
-                foreach (var s in c.Suppliers)
-                {
-                    ObjectDumper.Write(s);
-                }
+                    ObjectDumper.Write(c);
             }
+
         }
 
         [Category("Homework")]
@@ -189,9 +181,9 @@ namespace SampleQueries
             var customers = dataSource.Customers.Where(c => c.Orders.Any()).
                 Select(c => new { c.CompanyName, FirstOrderDate = c.Orders.Min(o => o.OrderDate), Turnover = c.Orders.Sum(o => o.Total) }).
                 OrderBy(c => c.CompanyName).
-                ThenBy(c => c.FirstOrderDate.Year).
-                ThenBy(c => c.FirstOrderDate.Month).
-                ThenByDescending(c => c.Turnover);
+                OrderByDescending(c => c.Turnover).
+                OrderBy(c => c.FirstOrderDate.Month).
+                OrderBy(c => c.FirstOrderDate.Year);
 
             foreach (var c in customers)
             {
@@ -205,9 +197,9 @@ namespace SampleQueries
         public void LinqA06()
         {
             int NumberCode;
-            var customers = dataSource.Customers.Where(c => c.Region == null || 
+            var customers = dataSource.Customers.Where(c => c.Region == null ||
             (!int.TryParse(c.PostalCode, out NumberCode)) || (c.Phone.First() != '(')).
-            Select (c => new { c.CompanyName, c.Region, c.PostalCode, c.Phone});
+            Select(c => new { c.CompanyName, c.Region, c.PostalCode, c.Phone });
 
             foreach (var c in customers)
             {
@@ -225,7 +217,7 @@ namespace SampleQueries
                 {
                     s.Key,
                     InStock = s.GroupBy(p => p.UnitsInStock > 0).
-                    Select(p => new {p.Key, Products = p.OrderBy(u => u.UnitPrice) })
+                    Select(p => new { p.Key, Products = p.OrderBy(u => u.UnitPrice) })
                 });
 
             foreach (var p in products)
@@ -245,9 +237,9 @@ namespace SampleQueries
 
             var products = dataSource.Products.OrderBy(o => o.UnitPrice).
                 GroupBy(p => p.UnitPrice < minPrice ? "Cheap" : p.UnitPrice > maxPrice ? "Expensive"
-                : "Average").Select(g => new { ProductPrice = g.Key, Count = g.Count()});
+                : "Average").Select(g => new { ProductPrice = g.Key, Count = g.Count() });
 
-            foreach(var p in products)
+            foreach (var p in products)
             {
                 ObjectDumper.Write(p);
             }
@@ -295,7 +287,7 @@ namespace SampleQueries
             foreach (var i in statisticByMonths)
             {
                 ObjectDumper.Write(i.Customer);
-                foreach(var month in i.OrdersByMonth)
+                foreach (var month in i.OrdersByMonth)
                 {
                     ObjectDumper.Write(month);
                 }
@@ -330,7 +322,7 @@ namespace SampleQueries
                 {
                     Customer = c.CompanyName,
                     OrdersByYearAndMonths = c.Orders.
-                    GroupBy(o =>new { o.OrderDate.Year, o.OrderDate.Month }).
+                    GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month }).
                     Select(g => new
                     {
                         Year = g.Key.Year,
@@ -350,5 +342,6 @@ namespace SampleQueries
                 }
             }
         }
+        
     }
 }
