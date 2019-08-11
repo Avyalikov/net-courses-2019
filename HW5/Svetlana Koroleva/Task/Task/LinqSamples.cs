@@ -263,8 +263,8 @@ namespace SampleQueries
                           select new
                           {
                               City = cities.Key,
-                              Totals = cities.Sum(c => c.Totals),
-                              Amount = cities.Sum(c => c.Amount),
+                              Totals = Math.Round(cities.Average(c => c.Totals),2),
+                              Amount = Math.Round(cities.Average(c => c.Amount),2),
                           };
 
 
