@@ -53,14 +53,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILoggerService.cs" />
-    <Compile Include="LoggerService.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="Services\DataBaseInitializer.cs" />
+    <Compile Include="Services\ClientManager.cs" />
+    <Compile Include="Devices\IInputDevice.cs" />
+    <Compile Include="Services\IClientManager.cs" />
+    <Compile Include="Services\IStockManager.cs" />
+    <Compile Include="Services\ITableDrawer.cs" />
+    <Compile Include="Services\ILoggerService.cs" />
+    <Compile Include="Devices\InputDevice.cs" />
+    <Compile Include="Devices\IOutputDevice.cs" />
+    <Compile Include="Services\ITransactionManager.cs" />
+    <Compile Include="Services\LoggerService.cs" />
+    <Compile Include="Devices\OutputDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stock.cs" />
+    <Compile Include="Services\TableDrawer.cs" />
+    <Compile Include="Services\StockManager.cs" />
+    <Compile Include="TradingContext.cs" />
+    <Compile Include="TradingEngine.cs" />
+    <Compile Include="Transaction.cs" />
+    <Compile Include="Services\TransactionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

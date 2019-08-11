@@ -1,7 +1,7 @@
 ﻿using log4net;
 using System;
 
-namespace EntityForNorthwind.Services
+namespace trading_software.Services
 {
     public class LoggerService : ILoggerService
     {

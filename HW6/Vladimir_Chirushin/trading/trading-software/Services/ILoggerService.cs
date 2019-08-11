@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityForNorthwind.Services
+namespace trading_software.Services
 {
     public interface ILoggerService
     {
