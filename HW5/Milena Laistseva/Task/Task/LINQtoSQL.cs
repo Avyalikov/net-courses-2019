@@ -26,27 +26,27 @@ namespace SampleQueries
         [Title("HW - Task 1")]
         [Description("Shows customers whose orders total is more than X")]
 
-        public void LinqA01()
+        public void Linq001()
         {
-            var customers = dataSource.Customers.
-                Select(x => new { x.CustomerID, x.CompanyName, Total = x.Orders.Sum(y => y.Order_Details.Sum(z => z.UnitPrice * z.Quantity * (decimal)(1 - z.Discount))) });
-                
-
-            void CustomerTotalMoreThanX(int X)
+            int[] xValue = { 10000, 50000 };
+            foreach (int x in xValue)
             {
-                foreach (var customer in customers)
+                var customers = dataSource.Customers.
+                Where(a => a.Orders.Sum(y => y.Order_Details.Sum(z => (z.UnitPrice * z.Quantity * (decimal)(1 - z.Discount)))) > x).
+                Select(c => new
                 {
-                    if (customer.Total > X)
-                    {
-                        ObjectDumper.Write(customer);
-                    }
+                    CustomerID = c.CustomerID,
+                    Name = c.CompanyName,
+                    Total = c.Orders.Sum(y => y.Order_Details.Sum(z => (z.UnitPrice * z.Quantity * (decimal)(1 - z.Discount))))
+                });
+
+                ObjectDumper.Write($"Orders total more than: {x}");
+                foreach (var c in customers)
+                {
+                    ObjectDumper.Write(c);
                 }
             }
-
-            CustomerTotalMoreThanX(10000);
-            ObjectDumper.Write("____________________________");
-            CustomerTotalMoreThanX(50000);
-
+                
         }
 
         [Category("Homework")]
@@ -58,12 +58,12 @@ namespace SampleQueries
             int X = 7000;
 
             var customers = dataSource.Customers.Where(c => c.Orders.
-            Any(o => o.Order_Details.Sum(z => z.UnitPrice * (decimal)(1 - z.Discount)) > X)).
+            Any(o => o.Order_Details.Sum(z => z.UnitPrice * z.Quantity* (decimal)(1 - z.Discount)) > X)).
                 Select(c => new
                 {
                     c.CompanyName,
                     MaxOrder = c.Orders.
-                Max(o => o.Order_Details.Sum(z => z.UnitPrice * (decimal)(1 - z.Discount)) > X)
+                Max(o => o.Order_Details.Sum(z => z.UnitPrice * z.Quantity * (decimal)(1 - z.Discount)))
                 });
 
             foreach (var c in customers)
@@ -81,12 +81,17 @@ namespace SampleQueries
         {
 
             var customers = dataSource.Customers.Where(c => c.Region == null ||
-            !SqlMethods.Like(c.PostalCode, "[^0-9}%") || (c.Phone.First() != '(')).
-            Select(c => new { c.CompanyName, c.Region, c.PostalCode, c.Phone });
+            (c.PostalCode.Contains("%[0-9]%")) || !c.Phone.StartsWith("(")).
+            Select(c => new
+            {
+                customer = c.CompanyName,
+                region = c.Region,
+                postalCode = c.PostalCode,
+                phone =c.Phone });
 
             foreach (var c in customers)
             {
-                ObjectDumper.Write(c);
+                ObjectDumper.Write($"Name: {c.customer} | Region: {c.region} | PostalCode: {c.postalCode} | Phone: {c.phone}");
             }
         }
     }
