@@ -175,16 +175,17 @@ namespace SampleQueries
         {
             var query = this.dataSource.Customers
                 .Where(c => c.Orders.Length > 0)
-                .OrderBy(c => c.Orders[0].OrderDate)
-                .ThenByDescending(c => c.Orders.Sum(o => o.Total))
-                .ThenBy(c => c.CompanyName)
                 .Select(c => new
                 {
                     CompanyName = c.CompanyName,
                     Total = c.Orders.Sum(o => o.Total),
                     Year = c.Orders.Min(o => o.OrderDate).Year,
                     Month = c.Orders.Min(o => o.OrderDate).Month,
-                });
+                })
+                .OrderBy(c => c.Year)
+                .ThenBy(c => c.Month)
+                .ThenByDescending(c => c.Total)
+                .ThenBy(c => c.CompanyName);
 
             foreach (var q in query)
             {
