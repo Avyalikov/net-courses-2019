@@ -59,10 +59,10 @@ namespace SampleQueries
 		}
 
         [Category("Homework")]
-        [Title("Querie_1")]
+        [Title("Linq001")]
         [Description("This querie return all cutomers with revenue more than some x_sum.")]
 
-        public void Querie1()
+        public void Linq001()
         {
             int[] x_sum = { 5000, 10000, 20000 };
             foreach (int x in x_sum)
@@ -80,10 +80,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_2")]
+        [Title("Linq002")]
         [Description("This querie return all providers from the same city or country for each customer (without group).")]
 
-        public void Querie2()
+        public void Linq002()
         {
             var suppliers =
                 from c in dataSource.Customers
@@ -98,10 +98,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_2_1")]
+        [Title("Linq022")]
         [Description("This querie return all providers from the same city or country for each customer (with group).")]
 
-        public void Querie2_1()
+        public void Linq022()
         {
             var suppliers = dataSource.Suppliers.GroupBy(a => new { a.City, a.Country });
 
@@ -126,10 +126,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_3")]
+        [Title("Linq003")]
         [Description("This querie return all customers with orders more expensive than x.")]
 
-        public void Querie3()
+        public void Linq003()
         {
             int x = 5000;
             var customers = dataSource.Customers
@@ -143,10 +143,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_4")]
+        [Title("Linq004")]
         [Description("This querie return all customers with dates of their first orders.")]
 
-        public void Querie4()
+        public void Linq004()
         {
             var customers = dataSource.Customers
                 .Where(a => a.Orders.Count() > 0)
@@ -159,10 +159,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_5")]
+        [Title("Linq005")]
         [Description("This querie return all customers with dates of their first orders sorted by date, revenue and customer name.")]
 
-        public void Querie5()
+        public void Linq005()
         {
             var customers = dataSource.Customers
                 .Where(a => a.Orders.Count() > 0)
@@ -179,10 +179,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_6")]
+        [Title("Linq006")]
         [Description("This querie return all customers with non-num postcode or without region or without operator code.")]
 
-        public void Querie6()
+        public void Linq006()
         {
             var customers = dataSource.Customers
                 .Where(a => !a.PostalCode.All(char.IsDigit) || a.Region == null || !a.Phone.StartsWith("("))
@@ -195,10 +195,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_7")]
+        [Title("Linq007")]
         [Description("This querie return all products grouped by categories, stock and price.")]
 
-        public void Querie7()
+        public void Linq007()
         {
             var products = dataSource.Products
                 .GroupBy(a => a.Category)
@@ -222,7 +222,7 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_8")]
+        [Title("Linq008")]
         [Description("This querie return all products grouped by price.")]
 
         private string chooseKey(string key)
@@ -235,7 +235,7 @@ namespace SampleQueries
             }
         }
 
-        public void Querie8()
+        public void Linq008()
         {
             int[] pricesRange = { 0, 50, 100 };
             var products = dataSource.Products.GroupBy(a => pricesRange.FirstOrDefault(b => b > a.UnitPrice));
@@ -252,10 +252,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_9")]
+        [Title("Linq009")]
         [Description("This querie return mid revenue and mid intensity of all cities.")]
 
-        public void Querie9()
+        public void Linq009()
         {
             var customers = dataSource.Customers.GroupBy(x => x.City);
             var statistic = customers.Select(x => new {x.Key,
@@ -271,10 +271,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_10")]
+        [Title("Linq010")]
         [Description("This querie return statistics of customers activity.")]
 
-        public void Querie10()
+        public void Linq010()
         {
             var ordersDate = dataSource.Customers.SelectMany(a => a.Orders.Select(b => b.OrderDate));
             var monthStat = ordersDate.GroupBy(a => a.Month).Select(a => new { a.Key, MonthsOrders = a.Count() }).OrderBy(a => a.Key);
@@ -311,9 +311,9 @@ namespace SampleQueries
         private DataClasses1DataContext dataSource = new DataClasses1DataContext();
 
         [Category("Homework")]
-        [Title("Querie_1")]
+        [Title("Linq001")]
         [Description("This querie return all cutomers with revenue more than some x_sum.")]
-        public void Querie_1()
+        public void Linq001()
         {
             int[] x_sum = { 5000, 10000, 20000 };
             foreach (int x in x_sum)
@@ -332,10 +332,10 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_3")]
+        [Title("Linq003")]
         [Description("This querie return all customers with orders more expensive than x.")]
 
-        public void Querie3()
+        public void Linq003()
         {
             int x = 5000;
             var customers = dataSource.Customers
@@ -350,13 +350,13 @@ namespace SampleQueries
         }
 
         [Category("Homework")]
-        [Title("Querie_6")]
+        [Title("Linq006")]
         [Description("This querie return all customers with non-num postcode or without region or without operator code.")]
 
-        public void Querie6()
+        public void Linq006()
         {
             var customers = dataSource.Customers
-                .Where(a => !SqlMethods.Like(a.PostalCode, "%[^0-9]%") || a.Region == null || !a.Phone.StartsWith("("))
+                .Where(a => !SqlMethods.Like(a.PostalCode, "%[0-9]%") || a.Region == null || !a.Phone.StartsWith("("))
                 .Select(a => new { a.CustomerID, a.ContactName, a.Region, a.Phone, a.PostalCode });
 
             foreach (var c in customers)
