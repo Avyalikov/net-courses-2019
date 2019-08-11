@@ -280,7 +280,7 @@ namespace SampleQueries
                 Select(s => new
                 {
                     Month = s.Key,
-                    Total = s.Count()
+                    Total = s.Count() / s.Select(y => y.Year).Distinct().Count()
                 }).OrderBy(m => m.Month);
 
             ObjectDumper.Write("Statistics by months");
@@ -332,6 +332,5 @@ namespace SampleQueries
             var averageMonthAndYear = statisticByMonthsAndYears.Average(x => x.Total);
             ObjectDumper.Write($"Average amount of orders: {averageMonthAndYear}");
         }
-        
     }
 }
