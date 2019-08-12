@@ -68,7 +68,7 @@ namespace SampleQueries
             var customers =
                 from c in this.dataSource.Customers
                 where c.Orders.Select(price => price.Total).Sum() > x
-                select c.CompanyName;
+                select new { c.CompanyName, price = c.Orders.Select(price => price.Total).Sum() };
 
             foreach (var c in customers)
             {
@@ -207,10 +207,10 @@ namespace SampleQueries
                 .Select(c => new
                 {
                     Category = c.Key,
-                    Stocks = c.GroupBy(s => s.UnitsInStock)
+                    Stocks = c.GroupBy(s => s.UnitsInStock == 0 ? "Sold" : "In stock")
                 .Select(e => new
                 {
-                    Left = e.Key == 0 ? "Sold" : $"{e.Key} species left",
+                    Left = e.Key,
                     Prices = e
                 .Select(pr => new { Name = pr.ProductName, Price = pr.UnitPrice }).OrderBy(pr => pr.Price)
                 })
