@@ -25,7 +25,8 @@ namespace Task
                 from c in db.Customers
                 where c.Orders.Sum(p => p.Order_Details.Sum(l =>
                 l.UnitPrice * (decimal)(1 - l.Discount) * l.Quantity)) > x
-                select c.CompanyName;
+                select c.CustomerID + " "+ c.Orders.Sum(p => p.Order_Details.Sum(l =>
+                l.UnitPrice * (decimal)(1 - l.Discount) * l.Quantity)) + " "+ c.CompanyName;
 
             Console.WriteLine($"{Environment.NewLine}Customers with total orders > {x} :");
             foreach (var i in customerList)
@@ -59,7 +60,8 @@ namespace Task
                 from c in db.Customers
                 where c.Orders.Any(p => p.Order_Details.Sum(l =>
                 l.UnitPrice * (decimal)(1 - l.Discount) * l.Quantity) > x)
-                select c.CompanyName;
+                select c.CompanyName + " "+ c.Orders.Sum(p => p.Order_Details.Sum(l =>
+                l.UnitPrice * (decimal)(1 - l.Discount) * l.Quantity));
 
             Console.WriteLine($"{Environment.NewLine}Customers with any order > {x} :");
             foreach (var i in customerList)
@@ -79,7 +81,7 @@ namespace Task
                 where System.Data.Linq.SqlClient.SqlMethods.Like(customer.PostalCode.Trim(), "%[^0-9]%")
                 || customer.Region == null
                 || customer.Phone[0] != '('
-                select customer.CompanyName;
+                select customer.CompanyName + " " + customer.Phone + " " + customer.Region + " " + customer.PostalCode;
 
             Console.WriteLine($"{Environment.NewLine}Customers with wrong filled fields: ");
             foreach (var i in customerList)

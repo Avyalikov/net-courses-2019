@@ -73,7 +73,7 @@ namespace SampleQueries
             foreach (var item in x)
             {
                 var customerList = dataSource.Customers.Where(q => q.Orders.Sum(w => w.Total) > item)
-                    .Select(e => new { e.CustomerID, e.CompanyName});
+                    .Select(e => new { e.CustomerID, Total = e.Orders.Sum(r => r.Total), e.CompanyName });
 
                 foreach (var p in customerList)
                 {
@@ -266,97 +266,6 @@ namespace SampleQueries
                 {
                     ObjectDumper.Write(m, 1);
                 }       
-            }
-        }
-
-
-
-
-        [Category("HW")]
-        [Title("HW - Task 10A")]
-        [Description("Client statistics by year")]
-
-        public void LinqHW10A()
-        {
-            //var result =
-            //     from c in dataSource.Customers
-            //     from o in c.Orders
-            //     orderby o.OrderDate.Year
-            //     group o by o.OrderDate.Year into gr
-            //     select new { gr.Key, total = gr.ToList().Select(x => x.Total).Sum(), count = gr.ToList().Select(x => x.Total).Count() };
-
-            //var result =
-            //    from c in dataSource.Customers
-            //    from o in c.Orders
-            //    orderby o.OrderDate.Year
-            //    group o by o.OrderDate.Year into gr
-            //    select new { gr.Key, total = (from x in gr.ToList() select x.Total).Sum(), count = (from x in gr.ToList() select x.Total).Count() };
-
-            var result = dataSource.Customers.SelectMany(c => c.Orders).OrderBy(o => o.OrderDate.Year).GroupBy(o => o.OrderDate.Year).
-                Select(gr => new { gr.Key, total = gr.ToList().Select(x => x.Total).Sum(), count = gr.ToList().Select(x => x.Total).Count() });
-
-            foreach (var c in result)
-            {
-                ObjectDumper.Write(c, 1);
-            }
-        }
-
-        [Category("HW")]
-        [Title("HW - Task 10B")]
-        [Description("Client statistics by month")]
-
-        public void LinqHW10B()
-        {
-            //var result =
-            //     from c in dataSource.Customers
-            //     from o in c.Orders
-            //     orderby o.OrderDate.Month
-            //     group o by o.OrderDate.ToString("MMM") into gr
-            //     select new { gr.Key, total = gr.ToList().Select(x => x.Total).Sum(), count = gr.ToList().Select(x => x.Total).Count() };
-
-            //var result =
-            //    from c in dataSource.Customers
-            //    from o in c.Orders
-            //    orderby o.OrderDate.Month
-            //    group o by o.OrderDate.ToString("MMM") into gr
-            //    select new { gr.Key, total = (from x in gr.ToList() select x.Total).Sum(), count = (from x in gr.ToList() select x.Total).Count() };
-
-            var result = dataSource.Customers.SelectMany(c => c.Orders).OrderBy(o => o.OrderDate.Month).GroupBy(o => o.OrderDate.ToString("MMM")).
-                Select(gr => new { gr.Key, total = gr.ToList().Select(x => x.Total).Sum(), count = gr.ToList().Select(x => x.Total).Count() });
-
-            foreach (var c in result)
-            {
-                ObjectDumper.Write(c, 1);
-            }
-        }
-
-        [Category("HW")]
-        [Title("HW - Task 10C")]
-        [Description("Client statistics by month of the year")]
-
-        public void LinqHW10C()
-        {
-            var result =
-                 from c in dataSource.Customers
-                 from o in c.Orders
-                 orderby o.OrderDate.Year, o.OrderDate.Month
-                 group o by new { year = o.OrderDate.Year, month = o.OrderDate.ToString("MMM") } into gr
-                 select new { gr.Key.year, gr.Key.month, total = gr.ToList().Select(x => x.Total).Sum(), count = gr.ToList().Select(x => x.Total).Count() };
-
-            //var result =
-            //    from c in dataSource.Customers
-            //    from o in c.Orders
-            //    orderby o.OrderDate.Year, o.OrderDate.Month
-            //    group o by new { year = o.OrderDate.Year, month = o.OrderDate.ToString("MMM") } into gr
-            //    select new { gr.Key.year, gr.Key.month, total = (from x in gr.ToList() select x.Total).Sum(), count = (from x in gr.ToList() select x.Total).Count() };
-
-            //var result = dataSource.Customers.SelectMany(c => c.Orders).OrderBy(o => o.OrderDate.Year).ThenBy(o => o.OrderDate.Month).
-            //    GroupBy(o => new { year = o.OrderDate.Year, month = o.OrderDate.ToString("MMM") }).
-            //    Select(gr => new { gr.Key.year, gr.Key.month, total = gr.ToList().Select(x => x.Total).Sum(), count = gr.ToList().Select(x => x.Total).Count() });
-
-            foreach (var c in result)
-            {
-                ObjectDumper.Write(c, 1);
             }
         }
     }
