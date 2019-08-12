@@ -1,4 +1,4 @@
-﻿namespace Trading
+﻿namespace Trading.Persons
 {
     using System;
     using System.Collections.Generic;
@@ -6,10 +6,9 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    class Program
+    class Client
     {
-        static void Main(string[] args)
-        {
-        }
+        public string ClientId { get; set; }
+        public string Name { get; set; }
     }
 }
