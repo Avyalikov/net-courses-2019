@@ -92,14 +92,17 @@ namespace SampleQueries
             /* A2
              * Для каждого клиента составьте список поставщиков, находящихся в той же стране и том же городе. Сделайте задания с использованием группировки и без.
              */
-            var customersWithGrouping = dataSource.Customers.GroupBy(c => c.City.ToString() + '(' + c.Country.ToString() + ')').
-                Select(c2 => new
+            var customersWithGrouping = dataSource.Customers.
+                GroupBy(c => c.CustomerID).
+                Select(cstmr => new
                 {
-                    City = c2.Key,
-                    Customer = c2.Select(c3 => c3.CompanyName),
-                    Supplier = dataSource.Suppliers.Where(s => s.City == c2.FirstOrDefault().City && s.Country == c2.FirstOrDefault().Country).Select(s2 => s2.SupplierName)
-                })
-                ;
+                    Customer = cstmr.FirstOrDefault().CompanyName,
+                    City = cstmr.FirstOrDefault().City.ToString() + '(' + cstmr.FirstOrDefault().Country.ToString() + ')',
+                    Supplier = dataSource.Suppliers.
+                    Where(s => s.City == cstmr.FirstOrDefault().City 
+                        && s.Country == cstmr.FirstOrDefault().Country).
+                    Select(s2 => s2.SupplierName)
+                });
 
             var customersWithoutGrouping =
                 from c in dataSource.Customers
