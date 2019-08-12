@@ -64,6 +64,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Program.cs" />
+    <Compile Include="Classes\Simulation.cs" />
     <Compile Include="DataModel\Portfolio.cs" />
     <Compile Include="DataModel\Share.cs" />
     <Compile Include="DataModel\Trader.cs" />

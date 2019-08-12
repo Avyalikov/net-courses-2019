@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW6"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" HorizontalAlignment="Center" Width="640" Height="480">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.454,1.819" Margin="96,0" Height="449">
+        <TextBox x:Name="ConsoleWindow" Height="269" TextWrapping="Wrap" Width="280" IsReadOnly="True" Margin="0,100,0,0"/>
+        <Button x:Name="SimulationButton" Content="Start simulation" Margin="40,10,40,0" Click="Button_Click" HorizontalAlignment="Center" MinWidth="100"/>
+    </StackPanel>
 </Window>

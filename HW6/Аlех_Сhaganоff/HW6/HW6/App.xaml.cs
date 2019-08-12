@@ -1,4 +1,5 @@
-﻿using HW6.DataModel;
+﻿using HW6.Classes;
+using HW6.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,37 +15,28 @@ namespace HW6
     /// </summary>
     public partial class App : Application
     {
+        static public TradingContext context = new TradingContext();
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            using (TradingContext context = new TradingContext())
-            {
-                //Trader trader1 = new Trader();
-                //trader1.FirstName = "A1";
-                //trader1.LastName = "B1";
-                //trader1.PhoneNumber = "123";
+            //using (TradingContext context = new TradingContext())
+            //{
+            //Task.Run(() =>
+            //{
+            //    program.Run();
 
-                //context.Traders.Add(trader1);
+            //    Console.WriteLine("Task completed");
+            //});
 
-                //Trader trader2 = new Trader();
-                //trader2.FirstName = "A2";
-                //trader2.LastName = "B2";
-                //trader2.PhoneNumber = "123";
+            //context.SaveChanges();
+            //}
 
-                //context.Traders.Add(trader2);
+            context.SaveChanges();
+            context.Dispose();
 
-                //Trader trader3 = new Trader();
-                //trader3.FirstName = "A3";
-                //trader3.LastName = "B3";
-                //trader3.PhoneNumber = "123";
-
-                //context.Traders.Add(trader3);
-                
-
-                context.SaveChanges();
-            }
+            Console.WriteLine("Main");
         }
-
     }
 }
