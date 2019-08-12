@@ -11,7 +11,7 @@
     class ClientContext : DbContext
     {
         /// <summary>
-        /// Constructs a new context instance using the given connection string
+        /// Constructs a new context instance(class for interaction with DB) using the given connection string
         /// </summary>
         public ClientContext() 
             : base("DbConnection")
