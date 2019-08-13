@@ -268,15 +268,15 @@ namespace SampleQueries
 
             var products = dataSource.Products
                 .OrderBy(p => p.UnitPrice)
-                .GroupBy(p => p.UnitPrice < Cheap ? "Cheap" : p.UnitPrice < Expensive ? "Average" : "Expensive");
+                .GroupBy(p => p.UnitPrice < Cheap ? "Cheap" : p.UnitPrice < Expensive ? "Average" : "Expensive")
+                .Select(x => new {
+                    Price_Category = x.Key,
+                    Product = x.Select( y => new { y.ProductName, y.UnitPrice })
+                });
 
             foreach (var category in products)
             {
-                ObjectDumper.Write(category.Key);
-                ObjectDumper.Write(String.Empty);
-                foreach (var p in category)
-                    ObjectDumper.Write($"{p.ProductName} with price {p.UnitPrice}");
-                ObjectDumper.Write(String.Empty);
+                ObjectDumper.Write(category, 2);
             }
         }
 
@@ -381,12 +381,14 @@ namespace SampleQueries
 
             var clients =
                 db.Customers
-                    .Where(o => o.Orders.Count() > threshold)
-                    .Select(c => new
-                    {
-                        c.CustomerID,
-                        Total = c.Orders.Count()
-                    }
+                   .Where(c => c.Orders.Sum(o => o.Order_Details.Sum(od =>
+                        (od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount)))) > threshold)
+                   .Select(c => new
+                   {
+                       c.CustomerID,
+                       Total = c.Orders.Sum(o => o.Order_Details.Sum(od =>
+                        (od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))))
+                   }
                     );
 
             foreach (var c in clients)
@@ -404,11 +406,13 @@ namespace SampleQueries
 
             var clients =
                db.Customers
-                   .Where(o => o.Orders.Count() > threshold)
+                   .Where(c => c.Orders.Sum(o => o.Order_Details.Sum(od =>
+                        (od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount)))) > threshold)
                    .Select(c => new
                    {
                        c.CustomerID,
-                       Total = c.Orders.Count()
+                       Total = c.Orders.Sum(o => o.Order_Details.Sum(od =>
+                        (od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))))
                    }
                    );
 
@@ -424,12 +428,12 @@ namespace SampleQueries
 
         public void LinqB3()
         {
-            decimal someValueX = 5000;
+            decimal threshold = 5000;
 
             var clients =
              db.Customers
                  .Where(c => c.Orders.Any(o => o.Order_Details.Sum(od => 
-                        (od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))) > someValueX))
+                        (od.UnitPrice * od.Quantity * (decimal)(1 - od.Discount))) > threshold))
                  .Select(cl => new
                  {
                      cl.CustomerID,
