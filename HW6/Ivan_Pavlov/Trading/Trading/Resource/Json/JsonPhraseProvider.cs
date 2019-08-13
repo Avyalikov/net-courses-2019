@@ -34,11 +34,12 @@
 
         public void SetLanguage(string lang)
         {
-            this.langPath = string.Format("Resource\\Lang{0}.json", lang);
+            this.langPath = string.Format("Resource\\Json\\Lang{0}.json", lang);
         }
 
         private string GetData(string phraseKey)
         {
+            SetLanguage("Ru"); 
             var resourceFile = new FileInfo(this.langPath);
 
             if (!resourceFile.Exists)

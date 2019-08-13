@@ -1,9 +1,13 @@
 ﻿namespace Trading.Interface
 {
-    interface IIOProvider
+    public interface IIOProvider
     {
         void WriteLine(string line);
 
         string ReadLine();
+
+        void ReadKey();
+
+        void Clear();
     }
 }

@@ -1,28 +1,16 @@
 ﻿namespace Trading
 {
     using System;
-    using System.Linq;
-    using Trading.Infrastructure;
-    using Trading.Models;
+    using Trading.Logic;
 
     class Program
     {
         static void Main(string[] args)
         {
-            using (AppDbContext db = new AppDbContext())
+            while (true)
             {
-                var users = db.Users.Select(u => new 
-                {
-         
-                });
-                foreach (var user in users) 
-                {
-                    Console.WriteLine(user.UserStocks.Count());
-                }
+                Home.Run();
             }
-
-            Console.WriteLine("finish");
-            Console.ReadKey();
         }
     }
 }

@@ -26,8 +26,8 @@
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format($"SurName {SurName} Name {Name} Balance = {Balance}"));
-            if (UserStocks.Count == 0) sb.AppendLine("\t stocks don't found");
+            sb.AppendLine(string.Format($"Клиент {SurName} {Name} имеет наличными {Balance}"));
+            if (UserStocks.Count == 0) sb.AppendLine("\t У данного пользователя еще нет акций");
             else
             {
                 foreach (var stock in UserStocks)

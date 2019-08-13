@@ -1,6 +1,6 @@
 ﻿namespace Trading.Interface
 {
-    interface IPhraseProvider
+    public interface IPhraseProvider
     {
         string GetPhrase(string phraseKey);
 

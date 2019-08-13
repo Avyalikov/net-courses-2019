@@ -15,6 +15,11 @@
             Console.WriteLine(line);
         }
 
+        public void ReadKey()
+        {
+            Console.ReadKey();
+        }
+
         public void Clear()
         {
             Console.Clear();

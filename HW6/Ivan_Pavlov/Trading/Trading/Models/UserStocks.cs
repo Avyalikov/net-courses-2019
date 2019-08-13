@@ -17,7 +17,7 @@
 
         public override string ToString()
         {
-            return string.Format($"Stock Name {Stock.Name} by company {Stock.Company} amount = {AmountStocks}");
+            return string.Format($" \"{Stock.Name}\" от компании {Stock.Company} в количестве {AmountStocks} шт.");
         }
     }
 }

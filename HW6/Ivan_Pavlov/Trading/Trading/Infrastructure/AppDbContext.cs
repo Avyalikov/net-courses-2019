@@ -29,10 +29,10 @@
             db.TypesStocks.Add(t1); db.TypesStocks.Add(t2);
             db.TypesStocks.Add(t3);
 
-            Stock s1 = new Stock { Name = "Сберегаем с Газпромом", Company = "Газпром", Price = 2000, Type = t2 };
-            Stock s2 = new Stock { Name = "Выслуга лет в EPAM", Company = "EPAM", Price = 1500, Type = t3 };
-            Stock s3 = new Stock { Name = "Кофейная", Company = "Nescafe", Price = 1000, Type = t1 };
-            Stock s4 = new Stock { Name = "Для любителей печенек", Company = "Pechenka Official", Price = 200, Type = t1 };
+            Stock s1 = new Stock { Name = "Сберегаем с Газпромом", Company = "Газпром", Price = 2000, TypeStock = t2 };
+            Stock s2 = new Stock { Name = "Выслуга лет в EPAM", Company = "EPAM", Price = 1500, TypeStock = t3 };
+            Stock s3 = new Stock { Name = "Кофейная", Company = "Nescafe", Price = 1000, TypeStock = t1 };
+            Stock s4 = new Stock { Name = "Для любителей печенек", Company = "Pechenka Official", Price = 200, TypeStock = t1 };
             db.Stocks.Add(s1); db.Stocks.Add(s2);
             db.Stocks.Add(s3); db.Stocks.Add(s4);
 
