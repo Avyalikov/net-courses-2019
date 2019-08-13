@@ -14,15 +14,18 @@ namespace trading_software
             ITableDrawer tableDrawer = new TableDrawer(outputDevice);
             IClientManager clientManager = new ClientManager(inputDevice, outputDevice, tableDrawer);
             IStockManager stockManager = new StockManager(inputDevice, outputDevice, tableDrawer);
-            ITransactionManager transactionManager = new TransactionManager(inputDevice, outputDevice, clientManager, stockManager, tableDrawer);
-
+            ITransactionValidator transactionValidator = new TransactionValidator();
+            ITransactionManager transactionManager = new TransactionManager(inputDevice, outputDevice, clientManager, stockManager, tableDrawer,transactionValidator);
+            IBlockOfSharesManager blockOfSharesManager = new BlockOfSharesManager(inputDevice, outputDevice, tableDrawer);
             TradingEngine tradingEngine = new TradingEngine(outputDevice:outputDevice,
                                                             inputDevice:inputDevice,
                                                             tableDrawer: tableDrawer,
                                                             clientManager: clientManager,
                                                             stockManager: stockManager,
-                                                            transactionManager: transactionManager
+                                                            transactionManager: transactionManager,
+                                                            blockOfSharesManager: blockOfSharesManager
                                                             );
+            
             tradingEngine.Run();
         }
     }

@@ -7,5 +7,6 @@ namespace trading_software
         void Show(IQueryable<Stock> Stocks);
         void Show(IQueryable<Client> Clients);
         void Show(IQueryable<Transaction> Transactions);
+        void Show(IQueryable<BlockOfShares> blockOfShares);
     }
 }

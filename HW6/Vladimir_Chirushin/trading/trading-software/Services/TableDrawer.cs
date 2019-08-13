@@ -72,5 +72,27 @@ namespace trading_software
             }
             outputDevice.WriteLine($"|____|____________________|______________________|______________________|______________________|____|___________|");
         }
+
+        public void Show(IQueryable<BlockOfShares> blockOfShares)
+        {
+            string numberName = "#";
+            string clientName = "Client";
+            string stockName = "Stock";
+            string amountName = "Amount";
+
+            int i = 0;
+            outputDevice.Clear();
+            outputDevice.WriteLine($"___________________________________________________________");
+            outputDevice.WriteLine($"|{numberName,4}|{clientName,22}|{stockName,22}|{amountName,6}|");
+            outputDevice.WriteLine($"|----|----------------------|----------------------|------|");
+
+
+            foreach (var block in blockOfShares)
+            {
+                i++;
+                outputDevice.WriteLine($"|{i,4}|{block.ClienInBLock.Name,22}|{block.StockInBlock.StockType,22}|{block.NumberOfShares,6}|");
+            }
+            outputDevice.WriteLine($"|____|______________________|______________________|______|");
+        }
     }
 }

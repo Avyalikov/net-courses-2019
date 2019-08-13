@@ -6,8 +6,9 @@ namespace trading_software
     public interface ITransactionManager
     {
         void AddNewTransaction();
+        void AddTransaction(Client sellerClient, Client buyerClient, Stock stock, int stockAmount);
         void ReadAllTransactions();
-        void MakeRandomTransaction(Object source, ElapsedEventArgs e);
+        bool MakeRandomTransaction();
 
     }
 }

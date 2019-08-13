@@ -11,20 +11,48 @@ namespace trading_software
         private readonly IClientManager clientManager;
         private readonly IStockManager stockManager;
         private readonly ITableDrawer tableDrawer;
+        private readonly ITransactionValidator transactionValidator;
         public TransactionManager(
-            IInputDevice inputDevice, 
+            IInputDevice inputDevice,
             IOutputDevice outputDevice,
             IClientManager clientManager,
             IStockManager stockManager,
-            ITableDrawer tableDrawer)
+            ITableDrawer tableDrawer,
+            ITransactionValidator transactionValidator)
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
             this.clientManager = clientManager;
             this.stockManager = stockManager;
             this.tableDrawer = tableDrawer;
+            this.transactionValidator = transactionValidator;
         }
 
+        public void AddTransaction(Client sellerClient, Client buyerClient, Stock stock, int stockAmount)
+        {
+            using (var db = new TradingContext())
+            {
+                var transaction = new Transaction
+                {
+                    dateTime = DateTime.Now,
+                    Seller = sellerClient,
+                    Buyer = buyerClient,
+                    Stocks = stock,
+                    Amount = stockAmount
+                };
+                db.TransactionHistory.Add(transaction);
+                db.SaveChanges();
+            }
+        }
+
+        public void AddTransaction(Transaction transaction)
+        {
+            using (var db = new TradingContext())
+            {
+                db.TransactionHistory.Add(transaction);
+                db.SaveChanges();
+            }
+        }
         public void AddNewTransaction()
         {
 
@@ -64,16 +92,11 @@ namespace trading_software
                 var buyerClient = db.Clients
                                    .Where(c => c.Name == buyerInput)
                                    .FirstOrDefault<Client>();
-                var transaction = new Transaction
+                Transaction transaction = new Transaction { dateTime = DateTime.Now, Seller = sellerClient, Buyer = buyerClient, Stocks = stock, Amount = stockAmount };
+                if (transactionValidator.Validate(transaction))
                 {
-                    dateTime = DateTime.Now,
-                    Seller = sellerClient,
-                    Buyer = buyerClient,
-                    Stocks = stock,
-                    Amount = stockAmount
-                };
-                db.TransactionHistory.Add(transaction);
-                db.SaveChanges();
+                    AddTransaction(transaction);
+                }
             }
         }
 
@@ -87,43 +110,33 @@ namespace trading_software
             }
         }
 
-        public void MakeRandomTransaction(Object source, ElapsedEventArgs e)
+        public bool MakeRandomTransaction()
         {
             Random random = new Random();
             using (var db = new TradingContext())
             {
                 const int stockAmountMax = 15;
-
-                int numberOfClients = db.Clients.Count();
-                int clientId = random.Next(1, numberOfClients);
-                var sellerClient = db.Clients
-                               .FirstOrDefault<Client>(c => c.ClientID == clientId);
-
-                clientId = random.Next(1, numberOfClients);
-                var buyerClient = db.Clients
-                               .FirstOrDefault<Client>(c => c.ClientID == clientId);
-
-                int numberOfStocks = db.Stocks.Count();
-                int stockID = random.Next(1, numberOfStocks);
-                var stock = db.Stocks
-                               .FirstOrDefault<Stock>(s => s.StockID == stockID);
-
                 int stockAmount = random.Next(1, stockAmountMax);
 
-                var transaction = new Transaction
-                {
-                    dateTime = DateTime.Now,
-                    Seller = sellerClient,
-                    Buyer = buyerClient,
-                    Stocks = stock,
-                    Amount = stockAmount
-                };
-                db.TransactionHistory.Add(transaction);
-                db.SaveChanges();
+                Transaction transaction =
+                    new Transaction
+                    {
+                        dateTime = DateTime.Now,
+                        Seller = clientManager.SelectRandom(),
+                        Buyer = clientManager.SelectRandom(),
+                        Stocks = stockManager.SelectRandom(),
+                        Amount = stockAmount
+                    };
+                //if (transactionValidator.Validate(transaction))
+                //{
+                    AddTransaction(transaction);
+                    return true;
+                //}
+                //else
+                //{
+                //    return false;
+                //}
             }
-            Console.Clear();
-            ReadAllTransactions();
         }
-
     }
 }
