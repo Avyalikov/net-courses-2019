@@ -36,8 +36,8 @@ namespace HW6
             .Map(map => { map.Properties(p => new { p.ShareId, p.Name}); map.ToTable("Shares"); })
             .Map(map => { map.Properties(p => new { p.ShareId, p.Price }); map.ToTable("SharePrice"); });
 
-            modelBuilder.Entity<Transaction>().HasOptional<Trader>(s => s.Buyer).WithMany().WillCascadeOnDelete(false);
-            modelBuilder.Entity<Transaction>().HasOptional<Trader>(s => s.Seller).WithMany().WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Transaction>().HasOptional<Trader>(s => s.Buyer).WithMany().WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Transaction>().HasOptional<Trader>(s => s.Seller).WithMany().WillCascadeOnDelete(false);
 
         }
 

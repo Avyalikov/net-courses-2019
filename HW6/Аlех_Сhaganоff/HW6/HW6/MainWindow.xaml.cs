@@ -1,4 +1,5 @@
 ﻿using HW6.Classes;
+using HW6.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,47 +24,48 @@ namespace HW6
     public partial class MainWindow : Window
     {
         public static MainWindow AppWindow;
-        public static bool SimulationIsWorking = false;
+        public Program program;
+        
         public MainWindow()
         {
+            ISimulation simulation = new Simulation();
+            IOutputProvider outputProvider = new OutputToStatusTextBox();
+
+            program = new Program(simulation, outputProvider);
+            
             InitializeComponent();
 
             AppWindow = this;
         }
-
-        CancellationTokenSource source = new CancellationTokenSource();
-        Simulation simulation = new Simulation();
-        CancellationToken token;
         
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SimulationIsWorking==false)
+            if (program.SimulationIsWorking==false)
             {
-                System.Console.WriteLine("Begin simulation");
-                SimulationIsWorking = true;
-                MainWindow.AppWindow.SimulationButton.Content = "Stop simulation";
+                program.outputProvider.WriteLine("Simulation started");
+                program.SimulationIsWorking = true;
+                SimulationButton.Content = "Stop simulation";
 
-                await simulation.TradingSimulation(Program.context);  
+                program.simulation.TradingSimulation(App.context, program, program.outputProvider);  
             }
             else
             {
-                System.Console.WriteLine("End simulation");
-                SimulationIsWorking = false;
-                MainWindow.AppWindow.SimulationButton.Content = "Start simulation";
+                program.outputProvider.WriteLine("Simulation ended");
+                program.SimulationIsWorking = false;
+                SimulationButton.Content = "Start simulation";
             }
-            //else
-            //{
-            //    //System.Console.WriteLine("Here");
-            //    //SimulationIsWorking = false;
+        }
 
-            //    //if (source != null)
-            //    //{
-            //    //    source.Cancel();
-            //    //}
-            //}
+        private void TraderInformationButton_Click(object sender, RoutedEventArgs e)
+        {
+            StatusTextBox.Visibility = Visibility.Collapsed;
+            TraderInfoMainGrid.Visibility = Visibility.Visible;
+        }
 
-
+        private void SimulationViewButton_Click(object sender, RoutedEventArgs e)
+        {
+            StatusTextBox.Visibility = Visibility.Visible;
+            TraderInfoMainGrid.Visibility = Visibility.Collapsed;
         }
     }
 }

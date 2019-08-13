@@ -22,9 +22,7 @@ namespace HW6.Migrations
 
             //dbcc checkident(Traders, reseed, 0)
 
-
-         
-
+          
 
 
 

@@ -11,11 +11,11 @@ namespace HW6.DataModel
     {
         public int TransactionId { get; set; }
         [Required]
-        public virtual Trader Seller { get; set; }
+        public int SellerId { get; set; }
         [Required]
-        public virtual Trader Buyer {get; set;}
+        public int BuyerId {get; set;}
         [Required]
-        public virtual Share Share { get; set; }
+        public int ShareId { get; set; }
         [Required]
         public int Quantity { get; set; }
         [Required]

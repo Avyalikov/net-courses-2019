@@ -64,12 +64,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\OutputToStatusTextBox.cs" />
     <Compile Include="Classes\Program.cs" />
+    <Compile Include="Classes\Randomizer.cs" />
     <Compile Include="Classes\Simulation.cs" />
     <Compile Include="DataModel\Portfolio.cs" />
     <Compile Include="DataModel\Share.cs" />
     <Compile Include="DataModel\Trader.cs" />
     <Compile Include="DataModel\Transaction.cs" />
+    <Compile Include="Interfaces\IRandomizer.cs" />
+    <Compile Include="Interfaces\ISimulation.cs" />
+    <Compile Include="Interfaces\IOutputProvider.cs" />
     <Compile Include="Migrations\201908102008563_InitialCreate.cs" />
     <Compile Include="Migrations\201908102008563_InitialCreate.Designer.cs">
       <DependentUpon>201908102008563_InitialCreate.cs</DependentUpon>
@@ -89,6 +94,14 @@
     <Compile Include="Migrations\201908111432288_M004.cs" />
     <Compile Include="Migrations\201908111432288_M004.Designer.cs">
       <DependentUpon>201908111432288_M004.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908122229224_M005.cs" />
+    <Compile Include="Migrations\201908122229224_M005.Designer.cs">
+      <DependentUpon>201908122229224_M005.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908122331580_M006.cs" />
+    <Compile Include="Migrations\201908122331580_M006.Designer.cs">
+      <DependentUpon>201908122331580_M006.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="TradingContext.cs" />
@@ -133,6 +146,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908111432288_M004.resx">
       <DependentUpon>201908111432288_M004.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908122229224_M005.resx">
+      <DependentUpon>201908122229224_M005.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908122331580_M006.resx">
+      <DependentUpon>201908122331580_M006.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
