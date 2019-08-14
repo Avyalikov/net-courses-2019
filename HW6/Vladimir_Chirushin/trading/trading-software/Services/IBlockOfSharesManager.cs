@@ -2,9 +2,10 @@
 {
     public interface IBlockOfSharesManager
     {
-        void AddNewShares();
-        void AddShare(Client client, Stock stock, int amount);
+        void ManualAddNewShare();
+        void AddShare(int ClientID, int StockID, int Amount);
         void AddShare(BlockOfShares blockOfShares);
         void ShowAllShares();
+        void CreateRandomShare();
     }
 }

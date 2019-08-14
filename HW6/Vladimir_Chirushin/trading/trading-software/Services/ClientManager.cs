@@ -17,25 +17,15 @@
         }
         public void AddClient(string name, string phoneNumber, decimal balance)
         {
-            using (var db = new TradingContext())
-            {
                 var client = new Client
                 {
                     Name = name,
                     PhoneNumber = phoneNumber,
                     Balance = balance
                 };
-                if (!IsExist(client))
-                {
-                    db.Clients.Add(client);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    outputDevice.WriteLine("Client name collision!");
-                }
-            }
+                AddClient(client);
         }
+
         private bool IsExist(Client client)
         {
             using (var db = new TradingContext())
@@ -43,15 +33,13 @@
                 return db.Clients.Where(c => c.Name == client.Name).FirstOrDefault() != null;
             }
         }
-        public Client SelectRandom()
+        public int SelectRandomID()
         {
             using (var db = new TradingContext())
             {
                 int numberOfClients = db.Clients.Count();
                 int clientId = random.Next(1, numberOfClients);
-                var randomClient = db.Clients
-                               .FirstOrDefault<Client>(c => c.ClientID == clientId);
-                return randomClient;
+                return clientId;
             }
         }
 
@@ -70,7 +58,7 @@
                 }
             }
         }
-        public void AddNewClient()
+        public void ManualAddClient()
         {
             using (var db = new TradingContext())
             {
@@ -100,6 +88,35 @@
             {
                 IQueryable<Client> query = db.Clients.OrderBy(c=>c.Name).AsQueryable<Client>();
                 tableDrawer.Show(query);
+            }
+        }
+        
+        public void ChangeBalance(int ClientID, decimal accountGain)
+        {
+            using (var db = new TradingContext())
+            {
+                Client client = db.Clients.Where(c => c.ClientID == ClientID).FirstOrDefault();
+                if(client != null)
+                {
+                    client.Balance += accountGain;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    outputDevice.WriteLine("There is no such client!");
+                }
+            }
+        }
+
+        public void BankruptRandomClient()
+        {
+            using (var db = new TradingContext())
+            {
+                int numberOfClients = db.Clients.Count();
+                int clientId = random.Next(1, numberOfClients);
+                Client client = db.Clients.Where(c=>c.ClientID == clientId).FirstOrDefault();
+                client.Balance -= 10000;
+                db.SaveChanges();
             }
         }
     }

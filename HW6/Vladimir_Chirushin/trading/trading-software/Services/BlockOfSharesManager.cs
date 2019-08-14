@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace trading_software
 {
@@ -7,33 +8,34 @@ namespace trading_software
         private readonly IInputDevice inputDevice;
         private readonly IOutputDevice outputDevice;
         private readonly ITableDrawer tableDrawer;
+        Random random = new Random();
         public BlockOfSharesManager(IInputDevice inputDevice, IOutputDevice outputDevice, ITableDrawer tableDrawer)
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
             this.tableDrawer = tableDrawer;
         }
-        public void AddShare(Client client, Stock stock, int amount)
+        public void AddShare(int ClientID, int StockID, int amount)
         {
             using (var db = new TradingContext())
             {
                 var entry = db.BlockOfSharesTable
-                    .Where(b => (b.ClienInBLock.ClientID == client.ClientID && b.StockInBlock.StockID == stock.StockID))
+                    .Where(b => (b.ClientID == ClientID && b.StockID == StockID))
                     .FirstOrDefault();
                 if(entry == null)
                 {
                     var block = new BlockOfShares
                     {
-                        ClienInBLock = client,
-                        StockInBlock = stock,
-                        NumberOfShares = amount
+                        ClientID = ClientID,
+                        StockID = StockID,
+                        Amount = amount
                     };
-                        db.BlockOfSharesTable.Add(block);
-                        db.SaveChanges();
+                    db.BlockOfSharesTable.Add(block);
+                    db.SaveChanges();
                 }
                 else
                 {
-                    entry.NumberOfShares = entry.NumberOfShares + amount;
+                    entry.Amount += amount;
                 }
                 
             }
@@ -43,7 +45,8 @@ namespace trading_software
             using (var db = new TradingContext())
             {
                 var entry = db.BlockOfSharesTable
-                    .Where(b => (b.ClienInBLock.ClientID == blockOfShares.ClienInBLock.ClientID && b.StockInBlock.StockID == blockOfShares.StockInBlock.StockID))
+                    .Where(b => (b.ClientID == blockOfShares.ClientID && 
+                                 b.StockID == blockOfShares.StockID))
                     .FirstOrDefault();
                 if (entry == null)
                 {
@@ -52,26 +55,27 @@ namespace trading_software
                 }
                 else
                 {
-                    entry.NumberOfShares = entry.NumberOfShares + blockOfShares.NumberOfShares;
+                    entry.Amount += blockOfShares.Amount;
+                    db.SaveChanges();
                 }
 
             }
         }
-        public void AddNewShares()
+        public void ManualAddNewShare()
         {
             using (var db = new TradingContext())
             {
                 outputDevice.WriteLine("Write Stock Type:");
                 string stockNameInput = inputDevice.ReadLine();
-                var stock = db.Stocks
-                               .FirstOrDefault<Stock>(s => s.StockType == stockNameInput);
+                int stock = db.Stocks
+                               .FirstOrDefault<Stock>(s => s.StockType == stockNameInput).StockID;
 
                 outputDevice.WriteLine("Write client name:");
                 string clientNameInput = inputDevice.ReadLine();
-                var client = db.Clients
-                               .FirstOrDefault<Client>(s => s.Name == clientNameInput);
+                int client = db.Clients
+                               .FirstOrDefault<Client>(s => s.Name == clientNameInput).ClientID;
 
-                outputDevice.WriteLine("Write client name:");
+                outputDevice.WriteLine("Write stocks amount:");
                 int amount = 0;
                 while (true)
                 {
@@ -84,11 +88,25 @@ namespace trading_software
             }
         }
 
+
+        public void CreateRandomShare()
+        {
+            using (var db = new TradingContext())
+            {
+                int maxAmountOfShares = 16;
+                int numberOfClients = db.Clients.Count();
+                int numberOfStocks = db.Stocks.Count();
+                int ClientId = random.Next(1, numberOfClients);
+                int StockId = random.Next(1, numberOfStocks);
+                int Amount = random.Next(1, maxAmountOfShares);
+                AddShare(ClientId, StockId, Amount);
+            }
+        }
         public void ShowAllShares()
         {
             using (var db = new TradingContext())
             {
-                IQueryable<BlockOfShares> query = db.BlockOfSharesTable.AsQueryable<BlockOfShares>();
+                IQueryable<BlockOfShares> query = db.BlockOfSharesTable.OrderBy(b=>b.ClientID).AsQueryable<BlockOfShares>();
                 tableDrawer.Show(query);
             }
         }

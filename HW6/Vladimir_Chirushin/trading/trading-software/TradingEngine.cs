@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Timers;
-using trading_software.Services;
-
-using trading_software;
 
 namespace trading_software
 {
-    public class TradingEngine
+    public class TradingEngine : ITradingEngine
     {
         private readonly IOutputDevice outputDevice;
         private readonly IInputDevice inputDevice;
@@ -16,6 +12,7 @@ namespace trading_software
         private readonly IStockManager stockManager;
         private readonly ITransactionManager transactionManager;
         private readonly IBlockOfSharesManager blockOfSharesManager;
+        private readonly IDataBaseInitializer dbInitializer;
 
         public TradingEngine(
             IOutputDevice outputDevice,
@@ -24,7 +21,8 @@ namespace trading_software
             IClientManager clientManager,
             IStockManager stockManager,
             ITransactionManager transactionManager,
-            IBlockOfSharesManager blockOfSharesManager
+            IBlockOfSharesManager blockOfSharesManager,
+            IDataBaseInitializer dbInitializer
             )
         {
             this.outputDevice = outputDevice;
@@ -34,61 +32,14 @@ namespace trading_software
             this.stockManager = stockManager;
             this.transactionManager = transactionManager;
             this.blockOfSharesManager = blockOfSharesManager;
+            this.dbInitializer = dbInitializer;
         }
-
-
-        
 
 
         public void Run()
         {
-            DataBaseInitializer dbInitializer = new DataBaseInitializer(clientManager, stockManager, blockOfSharesManager);
-            
-
-            Timer aTimer = new Timer(100);
-            void SetTimer()
-            {
-                if (!aTimer.Enabled)
-                {
-                    aTimer.Elapsed += ATimer_Elapsed;
-                    aTimer.AutoReset = true;
-                    aTimer.Enabled = true;
-                }
-            }
-
-            void ResetTimer()
-            {
-                if (aTimer.Enabled)
-                {
-                    aTimer.Elapsed -= ATimer_Elapsed;
-                    aTimer.AutoReset = true;
-                    aTimer.Enabled = false;
-                }
-            }
-
-            void ATimer_Elapsed(object sender, ElapsedEventArgs e)
-            {
-                if (transactionManager.MakeRandomTransaction())
-                {
-                    outputDevice.WriteLine("New random transaction added!");
-                }
-            }
-
-
             ConsoleKeyInfo consoleKeyPressed;
-            void ShowMenu()
-            {
-                outputDevice.WriteLine(@"1 - Add client
-2 - Show all clients
-3 - Add stock
-4 - Show all stocks
-5 - Add transaction
-6 - show all transactions
-7 - Create random transaction");
-
-            }
-
-          
+            
             transactionManager.ReadAllTransactions();
             do
             {
@@ -97,7 +48,7 @@ namespace trading_software
                 switch (consoleKeyPressed.Key)
                 {
                     case ConsoleKey.D1:
-                        clientManager.AddNewClient();
+                        clientManager.ManualAddClient();
                         break;
 
                     case ConsoleKey.D2:
@@ -105,14 +56,14 @@ namespace trading_software
                         break;
 
                     case ConsoleKey.D3:
-                        stockManager.AddNewStock();
+                        stockManager.ManualAddStock();
                         break;
 
                     case ConsoleKey.D4:
                         stockManager.ReadAllStocks();
                         break;
                     case ConsoleKey.D5:
-                        transactionManager.AddNewTransaction();
+                        transactionManager.ManualAddTransaction();
                         break;
 
                     case ConsoleKey.D6:
@@ -120,7 +71,7 @@ namespace trading_software
                         break;
 
                     case ConsoleKey.D7:
-                        blockOfSharesManager.AddNewShares();
+                        blockOfSharesManager.ManualAddNewShare();
                         break;
                     case ConsoleKey.D8:
                         blockOfSharesManager.ShowAllShares();
@@ -132,6 +83,9 @@ namespace trading_software
                         SetTimer();
                         break;
                     case ConsoleKey.R:
+                        ResetTimer();
+                        break;
+                    case ConsoleKey.D:
                         aTimer.Stop();
                         aTimer.Dispose();
                         break;
@@ -139,31 +93,11 @@ namespace trading_software
                         dbInitializer.Initiate();
                         break;
                     case ConsoleKey.M:
-                        {
-                            Random random = new Random();
-                            int maxAmountOfShares = 16;
-                            int numberOfShares = 200;
-
-                            Client client;
-                            Stock stock;
-                            for (int i = 0; i < numberOfShares; i++)
-                            {
-                                client = clientManager.SelectRandom();
-                                stock = stockManager.SelectRandom();
-                                BlockOfShares blockOfShares = new BlockOfShares
-                                {
-                                    ClienInBLock = client,
-                                    StockInBlock = stock,
-                                    NumberOfShares = random.Next(maxAmountOfShares)
-                                };
-                                Console.WriteLine($"Client ID:{client.ClientID}");
-                                Console.WriteLine($"Stock ID:{stock.StockID}");
-
-                                blockOfSharesManager.AddShare(blockOfShares);
-                            }
-                        }
+                        
                         break;
-
+                    case ConsoleKey.B:
+                        clientManager.BankruptRandomClient();
+                        break;
                     case ConsoleKey.Escape:
                         continue;
                     default:
@@ -173,5 +107,56 @@ namespace trading_software
             }
             while (consoleKeyPressed.Key != ConsoleKey.Escape);
         }
+
+        private void GenerateRandomBlockShares()
+        {
+            int numberOfShares = 200;
+            for (int i = 0; i < numberOfShares; i++)
+            {
+                blockOfSharesManager.CreateRandomShare();
+            }
+        }
+        private void ShowMenu()
+        {
+            outputDevice.WriteLine(@"1 - Add client
+2 - Show all clients
+3 - Add stock
+4 - Show all stocks
+5 - Add transaction
+6 - show all transactions
+7 - Create random transaction");
+
+        }
+
+
+        Timer aTimer = new Timer(100);
+        private void SetTimer()
+        {
+            if (!aTimer.Enabled)
+            {
+                aTimer.Elapsed += ATimer_Elapsed;
+                aTimer.AutoReset = true;
+                aTimer.Enabled = true;
+            }
+        }
+
+        private void ResetTimer()
+        {
+            if (aTimer.Enabled)
+            {
+                aTimer.Elapsed -= ATimer_Elapsed;
+                aTimer.AutoReset = true;
+                aTimer.Enabled = false;
+            }
+        }
+
+        private void ATimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (transactionManager.MakeRandomTransaction())
+            {
+                outputDevice.WriteLine("New random transaction added!");
+            }
+        }
+
     }
 }

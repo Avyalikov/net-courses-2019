@@ -2,11 +2,12 @@
 {
     public interface IClientManager
     {
-        void AddNewClient();
+        void ManualAddClient();
         void AddClient(string name, string phoneNumber, decimal balance);
         void AddClient(Client client);
         void ReadAllClients();
-        Client SelectRandom();
-        // bool IsExist(Client client); is it need to be in interface?
+        int SelectRandomID();
+        void BankruptRandomClient();
+        void ChangeBalance(int ClientID, decimal accountGain);
     }
 }

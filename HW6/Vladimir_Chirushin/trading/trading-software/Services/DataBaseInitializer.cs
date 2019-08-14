@@ -2,22 +2,17 @@
 
 namespace trading_software
 {
-    public class DataBaseInitializer
+    public class DataBaseInitializer : IDataBaseInitializer
     {
-        IClientManager clientManager;
-        IStockManager stockManager;
-        IBlockOfSharesManager blockOfSharesManager;
+        private readonly IClientManager clientManager;
+        private readonly IStockManager stockManager;
 
         public DataBaseInitializer(IClientManager clientManager, IStockManager stockManager, IBlockOfSharesManager blockOfSharesManager)
         {
             this.clientManager = clientManager;
             this.stockManager = stockManager;
-            this.blockOfSharesManager = blockOfSharesManager;
         }
 
-        // You can initiate your database with this test data.
-        // Add this method at first line of Run() method of Trading engine
-        // Compile, Run and then delete line with Initiate() from Run()
         public void Initiate()
         {
             clientManager.AddClient(new Client { Name = "Tosin Abasi", PhoneNumber = "555-32-12", Balance = (decimal) 45938.12 });

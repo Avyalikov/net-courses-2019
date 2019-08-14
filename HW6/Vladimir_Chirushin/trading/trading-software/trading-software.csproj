@@ -42,6 +42,9 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.7.1\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -53,10 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockOfShares.cs" />
-    <Compile Include="Services\ITransactionValidator.cs" />
+    <Compile Include="Model\BlockOfShares.cs" />
+    <Compile Include="ITradingEngine.cs" />
+    <Compile Include="Services\IDataBaseInitializer.cs" />
     <Compile Include="Services\BlockOfSharesManager.cs" />
-    <Compile Include="Client.cs" />
+    <Compile Include="Model\Client.cs" />
     <Compile Include="Services\IBlockOfSharesManager.cs" />
     <Compile Include="Services\DataBaseInitializer.cs" />
     <Compile Include="Services\ClientManager.cs" />
@@ -72,14 +76,14 @@
     <Compile Include="Devices\OutputDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stock.cs" />
+    <Compile Include="Model\Stock.cs" />
     <Compile Include="Services\TableDrawer.cs" />
     <Compile Include="Services\StockManager.cs" />
     <Compile Include="TradingContext.cs" />
     <Compile Include="TradingEngine.cs" />
-    <Compile Include="Transaction.cs" />
+    <Compile Include="TradingSoftwareRegistry.cs" />
+    <Compile Include="Model\Transaction.cs" />
     <Compile Include="Services\TransactionManager.cs" />
-    <Compile Include="Services\TransactionValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -28,36 +28,23 @@
                 return db.Stocks.Where(c => c.StockType == stock.StockType).FirstOrDefault() != null;
             }
         }
-        public Stock SelectRandom()
+        public int SelectRandomID()
         {
             using (var db = new TradingContext())
             {
                 int numberOfStocks = db.Stocks.Count();
                 int stockID = random.Next(1, numberOfStocks);
-                var stock = db.Stocks
-                               .FirstOrDefault<Stock>(s => s.StockID == stockID);
-                return stock;
+                return stockID;
             }
         }
         public void AddStock(string stockName, decimal stockPrice)
         {
-            using (var db = new TradingContext())
+            var stock = new Stock
             {
-                var stock = new Stock
-                {
-                    StockType = stockName,
-                    Price = stockPrice
-                };
-                if (!IsExist(stock))
-                {
-                    db.Stocks.Add(stock);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    outputDevice.WriteLine("Stock already exist!");
-                }
-            }
+                StockType = stockName,
+                Price = stockPrice
+            };
+            AddStock(stock);
         }
         public void AddStock(Stock stock)
         {
@@ -74,7 +61,7 @@
                 }
             }
         }
-        public void AddNewStock()
+        public void ManualAddStock()
         {
             using (var db = new TradingContext())
             {
@@ -95,10 +82,8 @@
         }
 
 
-
         public void ReadAllStocks()
         {
-
             using (var db = new TradingContext())
             {
                 IQueryable<Stock> query = db.Stocks.AsQueryable<Stock>();

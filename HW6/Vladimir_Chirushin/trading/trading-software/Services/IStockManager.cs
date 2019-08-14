@@ -2,10 +2,10 @@
 {
     public interface IStockManager
     {
-        void AddNewStock();
+        void ManualAddStock();
         void AddStock(string stockName, decimal stockPrice);
         void AddStock(Stock stock);
-        Stock SelectRandom();
+        int SelectRandomID();
         void ReadAllStocks();
     }
 }
