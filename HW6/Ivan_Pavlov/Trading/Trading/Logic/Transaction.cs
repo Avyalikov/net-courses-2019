@@ -23,13 +23,13 @@
 
                 var stockForTrade = seller.UserStocks.ToList()[random.Next(0, seller.UserStocks.Count - 1)];
 
-                int AmountStocksForTrade = random.Next(0, stockForTrade.AmountStocks / 5);
+                int AmountStocksForTrade = random.Next(0, stockForTrade.AmountStocks / 10);
 
                 var sellerStocksAfterTrade = seller.UserStocks
                     .Where(us => us.Stock == stockForTrade.Stock).First();
 
                 if ((customer.Balance -= AmountStocksForTrade * stockForTrade.Stock.Price) < 0)
-                    return; //нехватка денег в логи
+                    Logger.Log.Info($"{customer.SurName} {customer.Name} имеет баланс меньше стоимости акций. Транзакция отклонена." );
                 else
                 {
                     var customerStocksAfterTrade = customer.UserStocks
@@ -41,6 +41,7 @@
                     if (customerStocksAfterTrade != null)
                     {
                         customerStocksAfterTrade.AmountStocks += AmountStocksForTrade;
+                        Models.TransactionStory transaction = CreateTransaction(db, sellerId, customer, stockForTrade, AmountStocksForTrade);
                     }
                     else
                     {
@@ -53,10 +54,27 @@
                             StockId = sellerStocksAfterTrade.Stock.Id
                         };
                         db.UserStocks.Add(us);
-                    }        
+
+                        Models.TransactionStory transaction = CreateTransaction(db, sellerId, customer, stockForTrade, AmountStocksForTrade);
+                    }
                     db.SaveChanges();
                 }
             }
+        }
+
+        private static Models.TransactionStory CreateTransaction(AppDbContext db, int sellerId, Models.User customer, Models.UserStocks stockForTrade, int AmountStocksForTrade)
+        {
+            Models.TransactionStory transaction = new Models.TransactionStory
+            {
+                CustomerId = customer.Id,
+                SellerId = sellerId,
+                AmountStocks = AmountStocksForTrade,
+                Stock = stockForTrade.Stock,
+                Sum = stockForTrade.Stock.Price * AmountStocksForTrade
+            };
+            db.TransactionStory.Add(transaction);
+            Logger.Log.Info(transaction.ToString());
+            return transaction;
         }
 
         private static int ChooseUser(int LastUserId = 0)

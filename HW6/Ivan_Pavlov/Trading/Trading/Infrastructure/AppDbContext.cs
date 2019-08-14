@@ -17,6 +17,7 @@
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserStocks> UserStocks { get; set; }
+        public DbSet<TransactionStory> TransactionStory { get; set; }
     }
 
     class ContextInitializer : DropCreateDatabaseIfModelChanges<AppDbContext>

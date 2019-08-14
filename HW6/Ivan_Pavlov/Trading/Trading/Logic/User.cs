@@ -21,7 +21,6 @@
                     sb.AppendLine(item.ToString());
                 }
             }
-
             return sb.ToString();
         }
 
@@ -43,6 +42,7 @@
                 db.Users.Add(user);
                 db.SaveChanges();                
                 CreateUser.UserCreated(user.ToString());
+                Logger.Log.Info("add new user" + user.ToString());
             }
         }
 

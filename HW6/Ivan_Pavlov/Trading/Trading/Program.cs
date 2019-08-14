@@ -1,6 +1,7 @@
 ﻿namespace Trading
 {
     using System;
+    using Trading.Infrastructure;
     using Trading.Logic;
 
     class Program
