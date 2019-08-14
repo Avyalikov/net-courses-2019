@@ -37,7 +37,7 @@
             db.Stocks.Add(s3); db.Stocks.Add(s4);
 
             User u1 = new User { SurName = "Петров", Name = "Петр", Balance = 10000 };
-            User u2 = new User { SurName = "Смирнов", Name = "Алексей", Balance = 25000 };
+            User u2 = new User { SurName = "Пупкин", Name = "Вася", Balance = 25000 };
             User u3 = new User { SurName = "Иванов", Name = "Семен", Balance = 30000 };
             User u4 = new User { SurName = "Маликов", Name = "Дмитрий", Balance = 50000 };
             db.Users.Add(u1); db.Users.Add(u2);
