@@ -9,9 +9,9 @@ using System.Windows;
 
 namespace HW6.Classes
 {
-    public class Randomizer: IRandomizer
+    public class Randomizer
     {
-        public void Randomize(TradingContext context, IOutputProvider outputProvider)
+        public void Randomize(TradingContext context)
         {
            Random bal = new Random();
            Random share = new Random();
@@ -51,14 +51,17 @@ namespace HW6.Classes
 
            try
            {
-                //var check = context.SaveChanges();
-                //Console.WriteLine("Saved: " + check);
+                var check = context.SaveChanges();
+                Console.WriteLine("Saved: " + check);
 
            }
            catch(Exception e)
            {
-                outputProvider.WriteLine("Randomization failed");
-                outputProvider.WriteLine(e.Message);
+                System.Console.WriteLine("Randomization failed");
+                System.Console.WriteLine(e.Message);
+
+                //outputProvider.WriteLine("Randomization failed");
+                //outputProvider.WriteLine(e.Message);
            }          
         }
     }

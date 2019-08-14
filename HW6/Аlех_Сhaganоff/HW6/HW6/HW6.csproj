@@ -158,6 +158,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\HW6.DataModel.Portfolio.datasource" />
+    <None Include="Properties\DataSources\HW6.DataModel.Share.datasource" />
+    <None Include="Properties\DataSources\HW6.DataModel.Trader.datasource" />
+    <None Include="Properties\DataSources\HW6.DataModel.Transaction.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

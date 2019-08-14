@@ -18,7 +18,10 @@ namespace HW6.Classes
             {
                 while (program.SimulationIsWorking)
                 {
-                    RandomOperation(context, outputProvider);                 
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => 
+                    {
+                        RandomOperation(context, outputProvider);
+                    }));            
 
                     for (int j =1; j <100 && program.SimulationIsWorking; j++)
                     {

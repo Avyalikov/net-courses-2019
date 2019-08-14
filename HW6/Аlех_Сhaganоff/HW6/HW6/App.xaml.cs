@@ -15,48 +15,23 @@ namespace HW6
     /// </summary>
     public partial class App : Application
     {
-        static public TradingContext context = new TradingContext();
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Randomizer r = new Randomizer();
-            
+
+            //Randomizer r = new Randomizer();
             //using (TradingContext context = new TradingContext())
             //{
-            //Task.Run(() =>
-            //{
-            //    //program.Run();
-            // r.Randomize(context);
 
-            //context.SaveChanges();
+            //r.Randomize(context);
+            //}
 
-            //    Console.WriteLine("Task completed");
-            //});
 
             //var a = context.Traders.Single(t => t.TraderId == 1);
             //a.Balance = 777;
 
             //var check = context.SaveChanges();
             //Console.WriteLine("Saved " + check);
-            //}
-
-            //context.SaveChanges();
-
-
-            Console.WriteLine("Main");
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Console.WriteLine("Window_Closing");
-            context.Dispose();
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            Console.WriteLine("Window_Closed");
-            context.Dispose();
         }
     }
 }
