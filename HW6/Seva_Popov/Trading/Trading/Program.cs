@@ -8,7 +8,7 @@ namespace Trading
     {
         static void Main(string[] args)
         {
-            Container container = new Container(new TradingRefactoring());
+            var container = new Container(new TradingRegistry());
             var tradingLogic = container.GetInstance<ITradingLogic>();
             tradingLogic.Run();
         }

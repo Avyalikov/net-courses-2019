@@ -9,12 +9,12 @@ namespace Trading.Components
 {
     class PhraseProvider : IPhraseProvider
     {
-        public string GetPhrase(string phraseKey)
+        public string GetPhrase(string phraseKey, Settings settings)
         {
-            string Language = "Resources\\eng.json";
-            ISettingsProvider settingsProvider = new SettingsProvider();
-            //Language = settingsProvider.GetGameSettings().Language;
-            //You can change language in GameSettings: "Resources\\eng.json";
+            string Language = settings.Language;
+            //ISettingsProvider settingsProvider = new SettingsProvider();
+
+            //You can change language in GameSettings: "Resources\\Rng.json";
 
             var resourceFile = new FileInfo(Language);
 

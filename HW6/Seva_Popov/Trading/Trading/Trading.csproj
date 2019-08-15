@@ -6,15 +6,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Eng.json" />
+    <None Remove="Resources\Rus.json" />
+    <None Remove="Resources\Settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Eng.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Rus.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
+    <PackageReference Include="StyleCop" Version="6.1.0" />
   </ItemGroup>
 
 </Project>

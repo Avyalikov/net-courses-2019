@@ -6,6 +6,6 @@ namespace Trading.Interfaces
 {
     interface ISettingsProvider
     {
-        GameSettings GetGameSettings();
+        Settings GetSettings();
     }
 }
