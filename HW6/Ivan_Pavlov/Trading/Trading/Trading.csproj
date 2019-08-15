@@ -59,8 +59,11 @@
     <Compile Include="Infrastructure\AppDbContext.cs" />
     <Compile Include="Infrastructure\Logger.cs" />
     <Compile Include="Infrastructure\SettingsByProvider.cs" />
+    <Compile Include="Infrastructure\ViewProvider.cs" />
+    <Compile Include="Interface\IView.cs" />
     <Compile Include="Logic\Home.cs" />
     <Compile Include="Logic\Stock.cs" />
+    <Compile Include="Logic\TradeLogic.cs" />
     <Compile Include="Logic\Transaction.cs" />
     <Compile Include="Logic\User.cs" />
     <Compile Include="Models\TransactionStory.cs" />
@@ -75,8 +78,8 @@
     <Compile Include="Models\UserStocks.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource\Json\JsonPhraseProvider.cs" />
-    <Compile Include="View\ConsoleIO.cs" />
+    <Compile Include="Infrastructure\JsonPhraseProvider.cs" />
+    <Compile Include="Infrastructure\ConsoleIO.cs" />
     <Compile Include="View\PrintInfo.cs" />
   </ItemGroup>
   <ItemGroup>

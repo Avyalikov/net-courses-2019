@@ -4,17 +4,10 @@
     using System.Linq;
     using System.Text;
     using Trading.Infrastructure;
-    using Trading.Interface;
+    using Trading.View;
 
     static class User
     {
-        private static readonly IView viewProvider;
-
-        static User()
-        {
-            viewProvider = SettingsByProvider.viewProvider;
-        }
-
         public static string ListUsers()
         {
             StringBuilder sb = new StringBuilder();
@@ -53,20 +46,20 @@
         {
             Models.User user = new Models.User
             {
-                SurName = ValidStringValue(viewProvider.EnterSurname, false),
+                SurName = ValidStringValue(CreateUser.EnterSurname, false),
 
-                Name = ValidStringValue(viewProvider.EnterName, false),
+                Name = ValidStringValue(CreateUser.EnterName, false),
 
-                Phone = ValidPhoneValue(viewProvider.EnterPhone, false),
+                Phone = ValidPhoneValue(CreateUser.EnterPhone, false),
 
-                Balance = ValidBalanceValue(viewProvider.EnterBalance, false)
+                Balance = ValidBalanceValue(CreateUser.EnterBalance, false)
             };
 
             using (AppDbContext db = new AppDbContext())
             {
                 db.Users.Add(user);
-                db.SaveChanges();
-                viewProvider.UserCreated(user.ToString());
+                db.SaveChanges();                
+                CreateUser.UserCreated(user.ToString());
                 Logger.Log.Info("НОВЫЙ ПОЛЬЗОВАТЕЛЬ: " + user.ToString());
             }
         }

@@ -8,5 +8,6 @@
     {
         public static readonly IPhraseProvider phraseProvider = new JsonPhraseProvider();
         public static readonly IIOProvider iOProvider = new ConsoleIO();
+        public static readonly IView viewProvider = new ViewProvider();
     }
 }

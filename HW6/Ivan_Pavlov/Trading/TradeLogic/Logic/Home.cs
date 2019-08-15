@@ -1,44 +1,37 @@
 ﻿namespace Trading.Logic
 {
-    using Trading.Infrastructure;
-    using Trading.Interface;
+    using Trading.View;
 
     public static class Home
     {
-        private static readonly IView viewProvider;
-
-        static Home()
-        {
-            viewProvider = SettingsByProvider.viewProvider;
-        }
-
         public static void Run()
         {
-            int UserSelect = viewProvider.IndexMain();
+            int UserSelect = MainView.IndexMain();
             switch (UserSelect)
             {
                 case 1:
                     Transaction.Run();
                     break;
                 case 2:
-                    viewProvider.PrintAllUsers(User.ListUsers());
+                    PrintInfo.PrintAllUsers(User.ListUsers());
                     break;
                 case 3:
                     User.AddUser();
                     break;
                 case 4:
-                    viewProvider.PrintAllStocks(Stock.ListStocks());
+                    PrintInfo.PrintAllStocks(Stock.ListStocks());
                     break;
                 case 5:
-                    viewProvider.PrintAllStocks(Stock.ListStocks());
+                    PrintInfo.PrintAllStocks(Stock.ListStocks());
                     Stock.ChangeStockPrice();
                     break;
                 case 6:
-                    viewProvider.PrintOrangeZone(User.Zone(0));
+                    PrintInfo.PrintOrangeZone(User.Zone(0));
                     break;
                 case 7:
-                    viewProvider.PrintBlackZone(User.Zone(1));
+                    PrintInfo.PrintBlackZone(User.Zone(1));
                     break;
+
             }
         }
     }

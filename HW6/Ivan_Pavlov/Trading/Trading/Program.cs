@@ -8,9 +8,10 @@
     {
         static void Main(string[] args)
         {
+            TradeLogic tradeLogic = TradeLogic.Initialize();
             while (true)
             {
-                Home.Run();
+                tradeLogic.Run();
             }
         }
     }

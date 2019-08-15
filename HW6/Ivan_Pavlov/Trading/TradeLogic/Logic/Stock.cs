@@ -3,17 +3,10 @@
     using System.Linq;
     using System.Text;
     using Trading.Infrastructure;
-    using Trading.Interface;
+    using Trading.View;
 
     static class Stock
     {
-        private static IView viewProvider;
-
-        static Stock()
-        {
-            viewProvider = SettingsByProvider.viewProvider;
-        }
-
         public static string ListStocks()
         {
             StringBuilder sb = new StringBuilder();
@@ -47,7 +40,7 @@
         private static int SelectStock(bool Valid = false)
         {            
             Models.Stock stock = null;
-            if (int.TryParse(viewProvider.ChooseStock(Valid), out int id))
+            if (int.TryParse(ChangeStock.ChooseStock(Valid), out int id))
             {
                 using (AppDbContext db = new AppDbContext())
                 {
@@ -61,7 +54,7 @@
 
         private static decimal NewPrice(bool Valid = false)
         {
-            if (decimal.TryParse(viewProvider.NewPrice(), out decimal newPrice))
+            if (decimal.TryParse(ChangeStock.NewPrice(), out decimal newPrice))
                 if (newPrice > 0)
                     return newPrice;
             return NewPrice(true);
