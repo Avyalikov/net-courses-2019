@@ -1,60 +1,38 @@
 ﻿namespace Trading.Logic
 {
-    using System.Linq;
     using System.Text;
-    using Trading.Infrastructure;
-    using Trading.Interface;
+    using TradingData;
+    using TradingView.Interface;
 
-    static class Stock
+    internal static class Stock
     {
-        private static IView viewProvider;
-
-        static Stock()
-        {
-            viewProvider = SettingsByProvider.viewProvider;
-        }
+        private static readonly IView viewProvider = SettingsByLayers.viewProvider;
+        private static readonly IDbProvider dbProvider = SettingsByLayers.dbProvider;
 
         public static string ListStocks()
         {
             StringBuilder sb = new StringBuilder();
+            var InfoByStocks = dbProvider.ListStocks();
 
-            using (AppDbContext db = new AppDbContext())
-            {
-                var InfoByStocks = db.Stocks.Include("TypeStock");
-
-                foreach (var item in InfoByStocks)
-                {
-                    sb.AppendLine($"{item.Id}. {item.ToString()}");
-                }
-            }
+            foreach (var item in InfoByStocks)
+                sb.AppendLine(item.ToString());
 
             return sb.ToString();
         }
 
         public static void ChangeStockPrice()
-        {            
+        {
             int stockId = SelectStock();
-            using (AppDbContext db = new AppDbContext())
-            {
-                var stock = db.Stocks.Find(stockId);
-                decimal oldPrice = stock.Price;
-                stock.Price = NewPrice();
-                db.SaveChanges();
-                Logger.Log.Info($"ИЗМЕНЕНИЕ ЦЕНЫ: {stock.Name} имеет новую цену {stock.Price} вместо {oldPrice}");
-            }            
+            decimal newPrice = NewPrice();
+            dbProvider.ChangeStockPrice(stockId, newPrice);
         }
 
         private static int SelectStock(bool Valid = false)
-        {            
-            Models.Stock stock = null;
+        {
             if (int.TryParse(viewProvider.ChooseStock(Valid), out int id))
             {
-                using (AppDbContext db = new AppDbContext())
-                {
-                    stock = db.Stocks.Where(s => s.Id == id).FirstOrDefault();
-                    if (stock != null)
-                        return stock.Id;
-                }
+                if (dbProvider.SelectStockId(id))
+                    return id;
             }
             return SelectStock(true);
         }

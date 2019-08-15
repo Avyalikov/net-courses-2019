@@ -1,24 +1,36 @@
 ﻿namespace Trading.Logic
 {
-    using Trading.Infrastructure;
-    using Trading.Interface;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using TradingView.Interface;
 
     public static class Home
     {
-        private static readonly IView viewProvider;
+        private static readonly IView viewProvider = SettingsByLayers.viewProvider;
+        private static bool TradeStart = false;
 
-        static Home()
+        private static async void TradeAsync()
         {
-            viewProvider = SettingsByProvider.viewProvider;
+            while (TradeStart)
+            {
+                await Task.Run(() => Transaction.Run());
+                Thread.Sleep(100);
+            }
         }
 
         public static void Run()
         {
-            int UserSelect = viewProvider.IndexMain();
+            int UserSelect = viewProvider.IndexMain(TradeStart);
             switch (UserSelect)
             {
                 case 1:
-                    Transaction.Run();
+                    if (!TradeStart)
+                    {
+                        TradeStart = true;
+                        TradeAsync();                        
+                    }
+                    else 
+                        TradeStart = false;
                     break;
                 case 2:
                     viewProvider.PrintAllUsers(User.ListUsers());
@@ -34,10 +46,10 @@
                     Stock.ChangeStockPrice();
                     break;
                 case 6:
-                    viewProvider.PrintOrangeZone(User.Zone(0));
+                    viewProvider.PrintOrangeZone(User.OrangeZone());
                     break;
                 case 7:
-                    viewProvider.PrintBlackZone(User.Zone(1));
+                    viewProvider.PrintBlackZone(User.BlackZone());
                     break;
             }
         }

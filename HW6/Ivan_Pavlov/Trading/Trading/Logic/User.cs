@@ -3,75 +3,62 @@
     using System;
     using System.Linq;
     using System.Text;
-    using Trading.Infrastructure;
-    using Trading.Interface;
+    using TradingData;
+    using TradingView;
+    using TradingView.Interface;
 
-    static class User
+    internal static class User
     {
-        private static readonly IView viewProvider;
-
-        static User()
-        {
-            viewProvider = SettingsByProvider.viewProvider;
-        }
+        private static readonly IView viewProvider = SettingsByLayers.viewProvider;
+        private static readonly IDbProvider dbProvider = SettingsByLayers.dbProvider;
 
         public static string ListUsers()
         {
             StringBuilder sb = new StringBuilder();
-
-            using (AppDbContext db = new AppDbContext())
+            var InfoByUsers = dbProvider.ListUsers();
+            foreach (var item in InfoByUsers)
             {
-                var InfoByUsers = db.Users.Include("UserStocks.Stock");
-              
-                foreach (var item in InfoByUsers)
-                {
-                    sb.AppendLine(item.ToString());
-                }
+                sb.AppendLine(item.ToString());
             }
             return sb.ToString();
         }
 
-        public static string Zone(int zone)
+        public static string OrangeZone()
         {
             StringBuilder sb = new StringBuilder();
-            using (AppDbContext db = new AppDbContext())
-            {
-                IQueryable<Models.User> Zone = null;
-                if (zone == 0)
-                    Zone = db.Users.Where(u => u.Balance == 0);
-                else
-                    Zone = db.Users.Where(u => u.Balance < 0);
+            var Zone = dbProvider.OrangeZone();
                 foreach (var item in Zone)
                 {
                     sb.AppendLine(item.ToString());
-                }
+                }            
+            return sb.ToString();
+        }
+
+        public static string BlackZone()
+        {
+            StringBuilder sb = new StringBuilder();
+            var Zone = dbProvider.BlackZone();
+            foreach (var item in Zone)
+            {
+                sb.AppendLine(item.ToString());
             }
             return sb.ToString();
         }
 
         public static void AddUser()
         {
-            Models.User user = new Models.User
+            TradingData.Models.User user = new TradingData.Models.User
             {
                 SurName = ValidStringValue(viewProvider.EnterSurname, false),
-
                 Name = ValidStringValue(viewProvider.EnterName, false),
-
                 Phone = ValidPhoneValue(viewProvider.EnterPhone, false),
-
                 Balance = ValidBalanceValue(viewProvider.EnterBalance, false)
             };
 
-            using (AppDbContext db = new AppDbContext())
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                viewProvider.UserCreated(user.ToString());
-                Logger.Log.Info("НОВЫЙ ПОЛЬЗОВАТЕЛЬ: " + user.ToString());
-            }
+            dbProvider.AddUser(user);
         }
 
-        private static string ValidStringValue(Func<bool, string> func, bool check) 
+        private static string ValidStringValue(Func<bool, string> func, bool check)
         {
             string value;
             value = func(check);

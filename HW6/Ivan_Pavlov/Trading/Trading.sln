@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading", "Trading\Trading.csproj", "{029A5A11-5EE2-4212-9AC1-37D65494DD46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingView", "View\TradingView.csproj", "{14EFEEBB-09C2-4E1E-AC0D-C4CB77BEF589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingData", "TradingData\TradingData.csproj", "{ED02D602-5D03-4ACE-A103-8D1C8A6633B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{029A5A11-5EE2-4212-9AC1-37D65494DD46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{029A5A11-5EE2-4212-9AC1-37D65494DD46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{029A5A11-5EE2-4212-9AC1-37D65494DD46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14EFEEBB-09C2-4E1E-AC0D-C4CB77BEF589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14EFEEBB-09C2-4E1E-AC0D-C4CB77BEF589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14EFEEBB-09C2-4E1E-AC0D-C4CB77BEF589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14EFEEBB-09C2-4E1E-AC0D-C4CB77BEF589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED02D602-5D03-4ACE-A103-8D1C8A6633B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED02D602-5D03-4ACE-A103-8D1C8A6633B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED02D602-5D03-4ACE-A103-8D1C8A6633B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED02D602-5D03-4ACE-A103-8D1C8A6633B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
