@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -33,6 +34,7 @@ namespace Trading
             Logger.MainLog.Info("Program started");
             using (var db = new TradingDBContext())
             {
+                db.Database.Initialize(false);
                 clientsOperation.Start(db);
                 while (!userInput.ToLower().Equals("e"))
                 {
@@ -76,6 +78,9 @@ namespace Trading
                     break;
                 case "help":
                     ioProvider.WriteLine(phraseProvider.GetPhrase("Help"));
+                    isSuccess = true;
+                    break;
+                case "e":
                     isSuccess = true;
                     break;
                 default:

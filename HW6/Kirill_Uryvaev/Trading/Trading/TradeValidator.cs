@@ -13,7 +13,7 @@ namespace Trading
         {
             if (clientInfo.Length < 5)
             {
-                Logger.MainLog.Warn("Not enougth information about client");
+                Logger.MainLog.Warn("Not enough information about client");
                 return false;
             }
             decimal balance = 0;
@@ -25,7 +25,7 @@ namespace Trading
         {
             if (shareInfo.Length < 3)
             {
-                Logger.MainLog.Warn("Not enougth information about share");
+                Logger.MainLog.Warn("Not enough information about share");
                 return false;
             }
             decimal cost = 0;
@@ -37,7 +37,7 @@ namespace Trading
         {
             if (clientInfo.Length < 3)
             {
-                Logger.MainLog.Warn("Not enougth information about client balance");
+                Logger.MainLog.Warn("Not enough information about client balance");
                 return false;
             }
             int clientID = 0;
@@ -51,7 +51,7 @@ namespace Trading
         {
             if (shareToClientInfo.Length < 4)
             {
-                Logger.MainLog.Warn("Not enougth information about share to client");
+                Logger.MainLog.Warn("Not enough information about share to client");
                 return false;
             }
 
@@ -91,10 +91,12 @@ namespace Trading
 
         public bool ValidateClientList(DbSet<Clients> clients)
         {
-            bool isCorrect = true;
             if (clients.Count() < 2)
-                isCorrect = false;
-            return isCorrect;
+            {
+                Logger.TradeLog.Warn($"Not enough clients to trade");
+                return false;
+            }
+            return true;
         }
 
         public bool ValidateTradingClient(Clients client)
