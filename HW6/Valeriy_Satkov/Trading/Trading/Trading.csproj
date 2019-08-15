@@ -51,8 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contexts\ClientContext.cs" />
-    <Compile Include="Persons\Client.cs" />
-    <Compile Include="Persons\Trader.cs" />
+    <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\ClientSharesNumber.cs" />
+    <Compile Include="Entities\Operation.cs" />
+    <Compile Include="Entities\Share.cs" />
+    <Compile Include="Entities\ShareType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
