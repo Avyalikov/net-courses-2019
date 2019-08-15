@@ -64,6 +64,7 @@
     <Compile Include="Logic\Transaction.cs" />
     <Compile Include="Logic\User.cs" />
     <Compile Include="Models\TransactionStory.cs" />
+    <Compile Include="View\ChangeStock.cs" />
     <Compile Include="View\CreateUsers.cs" />
     <Compile Include="View\MainView.cs" />
     <Compile Include="Models\Stock.cs" />

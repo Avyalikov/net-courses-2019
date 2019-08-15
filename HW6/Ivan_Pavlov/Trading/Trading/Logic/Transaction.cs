@@ -8,13 +8,13 @@
     {
         public static void Run()
         {
+            Random random = new Random();
+
+            int sellerId = ChooseUser();
+            int customerId = ChooseUser(sellerId);
+
             using (AppDbContext db = new AppDbContext())
             {
-                Random random = new Random();
-
-                int sellerId = ChooseUser();
-                int customerId = ChooseUser(sellerId);
-
                 var seller = db.Users.Include("UserStocks.Stock")
                     .Where(u => u.Id == sellerId).First();
 
@@ -29,7 +29,7 @@
                     .Where(us => us.Stock == stockForTrade.Stock).First();
 
                 if ((customer.Balance -= AmountStocksForTrade * stockForTrade.Stock.Price) < 0)
-                    Logger.Log.Info($"{customer.SurName} {customer.Name} имеет баланс меньше стоимости акций. Транзакция отклонена." );
+                    Logger.Log.Info($"{customer.SurName} {customer.Name} имеет баланс меньше стоимости акций. Транзакция отклонена.");
                 else
                 {
                     var customerStocksAfterTrade = customer.UserStocks
@@ -98,7 +98,7 @@
                     else
                         return ChooseUser();
                 }
-            }                  
-        }       
+            }
+        }
     }
 }

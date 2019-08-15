@@ -23,6 +23,34 @@
             iOProvider.ReadKey();
         }
 
+        public static void PrintOrangeZone(string users)
+        {
+            iOProvider.Clear();
+            if (string.IsNullOrEmpty(users))
+                iOProvider.WriteLine(phraseProvider.GetPhrase("OrangeZoneNull"));
+            else
+            {
+                iOProvider.WriteLine(phraseProvider.GetPhrase("OrangeZoneList"));
+                iOProvider.WriteLine(users);
+            }
+            iOProvider.WriteLine(phraseProvider.GetPhrase("BackToMain"));
+            iOProvider.ReadKey();
+        }
+
+        public static void PrintBlackZone(string users)
+        {
+            iOProvider.Clear();
+            if (string.IsNullOrEmpty(users))
+                iOProvider.WriteLine(phraseProvider.GetPhrase("BlackZoneNull"));
+            else
+            {
+                iOProvider.WriteLine(phraseProvider.GetPhrase("BlackZoneList"));
+                iOProvider.WriteLine(users);
+            }
+            iOProvider.WriteLine(phraseProvider.GetPhrase("BackToMain"));
+            iOProvider.ReadKey();
+        }
+
         public static void PrintAllStocks(string stocksInfo)
         {
             iOProvider.Clear();

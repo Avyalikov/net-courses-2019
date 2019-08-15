@@ -1,7 +1,7 @@
-﻿using Trading.View;
-
-namespace Trading.Logic
+﻿namespace Trading.Logic
 {
+    using Trading.View;
+
     public static class Home
     {
         public static void Run()
@@ -21,6 +21,17 @@ namespace Trading.Logic
                 case 4:
                     PrintInfo.PrintAllStocks(Stock.ListStocks());
                     break;
+                case 5:
+                    PrintInfo.PrintAllStocks(Stock.ListStocks());
+                    Stock.ChangeStockPrice();
+                    break;
+                case 6:
+                    PrintInfo.PrintOrangeZone(User.Zone(0));
+                    break;
+                case 7:
+                    PrintInfo.PrintBlackZone(User.Zone(1));
+                    break;
+
             }
         }
     }

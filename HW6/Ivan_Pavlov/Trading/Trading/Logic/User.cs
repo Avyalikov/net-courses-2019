@@ -24,6 +24,24 @@
             return sb.ToString();
         }
 
+        public static string Zone(int zone)
+        {
+            StringBuilder sb = new StringBuilder();
+            using (AppDbContext db = new AppDbContext())
+            {
+                IQueryable<Models.User> Zone = null;
+                if (zone == 0)
+                    Zone = db.Users.Where(u => u.Balance == 0);
+                else
+                    Zone = db.Users.Where(u => u.Balance < 0);
+                foreach (var item in Zone)
+                {
+                    sb.AppendLine(item.ToString());
+                }
+            }
+            return sb.ToString();
+        }
+
         public static void AddUser()
         {
             Models.User user = new Models.User
@@ -42,7 +60,7 @@
                 db.Users.Add(user);
                 db.SaveChanges();                
                 CreateUser.UserCreated(user.ToString());
-                Logger.Log.Info("add new user" + user.ToString());
+                Logger.Log.Info("НОВЫЙ ПОЛЬЗОВАТЕЛЬ: " + user.ToString());
             }
         }
 
@@ -69,7 +87,8 @@
             string value;
             value = ValidStringValue(func, check);
             if (decimal.TryParse(value, out decimal balance))
-                return balance;
+                if (balance >= 0)
+                    return balance;
             return ValidBalanceValue(func, true);
         }
     }
