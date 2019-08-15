@@ -9,5 +9,8 @@
         int SelectRandomID();
         void BankruptRandomClient();
         void ChangeBalance(int ClientID, decimal accountGain);
+        void ShowOrangeZone();
+        void ShowBlackClients();
+        void ReduceAssetsRandomClient();
     }
 }

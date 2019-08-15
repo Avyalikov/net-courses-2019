@@ -33,7 +33,6 @@ namespace trading_software
             string phoneNumberColumnName = "Phone Number";
             string balanceColumnName = "Balance";
 
-            outputDevice.Clear();
             outputDevice.WriteLine($"___________________________________________________________");
             outputDevice.WriteLine($"|{numberColumnName,4}|{nameColumnName,22}|{phoneNumberColumnName,14}|{balanceColumnName,14}|");
             outputDevice.WriteLine($"|----|----------------------|--------------|--------------|");
@@ -54,7 +53,6 @@ namespace trading_software
             string amountName = "Quan";
             string transactionAmountname = "Transaction";
 
-            outputDevice.Clear();
             outputDevice.WriteLine($"_________________________________________________________________________________________________________________");
             outputDevice.WriteLine($"|{numberName,4}|{dateTimeName,20}|{sellerName,22}|{buyerName,22}|{stockName,22}|{amountName,4}|{transactionAmountname,11}|");
             outputDevice.WriteLine($"|----|--------------------|----------------------|----------------------|----------------------|----|-----------|");

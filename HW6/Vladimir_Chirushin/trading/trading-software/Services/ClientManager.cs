@@ -60,8 +60,6 @@
         }
         public void ManualAddClient()
         {
-            using (var db = new TradingContext())
-            {
                 outputDevice.WriteLine("Write name:");
                 string name = inputDevice.ReadLine();
 
@@ -78,9 +76,40 @@
                         outputDevice.WriteLine("Please enter valid balance");
                 }
                 AddClient(name, phoneNumber, balance);
+        }
+
+        public void ShowBlackClients()
+        {
+            using (var db = new TradingContext())
+            {
+                outputDevice.WriteLine("Clients in 'Black' zone: ");
+                IQueryable<Client> query = db.Clients.Where(c=>c.Balance<0)
+                    .OrderBy(c => c.Name).AsQueryable<Client>();
+                tableDrawer.Show(query);
+            }
+        }
+        public void ShowOrangeZone()
+        {
+            using (var db = new TradingContext())
+            {
+                outputDevice.WriteLine("Clients in 'Orange' zone: ");
+                IQueryable<Client> query = db.Clients.Where(c => c.Balance == 0)
+                    .OrderBy(c => c.Name).AsQueryable<Client>();
+                tableDrawer.Show(query);
             }
         }
 
+        public void ReduceAssetsRandomClient()
+        {
+            using (var db = new TradingContext())
+            {
+                int numberOfClients = db.Clients.Count();
+                int clientId = random.Next(1, numberOfClients);
+                Client client = db.Clients.Where(c => c.ClientID == clientId).FirstOrDefault();
+                client.Balance -= 100000;
+                db.SaveChanges();
+            }
+        }
 
         public void ReadAllClients()
         {
@@ -115,7 +144,7 @@
                 int numberOfClients = db.Clients.Count();
                 int clientId = random.Next(1, numberOfClients);
                 Client client = db.Clients.Where(c=>c.ClientID == clientId).FirstOrDefault();
-                client.Balance -= 10000;
+                client.Balance = 0;
                 db.SaveChanges();
             }
         }

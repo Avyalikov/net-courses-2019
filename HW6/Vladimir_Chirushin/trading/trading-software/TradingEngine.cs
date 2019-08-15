@@ -39,7 +39,7 @@ namespace trading_software
         public void Run()
         {
             ConsoleKeyInfo consoleKeyPressed;
-            
+            ShowMenu();
             transactionManager.ReadAllTransactions();
             do
             {
@@ -73,15 +73,19 @@ namespace trading_software
                     case ConsoleKey.D7:
                         blockOfSharesManager.ManualAddNewShare();
                         break;
+
                     case ConsoleKey.D8:
                         blockOfSharesManager.ShowAllShares();
                         break;
+
                     case ConsoleKey.D0:
                         transactionManager.MakeRandomTransaction();
                         break;
+
                     case ConsoleKey.T:
                         SetTimer();
                         break;
+
                     case ConsoleKey.R:
                         ResetTimer();
                         break;
@@ -89,17 +93,35 @@ namespace trading_software
                         aTimer.Stop();
                         aTimer.Dispose();
                         break;
+
                     case ConsoleKey.I:
                         dbInitializer.Initiate();
                         break;
+
                     case ConsoleKey.M:
-                        
+                        GenerateRandomBlockShares();
                         break;
+
                     case ConsoleKey.B:
                         clientManager.BankruptRandomClient();
                         break;
+
+                    case ConsoleKey.Q:
+                        clientManager.ShowOrangeZone();
+                        break;
+
+                    case ConsoleKey.W:
+                        clientManager.ShowBlackClients();
+                        break;
+
+                    case ConsoleKey.A:
+                        clientManager.ReduceAssetsRandomClient();
+                        break;
+
+                        break;
                     case ConsoleKey.Escape:
                         continue;
+
                     default:
                         ShowMenu();
                         continue;
@@ -118,13 +140,7 @@ namespace trading_software
         }
         private void ShowMenu()
         {
-            outputDevice.WriteLine(@"1 - Add client
-2 - Show all clients
-3 - Add stock
-4 - Show all stocks
-5 - Add transaction
-6 - show all transactions
-7 - Create random transaction");
+            outputDevice.WriteLine(@"MenuShowed");
 
         }
 

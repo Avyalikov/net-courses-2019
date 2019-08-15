@@ -198,9 +198,9 @@ namespace trading_software
             }
             else
             {
+                outputDevice.WriteLine("Failed to create transaction:");
                 IQueryable<Transaction> query = new[] { transaction }.AsQueryable();
                 tableDrawer.Show(query);
-                outputDevice.WriteLine("Failed to create transaction:");
                 return false;
             }
         }

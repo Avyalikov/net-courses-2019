@@ -17,35 +17,21 @@ namespace trading_software
         }
         public void AddShare(int ClientID, int StockID, int amount)
         {
-            using (var db = new TradingContext())
+            var block = new BlockOfShares
             {
-                var entry = db.BlockOfSharesTable
-                    .Where(b => (b.ClientID == ClientID && b.StockID == StockID))
-                    .FirstOrDefault();
-                if(entry == null)
-                {
-                    var block = new BlockOfShares
-                    {
-                        ClientID = ClientID,
-                        StockID = StockID,
-                        Amount = amount
-                    };
-                    db.BlockOfSharesTable.Add(block);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    entry.Amount += amount;
-                }
-                
-            }
+                ClientID = ClientID,
+                StockID = StockID,
+                Amount = amount
+            };
+            AddShare(block);
         }
+
         public void AddShare(BlockOfShares blockOfShares)
         {
             using (var db = new TradingContext())
             {
                 var entry = db.BlockOfSharesTable
-                    .Where(b => (b.ClientID == blockOfShares.ClientID && 
+                    .Where(b => (b.ClientID == blockOfShares.ClientID &&
                                  b.StockID == blockOfShares.StockID))
                     .FirstOrDefault();
                 if (entry == null)
@@ -84,7 +70,7 @@ namespace trading_software
                     else
                         outputDevice.WriteLine("Please enter valid amount.");
                 }
-                AddShare(client, stock, amount); 
+                AddShare(client, stock, amount);
             }
         }
 
@@ -106,7 +92,7 @@ namespace trading_software
         {
             using (var db = new TradingContext())
             {
-                IQueryable<BlockOfShares> query = db.BlockOfSharesTable.OrderBy(b=>b.ClientID).AsQueryable<BlockOfShares>();
+                IQueryable<BlockOfShares> query = db.BlockOfSharesTable.OrderBy(b => b.ClientID).AsQueryable<BlockOfShares>();
                 tableDrawer.Show(query);
             }
         }
