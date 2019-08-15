@@ -13,10 +13,10 @@
         [Key]
         public int ShareId { get; set; }
 
-        [Required]
+        [Required, MaxLength(50), MinLength(5)]
         public string CompanyName { get; set; }
 
         [Required, ForeignKey("ShareTypeId")]
-        public int ShareType { get; set; }
+        public ShareType ShareType { get; set; }
     }
 }

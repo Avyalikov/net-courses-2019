@@ -12,10 +12,10 @@
         [Key]
         public int ClientId { get; set; }
 
-        [Required]
+        [Required, MaxLength(20), MinLength(2)]
         public string LastName { get; set; }
 
-        [Required]
+        [Required, MaxLength(20), MinLength(2)]
         public string FirstName { get; set; }
 
         [Required]

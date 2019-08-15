@@ -14,10 +14,10 @@
         public int Id { get; set; }
 
         [Required, ForeignKey("ClientId")]
-        public int Client { get; set; }
+        public Client Client { get; set; }
 
         [Required, ForeignKey("ShareId")]
-        public int Share { get; set; }
+        public Share Share { get; set; }
 
         [Required]
         public decimal Number { get; set; }

@@ -16,16 +16,16 @@
         [Required]
         public DateTime DebitDate { get; set; } // it's date for Customer
 
-        [Required, ForeignKey("ClientId")]
-        public int Customer { get; set; }
+        [Required, ForeignKey("CustomerId")]
+        public Client Customer { get; set; }
 
         public DateTime ChargeDate { get; set; } // it's date for Seller
 
-        [Required, ForeignKey("ClientId")]
-        public int Seller { get; set; }
+        [Required, ForeignKey("SellerId")]
+        public Client Seller { get; set; }
 
         [ForeignKey("ShareId")]
-        public int Share { get; set; }
+        public Share Share { get; set; }
 
         public decimal Cost { get; set; } // see ShareType.Cost (The cost will be fixed here at the time of purchase)
 

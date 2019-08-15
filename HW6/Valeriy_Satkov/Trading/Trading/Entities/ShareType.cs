@@ -12,7 +12,7 @@
         [Key]
         public int ShareTypeId { get; set; }
 
-        [Required]
+        [Required, MaxLength(20), MinLength(2)]
         public string Name { get; set; }
 
         [Required]
