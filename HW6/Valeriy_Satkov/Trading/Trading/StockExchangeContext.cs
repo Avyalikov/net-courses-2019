@@ -1,9 +1,9 @@
-﻿namespace Trading.Contexts
+﻿namespace Trading
 {
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using Trading.Entities;
+    using Entities;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;

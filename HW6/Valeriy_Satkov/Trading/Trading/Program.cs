@@ -10,6 +10,7 @@
     {
         static void Main(string[] args)
         {
+            new StockExchange().Start();
         }
     }
 }

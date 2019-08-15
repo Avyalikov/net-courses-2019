@@ -8,5 +8,13 @@
 
     class StockExchange
     {
+        public StockExchange()
+        {
+
+        }
+
+        public void Start()
+        {
+        }
     }
 }

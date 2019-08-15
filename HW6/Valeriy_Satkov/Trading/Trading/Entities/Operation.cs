@@ -27,6 +27,9 @@
         [ForeignKey("ShareId")]
         public Share Share { get; set; }
 
+        [ForeignKey("TypeId")]
+        public ShareType Type { get; set; }
+
         public decimal Cost { get; set; } // see ShareType.Cost (The cost will be fixed here at the time of purchase)
 
         public decimal Number { get; set; } // Number of shares for deal

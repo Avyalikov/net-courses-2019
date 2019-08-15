@@ -19,7 +19,7 @@
         public string FirstName { get; set; }
 
         [Required]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
         [Required]
         public decimal Balance { get; set; }
