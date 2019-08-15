@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Loaded="ProgramWindow_Loaded">
     <Window.Resources>
-        <CollectionViewSource x:Key="traderViewSource" d:DesignSource="{d:DesignInstance {x:Type DataModel:Trader}, CreateList=True}"/>
+        <CollectionViewSource x:Key="traderViewSource" d:DesignSource="{d:DesignInstance {x:Type DataModel:Trader}, CreateList=True}" Filter="traderViewSourceFilter"/>
         <CollectionViewSource x:Key="portfolioViewSource" d:DesignSource="{d:DesignInstance {x:Type DataModel:Portfolio}, CreateList=True}"/>
         <CollectionViewSource x:Key="shareViewSource" d:DesignSource="{d:DesignInstance {x:Type DataModel:Share}, CreateList=True}"/>
         <CollectionViewSource x:Key="transactionViewSource" d:DesignSource="{d:DesignInstance {x:Type DataModel:Transaction}, CreateList=True}"/>
@@ -23,6 +23,11 @@
                 <RowDefinition/>
                 <RowDefinition Height="0.25*"/>
             </Grid.RowDefinitions>
+            <ComboBox x:Name="TraderFilteComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Grid.Row="1" Grid.Column="1" Margin="0,5,5,0" SelectionChanged="TraderFilteComboBox_SelectionChanged">
+                <ComboBoxItem Content="All records" IsSelected="True"/>
+                <ComboBoxItem Content="Orange zone (balance = 0)"/>
+                <ComboBoxItem Content="Black zone (balance &lt; 0)"/>
+            </ComboBox>
             <DataGrid x:Name="traderDataGrid" DataContext="{StaticResource traderViewSource}" ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding TraderId}" Header="Trader ID" IsReadOnly="True"/>

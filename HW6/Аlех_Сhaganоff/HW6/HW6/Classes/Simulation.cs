@@ -1,11 +1,13 @@
 ﻿using HW6.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace HW6.Classes
@@ -21,7 +23,8 @@ namespace HW6.Classes
                     Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => 
                     {
                         RandomOperation(context, outputProvider);
-                    }));            
+                        updateView(context);
+                    }));
 
                     for (int j =1; j <100 && program.SimulationIsWorking; j++)
                     {
@@ -174,6 +177,29 @@ namespace HW6.Classes
             {
                 outputProvider.WriteLine(e.Message);
             }           
+        }
+
+        private void updateView(TradingContext context)
+        {
+            System.Windows.Data.CollectionViewSource traderViewSource = ((System.Windows.Data.CollectionViewSource)(MainWindow.AppWindow.FindResource("traderViewSource")));
+            System.Windows.Data.CollectionViewSource portfolioViewSource = ((System.Windows.Data.CollectionViewSource)(MainWindow.AppWindow.FindResource("portfolioViewSource")));
+            //System.Windows.Data.CollectionViewSource shareViewSource = ((System.Windows.Data.CollectionViewSource)(MainWindow.AppWindow.FindResource("shareViewSource")));
+            //System.Windows.Data.CollectionViewSource transactionViewSource = ((System.Windows.Data.CollectionViewSource)(MainWindow.AppWindow.FindResource("transactionViewSource")));
+
+            context.Traders.Load();
+            context.Portfolios.Load();
+            //context.Shares.Load();
+            //context.Transactions.Load();
+
+            traderViewSource.Source = context.Traders.Local;
+            portfolioViewSource.Source = context.Portfolios.Local;
+            //shareViewSource.Source = context.Shares.Local;
+            //transactionViewSource.Source = context.Transactions.Local;
+
+            ((CollectionViewSource)MainWindow.AppWindow.Resources["traderViewSource"]).View.Refresh();
+            ((CollectionViewSource)MainWindow.AppWindow.Resources["portfolioViewSource"]).View.Refresh();
+            //((CollectionViewSource)MainWindow.AppWindow.Resources["shareViewSource"]).View.Refresh();
+            //((CollectionViewSource)MainWindow.AppWindow.Resources["transactionViewSource"]).View.Refresh();
         }
     }
 }

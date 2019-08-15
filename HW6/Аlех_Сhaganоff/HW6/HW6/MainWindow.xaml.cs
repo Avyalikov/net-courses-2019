@@ -135,5 +135,38 @@ namespace HW6
             context.Portfolios.Remove(portfolio);
             context.SaveChanges();           
         }
+
+        private void traderViewSourceFilter(object sender, FilterEventArgs e)
+        {
+            var trader = e.Item as Trader;
+
+            if (trader != null)
+            {
+                if (TraderFilteComboBox.SelectedIndex == 0 && trader.Balance > 0)
+                {
+                    e.Accepted = true;
+                }
+                else if (TraderFilteComboBox.SelectedIndex == 1 && trader.Balance == 0)
+                {
+                    e.Accepted = true;
+                }
+                else if (TraderFilteComboBox.SelectedIndex == 2 && trader.Balance < 0)
+                {
+                    e.Accepted = true;
+                }
+                else
+                {
+                    e.Accepted = false;
+                }
+            }
+        }
+
+        public void TraderFilteComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            System.Windows.Data.CollectionViewSource traderViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("traderViewSource")));
+            context.Traders.Load();
+            traderViewSource.Source = context.Traders.Local;
+            ((CollectionViewSource)this.Resources["traderViewSource"]).View.Refresh();
+        }
     }
 }
