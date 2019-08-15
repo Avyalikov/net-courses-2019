@@ -10,6 +10,9 @@ namespace Trading
     interface IValidator
     {
         bool ValidateClient(string[] clientInfo);
+        bool ValidateShare(string[] shareInfo);
+        bool ValidateClientMoney(string[] clientInfo);
+        bool ValidateShareToClient(TradingDBContext db, string[] shareToClientInfo);
         bool ValidateClientList(DbSet<Clients> clients);
         bool ValidateTradingClient(Clients client);
     }

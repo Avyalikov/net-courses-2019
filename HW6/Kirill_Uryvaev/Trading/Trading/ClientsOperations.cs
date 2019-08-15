@@ -37,11 +37,21 @@ namespace Trading
                 var tradingClients = db.Clients.OrderBy(x => Guid.NewGuid()).Take(2).ToList();
                 if (validator.ValidateTradingClient(tradingClients[0]))
                 {
-                    ClientsShares shareType = tradingClients[0].ClientsShares.OrderBy(x => Guid.NewGuid()).First();
+                    ClientsShares shareType = tradingClients[0].ClientsShares.Where(x=>x.Amount>0).OrderBy(x => Guid.NewGuid()).First();
                     int numberOfSoldShares = uniformRandomiser.Next(1, (int)shareType.Amount);
                     decimal shareCost = (decimal)db.Shares.Where(x => x.ShareID == shareType.ShareID).Select(x => x.ShareCost).FirstOrDefault();
                     shareType.Amount -= numberOfSoldShares;
                     tradingClients[1].ClientBalance -= numberOfSoldShares * shareCost;
+                    if (tradingClients[1].ClientsShares.Where(x=>x.ShareID==shareType.ShareID).Count()<1)
+                    {
+                        var clientShares = new ClientsShares() { ShareID = shareType.ShareID, ClientID = tradingClients[1].ClientID, Amount = numberOfSoldShares };
+                        tradingClients[1].ClientsShares.Add(clientShares);
+                    }
+                    else
+                    {
+                        tradingClients[1].ClientsShares.Where(x => x.ShareID == shareType.ShareID).FirstOrDefault().Amount+= numberOfSoldShares;
+                    }
+                    Logger.TradeLog.Info($"Client {tradingClients[0].ClientID} sold {numberOfSoldShares} shares of {shareType.ShareID} to {tradingClients[1].ClientID}");
                     db.SaveChanges();
                 }
             }
