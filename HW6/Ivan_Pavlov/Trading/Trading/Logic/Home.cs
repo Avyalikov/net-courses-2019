@@ -7,7 +7,7 @@
 
     public class Home
     {
-        private readonly IView viewProvider = SettingsByLayers.viewProvider;
+        private readonly IView viewProvider;
         private readonly IDbProvider dbProvider;
         private readonly UserLogic user;
         private readonly Transaction transaction;

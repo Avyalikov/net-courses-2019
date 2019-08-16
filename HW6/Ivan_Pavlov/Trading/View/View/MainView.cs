@@ -45,7 +45,7 @@
             sb.AppendLine(string.Format("5. {0}", phraseProvider.GetPhrase("ChangeStockPrice")));
             sb.AppendLine(string.Format("6. {0}", phraseProvider.GetPhrase("OrangeZone")));
             sb.AppendLine(string.Format("7. {0}", phraseProvider.GetPhrase("BlackZone")));
-            sb.AppendLine(string.Format("8. {0}", phraseProvider.GetPhrase("CreateStock")));
+            
             sb.AppendLine(IfInputError);
             iOProvider.WriteLine(sb.ToString());
         }
