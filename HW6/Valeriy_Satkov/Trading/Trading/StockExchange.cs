@@ -23,7 +23,7 @@
 
             using (var db = new StockExchangeContext())
             {
-                db.Database.CreateIfNotExists();
+                db.Database.Initialize(false);
 
                 ioProvider.WriteLineOutput("You are in db using.\nEnter 'e' for exit");
                 do

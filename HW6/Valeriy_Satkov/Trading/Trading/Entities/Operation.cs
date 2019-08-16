@@ -27,7 +27,7 @@
 
         public decimal Cost { get; set; } // see ShareType.Cost (The cost will be fixed here at the time of purchase)
 
-        public decimal Number { get; set; } // Number of shares for deal
+        public int Number { get; set; } // Number of shares for deal
 
         public decimal Total { get; set; } // Total = Cost * Number
     }

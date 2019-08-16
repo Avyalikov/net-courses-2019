@@ -20,6 +20,6 @@
         public virtual Share Share { get; set; }
 
         [Required]
-        public decimal Number { get; set; }
+        public int Number { get; set; }
     }
 }
