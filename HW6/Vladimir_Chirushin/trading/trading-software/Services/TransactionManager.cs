@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace trading_software
@@ -11,13 +12,15 @@ namespace trading_software
         private readonly IStockManager stockManager;
         private readonly ITableDrawer tableDrawer;
         private readonly IBlockOfSharesManager blockOfSharesManager;
+        private readonly IDataBaseDevice dataBaseDevice;
         public TransactionManager(
             IInputDevice inputDevice,
             IOutputDevice outputDevice,
             IClientManager clientManager,
             IStockManager stockManager,
             ITableDrawer tableDrawer,
-            IBlockOfSharesManager blockOfSharesManager)
+            IBlockOfSharesManager blockOfSharesManager,
+            IDataBaseDevice dataBaseDevice)
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
@@ -25,6 +28,7 @@ namespace trading_software
             this.stockManager = stockManager;
             this.tableDrawer = tableDrawer;
             this.blockOfSharesManager = blockOfSharesManager;
+            this.dataBaseDevice = dataBaseDevice;
         }
 
         public void AddTransaction(int SellerID, int BuyerID, int StockID, int stockAmount)
@@ -42,11 +46,7 @@ namespace trading_software
 
         public void AddTransaction(Transaction transaction)
         {
-            using (var db = new TradingContext())
-            {
-                db.TransactionHistory.Add(transaction);
-                db.SaveChanges();
-            }
+            dataBaseDevice.Add(transaction);
         }
         public void ManualAddTransaction()
         {
@@ -75,105 +75,79 @@ namespace trading_software
                     outputDevice.WriteLine("Please enter valid balance");
             }
 
-            using (var db = new TradingContext())
-            {
-                int StockID = db.Stocks
-                           .Where(s => s.StockType == stocksInput)
-                           .FirstOrDefault<Stock>().StockID;
+            int StockID = dataBaseDevice.GetStockID(stocksInput);
 
-                int SellerID = db.Clients
-                                   .Where(c => c.Name == sellerInput)
-                                   .FirstOrDefault<Client>().ClientID;
-                int BuyerID = db.Clients
-                                   .Where(c => c.Name == buyerInput)
-                                   .FirstOrDefault<Client>().ClientID;
-                Transaction transaction = new Transaction { dateTime = DateTime.Now, SellerID = SellerID, BuyerID = BuyerID, StockID = StockID, Amount = stockAmount };
-                if (Validate(transaction))
-                {
-                    AddTransaction(transaction);
-                }
+            int SellerID = dataBaseDevice.GetClientID(sellerInput);
+            int BuyerID = dataBaseDevice.GetClientID(buyerInput);
+
+            Transaction transaction = new Transaction { dateTime = DateTime.Now, SellerID = SellerID, BuyerID = BuyerID, StockID = StockID, Amount = stockAmount };
+            if (Validate(transaction))
+            {
+                AddTransaction(transaction);
             }
         }
 
 
         public void ReadAllTransactions()
         {
-            using (var db = new TradingContext())
-            {
-                IQueryable<Transaction> query = db.TransactionHistory.AsQueryable<Transaction>();
-                tableDrawer.Show(query);
-            }
+            tableDrawer.Show(dataBaseDevice.GetAllTransaction());
         }
 
 
-        private  bool Validate(Transaction transaction)
+        private bool Validate(Transaction transaction)
         {
-            using (var db = new TradingContext())
-            {
-                bool IsSellerHasEnoughStocks;
-                BlockOfShares SellerBlock = db.BlockOfSharesTable.Where(s => s.ClientID == transaction.SellerID &&
-                                              s.StockID == transaction.StockID).FirstOrDefault();
-                if (SellerBlock != null)
-                {
-                    IsSellerHasEnoughStocks = SellerBlock.Amount >= transaction.Amount ? true : false;
-                }
-                else
-                {
-                    IsSellerHasEnoughStocks = false;
-                }
-                bool IsSellerAndBuyerDifferent =
-                    transaction.SellerID != transaction.BuyerID;
+            bool IsSellerAndBuyerDifferent = transaction.SellerID != transaction.BuyerID;
 
-                bool IsBuyerCanAffordStocks =
-                    db.Clients.Where(c => c.ClientID == transaction.BuyerID)
-                    .FirstOrDefault().Balance > 0;
-                if (IsSellerAndBuyerDifferent &&
-                    IsSellerHasEnoughStocks &&
-                    IsBuyerCanAffordStocks)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+            bool IsSellerHasEnoughStocks;
+            if (dataBaseDevice.IsClientHasStockType(transaction.SellerID, transaction.StockID))
+            {
+                int SellerStockAmount = dataBaseDevice.GetClientStockAmount(transaction.SellerID, transaction.StockID);
+                IsSellerHasEnoughStocks = SellerStockAmount >= transaction.Amount ? true : false;
+            }
+            else
+            {
+                IsSellerHasEnoughStocks = false;
+            }
+
+            bool IsBuyerCanAffordStocks = dataBaseDevice.GetClientBalance(transaction.BuyerID) > 0;
+
+            if (IsSellerAndBuyerDifferent &&
+                IsSellerHasEnoughStocks &&
+                IsBuyerCanAffordStocks)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
+
         private void TransactionAgent(Transaction transaction)
         {
-            using (var db = new TradingContext())
+            BlockOfShares sellerBlockOfShare = new BlockOfShares
             {
-                Client BuyerClient = db.Clients
-                    .Where(c => c.ClientID == transaction.BuyerID)
-                    .FirstOrDefault();
+                ClientID = transaction.SellerID,
+                StockID = transaction.StockID,
+                Amount = (-1) * transaction.Amount // subtract stock from seller
+            };
 
-                Client SellerClient = db.Clients
-                    .Where(c => c.ClientID == transaction.SellerID)
-                    .FirstOrDefault();
+            BlockOfShares BuyerBlockOfShare = new BlockOfShares
+            {
+                ClientID = transaction.BuyerID,
+                StockID = transaction.StockID,
+                Amount = transaction.Amount
+            };
 
-                BlockOfShares sellerBlockOfShare = new BlockOfShares
-                {
-                    ClientID = SellerClient.ClientID,
-                    StockID = transaction.StockID,
-                    Amount = (-1) * transaction.Amount // subtract stock from seller
-                };
+            blockOfSharesManager.AddShare(sellerBlockOfShare);
+            blockOfSharesManager.AddShare(BuyerBlockOfShare);
 
-                BlockOfShares BuyerBlockOfShare = new BlockOfShares
-                {
-                    ClientID = BuyerClient.ClientID,
-                    StockID = transaction.StockID,
-                    Amount = transaction.Amount
-                };
+            decimal stockPrice = dataBaseDevice.GetStockPrice(transaction.StockID);
 
-                blockOfSharesManager.AddShare(sellerBlockOfShare);
-                blockOfSharesManager.AddShare(BuyerBlockOfShare);
-
-                Stock stock = db.Stocks.Where(s => s.StockID == transaction.StockID).FirstOrDefault();
-
-                clientManager.ChangeBalance(BuyerClient.ClientID, -1 * stock.Price * transaction.Amount);
-                clientManager.ChangeBalance(SellerClient.ClientID, stock.Price * transaction.Amount);
-            }
+            clientManager.ChangeBalance(transaction.BuyerID, -1 * stockPrice * transaction.Amount);
+            clientManager.ChangeBalance(transaction.SellerID, stockPrice * transaction.Amount);
         }
+
         public bool MakeRandomTransaction()
         {
             Random random = new Random();
@@ -199,7 +173,7 @@ namespace trading_software
             else
             {
                 outputDevice.WriteLine("Failed to create transaction:");
-                IQueryable<Transaction> query = new[] { transaction }.AsQueryable();
+                IEnumerable<Transaction> query = new[] { transaction }.AsEnumerable<Transaction>();
                 tableDrawer.Show(query);
                 return false;
             }

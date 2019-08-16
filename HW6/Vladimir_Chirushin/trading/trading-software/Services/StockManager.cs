@@ -7,35 +7,33 @@
         private readonly IInputDevice inputDevice;
         private readonly IOutputDevice outputDevice;
         private readonly ITableDrawer tableDrawer;
+        private readonly IDataBaseDevice dataBaseDevice;
         Random random = new Random();
 
         public StockManager(
-            IInputDevice inputDevice, 
+            IInputDevice inputDevice,
             IOutputDevice outputDevice,
-            ITableDrawer tableDrawer
+            ITableDrawer tableDrawer,
+            IDataBaseDevice dataBaseDevice
             )
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
             this.tableDrawer = tableDrawer;
+            this.dataBaseDevice = dataBaseDevice;
         }
 
 
         bool IsExist(Stock stock)
         {
-            using (var db = new TradingContext())
-            {
-                return db.Stocks.Where(c => c.StockType == stock.StockType).FirstOrDefault() != null;
-            }
+            return dataBaseDevice.IsStockExist(stock.StockType);
         }
+
         public int SelectRandomID()
         {
-            using (var db = new TradingContext())
-            {
-                int numberOfStocks = db.Stocks.Count();
-                int stockID = random.Next(1, numberOfStocks);
-                return stockID;
-            }
+            int numberOfStocks = dataBaseDevice.GetNumberOfStocks();
+            int stockID = random.Next(1, numberOfStocks);
+            return stockID;
         }
         public void AddStock(string stockName, decimal stockPrice)
         {
@@ -48,47 +46,37 @@
         }
         public void AddStock(Stock stock)
         {
-            using (var db = new TradingContext())
+            if (!IsExist(stock))
             {
-                if (!IsExist(stock))
-                {
-                    db.Stocks.Add(stock);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    outputDevice.WriteLine("Stock already exist!");
-                }
+                dataBaseDevice.Add(stock);
+            }
+            else
+            {
+                outputDevice.WriteLine("Stock already exist!");
             }
         }
         public void ManualAddStock()
         {
-            using (var db = new TradingContext())
-            {
-                outputDevice.WriteLine("Write Stock Type:");
-                string stockName = inputDevice.ReadLine();
+            outputDevice.WriteLine("Write Stock Type:");
+            string stockName = inputDevice.ReadLine();
 
-                outputDevice.WriteLine("Write stock price:");
-                decimal stockPrice = 0;
-                while (true)
-                {
-                    if (decimal.TryParse(inputDevice.ReadLine(), out stockPrice))
-                        break;
-                    else
-                        outputDevice.WriteLine("Please enter valid balance");
-                }
-                AddStock(stockName, stockPrice);
+            outputDevice.WriteLine("Write stock price:");
+            decimal stockPrice = 0;
+            while (true)
+            {
+                if (decimal.TryParse(inputDevice.ReadLine(), out stockPrice))
+                    break;
+                else
+                    outputDevice.WriteLine("Please enter valid balance");
             }
+            AddStock(stockName, stockPrice);
         }
 
 
         public void ReadAllStocks()
         {
-            using (var db = new TradingContext())
-            {
-                IQueryable<Stock> query = db.Stocks.AsQueryable<Stock>();
-                tableDrawer.Show(query);
-            }
+            var stocks = dataBaseDevice.GetAllStocks();
+            tableDrawer.Show(stocks);
         }
     }
 }

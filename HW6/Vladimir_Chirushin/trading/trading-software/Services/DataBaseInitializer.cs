@@ -57,7 +57,6 @@ namespace trading_software
             stockManager.AddStock(new Stock { StockType = "Fuji Electric", Price = (decimal)199 });
             stockManager.AddStock(new Stock { StockType = "Morgan Stanley", Price = (decimal)40.36   });
             stockManager.AddStock(new Stock { StockType = "Lotte Shopping", Price = (decimal)0.01 });
-
         }
     }
 }

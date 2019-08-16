@@ -1,16 +1,19 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace trading_software
 {
     public class TableDrawer : ITableDrawer
     {
         private readonly IOutputDevice outputDevice;
-        public TableDrawer(IOutputDevice outputDevice)
+        private readonly IDataBaseDevice dataBaseDevice;
+        public TableDrawer(IOutputDevice outputDevice, IDataBaseDevice dataBaseDevice)
         {
             this.outputDevice = outputDevice;
+            this.dataBaseDevice = dataBaseDevice;
         }
 
-        public void Show(IQueryable<Stock> Stocks)
+        public void Show(IEnumerable<Stock> Stocks)
         {
             string numberColumnName = "#";
             string stockColumnName = "Stock Type";
@@ -26,7 +29,7 @@ namespace trading_software
             outputDevice.WriteLine($"|____|______________________|______________|");
         }
 
-        public void Show(IQueryable<Client> Clients)
+        public void Show(IEnumerable<Client> Clients)
         {
             string numberColumnName = "#";
             string nameColumnName = "Name";
@@ -43,8 +46,9 @@ namespace trading_software
             outputDevice.WriteLine($"|____|______________________|______________|______________|");
         }
 
-        public void Show(IQueryable<Transaction> Transactions)
+        public void Show(IEnumerable<Transaction> Transactions)
         {
+
             string numberName = "#";
             string dateTimeName = "Date and Time";
             string sellerName = "Seller";
@@ -62,22 +66,20 @@ namespace trading_software
             string BuyerName;
             string StockName;
             decimal StockPrice;
-            using (var db = new TradingContext())
+
+            foreach (var transaction in Transactions)
             {
-                foreach (var transaction in Transactions)
-                {
-                    transactionID = transaction.TransactionID;
-                    SellerName = db.Clients.Where(c => c.ClientID == transaction.SellerID).FirstOrDefault().Name;
-                    BuyerName = db.Clients.Where(c => c.ClientID == transaction.BuyerID).FirstOrDefault().Name;
-                    StockName = db.Stocks.Where(c => c.StockID == transaction.StockID).FirstOrDefault().StockType;
-                    StockPrice = db.Stocks.Where(c => c.StockID == transaction.StockID).FirstOrDefault().Price;
-                    outputDevice.WriteLine($"|{transactionID,4}|{transaction.dateTime,20}|{SellerName,22}|{BuyerName,22}|{StockName,22}|{transaction.Amount,4}|{transaction.Amount * StockPrice,10}$|");
-                }
-                outputDevice.WriteLine($"|____|____________________|______________________|______________________|______________________|____|___________|");
+                transactionID = transaction.TransactionID;
+                SellerName = dataBaseDevice.GetClientName(transaction.SellerID);
+                BuyerName = dataBaseDevice.GetClientName(transaction.BuyerID);
+                StockName = dataBaseDevice.GetStockType(transaction.StockID);
+                StockPrice = dataBaseDevice.GetStockPrice(transaction.StockID);
+                outputDevice.WriteLine($"|{transactionID,4}|{transaction.dateTime,20}|{SellerName,22}|{BuyerName,22}|{StockName,22}|{transaction.Amount,4}|{transaction.Amount * StockPrice,10}$|");
             }
+            outputDevice.WriteLine($"|____|____________________|______________________|______________________|______________________|____|___________|");
         }
 
-        public void Show(IQueryable<BlockOfShares> blockOfShares)
+        public void Show(IEnumerable<BlockOfShares> blockOfShares)
         {
             string numberName = "#";
             string clientName = "Client";
@@ -92,17 +94,15 @@ namespace trading_software
 
             string ClientName;
             string StockName;
-            using (var db = new TradingContext())
+
+            foreach (var block in blockOfShares)
             {
-                foreach (var block in blockOfShares)
-                {
-                    i++;
-                    ClientName = db.Clients.Where(c => c.ClientID == block.ClientID).FirstOrDefault().Name;
-                    StockName = db.Stocks.Where(c => c.StockID == block.StockID).FirstOrDefault().StockType;
-                    outputDevice.WriteLine($"|{i,4}|{ClientName,22}|{StockName,22}|{block.Amount,6}|");
-                }
-                outputDevice.WriteLine($"|____|______________________|______________________|______|");
+                i++;
+                ClientName = dataBaseDevice.GetClientName(block.ClientID);
+                StockName = dataBaseDevice.GetStockType(block.StockID);
+                outputDevice.WriteLine($"|{i,4}|{ClientName,22}|{StockName,22}|{block.Amount,6}|");
             }
+            outputDevice.WriteLine($"|____|______________________|______________________|______|");
         }
     }
 }

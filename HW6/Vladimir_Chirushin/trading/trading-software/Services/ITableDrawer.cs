@@ -1,12 +1,13 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace trading_software
 {
     public interface ITableDrawer
     {
-        void Show(IQueryable<Stock> Stocks);
-        void Show(IQueryable<Client> Clients);
-        void Show(IQueryable<Transaction> Transactions);
-        void Show(IQueryable<BlockOfShares> blockOfShares);
+        void Show(IEnumerable<Stock> Stocks);
+        void Show(IEnumerable<Client> Clients);
+        void Show(IEnumerable<Transaction> Transactions);
+        void Show(IEnumerable<BlockOfShares> blockOfShares);
     }
 }

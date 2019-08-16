@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace trading_software
 {
@@ -8,12 +8,14 @@ namespace trading_software
         private readonly IInputDevice inputDevice;
         private readonly IOutputDevice outputDevice;
         private readonly ITableDrawer tableDrawer;
+        private readonly IDataBaseDevice dataBaseDevice;
         Random random = new Random();
-        public BlockOfSharesManager(IInputDevice inputDevice, IOutputDevice outputDevice, ITableDrawer tableDrawer)
+        public BlockOfSharesManager(IInputDevice inputDevice, IOutputDevice outputDevice, ITableDrawer tableDrawer, IDataBaseDevice dataBaseDevice)
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
             this.tableDrawer = tableDrawer;
+            this.dataBaseDevice = dataBaseDevice;
         }
         public void AddShare(int ClientID, int StockID, int amount)
         {
@@ -28,73 +30,63 @@ namespace trading_software
 
         public void AddShare(BlockOfShares blockOfShares)
         {
-            using (var db = new TradingContext())
-            {
-                var entry = db.BlockOfSharesTable
-                    .Where(b => (b.ClientID == blockOfShares.ClientID &&
-                                 b.StockID == blockOfShares.StockID))
-                    .FirstOrDefault();
-                if (entry == null)
-                {
-                    db.BlockOfSharesTable.Add(blockOfShares);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    entry.Amount += blockOfShares.Amount;
-                    db.SaveChanges();
-                }
-
-            }
+            dataBaseDevice.Add(blockOfShares);
         }
         public void ManualAddNewShare()
         {
-            using (var db = new TradingContext())
+            int stockID;
+            while (true)
             {
                 outputDevice.WriteLine("Write Stock Type:");
                 string stockNameInput = inputDevice.ReadLine();
-                int stock = db.Stocks
-                               .FirstOrDefault<Stock>(s => s.StockType == stockNameInput).StockID;
+                stockID = dataBaseDevice.GetStockID(stockNameInput);
+                if (stockID != 0)
+                {
+                    break;
+                }
+                outputDevice.WriteLine("Please enter valid Stock Type.");
 
+            }
+            int clientID;
+            while (true)
+            {
                 outputDevice.WriteLine("Write client name:");
                 string clientNameInput = inputDevice.ReadLine();
-                int client = db.Clients
-                               .FirstOrDefault<Client>(s => s.Name == clientNameInput).ClientID;
-
-                outputDevice.WriteLine("Write stocks amount:");
-                int amount = 0;
-                while (true)
+                clientID = dataBaseDevice.GetClientID(clientNameInput);
+                if (clientID != 0)
                 {
-                    if (int.TryParse(inputDevice.ReadLine(), out amount))
-                        break;
-                    else
-                        outputDevice.WriteLine("Please enter valid amount.");
+                    break;
                 }
-                AddShare(client, stock, amount);
+                outputDevice.WriteLine("Please enter valid Client name.");
             }
+
+            outputDevice.WriteLine("Write stocks amount:");
+            int amount = 0;
+            while (true)
+            {
+                if (int.TryParse(inputDevice.ReadLine(), out amount))
+                    break;
+                else
+                    outputDevice.WriteLine("Please enter valid amount.");
+            }
+            AddShare(clientID, stockID, amount);
         }
 
 
         public void CreateRandomShare()
         {
-            using (var db = new TradingContext())
-            {
-                int maxAmountOfShares = 16;
-                int numberOfClients = db.Clients.Count();
-                int numberOfStocks = db.Stocks.Count();
-                int ClientId = random.Next(1, numberOfClients);
-                int StockId = random.Next(1, numberOfStocks);
-                int Amount = random.Next(1, maxAmountOfShares);
-                AddShare(ClientId, StockId, Amount);
-            }
+            const int maxAmountOfShares = 16;
+            int numberOfClients = dataBaseDevice.GetNumberOfClients();
+            int numberOfStocks = dataBaseDevice.GetNumberOfStocks();
+            int ClientId = random.Next(1, numberOfClients);
+            int StockId = random.Next(1, numberOfStocks);
+            int Amount = random.Next(1, maxAmountOfShares);
+            AddShare(ClientId, StockId, Amount);
         }
         public void ShowAllShares()
         {
-            using (var db = new TradingContext())
-            {
-                IQueryable<BlockOfShares> query = db.BlockOfSharesTable.OrderBy(b => b.ClientID).AsQueryable<BlockOfShares>();
-                tableDrawer.Show(query);
-            }
+            IEnumerable<BlockOfShares> allShares = dataBaseDevice.GetAllBlockOfShares();
+            tableDrawer.Show(allShares);
         }
     }
 }

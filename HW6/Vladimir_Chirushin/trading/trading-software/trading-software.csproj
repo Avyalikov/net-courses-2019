@@ -71,6 +71,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Devices\DataBaseDevice.cs" />
+    <Compile Include="Devices\IDataBaseDevice.cs" />
     <Compile Include="Model\BlockOfShares.cs" />
     <Compile Include="ITradingEngine.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
