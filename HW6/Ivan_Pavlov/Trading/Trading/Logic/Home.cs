@@ -2,23 +2,38 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using TradingData;
     using TradingView.Interface;
 
-    public static class Home
+    public class Home
     {
-        private static readonly IView viewProvider = SettingsByLayers.viewProvider;
+        private readonly IView viewProvider = SettingsByLayers.viewProvider;
+        private readonly IDbProvider dbProvider;
+        private readonly UserLogic user;
+        private readonly Transaction transaction;
+        private readonly Stock stock;
         private static bool TradeStart = false;
 
-        private static async void TradeAsync()
+        public Home(IView viewProvider, IDbProvider dbProvider)
         {
-            while (TradeStart)
-            {
-                await Task.Run(() => Transaction.Run());
-                Thread.Sleep(100);
-            }
+            this.viewProvider = viewProvider;
+            this.dbProvider = dbProvider;
+            user = new UserLogic(viewProvider, dbProvider);
+            transaction = new Transaction(dbProvider);
+            stock = new Stock(viewProvider, dbProvider);
+
         }
 
-        public static void Run()
+        private async void TradeAsync()
+        {          
+            while (TradeStart)
+            {
+                await Task.Run(() => transaction.Run());
+                Thread.Sleep(100);
+            }
+        }       
+
+        public void Run()
         {
             int UserSelect = viewProvider.IndexMain(TradeStart);
             switch (UserSelect)
@@ -33,23 +48,23 @@
                         TradeStart = false;
                     break;
                 case 2:
-                    viewProvider.PrintAllUsers(User.ListUsers());
+                    viewProvider.PrintAllUsers(user.ListUsers());
                     break;
                 case 3:
-                    User.AddUser();
+                    user.AddUser();
                     break;
                 case 4:
-                    viewProvider.PrintAllStocks(Stock.ListStocks());
+                    viewProvider.PrintAllStocks(stock.ListStocks());
                     break;
                 case 5:
-                    viewProvider.PrintAllStocks(Stock.ListStocks());
-                    Stock.ChangeStockPrice();
+                    viewProvider.PrintAllStocks(stock.ListStocks());
+                    stock.ChangeStockPrice();
                     break;
                 case 6:
-                    viewProvider.PrintOrangeZone(User.OrangeZone());
+                    viewProvider.PrintOrangeZone(user.OrangeZone());
                     break;
                 case 7:
-                    viewProvider.PrintBlackZone(User.BlackZone());
+                    viewProvider.PrintBlackZone(user.BlackZone());
                     break;
             }
         }

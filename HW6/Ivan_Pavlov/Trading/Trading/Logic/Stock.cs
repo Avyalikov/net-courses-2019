@@ -4,12 +4,18 @@
     using TradingData;
     using TradingView.Interface;
 
-    internal static class Stock
+    internal class Stock
     {
-        private static readonly IView viewProvider = SettingsByLayers.viewProvider;
-        private static readonly IDbProvider dbProvider = SettingsByLayers.dbProvider;
+        private readonly IView viewProvider;
+        private readonly IDbProvider dbProvider;
 
-        public static string ListStocks()
+        public Stock(IView viewProvider, IDbProvider dbProvider)
+        {
+            this.viewProvider = viewProvider;
+            this.dbProvider = dbProvider;
+        }
+
+        public string ListStocks()
         {
             StringBuilder sb = new StringBuilder();
             var InfoByStocks = dbProvider.ListStocks();
@@ -20,14 +26,14 @@
             return sb.ToString();
         }
 
-        public static void ChangeStockPrice()
+        public void ChangeStockPrice()
         {
             int stockId = SelectStock();
             decimal newPrice = NewPrice();
             dbProvider.ChangeStockPrice(stockId, newPrice);
         }
 
-        private static int SelectStock(bool Valid = false)
+        private int SelectStock(bool Valid = false)
         {
             if (int.TryParse(viewProvider.ChooseStock(Valid), out int id))
             {
@@ -37,7 +43,7 @@
             return SelectStock(true);
         }
 
-        private static decimal NewPrice(bool Valid = false)
+        private decimal NewPrice(bool Valid = false)
         {
             if (decimal.TryParse(viewProvider.NewPrice(), out decimal newPrice))
                 if (newPrice > 0)

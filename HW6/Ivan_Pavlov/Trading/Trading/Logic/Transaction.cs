@@ -4,11 +4,16 @@
     using System.Linq;
     using TradingData;
 
-    internal static class Transaction
+    internal class Transaction
     {
-        private static readonly IDbProvider dbProvider = SettingsByLayers.dbProvider;
+        private readonly IDbProvider dbProvider;
 
-        public static void Run()
+        public Transaction(IDbProvider dbProvider)
+        {
+            this.dbProvider = dbProvider;
+        }
+
+        public void Run()
         {
             Random random = new Random();
 
@@ -29,7 +34,7 @@
             dbProvider.Transaction(transaction);        
         }
 
-        private static TradingData.Models.User ChooseUser(int LastUserId = 0)
+        private TradingData.Models.User ChooseUser(int LastUserId = 0)
         {
             return dbProvider.ChooseUser(LastUserId);
         }

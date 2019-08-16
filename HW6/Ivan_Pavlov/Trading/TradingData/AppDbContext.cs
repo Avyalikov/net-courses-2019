@@ -4,7 +4,7 @@
     using TradingData.Models;
     using System.Collections.Generic;
 
-    internal class AppDbContext : DbContext
+    public class AppDbContext : DbContext
     {
         static AppDbContext()
         {

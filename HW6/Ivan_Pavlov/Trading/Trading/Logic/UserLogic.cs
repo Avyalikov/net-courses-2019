@@ -4,15 +4,20 @@
     using System.Linq;
     using System.Text;
     using TradingData;
-    using TradingView;
     using TradingView.Interface;
 
-    internal static class User
+    public class UserLogic
     {
-        private static readonly IView viewProvider = SettingsByLayers.viewProvider;
-        private static readonly IDbProvider dbProvider = SettingsByLayers.dbProvider;
+        private readonly IView viewProvider;
+        private readonly IDbProvider dbProvider;
 
-        public static string ListUsers()
+        public UserLogic(IView viewProvider, IDbProvider dbProvider)
+        {
+            this.viewProvider = viewProvider;
+            this.dbProvider = dbProvider;
+        }
+
+        public string ListUsers()
         {
             StringBuilder sb = new StringBuilder();
             var InfoByUsers = dbProvider.ListUsers();
@@ -23,7 +28,7 @@
             return sb.ToString();
         }
 
-        public static string OrangeZone()
+        public string OrangeZone()
         {
             StringBuilder sb = new StringBuilder();
             var Zone = dbProvider.OrangeZone();
@@ -34,7 +39,7 @@
             return sb.ToString();
         }
 
-        public static string BlackZone()
+        public string BlackZone()
         {
             StringBuilder sb = new StringBuilder();
             var Zone = dbProvider.BlackZone();
@@ -45,7 +50,7 @@
             return sb.ToString();
         }
 
-        public static void AddUser()
+        public void AddUser()
         {
             TradingData.Models.User user = new TradingData.Models.User
             {
