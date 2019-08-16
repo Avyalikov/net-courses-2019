@@ -10,10 +10,12 @@
     class StockExchange
     {
         readonly IInputOutputDevice ioProvider;
+        readonly StockExchangeContext db;
 
-        public StockExchange(IInputOutputDevice ioProvider)
+        public StockExchange(IInputOutputDevice ioProvider, StockExchangeContext context)
         {
             this.ioProvider = ioProvider;
+            this.db = context;
         }
 
         public void Start()
@@ -21,16 +23,13 @@
             string s;
             ioProvider.WriteLineOutput("Please wait until db is loading...");
 
-            using (var db = new StockExchangeContext())
-            {
-                db.Database.Initialize(false);
+            db.Database.Initialize(false);
 
-                ioProvider.WriteLineOutput("You are in db using.\nEnter 'e' for exit");
-                do
-                {
-                    s = ioProvider.ReadInput();
-                } while (s != "e");
-            }
+            ioProvider.WriteLineOutput("You are in db using.\nEnter 'e' for exit");
+            do
+            {
+                s = ioProvider.ReadInput();
+            } while (s != "e");
         }
     }
 }

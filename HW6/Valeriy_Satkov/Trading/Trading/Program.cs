@@ -14,7 +14,10 @@
         {
             IInputOutputDevice ioProvider = new ConsoleInputOutputDevice();
 
-            new StockExchange(ioProvider: ioProvider).Start();
+            using (var context = new StockExchangeContext())
+            {
+                new StockExchange(ioProvider: ioProvider, context: context).Start();
+            }            
         }
     }
 }
