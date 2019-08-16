@@ -16,6 +16,10 @@
 
             using (var context = new StockExchangeContext())
             {
+                ioProvider.WriteLine(context.LoadingText());
+                context.Database.Initialize(false);
+                ioProvider.WriteLine(context.LoadingDoneText());
+
                 new StockExchange(ioProvider: ioProvider, context: context).Start();
             }            
         }

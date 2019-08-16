@@ -20,18 +20,30 @@ namespace Trading.Interfaces
         /// Read data from source
         /// </summary>
         /// <returns>Data from source</returns>
-        string ReadInput();
+        string ReadLine();
 
         /// <summary>
         /// Send data and line break to source
         /// </summary>
         /// <param name="dataToOutPut">Data string for output</param>
-        void WriteLineOutput(string dataToOutPut);
+        void WriteLine(string dataToOutPut);
 
         /// <summary>
         /// Send data without line break to source
         /// </summary>
         /// <param name="dataToOutPut">Data string for output</param>
-        void WriteOutput(string dataToOutPut);
+        void Write(string dataToOutPut);
+
+        /// <summary>
+        /// Set cursor position
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y Coordinate</param>
+        void SetCursorPosition(int x, int y);
+
+        /// <summary>
+        /// Clear output screen
+        /// </summary>
+        void Clear();
     }
 }

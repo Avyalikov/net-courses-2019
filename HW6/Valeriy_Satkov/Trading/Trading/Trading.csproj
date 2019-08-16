@@ -56,6 +56,7 @@
     <Compile Include="Entities\Operation.cs" />
     <Compile Include="Entities\Share.cs" />
     <Compile Include="Entities\ShareType.cs" />
+    <Compile Include="Interfaces\IContext.cs" />
     <Compile Include="Interfaces\IInputOutputDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

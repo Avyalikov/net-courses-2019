@@ -20,7 +20,7 @@ namespace Trading.Components
         /// Read data line from console
         /// </summary>
         /// <returns>Data from console</returns>
-        public string ReadInput()
+        public string ReadLine()
         {
             return Console.ReadLine();
         }        
@@ -29,7 +29,7 @@ namespace Trading.Components
         /// Print in console and line break
         /// </summary>
         /// <param name="dataToOutPut">Data string for output</param>
-        public void WriteLineOutput(string dataToOutPut)
+        public void WriteLine(string dataToOutPut)
         {
             Console.WriteLine(dataToOutPut);
         }
@@ -38,9 +38,27 @@ namespace Trading.Components
         /// Print in console without line break
         /// </summary>
         /// <param name="dataToOutPut">Data string for output</param>
-        public void WriteOutput(string dataToOutPut)
+        public void Write(string dataToOutPut)
         {
             Console.Write(dataToOutPut);
+        }
+
+        /// <summary>
+        /// Set cursor position
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y Coordinate</param>
+        public void SetCursorPosition(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+        }
+
+        /// <summary>
+        /// Clear screen in console
+        /// </summary>
+        public void Clear()
+        {
+            Console.Clear();
         }
     }
 }

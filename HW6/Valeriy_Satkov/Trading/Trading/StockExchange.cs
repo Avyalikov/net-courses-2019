@@ -20,12 +20,17 @@
 
         public void Start()
         {
+            /* Menu
+             * 1. Start traiding
+             * 2. Clients in 'Orange' zone
+             * 3. Change the cost of share type
+             * 4. Add a new share into system
+             * 5. Add a new share type into system
+             * 6. Add a new client
+             */
+
             string s;
-            ioProvider.WriteLineOutput("Please wait until db is loading...");
-
-            db.Database.Initialize(false);
-
-            ioProvider.WriteLineOutput("You are in db using.\nEnter 'e' for exit");
+            ioProvider.WriteLineOutput("Enter 'e' for exit");
             do
             {
                 s = ioProvider.ReadInput();

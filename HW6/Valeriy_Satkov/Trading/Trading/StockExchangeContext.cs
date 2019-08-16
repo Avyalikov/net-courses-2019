@@ -8,7 +8,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    class StockExchangeContext : DbContext
+    class StockExchangeContext : DbContext, Interfaces.IContext
     {
         /// <summary>
         /// Constructs a new context instance(class for interaction with DB) using the given connection string
@@ -43,6 +43,16 @@
         /// Represent a set of entities stored in a database
         /// </summary>
         public virtual DbSet<Operation> Operations { get; set; }
+
+        public string LoadingDoneText()
+        {
+            return "The DB was loaded.";
+        }
+
+        public string LoadingText()
+        {
+            return "Please wait until db is loading...";
+        }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
