@@ -1,0 +1,11 @@
+﻿{
+  "Welcome": "",
+  "Start": "Start traiding",
+  "OrangeClients": "Clients in 'Orange' zone",
+  "ReplaceCost": "Change the cost of share type",
+  "AddShare": "Add a new share into system",
+  "AddShareType": "Add a new share type into system",
+  "AddClient": "Add a new client",
+  "Enter": "Type the number or '@ExitCode' for exit and press Enter: ",
+  "Bye": "Good Bye."
+}

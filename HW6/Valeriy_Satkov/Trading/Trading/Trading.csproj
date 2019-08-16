@@ -39,6 +39,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -51,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ConsoleInputOutputDevice.cs" />
+    <Compile Include="Components\JsonPhraseProvider.cs" />
+    <Compile Include="Components\JsonSettingsProvider.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\ClientSharesNumber.cs" />
     <Compile Include="Entities\Operation.cs" />
@@ -58,15 +63,24 @@
     <Compile Include="Entities\ShareType.cs" />
     <Compile Include="Interfaces\IContext.cs" />
     <Compile Include="Interfaces\IInputOutputDevice.cs" />
+    <Compile Include="Interfaces\IPhraseProvider.cs" />
+    <Compile Include="Interfaces\ISettingsProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StockExchange.cs" />
     <Compile Include="StockExchangeContext.cs" />
     <Compile Include="StockExchangeInitializer.cs" />
+    <Compile Include="StockExchangeSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Resources\LangEn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="StockExchangeSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
