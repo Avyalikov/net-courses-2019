@@ -1,6 +1,8 @@
 ﻿namespace Trading
 {
     using System;
+    using Interfaces;
+    using Components;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -10,7 +12,9 @@
     {
         static void Main(string[] args)
         {
-            new StockExchange().Start();
+            IInputOutputDevice ioProvider = new ConsoleInputOutputDevice();
+
+            new StockExchange(ioProvider: ioProvider).Start();
         }
     }
 }

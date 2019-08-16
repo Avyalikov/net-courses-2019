@@ -12,23 +12,18 @@
     {
         [Key]
         public int OperationId { get; set; }
-
-        [Required]
+        
         public DateTime DebitDate { get; set; } // it's date for Customer
 
-        [Required, ForeignKey("CustomerId")]
-        public Client Customer { get; set; }
+        public virtual Client Customer { get; set; }
 
         public DateTime ChargeDate { get; set; } // it's date for Seller
 
-        [Required, ForeignKey("SellerId")]
-        public Client Seller { get; set; }
+        public virtual Client Seller { get; set; }
 
-        [ForeignKey("ShareId")]
-        public Share Share { get; set; }
+        public virtual Share Share { get; set; }
 
-        [ForeignKey("TypeId")]
-        public ShareType Type { get; set; }
+        public virtual ShareType Type { get; set; }
 
         public decimal Cost { get; set; } // see ShareType.Cost (The cost will be fixed here at the time of purchase)
 

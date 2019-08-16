@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Entities;
     using System.Linq;
+    using System.Collections;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -11,8 +12,7 @@
     {
         protected override void Seed(StockExchangeContext context)
         {
-            //// base.Seed(context); // default call for override
-
+            // List of clients
             var clientList = new List<Client>()
             {
                 new Client() { LastName = "ServiceAccount1", FirstName = "NameServiceAccount1", Phone = "+0(000)0000000", Balance = 100000},
@@ -30,6 +30,7 @@
             clientList.ForEach(c => context.Clients.Add(c));
             context.SaveChanges();
 
+            // Share types
             var shareTypesList = new List<ShareType>()
             {
                 new ShareType() { Name = "Cheap", Cost=1000},
@@ -39,42 +40,47 @@
             shareTypesList.ForEach(shT => context.ShareTypes.Add(shT));
             context.SaveChanges();
 
+            // Shares (Name and other info)
             var sharesList = new List<Share>()
             {
-                new Share() { CompanyName = "Service", ShareType = context.ShareTypes.Where(shT => shT.Name == "Middle").FirstOrDefault()}
+                new Share() { CompanyName = "Service", ShareType = shareTypesList[1]/*Middle*/}
             };
             sharesList.ForEach(sh => context.Shares.Add(sh));
             context.SaveChanges();
 
+            // Quantity each share for each client
             var clientSharesNumbers = new List<ClientSharesNumber>()
             {
                 new ClientSharesNumber()
                 {
-                    Client = context.Clients.Where(c => c.LastName == "ServiceAccount1" && c.FirstName == "NameServiceAccount1").FirstOrDefault(),
-                    Share = context.Shares.Where(sh => sh.CompanyName == "Service").FirstOrDefault(),
+                    Client = clientList[0],
+                    Share = sharesList[0],
                     Number = 17
                 }
             };
             clientSharesNumbers.ForEach(cSN => context.ClientSharesNumbers.Add(cSN));
             context.SaveChanges();
 
+            // List of operations (statistic)
             var operations = new List<Operation>()
             {
                 new Operation()
                 {
                     DebitDate = DateTime.Now,
-                    Customer = context.Clients.Where(c => c.LastName == "ServiceAccount2" && c.FirstName == "NameServiceAccount2").FirstOrDefault(),
+                    Customer = clientList[1], // 'ServiceAccount2'
                     ChargeDate = DateTime.Now,
-                    Seller = context.Clients.Where(c => c.LastName == "ServiceAccount1" && c.FirstName == "NameServiceAccount1").FirstOrDefault(),
-                    Share = context.Shares.Where(sh => sh.CompanyName == "Service").FirstOrDefault(),
-                    Type = context.ShareTypes.Where(shT => shT.Name == "Middle").FirstOrDefault(),
-                    Cost = context.ShareTypes.Where(shT => shT.Name == "Middle").FirstOrDefault().Cost,
+                    Seller = clientList[0], // 'ServiceAccount1'
+                    Share = sharesList[0], // 'Service' share
+                    Type = sharesList[0].ShareType, // 'Middle'
+                    Cost = sharesList[0].ShareType.Cost, // 'Middle' cost
                     Number = 12,
                     Total = 12 * context.ShareTypes.Where(shT => shT.Name == "Middle").FirstOrDefault().Cost
                 }
             };
             operations.ForEach(op => context.Operations.Add(op));
             context.SaveChanges();
+
+            base.Seed(context); // default call for override
         }
     }
 }

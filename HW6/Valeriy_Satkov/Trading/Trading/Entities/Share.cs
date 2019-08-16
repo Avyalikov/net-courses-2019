@@ -16,7 +16,7 @@
         [Required, MaxLength(50), MinLength(5)]
         public string CompanyName { get; set; }
 
-        [Required, ForeignKey("ShareTypeId")]
-        public ShareType ShareType { get; set; }
+        [Required]
+        public virtual ShareType ShareType { get; set; }
     }
 }

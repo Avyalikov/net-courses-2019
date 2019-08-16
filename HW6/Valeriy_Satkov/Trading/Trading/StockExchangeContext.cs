@@ -14,33 +14,35 @@
         /// Constructs a new context instance(class for interaction with DB) using the given connection string
         /// </summary>
         public StockExchangeContext()
-            : base("DbConnection")
-        { }
+            : base(nameOrConnectionString:"DbConnection")
+        {
+            Database.SetInitializer(new StockExchangeInitializer());
+        }
 
         /// <summary>
         /// Represent a set of entities stored in a database
         /// </summary>
-        public DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
 
         /// <summary>
         /// Represent a set of entities stored in a database
         /// </summary>
-        public DbSet<Share> Shares { get; set; }
+        public virtual DbSet<Share> Shares { get; set; }
 
         /// <summary>
         /// Represent a set of entities stored in a database
         /// </summary>
-        public DbSet<ShareType> ShareTypes { get; set; }
+        public virtual DbSet<ShareType> ShareTypes { get; set; }
 
         /// <summary>
         /// Represent a set of entities stored in a database
         /// </summary>
-        public DbSet<ClientSharesNumber> ClientSharesNumbers { get; set; }
+        public virtual DbSet<ClientSharesNumber> ClientSharesNumbers { get; set; }
 
         /// <summary>
         /// Represent a set of entities stored in a database
         /// </summary>
-        public DbSet<Operation> Operations { get; set; }
+        public virtual DbSet<Operation> Operations { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

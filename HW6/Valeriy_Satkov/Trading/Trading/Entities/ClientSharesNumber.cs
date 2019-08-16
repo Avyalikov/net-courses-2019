@@ -13,11 +13,11 @@
         [Key]
         public int Id { get; set; }
 
-        [Required, ForeignKey("ClientId")]
-        public Client Client { get; set; }
+        [Required]
+        public virtual Client Client { get; set; }
 
-        [Required, ForeignKey("ShareId")]
-        public Share Share { get; set; }
+        [Required]
+        public virtual Share Share { get; set; }
 
         [Required]
         public decimal Number { get; set; }
