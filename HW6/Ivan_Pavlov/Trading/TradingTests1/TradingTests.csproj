@@ -7,8 +7,8 @@
     <ProjectGuid>{0E5579C1-D3D6-4B46-ABEB-CE467D7CF998}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TradingTests1</RootNamespace>
-    <AssemblyName>TradingTests1</AssemblyName>
+    <RootNamespace>TradingTests</RootNamespace>
+    <AssemblyName>TradingTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
