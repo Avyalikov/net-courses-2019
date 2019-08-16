@@ -11,7 +11,7 @@ namespace HW6.Classes
 {
     public class Randomizer
     {
-        public void Randomize(TradingContext context)
+        public void Randomize(IContextProvider context)
         {
            Random bal = new Random();
            Random share = new Random();

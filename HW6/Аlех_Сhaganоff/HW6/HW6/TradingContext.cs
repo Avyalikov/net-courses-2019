@@ -1,11 +1,12 @@
 namespace HW6
 {
     using HW6.DataModel;
+    using HW6.Interfaces;
     using System;
     using System.Data.Entity;
     using System.Linq;
 
-    public class TradingContext : DbContext
+    public class TradingContext : DbContext, IContextProvider
     {
         // Your context has been configured to use a 'TradingContext' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 

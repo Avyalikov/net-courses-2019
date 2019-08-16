@@ -9,7 +9,7 @@ namespace HW6.Interfaces
 {
     public interface ISimulation
     {
-        void TradingSimulation(TradingContext context, Program program, IOutputProvider outputProvider);
+        void PerformRandomOperation(DataInteraction dataProvider, IOutputProvider outputProvider);
     }
 
 }

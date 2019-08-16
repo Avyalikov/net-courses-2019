@@ -18,16 +18,12 @@
             <ColumnDefinition MaxWidth="150"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <TextBox x:Name="StatusTextBox" TextWrapping="Wrap" IsReadOnly="True" MinWidth="600" MinHeight="400" Grid.Column="1" Margin="5,10,10,10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
         <Grid x:Name="TraderInfoMainGrid" Margin="5,10,10,10" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="0.25*"/>
             </Grid.RowDefinitions>
-            <ComboBox x:Name="TraderFilteComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Grid.Row="1" Grid.Column="1" Margin="0,5,5,0" SelectionChanged="TraderFilteComboBox_SelectionChanged">
-                <ComboBoxItem Content="All records" IsSelected="True"/>
-                <ComboBoxItem Content="Orange zone (balance = 0)"/>
-                <ComboBoxItem Content="Black zone (balance &lt; 0)"/>
-            </ComboBox>
             <DataGrid x:Name="traderDataGrid" DataContext="{StaticResource traderViewSource}" ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding TraderId}" Header="Trader ID" IsReadOnly="True"/>
@@ -35,18 +31,62 @@
                     <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Phone number" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Balance}" Header="Balance" IsReadOnly="True"/>
+                    <DataGridTemplateColumn IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="TraderDeleteButton" Content="Delete" Click="TraderDeleteButton_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
+            <StackPanel Grid.Row="1">
+                <Grid x:Name="TradersLowerGrid" MouseLeave="TradersLowerGrid_MouseLeave">
+                    <Grid.Background>
+                        <ImageBrush/>
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="TraderFilterComboBox" VerticalAlignment="Top" Width="120" SelectionChanged="TraderFilterComboBox_SelectionChanged" Grid.Column="4" Margin="0,5,0,0" HorizontalAlignment="Right">
+                        <ComboBoxItem Content="All records" IsSelected="True"/>
+                        <ComboBoxItem Content="Orange zone (balance = 0)"/>
+                        <ComboBoxItem Content="Black zone (balance &lt; 0)"/>
+                    </ComboBox>
+                    <StackPanel HorizontalAlignment="Left">
+                        <Label x:Name="TraderIdTradersLabel" Content="Trader ID (blank = new)" Margin="0,5,5,0" HorizontalAlignment="Left"/>
+                        <TextBox x:Name="TraderIdTradersTextBox" Height="23" TextWrapping="Wrap" Width="120" Margin="0,5,5,0" HorizontalAlignment="Left" GotMouseCapture="TraderIdTradersTextBox_GotMouseCapture"/>
+                        <Label x:Name="PhoneNumberLabel" Content="Phone number" Margin="0,5,5,0"/>
+                        <TextBox x:Name="PhoneNumberTextBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="0,5,5,0" GotMouseCapture="PhoneNumberTextBox_GotMouseCapture"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Label x:Name="FirstNameLabel" Content="First name" Margin="0,5,5,0"/>
+                        <TextBox x:Name="FirstNameTextBox" Height="23" TextWrapping="Wrap" Width="120" Margin="0,5,5,0" GotMouseCapture="FirstNameTextBox_GotMouseCapture"/>
+                        <Label x:Name="LastNameLabel" Content="Last name" Margin="0,5,5,0"/>
+                        <TextBox x:Name="LastNameTextBox" Height="23" TextWrapping="Wrap" Width="120" Margin="0,5,5,0" GotMouseCapture="LastNameTextBox_GotMouseCapture"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <Label x:Name="BalanceLabel" Content="Balance" Margin="0,5,5,0"/>
+                        <TextBox x:Name="BalanceTextBox" Height="23" TextWrapping="Wrap" Width="120" Margin="0,5,5,0" HorizontalAlignment="Left" GotMouseCapture="BalanceTextBox_GotMouseCapture"/>
+                        <Button x:Name="UpdateTraderButton" Content="Update" Width="75" Margin="0,38,5,0" Click="UpdateTraderButton_Click" HorizontalAlignment="Left"/>
+                        <Label x:Name="TraderMessageLabel" Content="" Margin="0,5,5,0" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
         </Grid>
-        <StackPanel Margin="0,10,0,0" VerticalAlignment="Top" Grid.Column="0">
-            <Button x:Name="SimulationButton" Content="Start simulation" Margin="10,0,5,5" Click="Button_Click" MinWidth="100" Background="#FFDDDDDD"/>
-            <Button x:Name="SimulationViewButton" Content="Status window" Margin="10,0,5,5" MinWidth="100" Click="StatusButtonClick"/>
+        <StackPanel x:Name="MainMenuStackPanel" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Column="0">
+            <Button x:Name="SimulationButton" Content="Start simulation" Margin="10,0,5,5" Click="SimulationButton_Click" MinWidth="100" Background="#FFDDDDDD"/>
+            <Button x:Name="SimulationViewButton" Content="Status window" Margin="10,0,5,5" MinWidth="100" Click="StatusButton_Click"/>
             <Button x:Name="TraderInformationButton" Content="Trader information" Margin="10,0,5,5" MinWidth="100" Click="TraderInformationButton_Click"/>
             <Button x:Name="PortfolioInformationButton" Content="Portfolio information" Margin="10,0,5,5" MinWidth="100" Click="PortfolioInformationButton_Click"/>
             <Button x:Name="ShareInformationButton" Content="Share information" Margin="10,0,5,5" MinWidth="100" Click="ShareInformationButton_Click"/>
             <Button x:Name="TransactionInformationButton" Content="Transaction information" Margin="10,0,5,5" MinWidth="100" Click="TransactionInformationButton_Click"/>
+            <Button x:Name="RefreshViewButton" Content="Refresh view" Margin="10,0,5,5" MinWidth="100" Click="RefreshViewButton_Click"/>
+            <Button x:Name="ExitButton" Content="Exit" Margin="10,0,5,5" MinWidth="100" Click="ExitButton_Click"/>
         </StackPanel>
-        <TextBox x:Name="StatusTextBox" TextWrapping="Wrap" IsReadOnly="True" MinWidth="600" MinHeight="400" Grid.Column="1" Margin="5,10,10,10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
         <Grid x:Name="PortfoliosMainGrid" Margin="5,10,10,10" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -66,6 +106,30 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
+            <StackPanel x:Name="PortfoliosStackPanel" Grid.Row="1" Grid.Column="1">
+                <Grid x:Name="PortfoliosLowerGrid" MouseLeave="PortfoliosLowerGrid_MouseLeave">
+                    <Grid.Background>
+                        <ImageBrush/>
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <Label x:Name="TraderIdLabel" Content="Trader ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,5,0"/>
+                        <TextBox x:Name="TraderIdTextBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="0,5,5,0" GotMouseCapture="TraderIdTextBox_GotMouseCapture"/>
+                        <Label x:Name="ShareIdLabel" Content="Share ID" Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBox x:Name="ShareIdTextBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="0,5,5,0" GotMouseCapture="ShareIdTextBox_GotMouseCapture"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Label x:Name="QuantityLabel" Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,5,0"/>
+                        <TextBox x:Name="QuantityTextBox" Height="23" TextWrapping="Wrap" Text="1" Margin="0,5,5,0" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" GotMouseCapture="QuantityTextBox_GotMouseCapture"/>
+                        <Button x:Name="UpdatePortfolioButton" Content="Update" HorizontalAlignment="Left" Margin="0,38,5,0" VerticalAlignment="Top" Click="UpdatePortfolioButton_Click"/>
+                        <Label x:Name="PortfolioMessageLabel" Content="" Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
         </Grid>
         <Grid x:Name="SharesMainGrid" Margin="5,10,10,10" Grid.Column="1">
             <Grid.RowDefinitions>
