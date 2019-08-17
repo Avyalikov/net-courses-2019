@@ -15,6 +15,8 @@ namespace ShopSimulator.Core.Tests
     {
         ISupplierTableRepository supplierTableRepository;
         IGoodsTableRepository goodsTableRepository;
+        ISoldGoodsTableRepository soldGoodsTableRepository;
+        ISaleHistoryTableRepository saleHistoryTableRepository;
         List<ProductEntity> goodsTableData;
 
         [TestInitialize]
@@ -95,17 +97,20 @@ namespace ShopSimulator.Core.Tests
                     PricePerItem = 12.5m
                 }
             };
+
+            this.soldGoodsTableRepository = Substitute.For<ISoldGoodsTableRepository>();
+            this.saleHistoryTableRepository = Substitute.For<ISaleHistoryTableRepository>();
         }
 
         [TestMethod]
         public void ShouldPopulateSoldGoodsTableOnceWeHaveSaleActivity()
         {
             // Arrange
-            var soldGoodsTableRepository = Substitute.For<ISoldGoodsTableRepository>();
             SaleService saleHandler = new SaleService(
                 this.supplierTableRepository, 
-                this.goodsTableRepository, 
-                soldGoodsTableRepository);
+                this.goodsTableRepository,
+                this.soldGoodsTableRepository,
+                this.saleHistoryTableRepository);
 
             var args = new BuyArguments();
             args.ItemsToBuy = new List<ItemToBuy>()
@@ -126,12 +131,12 @@ namespace ShopSimulator.Core.Tests
             saleHandler.HandleBuy(args);
 
             // Assert
-            soldGoodsTableRepository.Received(1).Add(Arg.Is<ProductEntity>(
+            this.soldGoodsTableRepository.Received(1).Add(Arg.Is<SoldGoodsTableEntity>(
                  w => w.Name == "John's Product A" && w.Count == 2));
-            soldGoodsTableRepository.Received(1).Add(Arg.Is<ProductEntity>(
+            this.soldGoodsTableRepository.Received(1).Add(Arg.Is<SoldGoodsTableEntity>(
                 w => w.Name == "Mark's Product B" && w.Count == 2));
 
-            soldGoodsTableRepository.Received(1).SaveChanges();
+            this.soldGoodsTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
@@ -139,11 +144,11 @@ namespace ShopSimulator.Core.Tests
         public void ShouldThrowExceptionIfProductAmountsIsNotEnough()
         {
             // Arrange
-            var soldGoodsTableRepository = Substitute.For<ISoldGoodsTableRepository>();
             SaleService saleHandler = new SaleService(
                 this.supplierTableRepository,
                 this.goodsTableRepository,
-                soldGoodsTableRepository);
+                this.soldGoodsTableRepository,
+                this.saleHistoryTableRepository);
 
             var args = new BuyArguments();
             args.ItemsToBuy = new List<ItemToBuy>()
@@ -160,15 +165,77 @@ namespace ShopSimulator.Core.Tests
         }
 
         [TestMethod]
-        public void ShouldPopulateGoodsTableOnceWeHaveSaleActivity()
+        public void ShouldSubtractFromGoodsTableOnceWeHaveSaleActivity()
         {
-            throw new NotImplementedException();
+            // Arrange
+            SaleService saleHandler = new SaleService(
+                this.supplierTableRepository,
+                this.goodsTableRepository,
+                this.soldGoodsTableRepository,
+                this.saleHistoryTableRepository);
+
+            var args = new BuyArguments();
+            args.ItemsToBuy = new List<ItemToBuy>()
+            {
+                new ItemToBuy()
+                {
+                    Name = "John's Product A",
+                    Count = 2
+                },
+                new ItemToBuy()
+                {
+                    Name = "Mark's Product B",
+                    Count = 2
+                }
+            };
+
+            // Act
+            saleHandler.HandleBuy(args);
+
+            // Assert
+            foreach (var item in args.ItemsToBuy)
+            {
+                this.goodsTableRepository.Received(1).SubtractProduct(this.goodsTableData.First(f => f.Name == item.Name).Id, item.Count);
+            }
+
+            this.goodsTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
         public void ShouldPopulateSaleHistoryTableOnceWeHaveSaleActivity()
         {
-            throw new NotImplementedException();
+            // Arrange
+            SaleService saleHandler = new SaleService(
+                this.supplierTableRepository,
+                this.goodsTableRepository,
+                this.soldGoodsTableRepository,
+                this.saleHistoryTableRepository);
+
+            var args = new BuyArguments();
+            args.ItemsToBuy = new List<ItemToBuy>()
+            {
+                new ItemToBuy()
+                {
+                    Name = "John's Product A",
+                    Count = 2
+                },
+                new ItemToBuy()
+                {
+                    Name = "Mark's Product B",
+                    Count = 2
+                }
+            };
+
+            // Act
+            saleHandler.HandleBuy(args);
+
+            // Assert
+            foreach (var item in args.ItemsToBuy)
+            {
+                this.saleHistoryTableRepository.Received(1).Add(Arg.Is<SaleHistoryTableEntity>(w=>w.Name == item.Name && w.Count == item.Count));
+            }
+
+            this.saleHistoryTableRepository.Received(1).SaveChanges();
         }
     }
 

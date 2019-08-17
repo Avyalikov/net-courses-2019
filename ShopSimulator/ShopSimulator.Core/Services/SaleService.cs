@@ -12,26 +12,68 @@ namespace ShopSimulator.Core.Services
         private readonly ISupplierTableRepository supplierTableRepository;
         private readonly IGoodsTableRepository goodsTableRepository;
         private readonly ISoldGoodsTableRepository soldGoodsTableRepository;
+        private readonly ISaleHistoryTableRepository saleHistoryTableRepository;
 
         public SaleService(
             ISupplierTableRepository supplierTableRepository, 
             IGoodsTableRepository goodsTableRepository,
-            ISoldGoodsTableRepository soldGoodsTableRepository
+            ISoldGoodsTableRepository soldGoodsTableRepository,
+            ISaleHistoryTableRepository saleHistoryTableRepository
             )
         {
             this.supplierTableRepository = supplierTableRepository;
             this.goodsTableRepository = goodsTableRepository;
             this.soldGoodsTableRepository = soldGoodsTableRepository;
+            this.saleHistoryTableRepository = saleHistoryTableRepository;
         }
 
         public void HandleBuy(BuyArguments args)
         {
             this.ValidateBuyArguments(args);
 
-            this.StoreProductInSoldTable(args);
+            this.SubtractProductsInGoodsTable(args);
+            this.StoreProductsInSoldTable(args);
+            this.StoreProductsInSaleHistoryTable(args);
         }
 
-        private void StoreProductInSoldTable(BuyArguments args)
+        private void StoreProductsInSaleHistoryTable(BuyArguments args)
+        {
+            var productsInStore = this.goodsTableRepository.FindProductsByRequest(args);
+
+            foreach (var arg in args.ItemsToBuy)
+            {
+                var product = productsInStore.First(f => f.Name == arg.Name);
+
+                var productInSaleHistory = new SaleHistoryTableEntity()
+                {
+                    Id = product.Id,
+                    Count = arg.Count,
+                    PricePerItem = product.PricePerItem,
+                    Name = product.Name,
+                    SupplierId = product.SupplierId
+                };
+
+                this.saleHistoryTableRepository.Add(productInSaleHistory);
+            }
+
+            this.saleHistoryTableRepository.SaveChanges();
+        }
+
+        private void SubtractProductsInGoodsTable(BuyArguments args)
+        {
+            var productsInStore = this.goodsTableRepository.FindProductsByRequest(args);
+
+            foreach (var arg in args.ItemsToBuy)
+            {
+                var product = productsInStore.First(f => f.Name == arg.Name);
+
+                this.goodsTableRepository.SubtractProduct(product.Id, arg.Count);
+            }
+
+            this.goodsTableRepository.SaveChanges();
+        }
+
+        private void StoreProductsInSoldTable(BuyArguments args)
         {
             var productsInStore = this.goodsTableRepository.FindProductsByRequest(args);
 
@@ -39,7 +81,7 @@ namespace ShopSimulator.Core.Services
             {
                 var product = productsInStore.First(f => f.Name == arg.Name);
                  
-                var productInSoldGoods = new ProductEntity()
+                var productInSoldGoods = new SoldGoodsTableEntity()
                 {
                     Id = product.Id,
                     Count = arg.Count,
