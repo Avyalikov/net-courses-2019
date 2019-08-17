@@ -5,7 +5,7 @@
     using TradingApp.Data;
     using TradingApp.Data.Models;
 
-    class ShareLogic
+    public class ShareLogic
     {
         private readonly IAppDbContext dbProvider;
 

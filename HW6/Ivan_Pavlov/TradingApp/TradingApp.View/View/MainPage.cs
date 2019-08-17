@@ -34,7 +34,7 @@
                 {
                     Logger.Log.Error(ex.Message);
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(100);
             }
         }
 

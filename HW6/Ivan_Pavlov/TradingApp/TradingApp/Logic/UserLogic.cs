@@ -1,6 +1,5 @@
 ﻿namespace TradingApp.Logic
 {
-    using System;
     using System.Linq;
     using TradingApp.Data;
     using TradingApp.Data.Models;
@@ -16,26 +15,26 @@
 
         public IQueryable<User> ListUsers()
         {
-            var users = dbProvider.Users
-                .Include("UserShare.Share");
+            var users = dbProvider.Users.ToList();
 
-            return users;
+            return users.AsQueryable();
         }
 
         public IQueryable<User> OrangeZone()
         {
             var orangeZone = dbProvider.Users
-                .Include("UserShare.Share")
-                .Where(u => u.Balance == 0);
+                .Where(u => u.Balance == 0)
+                .ToList();
 
-            return orangeZone;
+            return orangeZone.AsQueryable();
         }
 
         public IQueryable<User> BlackZone()
         {
-            return dbProvider.Users
-                .Include("UserShare.Share")
-                .Where(u => u.Balance < 0);
+            var blackZone = dbProvider.Users
+                .Where(u => u.Balance < 0)
+                .ToList();
+            return blackZone.AsQueryable();
         }
 
         public string AddUser(User user)

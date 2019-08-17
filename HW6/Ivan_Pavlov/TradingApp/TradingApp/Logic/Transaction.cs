@@ -21,10 +21,11 @@
             int sellerId = ChooseUser();
             int customerId = ChooseUser(sellerId);
 
-            var seller = dbProvider.Users.Include("UserShare.Share")
-                .Where(u => u.Id == sellerId).First();
+            var seller = dbProvider.Users.ToList().AsQueryable()
+                .Where(u => u.Id == sellerId)
+                .First();
 
-            var customer = dbProvider.Users.Include("UserShare.Share")
+            var customer = dbProvider.Users.ToList().AsQueryable()
                 .Where(u => u.Id == customerId).First();
 
             var share = dbProvider.Users.Where(u => u.Id == sellerId)
@@ -86,7 +87,7 @@
             else //return seller with stocks
             {
                 userId = random.Next(1, dbProvider.Users.Count() + 1);
-                var seller = dbProvider.Users.Include("UserShare.Share")
+                var seller = dbProvider.Users.ToList()
                     .Where(u => u.Id == userId && u.UserShare.Count > 0).FirstOrDefault();
                 if (seller != null)
                     return seller.Id;
