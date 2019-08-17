@@ -17,7 +17,7 @@ namespace trading_software
         {
             using (var db = new TradingContext())
             {
-                return db.Clients.OrderBy(c => c.Name).AsEnumerable<Client>().ToList();
+                return db.Clients.OrderBy(c => c.Name).AsEnumerable<Client>().ToList(); ;
             }
         }
 
@@ -61,7 +61,7 @@ namespace trading_software
             }
         }
 
-        void IDataBaseDevice.Add(BlockOfShares blockOfShares)
+        public void Add(BlockOfShares blockOfShares)
         {
             using (var db = new TradingContext())
             {
@@ -82,7 +82,7 @@ namespace trading_software
             }
         }
 
-        bool IDataBaseDevice.Add(Client client)
+        public bool Add(Client client)
         {
             using (var db = new TradingContext())
             {
@@ -92,7 +92,7 @@ namespace trading_software
             }
         }
 
-        bool IDataBaseDevice.Add(Stock stock)
+        public bool Add(Stock stock)
         {
             using (var db = new TradingContext())
             {
@@ -102,7 +102,7 @@ namespace trading_software
             }
         }
 
-        bool IDataBaseDevice.Add(Transaction transaction)
+        public bool Add(Transaction transaction)
         {
             using (var db = new TradingContext())
             {
@@ -112,7 +112,7 @@ namespace trading_software
             }
         }
 
-        string IDataBaseDevice.GetClientName(int ClientID)
+        public string GetClientName(int ClientID)
         {
             using (var db = new TradingContext())
             {
@@ -120,7 +120,7 @@ namespace trading_software
             }
         }
 
-        string IDataBaseDevice.GetStockType(int StockID)
+        public string GetStockType(int StockID)
         {
             using (var db = new TradingContext())
             {
@@ -133,7 +133,7 @@ namespace trading_software
             using (var db = new TradingContext())
             {
                 IEnumerable<Client> query = db.Clients.Where(c => c.Balance < 0)
-                    .OrderBy(c => c.Name).AsEnumerable<Client>();
+                    .OrderBy(c => c.Name).AsEnumerable<Client>().ToList(); ;
                 return query;
             }
         }
@@ -143,7 +143,7 @@ namespace trading_software
             using (var db = new TradingContext())
             {
                 IEnumerable<Client> query = db.Clients.Where(c => c.Balance == 0)
-                    .OrderBy(c => c.Name).AsEnumerable<Client>();
+                    .OrderBy(c => c.Name).AsEnumerable<Client>().ToList(); ;
                 return query;
             }
         }

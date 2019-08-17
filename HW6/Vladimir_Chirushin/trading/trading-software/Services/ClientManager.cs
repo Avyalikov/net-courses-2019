@@ -73,14 +73,14 @@
 
         public void ShowBlackClients()
         {
-            outputDevice.WriteLine("Clients in 'Black' zone: ");
+            outputDevice.WriteLine("Clients in 'Black' zone:");
             IEnumerable<Client> query = dataBaseDevice.GetBlackClients();
             tableDrawer.Show(query);
         }
 
         public void ShowOrangeZone()
         {
-            outputDevice.WriteLine("Clients in 'Orange' zone: ");
+            outputDevice.WriteLine("Clients in 'Orange' zone:");
             IEnumerable<Client> query = dataBaseDevice.GetOrangeClients();
             tableDrawer.Show(query);
         }

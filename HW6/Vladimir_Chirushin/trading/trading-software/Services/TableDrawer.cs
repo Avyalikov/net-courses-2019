@@ -18,7 +18,7 @@ namespace trading_software
             string numberColumnName = "#";
             string stockColumnName = "Stock Type";
             string priceColumnName = "Price ATM";
-            outputDevice.Clear();
+
             outputDevice.WriteLine($"____________________________________________");
             outputDevice.WriteLine($"|{numberColumnName,4}|{stockColumnName,22}|{priceColumnName,14}|");
             outputDevice.WriteLine($"|----|----------------------|--------------|");
@@ -87,7 +87,6 @@ namespace trading_software
             string amountName = "Amount";
 
             int i = 0;
-            outputDevice.Clear();
             outputDevice.WriteLine($"___________________________________________________________");
             outputDevice.WriteLine($"|{numberName,4}|{clientName,22}|{stockName,22}|{amountName,6}|");
             outputDevice.WriteLine($"|----|----------------------|----------------------|------|");

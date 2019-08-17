@@ -15,16 +15,18 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-          
+            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
             var sut = new ClientManager(
                 inputDeviceMock,
                 outpuDeviceMock,
-                tableDrawerMock);
+                tableDrawerMock,
+                dataBaseDevice);
 
 
             // Act
-            //sut.Received();
+            sut.Received();
         }
+
         [TestMethod]
         public void ManualAddClientTest()
         {
@@ -32,6 +34,8 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
+            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+
             Dictionary<string, string> answers = new Dictionary<string, string>
             {
                 { "name", "Martin Eden" },
@@ -42,7 +46,8 @@ namespace trading_software.Tests
             var sut = new ClientManager(
                 inputDeviceMock,
                 outpuDeviceMock,
-                tableDrawerMock);
+                tableDrawerMock,
+                dataBaseDevice);
 
 
             // Act
@@ -65,6 +70,113 @@ namespace trading_software.Tests
                 return answers["balance"];
             });
             sut.Received(1).AddClient(answers["name"], answers["phone"], (decimal)6021023);
+        }
+
+
+        [TestMethod]
+        public void ShowBlackClientsTest()
+        {
+            // Arrange
+            var outpuDeviceMock = Substitute.For<IOutputDevice>();
+            var inputDeviceMock = Substitute.For<IInputDevice>();
+            var tableDrawerMock = Substitute.For<ITableDrawer>();
+            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+
+            Dictionary<string, string> answers = new Dictionary<string, string>
+            {
+                { "name", "Martin Eden" },
+                { "phone", "555-55-55" },
+                { "balance", "6021023" }
+            };
+            Client Client1 = new Client
+            {
+                ClientID = 1,
+                Name = "Martin Eden",
+                PhoneNumber = "555-55-55",
+                Balance = (decimal)-5
+            };
+            Client Client2 = new Client
+            {
+                ClientID = 2,
+                Name = "Ruth Morse",
+                PhoneNumber = "444-44-44",
+                Balance = (decimal)-13509
+            };
+            var sut = new ClientManager(
+                inputDeviceMock,
+                outpuDeviceMock,
+                tableDrawerMock,
+                dataBaseDevice);
+
+
+            // Act
+            sut.ShowBlackClients();
+
+            outpuDeviceMock
+                .Received(1)
+                .WriteLine(Arg.Is<string>(w => w == "Clients in 'Black' zone:"));
+            dataBaseDevice.
+                GetOrangeClients()
+                .Returns((info)=>(new[] { Client1, Client2 }.AsEnumerable<Client>()));
+            tableDrawerMock
+                .Received(1)
+                .Show(Arg.Is<IEnumerable<Client>>(enc => enc ==
+                    new[] { Client1, Client2 }.AsEnumerable<Client>()
+                    ));
+
+        }
+
+
+        [TestMethod]
+        public void ShowOrangeClientsTest()
+        {
+            // Arrange
+            var outpuDeviceMock = Substitute.For<IOutputDevice>();
+            var inputDeviceMock = Substitute.For<IInputDevice>();
+            var tableDrawerMock = Substitute.For<ITableDrawer>();
+            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+
+            Dictionary<string, string> answers = new Dictionary<string, string>
+            {
+                { "name", "Martin Eden" },
+                { "phone", "555-55-55" },
+                { "balance", "6021023" }
+            };
+            Client Client1 = new Client
+            {
+                ClientID = 1,
+                Name = "Martin Eden",
+                PhoneNumber = "555-55-55",
+                Balance = (decimal)0
+            };
+            Client Client2 = new Client
+            {
+                ClientID = 2,
+                Name = "Ruth Morse",
+                PhoneNumber = "444-44-44",
+                Balance = (decimal)0
+            };
+            var sut = new ClientManager(
+                inputDeviceMock,
+                outpuDeviceMock,
+                tableDrawerMock,
+                dataBaseDevice);
+            IEnumerable<Client> query = new[] { Client1, Client2 }.AsEnumerable<Client>();
+
+            // Act
+            sut.ShowOrangeZone();
+
+            outpuDeviceMock
+                .Received(1)
+                .WriteLine(Arg.Is<string>(w => w == "Clients in 'Orange' zone:"));
+            dataBaseDevice.
+                GetOrangeClients()
+                .Returns((info) => (query));
+            tableDrawerMock
+                .Received(1)
+                .Show(Arg.Is<Client[]>(clients => query
+                        .SequenceEqual(clients)
+                    ));
         }
     }
 }

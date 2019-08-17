@@ -13,6 +13,7 @@ namespace trading_software
         private readonly ITableDrawer tableDrawer;
         private readonly IBlockOfSharesManager blockOfSharesManager;
         private readonly IDataBaseDevice dataBaseDevice;
+
         public TransactionManager(
             IInputDevice inputDevice,
             IOutputDevice outputDevice,

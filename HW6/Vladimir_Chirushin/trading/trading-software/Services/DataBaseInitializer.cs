@@ -7,7 +7,7 @@ namespace trading_software
         private readonly IClientManager clientManager;
         private readonly IStockManager stockManager;
 
-        public DataBaseInitializer(IClientManager clientManager, IStockManager stockManager, IBlockOfSharesManager blockOfSharesManager)
+        public DataBaseInitializer(IClientManager clientManager, IStockManager stockManager)
         {
             this.clientManager = clientManager;
             this.stockManager = stockManager;

@@ -17,6 +17,8 @@ namespace trading_software
             this.For<IBlockOfSharesManager>().Use<BlockOfSharesManager>();
             this.For<IDataBaseInitializer>().Use<DataBaseInitializer>();
             this.For<IDataBaseDevice>().Use<DataBaseDevice>();
+            this.For<ICommandParser>().Use<CommandParser>();
+            this.For<ITimeManager>().Use<TimeManager>();
         }
     }
 }

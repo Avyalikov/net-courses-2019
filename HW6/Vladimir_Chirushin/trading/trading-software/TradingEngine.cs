@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Timers;
 
 namespace trading_software
 {
@@ -13,6 +12,7 @@ namespace trading_software
         private readonly ITransactionManager transactionManager;
         private readonly IBlockOfSharesManager blockOfSharesManager;
         private readonly IDataBaseInitializer dbInitializer;
+        private readonly ICommandParser commandParser;
 
         public TradingEngine(
             IOutputDevice outputDevice,
@@ -22,7 +22,8 @@ namespace trading_software
             IStockManager stockManager,
             ITransactionManager transactionManager,
             IBlockOfSharesManager blockOfSharesManager,
-            IDataBaseInitializer dbInitializer
+            IDataBaseInitializer dbInitializer,
+            ICommandParser commandParser
             )
         {
             this.outputDevice = outputDevice;
@@ -33,101 +34,20 @@ namespace trading_software
             this.transactionManager = transactionManager;
             this.blockOfSharesManager = blockOfSharesManager;
             this.dbInitializer = dbInitializer;
+            this.commandParser = commandParser;
         }
 
 
         public void Run()
         {
-            ConsoleKeyInfo consoleKeyPressed;
+            string commandString;
             ShowMenu();
-            transactionManager.ReadAllTransactions();
             do
             {
-                consoleKeyPressed = inputDevice.ReadKey();
-
-                switch (consoleKeyPressed.Key)
-                {
-                    case ConsoleKey.D1:
-                        clientManager.ManualAddClient();
-                        break;
-
-                    case ConsoleKey.D2:
-                        clientManager.ReadAllClients();
-                        break;
-
-                    case ConsoleKey.D3:
-                        stockManager.ManualAddStock();
-                        break;
-
-                    case ConsoleKey.D4:
-                        stockManager.ReadAllStocks();
-                        break;
-                    case ConsoleKey.D5:
-                        transactionManager.ManualAddTransaction();
-                        break;
-
-                    case ConsoleKey.D6:
-                        transactionManager.ReadAllTransactions();
-                        break;
-
-                    case ConsoleKey.D7:
-                        blockOfSharesManager.ManualAddNewShare();
-                        break;
-
-                    case ConsoleKey.D8:
-                        blockOfSharesManager.ShowAllShares();
-                        break;
-
-                    case ConsoleKey.D0:
-                        transactionManager.MakeRandomTransaction();
-                        break;
-
-                    case ConsoleKey.T:
-                        SetTimer();
-                        break;
-
-                    case ConsoleKey.R:
-                        ResetTimer();
-                        break;
-                    case ConsoleKey.D:
-                        aTimer.Stop();
-                        aTimer.Dispose();
-                        break;
-
-                    case ConsoleKey.I:
-                        dbInitializer.Initiate();
-                        break;
-
-                    case ConsoleKey.M:
-                        GenerateRandomBlockShares();
-                        break;
-
-                    case ConsoleKey.B:
-                        clientManager.BankruptRandomClient();
-                        break;
-
-                    case ConsoleKey.Q:
-                        clientManager.ShowOrangeZone();
-                        break;
-
-                    case ConsoleKey.W:
-                        clientManager.ShowBlackClients();
-                        break;
-
-                    case ConsoleKey.A:
-                        clientManager.ReduceAssetsRandomClient();
-                        break;
-
-                        break;
-                    case ConsoleKey.Escape:
-                        continue;
-
-                    default:
-                        ShowMenu();
-                        continue;
-                }
+                commandString = inputDevice.ReadLine();
+                commandParser.Parse(commandString);
             }
-            while (consoleKeyPressed.Key != ConsoleKey.Escape);
+            while (commandString.ToLower() != "quit");
         }
 
         private void GenerateRandomBlockShares()
@@ -138,41 +58,14 @@ namespace trading_software
                 blockOfSharesManager.CreateRandomShare();
             }
         }
+
+
         private void ShowMenu()
         {
-            outputDevice.WriteLine(@"MenuShowed");
-
-        }
-
-
-        Timer aTimer = new Timer(100);
-        private void SetTimer()
-        {
-            if (!aTimer.Enabled)
+            foreach(Command command in Enum.GetValues(typeof(Command)))
             {
-                aTimer.Elapsed += ATimer_Elapsed;
-                aTimer.AutoReset = true;
-                aTimer.Enabled = true;
+                outputDevice.WriteLine(command.ToString());
             }
         }
-
-        private void ResetTimer()
-        {
-            if (aTimer.Enabled)
-            {
-                aTimer.Elapsed -= ATimer_Elapsed;
-                aTimer.AutoReset = true;
-                aTimer.Enabled = false;
-            }
-        }
-
-        private void ATimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (transactionManager.MakeRandomTransaction())
-            {
-                outputDevice.WriteLine("New random transaction added!");
-            }
-        }
-
     }
 }

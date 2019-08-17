@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\CommandParser.cs" />
     <Compile Include="Devices\DataBaseDevice.cs" />
     <Compile Include="Devices\IDataBaseDevice.cs" />
     <Compile Include="Model\BlockOfShares.cs" />
@@ -80,6 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ICommandParser.cs" />
     <Compile Include="Services\IDataBaseInitializer.cs" />
     <Compile Include="Services\BlockOfSharesManager.cs" />
     <Compile Include="Model\Client.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Services\ILoggerService.cs" />
     <Compile Include="Devices\InputDevice.cs" />
     <Compile Include="Devices\IOutputDevice.cs" />
+    <Compile Include="Services\ITimeManager.cs" />
     <Compile Include="Services\ITransactionManager.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Devices\OutputDevice.cs" />
@@ -101,6 +104,7 @@
     <Compile Include="Model\Stock.cs" />
     <Compile Include="Services\TableDrawer.cs" />
     <Compile Include="Services\StockManager.cs" />
+    <Compile Include="Services\TimeManager.cs" />
     <Compile Include="TradingContext.cs" />
     <Compile Include="TradingEngine.cs" />
     <Compile Include="TradingSoftwareRegistry.cs" />
