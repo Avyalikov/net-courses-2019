@@ -71,13 +71,11 @@ namespace HW6
                 {
                     traderId = Int32.Parse(traderIdString);
                     
-                    //if (context.Traders.Where(t => t.TraderId == traderId).ToList().Count == 0)
                     if (program.dataInteraction.GetTraderCount(traderId) == 0)
                     {
                         throw new Exception("No trader with this Trader ID");
                     }
 
-                    //var traderRecordToChange = context.Traders.SingleOrDefault(t => t.TraderId == traderId);
                     var traderRecordToChange = program.dataInteraction.GetTrader(traderId);
 
                     if (traderRecordToChange != null)
@@ -103,7 +101,6 @@ namespace HW6
                         }
                     }
 
-                    //context.SaveChanges();
                     program.dataInteraction.SaveChanges();
 
                     program.outputProvider.WriteLine("Trader record updated");
@@ -121,16 +118,8 @@ namespace HW6
                         throw new Exception("Last name cannot be empty");
                     }
 
-                    //context.Traders.Add(new DataModel.Trader
-                    //{
-                    //    FirstName = firstName,
-                    //    LastName = lastName,
-                    //    PhoneNumber = phoneNumber,
-                    //    Balance = balance
-                    //});
                     program.dataInteraction.AddTrader(firstNameString, lastNameString, phoneNumberString, balance);
 
-                    //context.SaveChanges();
                     program.dataInteraction.SaveChanges();
 
                     program.outputProvider.WriteLine("Trader record created");
@@ -159,15 +148,10 @@ namespace HW6
         {
             int traderId = (traderDataGrid.SelectedItem as Trader).TraderId;
 
-            //var trader = context.Traders.Where(t => t.TraderID == traderId).SingleOrDefault();
             var trader = program.dataInteraction.GetTrader(traderId);
 
-            //context.Portfolios.Remove(trader);
             program.dataInteraction.RemoveTrader(trader);
-
-            //context.SaveChanges();
             program.dataInteraction.SaveChanges();
-
             program.outputProvider.WriteLine("Trader deleted");
             Logger.Log.Info("Trader deleted");
         }

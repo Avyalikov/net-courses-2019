@@ -28,8 +28,7 @@ namespace HW6
     {
         public static MainWindow AppWindow;
         public Program program;
-
-
+        
         public MainWindow()
         {
             Logger.InitLogger();
@@ -107,25 +106,10 @@ namespace HW6
 
         private void UpdateView()
         {
-            System.Windows.Data.CollectionViewSource traderViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("traderViewSource")));
-            System.Windows.Data.CollectionViewSource portfolioViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("portfolioViewSource")));
-            System.Windows.Data.CollectionViewSource shareViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("shareViewSource")));
-            System.Windows.Data.CollectionViewSource transactionViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("transactionViewSource")));
-
-            program.contextProvider.Traders.Load();
-            program.contextProvider.Portfolios.Load();
-            program.contextProvider.Shares.Load();
-            program.contextProvider.Transactions.Load();
-
-            traderViewSource.Source = program.contextProvider.Traders.Local;
-            portfolioViewSource.Source = program.contextProvider.Portfolios.Local;
-            shareViewSource.Source = program.contextProvider.Shares.Local;
-            transactionViewSource.Source = program.contextProvider.Transactions.Local;
-
-            ((CollectionViewSource)this.Resources["traderViewSource"]).View.Refresh();
-            ((CollectionViewSource)this.Resources["portfolioViewSource"]).View.Refresh();
-            ((CollectionViewSource)this.Resources["shareViewSource"]).View.Refresh();
-            ((CollectionViewSource)this.Resources["transactionViewSource"]).View.Refresh();
+            traderDataGrid.Items.Refresh();
+            portfolioDataGrid.Items.Refresh();
+            shareDataGrid.Items.Refresh();
+            transactionDataGrid.Items.Refresh();
         }
 
         public void RunTradingSimulation()

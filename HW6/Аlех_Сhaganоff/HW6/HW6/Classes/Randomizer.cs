@@ -53,15 +53,11 @@ namespace HW6.Classes
            {
                 var check = context.SaveChanges();
                 Console.WriteLine("Saved: " + check);
-
            }
            catch(Exception e)
            {
                 System.Console.WriteLine("Randomization failed");
                 System.Console.WriteLine(e.Message);
-
-                //outputProvider.WriteLine("Randomization failed");
-                //outputProvider.WriteLine(e.Message);
            }          
         }
     }

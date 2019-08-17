@@ -53,13 +53,11 @@ namespace HW6
                 int shareId = Int32.Parse(shareIdString);
                 int quantity = Int32.Parse(quantityString);
 
-                //if (context.Traders.Where(t => t.TraderId == traderId).ToList().Count == 0)
                 if(program.dataInteraction.GetTraderCount(traderId) == 0)
                 {
                     throw new Exception("No trader with this Trader ID");
                 }
 
-                //if (context.Shares.Where(t => t.ShareId == shareId).ToList().Count == 0)
                 if (program.dataInteraction.GetShareCount(shareId) == 0)
                 {
                     throw new Exception("No share type with this Share ID");
@@ -70,10 +68,8 @@ namespace HW6
                     throw new Exception("Quantity cannot be zero or negative number");
                 }
 
-                //if (context.Portfolios.Where(p => p.TraderID == traderId && p.ShareId == shareId).ToList().Count > 0)
                 if (program.dataInteraction.GetPortfoliosCount(traderId, shareId) > 0)
                 {
-                    //var buyerShareRecordToChange = context.Portfolios.SingleOrDefault(p => p.TraderID == traderId && p.ShareId == shareId);
                     var buyerShareRecordToChange = program.dataInteraction.GetPortfolio(traderId, shareId);
 
                     if (buyerShareRecordToChange != null)
@@ -81,7 +77,6 @@ namespace HW6
                         buyerShareRecordToChange.Quantity = quantity;
                     }
 
-                    //context.SaveChanges();
                     program.dataInteraction.SaveChanges();
 
                     program.outputProvider.WriteLine("Porftolio record updated");
@@ -89,20 +84,11 @@ namespace HW6
                 }
                 else
                 {
-                    //context.Portfolios.Add(new DataModel.Portfolio
-                    //{
-                    //    TraderID = traderId,
-                    //    ShareId = shareId,
-                    //    Quantity = quantity
-                    //});
                     program.dataInteraction.AddPortfolio(traderId, shareId, quantity);
 
                     program.outputProvider.WriteLine("Added new record to portfolio");
                     Logger.Log.Info("Added new record to portfolio");
-
                     PortfolioMessageLabel.Content = string.Empty;
-
-                    //context.SaveChanges();
                     program.dataInteraction.SaveChanges();
                 }
             }
@@ -127,15 +113,10 @@ namespace HW6
             int traderId = (portfolioDataGrid.SelectedItem as Portfolio).TraderID;
             int shareId = (portfolioDataGrid.SelectedItem as Portfolio).ShareId;
 
-            //var portfolio = context.Portfolios.Where(p => p.TraderID == traderId && p.ShareId == shareId).SingleOrDefault();
             var portfolio = program.dataInteraction.GetPortfolio(traderId, shareId);
 
-            //context.Portfolios.Remove(portfolio);
             program.dataInteraction.RemovePortfolio(portfolio);
-
-            //context.SaveChanges();
             program.dataInteraction.SaveChanges();
-
             program.outputProvider.WriteLine("Portfolio deleted");
             Logger.Log.Info("Portfolio deleted");
         }
