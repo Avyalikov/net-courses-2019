@@ -30,8 +30,8 @@ namespace Trading
         {
             Logger.InitLogger();
             string userInput = "";
-            ioProvider.WriteLine(phraseProvider.GetPhrase("Welcome"));
             Logger.MainLog.Info("Program started");
+            Logger.MainLog.Info(phraseProvider.GetPhrase("Welcome"));
             using (var db = new TradingDBContext())
             {
                 db.Database.Initialize(false);
@@ -77,24 +77,15 @@ namespace Trading
                     isSuccess = showFullSharesList(db);
                     break;
                 case "help":
-                    ioProvider.WriteLine(phraseProvider.GetPhrase("Help"));
+                    Logger.MainLog.Info(phraseProvider.GetPhrase("Help"));
                     isSuccess = true;
                     break;
                 case "e":
                     isSuccess = true;
                     break;
                 default:
-                    ioProvider.WriteLine("Unknown command");
                     Logger.MainLog.Warn("Unknown command");
                     return;
-            }
-            if (isSuccess)
-            {
-                ioProvider.WriteLine("Success");
-            }
-            else
-            {
-                ioProvider.WriteLine("Provided data not correct, check log for details");
             }
         }
 
@@ -178,7 +169,7 @@ namespace Trading
         private bool showOrangeList(TradingDBContext db)
         {
             var orangeList = db.Clients.Where(x => x.ClientBalance == 0).ToList();
-            ioProvider.WriteLine(phraseProvider.GetPhrase("OrangeList"));
+            Logger.MainLog.Info(phraseProvider.GetPhrase("OrangeList"));
             showClientsList(orangeList);
             Logger.MainLog.Info("Successfully showed orange list");
             return true;
@@ -187,7 +178,7 @@ namespace Trading
         private bool showBlackList(TradingDBContext db)
         {
             var blackList = db.Clients.Where(x => x.ClientBalance < 0).ToList();
-            ioProvider.WriteLine(phraseProvider.GetPhrase("BlackList"));
+            Logger.MainLog.Info(phraseProvider.GetPhrase("BlackList"));
             showClientsList(blackList);
             Logger.MainLog.Info("Successfully showed black list");
             return true;
@@ -196,7 +187,7 @@ namespace Trading
         private bool showFullClientsList(TradingDBContext db)
         {
             var fullList = db.Clients.ToList();
-            ioProvider.WriteLine(phraseProvider.GetPhrase("FullList"));
+            Logger.MainLog.Info(phraseProvider.GetPhrase("FullList"));
             showClientsList(fullList);
             Logger.MainLog.Info("Successfully showed full client list");
             return true;
@@ -205,12 +196,12 @@ namespace Trading
         private bool showFullSharesList(TradingDBContext db)
         {
             var fullList = db.Shares.ToList();
-            ioProvider.WriteLine(phraseProvider.GetPhrase("FullList"));
-            ioProvider.WriteLine(phraseProvider.GetPhrase("ShareHeader"));
+            Logger.MainLog.Info(phraseProvider.GetPhrase("FullList"));
+            Logger.MainLog.Info(phraseProvider.GetPhrase("ShareHeader"));
             foreach (Shares share in fullList)
             {
                 string clientInfo = $"{share.ShareID.ToString()} {share.ShareName} {share.ShareCost.ToString()}";
-                ioProvider.WriteLine(clientInfo);
+                Logger.MainLog.Info(clientInfo);
             }
             Logger.MainLog.Info("Successfully showed full share list");
             return true;
@@ -218,11 +209,11 @@ namespace Trading
 
         private void showClientsList(List<Clients> clients)
         {
-            ioProvider.WriteLine(phraseProvider.GetPhrase("ClientHeader"));
+            Logger.MainLog.Info(phraseProvider.GetPhrase("ClientHeader"));
             foreach (Clients client in clients)
             {
                 string clientInfo = $"{client.ClientID.ToString()} {client.ClientFirstName} {client.ClientLastName} {client.PhoneNumber} {client.ClientBalance.ToString()}";
-                ioProvider.WriteLine(clientInfo);
+                Logger.MainLog.Info(clientInfo);
             }
         }
     }
