@@ -24,9 +24,9 @@ namespace Trading
 
             using (var context = new StockExchangeContext())
             {
-                ioProvider.WriteLine(context.LoadingText());
+                ioProvider.WriteLine("Please wait until db is loading...");
                 context.Database.Initialize(false);
-                ioProvider.WriteLine(context.LoadingDoneText());
+                ioProvider.WriteLine("The DB was loaded.");
 
                 new StockExchange(
                     settingsProvider: settingsProvider,

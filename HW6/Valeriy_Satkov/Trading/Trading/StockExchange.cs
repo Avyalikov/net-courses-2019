@@ -95,12 +95,88 @@ namespace Trading
                 {
                     case "6":
                         this.ioProvider.WriteLine("You have chosen 6"); // signal about enter into case
-                        ioProvider.ReadLine(); // pause
+                        AddClient();
+                        // ioProvider.ReadLine(); // pause
                         break;
                     default:
                         break;
                 }
-            } while (s != "e");
+            } while (s != settings.ExitCode);
+        }
+
+        public void AddClient()
+        {
+            string lastName = string.Empty,
+                firstName = string.Empty,
+                phone = string.Empty;
+            decimal balance = 0;                      
+
+            string outputString = string.Empty;
+            while (outputString != settings.ExitCode)
+            {
+                if (string.IsNullOrEmpty(lastName))
+                {
+                    this.ioProvider.Write(this.phraseProvider.GetPhrase("AddClient_LastName"));
+                    outputString = ioProvider.ReadLine();
+                    if (outputString.Length < 2 || outputString.Length > 20)
+                    {
+                        ioProvider.WriteLine(this.phraseProvider.GetPhrase("WrongLine"));
+                        continue;
+                    }
+                    lastName = outputString;
+                }
+
+                if (string.IsNullOrEmpty(firstName))
+                {
+                    this.ioProvider.Write(this.phraseProvider.GetPhrase("AddClient_FirstName"));
+                    outputString = ioProvider.ReadLine();
+                    if (outputString.Length < 2 || outputString.Length > 20)
+                    {
+                        ioProvider.WriteLine(this.phraseProvider.GetPhrase("WrongLine"));
+                        continue;
+                    }
+                    firstName = outputString;
+                }
+
+                if (string.IsNullOrEmpty(phone))
+                {
+                    this.ioProvider.Write(this.phraseProvider.GetPhrase("AddClient_Phone"));
+                    outputString = ioProvider.ReadLine();
+                    if (outputString.Length < 2 || outputString.Length > 20)
+                    {
+                        ioProvider.WriteLine(this.phraseProvider.GetPhrase("WrongLine"));
+                        continue;
+                    }
+                    phone = outputString;
+                }
+
+                if (balance <= 0)
+                {
+                    this.ioProvider.Write(this.phraseProvider.GetPhrase("AddClient_Balance"));
+                    bool flag = decimal.TryParse(outputString = ioProvider.ReadLine(), out balance);
+                    if (!flag || balance <= 0)
+                    {
+                        ioProvider.WriteLine(this.phraseProvider.GetPhrase("WrongLine"));
+                        continue;
+                    }
+                }
+
+                // context stored procedure add client {lastName, firstName, phone, balance}
+                db.Clients.Add(new Client()
+                {
+                    LastName = lastName,
+                    FirstName = firstName,
+                    Phone = phone,
+                    Balance = balance
+                });
+
+                db.SaveChanges();
+
+                ioProvider.WriteLine("New client was added!");
+                ioProvider.ReadLine(); // pause
+
+                break;
+            }
         }
     }
 }

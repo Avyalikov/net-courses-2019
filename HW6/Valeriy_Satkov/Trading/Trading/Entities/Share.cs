@@ -17,6 +17,6 @@
         public string CompanyName { get; set; }
 
         [Required]
-        public virtual ShareType ShareType { get; set; }
+        public virtual ShareType Type { get; set; }
     }
 }

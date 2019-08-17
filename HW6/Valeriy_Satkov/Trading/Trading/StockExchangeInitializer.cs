@@ -15,8 +15,8 @@
             // List of clients
             var clientList = new List<Client>()
             {
-                new Client() { LastName = "ServiceAccount1", FirstName = "NameServiceAccount1", Phone = "+0(000)0000000", Balance = 100000},
-                new Client() { LastName = "ServiceAccount2", FirstName = "NameServiceAccount2", Phone = "+0(000)0000001", Balance = 100000},
+                new Client() { LastName = "ServiceAccount1", FirstName = "NameServiceAccount1", Phone = "+0(000)0000001", Balance = 100000},
+                new Client() { LastName = "ServiceAccount2", FirstName = "NameServiceAccount2", Phone = "+0(000)0000002", Balance = 100000},
                 new Client() { LastName = "Pavlov", FirstName = "Ivan", Phone = "+7(812)5551243", Balance = 38000},
                 new Client() { LastName = "Mechnikov", FirstName = "Ilya", Phone = "+33(0)140205317", Balance = 42000},
                 new Client() { LastName = "Bunin", FirstName = "Ivan", Phone = "+33(0)420205320", Balance = 30000},
@@ -43,7 +43,7 @@
             // Shares (Name and other info)
             var sharesList = new List<Share>()
             {
-                new Share() { CompanyName = "Service", ShareType = shareTypesList[1]/*Middle*/}
+                new Share() { CompanyName = "Service", Type = shareTypesList[1]/*Middle*/}
             };
             sharesList.ForEach(sh => context.Shares.Add(sh));
             context.SaveChanges();
@@ -56,6 +56,12 @@
                     Client = clientList[0],
                     Share = sharesList[0],
                     Number = 17
+                },
+                new ClientSharesNumber()
+                {
+                    Client = clientList[1],
+                    Share = sharesList[0],
+                    Number = 12
                 }
             };
             clientSharesNumbers.ForEach(cSN => context.ClientSharesNumbers.Add(cSN));
@@ -71,8 +77,8 @@
                     ChargeDate = DateTime.Now,
                     Seller = clientList[0], // 'ServiceAccount1'
                     Share = sharesList[0], // 'Service' share
-                    Type = sharesList[0].ShareType, // 'Middle'
-                    Cost = sharesList[0].ShareType.Cost, // 'Middle' cost
+                    Type = sharesList[0].Type, // 'Middle'
+                    Cost = sharesList[0].Type.Cost, // 'Middle' cost
                     Number = 12,
                     Total = 12 * context.ShareTypes.Where(shT => shT.Name == "Middle").FirstOrDefault().Cost
                 }

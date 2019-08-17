@@ -42,17 +42,7 @@
         /// <summary>
         /// Represent a set of entities stored in a database
         /// </summary>
-        public virtual DbSet<Operation> Operations { get; set; }
-
-        public string LoadingDoneText()
-        {
-            return "The DB was loaded.";
-        }
-
-        public string LoadingText()
-        {
-            return "Please wait until db is loading...";
-        }
+        public virtual DbSet<Operation> Operations { get; set; }        
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

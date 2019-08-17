@@ -7,5 +7,10 @@
   "AddShareType": "Add a new share type into system",
   "AddClient": "Add a new client",
   "Enter": "Type the number or '@ExitCode' for exit and press Enter: ",
+  "AddClient_LastName": "Enter the Last name of client: ",
+  "AddClient_FirstName": "Enter the First name of client: ",
+  "AddClient_Phone": "Enter the phone of client: ",
+  "AddClient_Balance": "Enter the balance of client: ",
+  "WrongLine": "Wrong Line. Try again.",
   "Bye": "Good Bye."
 }
