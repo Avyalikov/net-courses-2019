@@ -511,7 +511,7 @@ namespace trading_software.Tests
                 timeManagerMock);
 
             // Act
-            sut.Parse("StartSimlationWithRandomTransactions");
+            sut.Parse("StartSimulationWithRandomTransactions");
 
             // Asserts
             clientManagerMock.DidNotReceive();

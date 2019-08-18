@@ -5,12 +5,19 @@ namespace trading_software.Services
 {
     public class LoggerService : ILoggerService
     {
-        private readonly ILog logger;
+        private ILog logger;
 
-        public LoggerService(ILog logger)
+        public LoggerService()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+            this.logger = LogManager.GetLogger("SampleLogger");
+        }
+
+        public void SetUpLogger(ILog logger)
         {
             this.logger = logger;
         }
+
 
         public void Error(Exception ex)
         {

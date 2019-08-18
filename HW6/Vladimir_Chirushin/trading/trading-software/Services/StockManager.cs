@@ -1,7 +1,6 @@
 ﻿namespace trading_software
 {
     using System;
-    using System.Linq;
     public class StockManager : IStockManager
     {
         private readonly IInputDevice inputDevice;

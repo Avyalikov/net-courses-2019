@@ -1,4 +1,5 @@
 ﻿using System;
+using trading_software.Services;
 
 namespace trading_software
 {
@@ -13,6 +14,7 @@ namespace trading_software
         private readonly IBlockOfSharesManager blockOfSharesManager;
         private readonly IDataBaseInitializer dbInitializer;
         private readonly ICommandParser commandParser;
+        //private readonly ILoggerService loggerService;
 
         public TradingEngine(
             IOutputDevice outputDevice,
@@ -24,6 +26,7 @@ namespace trading_software
             IBlockOfSharesManager blockOfSharesManager,
             IDataBaseInitializer dbInitializer,
             ICommandParser commandParser
+            //ILoggerService loggerService
             )
         {
             this.outputDevice = outputDevice;
@@ -35,11 +38,13 @@ namespace trading_software
             this.blockOfSharesManager = blockOfSharesManager;
             this.dbInitializer = dbInitializer;
             this.commandParser = commandParser;
+            //this.loggerService = loggerService;
         }
 
 
         public void Run()
         {
+            
             string commandString;
             ShowMenu();
             do
@@ -49,16 +54,6 @@ namespace trading_software
             }
             while (commandString.ToLower() != "quit");
         }
-
-        private void GenerateRandomBlockShares()
-        {
-            int numberOfShares = 200;
-            for (int i = 0; i < numberOfShares; i++)
-            {
-                blockOfSharesManager.CreateRandomShare();
-            }
-        }
-
 
         private void ShowMenu()
         {

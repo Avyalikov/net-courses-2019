@@ -1,4 +1,5 @@
 ﻿using StructureMap;
+using trading_software.Services;
 
 namespace trading_software
 {
@@ -19,6 +20,7 @@ namespace trading_software
             this.For<IDataBaseDevice>().Use<DataBaseDevice>();
             this.For<ICommandParser>().Use<CommandParser>();
             this.For<ITimeManager>().Use<TimeManager>();
+            this.For<ILoggerService>().Use<LoggerService>();
         }
     }
 }

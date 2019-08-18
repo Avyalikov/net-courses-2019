@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 
 namespace trading_software.Services
 {
@@ -11,5 +12,7 @@ namespace trading_software.Services
         void Info(string message);
 
         void Error(Exception ex);
+
+        void SetUpLogger(ILog logger);
     }
 }

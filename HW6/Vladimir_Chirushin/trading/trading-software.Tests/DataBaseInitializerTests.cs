@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using trading_software;
 using NSubstitute;
-using System.Linq;
 
 namespace trading_software.Tests
 {
@@ -15,10 +13,12 @@ namespace trading_software.Tests
             // Arrange
             var clientManagerMock = Substitute.For<IClientManager>();
             var stockManagerMock = Substitute.For<IStockManager>();
+            var blockOfSharesManagerMock = Substitute.For<IBlockOfSharesManager>();
 
             var sut = new DataBaseInitializer(
                 clientManagerMock,
-                stockManagerMock
+                stockManagerMock,
+                blockOfSharesManagerMock
                 );
 
             // Act

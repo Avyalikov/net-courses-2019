@@ -1,8 +1,10 @@
 ﻿using System;
+using trading_software.Services;
 
 namespace trading_software
 {
-    public enum Command {
+    public enum Command
+    {
         ManualAddClient,
         ManualAddStock,
         ManualAddTransaction,
@@ -17,7 +19,7 @@ namespace trading_software
         ShowOrangeClients,
         ShowBlackClients,
         ReduceAssetsRandomClient,
-        StartSimlationWithRandomTransactions,
+        StartSimulationWithRandomTransactions,
         StopSimulationWithRandomTransactions
     }
     public class CommandParser : ICommandParser
@@ -29,6 +31,7 @@ namespace trading_software
         private readonly IDataBaseInitializer dbInitializer;
         private readonly IOutputDevice outputDevice;
         private readonly ITimeManager timeManager;
+        private readonly ILoggerService loggerService;
 
         public CommandParser(
             IClientManager clientManager,
@@ -37,7 +40,8 @@ namespace trading_software
             IBlockOfSharesManager blockOfSharesManager,
             IDataBaseInitializer dbInitializer,
             IOutputDevice outputDevice,
-            ITimeManager timeManager
+            ITimeManager timeManager,
+            ILoggerService loggerService
             )
         {
             this.clientManager = clientManager;
@@ -47,6 +51,7 @@ namespace trading_software
             this.dbInitializer = dbInitializer;
             this.outputDevice = outputDevice;
             this.timeManager = timeManager;
+            this.loggerService = loggerService;
         }
         Command command;
         public void Parse(string commandString)
@@ -66,75 +71,152 @@ namespace trading_software
             switch (command)
             {
                 case Command.ManualAddClient:
-                    clientManager.ManualAddClient();
+                    ManualAddClient();
                     break;
 
                 case Command.ReadAllClients:
-                    clientManager.ReadAllClients();
+                    ReadAllClients();
                     break;
 
                 case Command.ManualAddStock:
-                    stockManager.ManualAddStock();
+                    ManualAddStock();
                     break;
 
                 case Command.ReadAllStocks:
-                    stockManager.ReadAllStocks();
+                    ReadAllStock();
                     break;
                 case Command.ManualAddTransaction:
-                    transactionManager.ManualAddTransaction();
+                    ManualAddTransaction();
                     break;
 
                 case Command.ReadAllTransactions:
-                    transactionManager.ReadAllTransactions();
+                    ReadAllTransactions();
                     break;
 
                 case Command.ManualAddShares:
-                    blockOfSharesManager.ManualAddNewShare();
+                    ManualAddNewShares();
                     break;
 
                 case Command.ReadAllShares:
-                    blockOfSharesManager.ShowAllShares();
+                    ShowAllShares();
                     break;
 
                 case Command.MakeRandomTransaction:
-                    transactionManager.MakeRandomTransaction();
+                    MakeRandomTransaction();
                     break;
 
-                case Command.StartSimlationWithRandomTransactions:
-                    timeManager.StartRandomTransactionThread();
-                break;
+                case Command.StartSimulationWithRandomTransactions:
+                    StartSimulation();
+                    break;
 
                 case Command.StopSimulationWithRandomTransactions:
-                    timeManager.StopRandomTransactionThread();
+                    StopSimulation();
                     break;
 
                 case Command.InitiateDB:
-                    dbInitializer.Initiate();
+                    InitiateDB();
                     break;
 
                 case Command.BankruptRandomClient:
-                    clientManager.BankruptRandomClient();
+                    BankruptRandomClient();
                     break;
 
                 case Command.ShowOrangeClients:
-                    clientManager.ShowOrangeZone();
+                    ShowOrangeClients();
                     break;
 
                 case Command.ShowBlackClients:
-                    clientManager.ShowBlackClients();
+                    ShowBlackClients();
                     break;
 
                 case Command.ReduceAssetsRandomClient:
-                    clientManager.ReduceAssetsRandomClient();
+                    ReduceAssetsRandomClient();
                     break;
 
-                //case ConsoleKey.Escape:
-                  //  continue;
-
-               // default:
-                   // ShowMenu();
-                   // continue;
+                default:
+                    break;
             }
+        }
+
+        private void ManualAddClient()
+        {
+            loggerService.RunWithExceptionLogging(() => clientManager.ManualAddClient());
+            loggerService.Info("Manualy added client to ClientBase");
+        }
+        private void ReadAllClients()
+        {
+            loggerService.RunWithExceptionLogging(() => clientManager.ReadAllClients());
+            loggerService.Info("Readed all Clients from ClientBase");
+        }
+        private void ManualAddStock()
+        {
+            loggerService.RunWithExceptionLogging(() => stockManager.ManualAddStock());
+            loggerService.Info("Manualy Added Stock");
+        }
+        private void ReadAllStock()
+        {
+            loggerService.RunWithExceptionLogging(() => stockManager.ReadAllStocks());
+            loggerService.Info("Readed all stocks from StockBase");
+        }
+        private void ManualAddTransaction()
+        {
+            loggerService.RunWithExceptionLogging(() => transactionManager.ManualAddTransaction());
+            loggerService.Info("Manualy added transaction");
+        }
+        private void ReadAllTransactions()
+        {
+            loggerService.RunWithExceptionLogging(() => transactionManager.ReadAllTransactions());
+            loggerService.Info("Readed all transactions from TransactionBase");
+        }
+        private void ManualAddNewShares()
+        {
+            loggerService.RunWithExceptionLogging(() => blockOfSharesManager.ManualAddNewShare());
+            loggerService.Info("Manualy added Share to BlockOfSharesBase");
+        }
+        private void ShowAllShares()
+        {
+            loggerService.RunWithExceptionLogging(() => blockOfSharesManager.ShowAllShares());
+            loggerService.Info("Readed all Shares from BlockOfSharesBase");
+        }
+        private void MakeRandomTransaction()
+        {
+            loggerService.RunWithExceptionLogging(() => transactionManager.MakeRandomTransaction());
+            loggerService.Info("Added ranom transaction to TransactionBase");
+        }
+        private void StartSimulation()
+        {
+            loggerService.RunWithExceptionLogging(() => timeManager.StartRandomTransactionThread());
+            loggerService.Info("Started simulation with random transaction adder");
+        }
+        private void StopSimulation()
+        {
+            loggerService.RunWithExceptionLogging(() => timeManager.StopRandomTransactionThread());
+            loggerService.Info("Stoped simulation with random Transaction adder");
+        }
+        private void InitiateDB()
+        {
+            loggerService.RunWithExceptionLogging(() => dbInitializer.Initiate());
+            loggerService.Info("DataBase was initiated with default clients, stocks and BlocksOfShares");
+        }
+        private void BankruptRandomClient()
+        {
+            loggerService.RunWithExceptionLogging(() => clientManager.BankruptRandomClient());
+            loggerService.Info("Random client was bankrupt");
+        }
+        private void ShowOrangeClients()
+        {
+            loggerService.RunWithExceptionLogging(() => clientManager.ShowOrangeZone());
+            loggerService.Info("Readed all orange clients");
+        }
+        private void ShowBlackClients()
+        {
+            loggerService.RunWithExceptionLogging(() => clientManager.ShowBlackClients());
+            loggerService.Info("Readed all black clients");
+        }
+        private void ReduceAssetsRandomClient()
+        {
+            loggerService.RunWithExceptionLogging(() => clientManager.ReduceAssetsRandomClient());
+            loggerService.Info("Reduce assets for random client");
         }
     }
 }
