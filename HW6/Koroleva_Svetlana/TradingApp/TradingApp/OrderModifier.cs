@@ -30,6 +30,8 @@ namespace TradingApp
 
             public void GenerateOrder(OrderType orderType)
         {
+            log4net.Config.XmlConfigurator.Configure();
+            var logger = new Logger(log4net.LogManager.GetLogger("Logger"));
             bool isGenerated = false;
             Order order;
             do
@@ -44,6 +46,8 @@ namespace TradingApp
                     order = new Order { ClientID = clientStock.ClientID, StockID = clientStock.StockID, Quantity = 10, OrderType = orderType, IsExecuted = false };
                     isGenerated = true;
                     AddOrder(order);
+                    logger.Info($"Order {order.OrderID} for stock {order.StockID} sale for client {order.ClientID} has been generated");
+
                     }
                 }
                 if (orderType == OrderType.Purchase)
@@ -52,6 +56,7 @@ namespace TradingApp
                  order = new Order { ClientID = client.ClientID, StockID = stock.StockID, Quantity = 10, OrderType = orderType, IsExecuted = false };
                  isGenerated = true;
                  AddOrder(order);
+                 logger.Info($"Order {order.OrderID} for stock {order.StockID} purchase for client {order.ClientID} has been generated");
                 }
             }
             while (isGenerated == false);

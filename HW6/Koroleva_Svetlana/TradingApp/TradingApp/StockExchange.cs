@@ -14,6 +14,7 @@ namespace TradingApp
     using TradingApp.Model;
     using System.Threading;
 
+
     /// <summary>
     /// StockExchange description
     /// </summary>
@@ -25,7 +26,8 @@ namespace TradingApp
         private ITransactionModifier transactionModifier;
         private IClientStocksModifier clientsStocksModifier;
 
-        public StockExchange(IPriceModifier priceModifier, IOrderModifier orderModifier, ITransactionModifier transaction, IClientStocksModifier clientsStocksModifier )
+
+        public StockExchange(IPriceModifier priceModifier, IOrderModifier orderModifier, ITransactionModifier transaction, IClientStocksModifier clientsStocksModifier)
         {
             this.db = new ExchangeContext();
             this.priceModifier = priceModifier;
@@ -33,7 +35,7 @@ namespace TradingApp
             this.transactionModifier = transaction;
             this.clientsStocksModifier = clientsStocksModifier;
         }
-      
+
 
         public void EditClientBalanse(Order custOrder, Order salerOrder, decimal price)
         {
@@ -44,7 +46,7 @@ namespace TradingApp
 
         public IEnumerable<Client> GetClientsFromOrangeZone()
         {
-           return db.Clients.Where(c => c.Balance == 0).Select(c => c);
+            return db.Clients.Where(c => c.Balance == 0).Select(c => c);
         }
 
         public IEnumerable<Client> GetClientsFromBlackZone()
@@ -54,19 +56,25 @@ namespace TradingApp
 
         public void RunTraiding()
         {
-           
-            for(int i=0;i<5;i++)
+            log4net.Config.XmlConfigurator.Configure();
+            var logger = new Logger(log4net.LogManager.GetLogger("Logger"));
+            for (int i = 0; i < 5; i++)
             {
-               orderModifier.GenerateOrder(OrderType.Sale);
-                orderModifier.GenerateOrder(OrderType.Purchase);
                 Order salerOrder = null;
                 Order customerOrder = null;
+                int attempts = 10;
                 do
                 {
                     salerOrder = orderModifier.GetRandomSalerOrder();
                     customerOrder = orderModifier.GetRandomCustomerOrder(salerOrder);
+                    attempts--;
+                    if (attempts == 0)
+                    {
+                        orderModifier.GenerateOrder(OrderType.Sale);
+                        orderModifier.GenerateOrder(OrderType.Purchase);
+                    }
                 }
-                while (salerOrder == null || customerOrder == null||salerOrder.ClientID==customerOrder.ClientID);
+                while (salerOrder == null || customerOrder == null || salerOrder.ClientID == customerOrder.ClientID);
                 DateTime dateTime = DateTime.Now;
                 decimal price = priceModifier.GetPriceByDateTime(dateTime, salerOrder.StockID);
                 clientsStocksModifier.EditClientStocks(customerOrder, salerOrder);
@@ -74,9 +82,12 @@ namespace TradingApp
                 var cl = db.Clients.Where(c => c.ClientID == customerOrder.ClientID).Single();
                 var saler = db.Clients.Where(c => c.ClientID == salerOrder.ClientID).Single();
                 transactionModifier.CommitTransaction(customerOrder, salerOrder, dateTime);
+                logger.Info($"Transaction has been commited on {dateTime} with price {price} for stock {salerOrder.StockID}" +
+                    $" Order { salerOrder.OrderID}  saler { salerOrder.ClientID} {saler.FirstName} balance: {saler.Balance}" +
+                    $" Order {customerOrder.OrderID}  customer {customerOrder.ClientID} {cl.FirstName} balance: {cl.Balance}");
                 orderModifier.SetIsExecuted(customerOrder, salerOrder);
                 priceModifier.AddPriceInfo(price, salerOrder.StockID, dateTime);
-                
+
                 Thread.Sleep(10000);
             }
 
