@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4CBDAC14-8521-4AED-BC91-F76DD16101C6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ShopSimulator.Core</RootNamespace>
-    <AssemblyName>ShopSimulator.Core</AssemblyName>
+    <ProjectGuid>{B45E64F7-B3D9-418B-A763-EB749993313E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ShopSimulator.ConsoleApp</RootNamespace>
+    <AssemblyName>ShopSimulator.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,10 +33,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\StructureMap.4.7.1\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,24 +54,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\BuyArguments.cs" />
-    <Compile Include="Dto\ItemToBuy.cs" />
-    <Compile Include="Dto\SupplierRegistrationInfo.cs" />
-    <Compile Include="Models\GoodsTableEntity.cs" />
-    <Compile Include="Models\ProductEntity.cs" />
-    <Compile Include="Models\SaleHistoryTableEntity.cs" />
-    <Compile Include="Models\SoldGoodsTableEntity.cs" />
+    <Compile Include="DependencyInjection\ShopSimulatorRegistry.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IGoodsTableRepository.cs" />
-    <Compile Include="Repositories\ISaleHistoryTableRepository.cs" />
-    <Compile Include="Repositories\ISoldGoodsTableRepository.cs" />
-    <Compile Include="Repositories\ISupplierTableRepository.cs" />
-    <Compile Include="Models\SupplierEntity.cs" />
-    <Compile Include="Services\SaleService.cs" />
-    <Compile Include="Services\SuppliersService.cs" />
+    <Compile Include="Repositories\GoodsTableRepository.cs" />
+    <Compile Include="Repositories\SaleHistoryTableRepository.cs" />
+    <Compile Include="Repositories\SoldGoodsTableRepository.cs" />
+    <Compile Include="Repositories\SupplierTableRepository.cs" />
+    <Compile Include="ShopSimulatorDbContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShopSimulator.Core\ShopSimulator.Core.csproj">
+      <Project>{4cbdac14-8521-4aed-bc91-f76dd16101c6}</Project>
+      <Name>ShopSimulator.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

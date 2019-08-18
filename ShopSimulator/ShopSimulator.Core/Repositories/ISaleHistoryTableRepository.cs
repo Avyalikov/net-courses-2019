@@ -2,9 +2,10 @@
 
 namespace ShopSimulator.Core.Repositories
 {
-    public interface ISoldGoodsTableRepository
+    public interface ISaleHistoryTableRepository
     {
         void SaveChanges();
-        void Add(SoldGoodsTableEntity productEntity);
+
+        void Add(SaleHistoryTableEntity productEntity);
     }
 }
