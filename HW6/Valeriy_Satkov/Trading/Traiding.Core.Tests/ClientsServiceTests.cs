@@ -64,7 +64,31 @@ namespace Traiding.Core.Tests
         [TestMethod]
         public void ShouldGetClientInfo()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var clientTableRepository = Substitute.For<IClientTableRepository>();
+            clientTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            ClientsService clientsService = new ClientsService(clientTableRepository);
+
+            // Act
+            var clientInfo = clientsService.GetClient(55);
+
+            // Assert
+            clientTableRepository.Received(1).Get(55);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I haven't exception it's wrong!")]
+        public void ShouldThrowExceptionIfCantFindClient()
+        {
+            // Arrange
+            var clientTableRepository = Substitute.For<IClientTableRepository>();
+            clientTableRepository.ContainsById(Arg.Is(55)).Returns(false);
+            ClientsService clientsService = new ClientsService(clientTableRepository);
+
+            // Act
+            var clientInfo = clientsService.GetClient(55);
+
+            // Assert
         }
     }
 

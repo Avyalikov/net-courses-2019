@@ -39,5 +39,15 @@ namespace Traiding.Core.Services
 
             return entityToAdd.Id;
         }
+
+        public ClientEntity GetClient(int clientId)
+        {
+            if (!this.clientTableRepository.ContainsById(clientId))
+            {
+                throw new ArgumentException("Can't get client by this Id. May it has not been registered.");
+            }
+
+            return this.clientTableRepository.Get(clientId);
+        }
     }
 }
