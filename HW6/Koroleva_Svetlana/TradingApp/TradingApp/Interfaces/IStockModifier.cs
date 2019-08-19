@@ -1,4 +1,4 @@
-﻿// <copyright file="IStockExchande.cs" company="SKorol">
+﻿// <copyright file="IStockModifier.cs" company="SKorol">
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
@@ -12,11 +12,13 @@ namespace TradingApp.Interfaces
     using TradingApp.Model;
 
     /// <summary>
-    /// IStockExchande description
+    /// IStockModifier description
     /// </summary>
-    public interface IStockExchange
+    public interface IStockModifier
     {
+        void AddStock(string prefix, int issuerID, StockType type);
+        Stock GetStockByID(int id);
+        Stock GetRandomStock();
        
-        void RunTraiding();
     }
 }

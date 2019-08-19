@@ -19,5 +19,6 @@ namespace TradingApp.Interfaces
         void EditClientStocks(Order custOrder, Order salerOrder);
         bool CheckClientStock(int clientId, int stockId);
         void AddClientStock(int clientId, int stockId);
+        ClientStock GetRandomClientStock(int clientID);
     }
 }

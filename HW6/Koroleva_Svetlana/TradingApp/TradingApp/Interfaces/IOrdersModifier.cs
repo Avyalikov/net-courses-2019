@@ -17,15 +17,13 @@ namespace TradingApp.Interfaces
     /// </summary>
     public interface IOrderModifier
     {
-        void GenerateOrder(OrderType orderType);
-        void AddOrder(Order order);
-        Client SelectClient();
-        Stock SelectStock();
+        void AddOrder(OrderType orderType, int stockId, int clientId, int amount);
         Order GetOrder(int id);
         int GetOrderId(Order order);
         void SetIsExecuted(Order custOrder, Order salerOrder);
-        Order GetRandomSalerOrder();
         Order GetRandomCustomerOrder(Order order);
+        bool IsExists(int clientId, int stockId, int amount, OrderType orderType, bool isExecuted);
        
+
     }
 }

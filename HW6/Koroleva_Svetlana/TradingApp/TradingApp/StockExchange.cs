@@ -25,76 +25,77 @@ namespace TradingApp
         private IOrderModifier orderModifier;
         private ITransactionModifier transactionModifier;
         private IClientStocksModifier clientsStocksModifier;
+        private IClientModifier clientModifier;
+        private IStockModifier stockModifier;
 
 
-        public StockExchange(IPriceModifier priceModifier, IOrderModifier orderModifier, ITransactionModifier transaction, IClientStocksModifier clientsStocksModifier)
+        public StockExchange(IPriceModifier priceModifier,
+            IOrderModifier orderModifier,
+            ITransactionModifier transaction,
+            IClientStocksModifier clientsStocksModifier,
+            IClientModifier clientModifier,
+            IStockModifier stockModifier
+            )
         {
             this.db = new ExchangeContext();
             this.priceModifier = priceModifier;
             this.orderModifier = orderModifier;
             this.transactionModifier = transaction;
             this.clientsStocksModifier = clientsStocksModifier;
+            this.stockModifier = stockModifier;
+            this.clientModifier = clientModifier;
         }
 
 
-        public void EditClientBalanse(Order custOrder, Order salerOrder, decimal price)
-        {
-            db.Clients.Where(c => c.ClientID == salerOrder.ClientID).Single().Balance += (decimal)(price * salerOrder.Quantity);
-            db.Clients.Where(c => c.ClientID == custOrder.ClientID).Single().Balance -= (decimal)(price * custOrder.Quantity);
-            db.SaveChanges();
-        }
 
-        public IEnumerable<Client> GetClientsFromOrangeZone()
-        {
-            return db.Clients.Where(c => c.Balance == 0).Select(c => c);
-        }
 
-        public IEnumerable<Client> GetClientsFromBlackZone()
-        {
-            return db.Clients.Where(c => c.Balance < 0).Select(c => c);
-        }
 
         public void RunTraiding()
         {
             log4net.Config.XmlConfigurator.Configure();
             var logger = new Logger(log4net.LogManager.GetLogger("Logger"));
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
-                Order salerOrder = null;
-                Order customerOrder = null;
-                int attempts = 10;
-                do
+
+                int amountForSale = 10;
+
+                Client saler = clientModifier.GetRandomClient();
+                ClientStock clstock = clientsStocksModifier.GetRandomClientStock(saler.ClientID);
+                if (clstock == null)
                 {
-                    salerOrder = orderModifier.GetRandomSalerOrder();
-                    customerOrder = orderModifier.GetRandomCustomerOrder(salerOrder);
-                    attempts--;
-                    if (attempts == 0)
-                    {
-                        orderModifier.GenerateOrder(OrderType.Sale);
-                        orderModifier.GenerateOrder(OrderType.Purchase);
-                    }
+                    throw new NullReferenceException("This client has no stocks, select another saler");
+
                 }
-                while (salerOrder == null || customerOrder == null || salerOrder.ClientID == customerOrder.ClientID);
-                DateTime dateTime = DateTime.Now;
-                decimal price = priceModifier.GetPriceByDateTime(dateTime, salerOrder.StockID);
-                clientsStocksModifier.EditClientStocks(customerOrder, salerOrder);
-                EditClientBalanse(customerOrder, salerOrder, price);
-                var cl = db.Clients.Where(c => c.ClientID == customerOrder.ClientID).Single();
-                var saler = db.Clients.Where(c => c.ClientID == salerOrder.ClientID).Single();
-                transactionModifier.CommitTransaction(customerOrder, salerOrder, dateTime);
-                logger.Info($"Transaction has been commited on {dateTime} with price {price} for stock {salerOrder.StockID}" +
-                    $" Order { salerOrder.OrderID}  saler { salerOrder.ClientID} {saler.FirstName} balance: {saler.Balance}" +
-                    $" Order {customerOrder.OrderID}  customer {customerOrder.ClientID} {cl.FirstName} balance: {cl.Balance}");
-                orderModifier.SetIsExecuted(customerOrder, salerOrder);
-                priceModifier.AddPriceInfo(price, salerOrder.StockID, dateTime);
+               
+                
+                if (!orderModifier.IsExists(clstock.ClientID, clstock.StockID, amountForSale, OrderType.Sale, false))
+                    {
+                    orderModifier.AddOrder(OrderType.Sale, clstock.StockID, clstock.ClientID, amountForSale);
+                 
+                   }
+                    
+                 var salerOrder = db.Orders.Where(o => o.ClientID==clstock.ClientID&&o.StockID == clstock.StockID && o.Quantity == amountForSale && o.OrderType == OrderType.Sale&&o.IsExecuted==false).Select(o => o).First();
+                        var purchaseOrders = db.Orders.Where(o => o.StockID == clstock.StockID && o.Quantity == amountForSale && o.OrderType == OrderType.Purchase).Select(o => o);
+                        if (purchaseOrders.Count() == 0)
+                        {
+                            throw new NullReferenceException("There are no orders for purhcase");
+                        }
+                        var customerOrder = orderModifier.GetRandomCustomerOrder(salerOrder);
+                        DateTime dateTime = DateTime.Now;
+                        decimal price = priceModifier.GetPriceByDateTime(dateTime, salerOrder.StockID);
+                        clientsStocksModifier.EditClientStocks(customerOrder, salerOrder);
+                        clientModifier.EditClientBalanse(customerOrder, salerOrder, price);
+                        var cl = db.Clients.Where(c => c.ClientID == customerOrder.ClientID).Single();
+                        transactionModifier.CommitTransaction(customerOrder, salerOrder, dateTime);
+                        logger.Info($"Transaction has been commited on {dateTime} with price {price} for stock {salerOrder.StockID}" +
+                            $" Order { salerOrder.OrderID}  saler { salerOrder.ClientID} {saler.FirstName} balance: {saler.Balance}" +
+                            $" Order {customerOrder.OrderID}  customer {customerOrder.ClientID} {cl.FirstName} balance: {cl.Balance}");
+                        orderModifier.SetIsExecuted(customerOrder, salerOrder);
+                        priceModifier.AddPriceInfo(price, salerOrder.StockID, dateTime);
+                    Thread.Sleep(10000);
+                }
 
-                Thread.Sleep(10000);
             }
-
-
-
-
-
         }
     }
-}
+

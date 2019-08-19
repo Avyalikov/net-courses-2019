@@ -48,5 +48,18 @@ namespace TradingApp
             db.SaveChanges();
 
         }
+        public ClientStock GetRandomClientStock(int clientID)
+        {
+            Random random = new Random();
+            ClientStock clstock = null;
+            var clstocks = db.ClientStocks.Where(c=>c.ClientID==clientID).Select(o => o).ToList();
+            if (clstocks == null)
+            {
+                throw new NullReferenceException("No stocks");
+            }
+            int number = random.Next(clstocks.Count() - 1);
+                clstock = clstocks[number];
+            return clstock;
+        }
     }
 }

@@ -21,69 +21,40 @@ namespace TradingApp
     {
         public ExchangeContext db;
         private IClientStocksModifier clientStockModifier;
+        private IClientModifier clientModifier;
+        private ILogger logger;
 
-        public  OrderModifier(ExchangeContext db, IClientStocksModifier clientStockModifier)
+        public  OrderModifier(ExchangeContext db, IClientStocksModifier clientStockModifier, IClientModifier clientModifier, ILogger logger)
         {
             this.db = db;
             this.clientStockModifier = clientStockModifier;
+            this.clientModifier = clientModifier;
+            this.logger = logger;
         }
-
-            public void GenerateOrder(OrderType orderType)
+        public void AddOrder(OrderType orderType, int stockId, int clientId, int amount)
         {
-            log4net.Config.XmlConfigurator.Configure();
-            var logger = new Logger(log4net.LogManager.GetLogger("Logger"));
-            bool isGenerated = false;
-            Order order;
-            do
-            {
-                if (orderType == OrderType.Sale)
-                {
-                    var clientstock = db.ClientStocks.Select(o=>o).ToList();
-                    if (clientstock!= null)
-                    {  Random random = new Random();
-                    int number= random.Next(clientstock.Count()-1);
-                    var clientStock = clientstock[number];
-                    order = new Order { ClientID = clientStock.ClientID, StockID = clientStock.StockID, Quantity = 10, OrderType = orderType, IsExecuted = false };
-                    isGenerated = true;
-                    AddOrder(order);
-                    logger.Info($"Order {order.OrderID} for stock {order.StockID} sale for client {order.ClientID} has been generated");
-
-                    }
-                }
-                if (orderType == OrderType.Purchase)
-                {var client = SelectClient();
-                 var stock = SelectStock();
-                 order = new Order { ClientID = client.ClientID, StockID = stock.StockID, Quantity = 10, OrderType = orderType, IsExecuted = false };
-                 isGenerated = true;
-                 AddOrder(order);
-                 logger.Info($"Order {order.OrderID} for stock {order.StockID} purchase for client {order.ClientID} has been generated");
-                }
-            }
-            while (isGenerated == false);
-        }
-
-       
-        public void AddOrder(Order order)
-        {
+            Order order = new Order { ClientID = clientId, StockID = stockId, Quantity = amount, OrderType = orderType, IsExecuted = false };
             db.Orders.Add(order);
             db.SaveChanges();
+            logger.Info($"Order {order.OrderID} for stock {order.StockID} purchase for client {order.ClientID} has been added to DB");         
         }
 
-        public Client SelectClient()
-        {Random random = new Random();
-            var clients = db.Clients.Select(o => o).ToList();
-            int clientNumber = random.Next(clients.Count()-1);
-            return  clients[clientNumber];
-        }
-
-        public Stock SelectStock()
+        public bool IsExists(int clientId, int stockId, int amount, OrderType orderType, bool isExecuted)
         {
-            Random random = new Random();
-            var stocks = db.Stocks.Select(o => o).ToList();
-            int stockNumber = random.Next(stocks.Count()-1);
-            return stocks[stockNumber];
+            bool isExists = false;
+            var orders = db.Orders.Where(w => w.OrderType == orderType &&
+            w.ClientID == clientId&&
+            w.StockID==stockId&&
+            w.Quantity==amount&&
+            w.IsExecuted==isExecuted).Select(o=>o);
+            if (orders.Count()>0)
+            {
+                isExists = true;
+            }
+            return isExists;
         }
 
+            
         public Order GetOrder(int id)
         {
             var order = db.Orders.Select(o => o).Where(or => or.OrderID == id).Single();
@@ -108,32 +79,30 @@ namespace TradingApp
             Random random = new Random();
 
             {
-                Order order = null;
-                    var purchaseOrders = db.Orders.Select(o => o).Where(or => or.IsExecuted == false && (int)or.OrderType == 1 && or.StockID == salersOrder.StockID);
+                var purchaseOrders = db.Orders.Select(o => o).Where(or => or.IsExecuted == false && (int)or.OrderType == 1 && or.StockID == salersOrder.StockID);
 
-                if (purchaseOrders.Count()>0)
+               
+                if (purchaseOrders.Count()==0)
                 {
-                    var purachaseOrdersIds = purchaseOrders.Select(o => o.OrderID).ToArray();
+                    Client client = null;
+                    do
+                    {
+                        client = clientModifier.GetRandomClient();
+                    }
+                    while (client.ClientID == salersOrder.ClientID);
+
+                    AddOrder(OrderType.Purchase, salersOrder.StockID, client.ClientID, salersOrder.Quantity);
+                    return db.Orders.OrderByDescending(o=>o.OrderID).Select(o=>o).First();
+                }
+                var purachaseOrdersIds = purchaseOrders.Select(o => o.OrderID).ToArray();
                     int purchaseOrderNumber = random.Next(purachaseOrdersIds.Count()-1);
                     var porderId = purachaseOrdersIds[purchaseOrderNumber];
-                    var purchaseOrder = purchaseOrders.Select(o => o).Where(or => or.OrderID == porderId).Single();
-                    return purchaseOrder;
-                }
-                return order;
+                    var order= purchaseOrders.Select(o => o).Where(or => or.OrderID == porderId).Single();
+                    return order;
+               
             }
         }
 
-        public Order GetRandomSalerOrder()
-        {
-            Random random = new Random();
-
-            var saleOrders = db.Orders.Select(o => o).Where(or => or.IsExecuted == false && or.OrderType == 0);
-            var saleOrdersIds = saleOrders.Select(o => o.OrderID).ToArray();
-            int saleorderNumber = random.Next(saleOrdersIds.Count()-1);
-            var orderid = saleOrdersIds[saleorderNumber];
-            var saleOrder = saleOrders.Select(o => o).Where(or => or.OrderID == orderid).Single();
-            return saleOrder;
-
-        }
+      
     }
 }
