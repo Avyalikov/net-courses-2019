@@ -17,9 +17,10 @@ namespace Traiding.Core.Tests
             var clientTableRepository = Substitute.For<IClientTableRepository>();
             ClientsService clientsService = new ClientsService(clientTableRepository);
             ClientRegistrationInfo args = new ClientRegistrationInfo();
-            args.LastName = "Ivoanov";
-            args.FirstName = "Ivan";
+            args.LastName = "Michael";
+            args.FirstName = "Lomonosov";
             args.PhoneNumber = "+79521234567";
+            args.Status = true;
 
             // Act
             var clientId = clientsService.RegisterNewClient(args);
@@ -28,7 +29,8 @@ namespace Traiding.Core.Tests
             clientTableRepository.Received(1).Add(Arg.Is<ClientEntity>(
                 c => c.LastName == args.LastName 
                 && c.FirstName == args.FirstName 
-                && c.PhoneNumber == args.PhoneNumber));
+                && c.PhoneNumber == args.PhoneNumber
+                && c.Status == args.Status));
             clientTableRepository.Received(1).SaveChanges();
         }
 

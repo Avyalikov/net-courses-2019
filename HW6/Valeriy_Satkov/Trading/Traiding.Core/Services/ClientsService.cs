@@ -25,7 +25,7 @@ namespace Traiding.Core.Services
                 LastName = args.LastName,
                 FirstName = args.FirstName,
                 PhoneNumber = args.PhoneNumber,
-                Status = true
+                Status = args.Status
             };
 
             clientTableRepository.Add(entityToAdd);
