@@ -15,23 +15,20 @@ namespace Traiding.Core.Tests
         {
             // Arrange
             var clientTableRepository = Substitute.For<IClientTableRepository>();
-            ClientsService clientsService = new ClientsService();
+            ClientsService clientsService = new ClientsService(clientTableRepository);
             ClientRegistrationInfo args = new ClientRegistrationInfo();
             args.LastName = "Ivoanov";
             args.FirstName = "Ivan";
             args.PhoneNumber = "+79521234567";
-            args.Status = true;
 
             // Act
-            clientsService.RegisterNewClient(args);
-
+            var clientId = clientsService.RegisterNewClient(args);
 
             // Assert
             clientTableRepository.Received(1).Add(Arg.Is<ClientEntity>(
                 c => c.LastName == args.LastName 
                 && c.FirstName == args.FirstName 
-                && c.PhoneNumber == args.PhoneNumber 
-                && c.Status == args.Status));
+                && c.PhoneNumber == args.PhoneNumber));
             clientTableRepository.Received(1).SaveChanges();
         }
 
