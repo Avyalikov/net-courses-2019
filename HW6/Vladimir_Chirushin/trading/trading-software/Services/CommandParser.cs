@@ -5,6 +5,7 @@ namespace trading_software
 {
     public enum Command
     {
+        Help,
         ManualAddClient,
         ManualAddStock,
         ManualAddTransaction,
@@ -53,6 +54,8 @@ namespace trading_software
             this.timeManager = timeManager;
             this.loggerService = loggerService;
         }
+
+
         Command command;
         public void Parse(string commandString)
         {
@@ -70,6 +73,10 @@ namespace trading_software
 
             switch (command)
             {
+                case Command.Help:
+                    ShowMenu();
+                    break;
+
                 case Command.ManualAddClient:
                     ManualAddClient();
                     break;
@@ -135,6 +142,14 @@ namespace trading_software
 
                 default:
                     break;
+            }
+        }
+
+        public void ShowMenu()
+        {
+            foreach (Command command in Enum.GetValues(typeof(Command)))
+            {
+                outputDevice.WriteLine(command.ToString());
             }
         }
 

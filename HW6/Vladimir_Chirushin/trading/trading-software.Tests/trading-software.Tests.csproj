@@ -66,6 +66,7 @@
     <Compile Include="ClientManagerTests.cs" />
     <Compile Include="DataBaseInitializerTests.cs" />
     <Compile Include="CommandParserTests .cs" />
+    <Compile Include="StockManagerTests.cs" />
     <Compile Include="TableDrawerTests.cs" />
     <Compile Include="BlockOfSharesManagerTests.cs" />
     <Compile Include="TradingEngineTests.cs" />

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using trading_software;
 using NSubstitute;
 using System.Linq;
+using trading_software.Services;
 
 namespace trading_software.Tests
 {
@@ -20,6 +21,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -28,19 +30,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
             
             // Act
             sut.Parse("ManualAddClient");
 
             // Asserts
-            clientManagerMock.Received(1).ManualAddClient();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive();
-            blockOfSharesManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => clientManagerMock.ManualAddClient())
+                );
         }
 
 
@@ -55,6 +54,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -63,19 +63,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ManualAddStock");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.Received(1).ManualAddStock();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive();
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => stockManagerMock.ManualAddStock())
+                );
         }
 
 
@@ -90,6 +87,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -98,19 +96,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ManualAddTransaction");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.Received(1).ManualAddTransaction();
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => transactionManagerMock.ManualAddTransaction())
+                ); 
         }
 
 
@@ -125,6 +120,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -133,19 +129,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ManualAddShares");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive();
-            blockOfSharesManagerMock.Received(1).ManualAddNewShare();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => blockOfSharesManagerMock.ManualAddNewShare())
+                );
         }
 
         [TestMethod]
@@ -159,6 +152,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -167,19 +161,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ReadAllClients");
 
             // Asserts
-            clientManagerMock.Received(1).ReadAllClients();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive();
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => clientManagerMock.ReadAllClients())
+                );
         }
 
         [TestMethod]
@@ -193,6 +184,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -201,19 +193,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ReadAllStocks");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.Received(1).ReadAllStocks();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive();
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => stockManagerMock.ReadAllStocks())
+                );
         }
 
         [TestMethod]
@@ -227,6 +216,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -235,19 +225,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ReadAllTransactions");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.Received(1).ReadAllTransactions();
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => transactionManagerMock.ReadAllTransactions())
+                );
         }
 
         [TestMethod]
@@ -261,6 +248,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -269,19 +257,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ReadAllShares");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive();
-            blockOfSharesManagerMock.Received(1).ShowAllShares();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => blockOfSharesManagerMock.ShowAllShares())
+                );
         }
 
         [TestMethod]
@@ -295,6 +280,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -303,19 +289,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("MakeRandomTransaction");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.Received(1).MakeRandomTransaction();
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => transactionManagerMock.MakeRandomTransaction())
+                );
         }
 
         [TestMethod]
@@ -329,6 +312,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -337,19 +321,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("InitiateDB");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive(); ;
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.Received(1).Initiate();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => dbInitializerMock.Initiate())
+                );
         }
 
         [TestMethod]
@@ -363,6 +344,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -371,19 +353,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("BankruptRandomClient");
 
             // Asserts
-            clientManagerMock.Received(1).BankruptRandomClient();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive(); ;
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => clientManagerMock.BankruptRandomClient())
+                );
         }
 
         [TestMethod]
@@ -397,6 +376,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -405,19 +385,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ShowOrangeClients");
 
             // Asserts
-            clientManagerMock.Received(1).ShowOrangeZone();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive(); ;
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => clientManagerMock.ShowOrangeZone())
+                );
         }
 
 
@@ -432,6 +409,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -440,19 +418,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ShowBlackClients");
 
             // Asserts
-            clientManagerMock.Received(1).ShowBlackClients();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive(); ;
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => clientManagerMock.ShowBlackClients())
+                );
         }
 
         [TestMethod]
@@ -466,6 +441,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -474,19 +450,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("ReduceAssetsRandomClient");
 
             // Asserts
-            clientManagerMock.Received(1).ReduceAssetsRandomClient();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive(); ;
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.DidNotReceive();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => clientManagerMock.ReduceAssetsRandomClient())
+                );
         }
 
         [TestMethod]
@@ -500,6 +473,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -508,19 +482,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("StartSimulationWithRandomTransactions");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive(); ;
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.Received(1).StartRandomTransactionThread();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => timeManagerMock.StartRandomTransactionThread())
+                );
         }
 
         [TestMethod]
@@ -534,6 +505,7 @@ namespace trading_software.Tests
             var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var timeManagerMock = Substitute.For<ITimeManager>();
+            var loggerServiceMock = Substitute.For<ILoggerService>();
 
             var sut = new CommandParser(
                 clientManagerMock,
@@ -542,19 +514,16 @@ namespace trading_software.Tests
                 blockOfSharesManagerMock,
                 dbInitializerMock,
                 outpuDeviceMock,
-                timeManagerMock);
+                timeManagerMock,
+                loggerServiceMock);
 
             // Act
             sut.Parse("StopSimulationWithRandomTransactions");
 
             // Asserts
-            clientManagerMock.DidNotReceive();
-            stockManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            transactionManagerMock.DidNotReceive(); ;
-            blockOfSharesManagerMock.DidNotReceive();
-            dbInitializerMock.DidNotReceive();
-            timeManagerMock.Received(1).StopRandomTransactionThread();
+            loggerServiceMock.RunWithExceptionLogging(
+                Arg.Is<Action>(() => timeManagerMock.StopRandomTransactionThread())
+                );
         }
     }
 }

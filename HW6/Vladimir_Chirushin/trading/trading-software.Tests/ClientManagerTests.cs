@@ -15,12 +15,12 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
             var sut = new ClientManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDevice);
+                dataBaseDeviceMock);
 
 
             // Act
@@ -34,7 +34,7 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
 
             Dictionary<string, string> answers = new Dictionary<string, string>
             {
@@ -47,7 +47,7 @@ namespace trading_software.Tests
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDevice);
+                dataBaseDeviceMock);
 
 
             // Act
@@ -80,7 +80,7 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
 
             Dictionary<string, string> answers = new Dictionary<string, string>
             {
@@ -106,7 +106,7 @@ namespace trading_software.Tests
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDevice);
+                dataBaseDeviceMock);
 
 
             // Act
@@ -115,12 +115,12 @@ namespace trading_software.Tests
             outpuDeviceMock
                 .Received(1)
                 .WriteLine(Arg.Is<string>(w => w == "Clients in 'Black' zone:"));
-            dataBaseDevice.
+            dataBaseDeviceMock.
                 GetOrangeClients()
                 .Returns((info)=>(new[] { Client1, Client2 }.AsEnumerable<Client>()));
             tableDrawerMock
                 .Received(1)
-                .Show(Arg.Is<IEnumerable<Client>>(enc => enc ==
+                .Show(Arg.Is<IEnumerable<Client>>(
                     new[] { Client1, Client2 }.AsEnumerable<Client>()
                     ));
 
@@ -134,7 +134,7 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
 
             Dictionary<string, string> answers = new Dictionary<string, string>
             {
@@ -160,7 +160,7 @@ namespace trading_software.Tests
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDevice);
+                dataBaseDeviceMock);
             IEnumerable<Client> query = new[] { Client1, Client2 }.AsEnumerable<Client>();
 
             // Act
@@ -169,7 +169,7 @@ namespace trading_software.Tests
             outpuDeviceMock
                 .Received(1)
                 .WriteLine(Arg.Is<string>(w => w == "Clients in 'Orange' zone:"));
-            dataBaseDevice.
+            dataBaseDeviceMock.
                 GetOrangeClients()
                 .Returns((info) => (query));
             tableDrawerMock

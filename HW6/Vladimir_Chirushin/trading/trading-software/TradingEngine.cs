@@ -46,21 +46,13 @@ namespace trading_software
         {
             
             string commandString;
-            ShowMenu();
+            commandParser.ShowMenu();
             do
             {
                 commandString = inputDevice.ReadLine();
                 commandParser.Parse(commandString);
             }
             while (commandString.ToLower() != "quit");
-        }
-
-        private void ShowMenu()
-        {
-            foreach(Command command in Enum.GetValues(typeof(Command)))
-            {
-                outputDevice.WriteLine(command.ToString());
-            }
         }
     }
 }

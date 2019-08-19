@@ -27,6 +27,7 @@ namespace trading_software.Tests
             // Asserts
             clientManagerMock.Received(21).AddClient(Arg.Any<Client>());
             stockManagerMock.Received(20).AddStock(Arg.Any<Stock>());
+            blockOfSharesManagerMock.Received(200).CreateRandomShare();
         }
     }
 }

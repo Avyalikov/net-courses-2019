@@ -16,13 +16,13 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
 
             var sut = new BlockOfSharesManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDevice);
+                dataBaseDeviceMock);
 
             BlockOfShares block = new BlockOfShares
             {
@@ -38,9 +38,11 @@ namespace trading_software.Tests
             sut.AddShare(clientID, stockID, amount);
 
             // Asserts
-            //dataBaseDevice.Received(1).Add(Arg.Is<BlockOfShares>(b => b == block));
+            dataBaseDeviceMock.Received(1).Add(Arg.Is<BlockOfShares>(b => b.StockID == block.StockID &&
+                                                                          b.ClientID == block.ClientID &&
+                                                                          b.Amount == block.Amount));
         }
-
+        
         [TestMethod]
         public void AddShareBlockTest()
         {
@@ -67,7 +69,9 @@ namespace trading_software.Tests
             sut.AddShare(block);
 
             // Asserts
-            dataBaseDevice.Received(1).Add(Arg.Is<BlockOfShares>(b => b == block));
+            dataBaseDevice.Received(1).Add(Arg.Is<BlockOfShares>(b => b.StockID == block.StockID &&
+                                                                      b.ClientID == block.ClientID &&
+                                                                      b.Amount == block.Amount));
         }
         /*
         [TestMethod]
@@ -161,11 +165,11 @@ namespace trading_software.Tests
             dataBaseDeviceMock
                 .Received(1)
                 .GetNumberOfClients()
-                .Returns((info) => maxNumberOfClients);
+                .Returns(maxNumberOfClients);
             dataBaseDeviceMock
                 .Received(1)
                 .GetNumberOfStocks()
-                .Returns((info) => maxNumberOfStocks);
+                .Returns(maxNumberOfStocks);
             sut
                 .Received(1)
                 .AddShare(
