@@ -9,6 +9,7 @@ namespace Traiding.Core.Repositories
 {
     public interface IClientTableRepository
     {
+        bool Contains(ClientEntity entity);
         void Add(ClientEntity entity);
         void SaveChanges();
     }

@@ -28,9 +28,14 @@ namespace Traiding.Core.Services
                 Status = args.Status
             };
 
-            clientTableRepository.Add(entityToAdd);
+            if (this.clientTableRepository.Contains(entityToAdd))
+            {
+                throw new ArgumentException("This client has been registered. Can't continue.");
+            }
 
-            clientTableRepository.SaveChanges();
+            this.clientTableRepository.Add(entityToAdd);
+
+            this.clientTableRepository.SaveChanges();
 
             return entityToAdd.Id;
         }

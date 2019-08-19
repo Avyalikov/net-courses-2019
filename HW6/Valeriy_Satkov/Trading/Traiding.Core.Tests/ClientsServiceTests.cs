@@ -35,6 +35,33 @@ namespace Traiding.Core.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I haven't exception it's wrong!")]
+        public void ShouldNotRegisterNewClientIfItExists()
+        {
+            // Arrange
+            var clientTableRepository = Substitute.For<IClientTableRepository>();
+            ClientsService clientsService = new ClientsService(clientTableRepository);
+            ClientRegistrationInfo args = new ClientRegistrationInfo();
+            args.LastName = "Michael";
+            args.FirstName = "Lomonosov";
+            args.PhoneNumber = "+79521234567";
+            args.Status = true;
+
+            // Act
+            clientsService.RegisterNewClient(args);
+
+            clientTableRepository.Contains(Arg.Is<ClientEntity>(
+                c => c.LastName == args.LastName
+                && c.FirstName == args.FirstName
+                && c.PhoneNumber == args.PhoneNumber
+                && c.Status == args.Status)).Returns(true);
+
+            clientsService.RegisterNewClient(args);
+
+            // Assert
+        }
+
+        [TestMethod]
         public void ShouldGetClientInfo()
         {
             throw new NotImplementedException();
