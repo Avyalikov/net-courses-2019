@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Trading.Components;
+using Trading.Data;
 using Trading.Interfaces;
 
 namespace Trading
@@ -17,7 +18,7 @@ namespace Trading
             this.For<ISettingsProvider>().Use<SettingsProvider>();
             this.For<ITradingLogic>().Use<TradingLogic>();
             this.For<Settings>().Use(context => context.GetInstance<ISettingsProvider>().GetSettings());
-           
+            this.For<IApplicationContext>().Use<ApplicationContext>();        
         }
     }
 }

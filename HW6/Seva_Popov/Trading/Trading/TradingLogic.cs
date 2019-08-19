@@ -11,22 +11,25 @@ namespace Trading
         private readonly IOutputData outputData;
         private readonly IInputData inputData;
         private readonly Settings settings;
+        private readonly IApplicationContext applicationContext;
 
         public TradingLogic(
             IPhraseProvider phraseProvider,
             IOutputData outputData,
             IInputData inputData,
-            Settings settings)
+            Settings settings,
+            IApplicationContext applicationContext)
         {
             this.outputData = outputData;
             this.inputData = inputData;
             this.phraseProvider = phraseProvider;
             this.settings = settings;
+            this.applicationContext = applicationContext;
         }
 
         public void Run()
         {
-           
+            applicationContext.AddInitialData();
         }
     }
 }

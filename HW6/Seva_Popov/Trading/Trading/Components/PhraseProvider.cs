@@ -12,7 +12,6 @@ namespace Trading.Components
         public string GetPhrase(string phraseKey, Settings settings)
         {
             string Language = settings.Language;
-            //ISettingsProvider settingsProvider = new SettingsProvider();
 
             //You can change language in GameSettings: "Resources\\Rng.json";
 
