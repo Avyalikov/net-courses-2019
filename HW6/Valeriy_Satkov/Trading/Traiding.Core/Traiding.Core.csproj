@@ -50,6 +50,7 @@
     <Compile Include="Models\BlockedSharesNumberEntity.cs" />
     <Compile Include="Models\BalanceRegistrationInfo.cs" />
     <Compile Include="Models\BlockedMoneyRegistrationInfo.cs" />
+    <Compile Include="Models\BlockedSharesNumberRegistrationInfo.cs" />
     <Compile Include="Models\SharesNumberRegistrationInfo.cs" />
     <Compile Include="Models\ShareRegistrationInfo.cs" />
     <Compile Include="Models\OperationEntity.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Models\ClientEntity.cs" />
     <Compile Include="Models\ClientRegistrationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IBlockedSharesNumberTableRepository.cs" />
     <Compile Include="Repositories\IBlockedMoneyTableRepository.cs" />
     <Compile Include="Repositories\ISharesNumberTableRepository.cs" />
     <Compile Include="Repositories\IBalanceTableRepository.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Repositories\IClientTableRepository.cs" />
     <Compile Include="Services\BalancesService.cs" />
     <Compile Include="Services\BlockedMoneysService.cs" />
+    <Compile Include="Services\BlockedSharesNumbersService.cs" />
     <Compile Include="Services\SharesNumbersService.cs" />
     <Compile Include="Services\SharesService.cs" />
     <Compile Include="Services\ShareTypesService.cs" />
