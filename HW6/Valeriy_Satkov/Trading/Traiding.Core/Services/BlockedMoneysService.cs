@@ -24,6 +24,7 @@ namespace Traiding.Core.Services
                 CreatedAt = DateTime.Now,
                 ClientBalance = args.ClientBalance,
                 Operation = args.Operation,
+                Customer = args.ClientBalance.Client,
                 Total = args.Total
             };
 

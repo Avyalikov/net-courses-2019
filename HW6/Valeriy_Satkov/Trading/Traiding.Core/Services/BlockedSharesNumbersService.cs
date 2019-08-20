@@ -24,6 +24,7 @@ namespace Traiding.Core.Services
                 CreatedAt = DateTime.Now,
                 ClientSharesNumber = args.ClientSharesNumber,
                 Operation = args.Operation,
+                Seller = args.ClientSharesNumber.Client,
                 Share = args.Share,
                 ShareTypeName = args.ShareTypeName,
                 Cost = args.Cost,

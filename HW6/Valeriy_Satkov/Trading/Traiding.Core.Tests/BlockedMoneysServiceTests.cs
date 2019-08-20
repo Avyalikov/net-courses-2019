@@ -45,6 +45,7 @@ namespace Traiding.Core.Tests
             blockedMoneyTableRepository.Received(1).Add(Arg.Is<BlockedMoneyEntity>(
                 bm => bm.ClientBalance == args.ClientBalance
                 && bm.Operation == args.Operation
+                && bm.Customer == args.ClientBalance.Client
                 && bm.Total == args.Total));
             blockedMoneyTableRepository.Received(1).SaveChanges();
         }
@@ -84,6 +85,7 @@ namespace Traiding.Core.Tests
             blockedMoneyTableRepository.Contains(Arg.Is<BlockedMoneyEntity>( // Now Contains returns true (table contains blocked money with this data)
                 bm => bm.ClientBalance == args.ClientBalance
                 && bm.Operation == args.Operation
+                && bm.Customer == args.ClientBalance.Client
                 && bm.Total == args.Total)).Returns(true);
 
             blockedMoneysService.Create(args); // Try to reg. same twice and get exception

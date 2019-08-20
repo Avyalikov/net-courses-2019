@@ -50,22 +50,9 @@ namespace Traiding.Core.Tests
             {
                 Id = 2
             };
-            args.Share = new ShareEntity()
-            {
-                Id = 2,
-                CreatedAt = DateTime.Now,
-                CompanyName = "Simple Company",
-                Type = new ShareTypeEntity()
-                {
-                    Id = 4,
-                    Name = "not so cheap",
-                    Cost = 1200.00M,
-                    Status = true
-                },
-                Status = true
-            };
-            args.ShareTypeName = args.Share.Type.Name;
-            args.Cost = args.Share.Type.Cost;
+            args.Share = args.ClientSharesNumber.Share;
+            args.ShareTypeName = args.ClientSharesNumber.Share.Type.Name;
+            args.Cost = args.ClientSharesNumber.Share.Type.Cost;
             args.Number = 5;
 
             // Act
@@ -75,6 +62,7 @@ namespace Traiding.Core.Tests
             blockedSharesNumberTableRepository.Received(1).Add(Arg.Is<BlockedSharesNumberEntity>(
                 bn => bn.ClientSharesNumber == args.ClientSharesNumber
                 && bn.Operation == args.Operation
+                && bn.Seller == args.ClientSharesNumber.Client
                 && bn.Share == args.Share
                 && bn.ShareTypeName == args.ShareTypeName
                 && bn.Cost == args.Cost
@@ -123,22 +111,9 @@ namespace Traiding.Core.Tests
             {
                 Id = 2
             };
-            args.Share = new ShareEntity()
-            {
-                Id = 2,
-                CreatedAt = DateTime.Now,
-                CompanyName = "Simple Company",
-                Type = new ShareTypeEntity()
-                {
-                    Id = 4,
-                    Name = "not so cheap",
-                    Cost = 1200.00M,
-                    Status = true
-                },
-                Status = true
-            };
-            args.ShareTypeName = args.Share.Type.Name;
-            args.Cost = args.Share.Type.Cost;
+            args.Share = args.ClientSharesNumber.Share;
+            args.ShareTypeName = args.ClientSharesNumber.Share.Type.Name;
+            args.Cost = args.ClientSharesNumber.Share.Type.Cost;
             args.Number = 5;
 
             // Act
@@ -147,6 +122,7 @@ namespace Traiding.Core.Tests
             blockedSharesNumberTableRepository.Contains(Arg.Is<BlockedSharesNumberEntity>( // Now Contains returns true (table contains blocked shares number with this data)
                 bn => bn.ClientSharesNumber == args.ClientSharesNumber
                 && bn.Operation == args.Operation
+                && bn.Seller == args.ClientSharesNumber.Client
                 && bn.Share == args.Share
                 && bn.ShareTypeName == args.ShareTypeName
                 && bn.Cost == args.Cost
