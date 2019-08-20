@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EFA9898A-3357-49EB-80E1-959A4A4B77A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Trading.Core</RootNamespace>
+    <AssemblyName>Trading.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DTO\ClientInfo.cs" />
+    <Compile Include="DTO\ClientStockInfo.cs" />
+    <Compile Include="DTO\IssuerInfo.cs" />
+    <Compile Include="DTO\OrderInfo.cs" />
+    <Compile Include="DTO\PriceInfo.cs" />
+    <Compile Include="DTO\StockInfo.cs" />
+    <Compile Include="DTO\TransactionInfo.cs" />
+    <Compile Include="Interfaces\IClientModifier.cs" />
+    <Compile Include="Interfaces\IClientStocksModifier.cs" />
+    <Compile Include="Interfaces\IDataContext.cs" />
+    <Compile Include="Interfaces\IOrdersModifier.cs" />
+    <Compile Include="Interfaces\IPriceModifier.cs" />
+    <Compile Include="Interfaces\IStockExchange.cs" />
+    <Compile Include="Interfaces\IStockModifier.cs" />
+    <Compile Include="Interfaces\ITransactionModifier.cs" />
+    <Compile Include="Repositories\IClientStockTableRepository.cs" />
+    <Compile Include="Repositories\IClientTableRepository.cs" />
+    <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\ClientStock.cs" />
+    <Compile Include="Model\Issuer.cs" />
+    <Compile Include="Model\Order.cs" />
+    <Compile Include="Model\PriceHistory.cs" />
+    <Compile Include="Model\Stock.cs" />
+    <Compile Include="Model\TransactionHistory.cs" />
+    <Compile Include="Repositories\IIssuerTableRepository.cs" />
+    <Compile Include="Repositories\IOrderTableRepository.cs" />
+    <Compile Include="Repositories\IPriceHistoryTableRepository.cs" />
+    <Compile Include="Repositories\IStockTableRepository.cs" />
+    <Compile Include="Repositories\ITableRepository.cs" />
+    <Compile Include="Repositories\ITransactionHistTabRepository.cs" />
+    <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\ClientStockService.cs" />
+    <Compile Include="Services\IssuerService.cs" />
+    <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\PriceHistoryService.cs" />
+    <Compile Include="Services\StockService.cs" />
+    <Compile Include="Services\TransactionHistoryService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

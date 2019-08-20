@@ -9,9 +9,10 @@ namespace TradingApp.DAL
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using TradingApp.Model;
+   
      using System.Data.Entity.ModelConfiguration.Conventions;
     using System.Data.Entity;
+    using Trading.Core.Model;
 
     /// <summary>
     /// ExchangeContext description

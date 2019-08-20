@@ -1,12 +1,13 @@
 ﻿using TradingApp.DAL;
-using TradingApp.Model;
-using TradingApp.Interfaces;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Trading.Core.Services;
+using Trading.Core.Modifiers;
 
 namespace TradingApp
 {
@@ -21,16 +22,9 @@ namespace TradingApp
             {
                
                 
-                    IClientModifier clientModifier = new ClientModifier(db);
-                IClientStocksModifier clientStocksModifier = new ClientStockModifier(db);
-                IOrderModifier orderModifier = new OrderModifier(db, clientStocksModifier, clientModifier,logger);
-                IPriceModifier priceModifier = new PriceModifier(db, orderModifier);
-                ITransactionModifier transaction = new TransactionModifier(db);
-                IStockModifier stockModifier = new StockModifier(db);
                
-                StockExchange stockExchange = new StockExchange(priceModifier, orderModifier, transaction, clientStocksModifier, clientModifier, stockModifier);
                 logger.Info("Trading is started");
-                stockExchange.RunTraiding();
+               
                 logger.Info("Trading is finished");
                
             }
