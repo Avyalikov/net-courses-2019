@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 
@@ -21,7 +22,8 @@ namespace TradingSimulator.Core.Services
                 CreatedAt = DateTime.Now,
                 Name = trader.Name,
                 Surname = trader.Surname,
-                PhoneNumber = trader.PhoneNumber
+                PhoneNumber = trader.PhoneNumber,
+                Balance = trader.Balance
             };
 
             if (traderTableRepository.Contains(entityToAdd))
@@ -34,12 +36,6 @@ namespace TradingSimulator.Core.Services
 
             return entityToAdd.Id;
         }
-
-       
-        public TradersService()
-        {
-        }
-
         public TraderEntity GetTraders(int traderID)
         {
             if (!traderTableRepository.ContainsById(traderID))

@@ -60,8 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StocksServiceTests.cs" />
-    <Compile Include="SalesServiceTests.cs" />
+    <Compile Include="SaleServiceTests.cs" />
+    <Compile Include="StockServiceTests.cs" />
+    <Compile Include="TraderStocksServiceTests.cs" />
     <Compile Include="TradersServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

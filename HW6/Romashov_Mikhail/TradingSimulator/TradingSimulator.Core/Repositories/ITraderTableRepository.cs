@@ -12,5 +12,7 @@ namespace TradingSimulator.Core.Repositories
         bool Contains(TraderEntity entityToAdd);
         bool ContainsById(int entityId);
         TraderEntity Get(int traderID);
+        void SubstractBalance(int traderID, decimal amount);
+        void AdditionBalance(int traderID, decimal amount);
     }
 }

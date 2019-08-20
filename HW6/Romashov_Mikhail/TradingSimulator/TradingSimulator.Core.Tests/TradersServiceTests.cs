@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 using TradingSimulator.Core.Services;
@@ -21,6 +22,7 @@ namespace TradingSimulator.Core.Tests
             trader.Name = "Monica";
             trader.Surname = "Belucci";
             trader.PhoneNumber = "+79110000000";
+            trader.Balance = 143000.0M;
 
             //Act
             var traderID = tradersService.RegisterNewTrader(trader);
@@ -29,7 +31,8 @@ namespace TradingSimulator.Core.Tests
             traderTableRepository.Received(1).Add(Arg.Is<TraderEntity>(
                 w => w.Name == trader.Name
                 && w.Surname == trader.Surname
-                && w.PhoneNumber == trader.PhoneNumber));
+                && w.PhoneNumber == trader.PhoneNumber
+                && w.Balance == trader.Balance));
             traderTableRepository.Received(1).SaveChanges();
         }
 
@@ -45,13 +48,15 @@ namespace TradingSimulator.Core.Tests
             trader.Name = "Monica";
             trader.Surname = "Belucci";
             trader.PhoneNumber = "+79110000000";
+            trader.Balance = 143000.0M;
 
             //Act
             tradersService.RegisterNewTrader(trader);
             traderTableRepository.Contains(Arg.Is<TraderEntity>(
                 w => w.Name == trader.Name
                 && w.Surname == trader.Surname
-                && w.PhoneNumber == trader.PhoneNumber)).Returns(true);
+                && w.PhoneNumber == trader.PhoneNumber
+                && w.Balance == trader.Balance)).Returns(true);
             tradersService.RegisterNewTrader(trader);
         }
 
