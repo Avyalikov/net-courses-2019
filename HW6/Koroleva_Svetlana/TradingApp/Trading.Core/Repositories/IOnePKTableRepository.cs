@@ -1,4 +1,4 @@
-﻿// <copyright file="IPriceHistoryTableRepository.cs" company="SKorol">
+﻿// <copyright file="ITableRepository.cs" company="SKorol">
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
@@ -9,11 +9,14 @@ namespace Trading.Core.Repositories
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Trading.Core.Model;
 
     /// <summary>
-    /// IPriceHistoryTableRepository description
+    /// ITableRepository description
     /// </summary>
-    public interface IPriceHistoryTableRepository
+    public interface IOnePKTableRepository
     {
+        bool ContainsByID(int entityId);
+        Object GetEntityByID(int entityId);
     }
 }

@@ -2,7 +2,7 @@
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
-namespace Trading.Core.Modifiers
+namespace Trading.Core.Services
 
 {
     using System;
@@ -20,6 +20,7 @@ namespace Trading.Core.Modifiers
     public class ClientService
     {
         private readonly ITableRepository clientTableRepository;
+        private readonly IOnePKTableRepository onePKTableRepository;
         public ClientService(ITableRepository clientTableRepository)
         {
             this.clientTableRepository = clientTableRepository;

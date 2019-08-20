@@ -1,4 +1,4 @@
-﻿// <copyright file="IClientStockTableRepository.cs" company="SKorol">
+﻿// <copyright file="ITableRepository.cs" company="SKorol">
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
@@ -12,12 +12,11 @@ namespace Trading.Core.Repositories
     using Trading.Core.Model;
 
     /// <summary>
-    /// IClientStockTableRepository description
+    /// ITableRepository description
     /// </summary>
-    public interface IClientStockTableRepository
+    public interface ILinkedTableRepository
     {
-      
-
-
+        bool ContainsByCompositeID(int entityId1, int entityId2);
+        Object GetEntityByCompositeID(int entityId1, int entityId2);
     }
 }

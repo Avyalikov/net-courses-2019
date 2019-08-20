@@ -17,10 +17,6 @@ namespace Trading.Core.Repositories
     public interface ITableRepository
     {
         void Add(Object entity);
-        bool ContainsByID(int entityId);
-        bool ContainsByCompositeID(int entityId1, int entityId2);
-        Object GetEntityByID(int entityId);
-        Object GetEntityByCompositeID(int entityId1, int entityId2);
         IEnumerable<Object> FindEntitiesByRequest(string arguments);
         void SaveChanges();
     }
