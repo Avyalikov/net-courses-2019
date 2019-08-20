@@ -34,7 +34,7 @@ namespace Traiding.Core.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        public void ShouldNotRegisterNewClientIfItExists()
+        public void ShouldNotRegisterNewShareTypeIfItExists()
         {
             // Arrange
             var shareTypeTableRepository = Substitute.For<IShareTypeTableRepository>();
@@ -45,7 +45,7 @@ namespace Traiding.Core.Tests
             args.Status = true;
 
             // Act
-            var shareTypeId = shareTypesService.RegisterNewShareType(args);
+            shareTypesService.RegisterNewShareType(args);
 
             shareTypeTableRepository.Contains(Arg.Is<ShareTypeEntity>( // Now Contains returns true (table contains this share type)
                 s => s.Name == args.Name
