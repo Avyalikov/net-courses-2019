@@ -45,10 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Models\ShareTypeEntity.cs" />
+    <Compile Include="Models\ShareTypeRegistrationInfo.cs" />
     <Compile Include="Models\ClientEntity.cs" />
     <Compile Include="Models\ClientRegistrationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IShareTypeTableRepository.cs" />
     <Compile Include="Repositories\IClientTableRepository.cs" />
+    <Compile Include="Services\ShareTypesService.cs" />
     <Compile Include="Services\ClientsService.cs" />
   </ItemGroup>
   <ItemGroup>
