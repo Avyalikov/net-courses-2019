@@ -10,5 +10,6 @@ namespace Traiding.Core.Models
     {
         public string Name { get; set; }
         public decimal Cost { get; set; }
+        public bool Status { get; set; }
     }
 }

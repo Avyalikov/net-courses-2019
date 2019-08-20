@@ -12,5 +12,7 @@ namespace Traiding.Core.Repositories
         bool Contains(ShareTypeEntity entity);
         void Add(ShareTypeEntity entity);
         void SaveChanges();
+        ShareTypeEntity Get(int v);
+        bool ContainsById(int shareTypeId);
     }
 }

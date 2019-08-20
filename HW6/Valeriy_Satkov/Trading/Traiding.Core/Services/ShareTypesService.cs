@@ -22,7 +22,8 @@ namespace Traiding.Core.Services
             var entityToAdd = new ShareTypeEntity()
             {
                 Name = args.Name,
-                Cost = args.Cost
+                Cost = args.Cost,
+                Status = args.Status
             };
 
             if (this.shareTypeTableRepository.Contains(entityToAdd))
@@ -35,6 +36,16 @@ namespace Traiding.Core.Services
             this.shareTypeTableRepository.SaveChanges();
 
             return entityToAdd.Id;
+        }
+
+        public ShareTypeEntity GetShareType(int shareTypeId)
+        {
+            if (!this.shareTypeTableRepository.ContainsById(shareTypeId))
+            {
+                throw new ArgumentException("Can't get client by this Id. May it has not been registered.");
+            }
+
+            return this.shareTypeTableRepository.Get(shareTypeId);
         }
     }
 }

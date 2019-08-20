@@ -19,6 +19,7 @@ namespace Traiding.Core.Tests
             ShareTypeRegistrationInfo args = new ShareTypeRegistrationInfo();
             args.Name = "Cheap";
             args.Cost = 1000.00M;
+            args.Status = true;
 
             // Act
             var shareTypeId = shareTypesService.RegisterNewShareType(args);
@@ -26,8 +27,64 @@ namespace Traiding.Core.Tests
             // Assert
             shareTypeTableRepository.Received(1).Add(Arg.Is<ShareTypeEntity>(
                 s => s.Name == args.Name 
-                && s.Cost == args.Cost));
+                && s.Cost == args.Cost
+                && s.Status == args.Status));
             shareTypeTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception in it's wrong!")]
+        public void ShouldNotRegisterNewClientIfItExists()
+        {
+            // Arrange
+            var shareTypeTableRepository = Substitute.For<IShareTypeTableRepository>();
+            ShareTypesService shareTypesService = new ShareTypesService(shareTypeTableRepository);
+            ShareTypeRegistrationInfo args = new ShareTypeRegistrationInfo();
+            args.Name = "Cheap";
+            args.Cost = 1000.00M;
+            args.Status = true;
+
+            // Act
+            var shareTypeId = shareTypesService.RegisterNewShareType(args);
+
+            shareTypeTableRepository.Contains(Arg.Is<ShareTypeEntity>( // Now Contains returns true (table contains this share type)
+                s => s.Name == args.Name
+                && s.Cost == args.Cost
+                && s.Status == args.Status)).Returns(true);
+
+            shareTypesService.RegisterNewShareType(args); // Try to reg. same twice and get exception
+
+            // Assert
+        }
+
+        [TestMethod]
+        public void ShouldGetShareTypeInfo()
+        {
+            // Arrange
+            var shareTypeTableRepository = Substitute.For<IShareTypeTableRepository>();
+            shareTypeTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            ShareTypesService shareTypesService = new ShareTypesService(shareTypeTableRepository);            
+
+            // Act
+            var shareTypeInfo = shareTypesService.GetShareType(55);
+
+            // Assert
+            shareTypeTableRepository.Received(1).Get(55);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception in it's wrong!")]
+        public void ShouldThrowExceptionIfCantFindClient()
+        {
+            // Arrange
+            var shareTypeTableRepository = Substitute.For<IShareTypeTableRepository>();
+            shareTypeTableRepository.ContainsById(Arg.Is(55)).Returns(false); // Now Contains returns false (table don't contains share type with this Id)
+            ShareTypesService shareTypesService = new ShareTypesService(shareTypeTableRepository);
+
+            // Act
+            var shareTypeInfo = shareTypesService.GetShareType(55); // Try to get share type and get exception
+
+            // Assert
         }
 
         [TestMethod]

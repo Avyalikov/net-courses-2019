@@ -35,7 +35,7 @@ namespace Traiding.Core.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "I haven't exception it's wrong!")]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
         public void ShouldNotRegisterNewClientIfItExists()
         {
             // Arrange
@@ -77,7 +77,7 @@ namespace Traiding.Core.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "I haven't exception it's wrong!")]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
         public void ShouldThrowExceptionIfCantFindClient()
         {
             // Arrange
@@ -90,7 +90,5 @@ namespace Traiding.Core.Tests
 
             // Assert
         }
-    }
-
-    
+    }    
 }
