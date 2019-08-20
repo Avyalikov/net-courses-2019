@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Traiding.Core.Models
 {
-    public class ShareTypeEntity
+    public class ClientSharesNumberEntity
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Cost { get; set; }
-        public bool Status { get; set; }
+        public virtual ClientEntity Client { get; set; }
+        public virtual ShareEntity Share { get; set; }
+        public int Number { get; set; }
     }
 }

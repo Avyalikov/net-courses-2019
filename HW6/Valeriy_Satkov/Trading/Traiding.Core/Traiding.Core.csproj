@@ -45,6 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Models\BalanceEntity.cs" />
+    <Compile Include="Models\BlockedMoneyEntity.cs" />
+    <Compile Include="Models\BlockedSharesNumberEntity.cs" />
+    <Compile Include="Models\OperationEntity.cs" />
+    <Compile Include="Models\ClientSharesNumberEntity.cs" />
+    <Compile Include="Models\ShareEntity.cs" />
     <Compile Include="Models\ShareTypeEntity.cs" />
     <Compile Include="Models\ShareTypeRegistrationInfo.cs" />
     <Compile Include="Models\ClientEntity.cs" />
