@@ -71,9 +71,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repository\BlockOfSharesRepository.cs" />
+    <Compile Include="Repository\ClientRepository.cs" />
+    <Compile Include="Repository\IClientRepository.cs" />
+    <Compile Include="Repository\IBlockOfSharesRepository.cs" />
+    <Compile Include="Repository\ITransactionRepository.cs" />
+    <Compile Include="Repository\IStockRepository.cs" />
+    <Compile Include="Repository\StockRepository.cs" />
+    <Compile Include="Repository\TransactionRepository.cs" />
     <Compile Include="Services\CommandParser.cs" />
-    <Compile Include="Devices\DataBaseDevice.cs" />
-    <Compile Include="Devices\IDataBaseDevice.cs" />
     <Compile Include="Model\BlockOfShares.cs" />
     <Compile Include="ITradingEngine.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

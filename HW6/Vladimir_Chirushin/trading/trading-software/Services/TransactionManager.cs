@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace trading_software
+﻿namespace trading_software
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class TransactionManager : ITransactionManager
     {
         private readonly IOutputDevice outputDevice;
@@ -12,7 +12,10 @@ namespace trading_software
         private readonly IStockManager stockManager;
         private readonly ITableDrawer tableDrawer;
         private readonly IBlockOfSharesManager blockOfSharesManager;
-        private readonly IDataBaseDevice dataBaseDevice;
+        private readonly IBlockOfSharesRepository blockOfSharesRepository;
+        private readonly IClientRepository clientRepository;
+        private readonly IStockRepository stockRepository;
+        private readonly ITransactionRepository transactionRepository;
 
         public TransactionManager(
             IInputDevice inputDevice,
@@ -21,7 +24,10 @@ namespace trading_software
             IStockManager stockManager,
             ITableDrawer tableDrawer,
             IBlockOfSharesManager blockOfSharesManager,
-            IDataBaseDevice dataBaseDevice)
+            IBlockOfSharesRepository blockOfSharesRepository,
+            IClientRepository clientRepository,
+            IStockRepository stockRepository,
+            ITransactionRepository transactionRepository)
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
@@ -29,7 +35,10 @@ namespace trading_software
             this.stockManager = stockManager;
             this.tableDrawer = tableDrawer;
             this.blockOfSharesManager = blockOfSharesManager;
-            this.dataBaseDevice = dataBaseDevice;
+            this.blockOfSharesRepository = blockOfSharesRepository;
+            this.clientRepository = clientRepository;
+            this.stockRepository = stockRepository;
+            this.transactionRepository = transactionRepository;
         }
 
         public void AddTransaction(int SellerID, int BuyerID, int StockID, int stockAmount)
@@ -47,7 +56,7 @@ namespace trading_software
 
         public void AddTransaction(Transaction transaction)
         {
-            dataBaseDevice.Add(transaction);
+            transactionRepository.Add(transaction);
         }
         public void ManualAddTransaction()
         {
@@ -76,10 +85,10 @@ namespace trading_software
                     outputDevice.WriteLine("Please enter valid balance");
             }
 
-            int StockID = dataBaseDevice.GetStockID(stocksInput);
+            int StockID = stockRepository.GetStockID(stocksInput);
 
-            int SellerID = dataBaseDevice.GetClientID(sellerInput);
-            int BuyerID = dataBaseDevice.GetClientID(buyerInput);
+            int SellerID = clientRepository.GetClientID(sellerInput);
+            int BuyerID = clientRepository.GetClientID(buyerInput);
 
             Transaction transaction = new Transaction { dateTime = DateTime.Now, SellerID = SellerID, BuyerID = BuyerID, StockID = StockID, Amount = stockAmount };
             if (Validate(transaction))
@@ -88,21 +97,19 @@ namespace trading_software
             }
         }
 
-
         public void ReadAllTransactions()
         {
-            tableDrawer.Show(dataBaseDevice.GetAllTransaction());
+            tableDrawer.Show(transactionRepository.GetAllTransaction());
         }
-
 
         private bool Validate(Transaction transaction)
         {
             bool IsSellerAndBuyerDifferent = transaction.SellerID != transaction.BuyerID;
 
             bool IsSellerHasEnoughStocks;
-            if (dataBaseDevice.IsClientHasStockType(transaction.SellerID, transaction.StockID))
+            if (blockOfSharesRepository.IsClientHasStockType(transaction.SellerID, transaction.StockID))
             {
-                int SellerStockAmount = dataBaseDevice.GetClientStockAmount(transaction.SellerID, transaction.StockID);
+                int SellerStockAmount = blockOfSharesRepository.GetClientStockAmount(transaction.SellerID, transaction.StockID);
                 IsSellerHasEnoughStocks = SellerStockAmount >= transaction.Amount ? true : false;
             }
             else
@@ -110,7 +117,7 @@ namespace trading_software
                 IsSellerHasEnoughStocks = false;
             }
 
-            bool IsBuyerCanAffordStocks = dataBaseDevice.GetClientBalance(transaction.BuyerID) > 0;
+            bool IsBuyerCanAffordStocks = clientRepository.GetClientBalance(transaction.BuyerID) > 0;
 
             if (IsSellerAndBuyerDifferent &&
                 IsSellerHasEnoughStocks &&
@@ -143,7 +150,7 @@ namespace trading_software
             blockOfSharesManager.AddShare(sellerBlockOfShare);
             blockOfSharesManager.AddShare(BuyerBlockOfShare);
 
-            decimal stockPrice = dataBaseDevice.GetStockPrice(transaction.StockID);
+            decimal stockPrice = stockRepository.GetStockPrice(transaction.StockID);
 
             clientManager.ChangeBalance(transaction.BuyerID, -1 * stockPrice * transaction.Amount);
             clientManager.ChangeBalance(transaction.SellerID, stockPrice * transaction.Amount);

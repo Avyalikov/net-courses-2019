@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace trading_software
+﻿namespace trading_software
 {
     public class DataBaseInitializer : IDataBaseInitializer
     {
@@ -17,7 +15,6 @@ namespace trading_software
             this.stockManager = stockManager;
             this.blockOfSharesManager = blockOfSharesManager;
         }
-
         public void Initiate()
         {
             clientManager.AddClient(new Client { Name = "Tosin Abasi", PhoneNumber = "555-32-12", Balance = (decimal) 45938.12 });

@@ -1,8 +1,8 @@
-﻿using StructureMap;
-using trading_software.Services;
-
-namespace trading_software
+﻿namespace trading_software
 {
+    using StructureMap;
+    using trading_software.Services;
+
     public class TradingSoftwareRegistry : Registry
     {
         public TradingSoftwareRegistry()
@@ -17,10 +17,13 @@ namespace trading_software
             this.For<ITransactionManager>().Use<TransactionManager>();
             this.For<IBlockOfSharesManager>().Use<BlockOfSharesManager>();
             this.For<IDataBaseInitializer>().Use<DataBaseInitializer>();
-            this.For<IDataBaseDevice>().Use<DataBaseDevice>();
             this.For<ICommandParser>().Use<CommandParser>();
             this.For<ITimeManager>().Use<TimeManager>();
             this.For<ILoggerService>().Use<LoggerService>();
+            this.For<IBlockOfSharesRepository>().Use<BlockOfSharesRepository>();
+            this.For<IClientRepository>().Use<ClientRepository>();
+            this.For<IStockRepository>().Use<StockRepository>();
+            this.For<ITransactionRepository>().Use<TransactionRepository>();
         }
     }
 }

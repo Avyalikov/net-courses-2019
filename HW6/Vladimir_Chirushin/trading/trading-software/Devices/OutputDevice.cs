@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace trading_software
+﻿namespace trading_software
 {
+    using System;
+
     public class OutputDevice : IOutputDevice
     {
         public void WriteLine(string OutputString)

@@ -8,19 +8,20 @@
         private readonly IOutputDevice outputDevice;
         private readonly IInputDevice inputDevice;
         private readonly ITableDrawer tableDrawer;
-        private readonly IDataBaseDevice dataBaseDevice;
-        Random random = new Random();
+        private readonly IClientRepository clientRepository;
+
+        private Random random = new Random();
 
         public ClientManager(
             IInputDevice inputDevice,
             IOutputDevice outputDevice,
             ITableDrawer tableDrawer,
-            IDataBaseDevice dataBaseDevice)
+            IClientRepository clientRepository)
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
             this.tableDrawer = tableDrawer;
-            this.dataBaseDevice = dataBaseDevice;
+            this.clientRepository = clientRepository;
         }
         public void AddClient(string name, string phoneNumber, decimal balance)
         {
@@ -35,16 +36,16 @@
 
         public int SelectRandomID()
         {
-            int numberOfClients = dataBaseDevice.GetNumberOfClients();
+            int numberOfClients = clientRepository.GetNumberOfClients();
             int clientId = random.Next(1, numberOfClients);
             return clientId;
         }
 
         public void AddClient(Client client)
         {
-            if (!dataBaseDevice.IsClientExist(client.Name))
+            if (!clientRepository.IsClientExist(client.Name))
             {
-                dataBaseDevice.Add(client);
+                clientRepository.Add(client);
             }
             else
             {
@@ -74,14 +75,14 @@
         public void ShowBlackClients()
         {
             outputDevice.WriteLine("Clients in 'Black' zone:");
-            IEnumerable<Client> query = dataBaseDevice.GetBlackClients();
+            IEnumerable<Client> query = clientRepository.GetBlackClients();
             tableDrawer.Show(query);
         }
 
         public void ShowOrangeZone()
         {
             outputDevice.WriteLine("Clients in 'Orange' zone:");
-            IEnumerable<Client> query = dataBaseDevice.GetOrangeClients();
+            IEnumerable<Client> query = clientRepository.GetOrangeClients();
             tableDrawer.Show(query);
         }
 
@@ -94,16 +95,16 @@
 
         public void ReadAllClients()
         {
-            IEnumerable<Client> query = dataBaseDevice.GetAllClients().AsEnumerable<Client>();
+            IEnumerable<Client> query = clientRepository.GetAllClients().AsEnumerable<Client>();
             tableDrawer.Show(query);
         }
 
         public void ChangeBalance(int ClientID, decimal accountGain)
         {
 
-            if (dataBaseDevice.IsClientExist(ClientID))
+            if (clientRepository.IsClientExist(ClientID))
             {
-                dataBaseDevice.ChangeBalance(ClientID, accountGain);
+                clientRepository.ChangeBalance(ClientID, accountGain);
             }
             else
             {
@@ -114,7 +115,7 @@
         public void BankruptRandomClient()
         {
             int clientId = SelectRandomID();
-            dataBaseDevice.BankruptClient(clientId);
+            clientRepository.BankruptClient(clientId);
         }
     }
 }

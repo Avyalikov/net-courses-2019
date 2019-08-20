@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-namespace trading_software
+﻿namespace trading_software
 {
+    using System.ComponentModel.DataAnnotations;
     public class Stock
     {
         [Key]
@@ -9,6 +9,5 @@ namespace trading_software
         public string StockType { get; set; }
         [Required]
         public decimal Price { get; set; }
-        
     }
 }

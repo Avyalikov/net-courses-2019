@@ -50,13 +50,13 @@ namespace trading_software.Tests
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             var sut = new StockManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDeviceMock);
+                stockRepositoryMock);
 
             IQueryable<Stock> stocks =
                 new[]
@@ -82,10 +82,10 @@ namespace trading_software.Tests
             sut.AddStock(stockName, stockPrice);
 
             // Asserts
-            dataBaseDeviceMock
+            stockRepositoryMock
                 .Received(1)
                 .IsStockExist(Arg.Is<string>(st => st == stockName));
-            dataBaseDeviceMock
+            stockRepositoryMock
                 .Received(1)
                 .Add(Arg.Is<Stock>(st => st.StockType == stockName &&
                                          st.Price == stockPrice));
@@ -98,22 +98,24 @@ namespace trading_software.Tests
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             var sut = new StockManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDeviceMock);
+                stockRepositoryMock);
+
             Stock stock = new Stock { StockType = "Weyland-Yutani", Price = (decimal)15316 };
+            
             // Act
             sut.AddStock(stock);
 
             // Asserts
-            dataBaseDeviceMock
+            stockRepositoryMock
                 .Received(1)
                 .IsStockExist(Arg.Is<string>(st => st == stock.StockType));
-            dataBaseDeviceMock
+            stockRepositoryMock
                 .Received(1)
                 .Add(stock);
             }
@@ -125,13 +127,13 @@ namespace trading_software.Tests
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             var sut = new StockManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDeviceMock);
+                stockRepositoryMock);
 
         }
 
@@ -143,13 +145,13 @@ namespace trading_software.Tests
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             var sut = new StockManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDeviceMock);
+                stockRepositoryMock);
 
             // Act
             sut.ReadAllStocks();

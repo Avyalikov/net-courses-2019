@@ -1,16 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace trading_software
+﻿namespace trading_software
 {
+    using System.Collections.Generic;
+
     public class TableDrawer : ITableDrawer
     {
         private readonly IOutputDevice outputDevice;
-        private readonly IDataBaseDevice dataBaseDevice;
-        public TableDrawer(IOutputDevice outputDevice, IDataBaseDevice dataBaseDevice)
+        private readonly IBlockOfSharesRepository blockOfSharesRepository;
+        private readonly IClientRepository clientRepository;
+        private readonly IStockRepository stockRepository;
+
+        public TableDrawer(
+            IOutputDevice outputDevice, 
+            IBlockOfSharesRepository blockOfSharesRepository,
+            IClientRepository clientRepository,
+            IStockRepository stockRepository)
         {
             this.outputDevice = outputDevice;
-            this.dataBaseDevice = dataBaseDevice;
+            this.blockOfSharesRepository = blockOfSharesRepository;
+            this.clientRepository = clientRepository;
+            this.stockRepository = stockRepository;
         }
 
         public void Show(IEnumerable<Stock> Stocks)
@@ -70,10 +78,10 @@ namespace trading_software
             foreach (var transaction in Transactions)
             {
                 transactionID = transaction.TransactionID;
-                SellerName = dataBaseDevice.GetClientName(transaction.SellerID);
-                BuyerName = dataBaseDevice.GetClientName(transaction.BuyerID);
-                StockName = dataBaseDevice.GetStockType(transaction.StockID);
-                StockPrice = dataBaseDevice.GetStockPrice(transaction.StockID);
+                SellerName = clientRepository.GetClientName(transaction.SellerID);
+                BuyerName = clientRepository.GetClientName(transaction.BuyerID);
+                StockName = stockRepository.GetStockType(transaction.StockID);
+                StockPrice = stockRepository.GetStockPrice(transaction.StockID);
                 outputDevice.WriteLine($"|{transactionID,4}|{transaction.dateTime,20}|{SellerName,22}|{BuyerName,22}|{StockName,22}|{transaction.Amount,4}|{transaction.Amount * StockPrice,10}$|");
             }
             outputDevice.WriteLine($"|____|____________________|______________________|______________________|______________________|____|___________|");
@@ -97,8 +105,8 @@ namespace trading_software
             foreach (var block in blockOfShares)
             {
                 i++;
-                ClientName = dataBaseDevice.GetClientName(block.ClientID);
-                StockName = dataBaseDevice.GetStockType(block.StockID);
+                ClientName = clientRepository.GetClientName(block.ClientID);
+                StockName = stockRepository.GetStockType(block.StockID);
                 outputDevice.WriteLine($"|{i,4}|{ClientName,22}|{StockName,22}|{block.Amount,6}|");
             }
             outputDevice.WriteLine($"|____|______________________|______________________|______|");

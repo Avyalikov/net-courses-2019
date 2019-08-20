@@ -3,6 +3,7 @@
     public interface ITimeManager
     {
         void StartRandomTransactionThread();
+
         void StopRandomTransactionThread();
     }
 }

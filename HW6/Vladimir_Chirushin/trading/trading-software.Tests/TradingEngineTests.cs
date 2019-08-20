@@ -13,25 +13,12 @@ namespace trading_software.Tests
         public void TradingEngineShowMenu()
         {
             // Arrange
-            var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
-            var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var clientManagerMock = Substitute.For<IClientManager>();
-            var stockManagerMock = Substitute.For<IStockManager>();
-            var transactionManagerMock = Substitute.For<ITransactionManager>();
-            var blockOfSharesManagerMock = Substitute.For<IBlockOfSharesManager>();
-            var dbInitializerMock = Substitute.For<IDataBaseInitializer>();
             var commandParserMock = Substitute.For<ICommandParser>();
-            
+            var outputDeviceMock = Substitute.For<IOutputDevice>();
+
             var sut = new TradingEngine(
-                outpuDeviceMock,
                 inputDeviceMock,
-                tableDrawerMock,
-                clientManagerMock,
-                stockManagerMock,
-                transactionManagerMock,
-                blockOfSharesManagerMock,
-                dbInitializerMock,
                 commandParserMock);
 
             Stack<string> temp = new Stack<string>();
@@ -48,18 +35,18 @@ namespace trading_software.Tests
             }
             string quitCommand = "quit";
 
+            inputDeviceMock
+                .ReadLine()
+                .Returns(quitCommand);
+
             // Act
             sut.Run();
 
             // Asserts
-            outpuDeviceMock
+            outputDeviceMock
                 .Received()
                 .WriteLine(commands.Pop());
 
-            inputDeviceMock
-                .Received()
-                .ReadLine()
-                .Returns(quitCommand);
             commandParserMock
                 .Received()
                 .Parse(Arg.Is<string>(w => w == quitCommand));

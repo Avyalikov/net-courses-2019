@@ -1,8 +1,6 @@
-﻿using trading_software.Services;
-using StructureMap;
-
-namespace trading_software
+﻿namespace trading_software
 {
+    using StructureMap;
     class Program
     {
         static void Main(string[] args)

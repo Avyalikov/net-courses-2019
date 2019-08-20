@@ -1,7 +1,7 @@
-﻿using System.Timers;
-
-namespace trading_software
+﻿namespace trading_software
 {
+    using System.Timers;
+
     public class TimeManager : ITimeManager
     {
         private readonly ITransactionManager transactionManager;
@@ -35,6 +35,7 @@ namespace trading_software
                 aTimer.Enabled = true;
             }
         }
+
         private void StopTimer()
         {
             if (aTimer.Enabled)

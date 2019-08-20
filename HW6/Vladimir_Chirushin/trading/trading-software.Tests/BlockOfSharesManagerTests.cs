@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using trading_software;
-using NSubstitute;
-using System.Collections.Generic;
-
-namespace trading_software.Tests
+﻿namespace trading_software.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+
     [TestClass]
     public class BlockOfSharesManagerTests
     {
@@ -16,13 +13,17 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             var sut = new BlockOfSharesManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDeviceMock);
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                stockRepositoryMock);
 
             BlockOfShares block = new BlockOfShares
             {
@@ -38,7 +39,7 @@ namespace trading_software.Tests
             sut.AddShare(clientID, stockID, amount);
 
             // Asserts
-            dataBaseDeviceMock.Received(1).Add(Arg.Is<BlockOfShares>(b => b.StockID == block.StockID &&
+            blockOfSharesRepositoryMock.Received(1).Add(Arg.Is<BlockOfShares>(b => b.StockID == block.StockID &&
                                                                           b.ClientID == block.ClientID &&
                                                                           b.Amount == block.Amount));
         }
@@ -50,13 +51,17 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             var sut = new BlockOfSharesManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDevice);
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                stockRepositoryMock);
 
             BlockOfShares block = new BlockOfShares
             {
@@ -69,7 +74,7 @@ namespace trading_software.Tests
             sut.AddShare(block);
 
             // Asserts
-            dataBaseDevice.Received(1).Add(Arg.Is<BlockOfShares>(b => b.StockID == block.StockID &&
+            blockOfSharesRepositoryMock.Received(1).Add(Arg.Is<BlockOfShares>(b => b.StockID == block.StockID &&
                                                                       b.ClientID == block.ClientID &&
                                                                       b.Amount == block.Amount));
         }
@@ -144,40 +149,43 @@ namespace trading_software.Tests
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
             var inputDeviceMock = Substitute.For<IInputDevice>();
             var tableDrawerMock = Substitute.For<ITableDrawer>();
-            var dataBaseDeviceMock = Substitute.For<IDataBaseDevice>();
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             var sut = new BlockOfSharesManager(
                 inputDeviceMock,
                 outpuDeviceMock,
                 tableDrawerMock,
-                dataBaseDeviceMock);
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                stockRepositoryMock);
 
 
             const int maxNumberOfClients = 7;
             const int maxNumberOfStocks = 12;
             const int maxAmountOfShares = 16;
 
+
+            clientRepositoryMock
+                .GetNumberOfClients()
+                .Returns(maxNumberOfClients);
+            stockRepositoryMock
+                .GetNumberOfStocks()
+                .Returns(maxNumberOfStocks);
+
+
             // Act
             sut.CreateRandomShare();
 
 
             // Asserts
-            dataBaseDeviceMock
+            blockOfSharesRepositoryMock
                 .Received(1)
-                .GetNumberOfClients()
-                .Returns(maxNumberOfClients);
-            dataBaseDeviceMock
-                .Received(1)
-                .GetNumberOfStocks()
-                .Returns(maxNumberOfStocks);
-            sut
-                .Received(1)
-                .AddShare(
-                    Arg.Is<int>(c => c < maxNumberOfClients), 
-                    Arg.Is<int>(s => s < maxNumberOfStocks), 
-                    Arg.Is<int>(a => a < maxAmountOfShares)
-                    );
+                .Add(Arg.Is<BlockOfShares>(bos => bos.ClientID < maxNumberOfClients &&
+                                                 bos.StockID < maxNumberOfStocks &&
+                                                 bos.Amount < maxAmountOfShares)
+                );
         }
     }
-    
 }

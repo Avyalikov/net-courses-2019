@@ -1,8 +1,8 @@
-﻿using log4net;
-using System;
-
-namespace trading_software.Services
+﻿namespace trading_software.Services
 {
+    using log4net;
+    using System;
+
     public class LoggerService : ILoggerService
     {
         private ILog logger;

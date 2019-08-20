@@ -1,6 +1,7 @@
-﻿using System.Data.Entity;
-namespace trading_software
+﻿namespace trading_software
 {
+    using System.Data.Entity;
+
     public class TradingContext : DbContext
     {
         public DbSet<Client> Clients { get; set; }

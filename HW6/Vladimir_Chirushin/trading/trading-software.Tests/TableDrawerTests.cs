@@ -13,9 +13,17 @@ namespace trading_software.Tests
         public void ShowClient()
         {
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var blockOfSharesMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
+
             // Arrange
-            var sut = new TableDrawer(outpuDeviceMock, dataBaseDevice);
+            var sut = new TableDrawer(
+                outpuDeviceMock,
+                blockOfSharesMock,
+                clientRepositoryMock,
+                stockRepositoryMock);
+
             IQueryable<Client> clients =
                 new[] {
                     new Client
@@ -49,10 +57,17 @@ namespace trading_software.Tests
         public void ShowStock()
         {
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var blockOfSharesMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             // Arrange
-            var sut = new TableDrawer(outpuDeviceMock, dataBaseDevice);
+            var sut = new TableDrawer(
+                outpuDeviceMock,
+                blockOfSharesMock,
+                clientRepositoryMock,
+                stockRepositoryMock);
+
             IQueryable<Stock> stocks =
                 new[]
                 {
@@ -86,10 +101,17 @@ namespace trading_software.Tests
         public void ShowTransaction()
         {
             var outpuDeviceMock = Substitute.For<IOutputDevice>();
-            var dataBaseDevice = Substitute.For<IDataBaseDevice>();
+            var blockOfSharesMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var stockRepositoryMock = Substitute.For<IStockRepository>();
 
             // Arrange
-            var sut = new TableDrawer(outpuDeviceMock, dataBaseDevice);
+            var sut = new TableDrawer(
+                outpuDeviceMock,
+                blockOfSharesMock,
+                clientRepositoryMock,
+                stockRepositoryMock);
+
             Transaction transaction1 =
                 new Transaction
                 {
@@ -118,24 +140,32 @@ namespace trading_software.Tests
                     transaction2
                 }.AsQueryable();
 
+            clientRepositoryMock
+                .GetClientName(Arg.Is<int>(1))
+                .Returns("Martin Eden");
+            clientRepositoryMock
+                .GetClientName(Arg.Is<int>(2))
+                .Returns("Ruth Morse");
+
+            stockRepositoryMock
+                 .GetStockType(Arg.Is<int>(1))
+                 .Returns("Umbrella");
+            stockRepositoryMock
+                 .GetStockPrice(Arg.Is<int>(1))
+                 .Returns(23154);
+
+            stockRepositoryMock
+                 .GetStockType(Arg.Is<int>(2))
+                 .Returns("Weyland-Yutani");
+            stockRepositoryMock
+                 .GetStockPrice(Arg.Is<int>(2))
+                 .Returns(642134);
+
             // Act
             sut.Show(transactions);
 
             // Asserts
-            dataBaseDevice
-                .GetClientName(Arg.Is<int>(1))
-                .Returns("Martin Eden");
-            dataBaseDevice
-                .GetClientName(Arg.Is<int>(2))
-                .Returns("Ruth Morse");
-
-            dataBaseDevice
-                 .GetStockType(Arg.Is<int>(1))
-                 .Returns("Umbrella");
-
-            dataBaseDevice
-                 .GetStockType(Arg.Is<int>(2))
-                 .Returns("Weyland-Yutani");
+            
 
             outpuDeviceMock.Received(1).WriteLine(Arg.Is<string>(w => w == "_________________________________________________________________________________________________________________"));
             outpuDeviceMock.Received(1).WriteLine(Arg.Is<string>(w => w == "|   #|       Date and Time|                Seller|                 Buyer|                 Stock|Quan|Transaction|"));

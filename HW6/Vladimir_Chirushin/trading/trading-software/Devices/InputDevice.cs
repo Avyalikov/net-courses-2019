@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace trading_software
+﻿namespace trading_software
 {
+    using System;
+
     public class InputDevice : IInputDevice
     {
-        const bool readKeySilently = true;
+        const bool ReadKeySilently = true;
         public ConsoleKeyInfo ReadKey()
         {
-            return Console.ReadKey(readKeySilently);
+            return Console.ReadKey(ReadKeySilently);
         }
 
         public string ReadLine()

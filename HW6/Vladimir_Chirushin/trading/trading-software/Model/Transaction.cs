@@ -1,7 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿
 namespace trading_software
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class Transaction
     {
         [Key]

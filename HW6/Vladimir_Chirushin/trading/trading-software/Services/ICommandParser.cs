@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace trading_software
+﻿namespace trading_software
 {
     public interface ICommandParser
     {

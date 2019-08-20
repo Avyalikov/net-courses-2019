@@ -6,34 +6,35 @@
         private readonly IInputDevice inputDevice;
         private readonly IOutputDevice outputDevice;
         private readonly ITableDrawer tableDrawer;
-        private readonly IDataBaseDevice dataBaseDevice;
-        Random random = new Random();
+        private readonly IStockRepository stockRepository;
+
+        private Random random = new Random();
 
         public StockManager(
             IInputDevice inputDevice,
             IOutputDevice outputDevice,
             ITableDrawer tableDrawer,
-            IDataBaseDevice dataBaseDevice
+            IStockRepository stockRepository
             )
         {
             this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
             this.tableDrawer = tableDrawer;
-            this.dataBaseDevice = dataBaseDevice;
+            this.stockRepository = stockRepository;
         }
-
 
         bool IsExist(Stock stock)
         {
-            return dataBaseDevice.IsStockExist(stock.StockType);
+            return stockRepository.IsStockExist(stock.StockType);
         }
 
         public int SelectRandomID()
         {
-            int numberOfStocks = dataBaseDevice.GetNumberOfStocks();
+            int numberOfStocks = stockRepository.GetNumberOfStocks();
             int stockID = random.Next(1, numberOfStocks);
             return stockID;
         }
+
         public void AddStock(string stockName, decimal stockPrice)
         {
             var stock = new Stock
@@ -43,17 +44,19 @@
             };
             AddStock(stock);
         }
+
         public void AddStock(Stock stock)
         {
             if (!IsExist(stock))
             {
-                dataBaseDevice.Add(stock);
+                stockRepository.Add(stock);
             }
             else
             {
                 outputDevice.WriteLine("Stock already exist!");
             }
         }
+
         public void ManualAddStock()
         {
             outputDevice.WriteLine("Write Stock Type:");
@@ -71,10 +74,9 @@
             AddStock(stockName, stockPrice);
         }
 
-
         public void ReadAllStocks()
         {
-            var stocks = dataBaseDevice.GetAllStocks();
+            var stocks = stockRepository.GetAllStocks();
             tableDrawer.Show(stocks);
         }
     }
