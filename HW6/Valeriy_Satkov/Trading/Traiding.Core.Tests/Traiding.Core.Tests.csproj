@@ -64,7 +64,7 @@
     <Compile Include="BlockedMoneysServiceTests.cs" />
     <Compile Include="BlockedSharesNumbersServiceTests.cs" />
     <Compile Include="ClientsServiceTests.cs" />
-    <Compile Include="ClientsSharesNumbersServiceTests.cs" />
+    <Compile Include="SharesNumbersServiceTests.cs" />
     <Compile Include="OperationsServiceTests.cs" />
     <Compile Include="SaleHandlerServiceTests.cs" />
     <Compile Include="SharesServiceTests.cs" />
