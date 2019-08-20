@@ -17,7 +17,7 @@ namespace Traiding.Core.Services
             this.shareTypeTableRepository = shareTypeTableRepository;
         }
 
-        public object RegisterNewShareType(ShareTypeRegistrationInfo args)
+        public int RegisterNewShareType(ShareTypeRegistrationInfo args)
         {
             var entityToAdd = new ShareTypeEntity()
             {

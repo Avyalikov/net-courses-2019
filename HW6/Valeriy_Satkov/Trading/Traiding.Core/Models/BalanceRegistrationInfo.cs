@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Traiding.Core.Models
 {
-    public class BalanceEntity
+    public class BalanceRegistrationInfo
     {
-        public int Id { get; set; }        
-        public virtual ClientEntity Client { get; set; }
+        public ClientEntity Client { get; set; }
         public decimal Amount { get; set; }
         public bool Status { get; set; }
     }
