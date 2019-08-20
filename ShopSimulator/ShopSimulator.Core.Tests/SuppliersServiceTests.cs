@@ -17,6 +17,20 @@ namespace ShopSimulator.Core.Tests
         {
             // Arrange
             var supplierTableRepository = Substitute.For<ISupplierTableRepository>();
+            supplierTableRepository
+               .When(w => w.WithTransaction(Arg.Any<Action>()))
+               .Do((callback) =>
+               {
+                   callback.Arg<Action>().Invoke();
+               });
+
+            supplierTableRepository.WithTransaction<bool>(Arg.Any<Func<bool>>()).Returns((callback) =>
+            {
+                var result = callback.Arg<Func<bool>>().Invoke();
+
+                return result;
+            });
+
             SuppliersService suppliersService = new SuppliersService(supplierTableRepository);
             SupplierRegistrationInfo args = new SupplierRegistrationInfo();
             args.Name = "John";

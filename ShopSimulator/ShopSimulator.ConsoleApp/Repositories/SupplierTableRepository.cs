@@ -42,5 +42,47 @@ namespace ShopSimulator.ConsoleApp.Repositories
         {
             this.dbContext.SaveChanges();
         }
+
+        public T WithTransaction<T>(Func<T> function)
+        {
+            using (var dbContextTransaction = this.dbContext.Database.BeginTransaction())
+            {
+                this.dbContext.SaveChanges();
+
+                try
+                {
+                    var result = function();
+
+                    dbContextTransaction.Commit();
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+
+                    throw new Exception();
+                }
+            }
+        }
+
+        public void WithTransaction(Action action)
+        {
+            using (var dbContextTransaction = this.dbContext.Database.BeginTransaction())
+            {
+                this.dbContext.SaveChanges();
+
+                try
+                {
+                    action();
+
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                }
+            }
+        }
     }
 }

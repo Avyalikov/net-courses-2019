@@ -15,5 +15,8 @@ namespace ShopSimulator.Core.Repositories
         void Add(SupplierEntity entity);
         void SaveChanges();
         SupplierEntity Get(int supplierId);
+
+        T WithTransaction<T>(Func<T> function);
+        void WithTransaction(Action action);
     }
 }
