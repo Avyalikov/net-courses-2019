@@ -33,7 +33,7 @@ namespace Traiding.Core.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "I didn't get exception in it's wrong!")]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
         public void ShouldNotRegisterNewClientIfItExists()
         {
             // Arrange
@@ -73,8 +73,8 @@ namespace Traiding.Core.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "I didn't get exception in it's wrong!")]
-        public void ShouldThrowExceptionIfCantFindClient()
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfCantFindShareType()
         {
             // Arrange
             var shareTypeTableRepository = Substitute.For<IShareTypeTableRepository>();
@@ -82,7 +82,7 @@ namespace Traiding.Core.Tests
             ShareTypesService shareTypesService = new ShareTypesService(shareTypeTableRepository);
 
             // Act
-            var shareTypeInfo = shareTypesService.GetShareType(55); // Try to get share type and get exception
+            shareTypesService.ContainsById(55); // Try to get share type and get exception
 
             // Assert
         }
@@ -90,13 +90,33 @@ namespace Traiding.Core.Tests
         [TestMethod]
         public void ShouldChangeTypeName()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var shareTypeTableRepository = Substitute.For<IShareTypeTableRepository>();
+            shareTypeTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            ShareTypesService shareTypesService = new ShareTypesService(shareTypeTableRepository);
+            string newName = "Test new name of share type";
+
+            // Act
+            shareTypesService.ChangeName(55, newName);
+
+            // Assert
+            shareTypeTableRepository.Received(1).SetName(55, newName);
         }
 
         [TestMethod]
         public void ShouldChangeCost()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var shareTypeTableRepository = Substitute.For<IShareTypeTableRepository>();
+            shareTypeTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            ShareTypesService shareTypesService = new ShareTypesService(shareTypeTableRepository);
+            decimal newCost = 1000.00M;
+
+            // Act
+            shareTypesService.ChangeCost(55, newCost);
+
+            // Assert
+            shareTypeTableRepository.Received(1).SetCost(55, newCost);
         }
     }
 

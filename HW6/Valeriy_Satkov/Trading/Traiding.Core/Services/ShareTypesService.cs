@@ -40,12 +40,31 @@ namespace Traiding.Core.Services
 
         public ShareTypeEntity GetShareType(int shareTypeId)
         {
-            if (!this.shareTypeTableRepository.ContainsById(shareTypeId))
-            {
-                throw new ArgumentException("Can't get client by this Id. May it has not been registered.");
-            }
+            ContainsById(shareTypeId);
 
             return this.shareTypeTableRepository.Get(shareTypeId);
+        }
+
+        public void ChangeName(int shareTypeId, string newName)
+        {
+            ContainsById(shareTypeId);
+
+            this.shareTypeTableRepository.SetName(shareTypeId, newName);
+        }
+
+        public void ChangeCost(int shareTypeId, decimal newCost)
+        {
+            ContainsById(shareTypeId);
+
+            this.shareTypeTableRepository.SetCost(shareTypeId, newCost);
+        }
+
+        public void ContainsById(int shareTypeId)
+        {
+            if (!this.shareTypeTableRepository.ContainsById(shareTypeId))
+            {
+                throw new ArgumentException("Can't find share type by this Id. May it has not been registered.");
+            }
         }
     }
 }
