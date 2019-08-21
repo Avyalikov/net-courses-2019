@@ -10,11 +10,11 @@ namespace Traiding.Core.Models
     {
         public int Id { get; set; }
 
-        public DateTime DebitDate { get; set; } // it's date for Customer
+        public DateTime DebitDate { get; set; } // it's date from Customer blocked money
 
         public virtual ClientEntity Customer { get; set; }
 
-        public DateTime ChargeDate { get; set; } // it's date for Seller
+        public DateTime ChargeDate { get; set; } // it's date of finish
 
         public virtual ClientEntity Seller { get; set; }
 
