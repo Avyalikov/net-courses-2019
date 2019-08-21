@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Traiding.Core.Models
+namespace Traiding.Core.Dto
 {
-    public class BalanceRegistrationInfo
+    public class ShareTypeRegistrationInfo
     {
-        public ClientEntity Client { get; set; }
-        public decimal Amount { get; set; }
+        public string Name { get; set; }
+        public decimal Cost { get; set; }
         public bool Status { get; set; }
     }
 }

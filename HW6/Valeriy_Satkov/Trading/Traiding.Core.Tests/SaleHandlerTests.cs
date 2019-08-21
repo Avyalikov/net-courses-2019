@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Traiding.Core.Tests
 {
     [TestClass]
-    public class SaleHandlerServiceTests
+    public class SaleHandlerTests
     {
         [TestMethod]
         public void ShouldHandleSaleOfShares()

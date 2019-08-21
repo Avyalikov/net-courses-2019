@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Traiding.Core.Models;
 
-namespace Traiding.Core.Models
+namespace Traiding.Core.Dto
 {
-    public class SharesNumberRegistrationInfo
+    public class BalanceRegistrationInfo
     {
         public ClientEntity Client { get; set; }
-        public ShareEntity Share { get; set; }
-        public int Number { get; set; }
+        public decimal Amount { get; set; }
+        public bool Status { get; set; }
     }
 }

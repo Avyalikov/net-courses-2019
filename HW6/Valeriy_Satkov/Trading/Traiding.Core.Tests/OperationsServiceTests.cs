@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Traiding.Core.Dto;
 using Traiding.Core.Models;
 using Traiding.Core.Repositories;
 using Traiding.Core.Services;
