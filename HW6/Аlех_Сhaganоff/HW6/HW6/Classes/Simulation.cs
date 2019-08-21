@@ -16,7 +16,8 @@ namespace HW6.Classes
 {
     public class Simulation: ISimulation
     {
-        public virtual void PerformRandomOperation(DataInteraction dataProvider, IOutputProvider outputProvider)
+        public virtual (int sellerId, int buyerId, int shareId, decimal sharePrice, int purchaseQuantity)
+        PerformRandomOperation(IDataInteraction dataProvider, IOutputProvider outputProvider, ILogger logger)
         {
             int sellerId;
             int buyerId;
@@ -62,25 +63,35 @@ namespace HW6.Classes
 #if DEBUG
                 outputProvider.WriteLine("Available shares types = " + availableShares.Count);
 #endif
-                Logger.Log.Info("Available shares types = " + availableShares.Count);
+                logger.Write("Available shares types = " + availableShares.Count);
 
                 shareId = availableShares[new Random().Next(0, availableShares.Count)];
                 sharePrice = dataProvider.GetSharePrice(shareId);
                 purchaseQuantity = new Random().Next(1, dataProvider.GetShareQuantityFromPortfoio(sellerId, shareId) + 1);
 
-                UpdateDatabase(dataProvider, outputProvider, sellerId, buyerId, shareId, sharePrice, purchaseQuantity);
+                return (sellerId, buyerId, shareId, sharePrice, purchaseQuantity);
+
+                //UpdateDatabase(dataProvider, outputProvider, logger, sellerId, buyerId, shareId, sharePrice, purchaseQuantity);
             }
             catch(Exception e)
             {
                 outputProvider.WriteLine(e.Message);
-                Logger.Log.Info(e.Message);
+                logger.Write(e.Message);
             }
+
+            return (0, 0, 0, 0M, 0);
         }
 
-        private void UpdateDatabase(DataInteraction dataProvider, IOutputProvider outputProvider, int sellerId, int buyerId, int shareId, decimal sharePrice, int purchaseQuantity)
+        public void UpdateDatabase(IDataInteraction dataProvider, IOutputProvider outputProvider, ILogger logger, int sellerId, int buyerId, int shareId, decimal sharePrice, int purchaseQuantity)
         {
             try
             {
+                if (sellerId == 0 || buyerId == 0 || shareId == 0 || sharePrice == 0 || purchaseQuantity == 0)
+                {
+                    logger.Write("Incorrect data from randomizer");
+                    throw new Exception("Incorrect data from randomizer");
+                }
+                
                 var sellerToChange = dataProvider.GetTrader(sellerId);
 
                 if (sellerToChange != null)
@@ -107,7 +118,7 @@ namespace HW6.Classes
                         outputProvider.WriteLine("Removed share record with 0 quantity");
 
 #endif
-                        Logger.Log.Info("Removed share record with 0 quantity");
+                        logger.Write("Removed share record with 0 quantity");
 
                         dataProvider.RemovePortfolio(sellerShareRecordToChange);
                     }
@@ -128,7 +139,7 @@ namespace HW6.Classes
                     outputProvider.WriteLine("Add new record to portfolio");
 
 #endif
-                    Logger.Log.Info("Add new record to portfolio");
+                    logger.Write("Add new record to portfolio");
 
                     dataProvider.AddPortfolio(buyerId, shareId, purchaseQuantity);
                 }
@@ -142,12 +153,12 @@ namespace HW6.Classes
                      " Transaction total = " + transaction.PricePerShare * transaction.Quantity + " Timestamp = " + transaction.DateTime;
 
                 outputProvider.WriteLine(message);
-                Logger.Log.Info(message);
+                logger.Write(message);
             }
             catch(Exception e)
             {
                 outputProvider.WriteLine(e.Message);
-                Logger.Log.Info(e.Message);
+                logger.Write(e.Message);
             }           
         }
     }

@@ -11,16 +11,16 @@ namespace HW6.Classes
 {
     public class Randomizer
     {
-        public void Randomize(IContextProvider context)
+        public void Randomize(IContextProvider context, int numberOfTraders, int numberOfShareTypes)
         {
            Random bal = new Random();
            Random share = new Random();
            Random shareTypes = new Random();
            Random quantity = new Random();
 
-           for (int i = 1; i <= 90; i++)
+           for (int i = 1; i <= numberOfTraders; i++)
            {
-                var result = context.Traders.Single(t => t.TraderId == i);
+                var result = context.Traders.First(t => t.TraderId == i);
 
                 if (result != null)
                 {
@@ -28,9 +28,9 @@ namespace HW6.Classes
                 }
            }
 
-           for (int i = 1; i <= 90; i++)
+           for (int i = 1; i <= numberOfTraders; i++)
            {
-               var result = context.Traders.Single(t => t.TraderId == i);
+               var result = context.Traders.First(t => t.TraderId == i);
 
                if (result != null)
                {
@@ -38,11 +38,12 @@ namespace HW6.Classes
 
                    for (int j = 1; j <= shareTypes.Next(1, 11); j++)
                    {
-                       int newShareId = share.Next(1, 51);
+                       int newShareId = share.Next(1, numberOfShareTypes+1);
                        
                        if (!shareTypeList.Contains(newShareId))
                        {
-                           result.Portfolio.Add(new Portfolio { TraderID = i, ShareId = newShareId, Quantity = quantity.Next(1, 11) });
+                           //result.Portfolio.Add(new Portfolio { TraderID = i, ShareId = newShareId, Quantity = quantity.Next(1, 11) });                        context.po
+                           context.Portfolios.Add(new Portfolio { TraderID = i, ShareId = newShareId, Quantity = quantity.Next(1, 11) });
                            shareTypeList.Add(newShareId);
                        }
                    }

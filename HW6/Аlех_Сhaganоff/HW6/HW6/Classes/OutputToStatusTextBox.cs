@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using log4net;
-using log4net.Config;
 
 namespace HW6.Classes
 {
@@ -18,8 +16,6 @@ namespace HW6.Classes
             {
                 MainWindow.AppWindow.StatusTextBox.AppendText(text + Environment.NewLine);
             });
-
-            Logger.Log.Info(text + Environment.NewLine);
         }
     }
 }

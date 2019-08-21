@@ -9,7 +9,9 @@ namespace HW6.Interfaces
 {
     public interface ISimulation
     {
-        void PerformRandomOperation(DataInteraction dataProvider, IOutputProvider outputProvider);
+        (int sellerId, int buyerId, int shareId, decimal sharePrice, int purchaseQuantity) PerformRandomOperation(IDataInteraction dataProvider, IOutputProvider outputProvider, ILogger logger);
+
+        void UpdateDatabase(IDataInteraction dataProvider, IOutputProvider outputProvider, ILogger logger, int sellerId, int buyerId, int shareId, decimal sharePrice, int purchaseQuantity);
     }
 
 }

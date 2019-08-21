@@ -104,7 +104,7 @@ namespace HW6
                     program.dataInteraction.SaveChanges();
 
                     program.outputProvider.WriteLine("Trader record updated");
-                    Logger.Log.Info("Trader record updated");
+                    program.logger.Write("Trader record updated");
                 }
                 else
                 {
@@ -123,13 +123,13 @@ namespace HW6
                     program.dataInteraction.SaveChanges();
 
                     program.outputProvider.WriteLine("Trader record created");
-                    Logger.Log.Info("Trader record created");
+                    program.logger.Write("Trader record created");
                 }
             }
             catch(Exception ex)
             {
                 program.outputProvider.WriteLine(ex.Message);
-                Logger.Log.Info(ex.Message);
+                program.logger.Write(ex.Message);
                 TraderMessageLabel.Content = ex.Message;
             }
             finally
@@ -153,7 +153,7 @@ namespace HW6
             program.dataInteraction.RemoveTrader(trader);
             program.dataInteraction.SaveChanges();
             program.outputProvider.WriteLine("Trader deleted");
-            Logger.Log.Info("Trader deleted");
+            program.logger.Write("Trader deleted");
         }
 
         private void TradersLowerGrid_MouseLeave(object sender, MouseEventArgs e)

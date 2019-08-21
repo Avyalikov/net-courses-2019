@@ -31,7 +31,7 @@ namespace HW6
             if (program.SimulationIsWorking == false)
             {
                 program.outputProvider.WriteLine("Simulation started");
-                Logger.Log.Info("Simulation started");
+                program.logger.Write("Simulation started");
                 program.SimulationIsWorking = true;
                 SimulationButton.Content = "Stop simulation";
 
@@ -40,7 +40,7 @@ namespace HW6
             else
             {
                 program.outputProvider.WriteLine("Simulation ended");
-                Logger.Log.Info("Simulation ended");
+                program.logger.Write("Simulation ended");
                 program.SimulationIsWorking = false;
                 SimulationButton.Content = "Start simulation";
             }

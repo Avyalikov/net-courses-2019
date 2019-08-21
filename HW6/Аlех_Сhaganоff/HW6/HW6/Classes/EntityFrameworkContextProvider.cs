@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HW6.Classes
 {
-    class EntityFrameworkContextProvider : IContextProvider
+    public class EntityFrameworkContextProvider : IContextProvider
     {
         private TradingContext context = new TradingContext();
        

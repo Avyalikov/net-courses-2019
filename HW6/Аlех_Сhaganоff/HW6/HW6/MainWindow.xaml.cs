@@ -31,13 +31,15 @@ namespace HW6
         
         public MainWindow()
         {
-            Logger.InitLogger();
-
+            IDataInteraction dataInteraction = new DataInteraction();
             ISimulation simulation = new Simulation();
             IOutputProvider outputProvider = new OutputToStatusTextBox();
             IContextProvider contextProvider = new EntityFrameworkContextProvider();
+            ILogger logger = new Logger();
+            
+            dataInteraction.Context = contextProvider;
 
-            program = new Program(simulation, outputProvider, contextProvider);
+            program = new Program(dataInteraction, simulation, outputProvider, contextProvider, logger);
             
             InitializeComponent();
             SetVisibilityToCollapsed();
@@ -120,7 +122,11 @@ namespace HW6
                 {
                     Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                     {
-                        program.simulation.PerformRandomOperation(program.dataInteraction, program.outputProvider);
+                        var result = program.simulation.PerformRandomOperation(program.dataInteraction, program.outputProvider, program.logger);
+
+                        program.simulation.UpdateDatabase(program.dataInteraction, program.outputProvider, program.logger,
+                        result.sellerId, result.buyerId, result.shareId, result.sharePrice, result.purchaseQuantity);
+
                         UpdateView();
                     }));
 

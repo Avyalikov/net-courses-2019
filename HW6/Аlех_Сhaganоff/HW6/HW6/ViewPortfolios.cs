@@ -19,8 +19,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using log4net;
-using log4net.Config;
 
 namespace HW6
 {
@@ -80,14 +78,14 @@ namespace HW6
                     program.dataInteraction.SaveChanges();
 
                     program.outputProvider.WriteLine("Porftolio record updated");
-                    Logger.Log.Info("Porftolio record updated");
+                    program.logger.Write("Porftolio record updated");
                 }
                 else
                 {
                     program.dataInteraction.AddPortfolio(traderId, shareId, quantity);
 
                     program.outputProvider.WriteLine("Added new record to portfolio");
-                    Logger.Log.Info("Added new record to portfolio");
+                    program.logger.Write("Added new record to portfolio");
                     PortfolioMessageLabel.Content = string.Empty;
                     program.dataInteraction.SaveChanges();
                 }
@@ -95,7 +93,7 @@ namespace HW6
             catch (Exception ex)
             {
                 program.outputProvider.WriteLine(ex.Message);
-                Logger.Log.Info(ex.Message);
+                program.logger.Write(ex.Message);
                 PortfolioMessageLabel.Content = ex.Message;
             }
             finally
@@ -118,7 +116,7 @@ namespace HW6
             program.dataInteraction.RemovePortfolio(portfolio);
             program.dataInteraction.SaveChanges();
             program.outputProvider.WriteLine("Portfolio deleted");
-            Logger.Log.Info("Portfolio deleted");
+            program.logger.Write("Portfolio deleted");
         }
 
         private void PortfoliosLowerGrid_MouseLeave(object sender, MouseEventArgs e)

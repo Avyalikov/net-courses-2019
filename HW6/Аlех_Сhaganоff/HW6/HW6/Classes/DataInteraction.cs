@@ -9,18 +9,13 @@ using System.Threading.Tasks;
 
 namespace HW6.Classes
 {
-    public class DataInteraction
+    public class DataInteraction : IDataInteraction
     {
-        private IContextProvider context;
+        public IContextProvider Context { get; set; }
         
-        public DataInteraction(IContextProvider contextProvider)
-        {
-            this.context = contextProvider;
-        }
-
         public Portfolio AddPortfolio(int traderId, int shareId, int purchaseQuantity)
         {
-            return context.Portfolios.Add(new DataModel.Portfolio
+            return Context.Portfolios.Add(new DataModel.Portfolio
             {
                 TraderID = traderId,
                 ShareId = shareId,
@@ -30,7 +25,7 @@ namespace HW6.Classes
 
         public Trader AddTrader(string firstName, string lastName, string phoneNumber, decimal balance = 0M)
         {
-            return context.Traders.Add(new DataModel.Trader
+            return Context.Traders.Add(new DataModel.Trader
             {
                 FirstName = firstName,
                 LastName = lastName,
@@ -41,7 +36,7 @@ namespace HW6.Classes
 
         public Transaction AddTransaction(int buyerId, int sellerId, int shareId, decimal sharePrice, int purchaseQuantity)
         {
-            return context.Transactions.Add(new DataModel.Transaction
+            return Context.Transactions.Add(new DataModel.Transaction
             {
                 BuyerId = buyerId,
                 SellerId = sellerId,
@@ -54,72 +49,72 @@ namespace HW6.Classes
 
         public void Dispose()
         {
-            context.Dispose();
+            Context.Dispose();
         }
 
         public List<int> GetAvailableSellers()
         {
-            return context.Portfolios.Where(p => p.Quantity > 0).Select(x => x.TraderID).Distinct().ToList();
+            return Context.Portfolios.Where(p => p.Quantity > 0).Select(x => x.TraderID).Distinct().ToList();
         }
 
         public List<int> GetAvailableShares(int traderId)
         {
-            return context.Portfolios.Where(p => p.TraderID == traderId).Select(x => x.ShareId).ToList();
+            return Context.Portfolios.Where(p => p.TraderID == traderId).Select(x => x.ShareId).ToList();
         }
 
         public int GetNumberOfTraders()
         {
-            return context.Traders.Count();
+            return Context.Traders.Count();
         }
 
         public Portfolio GetPortfolio(int traderId, int shareId)
         {
-            return context.Portfolios.SingleOrDefault(p => p.TraderID == traderId && p.ShareId == shareId);
+            return Context.Portfolios.SingleOrDefault(p => p.TraderID == traderId && p.ShareId == shareId);
         }
 
         public int GetPortfoliosCount(int traderId, int shareId)
         {
-            return context.Portfolios.Where(p => p.TraderID == traderId && p.ShareId == shareId).ToList().Count;
+            return Context.Portfolios.Where(p => p.TraderID == traderId && p.ShareId == shareId).ToList().Count;
         }
 
         public int GetShareCount(int shareId)
         {
-            return context.Shares.Where(t => t.ShareId == shareId).ToList().Count;
+            return Context.Shares.Where(t => t.ShareId == shareId).ToList().Count;
         }
 
         public decimal GetSharePrice(int shareId)
         {
-            return context.Shares.Where(s => s.ShareId == shareId).Select(x => x.Price).FirstOrDefault();
+            return Context.Shares.Where(s => s.ShareId == shareId).Select(x => x.Price).FirstOrDefault();
         }
 
         public int GetShareQuantityFromPortfoio(int traderId, int shareId)
         {
-            return context.Portfolios.Where(p => p.TraderID == traderId && p.ShareId == shareId).Select(x => x.Quantity).FirstOrDefault();
+            return Context.Portfolios.Where(p => p.TraderID == traderId && p.ShareId == shareId).Select(x => x.Quantity).FirstOrDefault();
         }
 
         public Trader GetTrader(int traderId)
         {
-            return context.Traders.SingleOrDefault(t => t.TraderId == traderId);
+            return Context.Traders.SingleOrDefault(t => t.TraderId == traderId);
         }
 
         public int GetTraderCount(int traderId)
         {
-            return context.Traders.Where(t => t.TraderId == traderId).ToList().Count;
+            return Context.Traders.Where(t => t.TraderId == traderId).ToList().Count;
         }
 
         public void RemovePortfolio(Portfolio portfolio)
         {
-            context.Portfolios.Remove(portfolio);
+            Context.Portfolios.Remove(portfolio);
         }
 
         public void RemoveTrader(Trader trader)
         {
-            context.Traders.Remove(trader);
+            Context.Traders.Remove(trader);
         }
 
         public void SaveChanges()
         {
-            context.SaveChanges();
+            Context.SaveChanges();
         }
     }
 }
