@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F344A3DE-069A-4A55-A65E-D20C3A30B89A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Components</RootNamespace>
-    <AssemblyName>Components</AssemblyName>
+    <ProjectGuid>{21F98C4D-F26B-46A5-8E93-6FC9EC7973F9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TradingSimulator</RootNamespace>
+    <AssemblyName>TradingSimulator</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,16 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\TradingSimulatorV1.0\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\TradingSimulatorV1.0\packages\StructureMap.4.7.1\lib\net45\StructureMap.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,25 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleIO.cs" />
-    <Compile Include="DbController.cs" />
-    <Compile Include="JsonPhraseProvider.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{e5035034-0f51-4443-b5f7-308b8b5d5ef8}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataBase\DataBase.csproj">
-      <Project>{74cacd5c-45e0-4106-af96-d474319ca2f5}</Project>
-      <Name>DataBase</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

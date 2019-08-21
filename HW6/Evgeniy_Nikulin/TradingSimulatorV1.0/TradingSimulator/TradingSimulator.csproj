@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0A284585-CE76-4484-8256-2FBC5BAD54F5}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TradingSimulatorV1._0</RootNamespace>
-    <AssemblyName>TradingSimulatorV1.0</AssemblyName>
+    <RootNamespace>TradingSimulator</RootNamespace>
+    <AssemblyName>TradingSimulator</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <Content Include="Resources\enLanguage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -98,8 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{E5035034-0F51-4443-B5F7-308B8B5D5EF8}</Project>
+      <Project>{e5035034-0f51-4443-b5f7-308b8b5d5ef8}</Project>
       <Name>Core</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="..\DataBase\DataBase.csproj">
       <Project>{74cacd5c-45e0-4106-af96-d474319ca2f5}</Project>

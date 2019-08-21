@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulatorV1.0", "TradingSimulatorV1.0.csproj", "{0A284585-CE76-4484-8256-2FBC5BAD54F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator", "TradingSimulator.csproj", "{0A284585-CE76-4484-8256-2FBC5BAD54F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\Core\Core.csproj", "{E5035034-0F51-4443-B5F7-308B8B5D5EF8}"
 EndProject

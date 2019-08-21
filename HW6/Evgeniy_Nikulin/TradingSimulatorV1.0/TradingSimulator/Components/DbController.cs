@@ -1,5 +1,6 @@
 ﻿namespace TradingSimulator.Components
 {
+    using Core;
     using Core.Interfaces;
     using Core.Model;
     using DataBase;
