@@ -139,6 +139,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             blockedMoneyTableRepository.Received(1).Remove(testId);
+            blockedMoneyTableRepository.Received(1).SaveChanges();
         }
     }
 

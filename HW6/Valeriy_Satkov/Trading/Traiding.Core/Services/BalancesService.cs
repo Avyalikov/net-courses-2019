@@ -10,11 +10,11 @@ namespace Traiding.Core.Services
 {
     public class BalancesService
     {
-        private IBalanceTableRepository balanceTableRepository;
+        private IBalanceTableRepository tableRepository;
 
         public BalancesService(IBalanceTableRepository balanceTableRepository)
         {
-            this.balanceTableRepository = balanceTableRepository;
+            this.tableRepository = balanceTableRepository;
         }
 
         public int RegisterNewBalance(BalanceRegistrationInfo args)
@@ -26,21 +26,21 @@ namespace Traiding.Core.Services
                 Status = args.Status
             };
 
-            if (this.balanceTableRepository.Contains(entityToAdd))
+            if (this.tableRepository.Contains(entityToAdd))
             {
                 throw new ArgumentException("Balance for this client has been registered. Can't continue.");
             }
 
-            this.balanceTableRepository.Add(entityToAdd);
+            this.tableRepository.Add(entityToAdd);
 
-            this.balanceTableRepository.SaveChanges();
+            this.tableRepository.SaveChanges();
 
             return entityToAdd.Id;
         }
 
         public void ContainsById(int entityId)
         {
-            if (!this.balanceTableRepository.ContainsById(entityId))
+            if (!this.tableRepository.ContainsById(entityId))
             {
                 throw new ArgumentException("Can't find balance of client by this Id. May it has not been registered.");
             }
@@ -50,24 +50,26 @@ namespace Traiding.Core.Services
         {
             ContainsById(entityId);
 
-            return this.balanceTableRepository.Get(entityId);
+            return this.tableRepository.Get(entityId);
         }        
 
         public void ChangeBalance(int entityId, decimal newAmount)
         {
             ContainsById(entityId);
 
-            this.balanceTableRepository.ChangeAmount(entityId, newAmount);
+            this.tableRepository.ChangeAmount(entityId, newAmount);
+
+            this.tableRepository.SaveChanges();
         }
 
         public IEnumerable<BalanceEntity> GetZeroBalances()
         {
-            return this.balanceTableRepository.GetZeroBalances();
+            return this.tableRepository.GetZeroBalances();
         }
 
         public IEnumerable<BalanceEntity> GetNegativeBalances()
         {
-            return this.balanceTableRepository.GetNegativeBalances();
+            return this.tableRepository.GetNegativeBalances();
         }
     }
 }

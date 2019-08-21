@@ -101,6 +101,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             shareTypeTableRepository.Received(1).SetName(55, newName);
+            shareTypeTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
@@ -117,6 +118,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             shareTypeTableRepository.Received(1).SetCost(55, newCost);
+            shareTypeTableRepository.Received(1).SaveChanges();
         }
     }
 

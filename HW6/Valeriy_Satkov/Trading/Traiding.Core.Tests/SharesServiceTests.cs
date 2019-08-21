@@ -118,6 +118,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             shareTableRepository.Received(1).SetCompanyName(testId, newCompanyName);
+            shareTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
@@ -141,6 +142,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             shareTableRepository.Received(1).SetType(testShareId, newType);
+            shareTableRepository.Received(1).SaveChanges();
         }
     }    
 }

@@ -10,11 +10,11 @@ namespace Traiding.Core.Services
 {
     public class SharesService
     {
-        private IShareTableRepository shareTableRepository;
+        private IShareTableRepository tableRepository;
 
         public SharesService(IShareTableRepository shareTableRepository)
         {
-            this.shareTableRepository = shareTableRepository;
+            this.tableRepository = shareTableRepository;
         }
 
         public int RegisterNewShare(ShareRegistrationInfo args)
@@ -27,21 +27,21 @@ namespace Traiding.Core.Services
                 Status = args.Status
             };
 
-            if (this.shareTableRepository.Contains(entityToAdd))
+            if (this.tableRepository.Contains(entityToAdd))
             {
                 throw new ArgumentException("This share type has been registered. Can't continue.");
             }
 
-            this.shareTableRepository.Add(entityToAdd);
+            this.tableRepository.Add(entityToAdd);
 
-            this.shareTableRepository.SaveChanges();
+            this.tableRepository.SaveChanges();
 
             return entityToAdd.Id;
         }
 
         public void ContainsById(int shareId)
         {
-            if (!this.shareTableRepository.ContainsById(shareId))
+            if (!this.tableRepository.ContainsById(shareId))
             {
                 throw new ArgumentException("Can't find share type by this Id. May it has not been registered.");
             }
@@ -51,21 +51,25 @@ namespace Traiding.Core.Services
         {
             ContainsById(shareId);
 
-            return this.shareTableRepository.Get(shareId);
+            return this.tableRepository.Get(shareId);
         }
 
         public void ChangeCompanyName(int shareId, string newCompanyName)
         {
             ContainsById(shareId);
 
-            this.shareTableRepository.SetCompanyName(shareId, newCompanyName);
+            this.tableRepository.SetCompanyName(shareId, newCompanyName);
+
+            this.tableRepository.SaveChanges();
         }
 
         public void ChangeType(int shareId, ShareTypeEntity newShareType)
         {
             ContainsById(shareId);
 
-            this.shareTableRepository.SetType(shareId, newShareType);
+            this.tableRepository.SetType(shareId, newShareType);
+
+            this.tableRepository.SaveChanges();
         }
     }
 }

@@ -179,6 +179,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             blockedSharesNumberTableRepository.Received(1).Remove(testId);
+            blockedSharesNumberTableRepository.Received(1).SaveChanges();
         }
     }
 }

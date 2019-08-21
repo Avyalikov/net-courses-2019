@@ -146,6 +146,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             sharesNumberTableRepository.Received(1).ChangeNumber(testId, newNumber);
+            sharesNumberTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
@@ -162,6 +163,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             sharesNumberTableRepository.Received(1).Remove(testId);
+            sharesNumberTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]

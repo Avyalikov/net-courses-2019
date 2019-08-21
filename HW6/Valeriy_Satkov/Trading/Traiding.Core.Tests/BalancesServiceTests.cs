@@ -120,6 +120,7 @@ namespace Traiding.Core.Tests
 
             // Assert
             balanceTableRepository.Received(1).ChangeAmount(testId, newAmount);
+            balanceTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]

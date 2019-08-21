@@ -10,11 +10,11 @@ namespace Traiding.Core.Services
 {
     public class ClientsService
     {
-        private readonly IClientTableRepository clientTableRepository;
+        private readonly IClientTableRepository tableRepository;
 
         public ClientsService(IClientTableRepository clientTableRepository)
         {
-            this.clientTableRepository = clientTableRepository;
+            this.tableRepository = clientTableRepository;
         }
 
         public int RegisterNewClient(ClientRegistrationInfo args)
@@ -28,26 +28,26 @@ namespace Traiding.Core.Services
                 Status = args.Status
             };
 
-            if (this.clientTableRepository.Contains(entityToAdd))
+            if (this.tableRepository.Contains(entityToAdd))
             {
                 throw new ArgumentException("This client has been registered. Can't continue.");
             }
 
-            this.clientTableRepository.Add(entityToAdd);
+            this.tableRepository.Add(entityToAdd);
 
-            this.clientTableRepository.SaveChanges();
+            this.tableRepository.SaveChanges();
 
             return entityToAdd.Id;
         }
 
         public ClientEntity GetClient(int clientId)
         {
-            if (!this.clientTableRepository.ContainsById(clientId))
+            if (!this.tableRepository.ContainsById(clientId))
             {
                 throw new ArgumentException("Can't get client by this Id. May it has not been registered.");
             }
 
-            return this.clientTableRepository.Get(clientId);
+            return this.tableRepository.Get(clientId);
         }
     }
 }

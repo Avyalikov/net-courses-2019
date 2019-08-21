@@ -63,6 +63,8 @@ namespace Traiding.Core.Services
             ContainsById(entityId);
 
             this.tableRepository.Remove(entityId);
+
+            this.tableRepository.SaveChanges();
         }
     }
 }

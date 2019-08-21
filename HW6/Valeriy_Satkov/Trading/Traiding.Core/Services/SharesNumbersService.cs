@@ -58,6 +58,8 @@ namespace Traiding.Core.Services
             ContainsById(entityId);
 
             this.tableRepository.ChangeNumber(entityId, newNumber);
+
+            this.tableRepository.SaveChanges();
         }
 
         public IEnumerable<SharesNumberEntity> GetByClient(int clientId)
@@ -75,6 +77,8 @@ namespace Traiding.Core.Services
             ContainsById(entityId);
 
             this.tableRepository.Remove(entityId);
+
+            this.tableRepository.SaveChanges();
         }
     }
 }

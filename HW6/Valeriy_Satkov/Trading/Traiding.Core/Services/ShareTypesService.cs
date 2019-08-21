@@ -10,11 +10,11 @@ namespace Traiding.Core.Services
 {
     public class ShareTypesService
     {
-        private IShareTypeTableRepository shareTypeTableRepository;
+        private IShareTypeTableRepository tableRepository;
 
         public ShareTypesService(IShareTypeTableRepository shareTypeTableRepository)
         {
-            this.shareTypeTableRepository = shareTypeTableRepository;
+            this.tableRepository = shareTypeTableRepository;
         }
 
         public int RegisterNewShareType(ShareTypeRegistrationInfo args)
@@ -26,45 +26,51 @@ namespace Traiding.Core.Services
                 Status = args.Status
             };
 
-            if (this.shareTypeTableRepository.Contains(entityToAdd))
+            if (this.tableRepository.Contains(entityToAdd))
             {
                 throw new ArgumentException("This share type has been registered. Can't continue.");
             }
 
-            this.shareTypeTableRepository.Add(entityToAdd);
+            this.tableRepository.Add(entityToAdd);
 
-            this.shareTypeTableRepository.SaveChanges();
+            this.tableRepository.SaveChanges();
 
             return entityToAdd.Id;
+        }
+
+        public void ContainsById(int shareTypeId)
+        {
+            if (!this.tableRepository.ContainsById(shareTypeId))
+            {
+                throw new ArgumentException("Can't find share type by this Id. May it has not been registered.");
+            }
         }
 
         public ShareTypeEntity GetShareType(int shareTypeId)
         {
             ContainsById(shareTypeId);
 
-            return this.shareTypeTableRepository.Get(shareTypeId);
+            return this.tableRepository.Get(shareTypeId);
         }
 
         public void ChangeName(int shareTypeId, string newName)
         {
             ContainsById(shareTypeId);
 
-            this.shareTypeTableRepository.SetName(shareTypeId, newName);
+            this.tableRepository.SetName(shareTypeId, newName);
+
+            this.tableRepository.SaveChanges();
         }
 
         public void ChangeCost(int shareTypeId, decimal newCost)
         {
             ContainsById(shareTypeId);
 
-            this.shareTypeTableRepository.SetCost(shareTypeId, newCost);
+            this.tableRepository.SetCost(shareTypeId, newCost);
+
+            this.tableRepository.SaveChanges();
         }
 
-        public void ContainsById(int shareTypeId)
-        {
-            if (!this.shareTypeTableRepository.ContainsById(shareTypeId))
-            {
-                throw new ArgumentException("Can't find share type by this Id. May it has not been registered.");
-            }
-        }
+        
     }
 }
