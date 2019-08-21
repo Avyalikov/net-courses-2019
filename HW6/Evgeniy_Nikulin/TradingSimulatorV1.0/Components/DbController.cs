@@ -9,10 +9,14 @@
     public class DbController : IDbController
     {
         private readonly IPhraseProvider provider;
+        private readonly ILoggerService logger;
 
-        public DbController(IPhraseProvider provider)
+        public DbController(
+            IPhraseProvider provider,
+            ILoggerService logger)
         {
             this.provider = provider;
+            this.logger = logger;
         }
         public int GetTraderCount()
         {
@@ -129,6 +133,8 @@
 
                 db.SaveChanges();
             }
+
+            logger.Info(trn.ToString());
         }
 
         public void AddTrader(string Name, string Surname, string Phone, decimal Money, string Reputation)
@@ -145,6 +151,8 @@
 
                 db.SaveChanges();
             }
+
+            logger.Info($"Trader {Name} {Surname} with {Phone} phone and {Money} money is added");
         }
 
         public void AddShareToTrader(string shareName, decimal price, int quantity, int OwnerId)
@@ -164,6 +172,8 @@
                 });
 
                 db.SaveChanges();
+
+                logger.Info($"{quantity} of {shareName} shares with {price} price is added to {owner.Card.Name} {owner.Card.Surname} trader");
             }
         }
 
@@ -179,11 +189,15 @@
                     .Where(s => s.ID == shareId)
                     .Single();
 
+                var oldName = share.Name;
                 share.Name = newName;
                 share.Price = newPrice;
 
                 db.SaveChanges();
+
+                logger.Info($"Share {oldName} changed to {newName} with {newPrice} price at {owner.Card.Name} {owner.Card.Surname} trader");
             }
+
         }
 
         public List<Trader> GetTradersList()

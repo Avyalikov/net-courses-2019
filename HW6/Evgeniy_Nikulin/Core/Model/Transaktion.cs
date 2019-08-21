@@ -29,5 +29,7 @@
                 Quantity = quantity
             };
         }
+
+        public override string ToString() => $"{seller.Name} {seller.Surname} sold {share.Quantity} of {share.Name} to {buyer.Name} {buyer.Surname}";
     }
 }
