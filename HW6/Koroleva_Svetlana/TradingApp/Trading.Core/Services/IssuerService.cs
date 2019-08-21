@@ -25,7 +25,15 @@ namespace Trading.Core.Services
         }
         public void AddIssuer(IssuerInfo args)
         {
-            Issuer issuer = new Issuer() { CompanyName = args.CompanyName, Address = args.Address };
+            Issuer issuer = new Issuer()
+            {
+                CompanyName = args.CompanyName,
+                Address = args.Address
+            };
+            if (this.tableRepository.Contains(issuer))
+            {
+                throw new ArgumentException("This issuer exists. Can't continue");
+            };
             tableRepository.Add(issuer);
             tableRepository.SaveChanges();
 

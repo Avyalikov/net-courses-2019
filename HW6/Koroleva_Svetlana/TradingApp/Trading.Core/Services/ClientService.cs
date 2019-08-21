@@ -19,16 +19,16 @@ namespace Trading.Core.Services
     /// </summary>
     public class ClientService
     {
-       // private readonly ITableRepository clientTableRepository;
-        private readonly IOnePKTableRepository onePKTableRepository;
-        public ClientService( IOnePKTableRepository onePKTableRepository)
+       
+        private  ITableRepository tableRepository;
+
+        public ClientService( ITableRepository tableRepository)
         {
-            //this.clientTableRepository = clientTableRepository;
-            this.onePKTableRepository = onePKTableRepository;
+            this.tableRepository = tableRepository;
         }
 
 
-        public void AddClient(ClientInfo args)
+        public void AddClientToDB(ClientInfo args)
         {
             var clientToAdd = new Client()
             {
@@ -39,46 +39,46 @@ namespace Trading.Core.Services
                 RegistrationDateTime = DateTime.Now
             };
 
-            // if (this.onePKTableRepository.ContainsByID()) ;
-            this.onePKTableRepository.Add(clientToAdd);
-            this.onePKTableRepository.SaveChanges();
+           if (this.tableRepository.Contains(clientToAdd)) {
+                throw new ArgumentException("This client exists. Can't continue");
+            };
+            this.tableRepository.Add(clientToAdd);
+            this.tableRepository.SaveChanges();
         }
 
 
-        public Client GetEntityByID(int clientId)
+      public Client GetEntityByID(int clientId)
         {
-           if (!this.onePKTableRepository.ContainsByID(clientId))
+
+           if (!tableRepository.ContainsByPK(clientId))
             {
                 throw new ArgumentException("Client  doesn't exist");
             }
-            return (Client)onePKTableRepository.GetEntityByID(clientId);
+            return (Client)tableRepository.Find(clientId);
         }
 
 
 
-        public void EditClientBalance(int clientId, decimal sumToAdd)
+       public void EditClientBalance(int clientId, decimal sumToAdd)
         {
             var client = this.GetEntityByID(clientId);
             client.Balance += sumToAdd;
-            onePKTableRepository.SaveChanges();
+            tableRepository.SaveChanges();
         }
 
-        public IEnumerable<Client> FindClientsByRequest()
-        {
-            return (IEnumerable<Client>)onePKTableRepository.FindEntitiesByRequest("");
-        }
-
-       /* public Client GetRandomClient()
+      
+       public Client GetRandomClient()
         {
             Random random = new Random();
-            Client client = null;
-            var clients = db.Clients.Select(o => o).ToList();
-            if (clients != null)
+            int clientsAmount = this.tableRepository.Count();
+           if (clientsAmount == 0)
             {
-                int number = random.Next(clients.Count() - 1);
-                client = clients[number];
+                throw new NullReferenceException("There are no clients to select from");
             }
+                int number = random.Next(1,clientsAmount);
+             Client   client = (Client)tableRepository.GetElementAt(number);
+           
             return client;
-        }*/
+        }
     }
 }

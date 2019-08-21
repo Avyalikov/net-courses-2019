@@ -16,7 +16,7 @@ namespace TradingApp.Repositories
     /// <summary>
     /// ClientStockTableRepository description
     /// </summary>
-    public class ClientStockTableRepository : ITableRepository, ILinkedTableRepository
+   /* public class ClientStockTableRepository : ITableRepository, ILinkedTableRepository
     {
         private readonly ExchangeContext db;
         public ClientStockTableRepository(ExchangeContext db)
@@ -27,6 +27,16 @@ namespace TradingApp.Repositories
         public void Add(object entity)
         {
             this.db.ClientStocks.Add((ClientStock)entity);
+        }
+
+        public void AddRange(IEnumerable<object> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(object entity)
+        {
+            throw new NotImplementedException();
         }
 
         public bool ContainsByCompositeID(int entityId1, int entityId2)
@@ -48,5 +58,5 @@ namespace TradingApp.Repositories
         {
             throw new NotImplementedException();
         }
-    }
+    }*/
 }

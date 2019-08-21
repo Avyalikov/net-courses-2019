@@ -17,8 +17,17 @@ namespace Trading.Core.Repositories
     public interface ITableRepository
     {
         void Add(Object entity);
-        IEnumerable<Object> FindEntitiesByRequest(string arguments);
+        void AddRange(IEnumerable<Object> entities);
+        bool ContainsByPK(params object[] pk);
+        IEnumerable<Object> FindEntitiesByRequestDTO(object DTOarguments);
+        IEnumerable<Object> FindEntitiesByRequest(params object[] arguments);
         void SaveChanges();
-
+        Object Find(params object[] key);
+        bool Contains(Object entity);
+        int Count();
+        Object GetElementAt(int index);
+        Object Single();
+        Object OrderById(int type);
+        Object First();
     }
 }

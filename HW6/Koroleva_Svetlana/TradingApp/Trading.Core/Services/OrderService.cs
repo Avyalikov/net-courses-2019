@@ -4,7 +4,7 @@
 
 namespace Trading.Core.Modifiers
 {
-    using Trading.Core.Interfaces;
+   
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,38 +21,43 @@ namespace Trading.Core.Modifiers
 
     {
         private ITableRepository tableRepository;
-        private readonly IOnePKTableRepository onePKTableRepository;
-
-
-        public OrderService(
-            ITableRepository tableRepository,
-            IOnePKTableRepository onePKTableRepository
-        )
+        
+        public OrderService(ITableRepository tableRepository  )
         {
             this.tableRepository = tableRepository;
-            this.onePKTableRepository = onePKTableRepository;
-           
+         
         }
         public void AddOrder(OrderInfo args)
         {
-            Order order = new Order { ClientID = args.ClientId, StockID = args.StockId, Quantity = args.Quantity, OrderType = (OrderType)args.ordType, IsExecuted = false };
+            Order order = new Order
+            { ClientID = args.ClientId,
+                StockID = args.StockId,
+                Quantity = args.Quantity,
+                OrderType = (OrderType)args.ordType,
+                IsExecuted = false }
+            ;
+            if (this.tableRepository.Contains(order))
+            {
+                throw new ArgumentException("This order exists. Can't continue");
+            };
+
             tableRepository.Add(order);
             tableRepository.SaveChanges();
         }
 
         public Order GetEntityByID(int orderId)
         {
-            if (!this.onePKTableRepository.ContainsByID(orderId))
+            if (!this.tableRepository.ContainsByPK(orderId))
             {
                 throw new ArgumentException("Order doesn't exist");
             }
-            return (Order)this.onePKTableRepository.GetEntityByID(orderId);
+            return (Order)this.tableRepository.Find(orderId);
         }
 
    
-        public void SetIsExecuted(int clientId)
+        public void SetIsExecuted(int orderId)
         {
-            Order order = this.GetEntityByID(clientId);
+            Order order = this.GetEntityByID(orderId);
             order.IsExecuted = true;
             tableRepository.SaveChanges();
           

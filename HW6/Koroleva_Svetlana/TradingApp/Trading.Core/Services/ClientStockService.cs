@@ -12,52 +12,53 @@ namespace Trading.Core.Modifiers
 {
     public class ClientStockService
     {
-        //private readonly ITableRepository tableRepository;
-        private readonly ILinkedTableRepository linkedTableRepository;
+        private readonly ITableRepository tableRepository;
 
-        public ClientStockService( ILinkedTableRepository linkedTableRepository)
+
+        public ClientStockService(ITableRepository tableRepository)
         {
-            
-            this.linkedTableRepository =linkedTableRepository;
+
+            this.tableRepository = tableRepository;
         }
         public void AddClientStock(ClientStockInfo args)
-            {
-               ClientStock clientStock = new ClientStock() { Quantity = args.Amount };
-               this.linkedTableRepository.Add(clientStock);
-               this.linkedTableRepository.SaveChanges();
+        {
+            ClientStock clientStock = new ClientStock() { Quantity = args.Amount };
+            this.tableRepository.Add(clientStock);
+            this.tableRepository.SaveChanges();
 
-            }
+        }
 
         public ClientStock GetEntityByCompositeID(int clientId, int stockId)
         {
-            if (!this.linkedTableRepository.ContainsByCompositeID(clientId, stockId))
+            if (!this.tableRepository.ContainsByPK(clientId, stockId))
             {
                 throw new ArgumentException("Client doesn't exist");
             }
-            return (ClientStock)this.linkedTableRepository.GetEntityByCompositeID(clientId, stockId);
+            return (ClientStock)this.tableRepository.Find(clientId, stockId);
         }
 
         public void EditClientStocksAmount(int clientId, int stockId, int amountToAdd)
         {
-            ClientStock clientStock=this.GetEntityByCompositeID(clientId, stockId);
+            ClientStock clientStock = this.GetEntityByCompositeID(clientId, stockId);
             clientStock.Quantity += amountToAdd;
-            this.linkedTableRepository.SaveChanges();
+            this.tableRepository.SaveChanges();
 
-            
+
 
         }
-       /* public ClientStock GetRandomClientStock(int clientID)
+
+        public ClientStock GetRandomClientStock(int clientID)
         {
             Random random = new Random();
-            ClientStock clstock = null;
-            var clstocks = db.ClientStocks.Where(c=>c.ClientID==clientID).Select(o => o).ToList();
-            if (clstocks == null)
+            int stocksAmount = this.tableRepository.Count();
+            if (stocksAmount == 0)
             {
-                throw new NullReferenceException("No stocks");
+                throw new NullReferenceException("There are no stocks to select from");
             }
-            int number = random.Next(clstocks.Count() - 1);
-                clstock = clstocks[number];
-            return clstock;
-        }*/
+            int number = random.Next(1, stocksAmount);
+            ClientStock clientStock = (ClientStock)tableRepository.GetElementAt(number);
+
+            return clientStock;
+        }
     }
 }

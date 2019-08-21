@@ -1,22 +1,20 @@
-﻿// <copyright file="IStockExchande.cs" company="SKorol">
+﻿// <copyright file="PriceHistoryId.cs" company="SKorol">
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
-namespace Trading.Core.Interfaces
+namespace Trading.Core.DTO
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Trading.Core.Model;
 
     /// <summary>
-    /// IStockExchande description
+    /// PriceHistoryId description
     /// </summary>
-    public interface IStockExchange
+    public class PriceHistoryStockId
     {
-       
-        void RunTraiding();
+        public int StockId { get; set; }
     }
 }

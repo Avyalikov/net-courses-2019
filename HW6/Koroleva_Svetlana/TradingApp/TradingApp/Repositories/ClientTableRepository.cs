@@ -12,41 +12,80 @@ namespace TradingApp.Repositories
     using Trading.Core.Model;
     using Trading.Core.Repositories;
     using TradingApp.DAL;
+    using Trading.Core.DTO;
 
     /// <summary>
     /// ITableRepository description
     /// </summary>
-    public class ClientTableRepository: ITableRepository, IOnePKTableRepository
+    public class ClientTableRepository:  CommonTableRepositoty
     {
-        private readonly ExchangeContext db;
-        public ClientTableRepository(ExchangeContext db)
+       
+        public ClientTableRepository(ExchangeContext db) : base(db)
         {
-            this.db = db;
         }
 
-        public void Add(object entity)
+        public override bool Contains(object entity)
         {
-            this.db.Clients.Add((Client)entity);
+            Client client  = (Client)entity;
+
+            return 
+                
+                this.db.Clients
+                .Any(c => c.FirstName == client.FirstName &&
+                c.LastName == client.LastName &&
+                c.Phone == client.Phone);
         }
 
-        public bool ContainsByID(int entityId)
+        public override bool ContainsByPK(params object[] pk)
         {
-            return this.db.Clients.Any(c=>c.ClientID==entityId);
+            int primaryKey = (int)pk[0];
+            return this.db.Clients.Any(c => c.ClientID == primaryKey);
+
         }
 
-        public IEnumerable<object> FindEntitiesByRequest(string arguments)
+        public override int Count()
+        {
+            return this.db.Clients.Count();
+        }
+
+        public override object Find(params object[] key)
+        {
+            return db.Clients.Find(key);
+                       
+        }
+
+        public override IEnumerable<object> FindEntitiesByRequestDTO( object arguments)
         {
             throw new NotImplementedException();
         }
 
-        public object GetEntityByID(int entityId)
+        public override IEnumerable<object> FindEntitiesByRequest(params object[] arguments)
         {
-            return this.db.Clients.Where(c=>c.ClientID==entityId).Single();
+            throw new NotImplementedException();
         }
 
-        public void SaveChanges()
+        public override object First()
         {
-            this.db.SaveChanges();
+            return this.db.Clients.First();
+        }
+
+        public override object GetElementAt(int position)
+        {
+            return this.db.Clients.OrderBy(c=>c.ClientID).Skip(position-1).Take(1).Single();
+        }
+
+        public override object OrderById(int type)
+        {
+            if (type == 0)
+            {
+                return this.db.Clients.OrderBy(c => c.ClientID);
+            }
+            return this.db.Clients.OrderByDescending(c => c.ClientID);
+        }
+
+        public override object Single()
+        {
+            return this.db.Clients.Single();
         }
     }
 }

@@ -2,7 +2,7 @@
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
-namespace Trading.Core.Modifiers
+namespace Trading.Core.Services
 {
   
     using Trading.Core.Model;
@@ -20,12 +20,12 @@ namespace Trading.Core.Modifiers
     public class PriceHistoryService 
     {
         private ITableRepository tableRepository;
-        private IOnePKTableRepository onePKTableRepository;
+       
 
-        public PriceHistoryService(ITableRepository tableRepository, IOnePKTableRepository onePKTableRepository)
+        public PriceHistoryService(ITableRepository tableRepository)
         {
             this.tableRepository = tableRepository;
-            this.onePKTableRepository = onePKTableRepository;
+           
         }
 
         public void AddPriceInfo(PriceInfo args)
@@ -37,7 +37,10 @@ namespace Trading.Core.Modifiers
                 DateTimeEnd = args.DateTimeEnd,
                 Price = args.Price
             };
-
+            if (this.tableRepository.Contains(priceHistory))
+            {
+                throw new ArgumentException("This price history exists. Can't continue");
+            };
             tableRepository.Add(priceHistory);
             tableRepository.SaveChanges();            
         }
@@ -46,43 +49,60 @@ namespace Trading.Core.Modifiers
 
         public PriceHistory GetEntityByID(int priceHistoryId)
         {
-            if (!this.onePKTableRepository.ContainsByID(priceHistoryId))
+          
+            if (!this.tableRepository.ContainsByPK(priceHistoryId))
             {
                 throw new ArgumentException("PriceHistory doesn't exist");
             }
-            return (PriceHistory)this.onePKTableRepository.GetEntityByID(priceHistoryId);
+            return (PriceHistory)this.tableRepository.Find(priceHistoryId);
         }
 
 
-    
-     /*   public decimal GetPriceByDateTime(DateTime dateTime, int stockId)
+        public IEnumerable<PriceHistory> GetEntityByStockID(int pstockId)
         {
-            var priceInfo = db.PriceHistories.Where(ph => ph.DateTimeBegin <= dateTime && ph.DateTimeEnd >= dateTime).Select(p => p).Where(o => o.StockID == stockId).Select(p => p.Price).Single();
-            return priceInfo;
+               return (IEnumerable<PriceHistory>)this.tableRepository.FindEntitiesByRequest(pstockId);
         }
-        */
-        
-          /*  public decimal GetTransactionPrice(TransactionHistory transaction)
-        {
-            int id = transaction.SalerOrderID;
-            Order saleOrder = orderModifier.GetOrder(id);
-            var priceInfo = db.PriceHistories.Where(ph => ph.DateTimeBegin <= transaction.DateTime && ph.DateTimeEnd >= transaction.DateTime).Select(p => p).Where(o => o.StockID == saleOrder.StockID).Select(p => p.Price).Single();
-            return priceInfo;
-        }*/
 
-        
-        /*   public void EditPrice()
+
+        public decimal GetStockPriceByDateTime(PriceArguments args)
         {
- Random random = new Random();
+            var priceInfos = (IEnumerable<PriceHistory>)this.tableRepository.FindEntitiesByRequestDTO(args);
+            PriceHistory priceinfo = priceInfos.Single();
+            decimal price =priceinfo.Price;
+            return price;
+        }
+
+        //!!
+        public void EditPriceDateEnd(int stockId, DateTime dateTimeEndToSet)
+        {
+            //int[] param = { stockId };
+            var phistories =(IEnumerable<PriceHistory>) this.tableRepository.FindEntitiesByRequest(stockId);
+            //var p2 = GetEntityByStockID(stockId);
+            var last= phistories.OrderByDescending(p => p.PriceHistoryID).First();
+            last.DateTimeEnd = dateTimeEndToSet;
+            tableRepository.SaveChanges();
+        }
+
+        public void SimulatePriceChange(int stockId, DateTime dateTimeX)
+        {
+            Random random = new Random();
             bool isPriceIncreaseExpectation = false;
             if (random.Next(100) >50)
             {
                 isPriceIncreaseExpectation = true;
             }
             double percent = (double)(random.Next(5))/100;
+        
             DateTime dateTimeEnd=DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
             decimal price;
-            db.PriceHistories.Where(pr=>pr.StockID==stockId).OrderByDescending(p => p.PriceHistoryID).First().DateTimeEnd = datetimeX;
+            EditPriceDateEnd(stockId, dateTimeX);
+            PriceArguments arguments = new PriceArguments()
+            {
+                DateTimeLookUp = dateTimeX,
+                StockId = stockId
+
+            };
+            decimal currentPrice = GetStockPriceByDateTime(arguments);
              
             if (isPriceIncreaseExpectation)
             {
@@ -92,9 +112,16 @@ namespace Trading.Core.Modifiers
             {
                 price = currentPrice * (decimal)(1 - percent);
             }
-            PriceHistory priceHistory = new PriceHistory { StockID = stockId, DateTimeBegin = datetimeX.AddSeconds(1), DateTimeEnd = dateTimeEnd, Price = price };
-            db.PriceHistories.Add(priceHistory);
-            db.SaveChanges();
-        }*/
+
+            PriceInfo priceInfo = new PriceInfo
+            {StockId=stockId,
+                DateTimeBegin = dateTimeX.AddSeconds(1),
+                DateTimeEnd = dateTimeEnd,
+                Price = price };
+
+            AddPriceInfo(priceInfo);
+        }
+
+
     }
 }

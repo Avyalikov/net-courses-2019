@@ -17,11 +17,11 @@ namespace TradingApp.Tests
         {
             //Arrange
            // var clientsTableRep = Substitute.For<ITableRepository>();
-            var clientsTableRep2 = Substitute.For<IOnePKTableRepository>();
+            var clientsTableRep2 = Substitute.For<ITableRepository>();
             ClientService clientService = new ClientService( clientsTableRep2);
             ClientInfo clientInfo = new ClientInfo { LastName = "Petrov", FirstName = "Petr", Phone = "1235698", Balance = 1000 };
             //Act
-            clientService.AddClient(clientInfo);
+            clientService.AddClientToDB(clientInfo);
             //Assert
             clientsTableRep2.Received(1).Add(Arg.Is<Client>(
                 w => w.LastName == "Petrov" && w.FirstName == "Petr" && w.Phone == "1235698" && w.Balance == 1000

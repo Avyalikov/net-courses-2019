@@ -10,15 +10,18 @@ using Trading.Core.Services;
 using Trading.Core.Repositories;
 using TradingApp.Repositories;
 using Trading.Core.DTO;
+using Trading.Core.Model;
+
 namespace TradingApp
 {
     class Program
     {
         
 
-private static ExchangeContext db = new ExchangeContext();
-        //private static ITableRepository repository=new ClientTableRepository(db);
-        private static IOnePKTableRepository repositorypart2 = new ClientTableRepository(db);
+        private static ExchangeContext db = new ExchangeContext();
+        private static ITableRepository repository=new ClientTableRepository(db);
+        private static ITableRepository repository2 = new PriceHistoryTableRepository(db);
+        // private static IOnePKTableRepository repositorypart2 = new ClientTableRepository(db);
 
         static void Main(string[] args)
         {
@@ -30,21 +33,44 @@ private static ExchangeContext db = new ExchangeContext();
 
             using (db)
             {
-                ClientService clientService = new ClientService( repositorypart2);
-                clientService.AddClient(new ClientInfo()
+               ClientService clientService = new ClientService( repository);
+                PriceHistoryService priceHistoryService = new PriceHistoryService(repository2);
+                /* clientService.AddClientToDB(new ClientInfo()
+                 {
+                     FirstName = "Fedor1000",
+                     LastName = "Iv",
+                     Phone = "1234567",
+                     Balance = 1000,
+
+                 }
+                 );
+                 clientService.AddClientToDB(new ClientInfo()
+                 {
+                     FirstName = "Fedor200",
+                     LastName = "Iv",
+                     Phone = "1234567",
+                     Balance = 1000,
+
+                 });*/
+                //clientService.EditClientBalance(2,203);
+                // var client= clientService.GetEntityByID(2);
+                PriceArguments priceArguments = new PriceArguments()
                 {
-                    FirstName = "Fedor",
-                    LastName = "Iv",
-                    Phone = "1234567",
-                    Balance = 1000,
+                    DateTimeLookUp = DateTime.Now,
+                    StockId = 2
+                };
 
-                }
+                //var price = priceHistoryService.GetStockPriceByDateTime(priceArguments);
+                priceHistoryService.SimulatePriceChange(2, DateTime.Now);
 
-                
-                );
-              
+             
+        };
+               
+              /*  IEnumerable<Client> clientsToAdd = new List<Client>() { c1, c2 };
+                db.Clients.AddRange(clientsToAdd);
+                db.SaveChanges();
                var client = clientService.GetEntityByID(2);
-                
+                */
                
                // logger.Info("Trading is started");
                
@@ -53,4 +79,4 @@ private static ExchangeContext db = new ExchangeContext();
             }
         }
     }
-}
+

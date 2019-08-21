@@ -19,39 +19,52 @@ namespace Trading.Core.Modifiers
     public class StockService
     {
         private ITableRepository tableRepository;
-        private readonly IOnePKTableRepository onePKTableRepository;
-        public StockService(ITableRepository tableRepository, IOnePKTableRepository onePKTableRepository)
+      
+        public StockService(ITableRepository tableRepository)
         {
             this.tableRepository = tableRepository;
-            this.onePKTableRepository = onePKTableRepository;
+          
         }
         public void AddStock(StockInfo args)
         {
-            var stock = new Stock() {StockPrefix=args.StockPrefix, IssuerID= args.IssuerId, StockType=(StockType)args.ShareType };
-            tableRepository.Add(stock);
+            var stockToAdd = new Stock()
+            {
+                StockPrefix =args.StockPrefix,
+                IssuerID = args.IssuerId,
+                StockType =(StockType)args.ShareType
+            };
+            if (this.tableRepository.Contains(stockToAdd))
+            {
+                throw new ArgumentException("This stock exists. Can't continue");
+            };
+            tableRepository.Add(stockToAdd);
             tableRepository.SaveChanges();
 
         }
         public Stock GetStockByID(int id)
         {
-            if (!this.onePKTableRepository.ContainsByID(id))
+            if (!this.tableRepository.ContainsByPK(id))
             {
                 throw new ArgumentException("Stock doesn't exist");
             }
-            return (Stock)this.onePKTableRepository.GetEntityByID(id);
+            return (Stock)this.tableRepository.Find(id);
         }
 
-       /* public Stock GetRandomStock()
+        public Stock GetRandomStock()
         {
             Random random = new Random();
-           Stock stock = null;
-            var stocks = db.Stocks.Select(o => o).ToList();
-            if (stocks != null)
+            int stocksAmount = this.tableRepository.Count();
+            if (stocksAmount == 0)
             {
-                int number = random.Next(stocks.Count() - 1);
-                stock = stocks[number];
+                throw new NullReferenceException("There are no stocks to select from");
             }
+            int number = random.Next(1, stocksAmount);
+            Stock stock = (Stock)tableRepository.GetElementAt(number);
+
             return stock;
-        }*/
+        }
+
+        
+       
     }
 }

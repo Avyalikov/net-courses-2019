@@ -19,5 +19,6 @@ namespace Trading.Core.DTO
         public string LastName { get; set; }
         public string Phone { get; set; }
         public decimal Balance { get; set; }
+       
     }
 }
