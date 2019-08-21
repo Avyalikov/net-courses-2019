@@ -34,7 +34,7 @@ namespace TradingApp.DAL
         public DbSet<PriceHistory> PriceHistories { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<TransactionHistory> transactionHistories { get; set; }
+        public DbSet<TransactionHistory> TransactionHistories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

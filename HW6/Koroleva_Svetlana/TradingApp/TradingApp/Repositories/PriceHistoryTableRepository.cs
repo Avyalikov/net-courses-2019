@@ -102,5 +102,13 @@ namespace TradingApp.Repositories
             return pricehistory;
 
         }
+
+
+        public override IEnumerable<object> Where(params object[] arguments)
+        {
+            //for StockID
+            int stocktId = (int)arguments[0];
+            return db.PriceHistories.Where(c => c.StockID == stocktId);
+        }
     }
 }

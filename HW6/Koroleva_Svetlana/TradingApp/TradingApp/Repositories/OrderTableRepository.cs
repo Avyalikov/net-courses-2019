@@ -1,8 +1,4 @@
-﻿// <copyright file="ClientStockTableRepository.cs" company="SKorol">
-// Copyright (c) SKorol. All rights reserved.
-// </copyright>
-
-namespace TradingApp.Repositories
+﻿namespace TradingApp.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -12,43 +8,43 @@ namespace TradingApp.Repositories
     using Trading.Core.Model;
     using Trading.Core.Repositories;
     using TradingApp.DAL;
+    using Trading.Core.DTO;
 
     /// <summary>
-    /// ClientStockTableRepository description
+    /// orderTableRepository description
     /// </summary>
-   public class ClientStockTableRepository : CommonTableRepositoty
+    public class OrderTableRepository : CommonTableRepositoty
     {
-        
-        public ClientStockTableRepository(ExchangeContext db):base(db)
+        public OrderTableRepository(ExchangeContext db) : base(db)
         {
-            
         }
+
         public override bool Contains(object entity)
         {
-            ClientStock ClientStock = (ClientStock)entity;
+            Order order = (Order)entity;
 
             return
 
-                this.db.ClientStocks
-                .Any(c => c.ClientID == ClientStock.ClientID &&
-                c.StockID== ClientStock.StockID );
+                this.db.Orders
+                .Any(c => c.ClientID == order.ClientID &&
+                c.StockID == order.StockID &&
+                c.OrderType == order.OrderType);
         }
 
         public override bool ContainsByPK(params object[] pk)
         {
-            int primaryKeyPart1 = (int)pk[0];
-            int primaryKeyPart2 = (int)pk[1];
-            return this.db.ClientStocks.Any(c => c.ClientID == primaryKeyPart1&& c.StockID==primaryKeyPart2);
+            int primaryKey = (int)pk[0];
+            return this.db.Orders.Any(c => c.OrderID == primaryKey);
         }
 
         public override int Count()
         {
-            return this.db.ClientStocks.Count();
+            return this.db.Orders.Count();
         }
 
         public override object Find(params object[] key)
         {
-            return db.ClientStocks.Find(key);
+            return db.Orders.Find(key);
         }
 
         public override IEnumerable<object> FindEntitiesByRequest(params object[] arguments)
@@ -63,33 +59,34 @@ namespace TradingApp.Repositories
 
         public override object First()
         {
-            return this.db.ClientStocks.First();
+            return this.db.Orders.First();
         }
 
         public override object GetElementAt(int position)
         {
-            return this.db.ClientStocks.OrderBy(c => c.ClientID).ThenBy(c=>c.StockID).Skip(position - 1).Take(1).Single();
+            return this.db.Orders.OrderBy(c => c.OrderID).Skip(position - 1).Take(1).Single();
         }
 
         public override object OrderById(int type)
         {
             if (type == 0)
             {
-                return this.db.ClientStocks.OrderBy(c => c.ClientID).ThenBy(c=>c.StockID);
+                return this.db.Orders.OrderBy(c => c.OrderID);
             }
-            return this.db.ClientStocks.OrderByDescending(c => c.ClientID).ThenByDescending(c => c.StockID);
+            return this.db.Orders.OrderByDescending(c => c.OrderID);
         }
 
         public override object Single()
         {
-            return this.db.ClientStocks.Single();
+            return this.db.Orders.Single();
         }
+
 
         public override IEnumerable<object> Where(params object[] arguments)
         {
             //for ClientID
             int clientId = (int)arguments[0];
-            return db.ClientStocks.Where(c=>c.ClientID==clientId);
+            return db.Orders.Where(c => c.ClientID == clientId);
         }
     }
 }

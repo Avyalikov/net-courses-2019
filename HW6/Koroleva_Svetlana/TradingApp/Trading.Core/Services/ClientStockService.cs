@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trading.Core.Modifiers
+namespace Trading.Core.Services
 {
     public class ClientStockService
     {
@@ -20,10 +20,24 @@ namespace Trading.Core.Modifiers
 
             this.tableRepository = tableRepository;
         }
+
+        
+
         public void AddClientStock(ClientStockInfo args)
         {
-            ClientStock clientStock = new ClientStock() { Quantity = args.Amount };
-            this.tableRepository.Add(clientStock);
+            var clientstockToAdd = new ClientStock()
+        {
+           ClientID=args.ClientId,
+           StockID=args.StockId,
+           Quantity=args.Amount
+           
+        };
+            if (this.tableRepository.Contains(clientstockToAdd))
+            {
+                throw new ArgumentException("This clientstock exists. Can't continue");
+            };
+
+            this.tableRepository.Add(clientstockToAdd);
             this.tableRepository.SaveChanges();
 
         }
@@ -39,8 +53,20 @@ namespace Trading.Core.Modifiers
 
         public void EditClientStocksAmount(int clientId, int stockId, int amountToAdd)
         {
+
+if (!this.tableRepository.ContainsByPK(clientId, stockId))
+            {
+                AddClientStock(new ClientStockInfo()
+                {
+                    ClientId=clientId,
+                    StockId=stockId,
+                    Amount=amountToAdd
+                });
+            }
             ClientStock clientStock = this.GetEntityByCompositeID(clientId, stockId);
-            clientStock.Quantity += amountToAdd;
+            
+
+                clientStock.Quantity += amountToAdd;
             this.tableRepository.SaveChanges();
 
 
@@ -50,13 +76,14 @@ namespace Trading.Core.Modifiers
         public ClientStock GetRandomClientStock(int clientID)
         {
             Random random = new Random();
-            int stocksAmount = this.tableRepository.Count();
+            var clientStocks = this.tableRepository.Where(clientID).ToList();
+            int stocksAmount = clientStocks.Count();
             if (stocksAmount == 0)
             {
                 throw new NullReferenceException("There are no stocks to select from");
             }
-            int number = random.Next(1, stocksAmount);
-            ClientStock clientStock = (ClientStock)tableRepository.GetElementAt(number);
+            int number = random.Next(0, stocksAmount-1);
+            ClientStock clientStock = (ClientStock)clientStocks[number];
 
             return clientStock;
         }

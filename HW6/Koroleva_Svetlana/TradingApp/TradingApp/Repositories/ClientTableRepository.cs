@@ -87,5 +87,12 @@ namespace TradingApp.Repositories
         {
             return this.db.Clients.Single();
         }
+
+        public override IEnumerable<object> Where(params object[] arguments)
+        {
+            //for ClientID
+            int clientId = (int)arguments[0];
+            return db.Clients.Where(c => c.ClientID == clientId);
+        }
     }
 }

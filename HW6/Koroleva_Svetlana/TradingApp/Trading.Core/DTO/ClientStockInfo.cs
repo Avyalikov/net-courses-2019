@@ -15,6 +15,8 @@ namespace Trading.Core.DTO
     /// </summary>
     public class ClientStockInfo
     {
+        public int ClientId { get; set; }
+        public int StockId { get; set; }
        public int Amount { get; set; }
     }
 }

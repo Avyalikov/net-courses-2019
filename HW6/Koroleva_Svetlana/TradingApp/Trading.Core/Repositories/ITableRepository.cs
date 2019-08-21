@@ -25,9 +25,10 @@ namespace Trading.Core.Repositories
         Object Find(params object[] key);
         bool Contains(Object entity);
         int Count();
-        Object GetElementAt(int index);
+        Object GetElementAt(int position);
         Object Single();
         Object OrderById(int type);
         Object First();
+        IEnumerable<Object> Where(params object[] arguments);
     }
 }

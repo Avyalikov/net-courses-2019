@@ -19,7 +19,7 @@ namespace TradingApp.Repositories
     public abstract class CommonTableRepositoty : ITableRepository
     {
 
-        internal readonly ExchangeContext db;
+        public readonly ExchangeContext db;
         public CommonTableRepositoty (ExchangeContext db)
         {
             this.db = db;
@@ -55,12 +55,13 @@ namespace TradingApp.Repositories
         public abstract bool ContainsByPK(params object[] PK);
 
         public abstract int Count();
-        public abstract object GetElementAt(int index);
+        public abstract object GetElementAt(int position);
 
         public abstract object Single();
         public abstract Object OrderById(int type);
 
         public abstract object First();
         public abstract IEnumerable<object> FindEntitiesByRequest(params object[] arguments);
+        public abstract IEnumerable<object> Where(params object[] arguments);
     }
 }

@@ -9,7 +9,7 @@ using Trading.Core.DTO;
 
 
 
-namespace Trading.Core.Modifiers
+namespace Trading.Core.Services
 {
     class TransactionHistoryService
     {
@@ -24,7 +24,12 @@ namespace Trading.Core.Modifiers
 
         public void AddTransactionInfo(TransactionInfo args)
         {
-            var transactionInfo = new TransactionHistory() { CustomerOrderID=args.CustomerOrderId, SalerOrderID=args.SalerOrderId, TransactionDateTime=args.TrDateTime};
+            var transactionInfo = new TransactionHistory()
+            {
+                CustomerOrderID =args.CustomerOrderId,
+                SalerOrderID =args.SalerOrderId,
+                TransactionDateTime =args.TrDateTime
+            };
             tableRepository.Add(transactionInfo);
             tableRepository.SaveChanges();
 

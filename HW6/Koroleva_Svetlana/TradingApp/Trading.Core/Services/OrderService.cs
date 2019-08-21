@@ -2,7 +2,7 @@
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
-namespace Trading.Core.Modifiers
+namespace Trading.Core.Services
 {
    
     using System;
@@ -36,10 +36,11 @@ namespace Trading.Core.Modifiers
                 OrderType = (OrderType)args.ordType,
                 IsExecuted = false }
             ;
-            if (this.tableRepository.Contains(order))
+           /* if (this.tableRepository.Contains(order))
             {
-                throw new ArgumentException("This order exists. Can't continue");
-            };
+
+                //throw new ArgumentException("This order exists. Can't continue");
+            };*/
 
             tableRepository.Add(order);
             tableRepository.SaveChanges();
@@ -54,10 +55,15 @@ namespace Trading.Core.Modifiers
             return (Order)this.tableRepository.Find(orderId);
         }
 
-   
-        public void SetIsExecuted(int orderId)
+        public Order lastOrder()
         {
-            Order order = this.GetEntityByID(orderId);
+            int orderAmount = this.tableRepository.Count();
+            return (Order)tableRepository.GetElementAt(orderAmount);
+
+        }
+   
+        public void SetIsExecuted(Order order)
+        {
             order.IsExecuted = true;
             tableRepository.SaveChanges();
           
