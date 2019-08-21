@@ -15,10 +15,13 @@ namespace Trading.Core.Modifiers
     {
 
         private ITableRepository tableRepository;
-        public TransactionHistoryService(ITableRepository tableRepository)
+        private readonly IOnePKTableRepository onePKTableRepository;
+        public TransactionHistoryService(ITableRepository tableRepository, IOnePKTableRepository onePKTableRepository)
         {
             this.tableRepository = tableRepository;
+            this.onePKTableRepository = onePKTableRepository;
         }
+
         public void AddTransactionInfo(TransactionInfo args)
         {
             var transactionInfo = new TransactionHistory() { CustomerOrderID=args.CustomerOrderId, SalerOrderID=args.SalerOrderId, TransactionDateTime=args.TrDateTime};
@@ -28,11 +31,11 @@ namespace Trading.Core.Modifiers
         }
         public TransactionHistory GetTransactionByID(int id)
         {
-            if (this.tableRepository.ContainsByID(id))
+            if (!this.onePKTableRepository.ContainsByID(id))
             {
                 throw new ArgumentException("Transaction doesn't exist");
             }
-            return (TransactionHistory)tableRepository.GetEntityByID(id);
+            return (TransactionHistory)this.onePKTableRepository.GetEntityByID(id);
         }
 
        

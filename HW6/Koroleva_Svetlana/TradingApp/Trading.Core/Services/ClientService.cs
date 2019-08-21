@@ -19,11 +19,12 @@ namespace Trading.Core.Services
     /// </summary>
     public class ClientService
     {
-        private readonly ITableRepository clientTableRepository;
+       // private readonly ITableRepository clientTableRepository;
         private readonly IOnePKTableRepository onePKTableRepository;
-        public ClientService(ITableRepository clientTableRepository)
+        public ClientService( IOnePKTableRepository onePKTableRepository)
         {
-            this.clientTableRepository = clientTableRepository;
+            //this.clientTableRepository = clientTableRepository;
+            this.onePKTableRepository = onePKTableRepository;
         }
 
 
@@ -37,16 +38,20 @@ namespace Trading.Core.Services
                 Balance = args.Balance,
                 RegistrationDateTime = DateTime.Now
             };
+
+            // if (this.onePKTableRepository.ContainsByID()) ;
+            this.onePKTableRepository.Add(clientToAdd);
+            this.onePKTableRepository.SaveChanges();
         }
 
 
         public Client GetEntityByID(int clientId)
         {
-            if (this.clientTableRepository.ContainsByID(clientId))
+           if (!this.onePKTableRepository.ContainsByID(clientId))
             {
-                throw new ArgumentException("Client doesn't exist");
+                throw new ArgumentException("Client  doesn't exist");
             }
-            return (Client)clientTableRepository.GetEntityByID(clientId);
+            return (Client)onePKTableRepository.GetEntityByID(clientId);
         }
 
 
@@ -55,12 +60,12 @@ namespace Trading.Core.Services
         {
             var client = this.GetEntityByID(clientId);
             client.Balance += sumToAdd;
-            clientTableRepository.SaveChanges();
+            onePKTableRepository.SaveChanges();
         }
 
         public IEnumerable<Client> FindClientsByRequest()
         {
-            return (IEnumerable<Client>)clientTableRepository.FindEntitiesByRequest("");
+            return (IEnumerable<Client>)onePKTableRepository.FindEntitiesByRequest("");
         }
 
        /* public Client GetRandomClient()

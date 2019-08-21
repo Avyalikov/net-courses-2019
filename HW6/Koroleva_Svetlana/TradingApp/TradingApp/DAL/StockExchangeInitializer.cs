@@ -48,16 +48,16 @@ namespace TradingApp.DAL
 
             var clients = new List<Client>
             {
-                new Client{LastName="Petr", FirstName="Ivanov", Phone="1234567", Balance=10000 },
-                new Client{LastName="Ivan", FirstName="Petrov", Phone="1234577", Balance=10000 },
-                new Client{LastName="Pavel", FirstName="Vasiliev", Phone="1234587", Balance=10000 },
-                new Client{LastName="Bob", FirstName="Abramov", Phone="1234597", Balance=10000 },
-                new Client{LastName="Ivan", FirstName="Deripasov", Phone="1234561", Balance=10000 },
-                new Client{LastName="Ivan", FirstName="Grevov", Phone="1234562", Balance=10000},
-                new Client{LastName="Ivan", FirstName="Sidorov", Phone="1234563", Balance=10000 },
-                new Client{LastName="Michael", FirstName="Smit", Phone="1234564", Balance=10000},
-                new Client{LastName="Paul", FirstName="Shon", Phone="1234565", Balance=10000 },
-                new Client{LastName="Jack", FirstName="Li", Phone="1234566", Balance=10000}
+                new Client{LastName="Petr", FirstName="Ivanov", Phone="1234567", Balance=10000, RegistrationDateTime=DateTime.Now },
+                new Client{LastName="Ivan", FirstName="Petrov", Phone="1234577", Balance=10000, RegistrationDateTime=DateTime.Now  },
+                new Client{LastName="Pavel", FirstName="Vasiliev", Phone="1234587", Balance=10000, RegistrationDateTime=DateTime.Now  },
+                new Client{LastName="Bob", FirstName="Abramov", Phone="1234597", Balance=10000,RegistrationDateTime=DateTime.Now  },
+                new Client{LastName="Ivan", FirstName="Deripasov", Phone="1234561", Balance=10000, RegistrationDateTime=DateTime.Now  },
+                new Client{LastName="Ivan", FirstName="Grevov", Phone="1234562", Balance=10000, RegistrationDateTime=DateTime.Now },
+                new Client{LastName="Ivan", FirstName="Sidorov", Phone="1234563", Balance=10000, RegistrationDateTime=DateTime.Now  },
+                new Client{LastName="Michael", FirstName="Smit", Phone="1234564", Balance=10000, RegistrationDateTime=DateTime.Now },
+                new Client{LastName="Paul", FirstName="Shon", Phone="1234565", Balance=10000, RegistrationDateTime=DateTime.Now  },
+                new Client{LastName="Jack", FirstName="Li", Phone="1234566", Balance=10000, RegistrationDateTime=DateTime.Now }
             };
 
             clients.ForEach(c => context.Clients.Add(c));

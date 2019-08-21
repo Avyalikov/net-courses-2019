@@ -66,9 +66,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TradingApp\TradingApp.csproj">
-      <Project>{0acd13d4-653e-4ed1-9e41-5c87861e52f2}</Project>
-      <Name>TradingApp</Name>
+    <ProjectReference Include="..\Trading.Core\Trading.Core.csproj">
+      <Project>{efa9898a-3357-49eb-80e1-959a4a4b77a1}</Project>
+      <Name>Trading.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

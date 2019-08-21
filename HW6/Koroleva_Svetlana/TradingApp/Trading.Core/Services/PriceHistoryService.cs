@@ -20,11 +20,12 @@ namespace Trading.Core.Modifiers
     public class PriceHistoryService 
     {
         private ITableRepository tableRepository;
+        private IOnePKTableRepository onePKTableRepository;
 
-        public PriceHistoryService(ITableRepository tableRepository)
+        public PriceHistoryService(ITableRepository tableRepository, IOnePKTableRepository onePKTableRepository)
         {
             this.tableRepository = tableRepository;
-
+            this.onePKTableRepository = onePKTableRepository;
         }
 
         public void AddPriceInfo(PriceInfo args)
@@ -45,11 +46,11 @@ namespace Trading.Core.Modifiers
 
         public PriceHistory GetEntityByID(int priceHistoryId)
         {
-            if (this.tableRepository.ContainsByID(priceHistoryId))
+            if (!this.onePKTableRepository.ContainsByID(priceHistoryId))
             {
                 throw new ArgumentException("PriceHistory doesn't exist");
             }
-            return (PriceHistory)tableRepository.GetEntityByID(priceHistoryId);
+            return (PriceHistory)this.onePKTableRepository.GetEntityByID(priceHistoryId);
         }
 
 

@@ -12,33 +12,36 @@ namespace Trading.Core.Modifiers
 {
     public class ClientStockService
     {
-        private readonly ITableRepository tableRepository;
-        public ClientStockService(ITableRepository tableRepository)
+        //private readonly ITableRepository tableRepository;
+        private readonly ILinkedTableRepository linkedTableRepository;
+
+        public ClientStockService( ILinkedTableRepository linkedTableRepository)
         {
-            this.tableRepository = tableRepository;
+            
+            this.linkedTableRepository =linkedTableRepository;
         }
         public void AddClientStock(ClientStockInfo args)
             {
                ClientStock clientStock = new ClientStock() { Quantity = args.Amount };
-               tableRepository.Add(clientStock);
-               tableRepository.SaveChanges();
+               this.linkedTableRepository.Add(clientStock);
+               this.linkedTableRepository.SaveChanges();
 
             }
 
         public ClientStock GetEntityByCompositeID(int clientId, int stockId)
         {
-            if (this.tableRepository.ContainsByCompositeID(clientId, stockId))
+            if (!this.linkedTableRepository.ContainsByCompositeID(clientId, stockId))
             {
                 throw new ArgumentException("Client doesn't exist");
             }
-            return (ClientStock)tableRepository.GetEntityByCompositeID(clientId, stockId);
+            return (ClientStock)this.linkedTableRepository.GetEntityByCompositeID(clientId, stockId);
         }
 
         public void EditClientStocksAmount(int clientId, int stockId, int amountToAdd)
         {
             ClientStock clientStock=this.GetEntityByCompositeID(clientId, stockId);
             clientStock.Quantity += amountToAdd;
-            this.tableRepository.SaveChanges();
+            this.linkedTableRepository.SaveChanges();
 
             
 

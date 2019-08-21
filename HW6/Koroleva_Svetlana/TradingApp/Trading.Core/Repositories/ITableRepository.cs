@@ -19,5 +19,6 @@ namespace Trading.Core.Repositories
         void Add(Object entity);
         IEnumerable<Object> FindEntitiesByRequest(string arguments);
         void SaveChanges();
+
     }
 }

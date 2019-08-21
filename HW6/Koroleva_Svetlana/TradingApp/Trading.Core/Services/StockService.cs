@@ -19,9 +19,11 @@ namespace Trading.Core.Modifiers
     public class StockService
     {
         private ITableRepository tableRepository;
-        public StockService(ITableRepository tableRepository)
+        private readonly IOnePKTableRepository onePKTableRepository;
+        public StockService(ITableRepository tableRepository, IOnePKTableRepository onePKTableRepository)
         {
             this.tableRepository = tableRepository;
+            this.onePKTableRepository = onePKTableRepository;
         }
         public void AddStock(StockInfo args)
         {
@@ -32,11 +34,11 @@ namespace Trading.Core.Modifiers
         }
         public Stock GetStockByID(int id)
         {
-            if (this.tableRepository.ContainsByID(id))
+            if (!this.onePKTableRepository.ContainsByID(id))
             {
                 throw new ArgumentException("Stock doesn't exist");
             }
-            return (Stock)tableRepository.GetEntityByID(id);
+            return (Stock)this.onePKTableRepository.GetEntityByID(id);
         }
 
        /* public Stock GetRandomStock()

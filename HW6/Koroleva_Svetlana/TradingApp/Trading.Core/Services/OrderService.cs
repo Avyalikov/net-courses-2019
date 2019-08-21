@@ -21,13 +21,16 @@ namespace Trading.Core.Modifiers
 
     {
         private ITableRepository tableRepository;
-            
+        private readonly IOnePKTableRepository onePKTableRepository;
 
-        public  OrderService(
-            ITableRepository tableRepository
+
+        public OrderService(
+            ITableRepository tableRepository,
+            IOnePKTableRepository onePKTableRepository
         )
         {
             this.tableRepository = tableRepository;
+            this.onePKTableRepository = onePKTableRepository;
            
         }
         public void AddOrder(OrderInfo args)
@@ -39,11 +42,11 @@ namespace Trading.Core.Modifiers
 
         public Order GetEntityByID(int orderId)
         {
-            if (this.tableRepository.ContainsByID(orderId))
+            if (!this.onePKTableRepository.ContainsByID(orderId))
             {
                 throw new ArgumentException("Order doesn't exist");
             }
-            return (Order)tableRepository.GetEntityByID(orderId);
+            return (Order)this.onePKTableRepository.GetEntityByID(orderId);
         }
 
    

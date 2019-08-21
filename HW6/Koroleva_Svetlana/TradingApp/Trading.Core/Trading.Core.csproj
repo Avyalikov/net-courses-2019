@@ -30,9 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute, Version=4.2.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.4.2.1\lib\net46\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,8 +66,6 @@
     <Compile Include="Interfaces\IStockExchange.cs" />
     <Compile Include="Interfaces\IStockModifier.cs" />
     <Compile Include="Interfaces\ITransactionModifier.cs" />
-    <Compile Include="Repositories\IClientStockTableRepository.cs" />
-    <Compile Include="Repositories\IClientTableRepository.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ClientStock.cs" />
     <Compile Include="Model\Issuer.cs" />
@@ -65,12 +73,9 @@
     <Compile Include="Model\PriceHistory.cs" />
     <Compile Include="Model\Stock.cs" />
     <Compile Include="Model\TransactionHistory.cs" />
-    <Compile Include="Repositories\IIssuerTableRepository.cs" />
-    <Compile Include="Repositories\IOrderTableRepository.cs" />
-    <Compile Include="Repositories\IPriceHistoryTableRepository.cs" />
-    <Compile Include="Repositories\IStockTableRepository.cs" />
+    <Compile Include="Repositories\ILinkedTableRepository.cs" />
+    <Compile Include="Repositories\IOnePKTableRepository.cs" />
     <Compile Include="Repositories\ITableRepository.cs" />
-    <Compile Include="Repositories\ITransactionHistTabRepository.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ClientStockService.cs" />
     <Compile Include="Services\IssuerService.cs" />
@@ -80,6 +85,8 @@
     <Compile Include="Services\TransactionHistoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

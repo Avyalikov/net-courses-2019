@@ -14,7 +14,7 @@ namespace Trading.Core.Repositories
     /// <summary>
     /// ITableRepository description
     /// </summary>
-    public interface IOnePKTableRepository
+    public interface IOnePKTableRepository:ITableRepository
     {
         bool ContainsByID(int entityId);
         Object GetEntityByID(int entityId);

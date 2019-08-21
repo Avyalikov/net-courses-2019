@@ -14,7 +14,7 @@ namespace Trading.Core.Repositories
     /// <summary>
     /// ITableRepository description
     /// </summary>
-    public interface ILinkedTableRepository
+    public interface ILinkedTableRepository:ITableRepository
     {
         bool ContainsByCompositeID(int entityId1, int entityId2);
         Object GetEntityByCompositeID(int entityId1, int entityId2);
