@@ -23,5 +23,11 @@ namespace stockSimulator.Core.Tests
         {
             throw new NotImplementedException();
         }
+
+        [TestMethod]
+        public void ShouldReturnListOfClientsInBlackZone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

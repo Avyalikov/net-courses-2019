@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using stockSimulator.Core.DTO;
 using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
 using stockSimulator.Core.Services;
@@ -17,7 +18,7 @@ namespace stockSimulator.Core.Tests
             //Arrange
             var clientTableRepository = Substitute.For<IClientTableRepository>();
             ClientService clientService = new ClientService(clientTableRepository);
-            ClientReservationInfo args = new ClientReservationInfo();
+            ClientRegistrationInfo args = new ClientRegistrationInfo();
             args.Name = "Alex";
             args.Surname = "Swift";
             args.PhoneNumber = "+7956159357";
@@ -39,20 +40,58 @@ namespace stockSimulator.Core.Tests
         [ExpectedException(typeof(ArgumentException), "This client has been registered already. Can't continue")]
         public void ShouldNotRegisterNewClientIfItExists()
         {
-            throw new NotImplementedException();
+            //Arrange
+            var clientTableRepository = Substitute.For<IClientTableRepository>();
+            ClientService clientService = new ClientService(clientTableRepository);
+            ClientRegistrationInfo args = new ClientRegistrationInfo();
+            args.Name = "Alex";
+            args.Surname = "Swift";
+            args.PhoneNumber = "+7956159357";
+            args.AccountBalance = 9000;
+
+            //Act
+            clientService.RegisterNewClient(args);
+
+            clientTableRepository.Contains(Arg.Is<ClientEntity>(
+                c => c.Name == args.Name
+                && c.Surname == args.Surname
+                && c.PhoneNumber == args.PhoneNumber
+                && c.AccountBalance == args.AccountBalance)).Returns(true);
+
+            clientService.RegisterNewClient(args);
+
+            //Assert
         }
 
         [TestMethod]
         public void ShouldGetClientInfo()
         {
-            throw new NotImplementedException();
+            //Arrange
+            var clientTableRepository = Substitute.For<IClientTableRepository>();
+            clientTableRepository.ContainsById(Arg.Is(187)).Returns(true);
+            ClientService clientService = new ClientService(clientTableRepository);
+
+            //Act
+            var client = clientService.GetClient(187);
+
+            //Assert
+            clientTableRepository.Received(1).Get(187);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "Can't get client by this Id. May it has not been registered yet")]
+        [ExpectedException(typeof(ArgumentException), "Can't get client by this Id. May be it has not been registered yet")]
         public void ShouldThrowExeptionIfCantFindClient()
         {
-            throw new NotImplementedException();
+            //Arrange
+            var clientTableRepository = Substitute.For<IClientTableRepository>();
+            clientTableRepository.ContainsById(Arg.Is(187)).Returns(false);
+            ClientService clientService = new ClientService(clientTableRepository);
+
+            //Act
+            var client = clientService.GetClient(187);
+
+            //Assert
+            clientTableRepository.Received(1).Get(187);
         }
     }
 }

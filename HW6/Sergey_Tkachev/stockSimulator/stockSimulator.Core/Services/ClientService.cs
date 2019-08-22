@@ -1,4 +1,5 @@
-﻿using stockSimulator.Core.Models;
+﻿using stockSimulator.Core.DTO;
+using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace stockSimulator.Core.Services
             this.clientTableRepository = clientTableRepository;
         }
 
-        public int RegisterNewClient(ClientReservationInfo args)
+        public int RegisterNewClient(ClientRegistrationInfo args)
         {
             var entityToAdd = new ClientEntity()
             {
@@ -24,14 +25,29 @@ namespace stockSimulator.Core.Services
                 Surname = args.Surname,
                 PhoneNumber = args.PhoneNumber,
                 AccountBalance = args.AccountBalance,
-                ZoneID = 0
+                ZoneID = null
             };
 
-            clientTableRepository.Add(entityToAdd);
+            if (this.clientTableRepository.Contains(entityToAdd))
+            {
+                throw new ArgumentException("This client has been registered already. Can't continue");
+            }
 
-            clientTableRepository.SaveChanges();
+            this.clientTableRepository.Add(entityToAdd);
+
+            this.clientTableRepository.SaveChanges();
 
             return entityToAdd.ID;
+        }
+
+        public ClientEntity GetClient(int clientId)
+        {
+            if (!this.clientTableRepository.ContainsById(clientId))
+            {
+                throw new ArgumentException("Can't get client by this ID. May be it has not been registered.");
+            }
+
+            return this.clientTableRepository.Get(clientId);
         }
     }
 }
