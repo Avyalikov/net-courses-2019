@@ -4,17 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StructureMap;
+using Trading.Core.Services;
+using System.Timers;
 
-namespace Trading
+namespace Trading.ConsoleApp
 {
     class Program
     {
         static void Main(string[] args)
         {
             var container = new Container(new TradingRegestry());
-            var tradeManager = container.GetInstance<ITrade>();
+            var tradeInteractiveService = container.GetInstance<TradingInteractiveService>();
+            var tradeOperationService = container.GetInstance<TradingOperationService>();
 
-            tradeManager.Run();
+            Timer operationTimer = new Timer(10000) { AutoReset = true };
+            operationTimer.Elapsed +=  (sender, e) => { tradeOperationService.ClientsTrade(); };
+            operationTimer.Start();
+
+            tradeInteractiveService.Run();
         }
     }
+    
 }

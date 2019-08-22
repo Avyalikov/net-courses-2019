@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trading
+namespace Trading.Core
 {
-    interface IOperations
+    public interface IIOProvider
     {
-        void StartTradingOperations(object dbObject);
+        void WriteLine(string message);
+        string ReadLine();
     }
 }

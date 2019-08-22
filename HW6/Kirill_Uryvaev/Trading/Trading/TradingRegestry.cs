@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StructureMap;
+using Trading.Core.Services;
+using Trading.Core;
 
 namespace Trading
 {
@@ -14,8 +16,8 @@ namespace Trading
             For<IPhraseProvider>().Use<JsonPhraseProvider>();
             For<IIOProvider>().Use<ConsoleIOProvider>();
             For<IValidator>().Use<TradeValidator>();
-            For<IOperations>().Use<ClientsOperations>();
-            For<ITrade>().Use<TradeManager>();
+            For<TradingOperationService>().Use<TradingOperationService>();
+            For<TradingInteractiveService>().Use<TradingInteractiveService>();
         }
     }
 }

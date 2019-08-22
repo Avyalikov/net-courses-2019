@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trading.Core;
+using Trading.Core.DataTransferObjects;
 
 namespace Trading
 {
@@ -132,6 +134,31 @@ namespace Trading
                 return false;
             }
             return true;
+        }
+
+        public bool ValidateClientInfo(ClientRegistrationInfo clientInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ValidateShareInfo(ShareRegistrationInfo shareInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ValidateShareToClient(ClientsSharesInfo shareToClientInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ValidateClientList(IEnumerable<ClientEntity> clients)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ValidateTradingClient(ClientEntity client)
+        {
+            throw new NotImplementedException();
         }
     }
 }

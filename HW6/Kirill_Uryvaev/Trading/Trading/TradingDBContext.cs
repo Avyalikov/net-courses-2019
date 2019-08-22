@@ -4,6 +4,7 @@ namespace Trading
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using Trading.Core;
 
     public partial class TradingDBContext : DbContext
     {
@@ -12,42 +13,42 @@ namespace Trading
         {
         }
 
-        public virtual DbSet<Clients> Clients { get; set; }
-        public virtual DbSet<ClientsShares> ClientsShares { get; set; }
-        public virtual DbSet<Shares> Shares { get; set; }
+        public virtual DbSet<ClientEntity> Clients { get; set; }
+        public virtual DbSet<ClientsSharesEntity> ClientsShares { get; set; }
+        public virtual DbSet<ShareEntity> Shares { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Clients>()
+            modelBuilder.Entity<ClientEntity>()
                 .Property(e => e.ClientFirstName)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Clients>()
+            modelBuilder.Entity<ClientEntity>()
                 .Property(e => e.ClientLastName)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Clients>()
+            modelBuilder.Entity<ClientEntity>()
                 .Property(e => e.PhoneNumber)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Clients>()
+            modelBuilder.Entity<ClientEntity>()
                 .Property(e => e.ClientBalance)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<Clients>()
+            modelBuilder.Entity<ClientEntity>()
                 .HasMany(e => e.ClientsShares)
                 .WithRequired(e => e.Clients)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Shares>()
+            modelBuilder.Entity<ShareEntity>()
                 .Property(e => e.ShareName)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Shares>()
+            modelBuilder.Entity<ShareEntity>()
                 .Property(e => e.ShareCost)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<Shares>()
+            modelBuilder.Entity<ShareEntity>()
                 .HasMany(e => e.ClientsShares)
                 .WithRequired(e => e.Shares)
                 .WillCascadeOnDelete(false);

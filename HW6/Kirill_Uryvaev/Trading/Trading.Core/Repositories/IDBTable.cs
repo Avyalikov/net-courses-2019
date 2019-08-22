@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trading
+namespace Trading.Core.Repositories
 {
-    interface ITrade
+    public interface IDBTable
     {
-        void Run();
+        void SaveChanges();
     }
 }
