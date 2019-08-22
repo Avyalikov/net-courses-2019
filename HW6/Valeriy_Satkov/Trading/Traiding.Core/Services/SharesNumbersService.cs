@@ -24,7 +24,7 @@ namespace Traiding.Core.Services
             {
                 Client = args.Client,
                 Share = args.Share,
-                Number = args.Number               
+                Number = args.Number
             };
 
             if (this.tableRepository.Contains(entityToAdd))

@@ -17,71 +17,74 @@ namespace Traiding.Core.Services
             this.tableRepository = operationTableRepository;
         }
 
-        public int Create()
-        {
-            var entityToAdd = new OperationEntity();            
+        /* Implemented in Sale service
+         */
+        //public int Create() // it have implementation in sale service
+        //{
+        //    var entityToAdd = new OperationEntity();
 
-            this.tableRepository.Add(entityToAdd);
+        //    this.tableRepository.Add(entityToAdd);
 
-            this.tableRepository.SaveChanges();
+        //    this.tableRepository.SaveChanges();
 
-            return entityToAdd.Id;
-        }
-        public void ContainsById(int entityId)
-        {
-            if (!this.tableRepository.ContainsById(entityId))
-            {
-                throw new ArgumentException("Can't find operation with this Id. May it has not been registered.");
-            }
-        }
+        //    return entityToAdd.Id;
+        //}
+        //public void ContainsById(int entityId)
+        //{
+        //    if (!this.tableRepository.ContainsById(entityId))
+        //    {
+        //        throw new ArgumentException("Can't find operation with this Id. May it has not been registered.");
+        //    }
+        //}
 
-        public OperationEntity Get(int entityId)
-        {
-            ContainsById(entityId);
+        //public OperationEntity Get(int entityId)
+        //{
+        //    ContainsById(entityId);
 
-            return this.tableRepository.Get(entityId);
-        }
+        //    return this.tableRepository.Get(entityId);
+        //}
 
         public IEnumerable<OperationEntity> GetByClient(int clientId)
         {
             return this.tableRepository.GetByClient(clientId);
         }
 
-        public void FillCustomerColumns(int operationId, int blockedMoneyEntityId)
-        {
-            ContainsById(operationId);
+        /* Implemented in Sale service
+         */
+        //public void FillCustomerColumns(int operationId, int blockedMoneyEntityId)
+        //{
+        //    ContainsById(operationId);
 
-            this.tableRepository.FillCustomerColumns(operationId, blockedMoneyEntityId);
+        //    this.tableRepository.FillCustomerColumns(operationId, blockedMoneyEntityId);
 
-            this.tableRepository.SaveChanges();
-        }
+        //    this.tableRepository.SaveChanges();
+        //}
 
-        public void FillSellerColumns(int operationId, int blockedSharesNumberEntityId)
-        {
-            ContainsById(operationId);
+        //public void FillSellerColumns(int operationId, int blockedSharesNumberEntityId)
+        //{
+        //    ContainsById(operationId);
 
-            this.tableRepository.FillSellerColumns(operationId, blockedSharesNumberEntityId);
+        //    this.tableRepository.FillSellerColumns(operationId, blockedSharesNumberEntityId);
 
-            this.tableRepository.SaveChanges();
-        }
-        
-        public void SetChargeDate(int operationId)
-        {
-            ContainsById(operationId);
+        //    this.tableRepository.SaveChanges();
+        //}
 
-            this.tableRepository.SetChargeDate(operationId, DateTime.Now);
+        //public void SetChargeDate(int operationId)
+        //{
+        //    ContainsById(operationId);
 
-            this.tableRepository.SaveChanges();
-        }
+        //    this.tableRepository.SetChargeDate(operationId, DateTime.Now);
 
+        //    this.tableRepository.SaveChanges();
+        //}
 
-        public void Remove(int entityId)
-        {
-            ContainsById(entityId);
+        //public void Remove(int entityId)
+        //{
+        //    ContainsById(entityId);
 
-            this.tableRepository.Remove(entityId);
+        //    this.tableRepository.Remove(entityId);
 
-            this.tableRepository.SaveChanges();
-        }
+        //    this.tableRepository.SaveChanges();
+        //}
     }
 }

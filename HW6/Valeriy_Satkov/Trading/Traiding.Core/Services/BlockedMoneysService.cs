@@ -11,57 +11,59 @@ namespace Traiding.Core.Services
 {
     public class BlockedMoneysService
     {
-        private IBlockedMoneyTableRepository tableRepository;
+        /* Implemented in Sale service
+         */
+        //private IBlockedMoneyTableRepository tableRepository;
 
-        public BlockedMoneysService(IBlockedMoneyTableRepository blockedMoneyTableRepository)
-        {
-            this.tableRepository = blockedMoneyTableRepository;
-        }
+        //public BlockedMoneysService(IBlockedMoneyTableRepository blockedMoneyTableRepository)
+        //{
+        //    this.tableRepository = blockedMoneyTableRepository;
+        //}
 
-        public int Create(BlockedMoneyRegistrationInfo args)
-        {
-            var entityToAdd = new BlockedMoneyEntity()
-            {
-                CreatedAt = DateTime.Now,
-                ClientBalance = args.ClientBalance,
-                Operation = args.Operation,
-                Customer = args.ClientBalance.Client,
-                Total = args.Total
-            };
+        //public int Create(BlockedMoneyRegistrationInfo args)
+        //{
+        //    var entityToAdd = new BlockedMoneyEntity()
+        //    {
+        //        CreatedAt = DateTime.Now,
+        //        ClientBalance = args.ClientBalance,
+        //        Operation = args.Operation,
+        //        Customer = args.ClientBalance.Client,
+        //        Total = args.Total
+        //    };
 
-            if (this.tableRepository.Contains(entityToAdd))
-            {
-                throw new ArgumentException("Bloked money with this data has been registered. Can't continue.");
-            }
+        //    if (this.tableRepository.Contains(entityToAdd))
+        //    {
+        //        throw new ArgumentException("Bloked money with this data has been registered. Can't continue.");
+        //    }
 
-            this.tableRepository.Add(entityToAdd);
+        //    this.tableRepository.Add(entityToAdd);
 
-            this.tableRepository.SaveChanges();
+        //    this.tableRepository.SaveChanges();
 
-            return entityToAdd.Id;
-        }
-        public void ContainsById(int entityId)
-        {
-            if (!this.tableRepository.ContainsById(entityId))
-            {
-                throw new ArgumentException("Can't find bloked money with this Id. May it has not been registered.");
-            }
-        }
+        //    return entityToAdd.Id;
+        //}
+        //public void ContainsById(int entityId)
+        //{
+        //    if (!this.tableRepository.ContainsById(entityId))
+        //    {
+        //        throw new ArgumentException("Can't find bloked money with this Id. May it has not been registered.");
+        //    }
+        //}
 
-        public BlockedMoneyEntity Get(int entityId)
-        {
-            ContainsById(entityId);
+        //public BlockedMoneyEntity Get(int entityId)
+        //{
+        //    ContainsById(entityId);
 
-            return this.tableRepository.Get(entityId);
-        }
+        //    return this.tableRepository.Get(entityId);
+        //}
 
-        public void Remove(int entityId)
-        {
-            ContainsById(entityId);
+        //public void Remove(int entityId)
+        //{
+        //    ContainsById(entityId);
 
-            this.tableRepository.Remove(entityId);
+        //    this.tableRepository.Remove(entityId);
 
-            this.tableRepository.SaveChanges();
-        }
+        //    this.tableRepository.SaveChanges();
+        //}
     }
 }

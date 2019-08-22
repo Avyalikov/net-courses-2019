@@ -81,7 +81,7 @@ namespace Traiding.Core.Tests
             var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
             int testId = 55;
             balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-            BalancesService balancesService = new BalancesService(balanceTableRepository);            
+            BalancesService balancesService = new BalancesService(balanceTableRepository);
 
             // Act
             var balanceInfo = balancesService.GetBalance(testId);

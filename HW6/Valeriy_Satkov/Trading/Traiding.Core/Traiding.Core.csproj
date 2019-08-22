@@ -72,6 +72,7 @@
     <Compile Include="Services\BalancesService.cs" />
     <Compile Include="Services\BlockedMoneysService.cs" />
     <Compile Include="Services\BlockedSharesNumbersService.cs" />
+    <Compile Include="Services\SalesService.cs" />
     <Compile Include="Services\OperationsService.cs" />
     <Compile Include="Services\SharesNumbersService.cs" />
     <Compile Include="Services\SharesService.cs" />

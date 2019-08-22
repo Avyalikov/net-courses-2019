@@ -34,7 +34,7 @@ namespace Traiding.Core.Tests
                 CompanyName = "Simple Company",
                 Type = new ShareTypeEntity()
                 {
-                    Id = 4,                       
+                    Id = 4,
                     Name = "not so cheap",
                     Cost = 1200.00M,
                     Status = true
@@ -107,7 +107,7 @@ namespace Traiding.Core.Tests
             var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
             int testId = 55;
             sharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-            SharesNumbersService sharesNumbersService = new SharesNumbersService(sharesNumberTableRepository);            
+            SharesNumbersService sharesNumbersService = new SharesNumbersService(sharesNumberTableRepository);
 
             // Act
             var sharesNumberInfo = sharesNumbersService.Get(testId);
