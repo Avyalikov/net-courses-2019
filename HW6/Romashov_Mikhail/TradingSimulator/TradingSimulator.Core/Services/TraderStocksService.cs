@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
@@ -20,7 +21,8 @@ namespace TradingSimulator.Core.Services
             {
                 TraderId = trader.Id,
                 StockId = stock.Id,
-                StockCount = stock.Count
+                StockCount = stock.Count,
+                PricePerItem = stock.PricePerItem
             };
 
             if (this.traderStockTableRepository.Contains(entityToAdd))
@@ -33,6 +35,18 @@ namespace TradingSimulator.Core.Services
             this.traderStockTableRepository.SaveChanges();
 
             return entityToAdd.Id;
+        }
+
+        public List<int> GetListTradersStock()
+        {
+            return traderStockTableRepository.GetList();
+        }
+
+        public StockToTraderEntity GetTraderStockById(int id)
+        {
+            if (!this.traderStockTableRepository.ContainsById(id))
+                throw new ArgumentException("Can`t find item by this id");
+            return this.traderStockTableRepository.GetTraderStockById(id);
         }
     }
 }

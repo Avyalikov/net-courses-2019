@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 
@@ -36,10 +37,32 @@ namespace TradingSimulator.Repositories
             return this.dbContext.Traders.Any(t => t.Id == entityId);
         }
 
+        public bool ContainsByName(string traderName)
+        {
+            return this.dbContext.Traders.Any(t => t.Name == traderName);
+        }
+
         public TraderEntity Get(int traderID)
         {
-            var ItemToUpdate = this.dbContext.Traders.First(t => t.Id == traderID);
-            return ItemToUpdate;
+            var item = this.dbContext.Traders.First(t => t.Id == traderID);
+            return item;
+        }
+
+        public TraderEntity GetByName(string traderName)
+        {
+            var item = this.dbContext.Traders.First(t => t.Name == traderName);
+            return item;
+        }
+
+        public List<int> GetListTradersId()
+        {
+            List<int> listItems = new List<int>();
+            foreach (var item in this.dbContext.Traders)
+            {
+                listItems.Add(item.Id);
+            }
+
+            return listItems;
         }
 
         public void SaveChanges()

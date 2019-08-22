@@ -19,6 +19,7 @@ namespace TradingSimulator.Dependencies
             this.For<TradersService>().Use<TradersService>();
             this.For<TraderStocksService>().Use<TraderStocksService>();
             this.For<TradingSimulatorDBContext>().Use<TradingSimulatorDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingSimulatorConnectionString"].ConnectionString);
+            this.For<TradeSimulation>().Use<TradeSimulation>();
         }
     }
 }

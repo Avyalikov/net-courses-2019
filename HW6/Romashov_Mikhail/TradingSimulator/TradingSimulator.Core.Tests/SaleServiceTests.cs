@@ -76,7 +76,7 @@ namespace ShopSimulator.Core.Tests
                 }
             };
 
-            traderStockTableRepository.FindStocksFromSeller(Arg.Any<BuyArguments>())
+            traderStockTableRepository.GetStocksFromSeller(Arg.Any<BuyArguments>())
                .Returns((callInfo) =>
                {
                    var buyArguments = callInfo.Arg<BuyArguments>();
@@ -86,13 +86,13 @@ namespace ShopSimulator.Core.Tests
                    return retVal;
                });
 
-            traderStockTableRepository.Contains(Arg.Any<BuyArguments>())
+            traderStockTableRepository.ContainsSeller(Arg.Any<BuyArguments>())
                .Returns((callInfo) =>
                {
                    var buyArguments = callInfo.Arg<BuyArguments>();
                    try
                    {
-                        var retVal = this.traderStocksTable.First(w => w.TraderId == buyArguments.CustomerID
+                        var retVal = this.traderStocksTable.First(w => w.TraderId == buyArguments.SellerID
                                                                && w.StockId == buyArguments.StockID);
                    }
                    catch (Exception)
@@ -102,7 +102,23 @@ namespace ShopSimulator.Core.Tests
                    return true;
                });
 
-                saleHandler = new SaleService(this.traderStockTableRepository, this.traderTableRepository, this.historyTableRepository);
+            traderStockTableRepository.ContainsCustomer(Arg.Any<BuyArguments>())
+               .Returns((callInfo) =>
+               {
+                   var buyArguments = callInfo.Arg<BuyArguments>();
+                   try
+                   {
+                       var retVal = this.traderStocksTable.First(w => w.TraderId == buyArguments.CustomerID
+                                                              && w.StockId == buyArguments.StockID);
+                   }
+                   catch (Exception)
+                   {
+                       return false;
+                   }
+                   return true;
+               });
+
+            saleHandler = new SaleService(this.traderStockTableRepository, this.traderTableRepository, this.historyTableRepository);
         }
 
         [TestMethod]
@@ -189,8 +205,8 @@ namespace ShopSimulator.Core.Tests
                 w => w.CustomerID == args.CustomerID
                 && w.SellerID == args.SellerID
                 && w.StockID == args.StockID
-                && w.StockCount == args.StockCount
-                && w.TotalPrice == (args.StockCount * args.PricePerItem)));
+                && w.StockCount == args.StockCount));
+               // && w.TotalPrice == (args.StockCount * args.PricePerItem
             this.historyTableRepository.Received(1).SaveChanges();
         }
     }

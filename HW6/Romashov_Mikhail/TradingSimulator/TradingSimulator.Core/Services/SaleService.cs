@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Repositories;
@@ -32,30 +30,34 @@ namespace TradingSimulator.Core.Services
             this.SaveHistory(args);
         }
 
-        public void ValidateBuyArguments(BuyArguments args)
+        private void ValidateBuyArguments(BuyArguments args)
         {
-            var checkEntity = traderStockTableRepository.FindStocksFromSeller(args);
+            if (!this.traderStockTableRepository.ContainsSeller(args))
+            {
+                throw new ArgumentException("Imposible to make a sale, because seller hasn`t this stock");
+            }
+            var checkEntity = traderStockTableRepository.GetStocksFromSeller(args);
             if (args.StockCount > checkEntity.StockCount)
             {
                 throw new ArgumentException($"Imposible to make a sale, because seller has only {checkEntity.StockCount} stocks, but requested {args.StockCount}.");
             }
         }
-        public void SubtractStockFromSeller(BuyArguments args)
+        private void SubtractStockFromSeller(BuyArguments args)
         {
-            traderStockTableRepository.SubtractStock(args);
+            traderStockTableRepository.SubtractStockFromSeller(args);
             traderStockTableRepository.SaveChanges();
         }
 
-        public void AdditionStockToCustomer(BuyArguments args)
+        private void AdditionStockToCustomer(BuyArguments args)
         {
             var item = new StockToTraderEntity()
             {
-                TraderId = args.SellerID,
+                TraderId = args.CustomerID,
                 StockId = args.StockID
             };
             if (traderStockTableRepository.Contains(item))
             {
-                traderStockTableRepository.SubtractStock(args);
+                traderStockTableRepository.AdditionalStockToCustomer(args);
             }
             else
             {
@@ -70,7 +72,7 @@ namespace TradingSimulator.Core.Services
             traderStockTableRepository.SaveChanges();
         }
 
-        public void SubstractBalance(BuyArguments args)
+        private void SubstractBalance(BuyArguments args)
         {
             if (!this.traderTableRepository.ContainsById(args.CustomerID))
             {
@@ -80,7 +82,7 @@ namespace TradingSimulator.Core.Services
             this.traderTableRepository.SaveChanges();
         }
 
-        public void AdditionBalance(BuyArguments args)
+        private void AdditionBalance(BuyArguments args)
         {
             if (!this.traderTableRepository.ContainsById(args.SellerID))
             {
@@ -90,7 +92,7 @@ namespace TradingSimulator.Core.Services
             this.traderTableRepository.SaveChanges();
         }
 
-        public void SaveHistory(BuyArguments args)
+        private void SaveHistory(BuyArguments args)
         {
             var stockInSaleHistory = new HistoryEntity()
             {

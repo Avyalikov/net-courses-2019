@@ -17,15 +17,9 @@ namespace TradingSimulator
         {
             var container = new Container(new TradingSimulatorRegistry());
 
-            var traders = container.GetInstance<TradersService>();
+            var simulate = container.GetInstance<TradeSimulation>();
 
-            traders.RegisterNewTrader(new TraderInfo()
-            {
-                Name = "Eeeee",
-                Surname = "Rondondon",
-                PhoneNumber = "55566677",
-                Balance = 151800.0M
-            });
+            simulate.Run();
         }
     }
 }

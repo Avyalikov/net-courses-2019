@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
@@ -25,14 +26,27 @@ namespace TradingSimulator.Repositories
            && t.StockId == stockToTraderEntity.StockId);
         }
 
-        public bool Contains(BuyArguments args)
+        public bool ContainsById(int id)
+        {
+            return this.dbContext.TraderStocks.Any(t =>
+             t.Id == id);
+        }
+
+        public bool ContainsSeller(BuyArguments args)
+        {
+            return this.dbContext.TraderStocks.Any(t =>
+                t.TraderId == args.SellerID
+                && t.StockId == args.StockID);
+        }
+
+        public bool ContainsCustomer(BuyArguments args)
         {
             return this.dbContext.TraderStocks.Any(t =>
                 t.TraderId == args.CustomerID
                 && t.StockId == args.StockID);
         }
 
-        public StockToTraderEntity FindStocksFromSeller(BuyArguments buyArguments)
+        public StockToTraderEntity GetStocksFromSeller(BuyArguments buyArguments)
         {
             var item = this.dbContext.TraderStocks.First(t => t.TraderId == buyArguments.SellerID
                     && t.StockId == buyArguments.StockID);
@@ -44,12 +58,36 @@ namespace TradingSimulator.Repositories
             this.dbContext.SaveChanges();
         }
 
-        public void SubtractStock(BuyArguments args)
+        public void SubtractStockFromSeller(BuyArguments args)
         {
             var ItemToUpdate = this.dbContext.TraderStocks.First(t =>
                 t.TraderId == args.SellerID
                 && t.StockId == args.StockID);
             ItemToUpdate.StockCount -= args.StockCount;
+        }
+
+        public void AdditionalStockToCustomer(BuyArguments args)
+        {
+            var ItemToUpdate = this.dbContext.TraderStocks.First(t =>
+                t.TraderId == args.CustomerID
+                && t.StockId == args.StockID);
+            ItemToUpdate.StockCount += args.StockCount;
+        }
+
+        public List<int> GetList()
+        {
+            List<int> listItems = new List<int>();
+            foreach (var item in this.dbContext.TraderStocks)
+            {
+                listItems.Add(item.Id);
+            }
+
+            return listItems;
+        }
+
+        public StockToTraderEntity GetTraderStockById(int id)
+        {         
+            return this.dbContext.TraderStocks.First(t => t.Id == id);
         }
     }
 }

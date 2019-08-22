@@ -44,5 +44,23 @@ namespace TradingSimulator.Core.Services
             }
             return traderTableRepository.Get(traderID);
         }
+        public TraderEntity GetTradersByName(string traderName)
+        {
+            if (!traderTableRepository.ContainsByName(traderName))
+            {
+                throw new ArgumentException("Can`t get trader by this Name.");
+            }
+            return traderTableRepository.GetByName(traderName);
+        }
+
+        public bool ContainsByName(string traderName)
+        {
+            return traderTableRepository.ContainsByName(traderName);
+        }
+
+        public List<int> GetList()
+        {
+            return traderTableRepository.GetListTradersId();
+        }
     }
 }

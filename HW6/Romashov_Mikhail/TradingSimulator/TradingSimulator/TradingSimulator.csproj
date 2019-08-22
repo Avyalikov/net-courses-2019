@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TradeSimulation.cs" />
     <Compile Include="Dependencies\TradingSimulatorRegistry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Repositories\StockTableRepository.cs" />
     <Compile Include="Repositories\TraderStockTableRepository.cs" />
     <Compile Include="Repositories\TraderTableRepository.cs" />
+    <Compile Include="TradingDbInitializer.cs" />
     <Compile Include="TradingSimulatorDBContext.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +75,8 @@
       <Name>TradingSimulator.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

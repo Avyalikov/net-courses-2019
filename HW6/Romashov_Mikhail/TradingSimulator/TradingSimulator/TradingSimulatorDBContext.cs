@@ -15,7 +15,7 @@ namespace TradingSimulator
 
         public TradingSimulatorDBContext(string connectionString) : base(connectionString)
         {
-
+            Database.SetInitializer<TradingSimulatorDBContext>(new TraidingDbInitializer());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

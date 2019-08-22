@@ -14,5 +14,8 @@ namespace TradingSimulator.Core.Repositories
         TraderEntity Get(int traderID);
         void SubstractBalance(int traderID, decimal amount);
         void AdditionBalance(int traderID, decimal amount);
+        bool ContainsByName(string traderName);
+        TraderEntity GetByName(string traderName);
+        List<int> GetListTradersId();
     }
 }

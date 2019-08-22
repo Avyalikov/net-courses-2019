@@ -1,4 +1,5 @@
-﻿using TradingSimulator.Core.Dto;
+﻿using System.Collections.Generic;
+using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Models;
 
 namespace TradingSimulator.Core.Repositories
@@ -8,8 +9,13 @@ namespace TradingSimulator.Core.Repositories
         void Add(StockToTraderEntity entityToAdd);
         void SaveChanges();
         bool Contains(StockToTraderEntity stockToTraderEntity);
-        StockToTraderEntity FindStocksFromSeller(BuyArguments buyArguments);
-        void SubtractStock(BuyArguments args);
-        bool Contains(BuyArguments args);
+        StockToTraderEntity GetStocksFromSeller(BuyArguments buyArguments);
+        void SubtractStockFromSeller(BuyArguments args);
+        void AdditionalStockToCustomer(BuyArguments args);
+        bool ContainsSeller(BuyArguments args);
+        bool ContainsCustomer(BuyArguments args);
+        List<int> GetList();
+        bool ContainsById(int id);
+        StockToTraderEntity GetTraderStockById(int id);
     }
 }

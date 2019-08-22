@@ -21,9 +21,20 @@ namespace TradingSimulator.Repositories
             return this.dbContext.Stocks.Any(s => s.Id == entityId);
         }
 
+        public bool ContainsByName(string stockName)
+        {
+            return this.dbContext.Stocks.Any(s => s.Name == stockName);
+        }
+
         public StockEntity Get(int stockID)
         {
             var Item = this.dbContext.Stocks.First(t => t.Id == stockID);
+            return Item;
+        }
+
+        public StockEntity GetByName(string stockName)
+        {
+            var Item = this.dbContext.Stocks.First(t => t.Name == stockName);
             return Item;
         }
     }

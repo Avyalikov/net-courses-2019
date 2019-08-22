@@ -20,5 +20,19 @@ namespace TradingSimulator.Core.Services
             }
             return stockTableRepository.Get(stockID);
         }
+
+        public StockEntity GetStockByName(string  stockName)
+        {
+            if (!stockTableRepository.ContainsByName(stockName))
+            {
+                throw new ArgumentException("Can`t get stock by this name.");
+            }
+            return stockTableRepository.GetByName(stockName);
+        }
+
+        public bool ContainsByName(string stockName)
+        {
+            return stockTableRepository.ContainsByName(stockName);
+        }
     }
 }
