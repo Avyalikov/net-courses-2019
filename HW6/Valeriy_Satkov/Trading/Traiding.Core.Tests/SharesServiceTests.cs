@@ -11,33 +11,37 @@
     [TestClass]
     public class SharesServiceTests
     {
+        readonly ShareTypeEntity type = new ShareTypeEntity()
+        {
+            Id = 5,
+                Name = "Simple Name",
+                Cost = 2700.00M,
+                Status = true
+        };
+
+        IShareTableRepository shareTableRepository;
+
         [TestMethod]
         public void ShouldRegisterNewShare()
         {
             // Arrange
-            var shareTableRepository = Substitute.For<IShareTableRepository>();
-            SharesService sharesService = new SharesService(shareTableRepository);
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
+            SharesService sharesService = new SharesService(this.shareTableRepository);
             ShareRegistrationInfo args = new ShareRegistrationInfo();
 
             args.CompanyName = "Horns and hooves";
-            args.Type = new ShareTypeEntity()
-            {
-                Id = 5,
-                Name = "Simple Name",
-                Cost = 2700.00M,
-                Status = true
-            };
+            args.Type = this.type;
             args.Status = true;
 
             // Act
             var shareId = sharesService.RegisterNewShare(args);
 
             // Assert
-            shareTableRepository.Received(1).Add(Arg.Is<ShareEntity>(
+            this.shareTableRepository.Received(1).Add(Arg.Is<ShareEntity>(
                 s => s.CompanyName == args.CompanyName
                 && s.Type == args.Type
                 && s.Status == args.Status));
-            shareTableRepository.Received(1).SaveChanges();
+            this.shareTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
@@ -45,24 +49,18 @@
         public void ShouldNotRegisterNewShareIfItExists()
         {
             // Arrange
-            var shareTableRepository = Substitute.For<IShareTableRepository>();
-            SharesService sharesService = new SharesService(shareTableRepository);
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
+            SharesService sharesService = new SharesService(this.shareTableRepository);
             ShareRegistrationInfo args = new ShareRegistrationInfo();
 
             args.CompanyName = "Horns and hooves";
-            args.Type = new ShareTypeEntity()
-            {
-                Id = 5,
-                Name = "Simple Name",
-                Cost = 2700.00M,
-                Status = true
-            };
+            args.Type = this.type;
             args.Status = true;
 
             // Act
             sharesService.RegisterNewShare(args);
 
-            shareTableRepository.Contains(Arg.Is<ShareEntity>( // Now Contains returns true (table contains this share type)
+            this.shareTableRepository.Contains(Arg.Is<ShareEntity>( // Now Contains returns true (table contains this share type)
                 s => s.CompanyName == args.CompanyName
                 && s.Type == args.Type
                 && s.Status == args.Status)).Returns(true);
@@ -77,10 +75,10 @@
         public void ShouldThrowExceptionIfCantFindShare()
         {
             // Arrange
-            var shareTableRepository = Substitute.For<IShareTableRepository>();
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
             int testId = 55;
-            shareTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains share type with this Id)
-            SharesService sharesService = new SharesService(shareTableRepository);
+            this.shareTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains share type with this Id)
+            SharesService sharesService = new SharesService(this.shareTableRepository);
 
             // Act
             sharesService.ContainsById(testId); // Try to get share type and get exception
@@ -92,58 +90,51 @@
         public void ShouldGetShareInfo()
         {
             // Arrange
-            var shareTableRepository = Substitute.For<IShareTableRepository>();
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
             int testId = 55;
-            shareTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-            SharesService sharesService = new SharesService(shareTableRepository);
+            this.shareTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
+            SharesService sharesService = new SharesService(this.shareTableRepository);
 
             // Act
             var shareInfo = sharesService.GetShare(testId);
 
             // Assert
-            shareTableRepository.Received(1).Get(testId);
+            this.shareTableRepository.Received(1).Get(testId);
         }
 
         [TestMethod]
         public void ShouldChangeCompanyName()
         {
             // Arrange
-            var shareTableRepository = Substitute.For<IShareTableRepository>();
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
             int testId = 55;
-            shareTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-            SharesService sharesService = new SharesService(shareTableRepository);            
+            this.shareTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
+            SharesService sharesService = new SharesService(this.shareTableRepository);            
             string newCompanyName = "Seas and oceans";            
 
             // Act
             sharesService.ChangeCompanyName(testId, newCompanyName);
 
             // Assert
-            shareTableRepository.Received(1).SetCompanyName(testId, newCompanyName);
-            shareTableRepository.Received(1).SaveChanges();
+            this.shareTableRepository.Received(1).SetCompanyName(testId, newCompanyName);
+            this.shareTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
         public void ShouldChangeShareType()
         {
             // Arrange
-            var shareTableRepository = Substitute.For<IShareTableRepository>();
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
             int testShareId = 55;
-            shareTableRepository.ContainsById(Arg.Is(testShareId)).Returns(true);
-            SharesService sharesService = new SharesService(shareTableRepository);
-            ShareTypeEntity newType = new ShareTypeEntity()
-            {
-                Id = 2,
-                Name = "Test ShareTypeName",
-                Cost = 5000.00M,
-                Status = true
-            };            
+            this.shareTableRepository.ContainsById(Arg.Is(testShareId)).Returns(true);
+            SharesService sharesService = new SharesService(this.shareTableRepository);
 
             // Act            
-            sharesService.ChangeType(testShareId, newType);
+            sharesService.ChangeType(testShareId, this.type);
 
             // Assert
-            shareTableRepository.Received(1).SetType(testShareId, newType);
-            shareTableRepository.Received(1).SaveChanges();
+            this.shareTableRepository.Received(1).SetType(testShareId, this.type);
+            this.shareTableRepository.Received(1).SaveChanges();
         }
     }    
 }

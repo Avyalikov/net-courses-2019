@@ -11,12 +11,14 @@
     [TestClass]
     public class ClientsServiceTests
     {
+        IClientTableRepository clientTableRepository;
+
         [TestMethod]
         public void ShouldRegisterNewClient()
         {
             // Arrange
-            var clientTableRepository = Substitute.For<IClientTableRepository>();
-            ClientsService clientsService = new ClientsService(clientTableRepository);
+            this.clientTableRepository = Substitute.For<IClientTableRepository>();
+            ClientsService clientsService = new ClientsService(this.clientTableRepository);
             ClientRegistrationInfo args = new ClientRegistrationInfo();
             args.LastName = "Michael";
             args.FirstName = "Lomonosov";
@@ -27,12 +29,12 @@
             var clientId = clientsService.RegisterNewClient(args);
 
             // Assert
-            clientTableRepository.Received(1).Add(Arg.Is<ClientEntity>(
+            this.clientTableRepository.Received(1).Add(Arg.Is<ClientEntity>(
                 c => c.LastName == args.LastName 
                 && c.FirstName == args.FirstName 
                 && c.PhoneNumber == args.PhoneNumber
                 && c.Status == args.Status));
-            clientTableRepository.Received(1).SaveChanges();
+            this.clientTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
@@ -40,8 +42,8 @@
         public void ShouldNotRegisterNewClientIfItExists()
         {
             // Arrange
-            var clientTableRepository = Substitute.For<IClientTableRepository>();
-            ClientsService clientsService = new ClientsService(clientTableRepository);
+            this.clientTableRepository = Substitute.For<IClientTableRepository>();
+            ClientsService clientsService = new ClientsService(this.clientTableRepository);
             ClientRegistrationInfo args = new ClientRegistrationInfo();
             args.LastName = "Michael";
             args.FirstName = "Lomonosov";
@@ -51,7 +53,7 @@
             // Act
             clientsService.RegisterNewClient(args);
 
-            clientTableRepository.Contains(Arg.Is<ClientEntity>(
+            this.clientTableRepository.Contains(Arg.Is<ClientEntity>(
                 c => c.LastName == args.LastName
                 && c.FirstName == args.FirstName
                 && c.PhoneNumber == args.PhoneNumber
@@ -66,15 +68,15 @@
         public void ShouldGetClientInfo()
         {
             // Arrange
-            var clientTableRepository = Substitute.For<IClientTableRepository>();
-            clientTableRepository.ContainsById(Arg.Is(55)).Returns(true);
-            ClientsService clientsService = new ClientsService(clientTableRepository);
+            this.clientTableRepository = Substitute.For<IClientTableRepository>();
+            this.clientTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            ClientsService clientsService = new ClientsService(this.clientTableRepository);
 
             // Act
             var clientInfo = clientsService.GetClient(55);
 
             // Assert
-            clientTableRepository.Received(1).Get(55);
+            this.clientTableRepository.Received(1).Get(55);
         }
 
         [TestMethod]
@@ -82,9 +84,9 @@
         public void ShouldThrowExceptionIfCantFindClient()
         {
             // Arrange
-            var clientTableRepository = Substitute.For<IClientTableRepository>();
-            clientTableRepository.ContainsById(Arg.Is(55)).Returns(false);
-            ClientsService clientsService = new ClientsService(clientTableRepository);
+            this.clientTableRepository = Substitute.For<IClientTableRepository>();
+            this.clientTableRepository.ContainsById(Arg.Is(55)).Returns(false);
+            ClientsService clientsService = new ClientsService(this.clientTableRepository);
 
             // Act
             var clientInfo = clientsService.GetClient(55);

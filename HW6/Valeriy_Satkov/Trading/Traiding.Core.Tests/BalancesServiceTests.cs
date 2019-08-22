@@ -11,22 +11,25 @@
     [TestClass]
     public class BalancesServiceTests
     {
+        IBalanceTableRepository balanceTableRepository;
+        ClientEntity newClient = new ClientEntity()
+        {
+            Id = 5,
+            CreatedAt = DateTime.Now,
+            FirstName = "John",
+            LastName = "Snickers",
+            PhoneNumber = "+7956244636652",
+            Status = true
+        };
+
         [TestMethod]
         public void ShouldRegisterNewBalance()
         {
             // Arrange
-            var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-            BalancesService balancesService = new BalancesService(balanceTableRepository);
+            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+            BalancesService balancesService = new BalancesService(this.balanceTableRepository);
             BalanceRegistrationInfo args = new BalanceRegistrationInfo();            
-            args.Client = new ClientEntity()
-            {
-                Id = 5,
-                CreatedAt = DateTime.Now,
-                FirstName = "John",
-                LastName = "Snickers",
-                PhoneNumber = "+7956244636652",
-                Status = true
-            };
+            args.Client = this.newClient;
             args.Amount = 5000.00M;
             args.Status = true;
 
@@ -34,11 +37,11 @@
             var shareId = balancesService.RegisterNewBalance(args);
 
             // Assert
-            balanceTableRepository.Received(1).Add(Arg.Is<BalanceEntity>(
+            this.balanceTableRepository.Received(1).Add(Arg.Is<BalanceEntity>(
                 b => b.Client == args.Client
                 && b.Amount == args.Amount
                 && b.Status == args.Status));
-            balanceTableRepository.Received(1).SaveChanges();
+            this.balanceTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
@@ -46,25 +49,17 @@
         public void ShouldNotRegisterNewBalanceIfItExists()
         {
             // Arrange
-            var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-            BalancesService balancesService = new BalancesService(balanceTableRepository);
+            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+            BalancesService balancesService = new BalancesService(this.balanceTableRepository);
             BalanceRegistrationInfo args = new BalanceRegistrationInfo();
-            args.Client = new ClientEntity()
-            {
-                Id = 5,
-                CreatedAt = DateTime.Now,
-                FirstName = "John",
-                LastName = "Snickers",
-                PhoneNumber = "+7956244636652",
-                Status = true
-            };
+            args.Client = this.newClient;
             args.Amount = 5000.00M;
             args.Status = true;
 
             // Act
             balancesService.RegisterNewBalance(args);
 
-            balanceTableRepository.Contains(Arg.Is<BalanceEntity>( // Now Contains returns true (table contains this balance of client)
+            this.balanceTableRepository.Contains(Arg.Is<BalanceEntity>( // Now Contains returns true (table contains this balance of client)
                 b => b.Client == args.Client
                 && b.Amount == args.Amount
                 && b.Status == args.Status)).Returns(true);
@@ -78,16 +73,16 @@
         public void ShouldGetBalanceInfo()
         {
             // Arrange
-            var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
             int testId = 55;
-            balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-            BalancesService balancesService = new BalancesService(balanceTableRepository);
+            this.balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
+            BalancesService balancesService = new BalancesService(this.balanceTableRepository);
 
             // Act
             var balanceInfo = balancesService.GetBalance(testId);
 
             // Assert
-            balanceTableRepository.Received(1).Get(testId);
+            this.balanceTableRepository.Received(1).Get(testId);
         }
 
         [TestMethod]
@@ -95,10 +90,10 @@
         public void ShouldThrowExceptionIfCantFindBalance()
         {
             // Arrange
-            var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
             int testId = 55;
-            balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains share type with this Id)
-            BalancesService balancesService = new BalancesService(balanceTableRepository);
+            this.balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains share type with this Id)
+            BalancesService balancesService = new BalancesService(this.balanceTableRepository);
 
             // Act
             balancesService.ContainsById(testId); // Try to get share type and get exception
@@ -110,46 +105,18 @@
         public void ShouldChangeAmount()
         {
             // Arrange
-            var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
             int testId = 55;
-            balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-            BalancesService balancesService = new BalancesService(balanceTableRepository);
+            this.balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
+            BalancesService balancesService = new BalancesService(this.balanceTableRepository);
             decimal newAmount = 5000.00M;
 
             // Act
             balancesService.ChangeBalance(testId, newAmount);
 
             // Assert
-            balanceTableRepository.Received(1).ChangeAmount(testId, newAmount);
-            balanceTableRepository.Received(1).SaveChanges();
-        }
-
-        [TestMethod]
-        public void ShouldGetZeroBalances()
-        {
-            // Arrange
-            var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-            BalancesService balancesService = new BalancesService(balanceTableRepository);
-
-            // Act
-            var zeroBalances = balancesService.GetZeroBalances();
-
-            // Assert
-            balanceTableRepository.Received(1).GetZeroBalances();
-        }
-
-        [TestMethod]
-        public void ShouldGetNegativeBalances()
-        {
-            // Arrange
-            var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-            BalancesService balancesService = new BalancesService(balanceTableRepository);
-
-            // Act
-            var zeroBalances = balancesService.GetNegativeBalances();
-
-            // Assert
-            balanceTableRepository.Received(1).GetNegativeBalances();
-        }
+            this.balanceTableRepository.Received(1).ChangeAmount(testId, newAmount);
+            this.balanceTableRepository.Received(1).SaveChanges();
+        }        
     }
 }

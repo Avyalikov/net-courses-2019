@@ -58,16 +58,6 @@
             this.tableRepository.ChangeAmount(entityId, newAmount);
 
             this.tableRepository.SaveChanges();
-        }
-
-        public IEnumerable<BalanceEntity> GetZeroBalances()
-        {
-            return this.tableRepository.GetZeroBalances();
-        }
-
-        public IEnumerable<BalanceEntity> GetNegativeBalances()
-        {
-            return this.tableRepository.GetNegativeBalances();
-        }
+        }        
     }
 }

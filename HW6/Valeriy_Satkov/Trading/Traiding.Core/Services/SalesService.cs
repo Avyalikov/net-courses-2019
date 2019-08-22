@@ -181,6 +181,27 @@
 
         /* 'Shares number' methods
          */
+        public int CreateSharesNumber(SharesNumberRegistrationInfo args)
+        {
+            var entityToAdd = new SharesNumberEntity()
+            {
+                Client = args.Client,
+                Share = args.Share,
+                Number = args.Number
+            };
+
+            if (this.sharesNumberTableRepository.Contains(entityToAdd))
+            {
+                throw new ArgumentException("Share number with this share and client has been registered. Can't continue.");
+            }
+
+            this.sharesNumberTableRepository.Add(entityToAdd);
+
+            this.sharesNumberTableRepository.SaveChanges();
+
+            return entityToAdd.Id;
+        }
+
         public void ContainsSharesNumberById(int entityId)
         {
             if (!this.sharesNumberTableRepository.ContainsById(entityId))
@@ -201,6 +222,15 @@
             ContainsSharesNumberById(entityId);
 
             this.sharesNumberTableRepository.ChangeNumber(entityId, newNumber);
+
+            this.sharesNumberTableRepository.SaveChanges();
+        }
+
+        public void RemoveSharesNumber(int entityId)
+        {
+            ContainsSharesNumberById(entityId);
+
+            this.sharesNumberTableRepository.Remove(entityId);
 
             this.sharesNumberTableRepository.SaveChanges();
         }

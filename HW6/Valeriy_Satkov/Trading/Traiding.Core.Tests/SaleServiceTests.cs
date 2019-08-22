@@ -289,6 +289,95 @@
         /* 'Shares number' methods
          */
         [TestMethod]
+        public void ShouldCreateNewSharesNumber()
+        {
+            // Arrange
+            var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
+            SalesService salesService = new SalesService(sharesNumberTableRepository);
+            SharesNumberRegistrationInfo args = new SharesNumberRegistrationInfo();
+            args.Client = new ClientEntity()
+            {
+                Id = 5,
+                CreatedAt = DateTime.Now,
+                FirstName = "John",
+                LastName = "Snickers",
+                PhoneNumber = "+7956244636652",
+                Status = true
+            };
+            args.Share = new ShareEntity()
+            {
+                Id = 2,
+                CreatedAt = DateTime.Now,
+                CompanyName = "Simple Company",
+                Type = new ShareTypeEntity()
+                {
+                    Id = 4,
+                    Name = "not so cheap",
+                    Cost = 1200.00M,
+                    Status = true
+                },
+                Status = true
+            };
+            args.Number = 20;
+
+            // Act
+            var shareId = salesService.CreateSharesNumber(args);
+
+            // Assert
+            sharesNumberTableRepository.Received(1).Add(Arg.Is<SharesNumberEntity>(
+                n => n.Client == args.Client
+                && n.Share == args.Share
+                && n.Number == args.Number));
+            sharesNumberTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldNotRegisterNewSharesNumberIfItExists()
+        {
+            // Arrange
+            var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
+            SalesService salesService = new SalesService(sharesNumberTableRepository);
+            SharesNumberRegistrationInfo args = new SharesNumberRegistrationInfo();
+            args.Client = new ClientEntity()
+            {
+                Id = 5,
+                CreatedAt = DateTime.Now,
+                FirstName = "John",
+                LastName = "Snickers",
+                PhoneNumber = "+7956244636652",
+                Status = true
+            };
+            args.Share = new ShareEntity()
+            {
+                Id = 2,
+                CreatedAt = DateTime.Now,
+                CompanyName = "Simple Company",
+                Type = new ShareTypeEntity()
+                {
+                    Id = 4,
+                    Name = "not so cheap",
+                    Cost = 1200.00M,
+                    Status = true
+                },
+                Status = true
+            };
+            args.Number = 20;
+
+            // Act
+            salesService.CreateSharesNumber(args);
+
+            sharesNumberTableRepository.Contains(Arg.Is<SharesNumberEntity>( // Now Contains returns true (table contains shares number of this type for client)
+                n => n.Client == args.Client
+                && n.Share == args.Share
+                && n.Number == args.Number)).Returns(true);
+
+            salesService.CreateSharesNumber(args); // Try to reg. same twice and get exception
+
+            // Assert
+        }
+
+        [TestMethod]
         public void ShouldGetSharesNumberInfo()
         {
             // Arrange
@@ -335,6 +424,23 @@
 
             // Assert
             sharesNumberTableRepository.Received(1).ChangeNumber(testId, newNumber);
+            sharesNumberTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldRemoveShareNumber()
+        {
+            // Arrange
+            var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
+            int testId = 55;
+            sharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
+            SalesService salesService = new SalesService(sharesNumberTableRepository);
+
+            // Act
+            salesService.RemoveSharesNumber(testId);
+
+            // Assert
+            sharesNumberTableRepository.Received(1).Remove(testId);
             sharesNumberTableRepository.Received(1).SaveChanges();
         }
 

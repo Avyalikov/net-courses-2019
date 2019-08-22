@@ -61,11 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BalancesServiceTests.cs" />
-    <Compile Include="BlockedMoneysServiceTests.cs" />
-    <Compile Include="BlockedSharesNumbersServiceTests.cs" />
+    <Compile Include="ReportsServiceTests.cs" />
     <Compile Include="ClientsServiceTests.cs" />
-    <Compile Include="SharesNumbersServiceTests.cs" />
-    <Compile Include="OperationsServiceTests.cs" />
     <Compile Include="SaleServiceTests.cs" />
     <Compile Include="SharesServiceTests.cs" />
     <Compile Include="ShareTypesServiceTests.cs" />

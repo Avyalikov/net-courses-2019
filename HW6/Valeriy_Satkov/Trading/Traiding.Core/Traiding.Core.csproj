@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Models\BalanceEntity.cs" />
     <Compile Include="Models\BlockedMoneyEntity.cs" />
     <Compile Include="Models\BlockedSharesNumberEntity.cs" />
@@ -70,11 +69,8 @@
     <Compile Include="Repositories\IShareTypeTableRepository.cs" />
     <Compile Include="Repositories\IClientTableRepository.cs" />
     <Compile Include="Services\BalancesService.cs" />
-    <Compile Include="Services\BlockedMoneysService.cs" />
-    <Compile Include="Services\BlockedSharesNumbersService.cs" />
+    <Compile Include="Services\ReportsService.cs" />
     <Compile Include="Services\SalesService.cs" />
-    <Compile Include="Services\OperationsService.cs" />
-    <Compile Include="Services\SharesNumbersService.cs" />
     <Compile Include="Services\SharesService.cs" />
     <Compile Include="Services\ShareTypesService.cs" />
     <Compile Include="Services\ClientsService.cs" />
