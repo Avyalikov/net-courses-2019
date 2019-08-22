@@ -19,19 +19,19 @@ namespace Trading.Core.Services
 
         public int ChangeClientsSharesAmount(ClientsSharesInfo clientsSharesInfo)
         {
-            var clientSharesToChange = new ClientsSharesEntity()
-            {
-                ShareID = clientsSharesInfo.ShareID,
-                ClientID = clientsSharesInfo.ClientID,
-                Amount = clientsSharesInfo.Amount,
-            };
-
-            if (clientsSharesRepository.IsExists(out clientSharesToChange))
+            var clientSharesToChange = clientsSharesRepository.LoadClientsSharesByID(clientsSharesInfo);
+            if (clientSharesToChange !=null)
             {
                 clientSharesToChange.Amount += clientsSharesInfo.Amount;
             }
             else
             {
+                clientSharesToChange = new ClientsSharesEntity()
+                {
+                    ShareID = clientsSharesInfo.ShareID,
+                    ClientID = clientsSharesInfo.ClientID,
+                    Amount = clientsSharesInfo.Amount,
+                };
                 clientsSharesRepository.Add(clientSharesToChange);
             }
 

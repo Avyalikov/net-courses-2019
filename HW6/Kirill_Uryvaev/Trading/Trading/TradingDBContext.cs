@@ -1,4 +1,4 @@
-namespace Trading
+namespace Trading.ConsoleApp
 {
     using System;
     using System.Data.Entity;
@@ -19,6 +19,21 @@ namespace Trading
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder
+                 .Entity<ClientEntity>()
+                 .HasKey(c => c.ClientID)
+                 .ToTable("Clients");
+
+            modelBuilder
+                .Entity<ShareEntity>()
+                .HasKey(s => s.ShareID)
+                .ToTable("Shares");
+
+            modelBuilder
+                .Entity<ClientsSharesEntity>()
+                .HasKey(cs => new { cs.ClientID, cs.ShareID })
+                .ToTable("ClientsShares");
+
             modelBuilder.Entity<ClientEntity>()
                 .Property(e => e.ClientFirstName)
                 .IsFixedLength();

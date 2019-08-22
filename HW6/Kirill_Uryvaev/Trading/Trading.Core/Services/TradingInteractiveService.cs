@@ -81,10 +81,7 @@ namespace Trading.Core.Services
                     registerEntity(validator.ValidateShareToClient, clientsSharesService.ChangeClientsSharesAmount, clientsShareInfo);
                     break;
                 case "changeclientmoney":
-                    int clientID = int.Parse(splitedUserInput[1]);
-                    int amount = int.Parse(splitedUserInput[2]);
-                    clientService.ChangeMoney(clientID, amount);
-                    logger.WriteInfo($"Successfully changed balance of {clientID} by {amount}");
+                    changeClientsMoney(splitedUserInput);
                     break;
                 case "showorange":
                     showClientsList(clientService.GetClientsFromOrangeZone());
@@ -116,14 +113,26 @@ namespace Trading.Core.Services
             }
         }
 
-        private void registerEntity<T>(Func<T, bool> validateFunction, Func<T,int> registerFunction, T info)
+        private void registerEntity<T>(Func<T,ILogger, bool> validateFunction, Func<T,int> registerFunction, T info)
         {
-            if (validateFunction(info))
+            if (validateFunction(info,logger))
             {
                 int result = registerFunction(info);
                 logger.WriteInfo($"Successfully registry entity from {info.ToString()} with result {result}");
             }
         }
+
+        private void changeClientsMoney(string[] splitedUserInput)
+        {
+            int clientID = int.Parse(splitedUserInput[1]);
+            int amount = int.Parse(splitedUserInput[2]);
+            if (validator.ValidateClientMoney(clientID, amount, logger))
+            {
+                clientService.ChangeMoney(clientID, amount);
+                logger.WriteInfo($"Successfully changed balance of {clientID} by {amount}");
+            }
+        }
+
         private void showClientsList(IEnumerable<ClientEntity> clients)
         {
             logger.WriteInfo(phraseProvider.GetPhrase("ClientHeader"));

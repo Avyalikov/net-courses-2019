@@ -16,13 +16,16 @@ namespace Trading.ConsoleApp
             var container = new Container(new TradingRegestry());
             var tradeInteractiveService = container.GetInstance<TradingInteractiveService>();
             var tradeOperationService = container.GetInstance<TradingOperationService>();
+            using (var dbContext = container.GetInstance<TradingDBContext>())
+            {
+                dbContext.Database.Initialize(false);
+                Timer operationTimer = new Timer(10000) { AutoReset = true };
+                operationTimer.Elapsed += (sender, e) => { tradeOperationService.ClientsTrade(); };
+                operationTimer.Start();
 
-            Timer operationTimer = new Timer(10000) { AutoReset = true };
-            operationTimer.Elapsed +=  (sender, e) => { tradeOperationService.ClientsTrade(); };
-            operationTimer.Start();
-
-            tradeInteractiveService.Run();
+                tradeInteractiveService.Run();
+            }
         }
+
     }
-    
 }

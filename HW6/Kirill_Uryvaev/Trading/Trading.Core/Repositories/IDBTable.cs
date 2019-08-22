@@ -9,5 +9,6 @@ namespace Trading.Core.Repositories
     public interface IDBTable
     {
         void SaveChanges();
+        void WithTransaction(Action function);
     }
 }

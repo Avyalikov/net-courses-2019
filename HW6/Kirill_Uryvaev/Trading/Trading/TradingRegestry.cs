@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using StructureMap;
 using Trading.Core.Services;
 using Trading.Core;
+using Trading.Core.Repositories;
+using Trading.ConsoleApp.Repositories;
 
-namespace Trading
+namespace Trading.ConsoleApp
 {
     class TradingRegestry: Registry
     {
@@ -16,8 +18,14 @@ namespace Trading
             For<IPhraseProvider>().Use<JsonPhraseProvider>();
             For<IIOProvider>().Use<ConsoleIOProvider>();
             For<IValidator>().Use<TradeValidator>();
-            For<TradingOperationService>().Use<TradingOperationService>();
-            For<TradingInteractiveService>().Use<TradingInteractiveService>();
+            For<TradingOperationService>().Use<TradingOperationService>().Ctor<ILogger>().Named("OperationLogger");
+            For<TradingInteractiveService>().Use<TradingInteractiveService>().Ctor<ILogger>().Named("InteractionLogger");
+            For<IClientRepository>().Use<ClientRepository>();
+            For<IClientsSharesRepository>().Use<ClientsSharesRepository>();
+            For<IShareRepository>().Use<ShareRepository>();
+            For<TradingDBContext>().Use<TradingDBContext>().AlwaysUnique();
+            For<ILogger>().Use<Log4netLogger>().Ctor<bool>().Is(true).Named("OperationLogger");
+            For<ILogger>().Use<Log4netLogger>().Ctor<bool>().Is(false).Named("InteractionLogger");
         }
     }
 }

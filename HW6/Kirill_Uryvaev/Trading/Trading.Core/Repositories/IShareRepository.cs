@@ -8,7 +8,8 @@ namespace Trading.Core.Repositories
 {
     public interface IShareRepository: IDBTable
     {
-        void Add(ShareEntity client);
+        void Add(ShareEntity share);
         IEnumerable<ShareEntity> LoadAllShares();
+        ShareEntity LoadShareByID(int ID);
     }
 }

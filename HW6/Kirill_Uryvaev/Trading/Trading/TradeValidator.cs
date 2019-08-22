@@ -6,159 +6,122 @@ using System.Text;
 using System.Threading.Tasks;
 using Trading.Core;
 using Trading.Core.DataTransferObjects;
+using Trading.Core.Repositories;
 
-namespace Trading
+namespace Trading.ConsoleApp
 {
     class TradeValidator : IValidator
     {
-        public bool ValidateClient(string[] clientInfo)
+        private readonly IClientRepository clientsRepository;
+        private readonly IShareRepository shareRepository;
+        private readonly IClientsSharesRepository clientsSharesRepository;
+
+        public TradeValidator(IClientRepository clientsRepository, IShareRepository shareRepository, IClientsSharesRepository clientsSharesRepository)
         {
-            if (clientInfo.Length < 5)
+            this.clientsRepository = clientsRepository;
+            this.shareRepository = shareRepository;
+            this.clientsSharesRepository = clientsSharesRepository;
+        }
+
+        public bool ValidateClientInfo(ClientRegistrationInfo clientInfo, ILogger logger)
+        {
+            if (!clientInfo.FirstName.All(char.IsLetter) || !clientInfo.LastName.All(char.IsLetter))
             {
-                Logger.MainLog.Warn("Not enough information about client");
+                logger.WriteWarn("Client's name contains forbidden symbols");
                 return false;
             }
-            decimal balance = 0;
-            validateDecimal(out balance, clientInfo[4]);
+            if (!clientInfo.PhoneNumber.All(char.IsDigit))
+            {
+                logger.WriteWarn("Client's phone number contains forbidden symbols");
+                return false;
+            }
+
             return true;
         }
 
-        public bool ValidateShare(string[] shareInfo)
+        public bool ValidateShareInfo(ShareRegistrationInfo shareInfo, ILogger logger)
         {
-            if (shareInfo.Length < 3)
+            if (shareInfo.Cost<1)
             {
-                Logger.MainLog.Warn("Not enough information about share");
+                logger.WriteWarn("Share cannot have cost less than 1");
                 return false;
             }
-            decimal cost = 0;
-            validateDecimal(out cost, shareInfo[2]);
             return true;
         }
 
-        public bool ValidateClientMoney(string[] clientInfo)
+        public bool ValidateShareToClient(ClientsSharesInfo shareToClientInfo, ILogger logger)
         {
-            if (clientInfo.Length < 3)
-            {
-                Logger.MainLog.Warn("Not enough information about client balance");
-                return false;
-            }
-            int clientID = 0;
-            decimal money = 0;
-            validateInt(out clientID, clientInfo[1]);
-            validateDecimal(out money, clientInfo[2]);
-            return true;
-        }
 
-        public bool ValidateShareToClient(TradingDBContext db, string[] shareToClientInfo)
-        {
-            if (shareToClientInfo.Length < 4)
+            if (shareToClientInfo.ClientID < 0 && shareToClientInfo.ShareID < 0)
             {
-                Logger.MainLog.Warn("Not enough information about share to client");
+                logger.WriteWarn("ID cannot be less than 0");
                 return false;
             }
 
-            int clientID = 0;
-            validateInt(out clientID, shareToClientInfo[1]);
-
-            int shareID = 0;
-            validateInt(out shareID, shareToClientInfo[2]);
-
-            int amount = 0;
-            validateInt(out amount, shareToClientInfo[3]);
-
-            if (db.Clients.Where(x=>x.ClientID==clientID).Count()==0)
+            if (clientsRepository.LoadClientByID(shareToClientInfo.ClientID)==null)
             {
-                Logger.MainLog.Warn($"Client {clientID} is no exists");
+                logger.WriteWarn($"Client with ID {shareToClientInfo.ClientID} not exist");
                 return false;
             }
 
-            if (db.Shares.Where(x => x.ShareID == shareID).Count() == 0)
+            if (shareRepository.LoadShareByID(shareToClientInfo.ShareID) == null)
             {
-                Logger.MainLog.Warn($"Share {shareID} is no exists");
+                logger.WriteWarn($"Share with ID {shareToClientInfo.ShareID} not exist");
                 return false;
             }
 
-            var shareClient = db.ClientsShares.Where(x => x.ClientID == clientID && x.ShareID == shareID).FirstOrDefault();
+            var clientsSharesEntity = clientsSharesRepository.LoadClientsSharesByID(shareToClientInfo);
 
-            if (shareClient != null)
+            if (clientsSharesEntity != null)
             {
-                if (shareClient.Amount + amount <0)
+                if (clientsSharesEntity.Amount + shareToClientInfo.Amount <0)
                 {
-                    Logger.MainLog.Warn($"Shares amount cannot be negative");
+                    logger.WriteWarn("Amount of shares cannot be less than 0");
                     return false;
                 }
             }
-            return true;
-        }
-
-        public bool ValidateClientList(DbSet<Clients> clients)
-        {
-            if (clients.Count() < 2)
+            else if (shareToClientInfo.Amount<0)
             {
-                Logger.TradeLog.Warn($"Not enough clients to trade");
+                logger.WriteWarn("Amount of shares cannot be less than 0");
                 return false;
             }
             return true;
         }
 
-        public bool ValidateTradingClient(Clients client)
+        public bool ValidateClientMoney(int clientID, int amountOfMoney, ILogger logger)
+        {
+            if (clientsRepository.LoadClientByID(clientID) == null)
+            {
+                logger.WriteWarn("Client not exist");
+                return false;
+            }
+            
+            return true;
+        }
+
+        public bool ValidateClientList(IEnumerable<ClientEntity> clients, ILogger logger)
+        {
+            if (clients.Count() < 2)
+            {
+                logger.WriteWarn($"Not enough clients to trade");
+                return false;
+            }
+            return true;
+        }
+
+        public bool ValidateTradingClient(ClientEntity client, ILogger logger)
         {
             if (client.ClientsShares.Count() < 1)
             {
-                Logger.TradeLog.Warn($"{client.ClientID} has no shares");
+                logger.WriteWarn($"{client.ClientID} has no shares");
                 return false;
             }
             if (client.ClientsShares.Where(x=>x.Amount>0).Count()<1)
             {
-                Logger.TradeLog.Warn($"{client.ClientID} has no shares");
+                logger.WriteWarn($"{client.ClientID} has no shares");
                 return false;
             }
             return true;
-        }
-
-        private bool validateInt(out int result, string checkingString)
-        {
-            if (!int.TryParse(checkingString, out result))
-            {
-                Logger.MainLog.Warn($"{checkingString} is not integer");
-                return false;
-            }
-            return true;
-        }
-
-        private bool validateDecimal(out decimal result, string checkingString)
-        {
-            if (!decimal.TryParse(checkingString, out result))
-            {
-                Logger.MainLog.Warn($"{checkingString} is not decimal");
-                return false;
-            }
-            return true;
-        }
-
-        public bool ValidateClientInfo(ClientRegistrationInfo clientInfo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidateShareInfo(ShareRegistrationInfo shareInfo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidateShareToClient(ClientsSharesInfo shareToClientInfo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidateClientList(IEnumerable<ClientEntity> clients)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidateTradingClient(ClientEntity client)
-        {
-            throw new NotImplementedException();
         }
     }
 }

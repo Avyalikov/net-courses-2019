@@ -27,15 +27,21 @@ namespace Trading.Core.Services
             this.logger = logger;
 
             uniformRandomiser = new Random();
+            logger.InitLogger();
         }
 
         public void ClientsTrade()
         {
+            logger.RunWithExceptionLogging(clientsTradeLogic);
+        }
+
+        private void clientsTradeLogic()
+        {
             var clients = clientService.GetAllClients();
-            if (validator.ValidateClientList(clients))
+            if (validator.ValidateClientList(clients, logger))
             {
                 var tradingClients = clients.OrderBy(x => Guid.NewGuid()).Take(2).ToList();
-                if (validator.ValidateTradingClient(tradingClients[0]))
+                if (validator.ValidateTradingClient(tradingClients[0], logger))
                 {
                     ClientsSharesEntity shareType = tradingClients[0].ClientsShares.Where(x => x.Amount > 0).OrderBy(x => Guid.NewGuid()).First();
                     int numberOfSoldShares = uniformRandomiser.Next(1, (int)shareType.Amount);

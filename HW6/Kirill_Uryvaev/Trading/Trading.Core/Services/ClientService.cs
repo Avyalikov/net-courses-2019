@@ -35,11 +35,11 @@ namespace Trading.Core.Services
         public void ChangeMoney(int id, decimal amount)
         {
             var client = clientsRepository.LoadClientByID(id);
-            if (client!=null)
+            if (client==null)
             {
-                client.ClientBalance += amount;
+                return;
             }
-
+            client.ClientBalance += amount;
             clientsRepository.SaveChanges();
         }
 

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{68649253-3ED3-47FD-B4E7-989668F855BB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Trading</RootNamespace>
-    <AssemblyName>Trading</AssemblyName>
+    <RootNamespace>Trading.ConsoleApp</RootNamespace>
+    <AssemblyName>Trading.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -63,8 +63,13 @@
   <ItemGroup>
     <Compile Include="ConsoleIOProvider.cs" />
     <Compile Include="JsonPhraseProvider.cs" />
+    <Compile Include="Log4netLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ClientRepository.cs" />
+    <Compile Include="Repositories\ClientsSharesRepository.cs" />
+    <Compile Include="Repositories\DBTable.cs" />
+    <Compile Include="Repositories\ShareRepository.cs" />
     <Compile Include="TradeValidator.cs" />
     <Compile Include="TradingDBContext.cs" />
     <Compile Include="TradingRegestry.cs" />
@@ -79,9 +84,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Trading.Core\Trading.Core.csproj">
       <Project>{a26b1641-3391-4dc3-af4b-a497d7dc054c}</Project>
