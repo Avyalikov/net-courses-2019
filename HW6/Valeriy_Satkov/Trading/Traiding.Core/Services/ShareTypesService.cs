@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Dto;
-using Traiding.Core.Models;
-using Traiding.Core.Repositories;
-
-namespace Traiding.Core.Services
+﻿namespace Traiding.Core.Services
 {
+    using System;
+    using Traiding.Core.Dto;
+    using Traiding.Core.Models;
+    using Traiding.Core.Repositories;
+
     public class ShareTypesService
     {
         private IShareTypeTableRepository tableRepository;

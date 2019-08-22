@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Models;
-using Traiding.Core.Repositories;
-
-namespace Traiding.Core.Services
+﻿namespace Traiding.Core.Services
 {
+    using System.Collections.Generic;
+    using Traiding.Core.Models;
+    using Traiding.Core.Repositories;
+    //using System;
+    //using System.Linq;
+    //using System.Text;
+    //using System.Threading.Tasks;
+
     public class OperationsService
     {
         private IOperationTableRepository tableRepository;

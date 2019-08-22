@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Dto;
-using Traiding.Core.Repositories;
-using Traiding.Core.Models;
-
-namespace Traiding.Core.Services
+﻿namespace Traiding.Core.Services
 {
+    //using System;
+    //using System.Collections.Generic;
+    //using System.Linq;
+    //using System.Text;
+    //using System.Threading.Tasks;
+    //using Traiding.Core.Dto;
+    //using Traiding.Core.Repositories;
+    //using Traiding.Core.Models;
+
     public class BlockedSharesNumbersService
     {
         /* Implemented in Sale service

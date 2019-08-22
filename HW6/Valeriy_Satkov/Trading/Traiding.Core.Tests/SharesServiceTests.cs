@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using Traiding.Core.Dto;
-using Traiding.Core.Models;
-using Traiding.Core.Repositories;
-using Traiding.Core.Services;
-
-namespace Traiding.Core.Tests
+﻿namespace Traiding.Core.Tests
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using Traiding.Core.Dto;
+    using Traiding.Core.Models;
+    using Traiding.Core.Repositories;
+    using Traiding.Core.Services;
+
     [TestClass]
     public class SharesServiceTests
     {

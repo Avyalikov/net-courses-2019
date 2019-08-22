@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Models;
-
-namespace Traiding.Core.Dto
+﻿namespace Traiding.Core.Dto
 {
+    using Traiding.Core.Models;
+
     public class BlockedSharesNumberRegistrationInfo
     {
         public SharesNumberEntity ClientSharesNumber { get; set; }

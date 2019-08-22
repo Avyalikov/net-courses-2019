@@ -1,12 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using Traiding.Core.Models;
-using Traiding.Core.Repositories;
-using Traiding.Core.Services;
-
-namespace Traiding.Core.Tests
+﻿namespace Traiding.Core.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;    
+    using Traiding.Core.Repositories;
+    using Traiding.Core.Services;
+    //using System;
+    //using Traiding.Core.Models;
+
     [TestClass]
     public class OperationsServiceTests
     {

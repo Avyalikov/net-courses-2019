@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Models;
-
-namespace Traiding.Core.Repositories
+﻿namespace Traiding.Core.Repositories
 {
+    using Traiding.Core.Models;
+
     public interface IShareTableRepository
     {
         bool Contains(ShareEntity entity);

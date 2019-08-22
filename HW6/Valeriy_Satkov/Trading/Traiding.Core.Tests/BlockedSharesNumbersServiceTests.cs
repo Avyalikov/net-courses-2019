@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using Traiding.Core.Dto;
-using Traiding.Core.Repositories;
-using Traiding.Core.Services;
-using Traiding.Core.Models;
-
-namespace Traiding.Core.Tests
+﻿namespace Traiding.Core.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    //using System;    
+    //using NSubstitute;
+    //using Traiding.Core.Dto;
+    //using Traiding.Core.Repositories;
+    //using Traiding.Core.Services;
+    //using Traiding.Core.Models;
+
     [TestClass]
     public class BlockedSharesNumbersServiceTests
     {

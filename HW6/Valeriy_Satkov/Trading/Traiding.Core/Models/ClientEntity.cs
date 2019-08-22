@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Traiding.Core.Models
+﻿namespace Traiding.Core.Models
 {
+    using System;
+
     public class ClientEntity
     {
         public int Id { get; set; }
