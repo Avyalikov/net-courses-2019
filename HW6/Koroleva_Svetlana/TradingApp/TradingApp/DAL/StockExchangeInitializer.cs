@@ -81,7 +81,7 @@ namespace TradingApp.DAL
             clientStocks.ForEach(c => context.ClientStocks.Add(c));
             context.SaveChanges();
 
-            var orders = new List<Order>
+           /* var orders = new List<Order>
             {
                 new Order{ClientID=1, StockID=1, Quantity=10, OrderType=OrderType.Sale, IsExecuted=false},
                 new Order{ClientID=2, StockID=1, Quantity=10, OrderType=OrderType.Sale, IsExecuted=false},
@@ -93,7 +93,7 @@ namespace TradingApp.DAL
                 new Order{ClientID=6, StockID=3, Quantity=10, OrderType=OrderType.Purchase, IsExecuted=false},
             };
             orders.ForEach(o => context.Orders.Add(o));
-            context.SaveChanges();
+            context.SaveChanges();*/
 
         }
     }

@@ -14,21 +14,23 @@ namespace Trading.Core.Repositories
     /// <summary>
     /// ITableRepository description
     /// </summary>
-    public interface ITableRepository
+    public interface ITableRepository<TEntity> where TEntity:class
     {
-        void Add(Object entity);
-        void AddRange(IEnumerable<Object> entities);
-        bool ContainsByPK(params object[] pk);
-        IEnumerable<Object> FindEntitiesByRequestDTO(object DTOarguments);
-        IEnumerable<Object> FindEntitiesByRequest(params object[] arguments);
+        void Add(TEntity entity);
+        void AddRange(IEnumerable<TEntity> entities);
         void SaveChanges();
-        Object Find(params object[] key);
-        bool Contains(Object entity);
+        bool ContainsByPK(params object[] pk);
+        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate );
+        IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments);
+        IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments);
+        TEntity FindByPK(params object[] key);
+        bool Contains(TEntity entity);
+        bool ContainsDTO(Object entity);
         int Count();
-        Object GetElementAt(int position);
-        Object Single();
-        Object OrderById(int type);
-        Object First();
-        IEnumerable<Object> Where(params object[] arguments);
+        TEntity GetElementAt(int position);
+        IEnumerable<TEntity> OrderById(object i);
+        TEntity First();
+        //TEntity Single(IQueryable<TEntity> entities);
+       
     }
 }

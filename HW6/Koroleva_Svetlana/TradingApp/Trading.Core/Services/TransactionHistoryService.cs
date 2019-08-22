@@ -11,12 +11,12 @@ using Trading.Core.DTO;
 
 namespace Trading.Core.Services
 {
-    class TransactionHistoryService
+    public class TransactionHistoryService
     {
 
-        private ITableRepository tableRepository;
+        private ITableRepository<TransactionHistory> tableRepository;
       
-        public TransactionHistoryService(ITableRepository tableRepository)
+        public TransactionHistoryService(ITableRepository<TransactionHistory> tableRepository)
         {
             this.tableRepository = tableRepository;
          
@@ -40,7 +40,7 @@ namespace Trading.Core.Services
             {
                 throw new ArgumentException("Transaction doesn't exist");
             }
-            return (TransactionHistory)this.tableRepository.Find(id);
+            return (TransactionHistory)this.tableRepository.FindByPK(id);
         }
 
        

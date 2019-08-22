@@ -23,13 +23,13 @@ namespace TradingApp
             log4net.Config.XmlConfigurator.Configure();
             var logger = new Logger(log4net.LogManager.GetLogger("Logger"));
             ExchangeContext db = new ExchangeContext();
-            ITableRepository clientTableRepository = new ClientTableRepository(db);
-            ITableRepository clientStockTableRepository = new ClientStockTableRepository(db);
-            ITableRepository issuerTableRepository = new IssuerTableRepository(db);
-            ITableRepository orderTableRepository = new OrderTableRepository(db);
-            ITableRepository priceHistoryTableRepository = new PriceHistoryTableRepository(db);
-            ITableRepository stockTableRepository = new StockTableRepository(db);
-            ITableRepository transactionHistoryTableRepository = new TransactionHistoryTableRepository(db);
+            ITableRepository<Client> clientTableRepository = new ClientTableRepository<Client>(db);
+            ITableRepository<ClientStock> clientStockTableRepository = new ClientStockTableRepository<ClientStock>(db);
+            ITableRepository<Issuer> issuerTableRepository = new IssuerTableRepository<Issuer>(db);
+            ITableRepository<Order> orderTableRepository = new OrderTableRepository<Order>(db);
+            ITableRepository<PriceHistory> priceHistoryTableRepository = new PriceHistoryTableRepository<PriceHistory>(db);
+            ITableRepository<Stock> stockTableRepository = new StockTableRepository<Stock>(db);
+            ITableRepository<TransactionHistory> transactionHistoryTableRepository = new TransactionHistoryTableRepository<TransactionHistory>(db);
 
             StockExchange stockExchange = new StockExchange(db,
                clientTableRepository,
@@ -39,12 +39,22 @@ namespace TradingApp
               priceHistoryTableRepository,
               stockTableRepository,
               transactionHistoryTableRepository);
+              
 
+           /* StockCopy stockExchange = new StockCopy(db,
+               clientTableRepository,
+              clientStockTableRepository,
+              issuerTableRepository,
+              orderTableRepository,
+              priceHistoryTableRepository,
+              stockTableRepository,
+              transactionHistoryTableRepository);*/
+              
 
             using (db)
             {
                 logger.Info("Trading is started");
-                stockExchange.RunTraiding();
+              stockExchange.RunTraiding();
                 logger.Info("Trading is finished");
 
             };

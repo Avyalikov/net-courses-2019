@@ -19,10 +19,10 @@ namespace Trading.Core.Services
     /// </summary>
     public class PriceHistoryService 
     {
-        private ITableRepository tableRepository;
+        private ITableRepository<PriceHistory> tableRepository;
        
 
-        public PriceHistoryService(ITableRepository tableRepository)
+        public PriceHistoryService(ITableRepository<PriceHistory> tableRepository)
         {
             this.tableRepository = tableRepository;
            
@@ -37,7 +37,7 @@ namespace Trading.Core.Services
                 DateTimeEnd = args.DateTimeEnd,
                 Price = args.Price
             };
-            if (this.tableRepository.Contains(priceHistory))
+            if (this.tableRepository.ContainsDTO(priceHistory))
             {
                 throw new ArgumentException("This price history exists. Can't continue");
             };
@@ -54,7 +54,7 @@ namespace Trading.Core.Services
             {
                 throw new ArgumentException("PriceHistory doesn't exist");
             }
-            return (PriceHistory)this.tableRepository.Find(priceHistoryId);
+            return (PriceHistory)this.tableRepository.FindByPK(priceHistoryId);
         }
 
 
@@ -66,10 +66,12 @@ namespace Trading.Core.Services
 
         public decimal GetStockPriceByDateTime(PriceArguments args)
         {
-            var priceInfos = (IEnumerable<PriceHistory>)this.tableRepository.FindEntitiesByRequestDTO(args);
+            IEnumerable < PriceHistory > priceInfos = (IEnumerable<PriceHistory>) this.tableRepository.FindEntitiesByRequestDTO(args).ToList();
             PriceHistory priceinfo = priceInfos.Single();
             decimal price =priceinfo.Price;
             return price;
+
+
         }
 
         //!!
@@ -83,8 +85,15 @@ namespace Trading.Core.Services
             tableRepository.SaveChanges();
         }
 
-        public void SimulatePriceChange(int stockId, DateTime dateTimeX)
+        public void SimulatePriceChange(int stockId, decimal priceBeforeChanges, DateTime dateTimeX)
         {
+              PriceArguments arguments = new PriceArguments()
+            {
+                DateTimeLookUp = dateTimeX,
+                StockId = stockId
+
+            };
+           
             Random random = new Random();
             bool isPriceIncreaseExpectation = false;
             if (random.Next(100) >50)
@@ -96,21 +105,16 @@ namespace Trading.Core.Services
             DateTime dateTimeEnd=DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
             decimal price;
             EditPriceDateEnd(stockId, dateTimeX);
-            PriceArguments arguments = new PriceArguments()
-            {
-                DateTimeLookUp = dateTimeX,
-                StockId = stockId
-
-            };
-            decimal currentPrice = GetStockPriceByDateTime(arguments);
+          
+         
              
             if (isPriceIncreaseExpectation)
             {
-                price = currentPrice * (decimal)(1 + percent);
+                price = priceBeforeChanges * (decimal)(1 + percent);
             }
             else
             {
-                price = currentPrice * (decimal)(1 - percent);
+                price = priceBeforeChanges * (decimal)(1 - percent);
             }
 
             PriceInfo priceInfo = new PriceInfo

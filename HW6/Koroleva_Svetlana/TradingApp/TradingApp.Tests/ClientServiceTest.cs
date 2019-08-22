@@ -10,14 +10,14 @@ using Trading.Core.Model;
 namespace TradingApp.Tests
 {
     [TestClass]
-    public class ClientModifierTest
+    public class ClientServiceTest
     {
         [TestMethod]
         public void ShouldRegisterNewClient()
         {
             //Arrange
            // var clientsTableRep = Substitute.For<ITableRepository>();
-            var clientsTableRep2 = Substitute.For<ITableRepository>();
+            var clientsTableRep2 = Substitute.For<ITableRepository<Client>>();
             ClientService clientService = new ClientService( clientsTableRep2);
             ClientInfo clientInfo = new ClientInfo { LastName = "Petrov", FirstName = "Petr", Phone = "1235698", Balance = 1000 };
             //Act

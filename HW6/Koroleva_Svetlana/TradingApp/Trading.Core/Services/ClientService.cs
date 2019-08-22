@@ -20,9 +20,9 @@ namespace Trading.Core.Services
     public class ClientService
     {
        
-        private  ITableRepository tableRepository;
+        private  ITableRepository<Client> tableRepository;
 
-        public ClientService( ITableRepository tableRepository)
+        public ClientService( ITableRepository<Client> tableRepository)
         {
             this.tableRepository = tableRepository;
         }
@@ -39,7 +39,7 @@ namespace Trading.Core.Services
                 RegistrationDateTime = DateTime.Now
             };
 
-           if (this.tableRepository.Contains(clientToAdd)) {
+           if (this.tableRepository.ContainsDTO(clientToAdd)) {
                 throw new ArgumentException("This client exists. Can't continue");
             };
             this.tableRepository.Add(clientToAdd);
@@ -54,7 +54,7 @@ namespace Trading.Core.Services
             {
                 throw new ArgumentException("Client  doesn't exist");
             }
-            return (Client)tableRepository.Find(clientId);
+            return (Client)tableRepository.FindByPK(clientId);
         }
 
 
@@ -76,9 +76,21 @@ namespace Trading.Core.Services
                 throw new NullReferenceException("There are no clients to select from");
             }
                 int number = random.Next(1,clientsAmount);
-             Client   client = (Client)tableRepository.GetElementAt(number);
+             Client   client = tableRepository.GetElementAt(number);
            
             return client;
+        }
+
+        public IEnumerable<Client> GetClientsFromOrangeZone()
+        {
+
+            return this.tableRepository.Get(o => o.Balance == 0);
+        }
+
+        public IEnumerable<Client> GetClientsFromBlackZone()
+        {
+
+            return this.tableRepository.Get(o => o.Balance <= 0);
         }
     }
 }

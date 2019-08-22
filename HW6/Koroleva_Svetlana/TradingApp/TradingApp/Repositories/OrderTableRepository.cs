@@ -13,13 +13,34 @@
     /// <summary>
     /// orderTableRepository description
     /// </summary>
-    public class OrderTableRepository : CommonTableRepositoty
+    public class OrderTableRepository<TEntity> : CommonTableRepositoty<TEntity> where TEntity : Order
     {
         public OrderTableRepository(ExchangeContext db) : base(db)
         {
         }
 
-        public override bool Contains(object entity)
+        public override IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TEntity> OrderById(object i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override TEntity GetElementAt(int position)
+        {
+            return (TEntity)this.db.Orders.OrderBy(c => c.OrderID).Skip(position - 1).Take(1).Single();
+
+        }
+
+        public override bool ContainsDTO(object entity)
         {
             Order order = (Order)entity;
 
@@ -27,66 +48,72 @@
 
                 this.db.Orders
                 .Any(c => c.ClientID == order.ClientID &&
-                c.StockID == order.StockID &&
-                c.OrderType == order.OrderType);
-        }
-
-        public override bool ContainsByPK(params object[] pk)
-        {
-            int primaryKey = (int)pk[0];
-            return this.db.Orders.Any(c => c.OrderID == primaryKey);
-        }
-
-        public override int Count()
-        {
-            return this.db.Orders.Count();
-        }
-
-        public override object Find(params object[] key)
-        {
-            return db.Orders.Find(key);
-        }
-
-        public override IEnumerable<object> FindEntitiesByRequest(params object[] arguments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IEnumerable<object> FindEntitiesByRequestDTO(object arguments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object First()
-        {
-            return this.db.Orders.First();
-        }
-
-        public override object GetElementAt(int position)
-        {
-            return this.db.Orders.OrderBy(c => c.OrderID).Skip(position - 1).Take(1).Single();
-        }
-
-        public override object OrderById(int type)
-        {
-            if (type == 0)
-            {
-                return this.db.Orders.OrderBy(c => c.OrderID);
-            }
-            return this.db.Orders.OrderByDescending(c => c.OrderID);
-        }
-
-        public override object Single()
-        {
-            return this.db.Orders.Single();
+                c.StockID == order.StockID&&
+                c.OrderType==order.OrderType
+                );
         }
 
 
-        public override IEnumerable<object> Where(params object[] arguments)
-        {
-            //for ClientID
-            int clientId = (int)arguments[0];
-            return db.Orders.Where(c => c.ClientID == clientId);
-        }
+        /* public override bool Contains(object entity)
+         {
+             Order order = (Order)entity;
+
+             return
+
+                 this.db.Orders
+                 .Any(c => c.ClientID == order.ClientID &&
+                 c.StockID == order.StockID &&
+                 c.OrderType == order.OrderType);
+         }
+
+         public override bool ContainsByPK(params object[] pk)
+         {
+             int primaryKey = (int)pk[0];
+             return this.db.Orders.Any(c => c.OrderID == primaryKey);
+         }
+
+         public override int Count()
+         {
+             return this.db.Orders.Count();
+         }
+
+         public override object Find(params object[] key)
+         {
+             return db.Orders.Find(key);
+         }
+
+         public override IEnumerable<object> FindEntitiesByRequest(params object[] arguments)
+         {
+             throw new NotImplementedException();
+         }
+
+         public override IEnumerable<object> FindEntitiesByRequestDTO(object arguments)
+         {
+             throw new NotImplementedException();
+         }
+
+
+
+         public override object GetElementAt(int position)
+         {
+             return this.db.Orders.OrderBy(c => c.OrderID).Skip(position - 1).Take(1).Single();
+         }
+
+         public override object OrderById(int type)
+         {
+             if (type == 0)
+             {
+                 return this.db.Orders.OrderBy(c => c.OrderID);
+             }
+             return this.db.Orders.OrderByDescending(c => c.OrderID);
+         }
+
+
+         public override IEnumerable<object> Where(params object[] arguments)
+         {
+             //for ClientID
+             int clientId = (int)arguments[0];
+             return db.Orders.Where(c => c.ClientID == clientId);
+         }*/
     }
 }

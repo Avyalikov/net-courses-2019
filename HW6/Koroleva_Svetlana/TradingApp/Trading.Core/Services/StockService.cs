@@ -18,9 +18,9 @@ namespace Trading.Core.Services
     /// </summary>
     public class StockService
     {
-        private ITableRepository tableRepository;
+        private ITableRepository<Stock> tableRepository;
       
-        public StockService(ITableRepository tableRepository)
+        public StockService(ITableRepository<Stock> tableRepository)
         {
             this.tableRepository = tableRepository;
           
@@ -33,7 +33,7 @@ namespace Trading.Core.Services
                 IssuerID = args.IssuerId,
                 StockType =(StockType)args.ShareType
             };
-            if (this.tableRepository.Contains(stockToAdd))
+            if (this.tableRepository.ContainsDTO(stockToAdd))
             {
                 throw new ArgumentException("This stock exists. Can't continue");
             };
@@ -47,7 +47,7 @@ namespace Trading.Core.Services
             {
                 throw new ArgumentException("Stock doesn't exist");
             }
-            return (Stock)this.tableRepository.Find(id);
+            return (Stock)this.tableRepository.FindByPK(id);
         }
 
         public Stock GetRandomStock()

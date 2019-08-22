@@ -20,9 +20,9 @@ namespace Trading.Core.Services
     public class OrderService
 
     {
-        private ITableRepository tableRepository;
+        private ITableRepository<Order> tableRepository;
         
-        public OrderService(ITableRepository tableRepository  )
+        public OrderService(ITableRepository<Order> tableRepository  )
         {
             this.tableRepository = tableRepository;
          
@@ -52,13 +52,13 @@ namespace Trading.Core.Services
             {
                 throw new ArgumentException("Order doesn't exist");
             }
-            return (Order)this.tableRepository.Find(orderId);
+            return this.tableRepository.FindByPK(orderId);
         }
 
         public Order lastOrder()
         {
             int orderAmount = this.tableRepository.Count();
-            return (Order)tableRepository.GetElementAt(orderAmount);
+            return tableRepository.GetElementAt(orderAmount);
 
         }
    

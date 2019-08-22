@@ -76,6 +76,7 @@
     <Compile Include="Repositories\PriceHistoryTableRepository.cs" />
     <Compile Include="Repositories\ClientTableRepository.cs" />
     <Compile Include="Repositories\CommonTableRepositoty.cs" />
+    <Compile Include="StocCopy.cs" />
     <Compile Include="StockExchange.cs" />
   </ItemGroup>
   <ItemGroup>

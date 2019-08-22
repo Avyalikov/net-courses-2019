@@ -17,13 +17,48 @@ namespace TradingApp.Repositories
     /// <summary>
     /// ITableRepository description
     /// </summary>
-    public class TransactionHistoryTableRepository:  CommonTableRepositoty
+    public class TransactionHistoryTableRepository<TEntity> : CommonTableRepositoty<TEntity> where TEntity : TransactionHistory
     {
-       
+
+
         public TransactionHistoryTableRepository(ExchangeContext db) : base(db)
         {
         }
 
+        public override IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TEntity> OrderById(object i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override TEntity GetElementAt(int position)
+        {
+            return (TEntity)this.db.TransactionHistories.OrderBy(c => c.TransactionHistoryID).Skip(position - 1).Take(1).Single();
+
+        }
+
+        public override bool ContainsDTO(object entity)
+        {
+            TransactionHistory transactionHistory = (TransactionHistory)entity;
+
+            return
+
+                this.db.TransactionHistories
+                .Any(c => c.CustomerOrderID == transactionHistory.CustomerOrderID &&
+                c.SalerOrderID == transactionHistory.SalerOrderID
+               );
+        }
+
+        /*
         public override bool Contains(object entity)
         {
             TransactionHistory transactionHistory  = (TransactionHistory)entity;
@@ -71,13 +106,7 @@ namespace TradingApp.Repositories
           
         }*/
 
-        
-
-        public override object Single()
-        {
-            return this.db.TransactionHistories.Single();
-        }
-
+        /*
          public override object OrderById(int type)
         {
             if (type == 0)
@@ -87,11 +116,7 @@ namespace TradingApp.Repositories
             return this.db.TransactionHistories.OrderByDescending(c => c.TransactionHistoryID);
         }
 
-        public override object First()
-        {
-            return this.db.TransactionHistories.First();
-        }
-
+       
         public override IEnumerable<object> FindEntitiesByRequestDTO(object arguments)
         {
             throw new NotImplementedException();
@@ -121,5 +146,6 @@ namespace TradingApp.Repositories
          return Transactionhistory;
 
      }*/
-}
+    }
 
+}

@@ -12,10 +12,10 @@ namespace Trading.Core.Services
 {
     public class ClientStockService
     {
-        private readonly ITableRepository tableRepository;
+        private readonly ITableRepository<ClientStock> tableRepository;
 
 
-        public ClientStockService(ITableRepository tableRepository)
+        public ClientStockService(ITableRepository<ClientStock> tableRepository)
         {
 
             this.tableRepository = tableRepository;
@@ -32,7 +32,7 @@ namespace Trading.Core.Services
            Quantity=args.Amount
            
         };
-            if (this.tableRepository.Contains(clientstockToAdd))
+            if (this.tableRepository.ContainsDTO(clientstockToAdd))
             {
                 throw new ArgumentException("This clientstock exists. Can't continue");
             };
@@ -46,9 +46,9 @@ namespace Trading.Core.Services
         {
             if (!this.tableRepository.ContainsByPK(clientId, stockId))
             {
-                throw new ArgumentException("Client doesn't exist");
+                throw new ArgumentException("Clientstock doesn't exist");
             }
-            return (ClientStock)this.tableRepository.Find(clientId, stockId);
+            return (ClientStock)this.tableRepository.FindByPK(clientId, stockId);
         }
 
         public void EditClientStocksAmount(int clientId, int stockId, int amountToAdd)
@@ -76,15 +76,15 @@ if (!this.tableRepository.ContainsByPK(clientId, stockId))
         public ClientStock GetRandomClientStock(int clientID)
         {
             Random random = new Random();
-            var clientStocks = this.tableRepository.Where(clientID).ToList();
+           var clientStocks = this.tableRepository.Get(o => o.ClientID == clientID).ToList();
+           // var idies = clientStocks.Select(o=>o.ClientID);
             int stocksAmount = clientStocks.Count();
             if (stocksAmount == 0)
             {
                 throw new NullReferenceException("There are no stocks to select from");
             }
             int number = random.Next(0, stocksAmount-1);
-            ClientStock clientStock = (ClientStock)clientStocks[number];
-
+            ClientStock clientStock = clientStocks.ToList()[number];
             return clientStock;
         }
     }

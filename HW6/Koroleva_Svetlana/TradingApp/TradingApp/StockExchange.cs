@@ -24,24 +24,24 @@ namespace TradingApp
     public class StockExchange
     {
         private readonly ExchangeContext db;
-        private readonly ITableRepository clientTableRepository;
-        private readonly ITableRepository clientStockTableRepository;
-        private readonly ITableRepository issuerTableRepository;
-        private readonly  ITableRepository orderTableRepository;
-        private readonly ITableRepository priceHistoryTableRepository;
-        private readonly ITableRepository stockTableRepository;
-        private readonly ITableRepository transactionHistoryTableRepository;
+        private readonly ITableRepository<Client> clientTableRepository;
+        private readonly ITableRepository<ClientStock> clientStockTableRepository;
+        private readonly ITableRepository<Issuer> issuerTableRepository;
+        private readonly  ITableRepository<Order> orderTableRepository;
+        private readonly ITableRepository<PriceHistory> priceHistoryTableRepository;
+        private readonly ITableRepository<Stock> stockTableRepository;
+        private readonly ITableRepository<TransactionHistory> transactionHistoryTableRepository;
 
 
 
         public StockExchange(ExchangeContext db,
-            ITableRepository clientTableRepository,
-       ITableRepository clientStockTableRepository,
-        ITableRepository issuerTableRepository,
-       ITableRepository orderTableRepository,
-         ITableRepository priceHistoryTableRepository,
-        ITableRepository stockTableRepository,
-         ITableRepository transactionHistoryTableRepository
+            ITableRepository<Client> clientTableRepository,
+       ITableRepository<ClientStock> clientStockTableRepository,
+        ITableRepository<Issuer> issuerTableRepository,
+       ITableRepository <Order>orderTableRepository,
+         ITableRepository<PriceHistory> priceHistoryTableRepository,
+        ITableRepository<Stock> stockTableRepository,
+         ITableRepository<TransactionHistory> transactionHistoryTableRepository
             )
         {
             this.db =db;
@@ -63,25 +63,29 @@ namespace TradingApp
             log4net.Config.XmlConfigurator.Configure();
             var logger = new Logger(log4net.LogManager.GetLogger("Logger"));
             int loopcount = 5;
-           for (int i = 0; i < loopcount; i++)
-            {
 
-                int amountInLotForSale = 10;
                 ClientService clientService = new ClientService(clientTableRepository);
                 ClientStockService clientStockService = new ClientStockService(clientStockTableRepository);
                 OrderService orderService = new OrderService(orderTableRepository);
                 PriceHistoryService priceHistoryService = new PriceHistoryService(priceHistoryTableRepository);
+            TransactionHistoryService transactionHistoryService = new TransactionHistoryService(transactionHistoryTableRepository);
+           for (int i = 0; i < loopcount; i++)
+            {
+
+                int amountInLotForSale = 10;
+                
 
                 //Select random saler
                 Client saler = clientService.GetRandomClient();
                 //Select random stock for saler
                 ClientStock clstock = clientStockService.GetRandomClientStock(saler.ClientID);
-                if (clstock == null)
+                if (clstock == null||clstock.Quantity<10)
                 {
-                    throw new NullReferenceException("This client has no stocks, select another saler");
-
+                    continue;
+                   //throw new NullReferenceException("This client has no stocks, select another saler");
+                  
                 }
-
+                
                 //determine amount for sale
                 int lotsAmount = clstock.Quantity / amountInLotForSale;
                 Random random = new Random();
@@ -127,14 +131,22 @@ namespace TradingApp
 
                 clientStockService.EditClientStocksAmount(saler.ClientID, clstock.StockID, -amountForSale);
                 clientStockService.EditClientStocksAmount(customer.ClientID, clstock.StockID, amountForSale);
+
+                transactionHistoryService.AddTransactionInfo(new TransactionInfo()
+                {
+                    CustomerOrderId = customerOrder.OrderID,
+                    SalerOrderId=salerOrder.OrderID,
+                    TrDateTime=dealDateTime
+               
+                });
                                 
                 orderService.SetIsExecuted(salerOrder);
                 orderService.SetIsExecuted(customerOrder);
 
-                priceHistoryService.EditPriceDateEnd(salerOrder.StockID, dealDateTime);
-                priceHistoryService.SimulatePriceChange(salerOrder.StockID, dealDateTime);
+               // priceHistoryService.EditPriceDateEnd(salerOrder.StockID, dealDateTime);
+                priceHistoryService.SimulatePriceChange(salerOrder.StockID,dealPrice, dealDateTime);
 
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
                  
 
             }

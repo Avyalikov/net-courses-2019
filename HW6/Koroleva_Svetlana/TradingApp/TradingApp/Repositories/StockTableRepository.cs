@@ -17,13 +17,46 @@ namespace TradingApp.Repositories
     /// <summary>
     /// StockTableRepository description
     /// </summary>
-    public class StockTableRepository : CommonTableRepositoty
+    public class StockTableRepository<TEntity> : CommonTableRepositoty<TEntity> where TEntity:Stock
     {
         public StockTableRepository(ExchangeContext db) : base(db)
         {
         }
 
-        public override bool Contains(object entity)
+        public override IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TEntity> OrderById(object i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override TEntity GetElementAt(int position)
+        {
+            return (TEntity)this.db.Stocks.OrderBy(c => c.StockID).Skip(position - 1).Take(1).Single();
+
+        }
+
+        public override bool ContainsDTO(object entity)
+        {
+            Stock stock = (Stock)entity;
+
+            return
+
+               this.db.Stocks
+                .Any(c => c.StockPrefix == stock.StockPrefix &&
+                c.StockType == stock.StockType &&
+                c.IssuerID == stock.IssuerID);
+        }
+
+        /*public override bool Contains(object entity)
         {
             Stock stock = (Stock)entity;
 
@@ -61,10 +94,7 @@ namespace TradingApp.Repositories
             throw new NotImplementedException();
         }
 
-        public override object First()
-        {
-            return this.db.Stocks.First();
-        }
+      
 
         public override object GetElementAt(int position)
         {
@@ -80,16 +110,12 @@ namespace TradingApp.Repositories
             return this.db.Stocks.OrderByDescending(c => c.StockID);
         }
 
-        public override object Single()
-        {
-            return this.db.Stocks.Single();
-        }
-
+     
         public override IEnumerable<object> Where(params object[] arguments)
         {
             //for StockID
             int stocktId = (int)arguments[0];
             return db.Stocks.Where(c => c.StockID == stocktId);
-        }
+        }*/
     }
 }

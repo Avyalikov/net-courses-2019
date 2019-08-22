@@ -18,8 +18,8 @@ namespace Trading.Core.Services
     /// </summary>
     public class IssuerService
     {
-        private readonly ITableRepository tableRepository;
-        public IssuerService(ITableRepository tableRepository)
+        private readonly ITableRepository<Issuer> tableRepository;
+        public IssuerService(ITableRepository<Issuer> tableRepository)
         {
             this.tableRepository = tableRepository;
         }
@@ -30,7 +30,7 @@ namespace Trading.Core.Services
                 CompanyName = args.CompanyName,
                 Address = args.Address
             };
-            if (this.tableRepository.Contains(issuer))
+            if (this.tableRepository.ContainsDTO(issuer))
             {
                 throw new ArgumentException("This issuer exists. Can't continue");
             };
