@@ -8,7 +8,7 @@ using Trading.Core.DataTransferObjects;
 
 namespace Trading.Core.Services
 {
-    public class ShareService
+    public class ShareService : IShareService
     {
         private readonly IShareRepository sharesRepository;
 

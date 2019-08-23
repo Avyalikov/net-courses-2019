@@ -55,21 +55,21 @@ namespace Trading.Core.Tests
         {
             //Arrange
             ClientService clientService = new ClientService(clientRepository);
-            ClientRegistrationInfo clientRegistrationInfo = new ClientRegistrationInfo()
+            ClientRegistrationInfo clientInfo = new ClientRegistrationInfo()
             {
                 FirstName = "Josh",
                 LastName = "Smith",
                 PhoneNumber = "80000000000"
             };
             //Act
-            int id = clientService.RegisterClient(clientRegistrationInfo);
+            int id = clientService.RegisterClient(clientInfo);
             //Assert
             clientRepository.Received(1).Add(Arg.Is<ClientEntity>(
-                w => w.ClientFirstName == clientRegistrationInfo.FirstName
-                && w.ClientLastName == clientRegistrationInfo.LastName
-                && w.PhoneNumber == clientRegistrationInfo.PhoneNumber));
+                w => w.ClientFirstName == clientInfo.FirstName
+                && w.ClientLastName == clientInfo.LastName
+                && w.PhoneNumber == clientInfo.PhoneNumber));
             clientRepository.Received(1).SaveChanges();
-            Assert.AreEqual(id, 1);
+            Assert.AreEqual(1, id);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace Trading.Core.Tests
             var clients = clientService.GetAllClients();
             //Assert
             clientRepository.Received(1).LoadAllClients();
-            Assert.AreEqual(clients.Count(), 3);
+            Assert.AreEqual(3, clients.Count());
         }
         [TestMethod]
         public void ShouldReturnClientsWithZeroBalance()

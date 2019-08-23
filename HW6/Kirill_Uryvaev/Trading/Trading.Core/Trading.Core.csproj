@@ -56,6 +56,9 @@
     <Compile Include="Repositories\IShareRepository.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ClientsSharesService.cs" />
+    <Compile Include="Interfaces\IClientService.cs" />
+    <Compile Include="Interfaces\IClientsSharesService.cs" />
+    <Compile Include="Interfaces\IShareService.cs" />
     <Compile Include="Services\ShareService.cs" />
     <Compile Include="Services\TradeValidator.cs" />
     <Compile Include="Services\TradingOperationService.cs" />

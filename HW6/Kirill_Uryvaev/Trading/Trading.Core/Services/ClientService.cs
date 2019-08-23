@@ -8,7 +8,7 @@ using Trading.Core.Repositories;
 
 namespace Trading.Core.Services
 {
-    public class ClientService
+    public class ClientService : IClientService
     {
         private readonly IClientRepository clientsRepository;
 

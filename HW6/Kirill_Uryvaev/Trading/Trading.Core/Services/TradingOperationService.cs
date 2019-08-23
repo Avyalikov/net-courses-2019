@@ -9,11 +9,11 @@ namespace Trading.Core.Services
 {
     public class TradingOperationService
     {
-        private readonly ClientService clientService;
-        private readonly ShareService shareService;
-        private readonly ClientsSharesService clientsSharesService;
+        private readonly IClientService clientService;
+        private readonly IShareService shareService;
+        private readonly IClientsSharesService clientsSharesService;
 
-        public TradingOperationService(ClientService clientService, ShareService shareService, ClientsSharesService clientsSharesService)
+        public TradingOperationService(IClientService clientService, IShareService shareService, IClientsSharesService clientsSharesService)
         {
             this.clientService = clientService;
             this.shareService = shareService;
@@ -22,6 +22,14 @@ namespace Trading.Core.Services
 
         public void SellAndBuyShares(int firstClientID, int secondClientID, ClientsSharesEntity shareType, int numberOfSoldShares)
         {
+            if (numberOfSoldShares > shareType.Amount)
+            {
+                throw new ArgumentException($"Cannot sell {numberOfSoldShares} that more than client have {shareType.Amount}");
+            }
+            if (firstClientID == secondClientID)
+            {
+                throw new ArgumentException($"Cannot sell shares to yourself");
+            }
             ClientsSharesInfo sharesInfo = new ClientsSharesInfo()
             {
                 ClientID = shareType.ClientID,

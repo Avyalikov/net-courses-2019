@@ -16,12 +16,12 @@ namespace Trading.ConsoleApp
         private readonly ILogger logger;
         private readonly IValidator validator;
 
-        private readonly ClientService clientService;
-        private readonly ShareService shareService;
-        private readonly ClientsSharesService clientsSharesService;
+        private readonly IClientService clientService;
+        private readonly IShareService shareService;
+        private readonly IClientsSharesService clientsSharesService;
 
         public TradingInteractiveService(IPhraseProvider phraseProvider, IIOProvider ioProvider, ILogger logger, IValidator validator, 
-            ClientService clientService, ShareService shareService, ClientsSharesService clientsSharesService)
+            IClientService clientService, IShareService shareService, IClientsSharesService clientsSharesService)
         {
             this.phraseProvider = phraseProvider;
             this.ioProvider = ioProvider;
