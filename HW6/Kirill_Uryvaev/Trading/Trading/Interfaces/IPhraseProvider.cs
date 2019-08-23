@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trading.Core
+namespace Trading.ConsoleApp
 {
-    public interface IIOProvider
+    public interface IPhraseProvider
     {
-        void WriteLine(string message);
-        string ReadLine();
+        string GetPhrase(string phrase);
     }
 }

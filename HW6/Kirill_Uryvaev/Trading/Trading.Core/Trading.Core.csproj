@@ -44,9 +44,7 @@
     <Compile Include="DataTransferObjects\ClientRegistrationInfo.cs" />
     <Compile Include="DataTransferObjects\ClientsSharesInfo.cs" />
     <Compile Include="DataTransferObjects\ShareRegistrationInfo.cs" />
-    <Compile Include="Interfaces\IIOProvider.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
-    <Compile Include="Interfaces\IPhraseProvider.cs" />
     <Compile Include="Interfaces\IValidator.cs" />
     <Compile Include="Models\ClientEntity.cs" />
     <Compile Include="Models\ClientsSharesEntity.cs" />
@@ -59,7 +57,7 @@
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ClientsSharesService.cs" />
     <Compile Include="Services\ShareService.cs" />
-    <Compile Include="Services\TradingInteractiveService.cs" />
+    <Compile Include="Services\TradeValidator.cs" />
     <Compile Include="Services\TradingOperationService.cs" />
   </ItemGroup>
   <ItemGroup />

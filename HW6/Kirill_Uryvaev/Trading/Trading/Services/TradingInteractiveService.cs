@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Trading.Core;
+using Trading.Core.Services;
 using Trading.Core.DataTransferObjects;
 
-namespace Trading.Core.Services
+namespace Trading.ConsoleApp
 {
     public class TradingInteractiveService
     {

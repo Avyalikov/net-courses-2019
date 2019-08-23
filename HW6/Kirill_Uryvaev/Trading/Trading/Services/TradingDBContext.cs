@@ -35,16 +35,14 @@ namespace Trading.ConsoleApp
                 .ToTable("ClientsShares");
 
             modelBuilder.Entity<ClientEntity>()
-                .Property(e => e.ClientFirstName)
-                .IsFixedLength();
+                .HasMany(e => e.ClientsShares)
+                .WithRequired(e => e.Clients)
+                .HasForeignKey(s => s.ClientID);
 
-            modelBuilder.Entity<ClientEntity>()
-                .Property(e => e.ClientLastName)
-                .IsFixedLength();
-
-            modelBuilder.Entity<ClientEntity>()
-                .Property(e => e.PhoneNumber)
-                .IsFixedLength();
+            modelBuilder.Entity<ShareEntity>()
+                .HasMany(e => e.ClientsShares)
+                .WithRequired(e => e.Shares)
+                .HasForeignKey(s => s.ShareID);
 
             modelBuilder.Entity<ClientEntity>()
                 .Property(e => e.ClientBalance)

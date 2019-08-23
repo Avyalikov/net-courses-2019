@@ -18,7 +18,7 @@ namespace Trading.ConsoleApp
             For<IPhraseProvider>().Use<JsonPhraseProvider>();
             For<IIOProvider>().Use<ConsoleIOProvider>();
             For<IValidator>().Use<TradeValidator>();
-            For<TradingOperationService>().Use<TradingOperationService>().Ctor<ILogger>().Named("OperationLogger");
+            For<TradeSimulator>().Use<TradeSimulator>().Ctor<ILogger>().Named("OperationLogger");
             For<TradingInteractiveService>().Use<TradingInteractiveService>().Ctor<ILogger>().Named("InteractionLogger");
             For<IClientRepository>().Use<ClientRepository>();
             For<IClientsSharesRepository>().Use<ClientsSharesRepository>();

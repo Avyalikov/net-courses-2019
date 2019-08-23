@@ -61,18 +61,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleIOProvider.cs" />
-    <Compile Include="JsonPhraseProvider.cs" />
-    <Compile Include="Log4netLogger.cs" />
+    <Compile Include="Services\ConsoleIOProvider.cs" />
+    <Compile Include="Interfaces\IIOProvider.cs" />
+    <Compile Include="Interfaces\IPhraseProvider.cs" />
+    <Compile Include="Services\JsonPhraseProvider.cs" />
+    <Compile Include="Services\Log4netLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
     <Compile Include="Repositories\ClientsSharesRepository.cs" />
     <Compile Include="Repositories\DBTable.cs" />
     <Compile Include="Repositories\ShareRepository.cs" />
-    <Compile Include="TradeValidator.cs" />
-    <Compile Include="TradingDBContext.cs" />
-    <Compile Include="TradingRegestry.cs" />
+    <Compile Include="Services\TradeSimulator.cs" />
+    <Compile Include="Services\TradingDBContext.cs" />
+    <Compile Include="Services\TradingInteractiveService.cs" />
+    <Compile Include="Services\TradingRegestry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

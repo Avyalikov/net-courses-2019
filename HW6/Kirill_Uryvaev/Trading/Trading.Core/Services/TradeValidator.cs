@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +7,9 @@ using Trading.Core;
 using Trading.Core.DataTransferObjects;
 using Trading.Core.Repositories;
 
-namespace Trading.ConsoleApp
+namespace Trading.Core
 {
-    class TradeValidator : IValidator
+    public class TradeValidator : IValidator
     {
         private readonly IClientRepository clientsRepository;
         private readonly IShareRepository shareRepository;
