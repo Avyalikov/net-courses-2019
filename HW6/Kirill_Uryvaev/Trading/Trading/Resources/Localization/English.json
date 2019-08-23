@@ -1,0 +1,9 @@
+{
+  "Welcome": "Welcome to the Trading App, if you want to see information about command type help",
+  "OrangeList": "Orange List:",
+  "ClientHeader": "ID FirstName LastName PhoneNumber Balance",
+  "ShareHeader": "ID CompanyName Cost",
+  "BlackList": "Black List:",
+  "FullList": "Full List:",
+  "Help": "List of commands (first word a command, other are parameters): \n addClient FirstName LastName PhoneNumber \n addShare Name Cost \n changeSharesToClient ClientID ShareID Amount \n changeClientMoney ClientID MoneyAmount \n showOrange \n showBlack \n showFullClients \n showFullShares"
+}
