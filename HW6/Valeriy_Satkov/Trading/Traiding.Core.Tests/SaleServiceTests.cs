@@ -29,38 +29,63 @@
          * 10. Remove blocked shares number
          */
 
+        IOperationTableRepository operationTableRepository;
+        IBalanceTableRepository balanceTableRepository;        
+        ISharesNumberTableRepository sharesNumberTableRepository;
+        IBlockedMoneyTableRepository blockedMoneyTableRepository;
+        IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.operationTableRepository = Substitute.For<IOperationTableRepository>();
+            this.operationTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            this.operationTableRepository.ContainsById(Arg.Is(22)).Returns(false);
+            this.operationTableRepository.ContainsById(Arg.Is(9)).Returns(true);
+
+
+            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+
+
+            this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
+
+
+            this.blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
+
+
+            this.blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
+
+
+        }
+
         /* 'Operation' methods
          */
         [TestMethod]
         public void ShouldCreateEmptyOperation()
         {
-            // Arrange
-            var operationTableRepository = Substitute.For<IOperationTableRepository>();
-            SalesService salesService = new SalesService(operationTableRepository);
+            // Arrange            
+            SalesService salesService = new SalesService(this.operationTableRepository);
 
             // Act
             var operationId = salesService.CreateOperation();
 
             // Assert
-            operationTableRepository.Received(1).Add(Arg.Is<OperationEntity>(
+            this.operationTableRepository.Received(1).Add(Arg.Is<OperationEntity>(
                 bm => bm.Id == operationId));
-            operationTableRepository.Received(1).SaveChanges();
+            this.operationTableRepository.Received(1).SaveChanges();
         }
 
         [TestMethod]
         public void ShouldGetOperationItemInfo()
         {
             // Arrange
-            var operationTableRepository = Substitute.For<IOperationTableRepository>();
-            int testId = 55;
-            operationTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-            SalesService salesService = new SalesService(operationTableRepository);
+            SalesService salesService = new SalesService(this.operationTableRepository);
 
             // Act
-            var itemInfo = salesService.GetOperation(testId);
+            var itemInfo = salesService.GetOperation(55);
 
             // Assert
-            operationTableRepository.Received(1).Get(testId);
+            this.operationTableRepository.Received(1).Get(55);
         }
 
         [TestMethod]
@@ -68,13 +93,10 @@
         public void ShouldThrowExceptionIfCantFindOperationItem()
         {
             // Arrange
-            var operationTableRepository = Substitute.For<IOperationTableRepository>();
-            int testId = 55;
-            operationTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains operation with this Id)
-            SalesService salesService = new SalesService(operationTableRepository);
+            SalesService salesService = new SalesService(this.operationTableRepository);
 
             // Act
-            salesService.ContainsOperationById(testId); // Try to get operation and get exception
+            salesService.ContainsOperationById(22); // Try to get operation and get exception
 
             // Assert
         }
@@ -83,20 +105,17 @@
         public void ShouldFillOperationColumns()
         {
             // Arrange
-            var operationTableRepository = Substitute.For<IOperationTableRepository>();
-            int testOperationId = 9;
-            operationTableRepository.ContainsById(Arg.Is(testOperationId)).Returns(true);
             SalesService salesService = new SalesService(operationTableRepository);
             int testBlockedMoneyId = 2;
             int testBlockedSharesNumberId = 7;
 
             // Act
-            salesService.FillOperationColumns(testOperationId, testBlockedMoneyId, testBlockedSharesNumberId);
+            salesService.FillOperationColumns(9, testBlockedMoneyId, testBlockedSharesNumberId);
 
             // Assert
-            operationTableRepository.Received(1).FillCustomerColumns(testOperationId, testBlockedMoneyId);
-            operationTableRepository.Received(1).FillSellerColumns(testOperationId, testBlockedSharesNumberId);
-            operationTableRepository.Received(1).SetChargeDate(testOperationId, Arg.Any<DateTime>());
+            operationTableRepository.Received(1).FillCustomerColumns(9, testBlockedMoneyId);
+            operationTableRepository.Received(1).FillSellerColumns(9, testBlockedSharesNumberId);
+            operationTableRepository.Received(1).SetChargeDate(9, Arg.Any<DateTime>());
             operationTableRepository.Received(1).SaveChanges();
         }        
 
