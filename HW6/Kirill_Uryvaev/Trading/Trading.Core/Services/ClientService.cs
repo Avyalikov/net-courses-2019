@@ -55,7 +55,7 @@ namespace Trading.Core.Services
 
         public IEnumerable<ClientEntity> GetClientsFromBlackZone()
         {
-            return clientsRepository.LoadAllClients().Where(x => x.ClientBalance == 0);
+            return clientsRepository.LoadAllClients().Where(x => x.ClientBalance < 0);
         }
     }
 }
