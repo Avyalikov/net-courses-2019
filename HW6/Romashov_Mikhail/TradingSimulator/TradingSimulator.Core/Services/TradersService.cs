@@ -28,7 +28,7 @@ namespace TradingSimulator.Core.Services
 
             if (traderTableRepository.Contains(entityToAdd))
             {
-                throw new ArgumentException("This trader has been registered.");
+                throw new ArgumentException($"This trader {entityToAdd.Name} {entityToAdd.Surname} has been registered.");
             }
             traderTableRepository.Add(entityToAdd);
 
@@ -36,19 +36,19 @@ namespace TradingSimulator.Core.Services
 
             return entityToAdd.Id;
         }
-        public TraderEntity GetTraders(int traderID)
+        public TraderEntity GetTraderById(int traderID)
         {
             if (!traderTableRepository.ContainsById(traderID))
             {
-                throw new ArgumentException("Can`t get trader by this Id.");
+                throw new ArgumentException($"Can`t get trader by this Id = {traderID}.");
             }
-            return traderTableRepository.Get(traderID);
+            return traderTableRepository.GetById(traderID);
         }
-        public TraderEntity GetTradersByName(string traderName)
+        public TraderEntity GetTraderByName(string traderName)
         {
             if (!traderTableRepository.ContainsByName(traderName))
             {
-                throw new ArgumentException("Can`t get trader by this Name.");
+                throw new ArgumentException($"Can`t get trader by this Name = {traderName}.");
             }
             return traderTableRepository.GetByName(traderName);
         }

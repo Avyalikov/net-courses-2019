@@ -12,20 +12,20 @@ namespace TradingSimulator.Core.Services
         {
             this.stockTableRepository = stockTableRepository;
         }
-        public StockEntity GetStock(int stockID)
+        public StockEntity GetStockById(int stockID)
         {
             if (!stockTableRepository.ContainsById(stockID))
             {
-                throw new ArgumentException("Can`t get stock by this Id.");
+                throw new ArgumentException($"Can`t get stock by this Id = {stockID}.");
             }
-            return stockTableRepository.Get(stockID);
+            return stockTableRepository.GetById(stockID);
         }
 
         public StockEntity GetStockByName(string  stockName)
         {
             if (!stockTableRepository.ContainsByName(stockName))
             {
-                throw new ArgumentException("Can`t get stock by this name.");
+                throw new ArgumentException($"Can`t get stock by this name = {stockName}.");
             }
             return stockTableRepository.GetByName(stockName);
         }

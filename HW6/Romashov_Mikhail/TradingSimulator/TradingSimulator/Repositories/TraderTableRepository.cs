@@ -42,7 +42,7 @@ namespace TradingSimulator.Repositories
             return this.dbContext.Traders.Any(t => t.Name == traderName);
         }
 
-        public TraderEntity Get(int traderID)
+        public TraderEntity GetById(int traderID)
         {
             var item = this.dbContext.Traders.First(t => t.Id == traderID);
             return item;

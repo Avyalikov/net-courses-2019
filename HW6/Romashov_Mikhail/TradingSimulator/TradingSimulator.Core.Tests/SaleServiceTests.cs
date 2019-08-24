@@ -8,7 +8,7 @@ using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 using TradingSimulator.Core.Services;
 
-namespace ShopSimulator.Core.Tests
+namespace TradingSimulator.Core.Tests
 {
     [TestClass]
     public class SaleServiceTests
@@ -18,6 +18,7 @@ namespace ShopSimulator.Core.Tests
         ITraderStockTableRepository traderStockTableRepository;
         IHistoryTableRepository historyTableRepository;
         List<StockToTraderEntity> traderStocksTable;
+      //  List<TraderEntity> tradersTable;
         SaleService saleHandler;
 
         [TestInitialize]
@@ -26,7 +27,25 @@ namespace ShopSimulator.Core.Tests
             historyTableRepository = Substitute.For<IHistoryTableRepository>();
             traderStockTableRepository = Substitute.For<ITraderStockTableRepository>();
             traderTableRepository = Substitute.For<ITraderTableRepository>();
-            traderTableRepository.Get(5).Returns(new TraderEntity()
+
+            //this.tradersTable = new List<TraderEntity>()
+            //{
+            //    new TraderEntity
+            //    {
+            //        Id = 5,
+            //        Name = "Muhamed",
+            //        Surname = "Ali",
+            //        Balance = 123123.0M
+            //    },
+            //    new TraderEntity
+            //    {
+            //        Id = 40,
+            //        Name = "Brad",
+            //        Surname = "Pitt",
+            //        Balance = 1243123.0M
+            //    }
+            //};
+            traderTableRepository.GetById(5).Returns(new TraderEntity()
             {
                 Id = 5,
                 Name = "Muhamed",
@@ -34,7 +53,7 @@ namespace ShopSimulator.Core.Tests
                 Balance = 123123.0M
 
             });
-            traderTableRepository.Get(40).Returns(new TraderEntity()
+            traderTableRepository.GetById(40).Returns(new TraderEntity()
             {
                 Id = 40,
                 Name = "Brad",
@@ -43,13 +62,13 @@ namespace ShopSimulator.Core.Tests
             });
 
             stockTableRepository = Substitute.For<IStockTableRepository>();
-            stockTableRepository.Get(7).Returns(new StockEntity()
+            stockTableRepository.GetById(7).Returns(new StockEntity()
             {
                 Id = 7,
                 Name = "Pepsi",
                 PricePerItem = 123.0M
             });
-            stockTableRepository.Get(20).Returns(new StockEntity()
+            stockTableRepository.GetById(20).Returns(new StockEntity()
             {
                 Id = 20,
                 Name = "Shmepsi",
@@ -71,6 +90,14 @@ namespace ShopSimulator.Core.Tests
                     Id = 2,
                     TraderId = 5,
                     StockId = 20,
+                    StockCount = 2,
+                    PricePerItem = 33.0M
+                },
+                 new StockToTraderEntity()
+                {
+                    Id = 3,
+                    TraderId = 40,
+                    StockId = 7,
                     StockCount = 2,
                     PricePerItem = 33.0M
                 }
@@ -118,7 +145,45 @@ namespace ShopSimulator.Core.Tests
                    return true;
                });
 
+            traderStockTableRepository.Contains(Arg.Any<StockToTraderEntity>())
+               .Returns((callInfo) =>
+               {
+                   var stockToTrader = callInfo.Arg<StockToTraderEntity>();
+                   try
+                   {
+                       var retVal = this.traderStocksTable.First(w => w.TraderId == stockToTrader.TraderId
+                                                              && w.StockId == stockToTrader.StockId);
+                   }
+                   catch (Exception)
+                   {
+                       return false;
+                   }
+                   return true;
+               });
+
+            traderTableRepository.ContainsById(5).Returns(true);
+            traderTableRepository.ContainsById(40).Returns(true);
+            
+
             saleHandler = new SaleService(this.traderStockTableRepository, this.traderTableRepository, this.historyTableRepository);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Imposible to make a sale, because seller hasn`t this stock id = 99")]
+        public void ShouldThrowExceptionIfHasntStock()
+        {
+            // Arrange
+            var args = new BuyArguments()
+            {
+                SellerID = 5,
+                CustomerID = 40,
+                StockID = 99,
+                StockCount = 15,
+                PricePerItem = 123.0M
+            };
+
+            // Act
+            saleHandler.HandleBuy(args);
         }
 
         [TestMethod]
@@ -126,8 +191,6 @@ namespace ShopSimulator.Core.Tests
         public void ShouldThrowExceptionIfStockAmountsIsNotEnough()
         {
             // Arrange
- //           SaleService saleHandler = new SaleService(this.traderStockTableRepository, this.traderTableRepository, this.historyTableRepository);
-
             var args = new BuyArguments()
             {
                 SellerID = 5,
@@ -142,25 +205,122 @@ namespace ShopSimulator.Core.Tests
         }
 
         [TestMethod]
-        public void ShouldAddStockToCustomerAfterBuyingIfExists()
+        public void ShouldSubtractStockFromSellerAfterSale()
         {
             //Arrange
             var args = new BuyArguments()
             {
-                SellerID = 40,
-                CustomerID = 5,
+                SellerID = 5,
+                CustomerID = 40,
                 StockID = 7,
                 StockCount = 2,
                 PricePerItem = 123.0M
             };
 
             //Act
-            //saleHandler.HandleBuy(args);
-            saleHandler.AdditionStockToCustomer(args);
+            saleHandler.HandleBuy(args);
 
             //Assert
-            this.traderStockTableRepository.Received(1).SubtractStock(Arg.Any<BuyArguments>());
-            this.traderStockTableRepository.Received(1).SaveChanges();
+            this.traderStockTableRepository.Received(1).SubtractStockFromSeller(Arg.Any<BuyArguments>());
+            this.traderStockTableRepository.Received(2).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldAddStockToCustomerAfterBuyingIfExists()
+        {
+            //Arrange
+            var args = new BuyArguments()
+            {
+                SellerID = 5,
+                CustomerID = 40,
+                StockID = 7, //Customer has this stock
+                StockCount = 2,
+                PricePerItem = 123.0M
+            };
+
+            //Act
+            saleHandler.HandleBuy(args);
+            
+            //Assert
+            this.traderStockTableRepository.Received(1).AdditionalStockToCustomer(Arg.Any<BuyArguments>());
+            this.traderStockTableRepository.Received(2).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldSubstractBalanceFromCustomer()
+        {
+            //Arrange
+            var args = new BuyArguments()
+            {
+                SellerID = 5,
+                CustomerID = 40,
+                StockID = 7, //Customer has this stock
+                StockCount = 2,
+                PricePerItem = 123.0M
+            };
+
+            //Act
+            saleHandler.HandleBuy(args);
+
+            //Assert
+            this.traderTableRepository.AdditionBalance(40, 246);
+            this.traderStockTableRepository.Received(2).SaveChanges();
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Cant get trader by this id = 45.")]
+        public void ShouldThrowExceptionIfNotContainsCustomerToSubstract()
+        {
+            //Arrange
+            var args = new BuyArguments()
+            {
+                SellerID = 23,
+                CustomerID = 45, //Bad value
+                StockID = 7,
+                StockCount = 2,
+                PricePerItem = 123.0M
+            };
+
+            //Act
+            saleHandler.HandleBuy(args);
+        }
+
+        [TestMethod]
+        public void ShouldAdditionalBalanceToSeller()
+        {
+            //Arrange
+            var args = new BuyArguments()
+            {
+                SellerID = 5,
+                CustomerID = 40,
+                StockID = 7, 
+                StockCount = 2,
+                PricePerItem = 123.0M
+            };
+
+            //Act
+            saleHandler.HandleBuy(args);
+
+            //Assert
+            this.traderTableRepository.AdditionBalance(5, 246);
+            this.traderStockTableRepository.Received(2).SaveChanges();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Cant get trader by this id = 23.")]
+        public void ShouldThrowExceptionIfNotContainsSellerToAdditional()
+        { 
+            //Arrange
+            var args = new BuyArguments()
+            {
+                SellerID = 23, //Bad value
+                CustomerID = 40,
+                StockID = 7, 
+                StockCount = 2,
+                PricePerItem = 123.0M
+            };
+
+            //Act
+            saleHandler.HandleBuy(args);
         }
 
         [TestMethod]
@@ -169,19 +329,27 @@ namespace ShopSimulator.Core.Tests
             //Arrange
             var args = new BuyArguments()
             {
-                SellerID = 40,
-                CustomerID = 5,
-                StockID = 6,
+                SellerID = 5,
+                CustomerID = 40,
+                StockID = 20, //Customer hasnt this stock
                 StockCount = 2,
                 PricePerItem = 100.0M
             };
 
+            var entityToAdd = new StockToTraderEntity()
+            {
+                TraderId = args.CustomerID,
+                StockId = args.StockID,
+                StockCount = args.StockCount,
+                PricePerItem = args.PricePerItem
+            };
+
             //Act
-            saleHandler.AdditionStockToCustomer(args);
+            saleHandler.HandleBuy(args);
 
             //Assert
             this.traderStockTableRepository.Received(1).Add(Arg.Any<StockToTraderEntity>());
-            this.traderStockTableRepository.Received(1).SaveChanges();
+            this.traderStockTableRepository.Received(2).SaveChanges();
         }
 
         [TestMethod]
@@ -205,8 +373,8 @@ namespace ShopSimulator.Core.Tests
                 w => w.CustomerID == args.CustomerID
                 && w.SellerID == args.SellerID
                 && w.StockID == args.StockID
-                && w.StockCount == args.StockCount));
-               // && w.TotalPrice == (args.StockCount * args.PricePerItem
+                && w.StockCount == args.StockCount
+                && w.TotalPrice == (args.StockCount * args.PricePerItem)));
             this.historyTableRepository.Received(1).SaveChanges();
         }
     }

@@ -18,12 +18,14 @@ namespace TradingSimulator
         private readonly StockService stockService;
         private readonly TraderStocksService traderStocks;
         private readonly SaleService saleService;
-       public TradeSimulation(TradersService traders, StockService stockService, TraderStocksService traderStocks, SaleService saleService)
+        private readonly BankruptService bankruptService;
+       public TradeSimulation(TradersService traders, StockService stockService, TraderStocksService traderStocks, SaleService saleService, BankruptService bankruptService)
         {
             this.traders = traders;
             this.stockService = stockService;
             this.traderStocks = traderStocks;
             this.saleService = saleService;
+            this.bankruptService = bankruptService;
         }
 
         public void Run()
@@ -44,7 +46,10 @@ namespace TradingSimulator
                         this.RandomSales();
                         break;
                     case "5":
-                      //  this.dataToTraiding.TestRun();
+                        this.GetOrangeZone();
+                        break;
+                    case "6":
+                        this.GetBlackZone();
                         break;
                     default:
                         break;
@@ -57,33 +62,35 @@ namespace TradingSimulator
             var listTradersStock = traderStocks.GetListTradersStock();
 
             Random random = new Random();
-            int randomNumber = random.Next(1, listTradersStock.Count());
+            int randomNumber = random.Next(1, listTradersStock.Count() + 1);
 
-            var trader = traderStocks.GetTraderStockById(randomNumber);
+            var seller = traderStocks.GetTraderStockById(randomNumber);
 
             var listTraders = traders.GetList();
-            TraderEntity trader2;
+            TraderEntity customer;
             do
             {
-                randomNumber = random.Next(1, listTraders.Count());
+                randomNumber = random.Next(1, listTraders.Count() + 1);
 
-                trader2 = traders.GetTraders(1);
-            } while (trader.TraderId == trader2.Id);
+                customer = traders.GetTraderById(randomNumber);
+            } while (seller.TraderId == customer.Id);
 
             BuyArguments buy = new BuyArguments
             {
-                SellerID = trader.TraderId,
-                CustomerID = trader2.Id,
-                StockID = trader.StockId,
+                SellerID = seller.TraderId,
+                CustomerID = customer.Id,
+                StockID = seller.StockId,
                 StockCount = 2,
-                PricePerItem = trader.PricePerItem
+                PricePerItem = seller.PricePerItem
             };
-        try
-        {
+
+            Console.WriteLine($"{buy.SellerID} --- {buy.CustomerID} --- {buy.StockID} --- {buy.StockCount}");
+            try
+            {
                 saleService.HandleBuy(buy);
                 Console.WriteLine("Succesfully");
                 Console.WriteLine($"{buy.SellerID} --- {buy.CustomerID} --- {buy.StockID} --- {buy.StockCount}");
-        }
+            }
             catch (ArgumentException e)
             {
                 Console.WriteLine($"{e.Message} Operation cancel.");
@@ -153,7 +160,7 @@ namespace TradingSimulator
             TraderEntity trader;
             try
             {
-               trader = traders.GetTradersByName(traderName);
+               trader = traders.GetTraderByName(traderName);
             }
             catch (ArgumentException e)
             {
@@ -209,6 +216,31 @@ namespace TradingSimulator
             {
                 Console.WriteLine($"{e.Message} Operation cancel.");
             }
+        }
+
+        private void GetOrangeZone()
+        {
+            List<string> tradersWithZeroBalance = new List<string>();
+            tradersWithZeroBalance = this.bankruptService.GetListTradersFromOrangeZone();
+
+            if (tradersWithZeroBalance.Count() == 0)
+            {
+                Console.WriteLine("Traders with zero balance not found.");
+                return;
+            }
+                tradersWithZeroBalance.ForEach(t => Console.WriteLine(t));
+        }
+        private void GetBlackZone()
+        {
+            List<string> tradersWithNegativeBalance = new List<string>();
+            tradersWithNegativeBalance = this.bankruptService.GetListTradersFromBlackZone();
+
+            if (tradersWithNegativeBalance.Count() == 0)
+            {
+                Console.WriteLine("Traders with negative balance not found.");
+                return;
+            }
+            tradersWithNegativeBalance.ForEach(t => Console.WriteLine(t));
         }
     }
 }

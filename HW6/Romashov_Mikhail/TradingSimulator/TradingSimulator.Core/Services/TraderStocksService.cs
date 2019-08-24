@@ -27,7 +27,7 @@ namespace TradingSimulator.Core.Services
 
             if (this.traderStockTableRepository.Contains(entityToAdd))
             {
-                throw new ArgumentException("This stock has been added for trader.");
+                throw new ArgumentException($"This stock {stock.Name} has been added for trader {trader.Name} {trader.Surname}.");
             }
 
             this.traderStockTableRepository.Add(entityToAdd);
@@ -45,7 +45,7 @@ namespace TradingSimulator.Core.Services
         public StockToTraderEntity GetTraderStockById(int id)
         {
             if (!this.traderStockTableRepository.ContainsById(id))
-                throw new ArgumentException("Can`t find item by this id");
+                throw new ArgumentException($"Can`t find item by this id = {id}");
             return this.traderStockTableRepository.GetTraderStockById(id);
         }
     }

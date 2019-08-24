@@ -14,10 +14,12 @@ namespace TradingSimulator.Dependencies
             this.For<IStockTableRepository>().Use<StockTableRepository>();
             this.For<ITraderStockTableRepository>().Use<TraderStockTableRepository>();
             this.For<IHistoryTableRepository>().Use<HistoryTableRepository>();
-            this.For<SaleService>().Use<SaleService>();
-            this.For<StockService>().Use<StockService>();
-            this.For<TradersService>().Use<TradersService>();
-            this.For<TraderStocksService>().Use<TraderStocksService>();
+            this.For<IBankruptRepository>().Use<BankruptRepository>();
+            //this.For<SaleService>().Use<SaleService>();
+            //this.For<StockService>().Use<StockService>();
+            //this.For<TradersService>().Use<TradersService>();
+            //this.For<TraderStocksService>().Use<TraderStocksService>();
+            //this.For<BankruptService>().Use <BankruptService>();
             this.For<TradingSimulatorDBContext>().Use<TradingSimulatorDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingSimulatorConnectionString"].ConnectionString);
             this.For<TradeSimulation>().Use<TradeSimulation>();
         }

@@ -11,23 +11,26 @@ namespace TradingSimulator.Core.Tests
     [TestClass]
     public class TraderStocksServiceTests
     {
+        ITraderStockTableRepository traderStocksTableRepository;
+        TraderStocksService traderStockService;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            traderStocksTableRepository = Substitute.For<ITraderStockTableRepository>();
+            traderStockService = new TraderStocksService(this.traderStocksTableRepository);
+        }
         [TestMethod]
         public void ShouldAddStockToTrader()
         {
             //Arrange
-            var traderStocksTableRepository = Substitute.For<ITraderStockTableRepository>();
-            TraderStocksService traderStockService = new TraderStocksService(traderStocksTableRepository);
             TraderInfo trader = new TraderInfo();
             StockInfo stock = new StockInfo();
 
             trader.Id = 2;
-            //trader.Name = "Monica";
-            //trader.Surname = "Belucci";
-            //trader.PhoneNumber = "+79110000000";
-
             stock.Id = 3;
-            //stock.Name = "Intel";
             stock.Count = 2;
+
             //Act
             var traderStockID = traderStockService.AddNewStockToTrader(trader, stock);
 
@@ -40,22 +43,20 @@ namespace TradingSimulator.Core.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "This stock has been added for trader.")]
+        [ExpectedException(typeof(ArgumentException), "This stock Intel has been added for trader Monica Belucci.")]
         public void ShouldNotAddNewStockToTraderIfExists()
         {
             //Arrange
-            var traderStocksTableRepository = Substitute.For<ITraderStockTableRepository>();
-            TraderStocksService traderStockService = new TraderStocksService(traderStocksTableRepository);
             TraderInfo trader = new TraderInfo();
             StockInfo stock = new StockInfo();
 
             trader.Id = 2;
-            //trader.Name = "Monica";
-            //trader.Surname = "Belucci";
-            //trader.PhoneNumber = "+79110000000";
+            trader.Name = "Monica";
+            trader.Surname = "Belucci";
+            trader.PhoneNumber = "+79110000000";
 
             stock.Id = 3;
-            //stock.Name = "Intel";
+            stock.Name = "Intel";
             stock.Count = 2;
             //Act
             var traderStockID = traderStockService.AddNewStockToTrader(trader, stock);
@@ -65,7 +66,30 @@ namespace TradingSimulator.Core.Tests
                 && w.StockId == stock.Id)).Returns(true);
             traderStockService.AddNewStockToTrader(trader, stock);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Can`t find item by this id = 55.")]
+
+        public void ShouldThrowExceptionIfCantFindTraderStockById()
+        {
+            //Arrange 
+            traderStocksTableRepository.ContainsById(Arg.Is<int>(55)).Returns(false);
+
+            //Act
+            var traderStock = traderStockService.GetTraderStockById(55);
+        }
+
+        [TestMethod]
+        public void ShouldGetTraderStockById()
+        {
+            //Arrange 
+            traderStocksTableRepository.ContainsById(Arg.Is<int>(55)).Returns(true);
+
+            //Act
+            var traders = traderStockService.GetTraderStockById(55);
+
+            //Assert
+            traderStocksTableRepository.Received(1).GetTraderStockById(55);
+        }
     }
-
-
 }

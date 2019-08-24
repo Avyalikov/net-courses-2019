@@ -2,6 +2,7 @@
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Repositories;
+
 namespace TradingSimulator.Core.Services
 {
     public class SaleService
@@ -34,7 +35,7 @@ namespace TradingSimulator.Core.Services
         {
             if (!this.traderStockTableRepository.ContainsSeller(args))
             {
-                throw new ArgumentException("Imposible to make a sale, because seller hasn`t this stock");
+                throw new ArgumentException($"Imposible to make a sale, because seller hasn`t this stock id = {args.StockID}");
             }
             var checkEntity = traderStockTableRepository.GetStocksFromSeller(args);
             if (args.StockCount > checkEntity.StockCount)
@@ -48,25 +49,21 @@ namespace TradingSimulator.Core.Services
             traderStockTableRepository.SaveChanges();
         }
 
-        private void AdditionStockToCustomer(BuyArguments args)
+        public void AdditionStockToCustomer(BuyArguments args)
         {
-            var item = new StockToTraderEntity()
+            var entityToAdd = new StockToTraderEntity()
             {
                 TraderId = args.CustomerID,
-                StockId = args.StockID
+                StockId = args.StockID,
+                StockCount = args.StockCount,
+                PricePerItem = args.PricePerItem
             };
-            if (traderStockTableRepository.Contains(item))
+            if (traderStockTableRepository.Contains(entityToAdd))
             {
                 traderStockTableRepository.AdditionalStockToCustomer(args);
             }
             else
             {
-                var entityToAdd = new StockToTraderEntity()
-                {
-                    TraderId = args.CustomerID,
-                    StockId = args.StockID,
-                    StockCount = args.StockCount
-                };
                 traderStockTableRepository.Add(entityToAdd);
             }
             traderStockTableRepository.SaveChanges();
@@ -76,7 +73,7 @@ namespace TradingSimulator.Core.Services
         {
             if (!this.traderTableRepository.ContainsById(args.CustomerID))
             {
-                throw new ArgumentException("Cant get trader by this id.");
+                throw new ArgumentException($"Cant get trader by this id = {args.CustomerID}.");
             }
             this.traderTableRepository.SubstractBalance(args.CustomerID, args.StockCount * args.PricePerItem);
             this.traderTableRepository.SaveChanges();
@@ -86,13 +83,13 @@ namespace TradingSimulator.Core.Services
         {
             if (!this.traderTableRepository.ContainsById(args.SellerID))
             {
-                throw new ArgumentException("Cant get trader by this id.");
+                throw new ArgumentException($"Cant get trader by this id = {args.SellerID}.");
             }
             this.traderTableRepository.AdditionBalance(args.SellerID, args.StockCount * args.PricePerItem);
             this.traderTableRepository.SaveChanges();
         }
 
-        private void SaveHistory(BuyArguments args)
+        public void SaveHistory(BuyArguments args)
         {
             var stockInSaleHistory = new HistoryEntity()
             {

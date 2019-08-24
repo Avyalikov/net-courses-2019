@@ -26,7 +26,7 @@ namespace TradingSimulator.Repositories
             return this.dbContext.Stocks.Any(s => s.Name == stockName);
         }
 
-        public StockEntity Get(int stockID)
+        public StockEntity GetById(int stockID)
         {
             var Item = this.dbContext.Stocks.First(t => t.Id == stockID);
             return Item;

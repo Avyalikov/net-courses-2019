@@ -11,12 +11,20 @@ namespace TradingSimulator.Core.Tests
     [TestClass]
     public class TradersServiceTests
     {
+        ITraderTableRepository traderTableRepository;
+        TradersService tradersService;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            traderTableRepository = Substitute.For<ITraderTableRepository>();
+            tradersService = new TradersService(this.traderTableRepository);
+        }
         [TestMethod]
         public void ShouldRegisterNewTrader()
         {
             //Arrange
-            var traderTableRepository = Substitute.For<ITraderTableRepository>();
-            TradersService tradersService = new TradersService(traderTableRepository);
+           
             TraderInfo trader = new TraderInfo();
 
             trader.Name = "Monica";
@@ -37,12 +45,10 @@ namespace TradingSimulator.Core.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "This trader has been registered.")]
+        [ExpectedException(typeof(ArgumentException), "This trader Monica Belucci has been registered.")]
         public void ShouldNotRegisterNewTraderIfExists()
         {
             //Arrange
-            var traderTableRepository = Substitute.For<ITraderTableRepository>();
-            TradersService tradersService = new TradersService(traderTableRepository);
             TraderInfo trader = new TraderInfo();
 
             trader.Name = "Monica";
@@ -61,32 +67,53 @@ namespace TradingSimulator.Core.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "Can`t get trader by this Id.")]
+        [ExpectedException(typeof(ArgumentException), "Can`t get trader by this Id = 55.")]
       
-        public void ShouldThrowExceptionIfCantFindTrader()
+        public void ShouldThrowExceptionIfCantFindTraderById()
         {
             //Arrange 
-            var traderTableRepository = Substitute.For<ITraderTableRepository>();
             traderTableRepository.ContainsById(Arg.Is<int>(55)).Returns(false);
-            TradersService tradersService = new TradersService(traderTableRepository);
 
             //Act
-            var traders = tradersService.GetTraders(55);
+            var traders = tradersService.GetTraderById(55);
         }
 
         [TestMethod]
-        public void ShouldGetTraderInfo()
+        public void ShouldGetTraderInfoById()
         {
             //Arrange 
-            var traderTableRepository = Substitute.For<ITraderTableRepository>();
             traderTableRepository.ContainsById(Arg.Is<int>(55)).Returns(true);
-            TradersService tradersService = new TradersService(traderTableRepository);
 
             //Act
-            var traders = tradersService.GetTraders(55);
+            var traders = tradersService.GetTraderById(55);
 
             //Assert
-            traderTableRepository.Received(1).Get(55);
+            traderTableRepository.Received(1).GetById(55);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Can`t get trader by this Name = Celentano.")]
+
+        public void ShouldThrowExceptionIfCantFindTraderByName()
+        {
+            //Arrange 
+            traderTableRepository.ContainsByName(Arg.Is<String>("Celentano")).Returns(false);
+
+            //Act
+            var traders = tradersService.GetTraderByName("Celentano");
+        }
+
+        [TestMethod]
+        public void ShouldGetTraderInfoByName()
+        {
+            //Arrange 
+            traderTableRepository.ContainsByName(Arg.Is<string>("Adriano")).Returns(true);
+
+            //Act
+            var traders = tradersService.GetTraderByName("Adriano");
+
+            //Assert
+            traderTableRepository.Received(1).GetByName("Adriano");
         }
     }
 }

@@ -29,11 +29,11 @@ namespace TradingSimulator
 
             var traders = new List<TraderEntity>
             {
-                new TraderEntity { CreatedAt = DateTime.Now, Name = "Brad", Surname = "Pitt", PhoneNumber = "89990009900", Balance = 1000000M },
-                new TraderEntity { CreatedAt = DateTime.Now, Name = "Roman", Surname = "Abramovich", PhoneNumber = "87778887788", Balance = 100000000M },
-                new TraderEntity { CreatedAt = DateTime.Now, Name = "Grzegorz", Surname = "Brzeczyszczykiewicz", PhoneNumber = "84445554455", Balance = 23000M },
-                new TraderEntity { CreatedAt = DateTime.Now, Name = "Antonio", Surname = "Banderaz", PhoneNumber = "87775557766", Balance = 200000M },
-                new TraderEntity { CreatedAt = DateTime.Now, Name = "German", Surname = "Brynza", PhoneNumber = "81112223344", Balance = 12000M },
+                new TraderEntity { CreatedAt = DateTime.Now, Name = "Brad", Surname = "Pitt", PhoneNumber = "89990009900", Balance = 100M },
+                new TraderEntity { CreatedAt = DateTime.Now, Name = "Roman", Surname = "Abramovich", PhoneNumber = "87778887788", Balance = 100M },
+                new TraderEntity { CreatedAt = DateTime.Now, Name = "Grzegorz", Surname = "Brzeczyszczykiewicz", PhoneNumber = "84445554455", Balance = 100M },
+                new TraderEntity { CreatedAt = DateTime.Now, Name = "Antonio", Surname = "Banderaz", PhoneNumber = "87775557766", Balance = 100M },
+                new TraderEntity { CreatedAt = DateTime.Now, Name = "German", Surname = "Brynza", PhoneNumber = "81112223344", Balance = 100M },
                 new TraderEntity { CreatedAt = DateTime.Now, Name = "Vinni", Surname = "Puh", PhoneNumber = "80000000001", Balance = 12390M },
             };
 

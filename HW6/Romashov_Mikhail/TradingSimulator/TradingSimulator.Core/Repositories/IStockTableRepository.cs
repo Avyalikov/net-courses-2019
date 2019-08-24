@@ -6,7 +6,7 @@ namespace TradingSimulator.Core.Repositories
     {
         bool Contains(StockEntity entity);
         bool ContainsById(int entityId);
-        StockEntity Get(int stockID);
+        StockEntity GetById(int stockID);
         bool ContainsByName(string stockName);
         StockEntity GetByName(string stockName);
     }

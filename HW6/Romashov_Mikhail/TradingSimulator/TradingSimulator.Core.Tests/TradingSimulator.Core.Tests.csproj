@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="SaleServiceTests.cs" />
     <Compile Include="StockServiceTests.cs" />
+    <Compile Include="BankruptServiceTests.cs" />
     <Compile Include="TraderStocksServiceTests.cs" />
     <Compile Include="TradersServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
