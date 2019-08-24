@@ -66,20 +66,6 @@ namespace Trading.Core.Services
             tableRepository.SaveChanges();
         }
 
-      
-       public Client GetRandomClient()
-        {
-            Random random = new Random();
-            int clientsAmount = this.tableRepository.Count();
-           if (clientsAmount == 0)
-            {
-                throw new NullReferenceException("There are no clients to select from");
-            }
-                int number = random.Next(1,clientsAmount);
-             Client   client = tableRepository.GetElementAt(number);
-           
-            return client;
-        }
 
         public IEnumerable<Client> GetClientsFromOrangeZone()
         {

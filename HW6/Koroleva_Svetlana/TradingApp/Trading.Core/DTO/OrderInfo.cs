@@ -24,7 +24,7 @@ namespace Trading.Core.DTO
         public int ClientId { get; set; }
         public int StockId { get; set; }
         public int Quantity { get; set; }
-        public OrdType ordType { get; set; }
+        public OrdType OrderType { get; set; }
         public bool IsExecuted { get; set; }
     }
 }

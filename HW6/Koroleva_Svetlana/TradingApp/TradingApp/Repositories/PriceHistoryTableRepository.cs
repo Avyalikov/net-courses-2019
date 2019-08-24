@@ -47,10 +47,7 @@ namespace TradingApp.Repositories
 
         }
 
-        public override IEnumerable<TEntity> OrderById(object i)
-        {
-            throw new NotImplementedException();
-        }
+      
         public override TEntity GetElementAt(int position)
         {
             return (TEntity)this.db.PriceHistories.OrderBy(c => c.PriceHistoryID).Skip(position - 1).Take(1).Single();
@@ -69,82 +66,5 @@ namespace TradingApp.Repositories
                  c.StockID==c.StockID);
         }
 
-        /* public override bool Contains(object entity)
-         {
-             
-         }
-
-         public override bool ContainsByPK(params object[] pk)
-         {
-             int primaryKey = (int)pk[0];
-             return this.db.PriceHistories.Any(c => c.PriceHistoryID == primaryKey);
-
-         }
-
-         public override int Count()
-         {
-             return this.db.PriceHistories.Count();
-         }
-
-         public override object Find(params object[] key)
-         {
-             return db.PriceHistories.Find(key);
-
-         }
-
-         public override object GetElementAt(int position)
-         {
-             return this.db.PriceHistories.OrderBy(c => c.PriceHistoryID).Skip(position - 1).Take(1).Single();
-         }
-
-         public override IEnumerable<object> FindEntitiesByRequestDTO(object arguments)
-         {
-             PriceArguments args = (PriceArguments)arguments;
-
-             var pricehistory=this.db.PriceHistories
-                 .Where(ph => ph.DateTimeBegin <= args.DateTimeLookUp && ph.DateTimeEnd >= args.DateTimeLookUp)
-                 .Select(p => p).Where(o => o.StockID ==args.StockId);
-
-             return (IEnumerable<object>)pricehistory.ToList();
-
-         }
-
-
-
-         public object Single1(IEnumerable<object> o)
-         {
-             //from Ienumerable
-             return o.Single();
-         }
-
-          public override object OrderById(int type)
-         {
-             if (type == 0)
-             {
-                 return this.db.PriceHistories.OrderBy(c => c.PriceHistoryID);
-             }
-             return this.db.PriceHistories.OrderByDescending(c => c.PriceHistoryID);
-         }
-
-
-
-         public override IEnumerable<object> FindEntitiesByRequest(params object[] arguments)
-         {
-             //for StockId
-             object arg=arguments[0];
-             var pricehistory = this.db.PriceHistories
-                .Select(p => p).Where(o => o.StockID == (int)arg);
-
-             return pricehistory;
-
-         }
-
-
-         public override IEnumerable<object> Where(params object[] arguments)
-         {
-             //for StockID
-             int stocktId = (int)arguments[0];
-             return db.PriceHistories.Where(c => c.StockID == stocktId);
-         }*/
     }
 }

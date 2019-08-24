@@ -29,7 +29,5 @@ namespace Trading.Core.Model
         public int Quantity { get; set; }
         public OrderType? OrderType { get; set; }
         public bool IsExecuted { get; set; }
-       
-      
     }
 }

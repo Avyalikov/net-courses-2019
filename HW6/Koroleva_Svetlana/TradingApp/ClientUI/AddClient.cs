@@ -27,15 +27,16 @@ namespace ClientUI
             {
 
                 connection.Open();
+                string regDate =DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
                 SqlCommand cmd = connection.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO Clients VALUES('" + txtBox_clientLastName.Text + "','" + txtBox_clientFirstName.Text + "','" + txtBox_clientPhone.Text + "','" + Convert.ToDecimal(txt_Balanse.Text) + "')";
+                cmd.CommandText = "INSERT INTO Clients VALUES('" + txtBox_clientLastName.Text + "','" + txtBox_clientFirstName.Text + "','" + txtBox_clientPhone.Text + "','" + Convert.ToDecimal(txt_Balance.Text) + "','"+regDate+"')";
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 txtBox_clientLastName.Clear();
                 txtBox_clientFirstName.Clear();
                 txtBox_clientPhone.Clear();
-                txt_Balanse.Clear();
+                txt_Balance.Clear();
 
 
 

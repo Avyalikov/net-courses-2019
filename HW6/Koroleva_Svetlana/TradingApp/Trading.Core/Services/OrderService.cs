@@ -33,15 +33,10 @@ namespace Trading.Core.Services
             { ClientID = args.ClientId,
                 StockID = args.StockId,
                 Quantity = args.Quantity,
-                OrderType = (OrderType)args.ordType,
+                OrderType = (OrderType)args.OrderType,
                 IsExecuted = false }
             ;
-           /* if (this.tableRepository.Contains(order))
-            {
-
-                //throw new ArgumentException("This order exists. Can't continue");
-            };*/
-
+         
             tableRepository.Add(order);
             tableRepository.SaveChanges();
         }
@@ -55,7 +50,7 @@ namespace Trading.Core.Services
             return this.tableRepository.FindByPK(orderId);
         }
 
-        public Order lastOrder()
+        public Order LastOrder()
         {
             int orderAmount = this.tableRepository.Count();
             return tableRepository.GetElementAt(orderAmount);
@@ -68,36 +63,6 @@ namespace Trading.Core.Services
             tableRepository.SaveChanges();
           
         }
-
-        /*public Order GetRandomCustomerOrder(Order salersOrder)
-        {
-            Random random = new Random();
-
-            {
-                var purchaseOrders = db.Orders.Select(o => o).Where(or => or.IsExecuted == false && (int)or.OrderType == 1 && or.StockID == salersOrder.StockID);
-
-               
-                if (purchaseOrders.Count()==0)
-                {
-                    Client client = null;
-                    do
-                    {
-                        client = clientModifier.GetRandomClient();
-                    }
-                    while (client.ClientID == salersOrder.ClientID);
-
-                    AddOrder(OrderType.Purchase, salersOrder.StockID, client.ClientID, salersOrder.Quantity);
-                    return db.Orders.OrderByDescending(o=>o.OrderID).Select(o=>o).First();
-                }
-                var purachaseOrdersIds = purchaseOrders.Select(o => o.OrderID).ToArray();
-                    int purchaseOrderNumber = random.Next(purachaseOrdersIds.Count()-1);
-                    var porderId = purachaseOrdersIds[purchaseOrderNumber];
-                    var order= purchaseOrders.Select(o => o).Where(or => or.OrderID == porderId).Single();
-                    return order;
-               
-            }
-        }*/
-
-      
+             
     }
 }

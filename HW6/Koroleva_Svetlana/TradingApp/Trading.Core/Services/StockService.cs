@@ -49,22 +49,6 @@ namespace Trading.Core.Services
             }
             return (Stock)this.tableRepository.FindByPK(id);
         }
-
-        public Stock GetRandomStock()
-        {
-            Random random = new Random();
-            int stocksAmount = this.tableRepository.Count();
-            if (stocksAmount == 0)
-            {
-                throw new NullReferenceException("There are no stocks to select from");
-            }
-            int number = random.Next(1, stocksAmount);
-            Stock stock = (Stock)tableRepository.GetElementAt(number);
-
-            return stock;
-        }
-
-        
        
     }
 }

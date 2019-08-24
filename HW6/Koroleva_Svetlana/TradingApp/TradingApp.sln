@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp", "TradingApp\Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUI", "ClientUI\ClientUI.csproj", "{FFD62DDD-11AF-41BA-AD2C-6A4AF55A2B93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.Tests", "TradingApp.Tests\TradingApp.Tests.csproj", "{56C9E10B-78E7-41BB-A50F-AF4667377963}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.Core.Tests", "TradingApp.Tests\Trading.Core.Tests.csproj", "{56C9E10B-78E7-41BB-A50F-AF4667377963}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.Core", "Trading.Core\Trading.Core.csproj", "{EFA9898A-3357-49EB-80E1-959A4A4B77A1}"
 EndProject

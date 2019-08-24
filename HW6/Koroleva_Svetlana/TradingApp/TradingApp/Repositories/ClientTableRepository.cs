@@ -37,10 +37,6 @@ namespace TradingApp.Repositories
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<TEntity> OrderById(object i)
-        {
-            throw new NotImplementedException();
-        }
 
         public override TEntity GetElementAt(int position)
         {
@@ -61,49 +57,5 @@ namespace TradingApp.Repositories
                 );
         }
 
-
-        /*
-                public override bool ContainsByPK(params object[] pk)
-                {
-                    int primaryKey = (int)pk[0];
-                    return this.db.Clients.Any(c => c.ClientID == primaryKey);
-
-                }
-
-
-                public override IEnumerable<object> FindEntitiesByRequestDTO( object arguments)
-                {
-                    throw new NotImplementedException();
-                }
-
-                public override IEnumerable<object> FindEntitiesByRequest(params object[] arguments)
-                {
-                    throw new NotImplementedException();
-                }
-
-
-
-                public override object GetElementAt(int position)
-                {
-                    return this.db.Clients.OrderBy(c=>c.ClientID).Skip(position-1).Take(1).Single();
-                }
-
-                public override object OrderById(int type)
-                {
-                    if (type == 0)
-                    {
-                        return this.db.Clients.OrderBy(c => c.ClientID);
-                    }
-                    return this.db.Clients.OrderByDescending(c => c.ClientID);
-                }
-
-
-
-                public override IEnumerable<object> Where(params object[] arguments)
-                {
-                    //for ClientID
-                    int clientId = (int)arguments[0];
-                    return db.Clients.Where(c => c.ClientID == clientId);
-                }*/
     }
 }

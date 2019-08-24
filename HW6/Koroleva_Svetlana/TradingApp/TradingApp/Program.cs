@@ -31,30 +31,35 @@ namespace TradingApp
             ITableRepository<Stock> stockTableRepository = new StockTableRepository<Stock>(db);
             ITableRepository<TransactionHistory> transactionHistoryTableRepository = new TransactionHistoryTableRepository<TransactionHistory>(db);
 
-            StockExchange stockExchange = new StockExchange(db,
-               clientTableRepository,
-              clientStockTableRepository,
-              issuerTableRepository,
-              orderTableRepository,
-              priceHistoryTableRepository,
-              stockTableRepository,
-              transactionHistoryTableRepository);
-              
+            ClientService clientService = new ClientService(clientTableRepository);
+            ClientStockService clientStockService = new ClientStockService(clientStockTableRepository);
+            OrderService orderService = new OrderService(orderTableRepository);
+            PriceHistoryService priceHistoryService = new PriceHistoryService(priceHistoryTableRepository);
+            TransactionHistoryService transactionHistoryService = new TransactionHistoryService(transactionHistoryTableRepository);
 
-           /* StockCopy stockExchange = new StockCopy(db,
-               clientTableRepository,
-              clientStockTableRepository,
-              issuerTableRepository,
-              orderTableRepository,
-              priceHistoryTableRepository,
-              stockTableRepository,
-              transactionHistoryTableRepository);*/
-              
+            
+
+            StockExchange stockExchange = new StockExchange(
+                  db,
+                  clientTableRepository,
+                  clientStockTableRepository,
+                  issuerTableRepository,
+                  orderTableRepository,
+                  priceHistoryTableRepository,
+                  stockTableRepository,
+                  transactionHistoryTableRepository,
+                  clientService,
+                  clientStockService,
+                  orderService,
+                  priceHistoryService,
+                  transactionHistoryService,
+                  logger);
+
 
             using (db)
             {
                 logger.Info("Trading is started");
-              stockExchange.RunTraiding();
+                stockExchange.RunTraiding();
                 logger.Info("Trading is finished");
 
             };
