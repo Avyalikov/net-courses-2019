@@ -5,15 +5,17 @@
     using System.Text;
     using System.Threading;
     using TradingApp.Core;
+    using TradingApp.Core.ProxyForServices;
     using TradingApp.Core.Services;
+    using TradingApp.Core.ServicesInterfaces;
     using TradingApp.View.Interface;
 
     class MainPage
     {
-        private readonly UsersService usersService;
-        private readonly ShareServices shareServices;
-        private readonly TransactionServices transactionServices;
-        private readonly PortfolioServices portfolioServices;
+        private readonly IUsersService usersService;
+        private readonly IShareServices shareServices;
+        private readonly ITransactionServices transactionServices;
+        private readonly IPortfolioServices portfolioServices;
         private readonly SimulatorOfTrading simulator;
         private readonly IIOProvider iOProvider;
         private readonly IPhraseProvider phraseProvider;
@@ -24,10 +26,10 @@
         {           
             this.iOProvider = iOProvider;
             this.phraseProvider = phraseProvider;
-            this.shareServices = container.GetInstance<ShareServices>();
-            this.usersService = container.GetInstance<UsersService>();
-            this.transactionServices = container.GetInstance<TransactionServices>();
-            this.portfolioServices = container.GetInstance<PortfolioServices>();
+            this.shareServices = container.GetInstance<ShareProxy>();
+            this.usersService = container.GetInstance<UsersProxy>();
+            this.transactionServices = container.GetInstance<TransactionProxy>();
+            this.portfolioServices = container.GetInstance<PortfolioProxy>();
             this.simulator = container.GetInstance<SimulatorOfTrading>();
         }
 
@@ -35,14 +37,7 @@
         {
             while (tradeStart)
             {
-                try
-                {
-                    simulator.StartTrading();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message); 
-                }
+                simulator.StartTrading();
                 Thread.Sleep(100);
             }
         }

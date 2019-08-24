@@ -49,6 +49,10 @@
                 throw new ArgumentException("Недопустимая цена акции");
             }
             var share = this.repo.GetShareById(id);
+            if (share == null)
+            {
+                throw new ArgumentException("Неверная акция");
+            }
             share.Price = newPrice;
             this.repo.SaveChanges();
         }
