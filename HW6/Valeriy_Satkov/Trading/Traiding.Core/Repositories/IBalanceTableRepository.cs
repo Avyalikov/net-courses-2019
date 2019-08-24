@@ -10,6 +10,7 @@
         void SaveChanges();
         bool ContainsById(int entityId);
         BalanceEntity Get(int entityId);
+        BalanceEntity SearchBalanceByClientId(int clientId);
         IEnumerable<BalanceEntity> GetZeroBalances();
         IEnumerable<BalanceEntity> GetNegativeBalances();
         // BalanceEntity GetByClient(int clientEntityId); // not implemented

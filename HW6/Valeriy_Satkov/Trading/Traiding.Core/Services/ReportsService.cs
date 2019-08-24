@@ -35,9 +35,9 @@
             return this.sharesNumberTableRepository.GetByClient(clientId);
         }
 
-        public IEnumerable<SharesNumberEntity> GetSharesNumberByType(int shareTypeId)
+        public IEnumerable<SharesNumberEntity> GetSharesNumberByShare(int shareId)
         {
-            return this.sharesNumberTableRepository.GetByType(shareTypeId);
+            return this.sharesNumberTableRepository.GetByShare(shareId);
         }
 
         public IEnumerable<BalanceEntity> GetZeroBalances()

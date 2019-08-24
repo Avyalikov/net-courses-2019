@@ -4,11 +4,11 @@
 
     public interface IBlockedMoneyTableRepository
     {
-        bool Contains(BlockedMoneyEntity entity); // Compare by 
+        // bool Contains(BlockedMoneyEntity entity); // Compare by 
         void Add(BlockedMoneyEntity entity);
         void SaveChanges();
-        bool ContainsById(int entityId);
-        BlockedMoneyEntity Get(int entityId);
+        // bool ContainsById(int entityId);
+        // BlockedMoneyEntity Get(int entityId);
         void Remove(int entityId);
     }
 }

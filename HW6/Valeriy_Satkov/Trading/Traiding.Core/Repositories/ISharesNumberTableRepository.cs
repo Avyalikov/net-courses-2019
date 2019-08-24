@@ -5,13 +5,15 @@
 
     public interface ISharesNumberTableRepository
     {
-        bool Contains(SharesNumberEntity entity); // Compare ClientId && ShareId with entity props
-        void Add(SharesNumberEntity entity);
+        // bool Contains(SharesNumberEntity entity); // Compare ClientId && ShareId with entity props
+        void Create(SharesNumberEntity entity);
         void SaveChanges();
-        bool ContainsById(int entityId);
-        SharesNumberEntity Get(int entityId);
+        // bool ContainsById(int entityId);
+        // SharesNumberEntity Get(int entityId);
+        SharesNumberEntity SearchSharesNumberForBuy(int shareId, int requiredSharesNumber);
+        SharesNumberEntity SearchSharesNumberForAddition(int clientId, int shareId);
         IEnumerable<SharesNumberEntity> GetByClient(int clientId);
-        IEnumerable<SharesNumberEntity> GetByType(int shareTypeId);
+        IEnumerable<SharesNumberEntity> GetByShare(int shareId);
         void ChangeNumber(int entityId, int newNumber);
         void Remove(int entityId);
     }

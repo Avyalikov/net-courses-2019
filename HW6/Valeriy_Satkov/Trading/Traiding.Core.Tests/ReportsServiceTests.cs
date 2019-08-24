@@ -45,18 +45,18 @@
         }
 
         [TestMethod]
-        public void ShouldGetSharesNumbersByType()
+        public void ShouldGetSharesNumbersByShare()
         {
             // Arrange
             this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
             ReportsService reportsService = new ReportsService(this.sharesNumberTableRepository);
-            int testTypeId = 3;
+            int testShareId = 3;
 
             // Act
-            var sharesNumbersOfType = reportsService.GetSharesNumberByType(testTypeId);
+            var sharesNumbersOfType = reportsService.GetSharesNumberByShare(testShareId);
 
             // Assert
-            this.sharesNumberTableRepository.Received(1).GetByType(testTypeId);
+            this.sharesNumberTableRepository.Received(1).GetByShare(testShareId);
         }
 
         [TestMethod]

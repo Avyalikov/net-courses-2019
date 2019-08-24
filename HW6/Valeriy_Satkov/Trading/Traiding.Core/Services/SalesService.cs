@@ -39,7 +39,7 @@
         }
 
         /* Sale
-         * 0.  Get info about purchase from program (Customer, Seller, Number of Shares, Total (money))
+         * 0.  Get info about purchase from program (Customer, Number of Shares, Total (money))
          * 1.  Create empty operation
          * 2.1 Get Customer balance info
          * 2.2 - Customer balance amount
@@ -55,10 +55,118 @@
          * 9.  Remove blocked money
          * 10. Remove blocked shares number
          */
-        
+        public void Deal(int customerId, int shareId, int requiredSharesNumber)
+        {
+            OperationEntity operation = null;
+            SharesNumberEntity customerSharesNumber = null;
+            SharesNumberEntity sellerSharesNumber = null;
+            ClientEntity customer = null;
+            ClientEntity seller = null;
+            BalanceEntity customerBalance = null;
+            BalanceEntity sellerBalance = null;
+            ShareEntity share = null;
+            BlockedMoneyEntity blockedMoney = null;
+            bool blockedMoneyFlag = false;
+            BlockedSharesNumberEntity blockedSharesNumber = null;
+            bool blockedSharesNumberFlag = false;
+            decimal customerBalanceAmount = 0M;            
+            decimal total = 0M;
+            int sellerSharesNumberNumber = 0;      
+            
+            operation = CreateOperation();
+            try
+            {
+                sellerSharesNumber = SearchSharesNumberForBuy(shareId, requiredSharesNumber); // search required shares on stock exchange
+                seller = sellerSharesNumber.Client;
+                share = sellerSharesNumber.Share;
+                customerBalance = SearchBalanceByClientId(customerId);
+                customer = customerBalance.Client;
+                sellerBalance = SearchBalanceByClientId(seller.Id);
+
+                // get total
+                if (share.Status == false)
+                {
+                    throw new ArgumentException("Operations with this share have been blocked.");
+                }                
+                if (share.Type.Status == false)
+                {
+                    throw new ArgumentException("Operations with this share type have been blocked.");
+                }
+                total = share.Type.Cost * requiredSharesNumber;
+
+                // Blocked money
+                customerBalanceAmount = customerBalance.Amount;
+                if (customerBalanceAmount < total)
+                {
+                    throw new ArgumentException("Customer don't have enough money.");
+                }                
+                blockedMoneyFlag = ChangeBalance(customerBalance, customerBalanceAmount - total);
+                blockedMoney = CreateBlockedMoney(new BlockedMoneyRegistrationInfo()
+                {
+                    Operation = operation,
+                    ClientBalance = customerBalance,
+                    Total = total
+                });
+
+                // Blocked shares Number
+                sellerSharesNumberNumber = sellerSharesNumber.Number;                
+                blockedSharesNumberFlag = ChangeSharesNumber(sellerSharesNumber, sellerSharesNumberNumber - requiredSharesNumber);
+                blockedSharesNumber = CreateBlockedSharesNumber(new BlockedSharesNumberRegistrationInfo()
+                {
+                    ClientSharesNumber = sellerSharesNumber,
+                    Operation = operation,
+                    Share = share,
+                    ShareTypeName = share.Type.Name,
+                    Cost = share.Type.Cost,
+                    Number = requiredSharesNumber
+                });
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException($"Deal was broken cause: {e.Message}");
+            }
+            finally
+            {
+                RemoveOperation(operation);
+
+                if (blockedMoneyFlag)
+                {
+                    ChangeBalance(customerBalance, customerBalanceAmount + total);
+                    if (blockedMoney != null)
+                    {
+                        RemoveBlockedMoney(blockedMoney);
+                    }
+                }
+
+                if (blockedSharesNumberFlag)
+                {
+                    ChangeSharesNumber(sellerSharesNumber, sellerSharesNumberNumber + requiredSharesNumber);
+                    if (blockedSharesNumber != null)
+                    {
+                        RemoveBlockedSharesNumber(blockedSharesNumber);
+                    }
+                }
+            }
+
+            if (sellerSharesNumber.Number == 0)
+            {
+                RemoveSharesNumber(sellerSharesNumber);
+            }
+            
+            ChangeBalance(sellerBalance, sellerBalance.Amount + total);
+
+            customerSharesNumber = SearchOrCreateSharesNumberForAddition(customer, share);
+            ChangeSharesNumber(customerSharesNumber, customerSharesNumber.Number + requiredSharesNumber);
+
+            FillOperationColumns(blockedMoney, blockedSharesNumber);
+
+            RemoveBlockedMoney(blockedMoney);
+            RemoveBlockedSharesNumber(blockedSharesNumber);
+        }
+
         /* 'Operation' methods
          */
-        public int CreateOperation()
+        public OperationEntity CreateOperation()
         {
             var entityToAdd = new OperationEntity();
 
@@ -66,73 +174,66 @@
 
             this.operationTableRepository.SaveChanges();
 
-            return entityToAdd.Id;
-        }
+            return entityToAdd;
+        }             
 
-        public void ContainsOperationById(int entityId)
+        public void FillOperationColumns(BlockedMoneyEntity blockedMoney, BlockedSharesNumberEntity blockedSharesNumber)
         {
-            if (!this.operationTableRepository.ContainsById(entityId))
-            {
-                throw new ArgumentException("Can't find operation with this Id. May it has not been registered.");
-            }
-        }
+            /* Operation entity:
+             * DateTime DebitDate { get; set; } // it's date from Customer blocked money
+             * ClientEntity Customer { get; set; }
+             * DateTime ChargeDate { get; set; } // it's date of finish
+             * ClientEntity Seller { get; set; }
+             * ShareEntity Share { get; set; }
+             * string ShareTypeName { get; set; } // see ShareTypeEntity.Name (The name will be fixed here at the time of purchase)
+             * decimal Cost { get; set; } // see ShareTypeEntity.Cost (The cost will be fixed here at the time of purchase)
+             * int Number { get; set; } // Number of shares for deal
+             * decimal Total { get; set; } // Total = Cost * Number
+             */
 
-        public OperationEntity GetOperation(int entityId)
-        {
-            ContainsOperationById(entityId);
-
-            return this.operationTableRepository.Get(entityId);
-        }
-
-        public void FillOperationColumns(int operationId, int blockedMoneyEntityId, int blockedSharesNumberEntityId)
-        {
-            ContainsOperationById(operationId);
-
-            this.operationTableRepository.FillCustomerColumns(operationId, blockedMoneyEntityId);
-            this.operationTableRepository.FillSellerColumns(operationId, blockedSharesNumberEntityId);
-            this.operationTableRepository.SetChargeDate(operationId, DateTime.Now);
+            this.operationTableRepository.FillCustomerColumns(blockedMoney);
+            this.operationTableRepository.FillSellerColumns(blockedSharesNumber);
+            this.operationTableRepository.SetChargeDate(blockedMoney.Operation.Id, DateTime.Now);
 
             this.operationTableRepository.SaveChanges();
         }
 
-        public void RemoveOperation(int entityId)
+        public void RemoveOperation(OperationEntity operation)
         {
-            ContainsOperationById(entityId);
-
-            this.operationTableRepository.Remove(entityId);
+            this.operationTableRepository.Remove(operation.Id);
 
             this.operationTableRepository.SaveChanges();
         }
 
         /* 'Balance' methods
          */
-        public void ContainsBalanceById(int entityId)
+        public bool ChangeBalance(BalanceEntity balance, decimal newAmount)
         {
-            if (!this.balanceTableRepository.ContainsById(entityId))
-            {
-                throw new ArgumentException("Can't find balance of client by this Id. May it has not been registered.");
-            }
-        }
-
-        public BalanceEntity GetBalance(int entityId)
-        {
-            ContainsBalanceById(entityId);
-
-            return this.balanceTableRepository.Get(entityId);
-        }
-
-        public void ChangeBalance(int entityId, decimal newAmount)
-        {
-            ContainsBalanceById(entityId);
-
-            this.balanceTableRepository.ChangeAmount(entityId, newAmount);
+            this.balanceTableRepository.ChangeAmount(balance.Id, newAmount);
 
             this.balanceTableRepository.SaveChanges();
+
+            return true;
+        }
+
+        public BalanceEntity SearchBalanceByClientId(int clientId)
+        {
+            BalanceEntity balanceEntity = this.balanceTableRepository.SearchBalanceByClientId(clientId);
+            if (balanceEntity == null)
+            {
+                throw new ArgumentException("Can't find client balance by Id");
+            }
+            if (balanceEntity.Status == false)
+            {
+                throw new ArgumentException("Operations on this balance have been blocked.");
+            }
+
+            return balanceEntity;
         }
 
         /* 'Blocked money' methods
          */
-        public int CreateBlockedMoney(BlockedMoneyRegistrationInfo args)
+        public BlockedMoneyEntity CreateBlockedMoney(BlockedMoneyRegistrationInfo args)
         {
             var entityToAdd = new BlockedMoneyEntity()
             {
@@ -143,45 +244,23 @@
                 Total = args.Total
             };
 
-            if (this.blockedMoneyTableRepository.Contains(entityToAdd))
-            {
-                throw new ArgumentException("Bloked money with this data has been registered. Can't continue.");
-            }
-
             this.blockedMoneyTableRepository.Add(entityToAdd);
 
             this.blockedMoneyTableRepository.SaveChanges();
 
-            return entityToAdd.Id;
+            return entityToAdd;
         }
 
-        public void ContainsBlockedMoneyById(int entityId)
+        public void RemoveBlockedMoney(BlockedMoneyEntity blockedMoney)
         {
-            if (!this.blockedMoneyTableRepository.ContainsById(entityId))
-            {
-                throw new ArgumentException("Can't find bloked money with this Id. May it has not been registered.");
-            }
-        }
-
-        public BlockedMoneyEntity GetBlockedMoney(int entityId)
-        {
-            ContainsBlockedMoneyById(entityId);
-
-            return this.blockedMoneyTableRepository.Get(entityId);
-        }
-
-        public void RemoveBlockedMoney(int entityId)
-        {
-            ContainsBlockedMoneyById(entityId);
-
-            this.blockedMoneyTableRepository.Remove(entityId);
+            this.blockedMoneyTableRepository.Remove(blockedMoney.Id);
 
             this.blockedMoneyTableRepository.SaveChanges();
         }
 
         /* 'Shares number' methods
          */
-        public int CreateSharesNumber(SharesNumberRegistrationInfo args)
+        public SharesNumberEntity CreateSharesNumber(SharesNumberRegistrationInfo args)
         {
             var entityToAdd = new SharesNumberEntity()
             {
@@ -190,54 +269,57 @@
                 Number = args.Number
             };
 
-            if (this.sharesNumberTableRepository.Contains(entityToAdd))
-            {
-                throw new ArgumentException("Share number with this share and client has been registered. Can't continue.");
-            }
-
-            this.sharesNumberTableRepository.Add(entityToAdd);
+            this.sharesNumberTableRepository.Create(entityToAdd);
 
             this.sharesNumberTableRepository.SaveChanges();
 
-            return entityToAdd.Id;
+            return entityToAdd;
         }
 
-        public void ContainsSharesNumberById(int entityId)
+        public bool ChangeSharesNumber(SharesNumberEntity sharesNumber, int newNumber)
         {
-            if (!this.sharesNumberTableRepository.ContainsById(entityId))
-            {
-                throw new ArgumentException("Can't find shares number of client by this Id. May it has not been registered.");
-            }
-        }
-
-        public SharesNumberEntity GetSharesNumber(int entityId)
-        {
-            ContainsSharesNumberById(entityId);
-
-            return this.sharesNumberTableRepository.Get(entityId);
-        }
-
-        public void ChangeSharesNumber(int entityId, int newNumber)
-        {
-            ContainsSharesNumberById(entityId);
-
-            this.sharesNumberTableRepository.ChangeNumber(entityId, newNumber);
+            this.sharesNumberTableRepository.ChangeNumber(sharesNumber.Id, newNumber);
 
             this.sharesNumberTableRepository.SaveChanges();
+
+            return true;
         }
 
-        public void RemoveSharesNumber(int entityId)
+        public SharesNumberEntity SearchSharesNumberForBuy(int shareId, int requiredSharesNumber)
         {
-            ContainsSharesNumberById(entityId);
+            SharesNumberEntity result = this.sharesNumberTableRepository.SearchSharesNumberForBuy(shareId, requiredSharesNumber);
+            if (result == null)
+            {
+                throw new ArgumentException("Can't find client with required shares number");
+            }
+            return result;
+        }
 
-            this.sharesNumberTableRepository.Remove(entityId);
+        public SharesNumberEntity SearchOrCreateSharesNumberForAddition(ClientEntity client, ShareEntity share)
+        {
+            SharesNumberEntity result = this.sharesNumberTableRepository.SearchSharesNumberForAddition(client.Id, share.Id);
+            if (result == null)
+            {
+                result = CreateSharesNumber(new SharesNumberRegistrationInfo()
+                {
+                    Client = client,
+                    Share = share,
+                    Number = 0
+                });
+            }
+            return result;
+        }        
+
+        public void RemoveSharesNumber(SharesNumberEntity sharesNumber)
+        {
+            this.sharesNumberTableRepository.Remove(sharesNumber.Id);
 
             this.sharesNumberTableRepository.SaveChanges();
         }
 
         /* 'Blocked shares number' methods
          */
-        public int CreateBlockedSharesNumber(BlockedSharesNumberRegistrationInfo args)
+        public BlockedSharesNumberEntity CreateBlockedSharesNumber(BlockedSharesNumberRegistrationInfo args)
         {
             var entityToAdd = new BlockedSharesNumberEntity()
             {
@@ -260,29 +342,11 @@
 
             this.blockedSharesNumberTableRepository.SaveChanges();
 
-            return entityToAdd.Id;
+            return entityToAdd;
         }
-
-        public void ContainsBlockedSharesNumberById(int entityId)
+        public void RemoveBlockedSharesNumber(BlockedSharesNumberEntity blockedSharesNumber)
         {
-            if (!this.blockedSharesNumberTableRepository.ContainsById(entityId))
-            {
-                throw new ArgumentException("Can't find bloked shares number with this Id. May it has not been registered.");
-            }
-        }
-
-        public object GetBlockedSharesNumber(int entityId)
-        {
-            ContainsBlockedSharesNumberById(entityId);
-
-            return this.blockedSharesNumberTableRepository.Get(entityId);
-        }
-
-        public void RemoveBlockedSharesNumber(int entityId)
-        {
-            ContainsBlockedSharesNumberById(entityId);
-
-            this.blockedSharesNumberTableRepository.Remove(entityId);
+            this.blockedSharesNumberTableRepository.Remove(blockedSharesNumber.Id);
 
             this.blockedSharesNumberTableRepository.SaveChanges();
         }
