@@ -2,8 +2,6 @@
 {
     public class StockOfClientsEntity
     {
-        public int AmountOfStocks;
-
         public int ID { get; set; }
         public int ClientID { get; set; }
         public int StockID { get; set; }

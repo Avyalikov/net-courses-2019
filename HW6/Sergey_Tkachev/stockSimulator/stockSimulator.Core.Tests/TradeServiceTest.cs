@@ -15,6 +15,7 @@ namespace stockSimulator.Core.Tests
         IClientTableRepository clientTableRepository;
         IStockTableRepository stockTableRepository;
         IStockOfClientsTableRepository stockClientTableRepository;
+        ITransactionHistoryTableRepository transactionHistoryTableRepository;
         //List<ClientEntity> clients;
         //List<StockEntity> stocks;
         //List<StockOfClientsEntity> stocksOfClient;
@@ -25,6 +26,7 @@ namespace stockSimulator.Core.Tests
             this.clientTableRepository = Substitute.For<IClientTableRepository>();
             this.stockTableRepository = Substitute.For<IStockTableRepository>();
             this.stockClientTableRepository = Substitute.For<IStockOfClientsTableRepository>();
+            this.transactionHistoryTableRepository = Substitute.For<ITransactionHistoryTableRepository>();
 
             clientTableRepository.Get(5).Returns(new ClientEntity()
             {
@@ -56,8 +58,19 @@ namespace stockSimulator.Core.Tests
                 ID = 2,
                 ClientID = 32,
                 StockID = 1,
-                AmountOfStocks = 5
+                Amount = 5
             });
+
+            stockTableRepository.GetCost(Arg.Is<int>(1)).Returns(10);
+            stockClientTableRepository.GetAmount(Arg.Is<int>(5),
+                                                Arg.Is<int>(1)).Returns(0);
+            stockClientTableRepository.GetAmount(Arg.Is<int>(32),
+                                                Arg.Is<int>(1)).Returns(10);
+            clientTableRepository.GetBalance(Arg.Is<int>(5)).Returns(100);
+            clientTableRepository.GetBalance(Arg.Is<int>(32)).Returns(50);
+            stockTableRepository.GetType(Arg.Is<int>(1)).Returns("P");
+
+
         }
 
         [TestMethod]
@@ -72,7 +85,8 @@ namespace stockSimulator.Core.Tests
             //EditStockOfClientInfo editArgs = new EditStockOfClientInfo();
             TransactionService transactionService = new TransactionService(this.clientTableRepository,
                                                                             this.stockTableRepository,
-                                                                            this.stockClientTableRepository);
+                                                                            this.stockClientTableRepository,
+                                                                            this.transactionHistoryTableRepository);
 
             //Act
             TradeInfo tradeInfo = new TradeInfo()
@@ -90,8 +104,7 @@ namespace stockSimulator.Core.Tests
                                                                 Arg.Is<int>(1),
                                                                 Arg.Is<int>(5));
 
-            clientTableRepository.Received(1).SaveChanges();
-            clientTableRepository.Received(1).SaveChanges();
+            clientTableRepository.Received(2).SaveChanges();
         }
 
         [TestMethod]

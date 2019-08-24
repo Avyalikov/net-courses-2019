@@ -11,5 +11,6 @@ namespace stockSimulator.Core.Repositories
         bool ContainsById(int stockId);
         void Update(StockEntity entityToUpdate);
         decimal GetCost(int stockId);
+        string GetType(int stock_ID);
     }
 }
