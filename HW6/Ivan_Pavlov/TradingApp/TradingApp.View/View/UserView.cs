@@ -1,8 +1,10 @@
 ﻿namespace TradingApp.View.View
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using TradingApp.Data.Models;
+    using TradingApp.Core.Dto;
+    using TradingApp.Core.Models;
     using TradingApp.View.Interface;
 
     class UserView
@@ -16,19 +18,19 @@
             this.iOProvider = iOProvider;
         }
 
-        public void PrinaAllUsers(IQueryable<User> users)
+        public void PrinaAllUsers(ICollection<UserEntity> users)
         {
             iOProvider.Clear();
             StringBuilder result = new StringBuilder();
             foreach (var user in users)
             {
                 result.AppendLine($"Клиент {user.Name} {user.SurName} имеет баланс {user.Balance} и телефон {user.Phone}");
-                if (user.UserShare.Count == 0)
+                if (user.UsersShares.Count == 0)
                     result.AppendLine($"\tУ пользователя еще нет акций");
                 else
-                    foreach (var item in user.UserShare)
+                    foreach (var item in user.UsersShares)
                     {
-                        result.AppendLine($"\t{item.Share.Name} в кол-ве {item.AmountStocks} по цене {item.Share.Price}");
+                        result.AppendLine($"\t{item.Share.Name} в кол-ве {item.Amount} по цене {item.Share.Price}");
                     }
                 result.AppendLine();
             }
@@ -36,7 +38,7 @@
             iOProvider.WriteLine(result.ToString());
         }
 
-        public void PrintAllUsersInOrange(IQueryable<User> users)
+        public void PrintAllUsersInOrange(ICollection<UserEntity> users)
         {
             iOProvider.Clear();
             if (users.Count() == 0)
@@ -57,7 +59,7 @@
             }           
         }
 
-        public void PrintAllUsersInBlack(IQueryable<User> users)
+        public void PrintAllUsersInBlack(ICollection<UserEntity> users)
         {
             iOProvider.Clear();
             if (users.Count() == 0)
@@ -78,9 +80,9 @@
             }
         }
 
-        public User CreateUser()
+        public UserInfo CreateUser()
         {
-            User user = new User()
+            UserInfo user = new UserInfo()
             {
                 SurName = EnterSurname(),
                 Name = EnterName(),

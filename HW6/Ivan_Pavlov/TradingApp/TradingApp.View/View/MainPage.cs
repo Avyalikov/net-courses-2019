@@ -1,25 +1,34 @@
 ﻿namespace TradingApp.View.View
 {
+    using StructureMap;
     using System;
     using System.Text;
     using System.Threading;
-    using System.Threading.Tasks;
+    using TradingApp.Core;
+    using TradingApp.Core.Services;
     using TradingApp.View.Interface;
-    using TradingApp.View.Logger;
 
     class MainPage
     {
-        private readonly ITradeLogic logic;
+        private readonly UsersService usersService;
+        private readonly ShareServices shareServices;
+        private readonly TransactionServices transactionServices;
+        private readonly PortfolioServices portfolioServices;
+        private readonly SimulatorOfTrading simulator;
         private readonly IIOProvider iOProvider;
         private readonly IPhraseProvider phraseProvider;
         private bool tradeStart = false;
         private Thread thread;
 
-        public MainPage(ITradeLogic logic, IIOProvider iOProvider, IPhraseProvider phraseProvider)
-        {
-            this.logic = logic;
+        public MainPage(Container container, IIOProvider iOProvider, IPhraseProvider phraseProvider)
+        {           
             this.iOProvider = iOProvider;
-            this.phraseProvider = phraseProvider;                    
+            this.phraseProvider = phraseProvider;
+            this.shareServices = container.GetInstance<ShareServices>();
+            this.usersService = container.GetInstance<UsersService>();
+            this.transactionServices = container.GetInstance<TransactionServices>();
+            this.portfolioServices = container.GetInstance<PortfolioServices>();
+            this.simulator = container.GetInstance<SimulatorOfTrading>();
         }
 
         private void Transaction()
@@ -28,11 +37,11 @@
             {
                 try
                 {
-                    Logger.Log.Info(logic.TransactionRun());
+                    simulator.StartTrading();
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log.Error(ex.Message);
+                    Console.WriteLine(ex.Message); 
                 }
                 Thread.Sleep(100);
             }
@@ -55,29 +64,28 @@
                     break;
                 case 2:
                     new UserView(phraseProvider, iOProvider)
-                        .PrinaAllUsers(logic.ListUsers());
+                        .PrinaAllUsers(usersService.GetAllUsers());
                     iOProvider.ReadKey();
                     break;
                 case 3:
-                    Logger.Log.Info(logic.AddUser(new UserView(phraseProvider, iOProvider)
-                        .CreateUser()));
+                    usersService.AddNewUser(new UserView(phraseProvider, iOProvider)
+                        .CreateUser());
                     break;
                 case 4:
                     new ShareView(phraseProvider, iOProvider)
-                        .PrintAllShares(logic.ListStocks());
+                        .PrintAllShares(shareServices.GetAllShares());
                     iOProvider.WriteLine(phraseProvider.GetPhrase("BackToMain"));
                     iOProvider.ReadKey();
                     break;
                 case 5:
                     ShareView share = new ShareView(phraseProvider, iOProvider);
-                    share.PrintAllShares(logic.ListStocks());
+                    share.PrintAllShares(shareServices.GetAllShares());
                     try
                     {
-                        Logger.Log.Info(logic.ChangeStockPrice(share.ShareId(), share.ShareNewPrice()));
+                        shareServices.ChangeSharePrice(share.ShareId(), share.ShareNewPrice());
                     }
                     catch (Exception ex)
                     {
-                        Logger.Log.Error(ex);
                         iOProvider.WriteLine(ex.Message);
                     }
                     iOProvider.WriteLine(phraseProvider.GetPhrase("BackToMain"));
@@ -85,12 +93,12 @@
                     break;
                 case 6:
                     new UserView(phraseProvider, iOProvider)
-                        .PrintAllUsersInOrange(logic.OrangeZone());
+                        .PrintAllUsersInOrange(usersService.GetAllUsersWithZero());
                     iOProvider.ReadKey();
                     break;
                 case 7:
                     new UserView(phraseProvider, iOProvider)
-                        .PrintAllUsersInBlack(logic.BlackZone());
+                        .PrintAllUsersInBlack(usersService.GetAllUsersWithNegativeBalance());
                     iOProvider.ReadKey();
                     break;
             }
@@ -127,6 +135,5 @@
 
             iOProvider.WriteLine(sb.ToString());
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace TradingApp.View
 {
-    using TradingApp.Data;
+    using StructureMap;
+    using TradingApp.View.DependencyInjection;
     using TradingApp.View.Provider;
     using TradingApp.View.View;
 
@@ -9,7 +10,7 @@
         static void Main(string[] args)
         {
             MainPage mp = new MainPage(
-                logic: new TradeLogic(new AppDbContext()),
+                container: new Container(new TradeRegistry()),
                 iOProvider: new ConsoleIO(),
                 phraseProvider: new JsonPhraseProvider());
 

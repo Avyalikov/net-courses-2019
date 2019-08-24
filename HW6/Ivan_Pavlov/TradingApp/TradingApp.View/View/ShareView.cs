@@ -1,8 +1,9 @@
 ﻿namespace TradingApp.View.View
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using TradingApp.Data.Models;
+    using TradingApp.Core.Models;
     using TradingApp.View.Interface;
 
     class ShareView
@@ -16,13 +17,13 @@
             this.iOProvider = iOProvider;
         }
 
-        public void PrintAllShares(IQueryable<Share> shares)
+        public void PrintAllShares(ICollection<ShareEntity> shares)
         {
             iOProvider.Clear();
             StringBuilder result = new StringBuilder();
             foreach (var share in shares)
             {
-                result.AppendLine($"{share.Id}. {share.Name} от компании {share.Company} по цене {share.Price}");
+                result.AppendLine($"{share.Id}. {share.Name} от компании {share.CompanyName} по цене {share.Price}");
             }
             iOProvider.WriteLine(result.ToString());
         }

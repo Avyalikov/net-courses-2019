@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{96ACEE4C-685A-4DA2-B10F-C4669DBD7A55}</ProjectGuid>
+    <ProjectGuid>{1577DEE8-2170-4BD5-AE40-09673CCDC9E6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>TradingApp.View</RootNamespace>
     <AssemblyName>TradingApp.View</AssemblyName>
@@ -45,6 +45,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.7.1\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -56,13 +59,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyInjection\TradeRegistry.cs" />
     <Compile Include="Interface\IIOProvider.cs" />
     <Compile Include="Interface\IPhraseProvider.cs" />
-    <Compile Include="Logger\Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\ConsoleIO.cs" />
     <Compile Include="Provider\JsonPhraseProvider.cs" />
+    <Compile Include="Repositories\PortfolioTableRepository.cs" />
+    <Compile Include="Repositories\ShareTableRepository.cs" />
+    <Compile Include="Repositories\TransactionTableRepository.cs" />
+    <Compile Include="Repositories\UserTableRepository.cs" />
+    <Compile Include="TradingAppDb.cs" />
     <Compile Include="View\MainPage.cs" />
     <Compile Include="View\ShareView.cs" />
     <Compile Include="View\UserView.cs" />
@@ -74,15 +82,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\TradingApp.Data\TradingApp.Data.csproj">
-      <Project>{33bc4dd6-0006-4126-a3e6-1cdf8e8ae322}</Project>
-      <Name>TradingApp.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TradingApp\TradingApp.csproj">
-      <Project>{dcd8d46a-d0f3-4c8f-bf1f-b3f1a018cec8}</Project>
-      <Name>TradingApp</Name>
+    <ProjectReference Include="..\TradingApp.Core\TradingApp.Core.csproj">
+      <Project>{a9530a4e-1477-4b20-ac34-e7fa65916e84}</Project>
+      <Name>TradingApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
