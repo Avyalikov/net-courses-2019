@@ -1,6 +1,7 @@
 ﻿namespace Traiding.Core.Tests
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
     using Traiding.Core.Dto;
@@ -11,618 +12,632 @@
     [TestClass]
     public class SalesServiceTests
     {
-        //IOperationTableRepository operationTableRepository;
-        //IBalanceTableRepository balanceTableRepository;        
-        //ISharesNumberTableRepository sharesNumberTableRepository;
-        //IBlockedMoneyTableRepository blockedMoneyTableRepository;
-        //IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository;
-
-        //[TestInitialize]
-        //public void Initialize()
-        //{
-        //    this.operationTableRepository = Substitute.For<IOperationTableRepository>();
-        //    this.operationTableRepository.ContainsById(Arg.Is(55)).Returns(true);
-        //    this.operationTableRepository.ContainsById(Arg.Is(22)).Returns(false);
-        //    this.operationTableRepository.ContainsById(Arg.Is(9)).Returns(true);
-
-
-        //    this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-
-
-        //    this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-
-
-        //    this.blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
-
-
-        //    this.blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
-
-
-        //}
-
-        ///* 'Operation' methods
-        // */
-        //[TestMethod]
-        //public void ShouldCreateEmptyOperation()
-        //{
-        //    // Arrange            
-        //    SalesService salesService = new SalesService(this.operationTableRepository);
-
-        //    // Act
-        //    var operationId = salesService.CreateOperation();
-
-        //    // Assert
-        //    this.operationTableRepository.Received(1).Add(Arg.Is<OperationEntity>(
-        //        bm => bm.Id == operationId));
-        //    this.operationTableRepository.Received(1).SaveChanges();
-        //}
-
-        //[TestMethod]
-        //public void ShouldGetOperationItemInfo()
-        //{
-        //    // Arrange
-        //    SalesService salesService = new SalesService(this.operationTableRepository);
-
-        //    // Act
-        //    var itemInfo = salesService.GetOperation(55);
-
-        //    // Assert
-        //    this.operationTableRepository.Received(1).Get(55);
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldThrowExceptionIfCantFindOperationItem()
-        //{
-        //    // Arrange
-        //    SalesService salesService = new SalesService(this.operationTableRepository);
-
-        //    // Act
-        //    salesService.ContainsOperationById(22); // Try to get operation and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldFillOperationColumns()
-        //{
-        //    // Arrange
-        //    SalesService salesService = new SalesService(operationTableRepository);
-        //    int testBlockedMoneyId = 2;
-        //    int testBlockedSharesNumberId = 7;
-
-        //    // Act
-        //    salesService.FillOperationColumns(9, testBlockedMoneyId, testBlockedSharesNumberId);
-
-        //    // Assert
-        //    operationTableRepository.Received(1).FillCustomerColumns(9, testBlockedMoneyId);
-        //    operationTableRepository.Received(1).FillSellerColumns(9, testBlockedSharesNumberId);
-        //    operationTableRepository.Received(1).SetChargeDate(9, Arg.Any<DateTime>());
-        //    operationTableRepository.Received(1).SaveChanges();
-        //}        
-
-        ///* 'Balance' methods
-        // */
-        //[TestMethod]
-        //public void ShouldGetBalanceInfo()
-        //{
-        //    // Arrange
-        //    var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-        //    int testId = 55;
-        //    balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(balanceTableRepository);
-
-        //    // Act
-        //    var itemInfo = salesService.GetBalance(testId);
-
-        //    // Assert
-        //    balanceTableRepository.Received(1).Get(testId);
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldThrowExceptionIfCantFindBalanceItem()
-        //{
-        //    // Arrange
-        //    var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-        //    int testId = 55;
-        //    balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains share type with this Id)
-        //    SalesService salesService = new SalesService(balanceTableRepository);
-
-        //    // Act
-        //    salesService.ContainsBalanceById(testId); // Try to get item info and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldChangeBalanceAmount()
-        //{
-        //    // Arrange
-        //    var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-        //    int testId = 55;
-        //    balanceTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(balanceTableRepository);            
-        //    decimal newAmount = 5000.00M;
-
-        //    // Act
-        //    salesService.ChangeBalance(testId, newAmount);
-
-        //    // Assert
-        //    balanceTableRepository.Received(1).ChangeAmount(testId, newAmount);
-        //    balanceTableRepository.Received(1).SaveChanges();
-        //}
-
-        ///* 'Blocked money' methods
-        // */
-        //[TestMethod]
-        //public void ShouldCreateNewBlockedMoneyItem()
-        //{
-        //    // Arrange
-        //    var blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
-        //    SalesService salesService = new SalesService(blockedMoneyTableRepository);
-        //    BlockedMoneyRegistrationInfo args = new BlockedMoneyRegistrationInfo();
-        //    args.ClientBalance = new BalanceEntity()
-        //    {
-        //        Id = 45,
-        //        Client = new ClientEntity()
-        //        {
-        //            Id = 5,
-        //            CreatedAt = DateTime.Now,
-        //            FirstName = "John",
-        //            LastName = "Snickers",
-        //            PhoneNumber = "+7956244636652",
-        //            Status = true
-        //        },
-        //        Amount = 20000.00M,
-        //        Status = true
-        //    };
-        //    args.Operation = new OperationEntity()
-        //    {
-        //        Id = 2
-        //    };
-        //    args.Total = 10000.00M;
-
-        //    // Act
-        //    var blockedMoneyId = salesService.CreateBlockedMoney(args);
-
-        //    // Assert
-        //    blockedMoneyTableRepository.Received(1).Add(Arg.Is<BlockedMoneyEntity>(
-        //        bm => bm.ClientBalance == args.ClientBalance
-        //        && bm.Operation == args.Operation
-        //        && bm.Customer == args.ClientBalance.Client
-        //        && bm.Total == args.Total));
-        //    blockedMoneyTableRepository.Received(1).SaveChanges();
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldNotRegisterNewBlockedMoneyItemIfItExists()
-        //{
-        //    // Arrange
-        //    var blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
-        //    SalesService salesService = new SalesService(blockedMoneyTableRepository);
-        //    BlockedMoneyRegistrationInfo args = new BlockedMoneyRegistrationInfo();
-        //    args.ClientBalance = new BalanceEntity()
-        //    {
-        //        Id = 45,
-        //        Client = new ClientEntity()
-        //        {
-        //            Id = 5,
-        //            CreatedAt = DateTime.Now,
-        //            FirstName = "John",
-        //            LastName = "Snickers",
-        //            PhoneNumber = "+7956244636652",
-        //            Status = true
-        //        },
-        //        Amount = 20000.00M,
-        //        Status = true
-        //    };
-        //    args.Operation = new OperationEntity()
-        //    {
-        //        Id = 2
-        //    };
-        //    args.Total = 10000.00M;
-
-        //    // Act
-        //    salesService.CreateBlockedMoney(args);
-
-        //    blockedMoneyTableRepository.Contains(Arg.Is<BlockedMoneyEntity>( // Now Contains returns true (table contains blocked money with this data)
-        //        bm => bm.ClientBalance == args.ClientBalance
-        //        && bm.Operation == args.Operation
-        //        && bm.Customer == args.ClientBalance.Client
-        //        && bm.Total == args.Total)).Returns(true);
-
-        //    salesService.CreateBlockedMoney(args); // Try to reg. same twice and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldGetBlockedMoneyItemInfo()
-        //{
-        //    // Arrange
-        //    var blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
-        //    int testId = 55;
-        //    blockedMoneyTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(blockedMoneyTableRepository);
-
-        //    // Act
-        //    var itemInfo = salesService.GetBlockedMoney(testId);
-
-        //    // Assert
-        //    blockedMoneyTableRepository.Received(1).Get(testId);
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldThrowExceptionIfCantFindSpecificBlockedMoneyItem()
-        //{
-        //    // Arrange
-        //    var blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
-        //    int testId = 55;
-        //    blockedMoneyTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains blocked money with this Id)
-        //    SalesService salesService = new SalesService(blockedMoneyTableRepository);
-
-        //    // Act
-        //    salesService.ContainsBlockedMoneyById(testId); // Try to get blocked money and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldRemoveBlockedMoneyItem()
-        //{
-        //    // Arrange
-        //    var blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
-        //    int testId = 55;
-        //    blockedMoneyTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(blockedMoneyTableRepository);
-
-        //    // Act
-        //    salesService.RemoveBlockedMoney(testId);
-
-        //    // Assert
-        //    blockedMoneyTableRepository.Received(1).Remove(testId);
-        //    blockedMoneyTableRepository.Received(1).SaveChanges();
-        //}
-
-        ///* 'Shares number' methods
-        // */
-        //[TestMethod]
-        //public void ShouldCreateNewSharesNumber()
-        //{
-        //    // Arrange
-        //    var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-        //    SalesService salesService = new SalesService(sharesNumberTableRepository);
-        //    SharesNumberRegistrationInfo args = new SharesNumberRegistrationInfo();
-        //    args.Client = new ClientEntity()
-        //    {
-        //        Id = 5,
-        //        CreatedAt = DateTime.Now,
-        //        FirstName = "John",
-        //        LastName = "Snickers",
-        //        PhoneNumber = "+7956244636652",
-        //        Status = true
-        //    };
-        //    args.Share = new ShareEntity()
-        //    {
-        //        Id = 2,
-        //        CreatedAt = DateTime.Now,
-        //        CompanyName = "Simple Company",
-        //        Type = new ShareTypeEntity()
-        //        {
-        //            Id = 4,
-        //            Name = "not so cheap",
-        //            Cost = 1200.00M,
-        //            Status = true
-        //        },
-        //        Status = true
-        //    };
-        //    args.Number = 20;
-
-        //    // Act
-        //    var shareId = salesService.CreateSharesNumber(args);
-
-        //    // Assert
-        //    sharesNumberTableRepository.Received(1).Add(Arg.Is<SharesNumberEntity>(
-        //        n => n.Client == args.Client
-        //        && n.Share == args.Share
-        //        && n.Number == args.Number));
-        //    sharesNumberTableRepository.Received(1).SaveChanges();
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldNotRegisterNewSharesNumberIfItExists()
-        //{
-        //    // Arrange
-        //    var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-        //    SalesService salesService = new SalesService(sharesNumberTableRepository);
-        //    SharesNumberRegistrationInfo args = new SharesNumberRegistrationInfo();
-        //    args.Client = new ClientEntity()
-        //    {
-        //        Id = 5,
-        //        CreatedAt = DateTime.Now,
-        //        FirstName = "John",
-        //        LastName = "Snickers",
-        //        PhoneNumber = "+7956244636652",
-        //        Status = true
-        //    };
-        //    args.Share = new ShareEntity()
-        //    {
-        //        Id = 2,
-        //        CreatedAt = DateTime.Now,
-        //        CompanyName = "Simple Company",
-        //        Type = new ShareTypeEntity()
-        //        {
-        //            Id = 4,
-        //            Name = "not so cheap",
-        //            Cost = 1200.00M,
-        //            Status = true
-        //        },
-        //        Status = true
-        //    };
-        //    args.Number = 20;
-
-        //    // Act
-        //    salesService.CreateSharesNumber(args);
-
-        //    sharesNumberTableRepository.Contains(Arg.Is<SharesNumberEntity>( // Now Contains returns true (table contains shares number of this type for client)
-        //        n => n.Client == args.Client
-        //        && n.Share == args.Share
-        //        && n.Number == args.Number)).Returns(true);
-
-        //    salesService.CreateSharesNumber(args); // Try to reg. same twice and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldGetSharesNumberInfo()
-        //{
-        //    // Arrange
-        //    var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-        //    int testId = 55;
-        //    sharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(sharesNumberTableRepository);
-
-        //    // Act
-        //    var itemInfo = salesService.GetSharesNumber(testId);
-
-        //    // Assert
-        //    sharesNumberTableRepository.Received(1).Get(testId);
-        //}
-
-        //[TestMethod]
-        //public void ShouldSearchSharesNumberItem()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldThrowExceptionIfCantFindSharesNumber()
-        //{
-        //    // Arrange
-        //    var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-        //    int testId = 55;
-        //    sharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains share number with this Id)
-        //    SalesService salesService = new SalesService(sharesNumberTableRepository);
-
-        //    // Act
-        //    salesService.ContainsSharesNumberById(testId); // Try to get shares number and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldChangeSharesNumber()
-        //{
-        //    // Arrange
-        //    var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-        //    int testId = 55;
-        //    sharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(sharesNumberTableRepository);
-        //    int newNumber = 21;
-
-        //    // Act
-        //    salesService.ChangeSharesNumber(testId, newNumber);
-
-        //    // Assert
-        //    sharesNumberTableRepository.Received(1).ChangeNumber(testId, newNumber);
-        //    sharesNumberTableRepository.Received(1).SaveChanges();
-        //}
-
-        //[TestMethod]
-        //public void ShouldRemoveShareNumber()
-        //{
-        //    // Arrange
-        //    var sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-        //    int testId = 55;
-        //    sharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(sharesNumberTableRepository);
-
-        //    // Act
-        //    salesService.RemoveSharesNumber(testId);
-
-        //    // Assert
-        //    sharesNumberTableRepository.Received(1).Remove(testId);
-        //    sharesNumberTableRepository.Received(1).SaveChanges();
-        //}
-
-        ///* 'Blocked shares number' methods
-        // */
-        //[TestMethod]
-        //public void ShouldCreateNewBlockedSharesNumberItem()
-        //{
-        //    // Arrange
-        //    var blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
-        //    SalesService salesService = new SalesService(blockedSharesNumberTableRepository);
-        //    BlockedSharesNumberRegistrationInfo args = new BlockedSharesNumberRegistrationInfo();
-
-        //    args.ClientSharesNumber = new SharesNumberEntity()
-        //    {
-        //        Id = 30,
-        //        Client = new ClientEntity()
-        //        {
-        //            Id = 5,
-        //            CreatedAt = DateTime.Now,
-        //            FirstName = "John",
-        //            LastName = "Snickers",
-        //            PhoneNumber = "+7956244636652",
-        //            Status = true
-        //        },
-        //        Share = new ShareEntity()
-        //        {
-        //            Id = 2,
-        //            CreatedAt = DateTime.Now,
-        //            CompanyName = "Simple Company",
-        //            Type = new ShareTypeEntity()
-        //            {
-        //                Id = 4,
-        //                Name = "not so cheap",
-        //                Cost = 1200.00M,
-        //                Status = true
-        //            },
-        //            Status = true
-        //        },
-        //        Number = 7
-        //    };
-        //    args.Operation = new OperationEntity()
-        //    {
-        //        Id = 2
-        //    };
-        //    args.Share = args.ClientSharesNumber.Share;
-        //    args.ShareTypeName = args.ClientSharesNumber.Share.Type.Name;
-        //    args.Cost = args.ClientSharesNumber.Share.Type.Cost;
-        //    args.Number = 5;
-
-        //    // Act
-        //    var blockedSharesNumberId = salesService.CreateBlockedSharesNumber(args);
-
-        //    // Assert
-        //    blockedSharesNumberTableRepository.Received(1).Add(Arg.Is<BlockedSharesNumberEntity>(
-        //        bn => bn.ClientSharesNumber == args.ClientSharesNumber
-        //        && bn.Operation == args.Operation
-        //        && bn.Seller == args.ClientSharesNumber.Client
-        //        && bn.Share == args.Share
-        //        && bn.ShareTypeName == args.ShareTypeName
-        //        && bn.Cost == args.Cost
-        //        && bn.Number == args.Number));
-        //    blockedSharesNumberTableRepository.Received(1).SaveChanges();
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldNotRegisterNewBlockedSharesNumberItemIfItExists()
-        //{
-        //    // Arrange
-        //    var blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
-        //    SalesService salesService = new SalesService(blockedSharesNumberTableRepository);
-        //    BlockedSharesNumberRegistrationInfo args = new BlockedSharesNumberRegistrationInfo();
-
-        //    args.ClientSharesNumber = new SharesNumberEntity()
-        //    {
-        //        Id = 30,
-        //        Client = new ClientEntity()
-        //        {
-        //            Id = 5,
-        //            CreatedAt = DateTime.Now,
-        //            FirstName = "John",
-        //            LastName = "Snickers",
-        //            PhoneNumber = "+7956244636652",
-        //            Status = true
-        //        },
-        //        Share = new ShareEntity()
-        //        {
-        //            Id = 2,
-        //            CreatedAt = DateTime.Now,
-        //            CompanyName = "Simple Company",
-        //            Type = new ShareTypeEntity()
-        //            {
-        //                Id = 4,
-        //                Name = "not so cheap",
-        //                Cost = 1200.00M,
-        //                Status = true
-        //            },
-        //            Status = true
-        //        },
-        //        Number = 7
-        //    };
-        //    args.Operation = new OperationEntity()
-        //    {
-        //        Id = 2
-        //    };
-        //    args.Share = args.ClientSharesNumber.Share;
-        //    args.ShareTypeName = args.ClientSharesNumber.Share.Type.Name;
-        //    args.Cost = args.ClientSharesNumber.Share.Type.Cost;
-        //    args.Number = 5;
-
-        //    // Act
-        //    salesService.CreateBlockedSharesNumber(args);
-
-        //    blockedSharesNumberTableRepository.Contains(Arg.Is<BlockedSharesNumberEntity>( // Now Contains returns true (table contains blocked shares number with this data)
-        //        bn => bn.ClientSharesNumber == args.ClientSharesNumber
-        //        && bn.Operation == args.Operation
-        //        && bn.Seller == args.ClientSharesNumber.Client
-        //        && bn.Share == args.Share
-        //        && bn.ShareTypeName == args.ShareTypeName
-        //        && bn.Cost == args.Cost
-        //        && bn.Number == args.Number)).Returns(true);
-
-        //    salesService.CreateBlockedSharesNumber(args); // Try to reg. same twice and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldGetBlockedSharesNumberItemInfo()
-        //{
-        //    // Arrange
-        //    var blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
-        //    int testId = 55;
-        //    blockedSharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(blockedSharesNumberTableRepository);
-
-        //    // Act
-        //    var itemInfo = salesService.GetBlockedSharesNumber(testId);
-
-        //    // Assert
-        //    blockedSharesNumberTableRepository.Received(1).Get(testId);
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
-        //public void ShouldThrowExceptionIfCantFindSpecificBlockedSharesNumberItem()
-        //{
-        //    // Arrange
-        //    var blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
-        //    int testId = 55;
-        //    blockedSharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains blocked money with this Id)
-        //    SalesService salesService = new SalesService(blockedSharesNumberTableRepository);
-
-        //    // Act
-        //    salesService.ContainsBlockedSharesNumberById(testId); // Try to get blocked money and get exception
-
-        //    // Assert
-        //}
-
-        //[TestMethod]
-        //public void ShouldRemoveBlockedSharesNumberItem()
-        //{
-        //    // Arrange
-        //    var blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
-        //    int testId = 55;
-        //    blockedSharesNumberTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
-        //    SalesService salesService = new SalesService(blockedSharesNumberTableRepository);
-
-        //    // Act
-        //    salesService.RemoveBlockedSharesNumber(testId);
-
-        //    // Assert
-        //    blockedSharesNumberTableRepository.Received(1).Remove(testId);
-        //    blockedSharesNumberTableRepository.Received(1).SaveChanges();
-        //}        
-    }    
+        IOperationTableRepository operationTableRepository;
+        IBalanceTableRepository balanceTableRepository;
+        ISharesNumberTableRepository sharesNumberTableRepository;
+        IBlockedMoneyTableRepository blockedMoneyTableRepository;        
+        IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.operationTableRepository = Substitute.For<IOperationTableRepository>();
+
+            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+
+            this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
+
+            this.blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
+
+            this.blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
+        }
+
+        /* 'Operation' methods
+         */
+        [TestMethod]
+        public void ShouldCreateEmptyOperation()
+        {
+            // Arrange            
+            SalesService salesService = new SalesService(
+                this.operationTableRepository, 
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+
+            // Act
+            var operation = salesService.CreateOperation();
+
+            // Assert
+            this.operationTableRepository.Received(1).Add(Arg.Is<OperationEntity>(
+                o => o.Id == operation.Id 
+                && o.Customer == null
+                && o.Seller == null
+                && o.Share == null
+                && o.ShareTypeName == null
+                && o.Cost == 1 
+                && o.Number == 1 
+                && o.Total == 1));
+            this.operationTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldFillOperationColumns()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            var testBlockedMoney = new BlockedMoneyEntity()
+            {
+                Id = 2,
+                CreatedAt = DateTime.Now,
+                ClientBalance = new BalanceEntity() { Id = 2 },
+                Operation = new OperationEntity() { Id = 1 },
+                Customer = new ClientEntity() { Id = 2 },
+                Total = 1000.00M
+            };
+            var testBlockedSharesNumber = new BlockedSharesNumberEntity()
+            {
+                Id = 2,
+                CreatedAt = DateTime.Now,
+                ClientSharesNumber = new SharesNumberEntity() { Id = 4},
+                Operation = new OperationEntity() { Id = 1 },
+                Seller = new ClientEntity() { Id = 1 },
+                Share = new ShareEntity() { Id = 3 },
+                ShareTypeName = "sharename",
+                Cost = 500,
+                Number = 3,
+            };
+
+            // Act
+            salesService.FillOperationColumns(testBlockedMoney, testBlockedSharesNumber);
+
+            // Assert
+            operationTableRepository.Received(1).FillCustomerColumns(testBlockedMoney);
+            operationTableRepository.Received(1).FillSellerColumns(testBlockedSharesNumber);
+            operationTableRepository.Received(1).SetChargeDate(testBlockedMoney.Operation.Id, Arg.Any<DateTime>());
+            operationTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldRemoveOperation()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            var testOperation = new OperationEntity() { Id = 500 };
+
+            // Act
+            salesService.RemoveOperation(testOperation);
+
+            // Assert
+            this.operationTableRepository.Received(1).Remove(testOperation.Id);
+            operationTableRepository.Received(1).SaveChanges();
+        }
+
+        /* 'Balance' methods
+         */
+        [TestMethod]
+        public void ShouldChangeBalanceAmount()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            var testBalance = new BalanceEntity()
+            {
+                Id = 10,
+                Amount = 30000.00M,
+                Client = new ClientEntity() { Id = 10},
+                Status = true
+            };
+            decimal newAmount = 35000.00M;
+
+            // Act
+            bool flag = salesService.ChangeBalance(testBalance, newAmount);
+
+            // Assert
+            this.balanceTableRepository.Received(1).ChangeAmount(testBalance.Id, newAmount);
+            this.balanceTableRepository.Received(1).SaveChanges();
+            if (!flag) throw new ArgumentException("The flag is false");
+        }
+
+        [TestMethod]
+        public void ShouldSearchBalanceByClientId()
+        {
+            // Arrange
+            int testClientId = 60;
+
+            this.balanceTableRepository.SearchBalanceByClientId(Arg.Is(testClientId)).Returns(new BalanceEntity()
+            {
+                Id = 61,
+                Client = new ClientEntity() { Id = testClientId },
+                Amount = 10000.00M,
+                Status = true
+            });
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);            
+
+            // Act
+            var balance = salesService.SearchBalanceByClientId(testClientId);
+
+            // Assert
+            this.balanceTableRepository.Received(1).SearchBalanceByClientId(testClientId);
+            if (balance.Client.Id != testClientId) throw new ArgumentException("Client Id in balance is wrong!");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfCantFindBalanceByClientId()
+        {
+            // Arrange
+            int testClientId = 65;
+            BalanceEntity testNullBalance = null;
+            this.balanceTableRepository.SearchBalanceByClientId(Arg.Is(testClientId)).Returns(testNullBalance);
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+
+            // Act
+            var balance = salesService.SearchBalanceByClientId(testClientId);
+
+            // Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfGetBlockedBalance()
+        {
+            // Arrange
+            int testClientId = 65;
+            this.balanceTableRepository.SearchBalanceByClientId(Arg.Is(testClientId)).Returns(new BalanceEntity()
+            {
+                Id = 65,
+                Client = new ClientEntity() { Id = testClientId },
+                Amount = 10000.00M,
+                Status = false
+            });
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+
+            // Act
+            var balance = salesService.SearchBalanceByClientId(testClientId);
+
+            // Assert
+        }
+
+        /* 'Blocked money' methods
+         */
+        [TestMethod]
+        public void ShouldCreateNewBlockedMoneyItem()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            BlockedMoneyRegistrationInfo args = new BlockedMoneyRegistrationInfo();
+            args.ClientBalance = new BalanceEntity()
+            {
+                Id = 45,
+                Client = new ClientEntity()
+                {
+                    Id = 5,
+                    CreatedAt = DateTime.Now,
+                    FirstName = "John",
+                    LastName = "Snickers",
+                    PhoneNumber = "+7956244636652",
+                    Status = true
+                },
+                Amount = 20000.00M,
+                Status = true
+            };
+            args.Operation = new OperationEntity()
+            {
+                Id = 2
+            };
+            args.Total = 10000.00M;
+
+            // Act
+            var blockedMoneyId = salesService.CreateBlockedMoney(args);
+
+            // Assert
+            blockedMoneyTableRepository.Received(1).Add(Arg.Is<BlockedMoneyEntity>(
+                bm => bm.ClientBalance == args.ClientBalance
+                && bm.Operation == args.Operation
+                && bm.Customer == args.ClientBalance.Client
+                && bm.Total == args.Total));
+            blockedMoneyTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldRemoveBlockedMoneyItem()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            BlockedMoneyEntity blockedMoney = new BlockedMoneyEntity() { Id = 4 };
+
+            // Act
+            salesService.RemoveBlockedMoney(blockedMoney);
+
+            // Assert
+            blockedMoneyTableRepository.Received(1).Remove(blockedMoney.Id);
+            blockedMoneyTableRepository.Received(1).SaveChanges();
+        }
+
+        /* 'Shares number' methods
+         */
+        [TestMethod]
+        public void ShouldCreateNewSharesNumber()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            SharesNumberRegistrationInfo args = new SharesNumberRegistrationInfo();
+            args.Client = new ClientEntity()
+            {
+                Id = 5,
+                CreatedAt = DateTime.Now,
+                FirstName = "John",
+                LastName = "Snickers",
+                PhoneNumber = "+7956244636652",
+                Status = true
+            };
+            args.Share = new ShareEntity()
+            {
+                Id = 2,
+                CreatedAt = DateTime.Now,
+                CompanyName = "Simple Company",
+                Type = new ShareTypeEntity()
+                {
+                    Id = 4,
+                    Name = "not so cheap",
+                    Cost = 1200.00M,
+                    Status = true
+                },
+                Status = true
+            };
+            args.Number = 20;
+
+            // Act
+            var shareId = salesService.CreateSharesNumber(args);
+
+            // Assert
+            sharesNumberTableRepository.Received(1).Add(Arg.Is<SharesNumberEntity>(
+                n => n.Client == args.Client
+                && n.Share == args.Share
+                && n.Number == args.Number));
+            sharesNumberTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldSearchSharesNumberForBuy()
+        {
+            // Arrange            
+            int shareId = 55;
+            int reqNumber = 5;
+            sharesNumberTableRepository.SearchSharesNumberForBuy(Arg.Is(shareId), Arg.Is(reqNumber)).Returns(new SharesNumberEntity()
+            {
+                Id = 3,
+                Share = new ShareEntity() { Id = shareId },
+                Number = reqNumber + 1
+            });
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+
+            // Act
+            var sharesNumberResult = salesService.SearchSharesNumberForBuy(shareId, reqNumber);
+
+            // Assert
+            this.sharesNumberTableRepository.Received(1).SearchSharesNumberForBuy(shareId, reqNumber);
+            if (sharesNumberResult.Share.Id != shareId 
+                || sharesNumberResult.Number < reqNumber) throw new ArgumentException("ShareId or Number in founded shares number is wrong");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfCantFindSharesNumberForBuy()
+        {
+            // Arrange
+            int shareId = 55;
+            int reqNumber = 5;
+            SharesNumberEntity nullSharesNumber = null;
+            sharesNumberTableRepository.SearchSharesNumberForBuy(Arg.Is(shareId), Arg.Is(reqNumber)).Returns(nullSharesNumber);
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+
+            // Act
+            var sharesNumberResult = salesService.SearchSharesNumberForBuy(shareId, reqNumber);
+
+            // Assert
+        }
+
+        [TestMethod]
+        public void ShouldSearchSharesNumberForAddition()
+        {
+            // Arrange            
+            ShareEntity share = new ShareEntity() { Id = 55 };
+            ClientEntity client = new ClientEntity() { Id = 3 };
+            sharesNumberTableRepository.SearchSharesNumberForAddition(Arg.Is(client.Id), Arg.Is(share.Id)).Returns(new SharesNumberEntity()
+            {
+                Id = 3,
+                Client = new ClientEntity() { Id = client.Id },
+                Share = new ShareEntity() { Id = share.Id }
+            });
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+
+            // Act
+            var sharesNumberResult = salesService.SearchOrCreateSharesNumberForAddition(client, share);
+
+            // Assert
+            this.sharesNumberTableRepository.Received(1).SearchSharesNumberForAddition(client.Id, share.Id);
+            if (sharesNumberResult.Client.Id != client.Id
+                || sharesNumberResult.Share.Id != share.Id) throw new ArgumentException("Client ID or Share ID in founded shares number is wrong");
+        }
+
+        [TestMethod]
+        public void ShouldCreateSharesNumberForAdditionIfCantSearch()
+        {
+            // Arrange            
+            ShareEntity share = new ShareEntity() { Id = 55 };
+            ClientEntity client = new ClientEntity() { Id = 3 };
+            SharesNumberEntity nullSharesNumber = null;
+            sharesNumberTableRepository.SearchSharesNumberForAddition(Arg.Is(client.Id), Arg.Is(share.Id)).Returns(nullSharesNumber);
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+
+            // Act
+            var sharesNumberResult = salesService.SearchOrCreateSharesNumberForAddition(client, share);
+
+            // Assert
+            this.sharesNumberTableRepository.Received(1).SearchSharesNumberForAddition(client.Id, share.Id);
+            this.sharesNumberTableRepository.Received(1).Add(Arg.Any<SharesNumberEntity>());
+            this.sharesNumberTableRepository.Received(1).SaveChanges();
+        }        
+
+        [TestMethod]
+        public void ShouldChangeSharesNumber()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            var sharesNumber = new SharesNumberEntity()
+            {
+                Id = 4,
+                Number = 34
+            };
+            int newNumber = 45;
+
+            // Act
+            bool flag = salesService.ChangeSharesNumber(sharesNumber, newNumber);
+
+            // Assert
+            this.sharesNumberTableRepository.Received(1).ChangeNumber(sharesNumber.Id, newNumber);
+            this.sharesNumberTableRepository.Received(1).SaveChanges();
+            if (!flag) throw new ArgumentException("The flag is false");
+        }
+
+        [TestMethod]
+        public void ShouldRemoveShareNumber()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            SharesNumberEntity sharesNumber = new SharesNumberEntity() { Id = 68 };
+
+            // Act
+            salesService.RemoveSharesNumber(sharesNumber);
+
+            // Assert
+            this.sharesNumberTableRepository.Received(1).Remove(sharesNumber.Id);
+            this.sharesNumberTableRepository.Received(1).SaveChanges();
+        }
+
+        /* 'Blocked shares number' methods
+         */
+        [TestMethod]
+        public void ShouldCreateNewBlockedSharesNumberItem()
+        {
+            // Arrange
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            BlockedSharesNumberRegistrationInfo args = new BlockedSharesNumberRegistrationInfo();
+
+            var tempShare = new ShareEntity()
+            {
+                Id = 2,
+                CreatedAt = DateTime.Now,
+                CompanyName = "Simple Company",
+                Type = new ShareTypeEntity()
+                {
+                    Id = 4,
+                    Name = "not so cheap",
+                    Cost = 1200.00M,
+                    Status = true
+                },
+                Status = true
+            };
+
+            args.ClientSharesNumber = new SharesNumberEntity()
+            {
+                Id = 30,
+                Client = new ClientEntity()
+                {
+                    Id = 5,
+                    CreatedAt = DateTime.Now,
+                    FirstName = "John",
+                    LastName = "Snickers",
+                    PhoneNumber = "+7956244636652",
+                    Status = true
+                },
+                Share = tempShare,
+                Number = 7
+            };
+            args.Operation = new OperationEntity()
+            {
+                Id = 2
+            };
+            args.Number = 5;
+
+            // Act
+            var blockedSharesNumberId = salesService.CreateBlockedSharesNumber(args);
+
+            // Assert
+            blockedSharesNumberTableRepository.Received(1).Add(Arg.Is<BlockedSharesNumberEntity>(
+                bn => bn.ClientSharesNumber == args.ClientSharesNumber
+                && bn.Operation == args.Operation
+                && bn.Seller == args.ClientSharesNumber.Client
+                && bn.Share == tempShare
+                && bn.ShareTypeName == tempShare.Type.Name
+                && bn.Cost == tempShare.Type.Cost
+                && bn.Number == args.Number));
+            blockedSharesNumberTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        public void ShouldRemoveBlockedSharesNumberItem()
+        {
+            // Arrange                        
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            var blockedSharesNumber = new BlockedSharesNumberEntity() { Id = 43 };
+
+            // Act
+            salesService.RemoveBlockedSharesNumber(blockedSharesNumber);
+
+            // Assert
+            blockedSharesNumberTableRepository.Received(1).Remove(blockedSharesNumber.Id);
+            blockedSharesNumberTableRepository.Received(1).SaveChanges();
+        }
+
+        /* 'Share' methods
+         */
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfShareStatusIsFalse()
+        {
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            var share = new ShareEntity()
+            {
+                Id = 3,
+                CompanyName = "testCompany",
+                CreatedAt = DateTime.Now,
+                Type = new ShareTypeEntity()
+                {
+                    Id = 5,
+                    Cost = 1000.0M,
+                    Name = "typename",
+                    Status = true
+                },
+                Status = false                
+            };
+
+            // Act
+            salesService.CheckShareAndShareTypeStatuses(share);
+
+            // Assert            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfShareTypeStatusIsFalse()
+        {
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository);
+            var share = new ShareEntity()
+            {
+                Id = 3,
+                CompanyName = "testCompany",
+                CreatedAt = DateTime.Now,
+                Type = new ShareTypeEntity()
+                {
+                    Id = 5,
+                    Cost = 1000.0M,
+                    Name = "typename",
+                    Status = false
+                },
+                Status = true
+            };
+
+            // Act
+            salesService.CheckShareAndShareTypeStatuses(share);
+
+            // Assert            
+        }
+    }
 }

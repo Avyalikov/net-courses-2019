@@ -70,14 +70,7 @@
                 sellerBalance = SearchBalanceByClientId(seller.Id);
 
                 // get total
-                if (share.Status == false)
-                {
-                    throw new ArgumentException("Operations with this share have been blocked.");
-                }                
-                if (share.Type.Status == false)
-                {
-                    throw new ArgumentException("Operations with this share type have been blocked.");
-                }
+                CheckShareAndShareTypeStatuses(share);
                 total = share.Type.Cost * requiredSharesNumber;
 
                 // Blocked money
@@ -328,11 +321,6 @@
                 Number = args.Number
             };
 
-            //if (this.blockedSharesNumberTableRepository.Contains(entityToAdd))
-            //{
-            //    throw new ArgumentException("Blocked Shares Number with this data has been registered. Can't continue.");
-            //}
-
             this.blockedSharesNumberTableRepository.Add(entityToAdd);
 
             this.blockedSharesNumberTableRepository.SaveChanges();
@@ -344,6 +332,20 @@
             this.blockedSharesNumberTableRepository.Remove(blockedSharesNumber.Id);
 
             this.blockedSharesNumberTableRepository.SaveChanges();
+        }
+
+        /* 'Share' methods
+         */
+        public void CheckShareAndShareTypeStatuses(ShareEntity share)
+        {
+            if (share.Status == false)
+            {
+                throw new ArgumentException("Operations with this share have been blocked.");
+            }
+            if (share.Type.Status == false)
+            {
+                throw new ArgumentException("Operations with this share type have been blocked.");
+            }
         }
     }
 }
