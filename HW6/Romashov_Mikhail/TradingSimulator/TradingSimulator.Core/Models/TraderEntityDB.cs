@@ -5,6 +5,6 @@ namespace TradingSimulator.Core.Models
 {
     public class TraderEntityDB : TraderEntity
     {
-        public virtual ICollection<StockToTraderEntity> StockToTraderEntity { get; set; }
+        public virtual ICollection<StockToTraderEntityDB> StockToTraderEntity { get; set; }
     }
 }

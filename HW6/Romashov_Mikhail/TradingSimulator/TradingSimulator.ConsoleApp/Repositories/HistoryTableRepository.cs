@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using TradingSimulator.Core.Models;
+﻿using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 
-
-namespace TradingSimulator.Repositories
+namespace TradingSimulator.ConsoleApp.Repositories
 {
     class HistoryTableRepository : IHistoryTableRepository
     {
@@ -23,4 +21,5 @@ namespace TradingSimulator.Repositories
             this.dbContext.SaveChanges();
         }
     }
+
 }

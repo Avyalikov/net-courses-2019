@@ -4,7 +4,7 @@ using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 
-namespace TradingSimulator.Repositories
+namespace TradingSimulator.ConsoleApp.Repositories
 {
     class TraderStockTableRepository : ITraderStockTableRepository
     {
@@ -14,12 +14,12 @@ namespace TradingSimulator.Repositories
         {
             this.dbContext = dbContext;
         }
-        public void Add(StockToTraderEntity entityToAdd)
+        public void Add(StockToTraderEntityDB entityToAdd)
         {
             this.dbContext.TraderStocks.Add(entityToAdd);
         }
 
-        public bool Contains(StockToTraderEntity stockToTraderEntity)
+        public bool Contains(StockToTraderEntityDB stockToTraderEntity)
         {
             return this.dbContext.TraderStocks.Any(t =>
              t.TraderId == stockToTraderEntity.TraderId
@@ -46,7 +46,7 @@ namespace TradingSimulator.Repositories
                 && t.StockId == args.StockID);
         }
 
-        public StockToTraderEntity GetStocksFromSeller(BuyArguments buyArguments)
+        public StockToTraderEntityDB GetStocksFromSeller(BuyArguments buyArguments)
         {
             var item = this.dbContext.TraderStocks.First(t => t.TraderId == buyArguments.SellerID
                     && t.StockId == buyArguments.StockID);
@@ -85,8 +85,8 @@ namespace TradingSimulator.Repositories
             return listItems;
         }
 
-        public StockToTraderEntity GetTraderStockById(int id)
-        {         
+        public StockToTraderEntityDB GetTraderStockById(int id)
+        {
             return this.dbContext.TraderStocks.First(t => t.Id == id);
         }
     }

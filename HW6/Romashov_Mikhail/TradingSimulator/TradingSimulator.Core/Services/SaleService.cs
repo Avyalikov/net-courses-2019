@@ -51,7 +51,7 @@ namespace TradingSimulator.Core.Services
 
         public void AdditionStockToCustomer(BuyArguments args)
         {
-            var entityToAdd = new StockToTraderEntity()
+            var entityToAdd = new StockToTraderEntityDB()
             {
                 TraderId = args.CustomerID,
                 StockId = args.StockID,

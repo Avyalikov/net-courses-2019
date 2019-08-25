@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
-namespace TradingSimulator.Repositories
+
+namespace TradingSimulator.ConsoleApp.Repositories
 {
     class StockTableRepository : IStockTableRepository
     {

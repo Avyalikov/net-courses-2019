@@ -145,7 +145,7 @@ namespace TradingSimulator.Core.Tests
                    return true;
                });
 
-            traderStockTableRepository.Contains(Arg.Any<StockToTraderEntity>())
+            traderStockTableRepository.Contains(Arg.Any<StockToTraderEntityDB>())
                .Returns((callInfo) =>
                {
                    var stockToTrader = callInfo.Arg<StockToTraderEntity>();
@@ -348,7 +348,7 @@ namespace TradingSimulator.Core.Tests
             saleHandler.HandleBuy(args);
 
             //Assert
-            this.traderStockTableRepository.Received(1).Add(Arg.Any<StockToTraderEntity>());
+            this.traderStockTableRepository.Received(1).Add(Arg.Any<StockToTraderEntityDB>());
             this.traderStockTableRepository.Received(2).SaveChanges();
         }
 

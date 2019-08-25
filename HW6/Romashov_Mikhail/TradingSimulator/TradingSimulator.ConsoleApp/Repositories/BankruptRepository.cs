@@ -2,8 +2,7 @@
 using System.Linq;
 using TradingSimulator.Core.Repositories;
 
-
-namespace TradingSimulator.Repositories
+namespace TradingSimulator.ConsoleApp.Repositories
 {
     class BankruptRepository : IBankruptRepository
     {
@@ -18,7 +17,7 @@ namespace TradingSimulator.Repositories
         {
             List<string> listItems = new List<string>();
             foreach (var item in this.dbContext.Traders.Where(t => t.Balance < 0))
-            { 
+            {
                 listItems.Add(string.Concat(item.Name + " " + item.Surname));
             }
             return listItems;

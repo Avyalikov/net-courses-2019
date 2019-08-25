@@ -3,7 +3,7 @@ using System.Linq;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 
-namespace TradingSimulator.Repositories
+namespace TradingSimulator.ConsoleApp.Repositories
 {
     class TraderTableRepository : ITraderTableRepository
     {
@@ -13,7 +13,7 @@ namespace TradingSimulator.Repositories
         {
             this.dbContext = dbContext;
         }
-        public void Add(TraderEntity entity)
+        public void Add(TraderEntityDB entity)
         {
             this.dbContext.Traders.Add(entity);
         }
@@ -24,12 +24,12 @@ namespace TradingSimulator.Repositories
             ItemToUpdate.Balance += amount;
         }
 
-        public bool Contains(TraderEntity entityToAdd)
+        public bool Contains(TraderEntityDB entityToAdd)
         {
-           return this.dbContext.Traders.Any(t =>
-           t.Name == entityToAdd.Name
-           && t.Surname == entityToAdd.Surname
-           && t.PhoneNumber == entityToAdd.PhoneNumber);
+            return this.dbContext.Traders.Any(t =>
+            t.Name == entityToAdd.Name
+            && t.Surname == entityToAdd.Surname
+            && t.PhoneNumber == entityToAdd.PhoneNumber);
         }
 
         public bool ContainsById(int entityId)
@@ -42,13 +42,13 @@ namespace TradingSimulator.Repositories
             return this.dbContext.Traders.Any(t => t.Name == traderName);
         }
 
-        public TraderEntity GetById(int traderID)
+        public TraderEntityDB GetById(int traderID)
         {
             var item = this.dbContext.Traders.First(t => t.Id == traderID);
             return item;
         }
 
-        public TraderEntity GetByName(string traderName)
+        public TraderEntityDB GetByName(string traderName)
         {
             var item = this.dbContext.Traders.First(t => t.Name == traderName);
             return item;

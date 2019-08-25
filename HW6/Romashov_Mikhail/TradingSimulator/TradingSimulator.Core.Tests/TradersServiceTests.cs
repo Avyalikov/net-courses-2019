@@ -36,7 +36,7 @@ namespace TradingSimulator.Core.Tests
             var traderID = tradersService.RegisterNewTrader(trader);
 
             //Assert
-            traderTableRepository.Received(1).Add(Arg.Is<TraderEntity>(
+            traderTableRepository.Received(1).Add(Arg.Is<TraderEntityDB>(
                 w => w.Name == trader.Name
                 && w.Surname == trader.Surname
                 && w.PhoneNumber == trader.PhoneNumber
@@ -58,7 +58,7 @@ namespace TradingSimulator.Core.Tests
 
             //Act
             tradersService.RegisterNewTrader(trader);
-            traderTableRepository.Contains(Arg.Is<TraderEntity>(
+            traderTableRepository.Contains(Arg.Is<TraderEntityDB>(
                 w => w.Name == trader.Name
                 && w.Surname == trader.Surname
                 && w.PhoneNumber == trader.PhoneNumber

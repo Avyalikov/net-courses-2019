@@ -1,54 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StructureMap;
 using TradingSimulator.Core.Dto;
+using TradingSimulator.ConsoleApp.Interfaces;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Services;
-using TradingSimulator.Dependencies;
 
-namespace TradingSimulator
+namespace TradingSimulator.ConsoleApp
 {
-    class TradeSimulation
+    class TradingData
     {
-       
+
         private readonly TradersService traders;
         private readonly StockService stockService;
         private readonly TraderStocksService traderStocks;
-        private readonly SaleService saleService;
         private readonly BankruptService bankruptService;
-       public TradeSimulation(TradersService traders, StockService stockService, TraderStocksService traderStocks, SaleService saleService, BankruptService bankruptService)
+        private readonly ILogger logger;
+        public TradingData(TradersService traders, StockService stockService, TraderStocksService traderStocks, BankruptService bankruptService, ILogger logger)
         {
             this.traders = traders;
             this.stockService = stockService;
             this.traderStocks = traderStocks;
-            this.saleService = saleService;
             this.bankruptService = bankruptService;
+            this.logger = logger;
         }
 
         public void Run()
         {
+            logger.InitLogger();
+            logger.Info("Start trading");
             while (true)
             {
-                Console.WriteLine("Use one of the option: 1-reg,2-add stock, 3-add stock to client,4-removestock from client");
+                Console.WriteLine(@"Use one of the option:
+    1-Registration ew trader
+    2-Add stock to trader
+    3-Get traders from orange zone
+    4-Get traders from black zone");
                 string inputString = Console.ReadLine();
                 switch (inputString)
                 {
                     case "1":
                         this.TraderRegistartion();
                         break;
-                    case "3":
+                    case "2":
                         this.ModificationTradersStock();
                         break;
-                    case "4":
-                        this.RandomSales();
-                        break;
-                    case "5":
+                    case "3":
                         this.GetOrangeZone();
                         break;
-                    case "6":
+                    case "4":
                         this.GetBlackZone();
                         break;
                     default:
@@ -56,56 +56,15 @@ namespace TradingSimulator
                 }
             }
         }
-
-        private void RandomSales()
-        {
-            var listTradersStock = traderStocks.GetListTradersStock();
-
-            Random random = new Random();
-            int randomNumber = random.Next(1, listTradersStock.Count() + 1);
-
-            var seller = traderStocks.GetTraderStockById(randomNumber);
-
-            var listTraders = traders.GetList();
-            TraderEntity customer;
-            do
-            {
-                randomNumber = random.Next(1, listTraders.Count() + 1);
-
-                customer = traders.GetTraderById(randomNumber);
-            } while (seller.TraderId == customer.Id);
-
-            BuyArguments buy = new BuyArguments
-            {
-                SellerID = seller.TraderId,
-                CustomerID = customer.Id,
-                StockID = seller.StockId,
-                StockCount = 2,
-                PricePerItem = seller.PricePerItem
-            };
-
-            Console.WriteLine($"{buy.SellerID} --- {buy.CustomerID} --- {buy.StockID} --- {buy.StockCount}");
-            try
-            {
-                saleService.HandleBuy(buy);
-                Console.WriteLine("Succesfully");
-                Console.WriteLine($"{buy.SellerID} --- {buy.CustomerID} --- {buy.StockID} --- {buy.StockCount}");
-            }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine($"{e.Message} Operation cancel.");
-            }
-            
-        }
-
         private void TraderRegistartion()
         {
+            logger.Info("Registration new trader");
             Console.WriteLine("Please input first name:");
             string firstName = Console.ReadLine();
             bool validFirstName = firstName.All(c => char.IsLetter(c));
             if (!validFirstName)
             {
-                Console.WriteLine("Wrong first name");
+                Console.WriteLine("Wrong first name. Operation cancel.");
                 return;
             }
 
@@ -114,7 +73,7 @@ namespace TradingSimulator
             bool validLastName = lastName.All(c => char.IsLetter(c));
             if (!validLastName)
             {
-                Console.WriteLine("Wrong last name");
+                Console.WriteLine("Wrong last name. Operation cancel.");
                 return;
             }
 
@@ -123,7 +82,7 @@ namespace TradingSimulator
             bool validPhone = phone.All(c => char.IsDigit(c)) && phone.Length < 9;
             if (!validPhone)
             {
-                Console.WriteLine("Wrong phone");
+                Console.WriteLine("Wrong phone. Operation cancel.");
                 return;
             }
 
@@ -132,7 +91,7 @@ namespace TradingSimulator
             bool validBalance = decimal.TryParse(balance, out decimal traderBalance);
             if (!validBalance)
             {
-                Console.WriteLine("Wrong balance");
+                Console.WriteLine("Wrong balance. Operation cancel.");
                 return;
             }
             try
@@ -144,27 +103,32 @@ namespace TradingSimulator
                     PhoneNumber = phone,
                     Balance = traderBalance
                 });
-                Console.WriteLine("Succesfully");
+                logger.Info("Registration new trader succesfully");
+                logger.Info($"New trader name = {firstName}, surname = {lastName}");
+                Console.WriteLine("Registration was succesfully");
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 Console.WriteLine($"{e.Message} Operation cancel.");
+                logger.Error(e);
             }
         }
 
         private void ModificationTradersStock()
         {
+            logger.Info("Adding stock to trader");
             Console.WriteLine("Please input traders name:");
             string traderName = Console.ReadLine();
 
             TraderEntity trader;
             try
             {
-               trader = traders.GetTraderByName(traderName);
+                trader = traders.GetTraderByName(traderName);
             }
             catch (ArgumentException e)
             {
                 Console.WriteLine($"{e.Message}. Operation cancel.");
+                logger.Error(e);
                 return;
             }
 
@@ -179,6 +143,7 @@ namespace TradingSimulator
             catch (ArgumentException e)
             {
                 Console.WriteLine($"{e.Message}. Operation cancel.");
+                logger.Error(e);
                 return;
             }
 
@@ -191,7 +156,7 @@ namespace TradingSimulator
             {
                 Console.WriteLine("Wrong count of stock. Operation cancel.");
             }
-            
+
 
             try
             {
@@ -206,15 +171,17 @@ namespace TradingSimulator
                     Name = stock.Name,
                     Count = count,
                     PricePerItem = stock.PricePerItem
-          
+
                 };
 
                 var id = traderStocks.AddNewStockToTrader(traderInfo, stockInfo);
-                Console.WriteLine($"Succesfully, id = {id}");
+                Console.WriteLine("Stock added to trader succesfully");
+                logger.Info($"Stock {stockInfo.Name} added to trader {traderInfo.Name} succesfully");
             }
             catch (ArgumentException e)
             {
                 Console.WriteLine($"{e.Message} Operation cancel.");
+                logger.Error(e);
             }
         }
 
@@ -228,7 +195,8 @@ namespace TradingSimulator
                 Console.WriteLine("Traders with zero balance not found.");
                 return;
             }
-                tradersWithZeroBalance.ForEach(t => Console.WriteLine(t));
+            Console.WriteLine("Traders with zero balance:");
+            tradersWithZeroBalance.ForEach(t => Console.WriteLine(t));
         }
         private void GetBlackZone()
         {
@@ -240,6 +208,7 @@ namespace TradingSimulator
                 Console.WriteLine("Traders with negative balance not found.");
                 return;
             }
+            Console.WriteLine("Traders with negative balance:");
             tradersWithNegativeBalance.ForEach(t => Console.WriteLine(t));
         }
     }

@@ -7,15 +7,15 @@ namespace TradingSimulator.Core.Repositories
 {
     public interface ITraderTableRepository
     {
-        void Add(TraderEntity entity);
+        void Add(TraderEntityDB entity);
         void SaveChanges();
-        bool Contains(TraderEntity entityToAdd);
+        bool Contains(TraderEntityDB entityToAdd);
         bool ContainsById(int entityId);
-        TraderEntity GetById(int traderID);
+        TraderEntityDB GetById(int traderID);
         void SubstractBalance(int traderID, decimal amount);
         void AdditionBalance(int traderID, decimal amount);
         bool ContainsByName(string traderName);
-        TraderEntity GetByName(string traderName);
+        TraderEntityDB GetByName(string traderName);
         List<int> GetListTradersId();
     }
 }

@@ -6,16 +6,16 @@ namespace TradingSimulator.Core.Repositories
 {
     public interface ITraderStockTableRepository
     {
-        void Add(StockToTraderEntity entityToAdd);
+        void Add(StockToTraderEntityDB entityToAdd);
         void SaveChanges();
-        bool Contains(StockToTraderEntity stockToTraderEntity);
-        StockToTraderEntity GetStocksFromSeller(BuyArguments buyArguments);
+        bool Contains(StockToTraderEntityDB stockToTraderEntity);
+        StockToTraderEntityDB GetStocksFromSeller(BuyArguments buyArguments);
         void SubtractStockFromSeller(BuyArguments args);
         void AdditionalStockToCustomer(BuyArguments args);
         bool ContainsSeller(BuyArguments args);
         bool ContainsCustomer(BuyArguments args);
         List<int> GetList();
         bool ContainsById(int id);
-        StockToTraderEntity GetTraderStockById(int id);
+        StockToTraderEntityDB GetTraderStockById(int id);
     }
 }

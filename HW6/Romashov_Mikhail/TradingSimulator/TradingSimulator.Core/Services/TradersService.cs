@@ -17,7 +17,7 @@ namespace TradingSimulator.Core.Services
 
         public int RegisterNewTrader(TraderInfo trader)
         {
-            var entityToAdd = new TraderEntity()
+            var entityToAdd = new TraderEntityDB()
             {
                 CreatedAt = DateTime.Now,
                 Name = trader.Name,
@@ -36,7 +36,7 @@ namespace TradingSimulator.Core.Services
 
             return entityToAdd.Id;
         }
-        public TraderEntity GetTraderById(int traderID)
+        public TraderEntityDB GetTraderById(int traderID)
         {
             if (!traderTableRepository.ContainsById(traderID))
             {
@@ -44,7 +44,7 @@ namespace TradingSimulator.Core.Services
             }
             return traderTableRepository.GetById(traderID);
         }
-        public TraderEntity GetTraderByName(string traderName)
+        public TraderEntityDB GetTraderByName(string traderName)
         {
             if (!traderTableRepository.ContainsByName(traderName))
             {

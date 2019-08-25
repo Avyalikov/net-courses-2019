@@ -35,7 +35,7 @@ namespace TradingSimulator.Core.Tests
             var traderStockID = traderStockService.AddNewStockToTrader(trader, stock);
 
             //Assert
-            traderStocksTableRepository.Received(1).Add(Arg.Is<StockToTraderEntity>(
+            traderStocksTableRepository.Received(1).Add(Arg.Is<StockToTraderEntityDB>(
                 w => w.TraderId == trader.Id
                 && w.StockId == stock.Id
                 && w.StockCount == stock.Count));
@@ -61,7 +61,7 @@ namespace TradingSimulator.Core.Tests
             //Act
             var traderStockID = traderStockService.AddNewStockToTrader(trader, stock);
 
-            traderStocksTableRepository.Contains(Arg.Is<StockToTraderEntity>(
+            traderStocksTableRepository.Contains(Arg.Is<StockToTraderEntityDB>(
                 w => w.TraderId == trader.Id
                 && w.StockId == stock.Id)).Returns(true);
             traderStockService.AddNewStockToTrader(trader, stock);

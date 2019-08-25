@@ -1,15 +1,16 @@
 ﻿using System.Data.Entity;
+using TradingSimulator.ConsoleApp;
 using TradingSimulator.Core.Models;
 
 namespace TradingSimulator
 {
     class TradingSimulatorDBContext : DbContext
     {
-        public DbSet<TraderEntity> Traders { get; set; }
+        public DbSet<TraderEntityDB> Traders { get; set; }
 
-        public DbSet<StockEntity> Stocks { get; set; }
+        public DbSet<StockEntityDB> Stocks { get; set; }
 
-        public DbSet<StockToTraderEntity> TraderStocks { get; set; }
+        public DbSet<StockToTraderEntityDB> TraderStocks { get; set; }
 
         public DbSet<HistoryEntity> TradeHistory { get; set; }
 
@@ -21,17 +22,17 @@ namespace TradingSimulator
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
-                 .Entity<TraderEntity>()
+                 .Entity<TraderEntityDB>()
                  .HasKey(p => p.Id)
                  .ToTable("Traders");
 
             modelBuilder
-                .Entity<StockEntity>()
+                .Entity<StockEntityDB>()
                 .HasKey(p => p.Id)
                 .ToTable("Stocks");
 
             modelBuilder
-                .Entity<StockToTraderEntity>()
+                .Entity<StockToTraderEntityDB>()
                 .HasKey(p => p.Id)
                 .ToTable("TraderStocks");
 
@@ -39,6 +40,18 @@ namespace TradingSimulator
               .Entity<HistoryEntity>()
               .HasKey(p => p.Id)
               .ToTable("TradeHistory");
+
+            //modelBuilder
+            //    .Entity<TraderEntityDB>()
+            //    .HasMany(e => e.StockToTraderEntity)
+            //    .WithRequired(e => e.Traders)
+            //    .HasForeignKey(e => e.TraderId);
+
+            //modelBuilder
+            //    .Entity<StockEntityDB>()
+            //    .HasMany(e => e.StockToTraderEntity)
+            //    .WithRequired(e => e.Stocks)
+            //    .HasForeignKey(e => e.StockId);
         }
     }
 }

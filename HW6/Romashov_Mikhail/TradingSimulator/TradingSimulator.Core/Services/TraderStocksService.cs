@@ -17,7 +17,7 @@ namespace TradingSimulator.Core.Services
 
         public int AddNewStockToTrader(TraderInfo trader, StockInfo stock)
         {
-            var entityToAdd = new StockToTraderEntity()
+            var entityToAdd = new StockToTraderEntityDB()
             {
                 TraderId = trader.Id,
                 StockId = stock.Id,
@@ -42,7 +42,7 @@ namespace TradingSimulator.Core.Services
             return traderStockTableRepository.GetList();
         }
 
-        public StockToTraderEntity GetTraderStockById(int id)
+        public StockToTraderEntityDB GetTraderStockById(int id)
         {
             if (!this.traderStockTableRepository.ContainsById(id))
                 throw new ArgumentException($"Can`t find item by this id = {id}");
