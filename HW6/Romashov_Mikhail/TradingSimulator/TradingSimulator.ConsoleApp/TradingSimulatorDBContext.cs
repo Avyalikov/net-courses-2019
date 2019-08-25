@@ -40,18 +40,6 @@ namespace TradingSimulator
               .Entity<HistoryEntity>()
               .HasKey(p => p.Id)
               .ToTable("TradeHistory");
-
-            //modelBuilder
-            //    .Entity<TraderEntityDB>()
-            //    .HasMany(e => e.StockToTraderEntity)
-            //    .WithRequired(e => e.Traders)
-            //    .HasForeignKey(e => e.TraderId);
-
-            //modelBuilder
-            //    .Entity<StockEntityDB>()
-            //    .HasMany(e => e.StockToTraderEntity)
-            //    .WithRequired(e => e.Stocks)
-            //    .HasForeignKey(e => e.StockId);
         }
     }
 }

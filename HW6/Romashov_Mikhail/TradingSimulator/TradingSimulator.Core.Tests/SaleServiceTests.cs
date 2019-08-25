@@ -18,7 +18,6 @@ namespace TradingSimulator.Core.Tests
         ITraderStockTableRepository traderStockTableRepository;
         IHistoryTableRepository historyTableRepository;
         List<StockToTraderEntityDB> traderStocksTable;
-      //  List<TraderEntity> tradersTable;
         SaleService saleHandler;
 
         [TestInitialize]
@@ -28,23 +27,6 @@ namespace TradingSimulator.Core.Tests
             traderStockTableRepository = Substitute.For<ITraderStockTableRepository>();
             traderTableRepository = Substitute.For<ITraderTableRepository>();
 
-            //this.tradersTable = new List<TraderEntity>()
-            //{
-            //    new TraderEntity
-            //    {
-            //        Id = 5,
-            //        Name = "Muhamed",
-            //        Surname = "Ali",
-            //        Balance = 123123.0M
-            //    },
-            //    new TraderEntity
-            //    {
-            //        Id = 40,
-            //        Name = "Brad",
-            //        Surname = "Pitt",
-            //        Balance = 1243123.0M
-            //    }
-            //};
             traderTableRepository.GetById(5).Returns(new TraderEntityDB()
             {
                 Id = 5,

@@ -16,13 +16,15 @@ namespace TradingSimulator.ConsoleApp
         private readonly TraderStocksService traderStocks;
         private readonly BankruptService bankruptService;
         private readonly ILogger logger;
-        public TradingData(TradersService traders, StockService stockService, TraderStocksService traderStocks, BankruptService bankruptService, ILogger logger)
+        private readonly IValidator validator;
+        public TradingData(TradersService traders, StockService stockService, TraderStocksService traderStocks, BankruptService bankruptService, ILogger logger, IValidator validator)
         {
             this.traders = traders;
             this.stockService = stockService;
             this.traderStocks = traderStocks;
             this.bankruptService = bankruptService;
             this.logger = logger;
+            this.validator = validator;
         }
 
         public void Run()
@@ -64,48 +66,30 @@ Use one of the option:
             logger.Info("Try to registration new trader");
             Console.WriteLine("Please input first name:");
             string firstName = Console.ReadLine();
-            bool validFirstName = firstName.All(c => char.IsLetter(c));
-            if (!validFirstName)
-            {
-                Console.WriteLine("Wrong first name. Operation cancel.");
-                return;
-            }
-
+            
             Console.WriteLine("Please input last name:");
             string lastName = Console.ReadLine();
-            bool validLastName = lastName.All(c => char.IsLetter(c));
-            if (!validLastName)
-            {
-                Console.WriteLine("Wrong last name. Operation cancel.");
-                return;
-            }
-
+            
             Console.WriteLine("Please input phone:");
             string phone = Console.ReadLine();
-            bool validPhone = phone.All(c => char.IsDigit(c)) && phone.Length < 9;
-            if (!validPhone)
+
+            var newTrader = new TraderInfo()
             {
-                Console.WriteLine("Wrong phone. Operation cancel.");
+                Name = firstName,
+                Surname = lastName,
+                PhoneNumber = phone,
+                Balance = 1000M
+            };
+
+            if (!validator.TraderInfoValidate(newTrader))
+            {
+                logger.Info($"Registration trader name = {newTrader.Name} surname = {newTrader.Surname} phone = {newTrader.PhoneNumber} cancel");
                 return;
             }
 
-            Console.WriteLine("Please input balance:");
-            string balance = Console.ReadLine();
-            bool validBalance = decimal.TryParse(balance, out decimal traderBalance);
-            if (!validBalance)
-            {
-                Console.WriteLine("Wrong balance. Operation cancel.");
-                return;
-            }
             try
             {
-                traders.RegisterNewTrader(new TraderInfo()
-                {
-                    Name = firstName,
-                    Surname = lastName,
-                    PhoneNumber = phone,
-                    Balance = traderBalance
-                });
+                traders.RegisterNewTrader(newTrader);
                 logger.Info("Registration new trader was succesfully");
                 logger.Info($"New trader name = {firstName}, surname = {lastName}");
                 Console.WriteLine("Registration was succesfully");
@@ -123,34 +107,19 @@ Use one of the option:
             logger.Info("Adding stock to trader");
             Console.WriteLine("Please input traders name:");
             string traderName = Console.ReadLine();
-
-            TraderEntity trader;
-            try
-            {
-                trader = traders.GetTraderByName(traderName);
-            }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine($"{e.Message}. Operation cancel.");
-                logger.Error(e);
-                return;
-            }
-
             Console.WriteLine("Please input stock name:");
             string stockName = Console.ReadLine();
-
-            StockEntity stock;
-            try
+            
+            if (!validator.StockToTraderValidate(traderName, stockName))
             {
-                stock = stockService.GetStockByName(stockName);
-            }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine($"{e.Message}. Operation cancel.");
-                logger.Error(e);
+                Console.WriteLine($"Can`t add stock {stockName} to trader {traderName}");
+                logger.Info($"Can`t add stock {stockName} to trader {traderName}");
                 return;
             }
 
+            var trader = traders.GetTraderByName(traderName);
+            var stock = stockService.GetStockByName(stockName);
+          
             Console.WriteLine("Please input count of stocks:");
             string countStock = Console.ReadLine();
 
@@ -159,9 +128,10 @@ Use one of the option:
             if (!validCount)
             {
                 Console.WriteLine("Wrong count of stock. Operation cancel.");
+                return;
             }
 
-            logger.Info($"Try to add stoc = {stock} to trader {trader}");
+            logger.Info($"Try to add stock = {stock.Name} to trader {trader.Name}");
             try
             {
                 TraderInfo traderInfo = new TraderInfo

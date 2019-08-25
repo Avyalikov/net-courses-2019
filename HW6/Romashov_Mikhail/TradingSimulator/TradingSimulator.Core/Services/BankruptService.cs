@@ -15,12 +15,26 @@ namespace TradingSimulator.Core.Services
 
         public List<string> GetListTradersFromOrangeZone()
         {
-            return bankruptRepository.GetTradersWithZeroBalance();
+            var items = bankruptRepository.GetTradersWithZeroBalance();
+
+            List<string> listItems = new List<string>();
+            foreach (var item in items)
+            {
+                listItems.Add(string.Concat(item.Name + " " + item.Surname));
+            }
+            return listItems;
         }
 
         public List<string> GetListTradersFromBlackZone()
         {
-            return bankruptRepository.GetTradersWithNegativeBalance();
+            var items = bankruptRepository.GetTradersWithNegativeBalance();
+            List<string> listItems = new List<string>();
+            foreach (var item in items)
+            {
+                listItems.Add(string.Concat(item.Name + " " + item.Surname));
+            }
+            return listItems;
         }
     }
 }
+

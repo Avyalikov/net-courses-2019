@@ -39,7 +39,7 @@ namespace TradingSimulator.Core.Services
 
         public List<int> GetListTradersStock()
         {
-            return traderStockTableRepository.GetList();
+            return traderStockTableRepository.GetListOfTraderStocksIds();
         }
 
         public StockToTraderEntityDB GetTraderStockById(int id)

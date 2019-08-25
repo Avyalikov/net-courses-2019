@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 
 namespace TradingSimulator.ConsoleApp.Repositories
@@ -13,22 +14,22 @@ namespace TradingSimulator.ConsoleApp.Repositories
             this.dbContext = dbContext;
         }
 
-        public List<string> GetTradersWithNegativeBalance()
+        public List<TraderEntityDB> GetTradersWithNegativeBalance()
         {
-            List<string> listItems = new List<string>();
+            List<TraderEntityDB> listItems = new List<TraderEntityDB>();
             foreach (var item in this.dbContext.Traders.Where(t => t.Balance < 0))
             {
-                listItems.Add(string.Concat(item.Name + " " + item.Surname));
+                listItems.Add(item);
             }
             return listItems;
         }
 
-        public List<string> GetTradersWithZeroBalance()
+        public List<TraderEntityDB> GetTradersWithZeroBalance()
         {
-            List<string> listItems = new List<string>();
+            List<TraderEntityDB> listItems = new List<TraderEntityDB>();
             foreach (var item in this.dbContext.Traders.Where(t => t.Balance == 0))
             {
-                listItems.Add(string.Concat(item.Name + " " + item.Surname));
+                listItems.Add(item);
             }
             return listItems;
         }

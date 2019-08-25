@@ -18,6 +18,7 @@ namespace TradingSimulator.ConsoleApp.Dependencies
             this.For<IHistoryTableRepository>().Use<HistoryTableRepository>();
             this.For<IBankruptRepository>().Use<BankruptRepository>();
             this.For<ILogger>().Use<LoggerService>();
+            this.For<IValidator>().Use<Validator>();
             this.For<TradingSimulatorDBContext>().Use<TradingSimulatorDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingSimulatorConnectionString"].ConnectionString);
         }
     }

@@ -74,7 +74,7 @@ namespace TradingSimulator.ConsoleApp.Repositories
             ItemToUpdate.StockCount += args.StockCount;
         }
 
-        public List<int> GetList()
+        public List<int> GetListOfTraderStocksIds()
         {
             List<int> listItems = new List<int>();
             foreach (var item in this.dbContext.TraderStocks)

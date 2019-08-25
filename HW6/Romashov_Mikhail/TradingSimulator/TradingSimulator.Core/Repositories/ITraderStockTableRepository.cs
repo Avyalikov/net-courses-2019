@@ -14,7 +14,7 @@ namespace TradingSimulator.Core.Repositories
         void AdditionalStockToCustomer(BuyArguments args);
         bool ContainsSeller(BuyArguments args);
         bool ContainsCustomer(BuyArguments args);
-        List<int> GetList();
+        List<int> GetListOfTraderStocksIds();
         bool ContainsById(int id);
         StockToTraderEntityDB GetTraderStockById(int id);
     }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using TradingSimulator.Core.Models;
 
 namespace TradingSimulator.Core.Repositories
 {
     public interface IBankruptRepository
     {
-        List<string> GetTradersWithZeroBalance();
+        List<TraderEntityDB> GetTradersWithZeroBalance();
 
-        List<string> GetTradersWithNegativeBalance();
+        List<TraderEntityDB> GetTradersWithNegativeBalance();
     }
 }

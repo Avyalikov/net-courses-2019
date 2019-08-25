@@ -58,8 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\LoggerService.cs" />
+    <Compile Include="Components\Validator.cs" />
     <Compile Include="Dependencies\TradingDataRegistry.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Interfaces\IValidator.cs" />
     <Compile Include="Repositories\BankruptRepository.cs" />
     <Compile Include="Repositories\HistoryTableRepository.cs" />
     <Compile Include="Repositories\StockTableRepository.cs" />
