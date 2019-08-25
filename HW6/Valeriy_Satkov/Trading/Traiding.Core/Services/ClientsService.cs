@@ -22,7 +22,7 @@
                 LastName = args.LastName,
                 FirstName = args.FirstName,
                 PhoneNumber = args.PhoneNumber,
-                Status = args.Status
+                Status = true
             };
 
             if (this.tableRepository.Contains(entityToAdd))

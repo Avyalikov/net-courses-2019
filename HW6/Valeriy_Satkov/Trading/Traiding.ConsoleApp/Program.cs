@@ -1,5 +1,6 @@
 ﻿namespace Traiding.ConsoleApp
 {
+    using StructureMap;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,6 +11,9 @@
     {
         static void Main(string[] args)
         {
+            new StockExchange(
+                new Container(new DependencyInjection.TraidingRegistry())
+                ).Start();
         }
     }
 }

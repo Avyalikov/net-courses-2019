@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -10,7 +11,7 @@
     using Traiding.Core.Repositories;
     using Traiding.Core.Services;
 
-    class TraidingRegistry : Registry
+    public class TraidingRegistry : Registry
     {
         public TraidingRegistry()
         {
@@ -25,7 +26,8 @@
             //this.For<IBlockedMoneyTableRepository>().Use<BlockedMoneyTableRepository>();
             //this.For<IBlockedSharesNumberTableRepository>().Use<BlockedSharesNumberTableRepository>();
             
-            //this.For<TraidingDBContext>().Use<TraidingDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["traidingConnectionString"].ConnectionString);
+            this.For<TraidingDBContext>().Use<TraidingDBContext>().Ctor<string>("connectionString")
+                .Is(ConfigurationManager.ConnectionStrings["traidingConnectionString"].ConnectionString);
         }
     }    
 }
