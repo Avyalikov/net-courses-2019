@@ -11,11 +11,11 @@ using System.Data.SqlClient;
 
 namespace ClientUI
 {
-    public partial class AddClient : Form
+    public partial class AddClientForm : Form
     {
         SqlConnection connection = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=StockExchange;Integrated Security=SSPI;");
 
-        public AddClient()
+        public AddClientForm()
         {
             InitializeComponent();
            

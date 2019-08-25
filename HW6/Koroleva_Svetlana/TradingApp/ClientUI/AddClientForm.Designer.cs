@@ -1,6 +1,6 @@
 ﻿namespace ClientUI
 {
-    partial class AddClient
+    partial class AddClientForm
     {
         /// <summary>
         /// Required designer variable.

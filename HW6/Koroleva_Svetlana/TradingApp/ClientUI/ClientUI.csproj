@@ -53,11 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddClient.cs">
+    <Compile Include="AddClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddClient.Designer.cs">
-      <DependentUpon>AddClient.cs</DependentUpon>
+    <Compile Include="AddClientForm.Designer.cs">
+      <DependentUpon>AddClientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ClientsGridView.cs">
       <SubType>Form</SubType>
@@ -78,8 +78,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StockExchangeDataSet.xsd</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AddClient.resx">
-      <DependentUpon>AddClient.cs</DependentUpon>
+    <EmbeddedResource Include="AddClientForm.resx">
+      <DependentUpon>AddClientForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ClientsGridView.resx">
       <DependentUpon>ClientsGridView.cs</DependentUpon>
