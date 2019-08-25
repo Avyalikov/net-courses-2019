@@ -8,7 +8,7 @@ using Traiding.Core.Models;
 
 namespace Traiding.ConsoleApp
 {
-    class TraidingDBContext : DbContext
+    public class TraidingDBContext : DbContext
     {
         public TraidingDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
         {

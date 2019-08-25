@@ -269,7 +269,7 @@
                 Number = args.Number
             };
 
-            this.sharesNumberTableRepository.Create(entityToAdd);
+            this.sharesNumberTableRepository.Add(entityToAdd);
 
             this.sharesNumberTableRepository.SaveChanges();
 

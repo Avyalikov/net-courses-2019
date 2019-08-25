@@ -14,7 +14,7 @@
     {
         public TraidingRegistry()
         {
-            //this.For<IClientTableRepository>().Use<ClientTableRepository>();
+            this.For<IClientTableRepository>().Use<ClientTableRepository>();
             //this.For<IBalanceTableRepository>().Use<BalanceTableRepository>();
             this.For<ISharesNumberTableRepository>().Use<SharesNumberTableRepository>();
 
@@ -27,5 +27,5 @@
             
             //this.For<TraidingDBContext>().Use<TraidingDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["traidingConnectionString"].ConnectionString);
         }
-    }
+    }    
 }

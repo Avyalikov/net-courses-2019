@@ -6,7 +6,7 @@
     public interface ISharesNumberTableRepository
     {
         // bool Contains(SharesNumberEntity entity); // Compare ClientId && ShareId with entity props
-        void Create(SharesNumberEntity entity);
+        void Add(SharesNumberEntity entity);
         void SaveChanges();
         // bool ContainsById(int entityId);
         // SharesNumberEntity Get(int entityId);

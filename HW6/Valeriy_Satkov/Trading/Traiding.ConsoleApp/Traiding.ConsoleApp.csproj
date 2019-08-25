@@ -56,6 +56,7 @@
     <Compile Include="DependencyInjection\TraidingRegistry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ClientTableRepository.cs" />
     <Compile Include="Repositories\SharesNumberTableRepository.cs" />
     <Compile Include="TraidingDBContext.cs" />
   </ItemGroup>

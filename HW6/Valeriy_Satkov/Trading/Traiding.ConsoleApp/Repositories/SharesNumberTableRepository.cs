@@ -17,7 +17,7 @@ namespace Traiding.ConsoleApp.Repositories
             this.dBContext = dBContext;
         }
 
-        public void Create(SharesNumberEntity entity)
+        public void Add(SharesNumberEntity entity)
         {
             this.dBContext.SharesNumbers.Add(entity);
         }
