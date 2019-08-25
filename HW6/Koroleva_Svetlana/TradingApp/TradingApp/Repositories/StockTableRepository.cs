@@ -41,9 +41,9 @@ namespace TradingApp.Repositories
 
         }
 
-        public override bool ContainsDTO(object entity)
+        public override bool ContainsDTO(TEntity entity)
         {
-            Stock stock = (Stock)entity;
+            Stock stock = entity;
 
             return
 

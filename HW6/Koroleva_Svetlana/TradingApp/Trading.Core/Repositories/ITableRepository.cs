@@ -20,10 +20,8 @@ namespace Trading.Core.Repositories
         void SaveChanges();
         bool ContainsByPK(params object[] pk);
         bool Contains(TEntity entity);
-        bool ContainsDTO(Object entity);
+        bool ContainsDTO(TEntity entity);
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate );
-        IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments);
-        IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments);
         TEntity FindByPK(params object[] key);
         int Count();
         TEntity GetElementAt(int position);

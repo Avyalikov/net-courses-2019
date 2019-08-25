@@ -67,6 +67,7 @@
     <Compile Include="Model\PriceHistory.cs" />
     <Compile Include="Model\Stock.cs" />
     <Compile Include="Model\TransactionHistory.cs" />
+    <Compile Include="Repositories\IPriceHistoryTableRepository.cs" />
     <Compile Include="Repositories\ITableRepository.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ClientStockService.cs" />

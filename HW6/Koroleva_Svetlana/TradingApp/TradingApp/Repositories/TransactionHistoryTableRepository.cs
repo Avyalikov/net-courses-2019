@@ -42,9 +42,9 @@ namespace TradingApp.Repositories
 
         }
 
-        public override bool ContainsDTO(object entity)
+        public override bool ContainsDTO(TEntity entity)
         {
-            TransactionHistory transactionHistory = (TransactionHistory)entity;
+            TransactionHistory transactionHistory = entity;
 
             return
 

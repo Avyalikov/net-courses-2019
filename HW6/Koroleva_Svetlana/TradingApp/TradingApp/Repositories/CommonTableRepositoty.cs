@@ -41,7 +41,7 @@ namespace TradingApp.Repositories
             return dbSet.Contains(entity);
         }
 
-        public abstract bool ContainsDTO(Object entity);
+        public abstract bool ContainsDTO(TEntity entity);
        
 
         public bool ContainsByPK(params object[] pk)

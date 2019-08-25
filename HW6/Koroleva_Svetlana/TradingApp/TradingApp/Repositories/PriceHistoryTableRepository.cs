@@ -17,7 +17,7 @@ namespace TradingApp.Repositories
     /// <summary>
     /// ITableRepository description
     /// </summary>
-    public class PriceHistoryTableRepository<TEntity>:  CommonTableRepositoty<TEntity> where TEntity:PriceHistory
+    public class PriceHistoryTableRepository<TEntity>:  CommonTableRepositoty<TEntity> where TEntity:PriceHistory,IPriceHistoryTableRepository
     {
        
         public PriceHistoryTableRepository(ExchangeContext db) : base(db)
@@ -54,9 +54,9 @@ namespace TradingApp.Repositories
 
         }
 
-        public override bool ContainsDTO(object entity)
+        public override bool ContainsDTO(TEntity entity)
         {
-            PriceHistory priceHistory  = (PriceHistory)entity;
+            PriceHistory priceHistory  = entity;
 
              return 
 

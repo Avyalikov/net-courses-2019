@@ -37,9 +37,9 @@
 
         }
 
-        public override bool ContainsDTO(object entity)
+        public override bool ContainsDTO(TEntity entity)
         {
-            Order order = (Order)entity;
+            Order order = entity;
 
             return
 

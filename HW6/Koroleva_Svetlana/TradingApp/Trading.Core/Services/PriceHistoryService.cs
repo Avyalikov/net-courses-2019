@@ -20,11 +20,14 @@ namespace Trading.Core.Services
     public class PriceHistoryService 
     {
         private ITableRepository<PriceHistory> tableRepository;
+        private IPriceHistoryTableRepository priceHistoryTableRepository;
        
 
-        public PriceHistoryService(ITableRepository<PriceHistory> tableRepository)
+        public PriceHistoryService(ITableRepository<PriceHistory> tableRepository, 
+            IPriceHistoryTableRepository priceHistoryTableRepository)
         {
             this.tableRepository = tableRepository;
+            this.priceHistoryTableRepository = priceHistoryTableRepository;
            
         }
 
@@ -47,7 +50,7 @@ namespace Trading.Core.Services
 
         public decimal GetStockPriceByDateTime(PriceArguments args)
         {
-            IEnumerable < PriceHistory > priceInfos = this.tableRepository.FindEntitiesByRequestDTO(args).ToList();
+            IEnumerable < PriceHistory > priceInfos = this.priceHistoryTableRepository.FindEntitiesByRequestDTO(args).ToList();
             PriceHistory priceinfo = priceInfos.Single();
             decimal price =priceinfo.Price;
             return price;
@@ -56,7 +59,7 @@ namespace Trading.Core.Services
         //!!
         public void EditPriceDateEnd(int stockId, DateTime dateTimeEndToSet)
         {
-            var phistories =this.tableRepository.FindEntitiesByRequest(stockId);
+            var phistories =this.priceHistoryTableRepository.FindEntitiesByRequest(stockId);
             var last= phistories.OrderByDescending(p => p.PriceHistoryID).First();
             last.DateTimeEnd = dateTimeEndToSet;
             tableRepository.SaveChanges();

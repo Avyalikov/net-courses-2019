@@ -40,9 +40,9 @@ namespace TradingApp.Repositories
 
         }
 
-        public override bool ContainsDTO(object entity)
+        public override bool ContainsDTO(TEntity entity)
         {
-            Issuer issuer = (Issuer)entity;
+            Issuer issuer = entity;
 
             return
 

@@ -44,9 +44,9 @@ namespace TradingApp.Repositories
 
         }
 
-        public override bool ContainsDTO(object entity)
+        public override bool ContainsDTO(TEntity entity)
         {
-            Client client = (Client)entity;
+            Client client = entity;
 
             return
 

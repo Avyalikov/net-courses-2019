@@ -14,14 +14,14 @@ namespace ClientUI
     public partial class ClientsGridView : Form
     {
        
-        private AddClient addClient;
+        private AddClientForm addClient;
         private ClientStock clientStock;
 
         public ClientsGridView()
         {
             InitializeComponent();
             LoadData();
-           this.addClient = new AddClient();
+           this.addClient = new AddClientForm();
          
         }
 
@@ -56,7 +56,7 @@ namespace ClientUI
 
          if (this.addClient.IsDisposed)
             {
-                addClient = new AddClient();
+                addClient = new AddClientForm();
             }
             AttachAsMDIChild(addClient);
             addClient.Show();
@@ -77,14 +77,14 @@ namespace ClientUI
         }
 
 
-        private void AttachAsMDIChild(AddClient addform)
+        private void AttachAsMDIChild(AddClientForm addform)
         {
             addform.Closing += new CancelEventHandler(addClient_Closing);
            
         }
         private void addClient_Closing(object sender, CancelEventArgs e)
         {
-            AddClient addClient = (AddClient)sender;
+            AddClientForm addClient = (AddClientForm)sender;
             this.LoadData();
         }
 
