@@ -69,57 +69,57 @@
                 new SharesNumberEntity()
                 {
                     Id = 1,
-                    Client = clients[0],
-                    Share = sharesList[0],
+                    Client = clients[0], // Id = 1
+                    Share = sharesList[0], // Microsoft
                     Number = 50
                 },
                 new SharesNumberEntity()
                 {
                     Id = 2,
-                    Client = clients[1],
-                    Share = sharesList[0],
+                    Client = clients[1], // Id = 2
+                    Share = sharesList[0], // Microsoft
                     Number = 30
                 },
                 new SharesNumberEntity()
                 {
                     Id = 3,
-                    Client = clients[1],
-                    Share = sharesList[1],
+                    Client = clients[1], // Id = 2
+                    Share = sharesList[1], // Apple
                     Number = 40
                 },
                 new SharesNumberEntity()
                 {
                     Id = 4,
-                    Client = clients[1],
-                    Share = sharesList[2],
+                    Client = clients[1], // Id = 2
+                    Share = sharesList[2], // Yandex
                     Number = 30
                 },
                 new SharesNumberEntity()
                 {
                     Id = 5,
-                    Client = clients[0],
-                    Share = sharesList[1],
+                    Client = clients[0], // Id = 1
+                    Share = sharesList[1], // Apple
                     Number = 20
                 },
                 new SharesNumberEntity()
                 {
                     Id = 6,
-                    Client = clients[5],
-                    Share = sharesList[2],
+                    Client = clients[5], // Id = 6
+                    Share = sharesList[2], // Yandex
                     Number = 30
                 },
                 new SharesNumberEntity()
                 {
                     Id = 7,
-                    Client = clients[4],
-                    Share = sharesList[0],
+                    Client = clients[4], // Id = 5
+                    Share = sharesList[0], // Microsoft
                     Number = 40
                 },
                 new SharesNumberEntity()
                 {
                     Id = 8,
-                    Client = clients[3],
-                    Share = sharesList[0],
+                    Client = clients[3], // Id = 4
+                    Share = sharesList[0], // Microsoft
                     Number = 25
                 }
             };
@@ -132,6 +132,58 @@
                 new OperationEntity()
                 {
                     Id = 1,
+                    DebitDate = DateTime.Now,
+                    Customer = clients[1],
+                    ChargeDate = DateTime.Now,
+                    Seller = clients[0],
+                    Share = sharesList[0], // 'Service' share
+                    ShareTypeName = sharesList[0].Type.Name, // 'Middle'
+                    Cost = sharesList[0].Type.Cost, // 'Middle' cost
+                    Number = 12,
+                    Total = 12 * sharesList[0].Type.Cost
+                },
+                new OperationEntity()
+                {
+                    Id = 2,
+                    DebitDate = DateTime.Now,
+                    Customer = clients[5],
+                    ChargeDate = DateTime.Now,
+                    Seller = clients[2],
+                    Share = sharesList[0], // 'Service' share
+                    ShareTypeName = sharesList[0].Type.Name, // 'Middle'
+                    Cost = sharesList[0].Type.Cost, // 'Middle' cost
+                    Number = 12,
+                    Total = 12 * sharesList[0].Type.Cost
+                },
+                new OperationEntity()
+                {
+                    Id = 3,
+                    DebitDate = DateTime.Now,
+                    Customer = clients[1],
+                    ChargeDate = DateTime.Now,
+                    Seller = clients[0],
+                    Share = sharesList[1], // 'Service' share
+                    ShareTypeName = sharesList[0].Type.Name, // 'Middle'
+                    Cost = sharesList[1].Type.Cost, // 'Middle' cost
+                    Number = 12,
+                    Total = 12 * sharesList[0].Type.Cost
+                },
+                new OperationEntity()
+                {
+                    Id = 4,
+                    DebitDate = DateTime.Now,
+                    Customer = clients[1],
+                    ChargeDate = DateTime.Now,
+                    Seller = clients[0],
+                    Share = sharesList[0], // 'Service' share
+                    ShareTypeName = sharesList[0].Type.Name, // 'Middle'
+                    Cost = sharesList[0].Type.Cost, // 'Middle' cost
+                    Number = 12,
+                    Total = 12 * sharesList[0].Type.Cost
+                },
+                new OperationEntity()
+                {
+                    Id = 5,
                     DebitDate = DateTime.Now,
                     Customer = clients[1],
                     ChargeDate = DateTime.Now,

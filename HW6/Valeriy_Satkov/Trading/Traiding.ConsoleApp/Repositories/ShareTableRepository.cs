@@ -35,7 +35,7 @@
             return this.dBContext.Shares.First(s => s.Id == entityId); // it will fall here if we can't find
         }
 
-        public int GetClientsCount()
+        public int GetSharesCount()
         {
             return this.dBContext.Shares.Count();
         }

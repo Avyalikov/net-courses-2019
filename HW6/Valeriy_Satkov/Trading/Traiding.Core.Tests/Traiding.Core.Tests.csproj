@@ -63,7 +63,7 @@
     <Compile Include="BalancesServiceTests.cs" />
     <Compile Include="ReportsServiceTests.cs" />
     <Compile Include="ClientsServiceTests.cs" />
-    <Compile Include="SaleServiceTests.cs" />
+    <Compile Include="SalesServiceTests.cs" />
     <Compile Include="SharesServiceTests.cs" />
     <Compile Include="ShareTypesServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

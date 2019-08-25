@@ -87,12 +87,12 @@
 
         public int GetSharesCount()
         {
-            return this.shareTableRepository.GetClientsCount();
+            return this.shareTableRepository.GetSharesCount();
         }
 
-        public IEnumerable<OperationEntity> GetTop10Operations()
-        {
-            return this.operationTableRepository.GetTopOperations(10);
-        }
+        //public IEnumerable<OperationEntity> GetTop10Operations()
+        //{
+        //    return this.operationTableRepository.GetTopOperations(10);
+        //}
     }
 }

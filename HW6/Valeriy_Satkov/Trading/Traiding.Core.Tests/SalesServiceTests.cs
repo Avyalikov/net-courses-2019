@@ -9,26 +9,8 @@
     using Traiding.Core.Services;
 
     [TestClass]
-    public class SaleServiceTests
+    public class SalesServiceTests
     {
-        /* Sale
-         * 0.  Get info about purchase from program (Customer, Seller, Number of Shares, Total (money))
-         * 1.  Create empty operation
-         * 2.1 Get Customer balance info
-         * 2.2 - Customer balance amount
-         * 3.  Create blocked money
-         * 4.1 Get Seller shares number info
-         * 4.2 - Seller shares number
-         * 5.  Create blocked shares number // after that action purchase can't cancel
-         * 6.1 Get Seller balance info
-         * 6.2 + Seller balance amount
-         * 7.1 Get Customer shares number info
-         * 7.2 + Customer shares number
-         * 8.  Fill operation columns
-         * 9.  Remove blocked money
-         * 10. Remove blocked shares number
-         */
-
         //IOperationTableRepository operationTableRepository;
         //IBalanceTableRepository balanceTableRepository;        
         //ISharesNumberTableRepository sharesNumberTableRepository;
