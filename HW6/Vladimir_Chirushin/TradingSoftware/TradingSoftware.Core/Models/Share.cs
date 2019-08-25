@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TradingSoftware.Core.Models
+﻿namespace TradingSoftware.Core.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Share
     {
+        [Key]
         public int ShareID { get; set; }
+
         public string ShareType { get; set; }
+
         public decimal Price { get; set; }
     }
 }

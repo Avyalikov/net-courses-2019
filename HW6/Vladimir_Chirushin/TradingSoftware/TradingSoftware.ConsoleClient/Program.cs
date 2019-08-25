@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TradingSoftware.ConsoleClient
+﻿namespace TradingSoftware.ConsoleClient
 {
-    class Program
+    using StructureMap;
+    using TradingSoftware.ConsoleClient.DependencyInjection;
+
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            var container = new Container(new TradingSoftwareRegistry());
+            var tradingEngine = container.GetInstance<ITradingEngine>();
+
+            tradingEngine.Run();
         }
     }
 }

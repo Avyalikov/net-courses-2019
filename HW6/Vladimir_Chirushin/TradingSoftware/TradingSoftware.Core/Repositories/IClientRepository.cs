@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TradingSoftware.Core.Models;
-
-namespace TradingSoftware.Core.Repositories
+﻿namespace TradingSoftware.Core.Repositories
 {
+    using System.Collections.Generic;
+    using TradingSoftware.Core.Models;
+
     public interface IClientRepository
     {
         bool Insert(Client client);
-        string GetClientName(int ClientID);
-        int GetClientID(string ClientName);
+
+        string GetClientName(int clientID);
+
+        int GetClientID(string clientName);
+
         int GetNumberOfClients();
-        decimal GetClientBalance(int ClientID);
+
+        decimal GetClientBalance(int clientID);
+
         IEnumerable<Client> GetAllClients();
-        bool IsClientExist(int ClientID);
-        bool IsClientExist(string ClientName);
-        bool ChangeBalance(int ClientID, decimal accountGain);
+
+        bool IsClientExist(int clientID);
+
+        bool IsClientExist(string clientName);
+
+        bool ChangeBalance(int clientID, decimal accountGain);
     }
 }

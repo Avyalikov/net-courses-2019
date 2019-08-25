@@ -1,6 +1,5 @@
-﻿namespace trading_software
+﻿namespace TradingSoftware.Core.Services
 {
-    using System;
     using System.Collections.Generic;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
@@ -9,42 +8,34 @@
     {
         private readonly IBlockOfSharesRepository blockOfSharesRepository;
 
-        public BlockOfSharesManager(
-            IBlockOfSharesRepository blockOfSharesRepository
-            )
+        public BlockOfSharesManager(IBlockOfSharesRepository blockOfSharesRepository)
         {
             this.blockOfSharesRepository = blockOfSharesRepository;
         }
 
-
         public void AddShare(BlockOfShares blockOfShares)
         {
-            blockOfSharesRepository.Insert(blockOfShares);
+            this.blockOfSharesRepository.Insert(blockOfShares);
         }
 
-        public bool IsClientHasStockType(int ClientID, int StockID)
+        public bool IsClientHasStockType(int clientID, int shareID)
         {
-            throw new NotImplementedException();
+            return this.blockOfSharesRepository.IsClientHasShareType(clientID, shareID);
         }
 
         public void ChangeShareAmountForClient(BlockOfShares blockOfShares)
         {
-            throw new NotImplementedException();
+            this.blockOfSharesRepository.ChangeShareAmountForClient(blockOfShares);
         }
 
-        public void ChangeSharePrice(BlockOfShares blockOfShares)
+        public int GetClientShareAmount(int clientID, int shareID)
         {
-            throw new NotImplementedException();
+            return this.blockOfSharesRepository.GetClientShareAmount(clientID, shareID);
         }
 
-        public int GetClientShareAmount(int ClientID, int StockID)
+        public IEnumerable<BlockOfShares> GetAllBlockOfShares()
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<BlockOfShares> ReadAllBlockOfShares()
-        {
-            IEnumerable<BlockOfShares> allShares = blockOfSharesRepository.GetAllBlockOfShares();
+            IEnumerable<BlockOfShares> allShares = this.blockOfSharesRepository.GetAllBlockOfShares();
             return allShares;
         }
     }

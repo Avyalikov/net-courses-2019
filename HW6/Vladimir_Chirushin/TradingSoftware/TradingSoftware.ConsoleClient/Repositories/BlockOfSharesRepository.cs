@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using TradingSoftware.Core.Models;
-
-namespace TradingSoftware.Core.Repositories
+﻿namespace TradingSoftware.ConsoleClient.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using TradingSoftware.Core.Models;
+    using TradingSoftware.Core.Repositories;
+
     public class BlockOfSharesRepository : IBlockOfSharesRepository
     {
         public void Insert(BlockOfShares blockOfShares)
@@ -14,34 +15,37 @@ namespace TradingSoftware.Core.Repositories
                 db.SaveChanges();
             }
         }
-        public bool IsClientHasStockType(int ClientID, int StockID)
+
+        public bool IsClientHasShareType(int clientID, int shareID)
         {
             using (var db = new TradingContext())
             {
-                return db.BlockOfSharesTable.Where(b => b.StockID == StockID && b.ClientID == ClientID).FirstOrDefault() != null;
+                return db.BlockOfSharesTable.Where(b => b.ShareID == shareID && b.ClientID == clientID).FirstOrDefault() != null;
             }
         }
-        public int GetClientStockAmount(int ClientID, int StockID)
+
+        public int GetClientShareAmount(int clientID, int shareID)
         {
             using (var db = new TradingContext())
             {
-                return db.BlockOfSharesTable.Where(b => b.StockID == StockID && b.ClientID == ClientID).FirstOrDefault().Amount;
+                return db.BlockOfSharesTable.Where(b => b.ShareID == shareID && b.ClientID == clientID).FirstOrDefault().Amount;
             }
         }
+
         public void ChangeShareAmountForClient(BlockOfShares blockOfShares)
         {
             using (var db = new TradingContext())
             {
                 var entry = db.BlockOfSharesTable
                     .Where(b => (b.ClientID == blockOfShares.ClientID &&
-                                 b.StockID == blockOfShares.StockID))
+                                 b.ShareID == blockOfShares.ShareID))
                     .FirstOrDefault();
                 entry.Amount += blockOfShares.Amount;
                 db.SaveChanges();
             }
         }
 
-        public  IEnumerable<BlockOfShares> GetAllBlockOfShares()
+        public IEnumerable<BlockOfShares> GetAllBlockOfShares()
         {
             using (var db = new TradingContext())
             {

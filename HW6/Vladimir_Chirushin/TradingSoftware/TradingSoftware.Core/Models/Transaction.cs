@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TradingSoftware.Core.Models
+﻿namespace TradingSoftware.Core.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class Transaction
     {
+        [Key]
         public int TransactionID { get; set; }
         public DateTime dateTime { get; set; }
         public virtual int SellerID { get; set; }

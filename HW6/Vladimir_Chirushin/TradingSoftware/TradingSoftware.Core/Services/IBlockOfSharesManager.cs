@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
-using TradingSoftware.Core.Models;
-
-namespace trading_software
+﻿namespace TradingSoftware.Core.Services
 {
+    using System.Collections.Generic;
+    using TradingSoftware.Core.Models;
+
     public interface IBlockOfSharesManager
     {
         void AddShare(BlockOfShares blockOfShares);
-        bool IsClientHasStockType(int ClientID, int StockID);
+
+        bool IsClientHasStockType(int clientID, int shareID);
+
         void ChangeShareAmountForClient(BlockOfShares blockOfShares);
-        void ChangeSharePrice(BlockOfShares blockOfShares);
-        int GetClientShareAmount(int ClientID, int StockID);
-        IEnumerable<BlockOfShares> ReadAllBlockOfShares();
+
+        int GetClientShareAmount(int clientID, int shareID);
+
+        IEnumerable<BlockOfShares> GetAllBlockOfShares();
     }
 }
