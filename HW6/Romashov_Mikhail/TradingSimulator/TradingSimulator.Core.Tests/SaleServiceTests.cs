@@ -17,7 +17,7 @@ namespace TradingSimulator.Core.Tests
         IStockTableRepository stockTableRepository;
         ITraderStockTableRepository traderStockTableRepository;
         IHistoryTableRepository historyTableRepository;
-        List<StockToTraderEntity> traderStocksTable;
+        List<StockToTraderEntityDB> traderStocksTable;
       //  List<TraderEntity> tradersTable;
         SaleService saleHandler;
 
@@ -45,7 +45,7 @@ namespace TradingSimulator.Core.Tests
             //        Balance = 1243123.0M
             //    }
             //};
-            traderTableRepository.GetById(5).Returns(new TraderEntity()
+            traderTableRepository.GetById(5).Returns(new TraderEntityDB()
             {
                 Id = 5,
                 Name = "Muhamed",
@@ -53,7 +53,7 @@ namespace TradingSimulator.Core.Tests
                 Balance = 123123.0M
 
             });
-            traderTableRepository.GetById(40).Returns(new TraderEntity()
+            traderTableRepository.GetById(40).Returns(new TraderEntityDB()
             {
                 Id = 40,
                 Name = "Brad",
@@ -62,22 +62,22 @@ namespace TradingSimulator.Core.Tests
             });
 
             stockTableRepository = Substitute.For<IStockTableRepository>();
-            stockTableRepository.GetById(7).Returns(new StockEntity()
+            stockTableRepository.GetById(7).Returns(new StockEntityDB()
             {
                 Id = 7,
                 Name = "Pepsi",
                 PricePerItem = 123.0M
             });
-            stockTableRepository.GetById(20).Returns(new StockEntity()
+            stockTableRepository.GetById(20).Returns(new StockEntityDB()
             {
                 Id = 20,
                 Name = "Shmepsi",
                 PricePerItem = 33.0M
             });
 
-            this.traderStocksTable = new List<StockToTraderEntity>()
+            this.traderStocksTable = new List<StockToTraderEntityDB>()
             {
-                new StockToTraderEntity()
+                new StockToTraderEntityDB()
                 {
                     Id = 1,
                     TraderId = 5,
@@ -85,7 +85,7 @@ namespace TradingSimulator.Core.Tests
                     StockCount = 4,
                     PricePerItem = 123.0M
                 },
-                new StockToTraderEntity()
+                new StockToTraderEntityDB()
                 {
                     Id = 2,
                     TraderId = 5,
@@ -93,7 +93,7 @@ namespace TradingSimulator.Core.Tests
                     StockCount = 2,
                     PricePerItem = 33.0M
                 },
-                 new StockToTraderEntity()
+                 new StockToTraderEntityDB()
                 {
                     Id = 3,
                     TraderId = 40,
@@ -148,7 +148,7 @@ namespace TradingSimulator.Core.Tests
             traderStockTableRepository.Contains(Arg.Any<StockToTraderEntityDB>())
                .Returns((callInfo) =>
                {
-                   var stockToTrader = callInfo.Arg<StockToTraderEntity>();
+                   var stockToTrader = callInfo.Arg<StockToTraderEntityDB>();
                    try
                    {
                        var retVal = this.traderStocksTable.First(w => w.TraderId == stockToTrader.TraderId
@@ -336,7 +336,7 @@ namespace TradingSimulator.Core.Tests
                 PricePerItem = 100.0M
             };
 
-            var entityToAdd = new StockToTraderEntity()
+            var entityToAdd = new StockToTraderEntityDB()
             {
                 TraderId = args.CustomerID,
                 StockId = args.StockID,

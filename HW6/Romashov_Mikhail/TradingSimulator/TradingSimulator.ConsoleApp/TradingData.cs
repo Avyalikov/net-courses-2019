@@ -28,14 +28,17 @@ namespace TradingSimulator.ConsoleApp
         public void Run()
         {
             logger.InitLogger();
-            logger.Info("Start trading");
+            logger.Info("Start program");
             while (true)
             {
-                Console.WriteLine(@"Use one of the option:
-    1-Registration ew trader
+                Console.WriteLine(@"
+-----------------
+Use one of the option:
+    1-Registration new trader
     2-Add stock to trader
     3-Get traders from orange zone
-    4-Get traders from black zone");
+    4-Get traders from black zone
+-----------------");
                 string inputString = Console.ReadLine();
                 switch (inputString)
                 {
@@ -58,7 +61,7 @@ namespace TradingSimulator.ConsoleApp
         }
         private void TraderRegistartion()
         {
-            logger.Info("Registration new trader");
+            logger.Info("Try to registration new trader");
             Console.WriteLine("Please input first name:");
             string firstName = Console.ReadLine();
             bool validFirstName = firstName.All(c => char.IsLetter(c));
@@ -103,13 +106,14 @@ namespace TradingSimulator.ConsoleApp
                     PhoneNumber = phone,
                     Balance = traderBalance
                 });
-                logger.Info("Registration new trader succesfully");
+                logger.Info("Registration new trader was succesfully");
                 logger.Info($"New trader name = {firstName}, surname = {lastName}");
                 Console.WriteLine("Registration was succesfully");
             }
             catch (ArgumentException e)
             {
                 Console.WriteLine($"{e.Message} Operation cancel.");
+                logger.Info($"New trader name = {firstName}, surname = {lastName} wasnt registration");
                 logger.Error(e);
             }
         }
@@ -157,7 +161,7 @@ namespace TradingSimulator.ConsoleApp
                 Console.WriteLine("Wrong count of stock. Operation cancel.");
             }
 
-
+            logger.Info($"Try to add stoc = {stock} to trader {trader}");
             try
             {
                 TraderInfo traderInfo = new TraderInfo
@@ -181,6 +185,7 @@ namespace TradingSimulator.ConsoleApp
             catch (ArgumentException e)
             {
                 Console.WriteLine($"{e.Message} Operation cancel.");
+                logger.Info("Stock has not been added");
                 logger.Error(e);
             }
         }

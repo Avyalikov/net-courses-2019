@@ -19,8 +19,6 @@ namespace TradingSimulator.ConsoleApp.Dependencies
             this.For<IBankruptRepository>().Use<BankruptRepository>();
             this.For<ILogger>().Use<LoggerService>();
             this.For<TradingSimulatorDBContext>().Use<TradingSimulatorDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingSimulatorConnectionString"].ConnectionString);
-            //this.For<TradingData>().Use<TradingData>();
-            //this.For<TradeSimulation>().Use<TradeSimulation>();
         }
     }
 }

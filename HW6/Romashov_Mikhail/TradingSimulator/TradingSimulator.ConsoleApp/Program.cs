@@ -14,10 +14,7 @@ namespace TradingSimulator.ConsoleApp
             var tradeData = container.GetInstance<TradingData>();
 
             var tradeSimulation = container.GetInstance<TradeSimulation>();
-            log4net.Config.XmlConfigurator.Configure();
-            var logger = new LoggerService();
-            logger.InitLogger();
-            logger.Info("Start Get Elements");
+
             using (var dbContext = container.GetInstance<TradingSimulatorDBContext>())
             {
                 dbContext.Database.Initialize(false);

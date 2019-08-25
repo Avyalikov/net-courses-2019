@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using TradingSimulator.Core.Dto;
 using TradingSimulator.ConsoleApp.Interfaces;
@@ -22,6 +21,8 @@ namespace TradingSimulator.ConsoleApp
             this.traderStocks = traderStocks;
             this.saleService = saleService;
             this.logger = logger;
+
+            logger.InitLogger();
         }
 
         public void Run()
@@ -51,15 +52,15 @@ namespace TradingSimulator.ConsoleApp
                 PricePerItem = seller.PricePerItem
             };
 
-            logger.Info($"sellerId = {buy.SellerID}, customerId = {buy.CustomerID}, stockId = {buy.StockID}, count = {buy.StockCount}");
+            logger.Info($"Try to make a sale sellerId = {buy.SellerID}, customerId = {buy.CustomerID}, stockId = {buy.StockID}, count = {buy.StockCount}");
             try
             {
                 saleService.HandleBuy(buy);
-                logger.Info("Succesfully operation for sale sellerId = {buy.SellerID}, customerId = {buy.CustomerID}, stockId = {buy.StockID}, count = {buy.StockCount}");
+                logger.Info($"Succesfully operation for sale sellerId = {buy.SellerID}, customerId = {buy.CustomerID}, stockId = {buy.StockID}, count = {buy.StockCount}");
             }
             catch (ArgumentException e)
             {
-                //Console.WriteLine($"{e.Message} Operation cancel.");
+                logger.Info($"Operation for sale sellerId = {buy.SellerID}, customerId = {buy.CustomerID}, stockId = {buy.StockID}, count = {buy.StockCount} canceled");
                 logger.Error(e);
             }
         }
