@@ -10,9 +10,9 @@ namespace Traiding.ConsoleApp.Repositories
 {
     public class ClientTableRepository : IClientTableRepository
     {
-        private readonly TraidingDBContext dBContext;
+        private readonly StockExchangeDBContext dBContext;
 
-        public ClientTableRepository(TraidingDBContext dBContext)
+        public ClientTableRepository(StockExchangeDBContext dBContext)
         {
             this.dBContext = dBContext;
         }

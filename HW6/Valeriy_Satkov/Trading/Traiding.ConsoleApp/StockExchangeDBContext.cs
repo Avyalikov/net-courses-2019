@@ -8,10 +8,11 @@ using Traiding.Core.Models;
 
 namespace Traiding.ConsoleApp
 {
-    public class TraidingDBContext : DbContext
+    public class StockExchangeDBContext : DbContext
     {
-        public TraidingDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        public StockExchangeDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
         {
+            Database.SetInitializer(new StockExchangeInitializer());
         }
 
         /// <summary>

@@ -25,8 +25,8 @@
             //this.For<IOperationTableRepository>().Use<OperationTableRepository>();
             //this.For<IBlockedMoneyTableRepository>().Use<BlockedMoneyTableRepository>();
             //this.For<IBlockedSharesNumberTableRepository>().Use<BlockedSharesNumberTableRepository>();
-            
-            this.For<TraidingDBContext>().Use<TraidingDBContext>().Ctor<string>("connectionString")
+
+            this.For<StockExchangeDBContext>().Use<StockExchangeDBContext>().Ctor<string>("connectionString")
                 .Is(ConfigurationManager.ConnectionStrings["traidingConnectionString"].ConnectionString);
         }
     }    

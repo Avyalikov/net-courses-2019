@@ -10,9 +10,9 @@ namespace Traiding.ConsoleApp.Repositories
 {
     class SharesNumberTableRepository : ISharesNumberTableRepository
     {
-        private readonly TraidingDBContext dBContext;
+        private readonly StockExchangeDBContext dBContext;
 
-        public SharesNumberTableRepository(TraidingDBContext dBContext)
+        public SharesNumberTableRepository(StockExchangeDBContext dBContext)
         {
             this.dBContext = dBContext;
         }
