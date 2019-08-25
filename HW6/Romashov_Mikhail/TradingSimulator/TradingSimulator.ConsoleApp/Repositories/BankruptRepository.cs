@@ -14,24 +14,14 @@ namespace TradingSimulator.ConsoleApp.Repositories
             this.dbContext = dbContext;
         }
 
-        public List<TraderEntityDB> GetTradersWithNegativeBalance()
+        public IEnumerable<TraderEntityDB> GetTradersWithNegativeBalance()
         {
-            List<TraderEntityDB> listItems = new List<TraderEntityDB>();
-            foreach (var item in this.dbContext.Traders.Where(t => t.Balance < 0))
-            {
-                listItems.Add(item);
-            }
-            return listItems;
+            return this.dbContext.Traders.Where(t => t.Balance < 0);
         }
 
-        public List<TraderEntityDB> GetTradersWithZeroBalance()
+        public IEnumerable<TraderEntityDB> GetTradersWithZeroBalance()
         {
-            List<TraderEntityDB> listItems = new List<TraderEntityDB>();
-            foreach (var item in this.dbContext.Traders.Where(t => t.Balance == 0))
-            {
-                listItems.Add(item);
-            }
-            return listItems;
+            return this.dbContext.Traders.Where(t => t.Balance == 0);
         }
     }
 }

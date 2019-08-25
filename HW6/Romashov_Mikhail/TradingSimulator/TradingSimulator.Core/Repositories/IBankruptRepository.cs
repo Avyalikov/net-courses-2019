@@ -5,8 +5,7 @@ namespace TradingSimulator.Core.Repositories
 {
     public interface IBankruptRepository
     {
-        List<TraderEntityDB> GetTradersWithZeroBalance();
-
-        List<TraderEntityDB> GetTradersWithNegativeBalance();
+        IEnumerable<TraderEntityDB> GetTradersWithZeroBalance();
+        IEnumerable<TraderEntityDB> GetTradersWithNegativeBalance();
     }
 }
