@@ -113,7 +113,7 @@
                     while (sellerId == buyerId);
 
                     int index = this.rnd.Next(sharesCount);
-                    var share = this.shareRep.GetShareByIndex(sellerId, index);
+                    var share = this.shareService.GetShareByIndex(sellerId, index);
                     int quantity = this.rnd.Next(1, share.quantity + 1);
 
                     var transaction = transactionService.MakeDeal(sellerId, buyerId, share.name, quantity);

@@ -9,17 +9,10 @@
     public class TransactionRepository : ITransactionRepository
     {
         private readonly TradingDbContext db;
-        private readonly ITraderRepository traderRp;
-        private readonly IShareRepository shareRp;
 
-        public TransactionRepository(
-            TradingDbContext db,
-            ITraderRepository traderRp,
-            IShareRepository shareRp)
+        public TransactionRepository(TradingDbContext db)
         {
             this.db = db;
-            this.traderRp = traderRp;
-            this.shareRp = shareRp;
         }
 
         public List<Transaction> GetTransactions()

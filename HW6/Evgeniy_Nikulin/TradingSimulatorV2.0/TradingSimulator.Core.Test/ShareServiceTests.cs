@@ -2,6 +2,8 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
+    using System;
+    using System.Collections.Generic;
     using TradingSimulator.Core.Dto;
     using TradingSimulator.Core.Interfaces;
     using TradingSimulator.Core.Repositories;
@@ -56,6 +58,63 @@
 
             // Assert
             shareRep.Received(0).GetShareList(1);
+        }
+
+        [TestMethod]
+        public void ShouldGetShareByIndex()
+        {
+            // Arrange
+            ShareService transactionService = new ShareService(
+                this.provider,
+                this.shareRep,
+                this.traderRep,
+                this.logger);
+
+            List<Share> shares = new List<Share>()
+            {
+                new Share()
+                {
+                    name = "Ubisoft",
+                    price = 10m,
+                    quantity = 10,
+                    ownerId = 1,
+                }
+            };
+
+            transactionService.GetShareList("1").Returns(shares);
+
+            // Act
+            var result = transactionService.GetShareByIndex(1, 0);
+
+            // Assert
+            Assert.AreEqual(shares[0], result);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException), "At trader with ID 1 have 1 shares, but you try to get 3")]
+        public void ShouldNotGetShareByIndex()
+        {
+            // Arrange
+            ShareService transactionService = new ShareService(
+                this.provider,
+                this.shareRep,
+                this.traderRep,
+                this.logger);
+
+            List<Share> shares = new List<Share>()
+            {
+                new Share()
+                {
+                    name = "Ubisoft",
+                    price = 10m,
+                    quantity = 10,
+                    ownerId = 1,
+                }
+            };
+
+            transactionService.GetShareList("1").Returns(shares);
+
+            // Act
+            var result = transactionService.GetShareByIndex(1, 2);
         }
 
         [TestMethod]

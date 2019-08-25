@@ -41,27 +41,6 @@
             return temp;
         }
 
-        public Share GetShareByIndex(int OwnerId, int index)
-        {
-            var shareEntity = this.db.Shares
-                .Where(s => s.Owner.ID == OwnerId)
-                .ToList()[index];
-
-            if (shareEntity == null)
-            {
-                return null;
-            }
-
-            return new Share()
-            {
-                id = shareEntity.ID,
-                name = shareEntity.Name,
-                price = shareEntity.Price,
-                quantity = shareEntity.Quantity,
-                ownerId = OwnerId,
-            };
-        }
-
         public Share GetShare(int ShareId)
         {
             var shareEntity = this.db.Shares

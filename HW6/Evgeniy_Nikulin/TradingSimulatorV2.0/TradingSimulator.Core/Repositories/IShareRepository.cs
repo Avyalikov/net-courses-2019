@@ -7,7 +7,6 @@
     {
         int GetSharesCount(int TraderID);
         List<Share> GetShareList(int OnerId);
-        Share GetShareByIndex(int TraderID, int index);
         Share GetShare(int ShareId);
         Share GetShare(int TraderID, string shareName);
         void Push(Share share);

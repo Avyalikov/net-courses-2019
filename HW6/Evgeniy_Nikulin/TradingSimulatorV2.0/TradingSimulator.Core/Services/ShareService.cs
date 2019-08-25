@@ -3,6 +3,7 @@
     using Dto;
     using Interfaces;
     using Repositories;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -34,6 +35,18 @@
             }
 
             return shareRep.GetShareList(OwnerId);
+        }
+
+        public Share GetShareByIndex(int ownerId, int index)
+        {
+            var shares = shareRep.GetShareList(ownerId);
+
+            if (shares.Count - 1 < index)
+            {
+                throw new IndexOutOfRangeException($"At trader with ID {ownerId} have {shares.Count} shares, but you try to get {index + 1}");
+            }
+
+            return shares[index];
         }
 
         public string AddShare(string shareName, string price, string quantity, string ownerId)
