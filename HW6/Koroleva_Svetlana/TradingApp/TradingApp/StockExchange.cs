@@ -134,7 +134,7 @@ namespace TradingApp
             }
             double percent = (double)(random.Next(5)) / 100;
 
-            DateTime dateTimeEnd = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
+            DateTime dateTimeEnd = DateTime.Today.AddYears(200);
             decimal price;
             this.priceHistoryService.EditPriceDateEnd(stockId, dateTimeX);
 

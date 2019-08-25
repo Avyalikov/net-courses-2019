@@ -39,9 +39,9 @@ namespace TradingApp.DAL
 
             var priceHistories = new List<PriceHistory>
             {
-                new PriceHistory{StockID=1, DateTimeBegin=DateTime.Now, DateTimeEnd=DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59), Price=220},
-                new PriceHistory{StockID=2, DateTimeBegin=DateTime.Now, DateTimeEnd=DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59), Price=194},
-                new PriceHistory{StockID=3, DateTimeBegin=DateTime.Now, DateTimeEnd=DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59), Price=405}
+                new PriceHistory{StockID=1, DateTimeBegin=DateTime.Now, DateTimeEnd=DateTime.Today.AddYears(200), Price=220},
+                new PriceHistory{StockID=2, DateTimeBegin=DateTime.Now, DateTimeEnd=DateTime.Today.AddYears(200), Price=194},
+                new PriceHistory{StockID=3, DateTimeBegin=DateTime.Now, DateTimeEnd=DateTime.Today.AddYears(200), Price=405}
             };
             priceHistories.ForEach(p => context.PriceHistories.Add(p));
             context.SaveChanges();
@@ -81,19 +81,7 @@ namespace TradingApp.DAL
             clientStocks.ForEach(c => context.ClientStocks.Add(c));
             context.SaveChanges();
 
-           /* var orders = new List<Order>
-            {
-                new Order{ClientID=1, StockID=1, Quantity=10, OrderType=OrderType.Sale, IsExecuted=false},
-                new Order{ClientID=2, StockID=1, Quantity=10, OrderType=OrderType.Sale, IsExecuted=false},
-                new Order{ClientID=5, StockID=3, Quantity=10, OrderType=OrderType.Sale, IsExecuted=false},
-                new Order{ClientID=4, StockID=2, Quantity=10, OrderType=OrderType.Sale, IsExecuted=false},
-                new Order{ClientID=5, StockID=1, Quantity=10, OrderType=OrderType.Purchase, IsExecuted=false},
-                new Order{ClientID=7, StockID=1, Quantity=10, OrderType=OrderType.Purchase, IsExecuted=false},
-                new Order{ClientID=8, StockID=2, Quantity=10, OrderType=OrderType.Purchase, IsExecuted=false},
-                new Order{ClientID=6, StockID=3, Quantity=10, OrderType=OrderType.Purchase, IsExecuted=false},
-            };
-            orders.ForEach(o => context.Orders.Add(o));
-            context.SaveChanges();*/
+         
 
         }
     }
