@@ -49,7 +49,7 @@
             var tradersShares = shareService.GetAllSharesByTraderId(1);
 
             // Assert
-            shareRepository.Received(1).GetAll();
+            shareRepository.Received(2).GetAll();
             Assert.IsFalse(tradersShares.Any(s => s.Owner.Id != 1));
         }
         [TestMethod]
