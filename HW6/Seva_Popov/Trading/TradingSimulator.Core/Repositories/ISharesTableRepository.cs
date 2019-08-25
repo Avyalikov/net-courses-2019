@@ -8,9 +8,9 @@ namespace TradingSimulator.Core.Repositories
     public interface ISharesTableRepository
     {
         bool Contains(SharesEntity sharesEntity);
-        // bool ContainsById(int entityId);
+        bool ContainsById(int entityId);
         void Add(SharesEntity sharesEntity);
         void SaveChanges();
-        // SharesEntity Get(int sharesId);
+        SharesEntity Get(int sharesId);
     }
 }

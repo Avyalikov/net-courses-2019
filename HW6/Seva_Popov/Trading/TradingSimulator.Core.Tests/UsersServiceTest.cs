@@ -45,27 +45,27 @@ namespace TradingSimulator.Core.Tests
             userService.RegisterNewUser(args);
         }
 
-        //[TestMethod]
-        //public void ShouldGetUserInfo()
-        //{
-        //    var userTableRepository = Substitute.For<IUserTableRepository>();
-        //    userTableRepository.ContainsById(Arg.Is<int>(12)).Returns(true);
-        //    UserService userService = new UserService(userTableRepository);
+        [TestMethod]
+        public void ShouldGetUserInfo()
+        {
+            var userTableRepository = Substitute.For<IUserTableRepository>();
+            userTableRepository.ContainsById(Arg.Is<int>(12)).Returns(true);
+            UserService userService = new UserService(userTableRepository);
 
-        //    var user = userService.GetUser(12);
+            var user = userService.GetUser(12);
 
-        //    userTableRepository.Received(1).Get(12);
-        //}
+            userTableRepository.Received(1).Get(12);
+        }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "Can't get user by this id. May it has not been registred.")]
-        //public void ShouldThrowExceptionCantFindUser()
-        //{
-        //    var userTableRepository = Substitute.For<IUserTableRepository>();
-        //    userTableRepository.ContainsById(Arg.Is<int>(12)).Returns(false);
-        //    UserService userService = new UserService(userTableRepository);
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Can't get user by this id. May it has not been registred.")]
+        public void ShouldThrowExceptionCantFindUser()
+        {
+            var userTableRepository = Substitute.For<IUserTableRepository>();
+            userTableRepository.ContainsById(Arg.Is<int>(12)).Returns(false);
+            UserService userService = new UserService(userTableRepository);
 
-        //    var user = userService.GetUser(12);
-        //}
+            var user = userService.GetUser(12);
+        }
     }
 }

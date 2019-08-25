@@ -8,9 +8,9 @@ namespace TradingSimulator.Core.Repositories
     public interface IUserTableRepository
     {
         bool Contains(UserEntity userEntity);
-       // bool ContainsById(int entityId);
+        bool ContainsById(int entityId);
         void Add(UserEntity userEntity);
         void SaveChanges();
-       // UserEntity Get(int userId);
+        UserEntity Get(int userId);
     }
 }

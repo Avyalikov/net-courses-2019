@@ -29,15 +29,16 @@ namespace TradingSimulator.ConsoleApp.Repositories
            && f.Phone == userEntity.Phone);
         }
 
-        //public bool ContainsById(int entityId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public bool ContainsById(int entityId)
+        {
+            return this.dbContext.Users.Any(f =>
+        f.Id == entityId);
+        }
 
-        //public UserEntity Get(int userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public UserEntity Get(int userId)
+        {
+            return this.dbContext.Users.First(f => f.Id == userId);
+        }
 
         public void SaveChanges()
         {

@@ -46,27 +46,27 @@ namespace TradingSimulator.Core.Tests
             sharesService.RegisterNewShares(args);
         }
 
-        //[TestMethod]
-        //public void ShouldGetUserInfo()
-        //{
-        //    var userTableRepository = Substitute.For<ISharesTableRepository>();
-        //    userTableRepository.ContainsById(Arg.Is<int>(12)).Returns(true);
-        //    UserService userService = new UserService(userTableRepository);
+        [TestMethod]
+        public void ShouldGetSharesInfo()
+        {
+            var sharesTableRepository = Substitute.For<ISharesTableRepository>();
+            sharesTableRepository.ContainsById(Arg.Is<int>(12)).Returns(true);
+            SharesService sharesService = new SharesService(sharesTableRepository);
 
-        //    var user = userService.GetUser(12);
+            var shares = sharesService.GetShares(12);
 
-        //    userTableRepository.Received(1).Get(12);
-        //}
+            sharesTableRepository.Received(1).Get(12);
+        }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException), "Can't get user by this id. May it has not been registred.")]
-        //public void ShouldThrowExceptionCantFindUser()
-        //{
-        //    var userTableRepository = Substitute.For<ISharesTableRepository>();
-        //    userTableRepository.ContainsById(Arg.Is<int>(12)).Returns(false);
-        //    UserService userService = new UserService(userTableRepository);
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Can't get shares by this id. May it has not been registred.")]
+        public void ShouldThrowExceptionCantFindShares()
+        {
+            var sharesTableRepository = Substitute.For<ISharesTableRepository>();
+            sharesTableRepository.ContainsById(Arg.Is<int>(12)).Returns(false);
+            SharesService sharesService = new SharesService(sharesTableRepository);
 
-        //    var user = userService.GetUser(12);
-        //}
+            var shares = sharesService.GetShares(12);
+        }
     }
 }

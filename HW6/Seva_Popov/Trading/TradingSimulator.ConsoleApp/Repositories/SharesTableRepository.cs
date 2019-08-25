@@ -28,15 +28,16 @@ namespace TradingSimulator.ConsoleApp.Repositories
            && f.Price == sharesEntity.Price);
         }
 
-        //public bool ContainsById(int entityId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public bool ContainsById(int entityId)
+        {
+            return this.dbContext.Shares.Any(f =>
+        f.Id == entityId);
+        }
 
-        //public UserEntity Get(int userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public SharesEntity Get(int sharesId)
+        {
+            return this.dbContext.Shares.First(f => f.Id == sharesId);
+        }
 
         public void SaveChanges()
         {

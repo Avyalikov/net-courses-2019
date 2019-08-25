@@ -32,14 +32,14 @@ namespace TradingSimulator.Core.Services
             return entityToAdd.Id;
         }
 
-        //public UserEntity GetUser(int userId)
-        //{
-        //    if (!this.userTableRepository.ContainsById(userId))
-        //    {
-        //        throw new ArgumentException("Can't get user by this id. May it has not been registred.");
-        //    }
+        public UserEntity GetUser(int userId)
+        {
+            if (!this.userTableRepository.ContainsById(userId))
+            {
+                throw new ArgumentException("Can't get user by this id. May it has not been registred.");
+            }
 
-        //    return this.userTableRepository.Get(userId);
-        //}
+            return this.userTableRepository.Get(userId);
+        }
     }
 }

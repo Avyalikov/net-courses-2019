@@ -32,15 +32,15 @@ namespace TradingSimulator.Core.Services
             return entityToAdd.Id;
         }
 
-        //public SharesEntity GetShares(int sharesId)
-        //{
-        //    if (!this.sharesTableRepository.ContainsById(sharesId))
-        //    {
-        //        throw new ArgumentException("Can't get shares by this id. May it has not been registred.");
-        //    }
+        public SharesEntity GetShares(int sharesId)
+        {
+            if (!this.sharesTableRepository.ContainsById(sharesId))
+            {
+                throw new ArgumentException("Can't get shares by this id. May it has not been registred.");
+            }
 
-        //    return this.sharesTableRepository.Get(sharesId);
-        //}
+            return this.sharesTableRepository.Get(sharesId);
+        }
     }
 }
 

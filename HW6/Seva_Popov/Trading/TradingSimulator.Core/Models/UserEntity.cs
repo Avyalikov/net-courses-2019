@@ -12,11 +12,11 @@ namespace TradingSimulator.Core.Models
         public decimal Balance { get; set; }
         public string Phone { get; set; }
 
-        //public List<UserShare> UserShares { get; set; }
+        public List<AddingSharesToThUserEntity> UsersAndShares { get; set; }
 
-        //public User()
-        //{
-        //    UserShares = new List<UserShare>();
-        //}
+        public UserEntity()
+        {
+            UsersAndShares = new List<AddingSharesToThUserEntity>();
+        }
     }
 }
