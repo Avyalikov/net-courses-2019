@@ -16,6 +16,16 @@
 
         public int RegisterNewClient(ClientRegistrationInfo args)
         {
+            if (args.LastName.Length < 2 
+                || args.LastName.Length > 20
+                || args.FirstName.Length < 2
+                || args.FirstName.Length > 20
+                || args.PhoneNumber.Length < 2
+                || args.PhoneNumber.Length > 20)
+            {
+                throw new ArgumentException("Invalid ClientRegistrationInfo. Can't continue.");
+            }
+
             var entityToAdd = new ClientEntity()
             {
                 CreatedAt = DateTime.Now,

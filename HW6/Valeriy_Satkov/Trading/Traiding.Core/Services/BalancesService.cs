@@ -17,6 +17,11 @@
 
         public int RegisterNewBalance(BalanceRegistrationInfo args)
         {
+            if (args.Amount <= 0)
+            {
+                throw new ArgumentException("Invalid BalanceRegistrationInfo. Can't continue.");
+            }
+
             var entityToAdd = new BalanceEntity()
             {
                 Client = args.Client,

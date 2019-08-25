@@ -83,6 +83,7 @@
     <Compile Include="Repositories\ClientTableRepository.cs" />
     <Compile Include="Repositories\SharesNumberTableRepository.cs" />
     <Compile Include="StockExchangeDBContext.cs" />
+    <Compile Include="StockExchangeValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

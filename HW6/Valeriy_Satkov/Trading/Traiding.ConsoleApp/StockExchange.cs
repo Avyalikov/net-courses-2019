@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using StructureMap;
-using Traiding.Core.Dto;
-using Traiding.Core.Services;
-
-namespace Traiding.ConsoleApp
+﻿namespace Traiding.ConsoleApp
 {
+    using System;
+    using System.Threading;
+    using StructureMap;
+    using Traiding.Core.Dto;
+    using Traiding.Core.Services;
+
     public class StockExchange
     {
         private readonly Container traidingRegistryContainer;
@@ -167,63 +163,47 @@ namespace Traiding.ConsoleApp
                 phoneNumber = string.Empty;
             decimal moneyAmount = 0;
 
-            string outputString = string.Empty;
-            while (outputString != "e")
+            string inputString = string.Empty;
+            while (inputString != "e")
             {
                 if (string.IsNullOrEmpty(lastName))
                 {
                     Console.Write("   Enter the Last name of client: ");
-                    outputString = Console.ReadLine();
-                    if (outputString.Length < 2 || outputString.Length > 20)
-                    {
-                        Console.WriteLine("Wrong Line. Try again.");
-                        continue;
-                    }
-                    lastName = outputString;
+                    inputString = Console.ReadLine();
+                    if (!StockExchangeValidation.checkClientLastName(inputString)) continue;                    
+                    lastName = inputString;
                 }
 
                 if (string.IsNullOrEmpty(firstName))
                 {
                     Console.Write("   Enter the First name of client: ");
-                    outputString = Console.ReadLine();
-                    if (outputString.Length < 2 || outputString.Length > 20)
-                    {
-                        Console.WriteLine("Wrong Line. Try again.");
-                        continue;
-                    }
-                    firstName = outputString;
+                    inputString = Console.ReadLine();
+                    if (!StockExchangeValidation.checkClientFirstName(inputString)) continue;
+                    firstName = inputString;
                 }
 
                 if (string.IsNullOrEmpty(phoneNumber))
                 {
                     Console.Write("   Enter the phone number of client: ");
-                    outputString = Console.ReadLine();
-                    if (outputString.Length < 2 || outputString.Length > 20)
-                    {
-                        Console.WriteLine("Wrong Line. Try again.");
-                        continue;
-                    }
-                    phoneNumber = outputString;
+                    inputString = Console.ReadLine();
+                    if (!StockExchangeValidation.checkClientPhoneNumber(inputString)) continue;
+                    phoneNumber = inputString;
                 }
 
                 if (moneyAmount == 0)
                 {
                     Console.Write("   Enter the money amount of client: ");
-                    outputString = Console.ReadLine();
-                    decimal outputInt;
-                    decimal.TryParse(outputString, out outputInt);
-                    if (outputInt == 0)
-                    {
-                        Console.WriteLine("Wrong Line. Try again.");
-                        continue;
-                    }
-                    moneyAmount = outputInt;
+                    inputString = Console.ReadLine();
+                    decimal inputDecimal;
+                    decimal.TryParse(inputString, out inputDecimal);
+                    if (!StockExchangeValidation.checkClientBalanceAmount(inputDecimal)) continue;
+                    moneyAmount = inputDecimal;
                 }
 
                 break;
             }
 
-            if (outputString == "e")
+            if (inputString == "e")
             {
                 return;
             }
