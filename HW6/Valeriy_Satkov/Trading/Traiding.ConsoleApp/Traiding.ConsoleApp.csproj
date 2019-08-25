@@ -69,6 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\BalanceTableRepository.cs" />
+    <Compile Include="Repositories\BlockedMoneyTableRepository.cs" />
+    <Compile Include="Repositories\BlockedSharesNumberTableRepository.cs" />
+    <Compile Include="Repositories\OperationTableRepository.cs" />
+    <Compile Include="Repositories\ShareTableRepository.cs" />
+    <Compile Include="Repositories\ShareTypeTableRepository.cs" />
     <Compile Include="StockExchangeInitializer.cs" />
     <Compile Include="StockExchange.cs" />
     <Compile Include="DependencyInjection\TraidingRegistry.cs" />

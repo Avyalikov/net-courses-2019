@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Models;
-using Traiding.Core.Repositories;
-
-namespace Traiding.ConsoleApp.Repositories
+﻿namespace Traiding.ConsoleApp.Repositories
 {
+    using System.Linq;
+    using Traiding.Core.Models;
+    using Traiding.Core.Repositories;
+
     public class ClientTableRepository : IClientTableRepository
     {
         private readonly StockExchangeDBContext dBContext;

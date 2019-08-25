@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Models;
-using Traiding.Core.Repositories;
-
-namespace Traiding.ConsoleApp.Repositories
+﻿namespace Traiding.ConsoleApp.Repositories
 {
-    class SharesNumberTableRepository : ISharesNumberTableRepository
+    using System.Collections.Generic;
+    using System.Linq;
+    using Traiding.Core.Models;
+    using Traiding.Core.Repositories;
+
+    public class SharesNumberTableRepository : ISharesNumberTableRepository
     {
         private readonly StockExchangeDBContext dBContext;
 
