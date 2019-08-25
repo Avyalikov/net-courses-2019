@@ -30,15 +30,15 @@
 
             var balances = new List<BalanceEntity>()
             {
-                new BalanceEntity() { Id = 1, Client = clients[0], Amount = 38000, Status = true },
-                new BalanceEntity() { Id = 2, Client = clients[1], Amount = 42000, Status = true },
-                new BalanceEntity() { Id = 3, Client = clients[2], Amount = 30000, Status = true },
-                new BalanceEntity() { Id = 4, Client = clients[3], Amount = 48000, Status = true },
-                new BalanceEntity() { Id = 5, Client = clients[4], Amount = 35500, Status = true },
-                new BalanceEntity() { Id = 6, Client = clients[5], Amount = 39700, Status = true },
-                new BalanceEntity() { Id = 7, Client = clients[6], Amount = 39700, Status = true },
-                new BalanceEntity() { Id = 8, Client = clients[7], Amount = 31000, Status = true },
-                new BalanceEntity() { Id = 9, Client = clients[8], Amount = 55000, Status = true },
+                new BalanceEntity() { Id = 1, Client = clients[0], Amount = 138000, Status = true },
+                new BalanceEntity() { Id = 2, Client = clients[1], Amount = 142000, Status = true },
+                new BalanceEntity() { Id = 3, Client = clients[2], Amount = 130000, Status = true },
+                new BalanceEntity() { Id = 4, Client = clients[3], Amount = 148000, Status = true },
+                new BalanceEntity() { Id = 5, Client = clients[4], Amount = 135500, Status = true },
+                new BalanceEntity() { Id = 6, Client = clients[5], Amount = 139700, Status = true },
+                new BalanceEntity() { Id = 7, Client = clients[6], Amount = 139700, Status = true },
+                new BalanceEntity() { Id = 8, Client = clients[7], Amount = 131000, Status = true },
+                new BalanceEntity() { Id = 9, Client = clients[8], Amount = 155000, Status = true },
             };
             balances.ForEach(c => context.Balances.Add(c));
             context.SaveChanges();
@@ -56,9 +56,9 @@
             // Shares (Name and other info)
             var sharesList = new List<ShareEntity>()
             {
-                new ShareEntity() { Id = 1, CreatedAt = DateTime.Now, CompanyName = "Microsoft", Type = shareTypesList[2]/*Middle*/},
-                new ShareEntity() { Id = 2, CreatedAt = DateTime.Now, CompanyName = "Apple", Type = shareTypesList[1]/*Middle*/},
-                new ShareEntity() { Id = 3, CreatedAt = DateTime.Now, CompanyName = "Yandex", Type = shareTypesList[1]/*Middle*/}
+                new ShareEntity() { Id = 1, CreatedAt = DateTime.Now, CompanyName = "Microsoft", Type = shareTypesList[2]/*Expensive*/, Status = true},
+                new ShareEntity() { Id = 2, CreatedAt = DateTime.Now, CompanyName = "Apple", Type = shareTypesList[1]/*Middle*/, Status = true},
+                new ShareEntity() { Id = 3, CreatedAt = DateTime.Now, CompanyName = "Yandex", Type = shareTypesList[1]/*Middle*/, Status = true}
             };
             sharesList.ForEach(sh => context.Shares.Add(sh));
             context.SaveChanges();

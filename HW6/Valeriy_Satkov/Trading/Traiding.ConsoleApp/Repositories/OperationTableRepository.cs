@@ -43,6 +43,11 @@
             return this.dBContext.Operations.Where(o => o.Customer.Id == clientId);
         }
 
+        public IEnumerable<OperationEntity> GetTopOperations(int number)
+        {
+            return this.dBContext.Operations.Take(number);
+        }
+
         public void Remove(int entityId)
         {
             var operation = this.dBContext.Operations.First(o => o.Id == entityId); // it will fall here if we can't find

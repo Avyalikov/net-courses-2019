@@ -1,6 +1,6 @@
 ﻿namespace Traiding.Core.Services
 {
-    using System.Collections.Generic;    
+    using System.Collections.Generic;
     using Traiding.Core.Repositories;
     using Traiding.Core.Models;
 
@@ -9,45 +9,90 @@
         private IOperationTableRepository operationTableRepository;
         private ISharesNumberTableRepository sharesNumberTableRepository;
         private IBalanceTableRepository balanceTableRepository;
+        private IShareTableRepository shareTableRepository;
+        private IClientTableRepository clientTableRepository;
 
-        public ReportsService(IOperationTableRepository operationTableRepository)
+        public ReportsService(IOperationTableRepository operationTableRepository, ISharesNumberTableRepository sharesNumberTableRepository, IBalanceTableRepository balanceTableRepository, IShareTableRepository shareTableRepository, IClientTableRepository clientTableRepository)
         {
             this.operationTableRepository = operationTableRepository;
-        }        
-
-        public ReportsService(ISharesNumberTableRepository sharesNumberTableRepository)
-        {
             this.sharesNumberTableRepository = sharesNumberTableRepository;
-        }
-
-        public ReportsService(IBalanceTableRepository balanceTableRepository)
-        {
             this.balanceTableRepository = balanceTableRepository;
+            this.shareTableRepository = shareTableRepository;
+            this.clientTableRepository = clientTableRepository;
         }
 
         public IEnumerable<OperationEntity> GetOperationByClient(int clientId)
         {
-            return this.operationTableRepository.GetByClient(clientId);
+            var result = this.operationTableRepository.GetByClient(clientId);
+            if (result == null)
+            {
+                return new List<OperationEntity>();
+            }
+            return result;
         }
 
         public IEnumerable<SharesNumberEntity> GetSharesNumberByClient(int clientId)
         {
-            return this.sharesNumberTableRepository.GetByClient(clientId);
+            var result = this.sharesNumberTableRepository.GetByClient(clientId);
+            if (result == null)
+            {
+                return new List<SharesNumberEntity>();
+            }
+            return result;
         }
 
         public IEnumerable<SharesNumberEntity> GetSharesNumberByShare(int shareId)
         {
-            return this.sharesNumberTableRepository.GetByShare(shareId);
+            var result = this.sharesNumberTableRepository.GetByShare(shareId);
+            if (result == null)
+            {
+                return new List<SharesNumberEntity>();
+            }
+            return result;
         }
 
-        public IEnumerable<BalanceEntity> GetZeroBalances()
+        public IEnumerable<string> GetZeroBalances()
         {
-            return this.balanceTableRepository.GetZeroBalances();
+            var zeroBalances = this.balanceTableRepository.GetZeroBalances();
+            if (zeroBalances == null)
+            {
+                return new List<string>();
+            }
+
+            var result = new List<string>();
+
+            foreach (var zeroBalance in zeroBalances)
+            {
+                var client = zeroBalance.Client;
+                result.Add(zeroBalance.Client.Id + zeroBalance.Client.LastName + zeroBalance.Client.FirstName);
+            }
+
+            return result;
         }
 
         public IEnumerable<BalanceEntity> GetNegativeBalances()
         {
-            return this.balanceTableRepository.GetNegativeBalances();
+            var result = this.balanceTableRepository.GetNegativeBalances();
+            if (result == null)
+            {
+                return new List<BalanceEntity>();
+            }
+            return result;
+        }
+
+        public int GetClientsCount()
+        {
+            return this.clientTableRepository.GetClientsCount();
+        }
+
+        public int GetSharesCount()
+        {
+            return this.shareTableRepository.GetClientsCount();
+        }
+
+        public IEnumerable<OperationEntity> GetTop10Operations()
+        {
+            return this.operationTableRepository.GetTopOperations(10);
         }
     }
 }

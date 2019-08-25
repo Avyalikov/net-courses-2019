@@ -10,81 +10,81 @@
     [TestClass]
     public class ReportsServiceTests
     {
-        IOperationTableRepository operationTableRepository;
-        ISharesNumberTableRepository sharesNumberTableRepository;
-        IBalanceTableRepository balanceTableRepository;
+        //IOperationTableRepository operationTableRepository;
+        //ISharesNumberTableRepository sharesNumberTableRepository;
+        //IBalanceTableRepository balanceTableRepository;
 
-        [TestMethod]
-        public void ShouldGetClientOperations()
-        {
-            // Arrange
-            this.operationTableRepository = Substitute.For<IOperationTableRepository>();
-            ReportsService reportsService = new ReportsService(this.operationTableRepository);
-            int testClientId = 43;
+        //[TestMethod]
+        //public void ShouldGetClientOperations()
+        //{
+        //    // Arrange
+        //    this.operationTableRepository = Substitute.For<IOperationTableRepository>();
+        //    ReportsService reportsService = new ReportsService(this.operationTableRepository);
+        //    int testClientId = 43;
 
-            // Act
-            var sharesNumbersOfClient = reportsService.GetOperationByClient(testClientId);
+        //    // Act
+        //    var sharesNumbersOfClient = reportsService.GetOperationByClient(testClientId);
 
-            // Assert
-            this.operationTableRepository.Received(1).GetByClient(testClientId);
-        }
+        //    // Assert
+        //    this.operationTableRepository.Received(1).GetByClient(testClientId);
+        //}
 
-        [TestMethod]
-        public void ShouldGetSharesNumbersByClient()
-        {
-            // Arrange
-            this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-            ReportsService reportsService = new ReportsService(this.sharesNumberTableRepository);
-            int testClientId = 43;
+        //[TestMethod]
+        //public void ShouldGetSharesNumbersByClient()
+        //{
+        //    // Arrange
+        //    this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
+        //    ReportsService reportsService = new ReportsService(this.sharesNumberTableRepository);
+        //    int testClientId = 43;
 
-            // Act
-            var sharesNumbersOfClient = reportsService.GetSharesNumberByClient(testClientId);
+        //    // Act
+        //    var sharesNumbersOfClient = reportsService.GetSharesNumberByClient(testClientId);
 
-            // Assert
-            this.sharesNumberTableRepository.Received(1).GetByClient(testClientId);
-        }
+        //    // Assert
+        //    this.sharesNumberTableRepository.Received(1).GetByClient(testClientId);
+        //}
 
-        [TestMethod]
-        public void ShouldGetSharesNumbersByShare()
-        {
-            // Arrange
-            this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
-            ReportsService reportsService = new ReportsService(this.sharesNumberTableRepository);
-            int testShareId = 3;
+        //[TestMethod]
+        //public void ShouldGetSharesNumbersByShare()
+        //{
+        //    // Arrange
+        //    this.sharesNumberTableRepository = Substitute.For<ISharesNumberTableRepository>();
+        //    ReportsService reportsService = new ReportsService(this.sharesNumberTableRepository);
+        //    int testShareId = 3;
 
-            // Act
-            var sharesNumbersOfType = reportsService.GetSharesNumberByShare(testShareId);
+        //    // Act
+        //    var sharesNumbersOfType = reportsService.GetSharesNumberByShare(testShareId);
 
-            // Assert
-            this.sharesNumberTableRepository.Received(1).GetByShare(testShareId);
-        }
+        //    // Assert
+        //    this.sharesNumberTableRepository.Received(1).GetByShare(testShareId);
+        //}
 
-        [TestMethod]
-        public void ShouldGetZeroBalances()
-        {
-            // Arrange
-            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-            ReportsService reportsService = new ReportsService(this.balanceTableRepository);
+        //[TestMethod]
+        //public void ShouldGetZeroBalances()
+        //{
+        //    // Arrange
+        //    this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+        //    ReportsService reportsService = new ReportsService(this.balanceTableRepository);
 
-            // Act
-            var zeroBalances = reportsService.GetZeroBalances();
+        //    // Act
+        //    var zeroBalances = reportsService.GetZeroBalances();
 
-            // Assert
-            this.balanceTableRepository.Received(1).GetZeroBalances();
-        }
+        //    // Assert
+        //    this.balanceTableRepository.Received(1).GetZeroBalances();
+        //}
 
-        [TestMethod]
-        public void ShouldGetNegativeBalances()
-        {
-            // Arrange
-            this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
-            ReportsService reportsService = new ReportsService(this.balanceTableRepository);
+        //[TestMethod]
+        //public void ShouldGetNegativeBalances()
+        //{
+        //    // Arrange
+        //    this.balanceTableRepository = Substitute.For<IBalanceTableRepository>();
+        //    ReportsService reportsService = new ReportsService(this.balanceTableRepository);
 
-            // Act
-            var zeroBalances = reportsService.GetNegativeBalances();
+        //    // Act
+        //    var zeroBalances = reportsService.GetNegativeBalances();
 
-            // Assert
-            this.balanceTableRepository.Received(1).GetNegativeBalances();
-        }
+        //    // Assert
+        //    this.balanceTableRepository.Received(1).GetNegativeBalances();
+        //}
     }    
 }

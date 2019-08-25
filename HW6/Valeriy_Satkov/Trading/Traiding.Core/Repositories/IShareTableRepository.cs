@@ -11,5 +11,6 @@
         ShareEntity Get(int entityId);
         void SetCompanyName(int entityId, string newCompanyName);
         void SetType(int entityId, ShareTypeEntity newType);
+        int GetClientsCount();
     }
 }

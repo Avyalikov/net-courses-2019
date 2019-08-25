@@ -13,30 +13,16 @@
         private ISharesNumberTableRepository sharesNumberTableRepository;
         private IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository;
 
-        public SalesService(IOperationTableRepository operationTableRepository)
+        public SalesService(IOperationTableRepository operationTableRepository, IBalanceTableRepository balanceTableRepository, IBlockedMoneyTableRepository blockedMoneyTableRepository, ISharesNumberTableRepository sharesNumberTableRepository, IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository)
         {
             this.operationTableRepository = operationTableRepository;
-        }
-
-        public SalesService(IBalanceTableRepository balanceTableRepository)
-        {
             this.balanceTableRepository = balanceTableRepository;
-        }
-
-        public SalesService(IBlockedMoneyTableRepository blockedMoneyTableRepository)
-        {
             this.blockedMoneyTableRepository = blockedMoneyTableRepository;
-        }
-
-        public SalesService(ISharesNumberTableRepository sharesNumberTableRepository)
-        {
             this.sharesNumberTableRepository = sharesNumberTableRepository;
-        }
-
-        public SalesService(IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository)
-        {
             this.blockedSharesNumberTableRepository = blockedSharesNumberTableRepository;
         }
+
+
 
         /* Sale
          * 0.  Get info about purchase from program (Customer, Number of Shares, Total (money))
@@ -115,17 +101,13 @@
                 {
                     ClientSharesNumber = sellerSharesNumber,
                     Operation = operation,
-                    Share = share,
-                    ShareTypeName = share.Type.Name,
-                    Cost = share.Type.Cost,
+                    //Share = sellerSharesNumber.Share,
+                    //ShareTypeName = sellerSharesNumber.Share.Type.Name,
+                    //Cost = sellerSharesNumber.Share.Type.Cost,
                     Number = requiredSharesNumber
                 });
             }
             catch (Exception e)
-            {
-                throw new ArgumentException($"Deal was broken cause: {e.Message}");
-            }
-            finally
             {
                 RemoveOperation(operation);
 
@@ -146,6 +128,8 @@
                         RemoveBlockedSharesNumber(blockedSharesNumber);
                     }
                 }
+
+                throw new ArgumentException($"Deal was broken cause: {e.Message}");
             }
 
             if (sellerSharesNumber.Number == 0)
@@ -168,7 +152,18 @@
          */
         public OperationEntity CreateOperation()
         {
-            var entityToAdd = new OperationEntity();
+            var entityToAdd = new OperationEntity()
+            {
+                DebitDate = DateTime.Now,
+                Customer = null,
+                ChargeDate = DateTime.Now,
+                Seller = null,
+                Share = null,
+                ShareTypeName = null,
+                Cost = 1,
+                Number = 1,
+                Total = 1
+            };
 
             this.operationTableRepository.Add(entityToAdd);
 
@@ -287,7 +282,7 @@
 
         public SharesNumberEntity SearchSharesNumberForBuy(int shareId, int requiredSharesNumber)
         {
-            SharesNumberEntity result = this.sharesNumberTableRepository.SearchSharesNumberForBuy(shareId, requiredSharesNumber);
+            var result = this.sharesNumberTableRepository.SearchSharesNumberForBuy(shareId, requiredSharesNumber);
             if (result == null)
             {
                 throw new ArgumentException("Can't find client with required shares number");
@@ -327,16 +322,16 @@
                 ClientSharesNumber = args.ClientSharesNumber,
                 Operation = args.Operation,
                 Seller = args.ClientSharesNumber.Client,
-                Share = args.Share,
-                ShareTypeName = args.ShareTypeName,
-                Cost = args.Cost,
+                Share = args.ClientSharesNumber.Share,
+                ShareTypeName = args.ClientSharesNumber.Share.Type.Name,
+                Cost = args.ClientSharesNumber.Share.Type.Cost,
                 Number = args.Number
             };
 
-            if (this.blockedSharesNumberTableRepository.Contains(entityToAdd))
-            {
-                throw new ArgumentException("Blocked Shares Number with this data has been registered. Can't continue.");
-            }
+            //if (this.blockedSharesNumberTableRepository.Contains(entityToAdd))
+            //{
+            //    throw new ArgumentException("Blocked Shares Number with this data has been registered. Can't continue.");
+            //}
 
             this.blockedSharesNumberTableRepository.Add(entityToAdd);
 

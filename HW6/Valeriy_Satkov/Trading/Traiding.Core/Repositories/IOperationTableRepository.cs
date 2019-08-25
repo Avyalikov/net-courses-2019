@@ -16,5 +16,6 @@
         void FillSellerColumns(BlockedSharesNumberEntity blockedSharesNumber); // ClientEntity Seller, ShareEntity Share, string ShareTypeName, decimal Cost, int Number
         void SetChargeDate(int entityId, DateTime chargeDate);
         void Remove(int entityId);
+        IEnumerable<OperationEntity> GetTopOperations(int v);
     }
 }

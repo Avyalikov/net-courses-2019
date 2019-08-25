@@ -32,8 +32,7 @@
 
         public SharesNumberEntity SearchSharesNumberForBuy(int shareId, int requiredSharesNumber)
         {
-            var sharesNumber = this.dBContext.SharesNumbers.FirstOrDefault(n => n.Share.Id == shareId && n.Number == requiredSharesNumber); // it will not fall here if we can't find
-            return sharesNumber;
+            return this.dBContext.SharesNumbers.FirstOrDefault(n => n.Share.Id == shareId && n.Number > requiredSharesNumber); // it will not fall here if we can't find
         }
 
         public SharesNumberEntity SearchSharesNumberForAddition(int clientId, int shareId)

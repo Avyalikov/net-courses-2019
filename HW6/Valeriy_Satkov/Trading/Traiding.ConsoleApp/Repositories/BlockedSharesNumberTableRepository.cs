@@ -18,12 +18,11 @@
             this.dBContext.BlockedSharesNumbers.Add(entity);
         }
 
-        public bool Contains(BlockedSharesNumberEntity entity)
-        {
-            return this.dBContext.BlockedSharesNumbers.Any(bn =>
-            bn.Id == entity.Id &&
-            bn.Operation == entity.Operation);
-        }
+        //public bool Contains(BlockedSharesNumberEntity entity)
+        //{
+        //    return this.dBContext.BlockedSharesNumbers.Any(bn =>
+        //    bn.Operation == entity.Operation);
+        //}
 
         public void Remove(int entityId)
         {

@@ -57,8 +57,6 @@ namespace Traiding.ConsoleApp
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // base.OnModelCreating(modelBuilder); // default
-
             modelBuilder.
                 Entity<ClientEntity>().
                 HasKey(c => c.Id).
@@ -93,6 +91,8 @@ namespace Traiding.ConsoleApp
                 Entity<BlockedSharesNumberEntity>().
                 HasKey(n => n.Id).
                 ToTable("BlockedSharesNumbers");
+
+            //base.OnModelCreating(modelBuilder); // default
         }
     }
 }

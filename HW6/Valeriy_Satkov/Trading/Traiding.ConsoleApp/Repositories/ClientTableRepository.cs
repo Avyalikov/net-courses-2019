@@ -38,6 +38,11 @@
             return this.dBContext.Clients.First(n => n.Id == clientId); // it will fall here if we can't find
         }
 
+        public int GetClientsCount()
+        {
+            return 10; // need return count of Clients
+        }
+
         public void SaveChanges()
         {
             this.dBContext.SaveChanges();

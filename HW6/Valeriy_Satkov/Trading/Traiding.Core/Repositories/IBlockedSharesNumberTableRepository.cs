@@ -4,7 +4,7 @@
 
     public interface IBlockedSharesNumberTableRepository
     {
-        bool Contains(BlockedSharesNumberEntity entity); // Compare by 
+        //bool Contains(BlockedSharesNumberEntity entity); // Compare by 
         void Add(BlockedSharesNumberEntity entity);
         void SaveChanges();
         // bool ContainsById(int entityId);

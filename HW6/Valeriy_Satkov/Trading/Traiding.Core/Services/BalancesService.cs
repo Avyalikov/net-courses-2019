@@ -21,7 +21,7 @@
             {
                 Client = args.Client,
                 Amount = args.Amount,
-                Status = args.Status
+                Status = true
             };
 
             if (this.tableRepository.Contains(entityToAdd))

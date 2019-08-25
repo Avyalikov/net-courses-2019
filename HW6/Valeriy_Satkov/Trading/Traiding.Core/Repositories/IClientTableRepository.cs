@@ -9,5 +9,6 @@
         void Add(ClientEntity entity);
         void SaveChanges();
         ClientEntity Get(int clientId);
+        int GetClientsCount();
     }
 }
