@@ -23,6 +23,9 @@ namespace TradingApp
             log4net.Config.XmlConfigurator.Configure();
             var logger = new Logger(log4net.LogManager.GetLogger("Logger"));
             ExchangeContext db = new ExchangeContext();
+
+            IDTOMethodsforPriceHistory dTOMethodsforPriceHistory = new DTOMethodsforPriceHistory(db);
+          
             ITableRepository<Client> clientTableRepository = new ClientTableRepository<Client>(db);
             ITableRepository<ClientStock> clientStockTableRepository = new ClientStockTableRepository<ClientStock>(db);
             ITableRepository<Issuer> issuerTableRepository = new IssuerTableRepository<Issuer>(db);
@@ -34,7 +37,7 @@ namespace TradingApp
             ClientService clientService = new ClientService(clientTableRepository);
             ClientStockService clientStockService = new ClientStockService(clientStockTableRepository);
             OrderService orderService = new OrderService(orderTableRepository);
-            PriceHistoryService priceHistoryService = new PriceHistoryService(priceHistoryTableRepository);
+            PriceHistoryService priceHistoryService = new PriceHistoryService(priceHistoryTableRepository, dTOMethodsforPriceHistory);
             TransactionHistoryService transactionHistoryService = new TransactionHistoryService(transactionHistoryTableRepository);
 
             

@@ -19,17 +19,6 @@
         {
         }
 
-        public override IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments)
-        {
-            throw new NotImplementedException();
-        }
-
-      
 
         public override TEntity GetElementAt(int position)
         {

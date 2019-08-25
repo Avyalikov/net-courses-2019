@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="DAL\ExchangeContext.cs" />
     <Compile Include="DAL\StockExchangeInitializer.cs" />
+    <Compile Include="DTOMethodsforPriceHistory.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />

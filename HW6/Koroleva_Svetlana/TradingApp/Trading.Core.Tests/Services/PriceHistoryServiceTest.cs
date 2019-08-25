@@ -17,7 +17,8 @@ namespace TradingApp.Tests
         {
             //Arrange
             var phTableRepository = Substitute.For<ITableRepository<PriceHistory>>();
-            PriceHistoryService phService = new PriceHistoryService(phTableRepository);
+            var DTOMethods = Substitute.For<IDTOMethodsforPriceHistory>();
+            PriceHistoryService phService = new PriceHistoryService(phTableRepository, DTOMethods);
             PriceInfo priceInfo = new PriceInfo
             {
                 StockId=1,
@@ -42,7 +43,8 @@ namespace TradingApp.Tests
         {
             // Arrange
             var phTableRepository = Substitute.For<ITableRepository<PriceHistory>>();
-            PriceHistoryService phService = new PriceHistoryService(phTableRepository);
+            var DTOMethods = Substitute.For<IDTOMethodsforPriceHistory>();
+            PriceHistoryService phService = new PriceHistoryService(phTableRepository, DTOMethods);
             PriceInfo priceInfo = new PriceInfo
             {
                 StockId = 1,
@@ -66,7 +68,8 @@ namespace TradingApp.Tests
         {
             // Arrange
             var phTableRepository = Substitute.For<ITableRepository<PriceHistory>>();
-            PriceHistoryService phService = new PriceHistoryService(phTableRepository);
+            var DTOMethods = Substitute.For<IDTOMethodsforPriceHistory>();
+            PriceHistoryService phService = new PriceHistoryService(phTableRepository, DTOMethods);
             PriceHistory priceHist = new PriceHistory
             {
                 PriceHistoryID = 1,
@@ -80,7 +83,7 @@ namespace TradingApp.Tests
                 StockId=1,
                 DateTimeLookUp= new DateTime(2019, 8, 20, 09, 56, 00)
             };
-            phTableRepository.FindEntitiesByRequestDTO(priceArguments).Returns(new List<PriceHistory> { priceHist });
+            DTOMethods.FindEntitiesByRequestDTO(priceArguments).Returns(new List<PriceHistory> { priceHist });
            
 
 
@@ -88,7 +91,7 @@ namespace TradingApp.Tests
             var priceHistory = phService.GetStockPriceByDateTime(priceArguments);
 
             // Assert 
-            var hist=phTableRepository.Received(1).FindEntitiesByRequestDTO(priceArguments);
+            var hist=DTOMethods.Received(1).FindEntitiesByRequestDTO(priceArguments);
         
 
         }
@@ -99,8 +102,9 @@ namespace TradingApp.Tests
         {
             // Arrange
             var phTableRepository = Substitute.For<ITableRepository<PriceHistory>>();
-            PriceHistoryService phService = new PriceHistoryService(phTableRepository);
-            
+            var DTOMethods = Substitute.For<IDTOMethodsforPriceHistory>();
+            PriceHistoryService phService = new PriceHistoryService(phTableRepository, DTOMethods);
+
             PriceHistory lastpriceHist = new PriceHistory
             {
                 PriceHistoryID = 1,
@@ -119,7 +123,7 @@ namespace TradingApp.Tests
 
             int stockId = 1;
             DateTime DateTimeEnd = new DateTime(2019, 8, 20, 09, 56, 00);
-            phTableRepository.FindEntitiesByRequest(stockId).Returns(new List<PriceHistory> { lastpriceHist });
+            DTOMethods.FindEntitiesByRequest(stockId).Returns(new List<PriceHistory> { lastpriceHist });
             
 
 
@@ -128,7 +132,7 @@ namespace TradingApp.Tests
             phService.EditPriceDateEnd(stockId,DateTimeEnd);
 
             // Assert 
-            var phistories = phTableRepository.FindEntitiesByRequest(stockId);
+            var phistories = DTOMethods.FindEntitiesByRequest(stockId);
            lastpriceHist.DateTimeEnd = DateTimeEnd;
             phTableRepository.SaveChanges();
 

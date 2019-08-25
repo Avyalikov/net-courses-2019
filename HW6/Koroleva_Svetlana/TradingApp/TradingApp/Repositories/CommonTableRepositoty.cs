@@ -72,8 +72,7 @@ namespace TradingApp.Repositories
 
         public abstract TEntity GetElementAt(int position);
       
-        public abstract IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments);
-        public abstract IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments);
+        
 
         public void SaveChanges()
         {

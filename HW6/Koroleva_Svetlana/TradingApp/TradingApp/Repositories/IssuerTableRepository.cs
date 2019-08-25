@@ -23,17 +23,7 @@ namespace TradingApp.Repositories
         {
         }
         
-        public override IEnumerable<TEntity> FindEntitiesByRequest(params object[] arguments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IEnumerable<TEntity> FindEntitiesByRequestDTO(object DTOarguments)
-        {
-            throw new NotImplementedException();
-        }
-
-    
+      
         public override TEntity GetElementAt(int position)
         {
             return (TEntity)this.db.Issuers.OrderBy(c => c.IssuerID).Skip(position - 1).Take(1).Single();

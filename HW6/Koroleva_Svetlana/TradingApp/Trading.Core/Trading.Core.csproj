@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="DTO\ClientInfo.cs" />
     <Compile Include="DTO\ClientStockInfo.cs" />
+    <Compile Include="DTO\IDTOMethodsforPriceHistory.cs" />
     <Compile Include="DTO\IssuerInfo.cs" />
     <Compile Include="DTO\OrderInfo.cs" />
     <Compile Include="DTO\PriceArguments.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Model\PriceHistory.cs" />
     <Compile Include="Model\Stock.cs" />
     <Compile Include="Model\TransactionHistory.cs" />
-    <Compile Include="Repositories\IPriceHistoryTableRepository.cs" />
     <Compile Include="Repositories\ITableRepository.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ClientStockService.cs" />
