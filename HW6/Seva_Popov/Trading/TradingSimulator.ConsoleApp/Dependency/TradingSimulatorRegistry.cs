@@ -15,10 +15,12 @@ namespace TradingSimulator.ConsoleApp.Dependency
             this.For<IUserTableRepository>().Use<UserTableRepository>();
             this.For<ISharesTableRepository>().Use<SharesTableRepository>();
             this.For<IAddingSharesToThUserServiceTableRepository>().Use<AddingSharesToThUserServiceTableRepository>();
+            this.For<ITransactionRepositories>().Use<TransactionRepositories>();
             this.For<TradingSimulatorDbContext>().Use<TradingSimulatorDbContext>();
             this.For<UserService>().Use<UserService>();
             this.For<SharesService>().Use<SharesService>();
             this.For<AddingSharesToThUserService>().Use<AddingSharesToThUserService>();
+            this.For<TransactionService>().Use<TransactionService>();
         }
     }
 }

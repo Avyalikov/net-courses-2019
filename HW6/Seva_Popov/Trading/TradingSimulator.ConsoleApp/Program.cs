@@ -1,5 +1,6 @@
 ﻿using StructureMap;
 using System;
+using System.Linq;
 using TradingSimulator.ConsoleApp.Dependency;
 using TradingSimulator.ConsoleApp.Repositories;
 using TradingSimulator.Core.Dto;
@@ -14,7 +15,8 @@ namespace TradingSimulator.ConsoleApp
         {
             var container = new Container(new TradingSimulatorRegistry());
             var userService = container.GetInstance<UserService>();
-;
+
+
             //userService.RegisterNewUser(new UserRegistrationInfo()
             //{
             //    Name = "Юрий",
@@ -22,7 +24,7 @@ namespace TradingSimulator.ConsoleApp
             //    Phone = "444-44-44"
             //});
 
-            var sharesService = container.GetInstance<SharesService>();
+            //var sharesService = container.GetInstance<SharesService>();
 
             //sharesService.RegisterNewShares(new SharesRegistrationInfo()
             //{
@@ -30,16 +32,31 @@ namespace TradingSimulator.ConsoleApp
             //    Price = 410
             //});
 
-            var addingSharesToThUserService = container.GetInstance<AddingSharesToThUserService>();
+            //var addingSharesToThUserService = container.GetInstance<AddingSharesToThUserService>();
 
-            addingSharesToThUserService.RegisterNewSharesToTheUser(new AddingSharesToThUserEntity()
+            //addingSharesToThUserService.RegisterNewSharesToTheUser(new AddingSharesToThUserEntity()
+            //{
+            //    UserId = 4,
+            //    ShareId = 4,
+            //    AmountStocks = 666
+            //});
+
+
+            var transactionService = container.GetInstance<TransactionService>();
+            UserEntity seller =  transactionService.SelectUser();
+            UserEntity customer = transactionService.SelectUser();
+            while (seller.Equals(customer))
             {
-                UserId = 4,
-                ShareId = 4,
-                AmountStocks = 666
-            });
+                customer = transactionService.SelectUser();
+            }
 
+            AddingSharesToThUserEntity sellerSharesToThUserEntity = transactionService.SelectSharesToThUserEntity(seller);
+                   
+            SharesEntity sellerShares =  transactionService.FindOutTheValueOfShares(sellerSharesToThUserEntity);
 
+            AddingSharesToThUserEntity customerSharesToThUserEntity = transactionService.SelectStocksForUserObjectParameters(customer, sellerShares);
+
+            transactionService.StockPurchaseTransaction(seller, customer, (int)sellerShares.Price, sellerSharesToThUserEntity.AmountStocks, sellerSharesToThUserEntity, customerSharesToThUserEntity);
         }
     }
 }

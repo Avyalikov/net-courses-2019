@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TradingSimulator.ConsoleApp
+namespace TradingSimulator.Core.Tests
 {
-    public class TradingStart
+    public class TransactionTests
     {
     }
 }

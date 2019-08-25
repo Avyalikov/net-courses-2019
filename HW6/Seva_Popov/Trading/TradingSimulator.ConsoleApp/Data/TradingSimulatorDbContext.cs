@@ -36,10 +36,10 @@ namespace TradingSimulator.ConsoleApp
             modelBuilder.Entity<UserEntity>().HasData(
             new UserEntity[]
             {
-            new UserEntity {Id = 1, Surname = "Менделеев", Name = "Дмитрий", Balance = 100000, Phone = "777-77-77" },
-            new UserEntity {Id = 2, Surname = "Циолковский", Name = "Константин", Balance = 2000000, Phone = "555-55-55" },
-            new UserEntity {Id = 3, Surname = "Пирогов", Name = "Николай", Balance = 3000000, Phone = "999-99-99" },
-            new UserEntity {Id = 4, Surname = "Королёв", Name = "Сергей", Balance = 4000000, Phone = "111-11-11" }
+            new UserEntity {Id = 1, Surname = "Менделеев", Name = "Дмитрий", Balance = 1000000, Phone = "777-77-77" },
+            new UserEntity {Id = 2, Surname = "Циолковский", Name = "Константин", Balance = 20000000, Phone = "555-55-55" },
+            new UserEntity {Id = 3, Surname = "Пирогов", Name = "Николай", Balance = 30000000, Phone = "999-99-99" },
+            new UserEntity {Id = 4, Surname = "Королёв", Name = "Сергей", Balance = 40000000, Phone = "111-11-11" }
             });
 
             modelBuilder.Entity<SharesEntity>().HasData(
@@ -47,17 +47,28 @@ namespace TradingSimulator.ConsoleApp
             {
              new SharesEntity {Id = 1, Name = "GAZP.ME", Price = 224 },
              new SharesEntity {Id = 2, Name = "FB", Price = 180 },
+             new SharesEntity {Id = 3, Name = "GOOG", Price = 180 },
              new SharesEntity {Id = 4, Name = "MAGN", Price = 3520 }
             });
 
             modelBuilder.Entity<AddingSharesToThUserEntity>().HasData(
             new AddingSharesToThUserEntity[]
             {
-                new AddingSharesToThUserEntity { ShareId = 1, UserId = 1, AmountStocks = 780 },
-                new AddingSharesToThUserEntity { ShareId = 2, UserId = 1, AmountStocks = 220 },
-                new AddingSharesToThUserEntity { ShareId = 4, UserId = 2, AmountStocks = 480 },
-                new AddingSharesToThUserEntity { ShareId = 2, UserId = 3, AmountStocks = 70 },
-                new AddingSharesToThUserEntity { ShareId = 1, UserId = 4, AmountStocks = 3000 }
+                new AddingSharesToThUserEntity { ShareId = 1, UserId = 1, AmountStocks = 50 },
+                new AddingSharesToThUserEntity { ShareId = 2, UserId = 1, AmountStocks = 110 },
+                new AddingSharesToThUserEntity { ShareId = 3, UserId = 1, AmountStocks = 400 },
+                new AddingSharesToThUserEntity { ShareId = 4, UserId = 1, AmountStocks = 300 },
+                new AddingSharesToThUserEntity { ShareId = 1, UserId = 2, AmountStocks = 70 },
+                new AddingSharesToThUserEntity { ShareId = 2, UserId = 2, AmountStocks = 9 },
+                new AddingSharesToThUserEntity { ShareId = 3, UserId = 2, AmountStocks = 50 },
+                new AddingSharesToThUserEntity { ShareId = 4, UserId = 2, AmountStocks = 110 },
+                new AddingSharesToThUserEntity { ShareId = 1, UserId = 3, AmountStocks= 400 },
+                new AddingSharesToThUserEntity { ShareId = 2, UserId = 3, AmountStocks = 300 },
+                new AddingSharesToThUserEntity { ShareId = 3, UserId = 3, AmountStocks = 70 },
+                new AddingSharesToThUserEntity { ShareId = 4, UserId = 3, AmountStocks = 9 },
+                new AddingSharesToThUserEntity { ShareId = 1, UserId = 4, AmountStocks = 9 },
+                new AddingSharesToThUserEntity { ShareId = 2, UserId = 4, AmountStocks = 9 },
+                new AddingSharesToThUserEntity { ShareId = 3, UserId = 4, AmountStocks = 144 }
             });
 
             base.OnModelCreating(modelBuilder);

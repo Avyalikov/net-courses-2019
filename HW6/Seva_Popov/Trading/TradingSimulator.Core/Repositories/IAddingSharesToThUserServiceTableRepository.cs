@@ -7,7 +7,7 @@ namespace TradingSimulator.Core.Repositories
 {
     public interface IAddingSharesToThUserServiceTableRepository
     {
-        void Add(AddingSharesToThUserEntity entityToAdd);
+        void Add(AddingSharesToThUserEntity addingSharesToThUserEntity);
         void SaveChanges();
     }
 }
