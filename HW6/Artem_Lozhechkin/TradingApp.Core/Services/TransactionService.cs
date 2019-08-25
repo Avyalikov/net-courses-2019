@@ -39,10 +39,10 @@
             ValidateBuyerBalance(buyer, share);
             var shareStock = this.stockTableRepository.GetById(share.Stock.Id);
             decimal payment = share.Amount * shareStock.PricePerUnit * share.ShareType.Multiplier;
-            share.Owner = buyer;
-            this.shareTableRepository.Save(share);
             buyer.Balance -= payment;
             this.traderTableRepository.Save(buyer);
+            share.Owner = buyer;
+            this.shareTableRepository.Save(share);
             seller.Balance += payment;
             this.traderTableRepository.Save(seller);
             var transaction = new TransactionEntity()
