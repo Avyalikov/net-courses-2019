@@ -14,5 +14,6 @@ namespace TradingSimulator.Core.Repositories
         void UpdateUserTable(UserEntity user);
         void UpdateUserTable(AddingSharesToThUserEntity userAndShares);
         List<AddingSharesToThUserEntity> GetUserAndShareParameters(UserEntity userEntity, SharesEntity sharesEntity);
+        void Add(TransactionHistoryEntity transactionHistoryEntity);
     }
 }

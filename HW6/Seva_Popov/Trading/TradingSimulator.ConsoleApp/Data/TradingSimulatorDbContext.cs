@@ -11,7 +11,7 @@ namespace TradingSimulator.ConsoleApp
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<SharesEntity> Shares { get; set; }
         public DbSet<AddingSharesToThUserEntity> UsersAndShares { get; set; }
-        //public DbSet<TransactionHistory> TransactionHistories { get; set; }
+        public DbSet<TransactionHistoryEntity> TransactionHistories { get; set; }
 
         public TradingSimulatorDbContext()
         {

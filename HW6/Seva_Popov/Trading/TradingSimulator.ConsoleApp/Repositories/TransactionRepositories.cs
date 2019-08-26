@@ -59,6 +59,11 @@ namespace TradingSimulator.ConsoleApp.Repositories
             this.dbContext.Update(userAndShares);
         }
 
+        public void Add(TransactionHistoryEntity transactionHistoryEntity)
+        {
+            this.dbContext.TransactionHistories.Add(transactionHistoryEntity);
+        }
+
 
     }
 }

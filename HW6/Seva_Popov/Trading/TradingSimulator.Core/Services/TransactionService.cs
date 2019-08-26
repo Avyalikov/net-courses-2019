@@ -60,12 +60,8 @@ namespace TradingSimulator.Core.Services
 
         public void StockPurchaseTransaction(UserEntity seller, UserEntity customer, int sharePrice, int numberOfSharesToSell, AddingSharesToThUserEntity sellerSharesToThUserEntity, AddingSharesToThUserEntity customerSharesToThUserEntity)
         {
-            Console.WriteLine(seller.Balance);
-            Console.WriteLine(customer.Balance);
             seller.Balance += sharePrice * numberOfSharesToSell;
             customer.Balance -= sharePrice * numberOfSharesToSell;
-            Console.WriteLine(sellerSharesToThUserEntity.AmountStocks);
-            Console.WriteLine(customerSharesToThUserEntity.AmountStocks);
             sellerSharesToThUserEntity.AmountStocks -= numberOfSharesToSell;
             customerSharesToThUserEntity.AmountStocks += numberOfSharesToSell;
             transactionRepositories.UpdateUserTable(seller);
@@ -73,10 +69,25 @@ namespace TradingSimulator.Core.Services
             transactionRepositories.UpdateUserTable(sellerSharesToThUserEntity);
             transactionRepositories.UpdateUserTable(customerSharesToThUserEntity);
             transactionRepositories.SaveChanges();
-            Console.WriteLine(seller.Balance);
-            Console.WriteLine(customer.Balance);
-            Console.WriteLine(sellerSharesToThUserEntity.AmountStocks);
-            Console.WriteLine(customerSharesToThUserEntity.AmountStocks);
+            Console.WriteLine("__________________________________________________________________________________");
+            Console.WriteLine(DateTime.Now + " | " + seller.Id + " | " + customer.Id + " | " + sharePrice + " | " + numberOfSharesToSell +" | " + customerSharesToThUserEntity.AmountStocks+ " | " + sellerSharesToThUserEntity.AmountStocks + " | ");
+            Console.WriteLine("__________________________________________________________________________________");
+        }
+
+        public void RegisterNewTransactionHistory(TransactionHistoryEntity transactionHistoryEntity)
+        {
+            var entityToAdd = new TransactionHistoryEntity() {
+                DateTimeBay = transactionHistoryEntity.DateTimeBay,
+                SellerId = transactionHistoryEntity.SellerId,
+                CustomerId = transactionHistoryEntity.CustomerId,
+                AmountShare = transactionHistoryEntity.AmountShare,
+                Cost = transactionHistoryEntity.Cost
+            };
+
+            this.transactionRepositories.Add(entityToAdd);
+
+            this.transactionRepositories.SaveChanges();
+            Console.WriteLine("The transaction was successful and added to the database.");
         }
     }
 }
