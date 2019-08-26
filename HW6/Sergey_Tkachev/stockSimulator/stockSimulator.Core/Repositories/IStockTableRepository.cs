@@ -6,10 +6,10 @@ namespace stockSimulator.Core.Repositories
     {
         void Add(StockEntity entity);
         void SaveChanges();
-        bool Contains(StockEntity entityToAdd);
+        bool Contains(StockEntity entityToCheck);
         StockEntity Get(int stockId);
         bool ContainsById(int stockId);
-        void Update(StockEntity entityToUpdate);
+        void Update(int stockId, StockEntity entityToUpdate);
         decimal GetCost(int stockId);
         string GetType(int stock_ID);
     }

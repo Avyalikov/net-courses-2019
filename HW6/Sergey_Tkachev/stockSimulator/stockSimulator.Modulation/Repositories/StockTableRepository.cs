@@ -1,48 +1,69 @@
 ﻿using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
+using System.Linq;
 
 namespace stockSimulator.Modulation.Repositories
 {
     class StockTableRepository : IStockTableRepository
     {
-        public void Add(StockEntity entity)
+        private readonly StockSimulatorDbContext dbContext;
+
+        public StockTableRepository(StockSimulatorDbContext dbContext)
         {
-            throw new System.NotImplementedException();
+            this.dbContext = dbContext;
         }
 
-        public bool Contains(StockEntity entityToAdd)
+        public void Add(StockEntity entity)
         {
-            throw new System.NotImplementedException();
+            this.dbContext.Stocks.Add(entity);
+        }
+
+        public bool Contains(StockEntity entityToCheck)
+        {
+            return this.dbContext.Stocks
+               .Any(s => s.Name == entityToCheck.Name
+               && s.Type == entityToCheck.Type
+               && s.Cost == entityToCheck.Cost);
         }
 
         public bool ContainsById(int stockId)
         {
-            throw new System.NotImplementedException();
+            return this.dbContext.Stocks
+               .Any(s => s.ID == stockId);
         }
 
         public StockEntity Get(int stockId)
         {
-            throw new System.NotImplementedException();
+            return this.dbContext.Stocks
+                .Where(s => s.ID == stockId)
+                .FirstOrDefault();
         }
 
         public decimal GetCost(int stockId)
         {
-            throw new System.NotImplementedException();
+            return this.dbContext.Stocks
+               .Where(s => s.ID == stockId)
+               .Select(s => s.Cost)
+               .FirstOrDefault();
         }
 
-        public string GetType(int stock_ID)
+        public string GetType(int stockId)
         {
-            throw new System.NotImplementedException();
+            return this.dbContext.Stocks
+              .Where(s => s.ID == stockId)
+              .Select(s => s.Type)
+              .FirstOrDefault();
         }
 
         public void SaveChanges()
         {
-            throw new System.NotImplementedException();
+            this.dbContext.SaveChanges();
         }
 
-        public void Update(StockEntity entityToUpdate)
+        public void Update(int stockId, StockEntity entityToUpdate)
         {
-            throw new System.NotImplementedException();
+            var clientToUpdate = this.dbContext.Stocks.First(s => s.ID == stockId);
+            clientToUpdate = entityToUpdate;
         }
     }
 }

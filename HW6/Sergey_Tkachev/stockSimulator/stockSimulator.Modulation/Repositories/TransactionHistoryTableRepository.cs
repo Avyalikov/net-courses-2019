@@ -1,37 +1,55 @@
 ﻿using stockSimulator.Core.Repositories;
+using System.Linq;
 
 namespace stockSimulator.Modulation.Repositories
 {
     class TransactionHistoryTableRepository : ITransactionHistoryTableRepository
     {
+        private readonly StockSimulatorDbContext dbContext;
+
+        public TransactionHistoryTableRepository(StockSimulatorDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
         public void Add(HistoryEntity entity)
         {
-            throw new System.NotImplementedException();
+            this.dbContext.TransactionHistory.Add(entity);
         }
 
-        public bool Contains(HistoryEntity entityToAdd)
+        public bool Contains(HistoryEntity entityToCheck)
         {
-            throw new System.NotImplementedException();
+            return this.dbContext.TransactionHistory
+               .Any(t => t.CustomerID == entityToCheck.CustomerID
+               && t.SellerID == entityToCheck.SellerID
+               && t.StockID == entityToCheck.StockID
+               && t.StockAmount == entityToCheck.StockAmount
+               && t.TransactionCost == entityToCheck.TransactionCost);
         }
 
-        public bool ContainsById(int stockId)
+        public bool ContainsById(int historyId)
         {
-            throw new System.NotImplementedException();
+            return this.dbContext.TransactionHistory
+               .Any(t => t.ID == historyId);
         }
+    
 
-        public HistoryEntity Get(int stockId)
+        public HistoryEntity Get(int historyId)
         {
-            throw new System.NotImplementedException();
+            return this.dbContext.TransactionHistory
+               .Where(t => t.ID == historyId)
+               .FirstOrDefault();
         }
 
         public void SaveChanges()
         {
-            throw new System.NotImplementedException();
+           this.dbContext.SaveChanges();
         }
 
-        public void Update(HistoryEntity entityToUpdate)
+        public void Update(int historyId, HistoryEntity entityToEdit)
         {
-            throw new System.NotImplementedException();
+            var clientToUpdate = this.dbContext.TransactionHistory.First(t => t.ID == historyId);
+            clientToUpdate = entityToEdit;
         }
     }
 }
