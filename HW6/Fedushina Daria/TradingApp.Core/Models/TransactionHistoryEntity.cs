@@ -5,7 +5,7 @@ namespace TradingApp.Core.Models
 {
     public class TransactionHistoryEntity
     {
-        public string TransactionID { get; set; }
+        public int TransactionID { get; set; }
         //public string SellerID { get; set; }
         public string SellerBalanceID { get; set; }
        // public string BuyerID { get; set; }

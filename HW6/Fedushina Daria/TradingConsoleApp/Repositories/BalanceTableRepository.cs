@@ -26,18 +26,26 @@ namespace TradingConsoleApp.Repositories
         {
             var oldEntity = this.dbContext.Balances.Find(entity.BalanceID);
             this.dbContext.Balances.Remove(oldEntity);
+            this.dbContext.SaveChanges();
             this.dbContext.Balances.Add(entity);
         }
 
         public bool Contains(string balanceId)
         {
             var entity = this.dbContext.Balances.Find(balanceId);
-            return this.dbContext.Balances.Contains(entity);
+            return this.dbContext.Balances.Any(f =>
+            f.BalanceID == entity.BalanceID &&
+            f.Balance == entity.Balance &&
+            f.UserID == entity.UserID &&
+            f.StockID == entity.StockID &&
+            f.StockAmount == entity.StockAmount &&
+            f.CreatedAt == entity.CreatedAt);
         }
 
-        public bool Contains(BalanceEntity balanceEntity)
+        public bool Contains(BalanceEntity entity)
         {
-            return this.dbContext.Balances.Contains(balanceEntity);
+            return this.dbContext.Balances.Any(f =>
+            f.BalanceID == entity.BalanceID);
         }
 
         public BalanceEntity Get(string balanceId)
@@ -45,7 +53,7 @@ namespace TradingConsoleApp.Repositories
            return this.dbContext.Balances.Find(balanceId);
         }
 
-        public List<BalanceEntity> GetAll(string userId)
+        public List<BalanceEntity> GetAll(int userId)
         {
             List<BalanceEntity> arr = new List<BalanceEntity>();
             foreach(BalanceEntity entity in this.dbContext.Balances)

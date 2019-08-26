@@ -17,7 +17,7 @@ namespace TradingApp.Core.Services
             this.balanceTableRepository = balanceTableRepository;
             this.stockTableRepository = stockTableRepository;
         }
-        public string MakeDeal(TransactionInfo args)
+        public int MakeDeal(TransactionInfo args)
         {
             var _args = args;
             StockEntity stock = stockTableRepository.Get(args.StockID);
@@ -29,7 +29,7 @@ namespace TradingApp.Core.Services
             if (sellerValidation && buyerValidation)
             {
                 MakeBuy(_args, stock);
-                return TransactionHistoryLogger(args,stock);
+                return TransactionHistoryLogger(_args,stock);
             }
             else
             {
@@ -40,7 +40,7 @@ namespace TradingApp.Core.Services
         public void MakeBuy(TransactionInfo args, StockEntity stock)
         {
             BalanceEntity buyerOldBalance = this.balanceTableRepository.Get(args.BuyerBalanceID);
-            buyerOldBalance.Stocks[args.StockID] += args.StockAmount;
+            buyerOldBalance.StockAmount += args.StockAmount;
             buyerOldBalance.Balance -= args.StockAmount * stock.Price;
             this.balanceTableRepository.Change(buyerOldBalance);
             this.balanceTableRepository.SaveChanges();
@@ -48,14 +48,14 @@ namespace TradingApp.Core.Services
         public void MakeSell(TransactionInfo args, StockEntity stock)
         {
             BalanceEntity sellerOldBalance = this.balanceTableRepository.Get(args.SellerBalanceID);
-            sellerOldBalance.Stocks[args.StockID] -= args.StockAmount;
+            sellerOldBalance.StockAmount -= args.StockAmount;
             sellerOldBalance.Balance += args.StockAmount * stock.Price;
             this.balanceTableRepository.Change(sellerOldBalance);
             this.balanceTableRepository.SaveChanges();
         }
-        public string TransactionHistoryLogger(TransactionInfo args, StockEntity stock)
+        public int TransactionHistoryLogger(TransactionInfo args, StockEntity stock)
         {
-            string transactionID;
+            int transactionID;
             TransactionHistoryEntity historyEntity = new TransactionHistoryEntity();
 
             historyEntity.SellerBalanceID = args.SellerBalanceID;

@@ -7,7 +7,7 @@ namespace TradingApp.Core.Repositories
         void Add(StockEntity entity);
         void SaveChanges();
         bool Contains(StockEntity entity);
-        bool Contains(string entityId);
-        StockEntity Get(string stockId);
+        bool Contains(int entityId);
+        StockEntity Get(int stockId);
     }
 }

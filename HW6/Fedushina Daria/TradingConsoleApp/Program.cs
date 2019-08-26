@@ -1,28 +1,42 @@
 ﻿using StructureMap;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TradingApp.Core.Dto;
+using TradingApp.Core.Models;
 using TradingApp.Core.Services;
 using TradingConsoleApp.Dependencies;
 
-namespace TradingApp.ConsoleApp
+namespace TradingConsoleApp
 {
     class Program
     {
         static void Main(string[] args)
-        {
-            var container = new Container(new TradingAppRegistry());
 
-            var usersService = container.GetInstance <UsersService>();
-            usersService.RegisterNewUser(new UserRegistrationInfo()
-            {
-                Name = "Dasha",
-                Surname = "Fedushina",
-                PhoneNumber = "1234567"
-            });
+        {
+            
+            var container = new Container(new TradingAppRegistry());
+            var balancesService = container.GetInstance<BalancesService>();
+            var trade = container.GetInstance<Trade>();
+            Random r = new Random();
+            using (var dbContext = container.GetInstance<TradingAppDbContext>())
+           {
+                
+                foreach (UserEntity user in dbContext.Users)
+                {
+                    balancesService.CreateBalance(new BalanceInfo()
+                    {
+                        UserID = user.ID,
+                        Balance = 1000,
+                        StockID = r.Next(1,10),
+                        StockAmount = r.Next(1,5)
+                    });
+                }
+                trade.Run();
+            }
+            
+
+                
+            
         }
     }
 }

@@ -6,9 +6,9 @@ namespace TradingApp.Core.Dto
 {
     public class TransactionInfo
     { 
-        public string SellerID { get; set; }
-        public string BuyerID { get; set; }
-        public string StockID { get; set; }
+        public int SellerID { get; set; }
+        public int BuyerID { get; set; }
+        public int StockID { get; set; }
         public int StockAmount { get; set; }
         public DateTime dateTime { get; set; }
         public string SellerBalanceID { get; set; }

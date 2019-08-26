@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingApp.Core.Dto;
 using TradingApp.Core.Models;
 using TradingApp.Core.Repositories;
 
@@ -30,7 +31,7 @@ namespace TradingConsoleApp.Repositories
             f.PhoneNumber == entity.PhoneNumber);
         }
 
-        public bool Contains(string entityId)
+        public bool Contains(int entityId)
         {
             var entity = this.dbContext.Users.Find(entityId);
             return this.dbContext.Users.Any(f=>
@@ -40,9 +41,31 @@ namespace TradingConsoleApp.Repositories
             f.PhoneNumber == entity.PhoneNumber);
         }
 
-        public UserEntity Get(string userId)
+        public bool ContainsInfo(UserRegistrationInfo userInfo)
+        {
+            return this.dbContext.Users.Any(f =>
+            f.Name == userInfo.Name &&
+            f.Surname == userInfo.Surname &&
+            f.PhoneNumber == userInfo.PhoneNumber);
+        }
+
+        public UserEntity Get(int userId)
         {
             return this.dbContext.Users.First(f=>f.ID==userId);
+        }
+
+        public int GetAll()
+        {
+            return this.dbContext.Users.Count();
+        }
+
+        public int GetId(UserRegistrationInfo userInfo)
+        {
+            var entity = this.dbContext.Users.First(f =>
+            f.Name == userInfo.Name &&
+            f.Surname == userInfo.Surname &&
+            f.PhoneNumber == userInfo.PhoneNumber);
+            return entity.ID;
         }
 
         public void SaveChanges()

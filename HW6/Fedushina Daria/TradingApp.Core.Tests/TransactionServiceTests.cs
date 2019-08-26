@@ -32,16 +32,16 @@ namespace TradingApp.Core.Tests
                 this.stockTableRepository
                 );
             var args = new TransactionInfo();
-            args.SellerID = "22";
+            args.SellerID = 22;
             args.SellerBalanceID = "2201";
-            args.BuyerID = "7";
+            args.BuyerID = 7;
             args.BuyerBalanceID = "701";
             args.StockAmount = 2;
-            args.StockID = "5";
+            args.StockID = 5;
             args.dateTime = DateTime.Now;
 
             var stock = new StockEntity();
-            stock.ID = "5";
+            stock.ID = 5;
             stock.Price = 200;
             stock.Type = "StockTypeA";
 
@@ -71,27 +71,27 @@ namespace TradingApp.Core.Tests
             stockTableRepository = Substitute.For<IStockTableRepository>();
             TransactionService transactionService = new TransactionService(this.historyTableRepository, this.balanceTableRepository, this.stockTableRepository);
             var args = new TransactionInfo();
-            args.SellerID = "22";
+            args.SellerID = 22;
             args.SellerBalanceID = "2201";
-            args.BuyerID = "7";
+            args.BuyerID = 7;
             args.BuyerBalanceID = "701";
             args.StockAmount = 2;
-            args.StockID = "5";
+            args.StockID = 5;
             args.dateTime = DateTime.Now;
 
             var stock = new StockEntity();
-            stock.ID = "5";
+            stock.ID = 5;
             stock.Price = 200;
             stock.Type = "StockTypeA";
 
-            stockTableRepository.Get("5").Returns(stock);
+            stockTableRepository.Get(5).Returns(stock);
 
             var sellerBalance = new BalanceEntity();
             sellerBalance.BalanceID = "2201";
             sellerBalance.Balance = 1000;
-            sellerBalance.Stocks = new Dictionary<string, int>
-            { {"5",2},{"2",10},{"3",1}};
-            sellerBalance.UserID = "22";
+            sellerBalance.StockID = 3;
+            sellerBalance.StockAmount = 2;
+            sellerBalance.UserID = 22;
             sellerBalance.CreatedAt = DateTime.Now;
 
             balanceTableRepository.Get("2201").Returns(sellerBalance);
@@ -104,7 +104,8 @@ namespace TradingApp.Core.Tests
             w.Balance == sellerBalance.Balance &&
             w.BalanceID == sellerBalance.BalanceID &&
             w.CreatedAt == sellerBalance.CreatedAt &&
-            w.Stocks == sellerBalance.Stocks &&
+            w.StockID == sellerBalance.StockID &&
+            w.StockAmount == sellerBalance.StockAmount &&
             w.UserID == sellerBalance.UserID));
             balanceTableRepository.Received(1).SaveChanges();
 
@@ -119,27 +120,27 @@ namespace TradingApp.Core.Tests
             stockTableRepository = Substitute.For<IStockTableRepository>();
             TransactionService transactionService = new TransactionService(this.historyTableRepository, this.balanceTableRepository, this.stockTableRepository);
             var args = new TransactionInfo();
-            args.SellerID = "22";
+            args.SellerID = 22;
             args.SellerBalanceID = "2201";
-            args.BuyerID = "7";
+            args.BuyerID = 7;
             args.BuyerBalanceID = "701";
             args.StockAmount = 2;
-            args.StockID = "5";
+            args.StockID = 5;
             args.dateTime = DateTime.Now;
 
             var stock = new StockEntity();
-            stock.ID = "5";
+            stock.ID = 5;
             stock.Price = 200;
             stock.Type = "StockTypeA";
 
-            stockTableRepository.Get("5").Returns(stock);
+            stockTableRepository.Get(5).Returns(stock);
 
             var buyerBalance = new BalanceEntity();
             buyerBalance.BalanceID = "701";
             buyerBalance.Balance = 1000;
-            buyerBalance.Stocks = new Dictionary<string, int>
-            { {"5",1},{"9",2},{"1",12}};
-            buyerBalance.UserID = "7";
+            buyerBalance.StockID = 3;
+            buyerBalance.StockAmount = 2;
+            buyerBalance.UserID = 7;
             buyerBalance.CreatedAt = DateTime.Now;
 
             balanceTableRepository.Get("701").Returns(buyerBalance);
@@ -151,7 +152,8 @@ namespace TradingApp.Core.Tests
             w.Balance == buyerBalance.Balance &&
             w.BalanceID == buyerBalance.BalanceID &&
             w.CreatedAt == buyerBalance.CreatedAt &&
-            w.Stocks == buyerBalance.Stocks &&
+            w.StockID == buyerBalance.StockID &&
+            w.StockAmount == buyerBalance.StockAmount &&
             w.UserID == buyerBalance.UserID));
             balanceTableRepository.Received(1).SaveChanges();
 

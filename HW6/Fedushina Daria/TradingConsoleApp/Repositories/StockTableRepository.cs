@@ -34,7 +34,7 @@ namespace TradingConsoleApp.Repositories
             f.Price == entity.Price);
         }
 
-        public bool Contains(string entityId)
+        public bool Contains(int entityId)
         {
             var entity = this.dbContext.Stocks.Find(entityId);
             return this.dbContext.Stocks.Any(f =>
@@ -42,7 +42,7 @@ namespace TradingConsoleApp.Repositories
             f.Price == entity.Price);
         }
 
-        public StockEntity Get(string stockId)
+        public StockEntity Get(int stockId)
         {
             return this.dbContext.Stocks.Find(stockId);
         }

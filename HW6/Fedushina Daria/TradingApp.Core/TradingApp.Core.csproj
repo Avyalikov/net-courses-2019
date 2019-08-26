@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\StructureMap.4.7.1\lib\net45\StructureMap.dll</HintPath>
     </Reference>
@@ -51,6 +54,9 @@
   <ItemGroup>
     <Compile Include="Dto\BalanceInfo.cs" />
     <Compile Include="Dto\TransactionInfo.cs" />
+    <Compile Include="EntityInitializers\BalanceContextInitializer.cs" />
+    <Compile Include="EntityInitializers\StockContextInitializer.cs" />
+    <Compile Include="EntityInitializers\UserContextInitializer.cs" />
     <Compile Include="Models\BalanceEntity.cs" />
     <Compile Include="Models\StockEntity.cs" />
     <Compile Include="Dto\StockRegistrationInfo.cs" />
@@ -71,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="EntityInitializers\Names.json" />
+    <None Include="Names.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

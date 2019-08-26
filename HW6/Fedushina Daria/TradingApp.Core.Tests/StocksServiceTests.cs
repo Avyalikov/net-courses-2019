@@ -58,14 +58,14 @@ namespace TradingApp.Core.Tests
         {
             //Arrange
             var stockTableRepository = Substitute.For<IStockTableRepository>();
-            stockTableRepository.Contains(Arg.Is("11")).Returns(true);
+            stockTableRepository.Contains(Arg.Is(11)).Returns(true);
             StocksService stockService = new StocksService(stockTableRepository);
 
             // Act
-            var stock = stockService.GetStock("11");
+            var stock = stockService.GetStock(11);
 
             //Assert
-            stockTableRepository.Received(1).Get("11");
+            stockTableRepository.Received(1).Get(11);
 
         }
 
@@ -75,11 +75,11 @@ namespace TradingApp.Core.Tests
         {
             //Arrange
             var stockTableRepository = Substitute.For<IStockTableRepository>();
-            stockTableRepository.Contains(Arg.Is("11")).Returns(false);
+            stockTableRepository.Contains(Arg.Is(11)).Returns(false);
             StocksService stockService = new StocksService(stockTableRepository);
 
             // Act
-            var stock = stockService.GetStock("11");
+            var stock = stockService.GetStock(11);
         }
     }
 

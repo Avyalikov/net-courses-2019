@@ -14,7 +14,7 @@ namespace TradingApp.Core.Services
             this.stockTableRepository = stockTableRepository;
         }
 
-        public StockEntity GetStock(string stockId)
+        public StockEntity GetStock(int stockId)
         {
             if (!this.stockTableRepository.Contains(stockId))
             {
@@ -23,7 +23,7 @@ namespace TradingApp.Core.Services
             return this.stockTableRepository.Get(stockId);
         }
 
-        public string RegisterNewStock(StockRegistrationInfo args)
+        public int RegisterNewStock(StockRegistrationInfo args)
         {
             var entityToAdd = new StockEntity()
             {

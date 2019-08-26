@@ -4,12 +4,13 @@ using System.Collections.Generic;
 
 namespace TradingApp.Core.Models
 {
-    public class BalanceEntity
+    public class BalanceEntity 
     {
         public string BalanceID { get; set; }
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         public decimal Balance { get; set; }
-        public Dictionary<string,int> Stocks { get; set; }  //the dictionary of pairs StockID-StockCount
+        public int StockID { get; set; }  
+        public int StockAmount { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

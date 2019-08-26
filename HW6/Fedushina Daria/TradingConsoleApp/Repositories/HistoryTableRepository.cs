@@ -16,19 +16,19 @@ namespace TradingConsoleApp.Repositories
         {
             this.dbContext = dbContext;
         }
-        public string Add(TransactionHistoryEntity entity)
+        public int Add(TransactionHistoryEntity entity)
         {
             this.dbContext.Transactions.Add(entity);
             return entity.TransactionID;
         }
 
-        public bool Contains(string transactionId)
+        public bool Contains(int transactionId)
         {
             var entity = this.dbContext.Transactions.Find(transactionId);
             return this.dbContext.Transactions.Contains(entity);
         }
 
-        public TransactionHistoryEntity Get(string transactionId)
+        public TransactionHistoryEntity Get(int transactionId)
         {
             return this.dbContext.Transactions.Find(transactionId);
         }
@@ -43,7 +43,7 @@ namespace TradingConsoleApp.Repositories
             return arrTrans;
         }
 
-        public List<TransactionHistoryEntity> GetAll(string userId)
+        public List<TransactionHistoryEntity> GetAll(int userId)
         {
             List<TransactionHistoryEntity> arrTrans = new List<TransactionHistoryEntity>();
             List<BalanceEntity> arr = new List<BalanceEntity>();

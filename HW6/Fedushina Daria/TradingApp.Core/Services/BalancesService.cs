@@ -24,16 +24,17 @@ namespace TradingApp.Core.Services
             }
             catch
             {
-                balancesCount = 1;
+                throw new ArgumentException($"Can't count balances for this user {args.UserID}. It might be not exists");
             }
             
             var entityToAdd = new BalanceEntity()
             {
                 CreatedAt = DateTime.Now,
                 UserID = args.UserID,
-                BalanceID = args.UserID +"0"+ balancesCount.ToString(),
+                BalanceID = args.UserID.ToString() +"0"+ balancesCount.ToString(),
                 Balance = args.Balance,
-                Stocks = args.Stocks
+                StockID = args.StockID,
+                StockAmount = args.StockAmount,
             };
             if (this.balanceTableRepository.Contains(entityToAdd))
             {
@@ -51,6 +52,10 @@ namespace TradingApp.Core.Services
                 throw new ArgumentException("Can't find balance with this Id. It might be not exists");
             }
             return this.balanceTableRepository.Get(balanceId);
+        }
+        public List <BalanceEntity> GetAll(int userID)
+        {
+            return this.balanceTableRepository.GetAll(userID);
         }
     }
 }

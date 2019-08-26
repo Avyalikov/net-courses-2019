@@ -19,19 +19,18 @@ namespace TradingApp.Core.Tests
             var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
             BalancesService balanceService = new BalancesService(balanceTableRepository);
             BalanceInfo args = new BalanceInfo();
-            args.UserID = "22";
+            args.UserID = 22;
             args.Balance = 1000;
-            args.Stocks = new Dictionary<string, int>()
-             {
-                { "11",2 },
-                { "12",5 }
-            };
+            args.StockID = 1;
+            args.StockAmount = 1; 
+
             //Act
             balanceService.CreateBalance(args);
             //Assert
             balanceTableRepository.Received(1).Add(Arg.Is<BalanceEntity>(w=>w.UserID==args.UserID &&
             w.Balance==args.Balance &&
-            w.Stocks==args.Stocks));
+            w.StockID==args.StockID &&
+            w.StockAmount == args.StockAmount));
             balanceTableRepository.Received(1).SaveChanges();
         }
 
@@ -43,20 +42,18 @@ namespace TradingApp.Core.Tests
             var balanceTableRepository = Substitute.For<IBalanceTableRepository>();
             BalancesService balanceService = new BalancesService(balanceTableRepository);
             BalanceInfo args = new BalanceInfo();
-            args.UserID = "22";
+            args.UserID = 22;
             args.Balance = 1000;
-            args.Stocks = new Dictionary<string, int>()
-             {
-                { "11",2 },
-                { "12",5 }
-            };
+            args.StockID = 1;
+            args.StockAmount = 1;
 
             //Act
             balanceService.CreateBalance(args); 
 
             balanceTableRepository.Contains(Arg.Is<BalanceEntity>(w => w.UserID == args.UserID &&
             w.Balance == args.Balance &&
-            w.Stocks == args.Stocks)).Returns(true);
+            w.StockID == args.StockID &&
+            w.StockAmount == args.StockAmount)).Returns(true);
             balanceService.CreateBalance(args);
 
         }

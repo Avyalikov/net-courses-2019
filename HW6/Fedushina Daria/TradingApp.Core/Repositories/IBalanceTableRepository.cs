@@ -10,7 +10,7 @@ namespace TradingApp.Core.Repositories
 
         decimal GetBalance (string balanceId);
 
-        List<BalanceEntity> GetAll(string userId);
+        List<BalanceEntity> GetAll(int userId);
 
         BalanceEntity Get(string balanceId);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TradingApp.Core.Dto;
 using TradingApp.Core.Models;
 using TradingApp.Core.Repositories;
@@ -14,15 +15,13 @@ namespace TradingApp.Core.Services
             this.userTableRepository = userTableRepository;
         }
 
-        public string RegisterNewUser(UserRegistrationInfo args)
+        public int RegisterNewUser(UserRegistrationInfo args)
         {
             var entityToAdd = new UserEntity()
             {
-                CreatedAt = DateTime.Now,
                 Name = args.Name,
                 Surname = args.Surname,
                 PhoneNumber = args.PhoneNumber
-
             };
             if (this.userTableRepository.Contains(entityToAdd))
             {
@@ -34,7 +33,7 @@ namespace TradingApp.Core.Services
             return entityToAdd.ID;
         }
 
-        public UserEntity GetUser(string userId)
+        public UserEntity GetUser(int userId)
         {
             if (!this.userTableRepository.Contains(userId))
             {
@@ -42,6 +41,20 @@ namespace TradingApp.Core.Services
             }
             return this.userTableRepository.Get(userId);
             
+        }
+
+        public int GetUserId(UserRegistrationInfo userInfo)
+        {
+            if (!this.userTableRepository.ContainsInfo(userInfo))
+            {
+                throw new ArgumentException("Can't find user with this Info. May it hasn't been registered");
+            }
+            return this.userTableRepository.GetId(userInfo);
+        }
+
+        public int Count()
+        {
+            return this.userTableRepository.GetAll();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace TradingApp.Core.Services
         {
             this.balanceTableRepository = balanceTableRepository;
         }
-        public bool CheckPermissionToSell(string sellerId)   //Checking if user is in "Black List"
+        public bool CheckPermissionToSell(int sellerId)   //Checking if user is in "Black List"
         {
             bool result = true;
             List<BalanceEntity> sellerBalances;
@@ -36,7 +36,7 @@ namespace TradingApp.Core.Services
             }            
         }
 
-        public bool CheckPermissionToBuy(string buyerId)    //cheking if user is in "Orange List"
+        public bool CheckPermissionToBuy(int buyerId)    //cheking if user is in "Orange List"
         {
             bool result = true;
             List<BalanceEntity> buyerBalances;

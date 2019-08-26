@@ -61,14 +61,14 @@ namespace TradingApp.Core.Tests
         {
             //Arrange
             var userTableRepository = Substitute.For<IUserTableRepository>();
-            userTableRepository.Contains(Arg.Is("88")).Returns(true);
+            userTableRepository.Contains(Arg.Is(88)).Returns(true);
             UsersService userService = new UsersService(userTableRepository);
 
             // Act
-            var user = userService.GetUser("88");
+            var user = userService.GetUser(88);
 
             //Assert
-            userTableRepository.Received(1).Get("88");
+            userTableRepository.Received(1).Get(88);
 
         }
 
@@ -78,11 +78,11 @@ namespace TradingApp.Core.Tests
         {
             //Arrange
             var userTableRepository = Substitute.For<IUserTableRepository>();
-            userTableRepository.Contains(Arg.Is("88")).Returns(false);
+            userTableRepository.Contains(Arg.Is(88)).Returns(false);
             UsersService userService = new UsersService(userTableRepository);
 
             // Act
-            var user = userService.GetUser("88");
+            var user = userService.GetUser(88);
         }
     }
 
