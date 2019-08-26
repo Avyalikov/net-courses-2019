@@ -16,9 +16,6 @@ namespace stockSimulator.Core.Tests
         IStockTableRepository stockTableRepository;
         IStockOfClientsTableRepository stockClientTableRepository;
         ITransactionHistoryTableRepository transactionHistoryTableRepository;
-        //List<ClientEntity> clients;
-        //List<StockEntity> stocks;
-        //List<StockOfClientsEntity> stocksOfClient;
 
         [TestInitialize]
         public void Initialize()
@@ -77,12 +74,6 @@ namespace stockSimulator.Core.Tests
         public void ShouldSubstractMoneyAndAddStocks()
         {
             //Arrange
-            //ClientService clientService = new ClientService(clientTableRepository);
-            //ClientRegistrationInfo clArgs = new ClientRegistrationInfo();
-            //StockService stockService = new StockService(stockTableRepository);
-            //StockRegistrationInfo stArgs = new StockRegistrationInfo();
-            //EditCleintStockService editCleintStockService = new EditCleintStockService(stockClientTableRepository);
-            //EditStockOfClientInfo editArgs = new EditStockOfClientInfo();
             TransactionService transactionService = new TransactionService(this.clientTableRepository,
                                                                             this.stockTableRepository,
                                                                             this.stockClientTableRepository,
@@ -99,24 +90,71 @@ namespace stockSimulator.Core.Tests
             transactionService.Trade(tradeInfo);
 
             //Assert
-            clientTableRepository.Received(1).UpdateBalance(Arg.Is<int>(5), Arg.Is<decimal>(50));
-            stockClientTableRepository.Received(1).UpdateAmount(Arg.Is<int>(5),
+            this.clientTableRepository.Received(1).UpdateBalance(Arg.Is<int>(5), Arg.Is<decimal>(50));
+            this.stockClientTableRepository.Received(1).UpdateAmount(Arg.Is<int>(5),
                                                                 Arg.Is<int>(1),
                                                                 Arg.Is<int>(5));
 
-            clientTableRepository.Received(2).SaveChanges();
+            this.clientTableRepository.Received(2).SaveChanges();
         }
 
         [TestMethod]
         public void ShouldSubstractStocksAndAddMoney()
         {
-            throw new NotImplementedException();
+            //Arrange
+            TransactionService transactionService = new TransactionService(this.clientTableRepository,
+                                                                           this.stockTableRepository,
+                                                                           this.stockClientTableRepository,
+                                                                           this.transactionHistoryTableRepository);
+
+            //Act
+            TradeInfo tradeInfo = new TradeInfo()
+            {
+                Customer_ID = 5,
+                Seller_ID = 32,
+                Stock_ID = 1,
+                Amount = 5
+            };
+            transactionService.Trade(tradeInfo);
+
+            //Assert
+            this.clientTableRepository.Received(1).UpdateBalance(Arg.Is<int>(32), Arg.Is<decimal>(100));
+            this.stockClientTableRepository.Received(1).UpdateAmount(Arg.Is<int>(32),
+                                                                Arg.Is<int>(1),
+                                                                Arg.Is<int>(5));
+
+            this.clientTableRepository.Received(2).SaveChanges();
         }
 
         [TestMethod]
         public void ShouldAddEntryInHistoryTable()
         {
-            throw new NotImplementedException();
+            //Arrange
+            TransactionService transactionService = new TransactionService(this.clientTableRepository,
+                                                                           this.stockTableRepository,
+                                                                           this.stockClientTableRepository,
+                                                                           this.transactionHistoryTableRepository);
+
+            //Act
+            TradeInfo tradeInfo = new TradeInfo()
+            {
+                Customer_ID = 5,
+                Seller_ID = 32,
+                Stock_ID = 1,
+                Amount = 5
+            };
+            transactionService.Trade(tradeInfo);
+
+            //Assert
+            this.transactionHistoryTableRepository.Received(1).Add(Arg.Is<HistoryEntity>(
+                 h => h.CustomerID == 5
+                 && h.StockAmount == 5
+                 && h.StockID == 1
+                 && h.SellerID == 32
+                 && h.TransactionCost == 50
+                 && h.StockType == "P"));
+
+            this.transactionHistoryTableRepository.Received(1).SaveChanges();
         }
     }
 

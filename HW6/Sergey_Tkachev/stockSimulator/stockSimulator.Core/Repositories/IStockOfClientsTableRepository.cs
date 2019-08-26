@@ -1,4 +1,6 @@
 ﻿using stockSimulator.Core.Models;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace stockSimulator.Core.Repositories
 {

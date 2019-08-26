@@ -15,5 +15,6 @@ namespace stockSimulator.Core.Repositories
         void Update(int clientId, ClientEntity entityToEdit);
         decimal GetBalance(int clientId);
         void UpdateBalance(int clientId, decimal newBalance);
+        IEnumerable<ClientEntity> GetClients();
     }
 }

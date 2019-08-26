@@ -1,5 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
+using stockSimulator.Core.DTO;
+using stockSimulator.Core.Models;
+using stockSimulator.Core.Repositories;
+using stockSimulator.Core.Services;
 
 namespace stockSimulator.Core.Tests
 {
@@ -9,7 +14,31 @@ namespace stockSimulator.Core.Tests
         [TestMethod]
         public void ShouldEditStocksOfClients()
         {
-            throw new NotImplementedException();
+            //Arrange
+            var stockOfClientsTableRepository = Substitute.For<IStockOfClientsTableRepository>();
+            EditCleintStockService editCleintStockService = new EditCleintStockService(stockOfClientsTableRepository);
+            EditStockOfClientInfo args = new EditStockOfClientInfo()
+            {
+                Client_ID = 5,
+                Stock_ID = 1,
+                AmountOfStocks = 15
+            };
+            stockOfClientsTableRepository.Contains(Arg.Is<StockOfClientsEntity>(
+                s => s.ClientID == args.Client_ID
+                && s.StockID == args.Stock_ID
+                && s.Amount == args.AmountOfStocks))
+                .Returns(true);
+
+            //Act
+            editCleintStockService.Edit(args);
+
+            //Assert
+            stockOfClientsTableRepository.Received(1).Update(Arg.Is<StockOfClientsEntity>(
+                c => c.ClientID == args.Client_ID
+                && c.StockID == args.Stock_ID
+                && c.Amount == args.AmountOfStocks));
+
+            stockOfClientsTableRepository.Received(1).SaveChanges();
         }
     }
 }

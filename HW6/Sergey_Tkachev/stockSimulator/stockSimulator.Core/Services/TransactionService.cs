@@ -43,13 +43,13 @@ namespace stockSimulator.Core.Services
                 CustomerID = tradeInfo.Customer_ID,
                 StockAmount = tradeInfo.Amount,
                 StockID = tradeInfo.Stock_ID,
-                SellerID = tradeInfo.Stock_ID,
+                SellerID = tradeInfo.Seller_ID,
                 TransactionTime = DateTime.Now,
                 TransactionCost = transactionPrice,
                 StockType = stockType
             };
             this.transactionHistoryTableRepository.Add(historyEntity);
-            stockClientTableRepository.SaveChanges();
+            transactionHistoryTableRepository.SaveChanges();
         }
 
         private void BuyPartOfTrasaction(TradeInfo tradeInfo)

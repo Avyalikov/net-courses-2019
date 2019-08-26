@@ -3,6 +3,7 @@ using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace stockSimulator.Core.Services
@@ -24,8 +25,7 @@ namespace stockSimulator.Core.Services
                 Name = args.Name,
                 Surname = args.Surname,
                 PhoneNumber = args.PhoneNumber,
-                AccountBalance = args.AccountBalance,
-                ZoneID = null
+                AccountBalance = args.AccountBalance
             };
 
             if (this.clientTableRepository.Contains(entityToAdd))
@@ -48,6 +48,27 @@ namespace stockSimulator.Core.Services
             }
 
             return this.clientTableRepository.Get(clientId);
+        }
+
+        public IEnumerable<ClientEntity> GetClientsWithPositiveBalance()
+        {
+            var clients = clientTableRepository.GetClients();
+            var result = clients.Where(c => c.AccountBalance > 0).ToList();
+            return result;
+        }
+
+        public IEnumerable<ClientEntity> GetClientsWithZeroBalance()
+        {
+            var clients = clientTableRepository.GetClients();
+            var result = clients.Where(c => c.AccountBalance == 0).ToList();
+            return result;
+        }
+
+        public IEnumerable<ClientEntity> GetClientsWithNegativeBalance()
+        {
+            var clients = clientTableRepository.GetClients();
+            var result = clients.Where(c => c.AccountBalance < 0).ToList();
+            return result;
         }
     }
 }
