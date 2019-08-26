@@ -14,7 +14,7 @@
         private readonly ReportsService reportsService;
         private readonly SalesService salesService;
         private readonly SharesService sharesService;
-        private readonly ShareTypesService shareTypesService;
+        private readonly ShareTypesService shareTypesService;        
 
         public StockExchange(Container traidingRegistryContainer)
         {
@@ -24,7 +24,7 @@
             this.reportsService = traidingRegistryContainer.GetInstance<ReportsService>();
             this.salesService = traidingRegistryContainer.GetInstance<SalesService>();
             this.sharesService = traidingRegistryContainer.GetInstance<SharesService>();
-            this.shareTypesService = traidingRegistryContainer.GetInstance<ShareTypesService>();
+            this.shareTypesService = traidingRegistryContainer.GetInstance<ShareTypesService>();            
         }
 
         public void traiding()
@@ -84,6 +84,7 @@
              *  4. Add a new share type into system
              *  5. Change the cost of share type
              *  6. View Deal History
+             *  7. Change share type for share
              * 
              * Enter the number for action or 't' for switch to 'Traiding Live!' or 'e' for Exit.
              */

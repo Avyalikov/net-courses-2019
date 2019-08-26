@@ -1,16 +1,17 @@
 ﻿namespace Traiding.ConsoleApp
 {
     using StructureMap;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Traiding.ConsoleApp.Logger;
 
     class Program
     {
         static void Main(string[] args)
         {
+            ILoggerService loggerService = new LoggerService();
+
+            loggerService.InitLogger(); // Initialization
+            loggerService.Log.Info("Start logging");
+
             new StockExchange(
                 new Container(new DependencyInjection.TraidingRegistry())
                 ).Start();
