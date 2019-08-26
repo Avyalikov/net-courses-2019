@@ -23,17 +23,21 @@ namespace stockSimulator.Core.Tests
                 Stock_ID = 1,
                 AmountOfStocks = 15
             };
+            int entryId;
             stockOfClientsTableRepository.Contains(Arg.Is<StockOfClientsEntity>(
                 s => s.ClientID == args.Client_ID
                 && s.StockID == args.Stock_ID
-                && s.Amount == args.AmountOfStocks))
-                .Returns(true);
+                && s.Amount == args.AmountOfStocks), out Arg.Any<int>())
+                .Returns(x => {
+                    x[1] = 3;
+                    return true;
+                });
 
             //Act
             editCleintStockService.Edit(args);
 
             //Assert
-            stockOfClientsTableRepository.Received(1).Update(Arg.Is<StockOfClientsEntity>(
+            stockOfClientsTableRepository.Received(1).Update(Arg.Is(3), Arg.Is<StockOfClientsEntity>(
                 c => c.ClientID == args.Client_ID
                 && c.StockID == args.Stock_ID
                 && c.Amount == args.AmountOfStocks));

@@ -16,6 +16,7 @@ namespace stockSimulator.Core.Services
 
         public int Edit(EditStockOfClientInfo editArgs)
         {
+            int entityId;
             var entityToEdit = new StockOfClientsEntity()
             {
                ClientID = editArgs.Client_ID,
@@ -23,9 +24,9 @@ namespace stockSimulator.Core.Services
                Amount = editArgs.AmountOfStocks
             };
 
-            if (this.stockOfClientsTableRepository.Contains(entityToEdit))
+            if (this.stockOfClientsTableRepository.Contains(entityToEdit, out entityId))
             {
-                this.stockOfClientsTableRepository.Update(entityToEdit);
+                this.stockOfClientsTableRepository.Update(entityId, entityToEdit);
             }
             else
             {
