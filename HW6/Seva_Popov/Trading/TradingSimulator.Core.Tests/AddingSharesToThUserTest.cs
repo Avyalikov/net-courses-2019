@@ -15,19 +15,19 @@ namespace TradingSimulator.Core.Tests
         //[TestMethod]
         //public void ShouldAddingSharesToTheUser()
         //{
-        //    var AddingSharesToThUserServiceTableRepository = Substitute.For<IAddingSharesToThUserServiceTableRepository>();
-        //    var SharesTableRepository = Substitute.For<ISharesTableRepository>();
-        //    var UserTableRepository = Substitute.For<IUserTableRepository>();
-        //    AddingSharesToThUserService addingSharesToThUserService = new AddingSharesToThUserService(AddingSharesToThUserServiceTableRepository, UserTableRepository, SharesTableRepository);
-        //    AddingSharesToThUserEntity args = new AddingSharesToThUserEntity();
-        //    args.UserId = 1;
-        //    args.ShareId = 1;
-        //    args.AmountStocks = 20;
+        //    var addingSharesToThUserServiceTableRepository = Substitute.For<IAddingSharesToThUserServiceTableRepository>();
+        //    var sharesTableRepository = Substitute.For<ISharesTableRepository>();
+        //    var userTableRepository = Substitute.For<IUserTableRepository>();
+        //    AddingSharesToThUserService addingSharesToThUserService = new AddingSharesToThUserService(addingSharesToThUserServiceTableRepository, userTableRepository, sharesTableRepository);
+        //    AddingSharesToThUserEntity args = new AddingSharesToThUserEntity()
+        //    {
+        //        AmountStocks = 20
+        //    };
 
         //    addingSharesToThUserService.RegisterNewSharesToTheUser(args);
 
-        //    AddingSharesToThUserServiceTableRepository.Received(1).Add(Arg.Is<AddingSharesToThUserEntity>(w => w.UserId == args.UserId && w.ShareId == args.ShareId && w.AmountStocks == args.AmountStocks));
-        //    AddingSharesToThUserServiceTableRepository.Received(1).SaveChanges();
+        //    addingSharesToThUserServiceTableRepository.Received(1).Add(Arg.Is<AddingSharesToThUserEntity>(w =>  w.AmountStocks == args.AmountStocks));
+        //    addingSharesToThUserServiceTableRepository.Received(1).SaveChanges();
         //}
 
         [TestMethod]
