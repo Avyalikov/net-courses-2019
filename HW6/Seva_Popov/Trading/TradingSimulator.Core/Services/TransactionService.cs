@@ -16,62 +16,37 @@ namespace TradingSimulator.Core.Services
             this.transactionRepositories = transactionRepositories;
         }
 
-        public UserEntity SelectUser()
+        public List<UserEntity> SelectUser()
         {
             var users = transactionRepositories.GetUserList();
-            int count = users.Count;
-            return users[random.Next(count)];
+            return users;
         }
-
-        
-        public AddingSharesToThUserEntity SelectSharesToThUserEntity(UserEntity userEntity)
+      
+        public List<AddingSharesToThUserEntity> SelectSharesToThUserEntity(UserEntity userEntity)
         {
             var usersAndShare = transactionRepositories.GetUserAndShareList(userEntity);
-            int count = usersAndShare.Count; 
-            return usersAndShare[random.Next(count)]; 
+            return usersAndShare;
         }
 
-        public SharesEntity FindOutTheValueOfShares(AddingSharesToThUserEntity addingSharesToThUserEntity)
+        public List<SharesEntity> FindOutTheValueOfShares(AddingSharesToThUserEntity addingSharesToThUserEntity)
         {
             var shares = transactionRepositories.GetShares(addingSharesToThUserEntity);
-            return shares[0];
+            return shares;
         }
 
-        public AddingSharesToThUserEntity SelectStocksForUserObjectParameters(UserEntity userEntity, SharesEntity sharesEntity)
+        public List<AddingSharesToThUserEntity> SelectStocksForUserObjectParameters(UserEntity userEntity, SharesEntity sharesEntity)
         {
             var usersAndShare = transactionRepositories.GetUserAndShareParameters(userEntity, sharesEntity);
-            int count = usersAndShare.Count;
-            try
-            {
-                return usersAndShare[0];
-            }
-            catch (System.ArgumentOutOfRangeException)
-            {
-                AddingSharesToThUserEntity addingSharesToThUserEntity = new AddingSharesToThUserEntity();
-                return addingSharesToThUserEntity;
-            }
-            
-        }
-
-        public int RandomNumberGenerator (int number)
-        {
-           return random.Next(number);
+            return usersAndShare;
         }
 
         public void StockPurchaseTransaction(UserEntity seller, UserEntity customer, int sharePrice, int numberOfSharesToSell, AddingSharesToThUserEntity sellerSharesToThUserEntity, AddingSharesToThUserEntity customerSharesToThUserEntity)
         {
-            seller.Balance += sharePrice * numberOfSharesToSell;
-            customer.Balance -= sharePrice * numberOfSharesToSell;
-            sellerSharesToThUserEntity.AmountStocks -= numberOfSharesToSell;
-            customerSharesToThUserEntity.AmountStocks += numberOfSharesToSell;
             transactionRepositories.UpdateUserTable(seller);
             transactionRepositories.UpdateUserTable(customer);
             transactionRepositories.UpdateUserTable(sellerSharesToThUserEntity);
             transactionRepositories.UpdateUserTable(customerSharesToThUserEntity);
             transactionRepositories.SaveChanges();
-            Console.WriteLine("__________________________________________________________________________________");
-            Console.WriteLine(DateTime.Now + " | " + seller.Id + " | " + customer.Id + " | " + sharePrice + " | " + numberOfSharesToSell +" | " + customerSharesToThUserEntity.AmountStocks+ " | " + sellerSharesToThUserEntity.AmountStocks + " | ");
-            Console.WriteLine("__________________________________________________________________________________");
         }
 
         public void RegisterNewTransactionHistory(TransactionHistoryEntity transactionHistoryEntity)

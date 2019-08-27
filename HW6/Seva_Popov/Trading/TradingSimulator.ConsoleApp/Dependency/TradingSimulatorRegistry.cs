@@ -22,6 +22,7 @@ namespace TradingSimulator.ConsoleApp.Dependency
             this.For<AddingSharesToThUserService>().Use<AddingSharesToThUserService>();
             this.For<TransactionService>().Use<TransactionService>();
             this.For<ITradingStart>().Use<TradingStart>();
+            this.For<TradingSimulation>().Use<TradingSimulation>();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace TradingSimulator.ConsoleApp
         private readonly SharesService sharesService;
         private readonly AddingSharesToThUserService addingSharesToThUserService;
         private readonly TransactionService transactionService;
+        private readonly TradingSimulation tradingSimulation;
 
         public TradingStart(
             IUserTableRepository userTableRepository,
@@ -26,10 +27,11 @@ namespace TradingSimulator.ConsoleApp
             IAddingSharesToThUserServiceTableRepository addingSharesToThUserServiceTableRepository,
             ITransactionRepositories transactionRepositories,
             TradingSimulatorDbContext tradingSimulatorDbContext,
-            UserService userService, 
+            UserService userService,
             SharesService sharesService,
             AddingSharesToThUserService addingSharesToThUserService,
-            TransactionService transactionService)
+            TransactionService transactionService,
+            TradingSimulation tradingSimulation)
         {
             this.userTableRepository = userTableRepository;
             this.sharesTableRepository = sharesTableRepository;
@@ -40,7 +42,7 @@ namespace TradingSimulator.ConsoleApp
             this.sharesService = sharesService;
             this.addingSharesToThUserService = addingSharesToThUserService;
             this.transactionService = transactionService;
-
+            this.tradingSimulation = tradingSimulation;
         }
 
         public void Run()
@@ -59,31 +61,33 @@ namespace TradingSimulator.ConsoleApp
                 if (userSelectedNumber == 1)
                 {
                     Thread.Sleep(5000);
-                    UserEntity seller = transactionService.SelectUser();
-                    UserEntity customer = transactionService.SelectUser();
+                    UserEntity seller = tradingSimulation.ChooseARandomUser();
+                    UserEntity customer = tradingSimulation.ChooseARandomUser();
                     while (seller.Equals(customer))
                     {
-                        customer = transactionService.SelectUser();
+                        customer = tradingSimulation.ChooseARandomUser();
                     }
 
-                    AddingSharesToThUserEntity sellerSharesToThUserEntity = transactionService.SelectSharesToThUserEntity(seller);
+                    AddingSharesToThUserEntity sellerSharesToThUserEntity = tradingSimulation.SelectSharesAndUser(seller);
 
-                    SharesEntity sellerShares = transactionService.FindOutTheValueOfShares(sellerSharesToThUserEntity);
+                    SharesEntity sellerShares = tradingSimulation.ChooseShareskValue(sellerSharesToThUserEntity);
+                    
+                    AddingSharesToThUserEntity customerSharesToThUserEntity = tradingSimulation.SelectStocksForUserObjectParameters(customer, sellerShares);
 
-                    AddingSharesToThUserEntity customerSharesToThUserEntity = transactionService.SelectStocksForUserObjectParameters(customer, sellerShares);
+                    int Price = tradingSimulation.RandomNumberGenerator((int)sellerShares.Price);
 
-                    int Price = transactionService.RandomNumberGenerator((int)sellerShares.Price);
+                    int NumberOfShares = tradingSimulation.RandomNumberGenerator(sellerSharesToThUserEntity.AmountStocks);
 
-                    int NumberOfShares = transactionService.RandomNumberGenerator(sellerSharesToThUserEntity.AmountStocks);
+                    tradingSimulation.StockPurchaseTransaction(seller, customer, Price, NumberOfShares, sellerSharesToThUserEntity, customerSharesToThUserEntity);
 
-                    transactionService.StockPurchaseTransaction(seller, customer, Price, NumberOfShares, sellerSharesToThUserEntity, customerSharesToThUserEntity);
-
-                    TransactionHistoryEntity transactionHistoryEntity = new TransactionHistoryEntity() {
+                    TransactionHistoryEntity transactionHistoryEntity = new TransactionHistoryEntity()
+                    {
                         DateTimeBay = DateTime.Now,
                         SellerId = seller.Id,
                         CustomerId = customer.Id,
                         AmountShare = NumberOfShares,
-                        Cost = Price};
+                        Cost = Price
+                    };
                     transactionService.RegisterNewTransactionHistory(transactionHistoryEntity);
                 }      
             }
