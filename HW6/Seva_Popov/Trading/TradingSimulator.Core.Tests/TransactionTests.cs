@@ -36,5 +36,33 @@ namespace TradingSimulator.Core.Tests
             ));
             transactionRepositories.Received(1).SaveChanges();
         }
+
+        [TestMethod]
+        public void ShouldGetSharesList()
+        {
+            var transactionRepositories = Substitute.For<ITransactionRepositories>();
+            TransactionService transactionService = new TransactionService(transactionRepositories);
+            UserEntity userEntity = new UserEntity();
+
+            var sharesList = transactionService.SelectSharesToThUserEntity(userEntity);
+
+            transactionRepositories.Received(1).GetUserAndShareList(userEntity);
+        }
+
+        [TestMethod]
+        public void ShouldUpdateUserTable()
+        {
+            var transactionRepositories = Substitute.For<ITransactionRepositories>();
+            TransactionService transactionService = new TransactionService(transactionRepositories);
+            UserEntity userEntity1 = new UserEntity() { Balance = 1000 };
+            UserEntity userEntity2 = new UserEntity();
+            AddingSharesToThUserEntity addingSharesToThUserEntity1 = new AddingSharesToThUserEntity(); 
+            AddingSharesToThUserEntity addingSharesToThUserEntity2 = new AddingSharesToThUserEntity();
+
+            transactionService.StockPurchaseTransaction(userEntity1, userEntity2, 10, 3, addingSharesToThUserEntity1, addingSharesToThUserEntity2);
+
+            transactionRepositories.Received(1).UpdateUserTable(Arg.Is<UserEntity>(w => w.Balance == userEntity1.Balance));
+            transactionRepositories.Received(1).SaveChanges();
+        }
     }
 }

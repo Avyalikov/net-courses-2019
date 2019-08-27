@@ -9,7 +9,6 @@ namespace TradingSimulator.Core.Services
     public class TransactionService
     {
         private readonly ITransactionRepositories transactionRepositories;
-        Random random = new Random();
 
         public TransactionService(ITransactionRepositories transactionRepositories)
         {
