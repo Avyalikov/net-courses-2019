@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading;
+    using System.Threading.Tasks;
     using StructureMap;
     using Traiding.Core.Dto;
     using Traiding.Core.Services;
@@ -27,7 +28,7 @@
             this.shareTypesService = traidingRegistryContainer.GetInstance<ShareTypesService>();            
         }
 
-        public void traiding()
+        public void traiding(CancellationToken token)
         {
             int count = 3;
             int clientsCount;
@@ -37,7 +38,7 @@
             int randSharesNumber;
             Random rand = new Random();
 
-            while (true)
+            while (!token.IsCancellationRequested)
             {
                 clientsCount = this.reportsService.GetClientsCount();
                 sharesCount = this.reportsService.GetSharesCount();
@@ -89,7 +90,10 @@
              * Enter the number for action or 't' for switch to 'Traiding Live!' or 'e' for Exit.
              */
 
-            Thread traidingLive = new Thread(traiding);
+            CancellationTokenSource traidingCancelTokenSource = new CancellationTokenSource();
+            CancellationToken traidingCancellationToken = traidingCancelTokenSource.Token;
+
+            Task traidingLive = new Task(() => traiding(traidingCancellationToken));
 
             traidingLive.Start();
 
@@ -130,7 +134,8 @@
             } while (inputString != "e");
 
             //Console.ReadKey();
-            traidingLive.Abort();
+            traidingCancelTokenSource.Cancel();
+            traidingLive.Wait();
         }
 
         //public void viewDealHistory()
