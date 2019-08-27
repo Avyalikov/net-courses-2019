@@ -88,8 +88,11 @@ namespace stockSimulator.Core.Tests
                 }
             };
 
-            Assert.AreEqual(clientsWithMoney, clients);
-            this.clientTableRepository.Received(1).SaveChanges();
+            for (int i = 0; i < 2; i++)
+            {
+                Assert.IsTrue( clientsWithMoney.ElementAt(i).Equals(clients.ElementAt(i)), $"Client {clientsWithMoney.ElementAt(i).Name}" +
+                    $" not equal {clients.ElementAt(i).Name}" );
+            }
         }
         [TestMethod]
         public void ShouldReturnListOfClientsInOrangeZone()
@@ -113,8 +116,11 @@ namespace stockSimulator.Core.Tests
                 }
             };
 
-            Assert.AreEqual(clientsWithoutMoney, clients);
-            this.clientTableRepository.Received(1).SaveChanges();
+            for (int i = 0; i < 1; i++)
+            {
+                Assert.IsTrue(clientsWithoutMoney.ElementAt(i).Equals(clients.ElementAt(i)), $"Client {clientsWithoutMoney.ElementAt(i).Name}" +
+                    $" not equal {clients.ElementAt(i).Name}");
+            }
         }
 
         [TestMethod]
@@ -146,8 +152,11 @@ namespace stockSimulator.Core.Tests
                 }
             };
 
-            Assert.AreEqual(clientsWithDebts, clients);
-            this.clientTableRepository.Received(1).SaveChanges();
+            for (int i = 0; i < 2; i++)
+            {
+                Assert.IsTrue(clientsWithDebts.ElementAt(i).Equals(clients.ElementAt(i)), $"Client {clientsWithDebts.ElementAt(i).Name}" +
+                    $" not equal {clients.ElementAt(i).Name}");
+            }
         }
     }
 }
