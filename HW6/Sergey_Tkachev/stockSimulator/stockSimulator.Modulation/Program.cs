@@ -12,9 +12,15 @@ namespace stockSimulator.Modulation
     {
         static void Main(string[] args)
         {
-            var container = new Container(new StockSimulatorRegistry());
+            
+            using (var db = new StockSimulatorDbContext())
+            {
+                db.Database.Initialize(true);
+                var container = new Container(new StockSimulatorRegistry());
 
-           
+                //Console.ReadKey();
+            }
+
         }
     }
 }

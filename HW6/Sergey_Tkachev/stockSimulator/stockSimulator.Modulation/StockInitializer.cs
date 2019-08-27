@@ -8,8 +8,16 @@ using System.Threading.Tasks;
 
 namespace stockSimulator.Modulation
 {
-    class StockInitializer : DropCreateDatabaseIfModelChanges<StockSimulatorDbContext>
+    class StockInitializer : DropCreateDatabaseAlways<StockSimulatorDbContext>
     {
+        public override void InitializeDatabase(StockSimulatorDbContext context)
+        {
+            context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction
+                , string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", context.Database.Connection.Database));
+
+            base.InitializeDatabase(context);
+        }
+
         protected override void Seed(StockSimulatorDbContext context)
         {
             var clients = new List<ClientEntity>
