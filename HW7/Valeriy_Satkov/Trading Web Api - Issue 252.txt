@@ -1,0 +1,39 @@
+https://github.com/chesdenis/net-courses-2019/issues/252
+Trading Web Api #252
+
+Заказчик, которому вы разработали приложение в прошлый раз обратился к Вам снова.
+На этот раз он хочет опубликовать свое приложение в интернете и вести торги с помощью интернет технологий.
+
+Часть 1:
+Нужно создать web api приложение для работы с клиентами и их акциями.
+Заказчик также попросил чтобы в интернете были доступны следующие адреса-запросы (endpoints):
+
+а) Работа с клиентами:
+GET http://tradings.customer.com/clients?top=10&page=1 - должен возвращать список из первых 10 клиентов. *продумать реализацию параметра page
+
+POST http://tradings.customer.com/clients/add
+POST http://tradings.customer.com/clients/update
+POST http://tradings.customer.com/clients/remove
+
+б) Работа с акциями клиентов:
+
+GET http://tradings.customer.com/shares?clientId=... - должен выводить акции клиента с их стоимостью.
+
+POST http://tradings.customer.com/shares/add
+POST http://tradings.customer.com/shares/update
+POST http://tradings.customer.com/shares/remove
+
+в) отображение баланса клиента:
+GET http://tradings.customer.com/balances?clientId=... - должен также возвращать статус клиента - оранжевый, черный, зеленый.
+
+г) отображение первых N сделок по каждому клиенту:
+GET http://tradings.customer.com/transactions?clientId=...&top=...
+
+д) совершение сделки:
+POST http://trading.customer.com/deal/make
+
+Api не должно содержать бизнес логику. Приложение должно использовать trading core проект, который уже был покрыт тестами в предыдудщем задании.
+
+Часть 2:
+
+Нужно переписать симулятор торговли так, чтобы он вызывал методы сервиса trading core проекта через web api, используя httwebrequest и httpwebresponse.
