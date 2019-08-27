@@ -179,9 +179,7 @@
              * decimal Total { get; set; } // Total = Cost * Number
              */
 
-            this.operationTableRepository.FillCustomerColumns(blockedMoney);
-            this.operationTableRepository.FillSellerColumns(blockedSharesNumber);
-            this.operationTableRepository.SetChargeDate(blockedMoney.Operation.Id, DateTime.Now);
+            this.operationTableRepository.FillAllColumns(blockedMoney, blockedSharesNumber, DateTime.Now);
 
             this.operationTableRepository.SaveChanges();
         }

@@ -97,9 +97,7 @@
             salesService.FillOperationColumns(testBlockedMoney, testBlockedSharesNumber);
 
             // Assert
-            operationTableRepository.Received(1).FillCustomerColumns(testBlockedMoney);
-            operationTableRepository.Received(1).FillSellerColumns(testBlockedSharesNumber);
-            operationTableRepository.Received(1).SetChargeDate(testBlockedMoney.Operation.Id, Arg.Any<DateTime>());
+            operationTableRepository.Received(1).FillAllColumns(testBlockedMoney, testBlockedSharesNumber, Arg.Any<DateTime>());
             operationTableRepository.Received(1).SaveChanges();
         }
 
