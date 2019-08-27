@@ -4,6 +4,7 @@ using stockSimulator.Modulation.Repositories;
 using StructureMap;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ namespace stockSimulator.Modulation.Dependencies
             this.For<StockService>().Use<StockService>();
             this.For<TransactionService>().Use<TransactionService>();
 
+            this.For<StockSimulatorDbContext>().Use<StockSimulatorDbContext>().Ctor<string>("connectionString")
+                .Is(ConfigurationManager.ConnectionStrings["stockSimulatorConnectionString"].ConnectionString);
         }
     }
 }

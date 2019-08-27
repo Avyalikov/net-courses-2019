@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,6 +61,7 @@
     <Compile Include="Repositories\StockOfClientsTableRepository.cs" />
     <Compile Include="Repositories\StockTableRepository.cs" />
     <Compile Include="Repositories\TransactionHistoryTableRepository.cs" />
+    <Compile Include="StockInitializer.cs" />
     <Compile Include="StockSimulatorDbContext.cs" />
   </ItemGroup>
   <ItemGroup>

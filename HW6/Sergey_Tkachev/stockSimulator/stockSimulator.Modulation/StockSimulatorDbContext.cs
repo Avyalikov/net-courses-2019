@@ -18,13 +18,14 @@ namespace stockSimulator.Modulation
 
         public DbSet<StockOfClientsEntity> StockOfClients { get; set; }
 
-        public StockSimulatorDbContext(string connectionString) : base(connectionString)
+        public StockSimulatorDbContext() : base("name=StockSimulatorDbContext")
         {
+            Database.SetInitializer(new StockInitializer());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
+            
         }
     }
 }
