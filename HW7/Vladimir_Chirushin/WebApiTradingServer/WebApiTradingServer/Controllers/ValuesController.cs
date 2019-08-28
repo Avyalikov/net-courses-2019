@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using TradingSoftware.Core.Models;
+using TradingSoftware.Core.Services;
 
 namespace WebApiTradingServer.Controllers
 {
@@ -18,6 +20,7 @@ namespace WebApiTradingServer.Controllers
         public SubData SomeSubDataB { get; set; }
     }
 
+    
 
     [Route("api/[controller]")]
     [ApiController]
