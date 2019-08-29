@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
 
@@ -43,6 +44,27 @@
         public void AddTransaction(Transaction transaction)
         {
             this.transactionRepository.Insert(transaction);
+        }
+
+
+        public IEnumerable<TransactionsFullData> GetTransactionWithClient(int clientID)
+        {
+            var transactions = transactionRepository.GetTransactionWithClient(clientID);
+            List<TransactionsFullData> transactionsFullData = new List<TransactionsFullData>();
+            foreach (var transaction in transactions )
+            {
+                transactionsFullData.Add(
+                    new TransactionsFullData
+                    {
+                        SellerName = clientManager.GetClientName(transaction.SellerID),
+                        BuyerName = clientManager.GetClientName(transaction.BuyerID),
+                        ShareType = sharesRepository.GetShareType(transaction.ShareID),
+                        SharePrice = sharesRepository.GetSharePrice(transaction.ShareID),
+                        ShareAmount = transaction.Amount
+                    });
+            }
+
+            return transactionsFullData;
         }
 
         public IEnumerable<Transaction> GetAllTransactions()

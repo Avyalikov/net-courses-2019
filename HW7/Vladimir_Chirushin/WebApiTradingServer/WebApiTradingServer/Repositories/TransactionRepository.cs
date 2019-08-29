@@ -25,5 +25,19 @@
                 return query;
             }
         }
+
+
+        public IEnumerable<Transaction> GetTransactionWithClient(int clientID)
+        {
+            using (var db = new TradingContext())
+            {
+                IEnumerable<Transaction> query = db.TransactionHistory
+                    .Where(t=>t.BuyerID == clientID ||
+                              t.SellerID == clientID)
+                    .AsEnumerable<Transaction>()
+                    .ToList();
+                return query;
+            }
+        }
     }
 }

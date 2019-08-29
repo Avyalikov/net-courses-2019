@@ -8,5 +8,7 @@
         void Insert(Transaction transaction);
 
         IEnumerable<Transaction> GetAllTransaction();
+
+        IEnumerable<Transaction> GetTransactionWithClient(int clientID);
     }
 }

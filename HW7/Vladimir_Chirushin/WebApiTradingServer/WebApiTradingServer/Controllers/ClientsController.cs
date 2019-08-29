@@ -5,7 +5,7 @@ using TradingSoftware.Core.Services;
 
 namespace WebApiTradingServer.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ClientsController : ControllerBase
     {

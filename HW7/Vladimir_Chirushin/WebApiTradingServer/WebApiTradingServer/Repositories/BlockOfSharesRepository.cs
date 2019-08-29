@@ -53,5 +53,13 @@
                 return db.BlockOfSharesTable.OrderBy(b => b.ClientID).AsEnumerable<BlockOfShares>().ToList();
             }
         }
+
+        public IEnumerable<BlockOfShares> GetClientShares(int clientID)
+        {
+            using (var db = new TradingContext())
+            {
+                return db.BlockOfSharesTable.Where(b => b.ClientID == clientID).AsEnumerable<BlockOfShares>().ToList();
+            }
+        }
     }
 }

@@ -513,6 +513,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MakeController.cs" />
+    <Compile Include="Controllers\TransactionsController.cs" />
+    <Compile Include="Controllers\SharesController.cs" />
+    <Compile Include="Services\SimulationManager.cs" />
     <Compile Include="TradingContext.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

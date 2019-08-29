@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\ClientShares.cs" />
+    <Compile Include="Dto\TransactionsFullData.cs" />
     <Compile Include="Models\BlockOfShares.cs" />
     <Compile Include="Models\Client.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -64,5 +66,6 @@
     <Compile Include="Services\ShareManager.cs" />
     <Compile Include="Services\TransactionManager.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

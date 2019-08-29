@@ -33,6 +33,11 @@
             return this.blockOfSharesRepository.GetClientShareAmount(clientID, shareID);
         }
 
+        public IEnumerable<BlockOfShares> GetClientShares(int clientID)
+        {
+            return this.blockOfSharesRepository.GetClientShares(clientID);
+        }
+
         public IEnumerable<BlockOfShares> GetAllBlockOfShares()
         {
             IEnumerable<BlockOfShares> allShares = this.blockOfSharesRepository.GetAllBlockOfShares();

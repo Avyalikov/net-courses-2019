@@ -2,6 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
+    using System;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
     using TradingSoftware.Core.Services;
@@ -89,6 +90,12 @@
 
             // Asserts
             blockOfSharesRepositoryMock.Received(1).GetAllBlockOfShares();
+        }
+
+        [TestMethod]
+        public void GetClientSharesTest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace TradingSoftware.Core.Services
 {
     using System.Collections.Generic;
+    using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Models;
 
     public interface ITransactionManager
@@ -14,5 +15,7 @@
         void TransactionAgent(Transaction transaction);
 
         IEnumerable<Transaction> GetAllTransactions();
+
+        IEnumerable<TransactionsFullData> GetTransactionWithClient(int clientID);
     }
 }

@@ -2,6 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
+    using System;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
     using TradingSoftware.Core.Services;
@@ -470,7 +471,16 @@
             // Asserts
             clientManagerMock
                 .Received(1)
-                .ChangeBalance(transaction.SellerID,  calculatedSharesPrice);
+                .ChangeBalance(transaction.SellerID, calculatedSharesPrice);
+
+
+
+        }
+
+        [TestMethod]
+        public void GetTransactionWithClientTest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

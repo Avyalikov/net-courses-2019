@@ -14,5 +14,7 @@
         void ChangeShareAmountForClient(BlockOfShares blockOfShares);
 
         IEnumerable<BlockOfShares> GetAllBlockOfShares();
+
+        IEnumerable<BlockOfShares> GetClientShares(int clientID);
     }
 }
