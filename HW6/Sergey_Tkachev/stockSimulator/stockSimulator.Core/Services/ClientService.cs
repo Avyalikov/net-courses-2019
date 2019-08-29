@@ -44,7 +44,7 @@ namespace stockSimulator.Core.Services
         {
             if (!this.clientTableRepository.ContainsById(clientId))
             {
-                throw new ArgumentException("Can't get client by this ID. May be it has not been registered.");
+                throw new ArgumentException($"Can't get client by {clientId} ID. May be it has not been registered.");
             }
 
             return this.clientTableRepository.Get(clientId);

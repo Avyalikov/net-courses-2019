@@ -9,6 +9,6 @@ namespace stockSimulator.Core.Models
         public string Type { get; set; }
         public decimal Cost { get; set; }
 
-        public virtual IEnumerable<StockOfClientsEntity> Stocks { get; set; }
+        public virtual ICollection<StockOfClientsEntity> Clients { get; set; }
     }
 }

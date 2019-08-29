@@ -12,7 +12,7 @@ namespace stockSimulator.Core.Models
         public DateTime CreateAt { get; set; }
         public decimal AccountBalance { get; set; }
 
-        public virtual IEnumerable<StockOfClientsEntity> Stocks { get; set; }
+        public virtual ICollection<StockOfClientsEntity> Stocks { get; set; }
 
         public bool Equals(ClientEntity other)
         {
