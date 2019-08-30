@@ -20,13 +20,13 @@ namespace WebApiTradingServer.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get(int clientID)
         {
-            IEnumerable<BlockOfShares> clientShares = blockOfSharesManager.GetClientShares(clientID);
-            List<string> answer = new List<string>();
+            return Ok(blockOfSharesManager.GetClientShares(clientID));
+            /*List<string> answer = new List<string>();
             foreach (var share in clientShares)
             {
                 answer.Add($"ShareID:{share.ShareID} ShareAmount: {share.Amount}");
             }
-            return answer.ToArray();
+            return answer.ToArray();*/
         }
 
         // POST api/values

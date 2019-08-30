@@ -133,5 +133,24 @@
             this.clientManager.ChangeBalance(transaction.BuyerID, -1 * sharePrice * transaction.Amount);
             this.clientManager.ChangeBalance(transaction.SellerID, sharePrice * transaction.Amount);
         }
+
+        public bool Make(int sellerID, int buyerID, int shareID, int shareAmount)
+        {
+            var transaction = new Transaction
+            {
+                dateTime = DateTime.Now,
+                SellerID = sellerID,
+                BuyerID = buyerID,
+                ShareID = shareID,
+                Amount = shareAmount
+            };
+            if (this.Validate(transaction))
+            {
+                this.TransactionAgent(transaction);
+                this.AddTransaction(transaction);
+                return true;
+            }
+            return false;
+        }
     }
 }

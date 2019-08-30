@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TradingSoftware.Core.Models;
 using TradingSoftware.Core.Services;
+using System.Linq;
 
 namespace WebApiTradingServer.Controllers
 {
@@ -18,16 +19,11 @@ namespace WebApiTradingServer.Controllers
 
         // GET api/clients
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        { 
-            IEnumerable<Client> clients = clientManager.GetAllClients();
-            List<string> answer = new List<string>();
-            foreach (var client in clients)
-            {
-                answer.Add($"ClientID:{client.ClientID} Name: {client.Name} PhoneNumber: {client.PhoneNumber} Balance: {client.Balance}");
-            }
-            string[] answerString = answer.ToArray();
-            return answerString;
+        public ActionResult<IEnumerable<Client>> Get(int top, int page)
+        {
+            //IEnumerable<Client> clients =
+            return Ok(clientManager.GetAllClients().Select(c => new { c.Name, c.Balance }).Skip((page - 1) * top).Take(top));
+
         }
 
         // POST api/values
@@ -35,6 +31,37 @@ namespace WebApiTradingServer.Controllers
         public ActionResult<string> Post([FromBody] ValuesRequestData value)
         {
             return new ActionResult<string>("testResponse");
+        }
+    }
+
+
+    [Route("api/clients/[controller]")]
+    [ApiController]
+    public class AddController : ControllerBase
+    {
+        private readonly IClientManager clientManager;
+
+        public AddController(IClientManager clientManager)
+        {
+            this.clientManager = clientManager;
+        }
+
+
+        // POST api/values
+        [HttpPost]
+        public ActionResult<string> Post([FromBody] Client client)
+        {
+            clientManager.AddClient(client);
+            return new ActionResult<string>("testResponse");
+        }
+
+        // GET api/clients
+        [HttpGet]
+        public ActionResult<IEnumerable<Client>> Get(int top, int page)
+        {
+            //IEnumerable<Client> clients =
+            return Ok(clientManager.GetAllClients().Select(c => new { c.Name, c.Balance }).Skip((page - 1) * top).Take(top));
+
         }
     }
 }
