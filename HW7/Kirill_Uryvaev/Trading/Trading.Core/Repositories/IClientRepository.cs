@@ -11,5 +11,7 @@ namespace Trading.Core.Repositories
         IEnumerable<ClientEntity> LoadAllClients();
         ClientEntity LoadClientByID(int ID);
         void Add(ClientEntity client);
+        void Update(ClientEntity client);
+        void Remove(int ID);
     }
 }

@@ -1,7 +1,11 @@
 ﻿using Microsoft.Owin.Hosting;
+using Microsoft.Owin;
+using Owin;
 using System;
 using System.Net.Http;
-
+using StructureMap;
+using System.Web.Http;
+using System.Threading.Tasks;
 
 namespace Trading.WebApp
 {
@@ -11,18 +15,18 @@ namespace Trading.WebApp
         {
             string baseAddress = "http://localhost:9000/";
 
-            
+            string exitKey = "e";
+            string userInput = "";
             // Start OWIN host 
-            using (Microsoft.Owin.Hosting.WebApp.Start<Startup>(url: baseAddress))
+            using (var webApp = Microsoft.Owin.Hosting.WebApp.Start<Startup>(url: baseAddress))
             {
-                // Create HttpCient and make a request to api/values 
-                HttpClient client = new HttpClient();
+                Console.WriteLine($"{DateTime.Now} Server started");
+                while (!userInput.ToLower().Equals(exitKey))
+                {
+                    userInput = Console.ReadLine();
+                }
 
-                var response = client.GetAsync(baseAddress + "api/clients").Result;
-
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
-                Console.ReadLine();
+                
             }
         }
     }

@@ -12,13 +12,11 @@ namespace Trading.Core
     public class TradeValidator : IValidator
     {
         private readonly IClientRepository clientsRepository;
-        private readonly IShareRepository shareRepository;
         private readonly IClientsSharesRepository clientsSharesRepository;
 
-        public TradeValidator(IClientRepository clientsRepository, IShareRepository shareRepository, IClientsSharesRepository clientsSharesRepository)
+        public TradeValidator(IClientRepository clientsRepository, IClientsSharesRepository clientsSharesRepository)
         {
             this.clientsRepository = clientsRepository;
-            this.shareRepository = shareRepository;
             this.clientsSharesRepository = clientsSharesRepository;
         }
 
@@ -38,16 +36,6 @@ namespace Trading.Core
             return true;
         }
 
-        public bool ValidateShareInfo(ShareRegistrationInfo shareInfo, ILogger logger)
-        {
-            if (shareInfo.Cost<1)
-            {
-                logger.WriteWarn("Share cannot have cost less than 1");
-                return false;
-            }
-            return true;
-        }
-
         public bool ValidateShareToClient(ClientsSharesInfo shareToClientInfo, ILogger logger)
         {
 
@@ -63,13 +51,13 @@ namespace Trading.Core
                 return false;
             }
 
-            if (shareRepository.LoadShareByID(shareToClientInfo.ShareID) == null)
+            var clientSharesInfo = new ClientsSharesEntity()
             {
-                logger.WriteWarn($"Share with ID {shareToClientInfo.ShareID} not exist");
-                return false;
-            }
+                ClientID = shareToClientInfo.ClientID,
+                ShareID = shareToClientInfo.ShareID
+            };
 
-            var clientsSharesEntity = clientsSharesRepository.LoadClientsSharesByID(shareToClientInfo);
+            var clientsSharesEntity = clientsSharesRepository.LoadClientsSharesByID(clientSharesInfo);
 
             if (clientsSharesEntity != null)
             {

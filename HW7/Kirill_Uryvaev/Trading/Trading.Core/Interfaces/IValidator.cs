@@ -10,7 +10,6 @@ namespace Trading.Core
     public interface IValidator
     {
         bool ValidateClientInfo(ClientRegistrationInfo clientInfo, ILogger logger);
-        bool ValidateShareInfo(ShareRegistrationInfo shareInfo, ILogger logger);
         bool ValidateShareToClient(ClientsSharesInfo shareToClientInfo, ILogger logger);
         bool ValidateClientMoney(int clientID, int amountOfMoney, ILogger logger);
         bool ValidateClientList(IEnumerable<ClientEntity> clients, ILogger logger);

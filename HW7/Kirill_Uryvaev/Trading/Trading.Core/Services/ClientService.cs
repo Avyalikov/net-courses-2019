@@ -17,7 +17,7 @@ namespace Trading.Core.Services
             this.clientsRepository = clientsRepository;
         }
 
-        public int RegisterClient(ClientRegistrationInfo clientInfo)
+        public int AddClient(ClientRegistrationInfo clientInfo)
         {
             var clientToAdd = new ClientEntity()
             {
@@ -32,14 +32,20 @@ namespace Trading.Core.Services
             return clientToAdd.ClientID;
         }
 
-        public void ChangeMoney(int id, decimal amount)
+        public void UpdateClient(ClientEntity client)
         {
-            var client = clientsRepository.LoadClientByID(id);
-            if (client==null)
+            clientsRepository.Update(client);
+            clientsRepository.SaveChanges();
+        }
+
+        public void RemoveClient(int ID)
+        {
+            var client = clientsRepository.LoadClientByID(ID);
+            if (client ==null)
             {
                 return;
             }
-            client.ClientBalance += amount;
+            clientsRepository.Remove(ID);
             clientsRepository.SaveChanges();
         }
 
@@ -48,14 +54,19 @@ namespace Trading.Core.Services
             return clientsRepository.LoadAllClients();
         }
 
+        public IEnumerable<ClientEntity> GetClientsFromGreenZone()
+        {
+            return clientsRepository.LoadAllClients().Where(x => x.ClientBalance.ClientBalance > 0);
+        }
+
         public IEnumerable<ClientEntity> GetClientsFromOrangeZone()
         {
-            return clientsRepository.LoadAllClients().Where(x=>x.ClientBalance==0);
+            return clientsRepository.LoadAllClients().Where(x=>x.ClientBalance.ClientBalance==0);
         }
 
         public IEnumerable<ClientEntity> GetClientsFromBlackZone()
         {
-            return clientsRepository.LoadAllClients().Where(x => x.ClientBalance < 0);
+            return clientsRepository.LoadAllClients().Where(x => x.ClientBalance.ClientBalance < 0);
         }
     }
 }

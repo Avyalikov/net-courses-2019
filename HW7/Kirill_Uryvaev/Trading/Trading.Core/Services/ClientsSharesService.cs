@@ -17,26 +17,40 @@ namespace Trading.Core.Services
             this.clientsSharesRepository = clientsSharesRepository;
         }
 
-        public int ChangeClientsSharesAmount(ClientsSharesInfo clientsSharesInfo)
+        public void RemoveShares(ClientsSharesEntity clientsSharesInfo)
         {
-            var clientSharesToChange = clientsSharesRepository.LoadClientsSharesByID(clientsSharesInfo);
-            if (clientSharesToChange !=null)
+            var clientSharesToRemove = clientsSharesRepository.LoadClientsSharesByID(clientsSharesInfo);
+            if (clientSharesToRemove == null)
             {
-                clientSharesToChange.Amount += clientsSharesInfo.Amount;
+                return;
             }
-            else
+            clientsSharesRepository.Remove(clientSharesToRemove);
+            clientsSharesRepository.SaveChanges();
+        }
+
+        public void AddShares(ClientsSharesInfo clientsSharesInfo)
+        {
+            var clientsShares = new ClientsSharesEntity()
             {
-                clientSharesToChange = new ClientsSharesEntity()
-                {
-                    ShareID = clientsSharesInfo.ShareID,
-                    ClientID = clientsSharesInfo.ClientID,
-                    Amount = clientsSharesInfo.Amount,
-                };
-                clientsSharesRepository.Add(clientSharesToChange);
+                ClientID = clientsSharesInfo.ClientID,
+                ShareID = clientsSharesInfo.ShareID,
+                Amount = clientsSharesInfo.Amount,
+                CostOfOneShare = clientsSharesInfo.CostOfOneShare
+            };
+            var clientSharesToAdd = clientsSharesRepository.LoadClientsSharesByID(clientsShares);
+            if (clientSharesToAdd != null)
+            {
+                return;
             }
+            clientsSharesRepository.Add(clientsShares);
+            clientsSharesRepository.SaveChanges();
+        }
+
+        public void UpdateShares(ClientsSharesEntity clientsSharesInfo)
+        {
+            clientsSharesRepository.Update(clientsSharesInfo);
 
             clientsSharesRepository.SaveChanges();
-            return (int)clientSharesToChange.Amount;
         }
     }
 }

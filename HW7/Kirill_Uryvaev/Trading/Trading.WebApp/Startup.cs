@@ -1,5 +1,6 @@
 ﻿using Owin;
 using System.Web.Http;
+using StructureMap;
 
 namespace Trading.WebApp
 {
@@ -12,10 +13,16 @@ namespace Trading.WebApp
             HttpConfiguration config = new HttpConfiguration();
             config.Routes.MapHttpRoute(
                 name: "ControllersApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            StructureMapDependencyResolver container = new StructureMapDependencyResolver();
+
+            config.DependencyResolver = container;
+            config.Formatters.JsonFormatter.SerializerSettings
+            .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            appBuilder.Use<Logger>();
             appBuilder.UseWebApi(config);
         }
     }

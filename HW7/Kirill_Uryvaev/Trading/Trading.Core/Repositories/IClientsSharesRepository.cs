@@ -10,6 +10,8 @@ namespace Trading.Core.Repositories
     public interface IClientsSharesRepository: IDBTable
     {
         void Add(ClientsSharesEntity clientsShares);
-        ClientsSharesEntity LoadClientsSharesByID(ClientsSharesInfo clientsShares);
+        void Update(ClientsSharesEntity clientsShares);
+        void Remove(ClientsSharesEntity clientsShares);
+        ClientsSharesEntity LoadClientsSharesByID(ClientsSharesEntity clientsShares);
     }
 }

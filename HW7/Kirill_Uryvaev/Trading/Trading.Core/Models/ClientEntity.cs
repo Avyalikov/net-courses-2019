@@ -19,9 +19,9 @@ namespace Trading.Core
 
         public string PhoneNumber { get; set; }
 
-        public decimal? ClientBalance { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientsSharesEntity> ClientsShares { get; set; }
-    }
+
+        public virtual BalanceEntity ClientBalance {get; set;}
+}
 }

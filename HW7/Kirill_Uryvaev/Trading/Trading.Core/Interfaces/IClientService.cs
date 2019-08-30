@@ -5,10 +5,12 @@ namespace Trading.Core
 {
     public interface IClientService
     {
-        void ChangeMoney(int id, decimal amount);
         IEnumerable<ClientEntity> GetAllClients();
         IEnumerable<ClientEntity> GetClientsFromBlackZone();
         IEnumerable<ClientEntity> GetClientsFromOrangeZone();
-        int RegisterClient(ClientRegistrationInfo clientInfo);
+        IEnumerable<ClientEntity> GetClientsFromGreenZone();
+        int AddClient(ClientRegistrationInfo clientInfo);
+        void UpdateClient(ClientEntity client);
+        void RemoveClient(int ID);
     }
 }
