@@ -1,0 +1,26 @@
+{
+  "Sold": "sold",
+  "SharesOf": "shares of",
+  "To": "to",
+
+  "Choose": "Choose : ",
+  "EnterName": "Enter name: ",
+  "EnterSuname": "Enter surname: ",
+  "EnterPhone": "Enter phone: ",
+  "EnterMoney": "Enter money: ",
+  "EnterPrice": "Enter price: ",
+  "EnterQuantity": "Enter quantity: ",
+
+  "Success": "Added successfully",
+  "EmptyName": "Your name and surname can't be empty",
+  "NameNotLetter": "Your name and surname must contains only letter",
+  "LongName": "Your name and surname might not have longer than 20 symbols together",
+  "PhonePlus": "Your phone must start with state code (start with +)",
+  "PhoneRegion": "Your phone must contains region code",
+  "PhoneIsLetter": "Phone mustn't contane letters",
+  "MoneyIsNumber": "Money must be a number",
+  "IncorrectID": "Incorrect ID",
+  "ShareIsLetter": "Share name must contains only letter",
+  "PriceIsLetter": "Price must be a number",
+  "QuantityIsLetter": "Quantity must be a number"
+}

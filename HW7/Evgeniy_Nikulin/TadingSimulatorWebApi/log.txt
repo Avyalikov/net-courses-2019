@@ -1,0 +1,36 @@
+2019-08-30 21:02:54,747  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 POST http://localhost/deal/make?sellerId=1&buyerId=2&shareName=Activision%20Blizzard&quantity=1 application/x-www-form-urlencoded 0
+ 2019-08-30 21:02:54,818  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.MakeController.Post (TadingSimulatorWebApi)'
+ 2019-08-30 21:02:54,872  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Post", controller = "Make"}. Executing controller action with signature Void Post(Int32, Int32, System.String, Int32) on controller TadingSimulatorWebApi.Controllers.MakeController (TadingSimulatorWebApi).
+ 2019-08-30 21:02:58,553  INFO Logger.? [?] - MESSAGE: transaction done
+ 2019-08-30 21:02:58,559  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.MakeController.Post (TadingSimulatorWebApi) in 3682.1800000000003ms
+ 2019-08-30 21:02:58,561  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.MakeController.Post (TadingSimulatorWebApi)'
+ 2019-08-30 21:02:58,567  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3829.985ms 200 
+ 2019-08-30 21:35:35,935  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=10&page=1  
+ 2019-08-30 21:35:35,993  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-30 21:35:36,045  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.Clients.ClientsController (TadingSimulatorWebApi).
+ 2019-08-30 21:35:40,555  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-30 21:35:40,565  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi) in 4513.5998ms
+ 2019-08-30 21:35:40,568  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-30 21:35:40,573  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 4647.0977ms 200 text/plain; charset=utf-8
+ 2019-08-30 21:35:53,368  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=1  
+ 2019-08-30 21:35:53,371  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-30 21:35:53,373  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.Clients.ClientsController (TadingSimulatorWebApi).
+ 2019-08-30 21:35:53,386  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-30 21:35:53,388  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi) in 13.307300000000001ms
+ 2019-08-30 21:35:53,391  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-30 21:35:53,394  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 25.614800000000002ms 200 text/plain; charset=utf-8
+ 2019-08-30 21:35:57,983  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=2  
+ 2019-08-30 21:35:57,987  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-30 21:35:57,989  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.Clients.ClientsController (TadingSimulatorWebApi).
+ 2019-08-30 21:35:57,999  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-30 21:35:58,003  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi) in 9.6799ms
+ 2019-08-30 21:35:58,004  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-30 21:35:58,008  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 24.1585ms 200 text/plain; charset=utf-8
+ 2019-08-30 21:36:06,252  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 POST http://localhost/deal/make?sellerId=1&buyerId=2&shareName=Activision%20Blizzard&quantity=1 application/x-www-form-urlencoded 0
+ 2019-08-30 21:36:06,255  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.MakeController.Post (TadingSimulatorWebApi)'
+ 2019-08-30 21:36:06,260  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Post", controller = "Make"}. Executing controller action with signature Void Post(Int32, Int32, System.String, Int32) on controller TadingSimulatorWebApi.Controllers.MakeController (TadingSimulatorWebApi).
+ 2019-08-30 21:36:06,487  INFO Logger.? [?] - MESSAGE: Brian Kelly sold 99 shares of Activision Blizzard to Yves Guillemot
+ 2019-08-30 21:36:06,489  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.MakeController.Post (TadingSimulatorWebApi) in 226.92870000000002ms
+ 2019-08-30 21:36:06,490  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.MakeController.Post (TadingSimulatorWebApi)'
+ 2019-08-30 21:36:06,494  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 240.7638ms 200 
+ 
