@@ -32,30 +32,32 @@ namespace Trading.Core.Services
             sharesTableRepository.SaveChanges();
         }
 
-        public void RemoveShares(SharesEntity sharesToRemove)
+        public void RemoveShares(SharesEntity sharesInfo)
         {
-            if (!sharesTableRepository.Contains(sharesToRemove))
+            if (!sharesTableRepository.Contains(sharesInfo))
             {
                 throw new ArgumentException("This shares type doesn't exist");
             }
-
-            sharesTableRepository.Remove(sharesToRemove);
+            var shareToRemove = sharesTableRepository.GetById(sharesInfo.Id);
+            sharesTableRepository.Remove(shareToRemove);
             sharesTableRepository.SaveChanges();
         }
 
-        public void UpdateShares(SharesEntity sharesToAdd)
+        public void UpdateShares(SharesEntity sharesInfo)
         {
-            if (sharesToAdd.Price <= 0 || sharesToAdd.SharesType.Length < 2)
+            if (sharesInfo.Price <= 0 || sharesInfo.SharesType.Length < 2 || sharesInfo.Id == 0)
             {
                 throw new ArgumentException("Wrong data");
             }
 
-            if (!sharesTableRepository.Contains(sharesToAdd))
+            if (!sharesTableRepository.Contains(sharesInfo))
             {
                 throw new ArgumentException("This shares type doesn't exist");
             }
-
-            sharesTableRepository.Update(sharesToAdd);
+            var shareToUpdate = sharesTableRepository.GetById(sharesInfo.Id);
+            shareToUpdate.SharesType = sharesInfo.SharesType;
+            shareToUpdate.Price = sharesInfo.Price;
+            sharesTableRepository.Update(shareToUpdate);
             sharesTableRepository.SaveChanges();
         }
     }

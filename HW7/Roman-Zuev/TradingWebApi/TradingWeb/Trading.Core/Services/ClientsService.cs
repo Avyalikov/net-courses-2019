@@ -19,6 +19,11 @@ namespace Trading.Core.Services
         }
         public int RegisterNewClient(ClientRegistrationInfo args)
         {
+            if (args.Name.Length < 2)
+            {
+                throw new ArgumentException("Wrong Data");
+            }
+
             var entityToAdd = (new ClientEntity()
             {
                 RegistationDateTime = DateTime.Now,
