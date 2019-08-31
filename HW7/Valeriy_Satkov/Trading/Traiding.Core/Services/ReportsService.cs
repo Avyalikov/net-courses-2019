@@ -21,9 +21,9 @@
             this.clientTableRepository = clientTableRepository;
         }
 
-        public IEnumerable<OperationEntity> GetOperationByClient(int clientId)
+        public IEnumerable<OperationEntity> GetOperationByClient(int clientId, int number)
         {
-            var result = this.operationTableRepository.GetByClient(clientId);
+            var result = this.operationTableRepository.GetByClient(clientId, number);
             if (result == null)
             {
                 return new List<OperationEntity>();

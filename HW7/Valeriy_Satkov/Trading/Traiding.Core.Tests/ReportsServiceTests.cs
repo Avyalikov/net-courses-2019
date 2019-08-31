@@ -186,7 +186,7 @@
             };
 
             this.operationTableRepository = Substitute.For<IOperationTableRepository>();
-            this.operationTableRepository.GetByClient(Arg.Is(2)).Returns(new List<OperationEntity>()
+            this.operationTableRepository.GetByClient(Arg.Is(2), Arg.Is(4)).Returns(new List<OperationEntity>()
             {
                 operations[0], operations[2], operations[3], operations[4]
             });
@@ -229,23 +229,26 @@
         public void ShouldGetClientOperations()
         {
             // Arrange            
+            int testClientId = 2;
+            int number = 4;
             reportsService = new ReportsService(
                 operationTableRepository: this.operationTableRepository,
             sharesNumberTableRepository: this.sharesNumberTableRepository,
             balanceTableRepository: this.balanceTableRepository,
             shareTableRepository: this.shareTableRepository,
             clientTableRepository: this.clientTableRepository);
-            int testClientId = 5;
+            
 
             // Act
-            var operationsOfClient = reportsService.GetOperationByClient(testClientId);
+            List<OperationEntity> operationsOfClient = new List<OperationEntity>();
+            operationsOfClient.AddRange(reportsService.GetOperationByClient(testClientId, number));
 
             // Assert
-            this.operationTableRepository.Received(1).GetByClient(testClientId);
-            foreach (var testOperation in operationsOfClient)
+            this.operationTableRepository.Received(1).GetByClient(testClientId, number);
+            for (int i = 0; i < number; i++)
             {
-                if (testOperation.Customer.Id != testClientId) throw new ArgumentException("Wrong Id in result item");
-            }
+                if (operationsOfClient[i].Customer.Id != testClientId) throw new ArgumentException("Wrong Id in result item");
+            }            
         }
 
         [TestMethod]

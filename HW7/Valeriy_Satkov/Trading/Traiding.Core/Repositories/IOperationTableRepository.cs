@@ -11,7 +11,7 @@
         void SaveChanges();
         // bool ContainsById(int entityId);
         // OperationEntity Get(int entityId);
-        IEnumerable<OperationEntity> GetByClient(int clientId);
+        IEnumerable<OperationEntity> GetByClient(int clientId, int number);
         void FillAllColumns(BlockedMoneyEntity blockedMoney, BlockedSharesNumberEntity blockedSharesNumber, DateTime chargeDate);
         void Remove(int entityId);
         IEnumerable<OperationEntity> GetTopOperations(int v);
