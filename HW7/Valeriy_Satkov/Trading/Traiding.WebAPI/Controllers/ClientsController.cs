@@ -1,13 +1,10 @@
 ﻿namespace Traiding.WebAPI.Controllers
 {
     using StructureMap;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using System.Web.Http.Results;
     using Traiding.Core.Dto;
     using Traiding.Core.Models;
     using Traiding.Core.Services;
