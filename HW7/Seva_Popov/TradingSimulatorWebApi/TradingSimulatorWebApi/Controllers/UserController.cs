@@ -26,7 +26,7 @@ namespace TradingSimulatorWebApi.Controllers
             return userService.Get();
         }
 
-        // PUT: Invoke-RestMethod https://localhost:44397/api/user -Method PUT -Body (@{Surname = "Bob"; Name = "Marley"; Balance = 1000001; Phone = "112-112-2"} | ConvertTo-Json) -ContentType "application/json"
+        // PUT: Invoke-RestMethod https://localhost:44397/api/user -Method PUT -Body (@{Id = 5; Surname = "Bob"; Name = "Marley"; Balance = 1000001; Phone = "112-112-2"} | ConvertTo-Json) -ContentType "application/json"
         [HttpPut]
         public IActionResult Put([FromBody]UserEntity user)
         {
