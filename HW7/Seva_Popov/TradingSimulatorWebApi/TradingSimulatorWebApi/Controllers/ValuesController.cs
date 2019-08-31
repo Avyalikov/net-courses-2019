@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TradingSimulator.Core.Models;
+using TradingSimulatorWebApi.Data;
 
 namespace TradingSimulatorWebApi.Controllers
 {
@@ -10,11 +12,13 @@ namespace TradingSimulatorWebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        TradingSimulatorDbContext db = new TradingSimulatorDbContext();
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IEnumerable<UserEntity> Get()
         {
-            return new string[] { "value1", "value2" };
+            return db.Users.ToList();
         }
 
         // GET api/values/5

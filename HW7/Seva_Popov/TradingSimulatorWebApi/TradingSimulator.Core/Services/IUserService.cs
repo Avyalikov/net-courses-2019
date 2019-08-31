@@ -4,7 +4,8 @@ using System.Text;
 
 namespace TradingSimulator.Core.Services
 {
-    public class UserService
+    public interface IUserService
     {
+        
     }
 }
