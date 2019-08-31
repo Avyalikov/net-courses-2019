@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trading.Core.DataTransferObjects
 {
-    public class OperationHistoryInfo
+    public class TransactionHistoryInfo
     {
         public int BuyerClientID { get; set; }
 
@@ -17,5 +17,7 @@ namespace Trading.Core.DataTransferObjects
         public int Amount { get; set; }
 
         public decimal SumOfOperation { get; set; }
+
+        public DateTime DateTime { get; set; }
     }
 }

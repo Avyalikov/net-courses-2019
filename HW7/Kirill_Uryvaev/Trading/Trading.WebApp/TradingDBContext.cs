@@ -16,7 +16,7 @@ namespace Trading.WebApp
         public virtual DbSet<ClientEntity> Clients { get; set; }
         public virtual DbSet<ClientsSharesEntity> ClientsShares { get; set; }
         public virtual DbSet<BalanceEntity> Balances { get; set; }
-        public virtual DbSet<OperationHistoryEntity> Operations { get; set; }
+        public virtual DbSet<TransactionHistoryEntity> Transactions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -36,9 +36,9 @@ namespace Trading.WebApp
                  .ToTable("Balances");
 
             modelBuilder
-                 .Entity<OperationHistoryEntity>()
-                 .HasKey(c => c.OperationID)
-                 .ToTable("OperationsHistory");
+                 .Entity<TransactionHistoryEntity>()
+                 .HasKey(c => c.TransactionID)
+                 .ToTable("TransactionsHistory");
 
             modelBuilder.Entity<ClientEntity>()
                 .HasMany(e => e.ClientsShares)

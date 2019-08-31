@@ -11,6 +11,6 @@ namespace Trading.Core.DataTransferObjects
         public int ClientID { get; set; }
         public int ShareID { get; set; }
         public int Amount { get; set; }
-        public int CostOfOneShare { get; set; }
+        public decimal CostOfOneShare { get; set; }
     }
 }

@@ -11,10 +11,10 @@ namespace Trading.Core.Services
     {
         private readonly IClientService clientService;
         private readonly IClientsSharesService clientsSharesService;
-        private readonly OperationHistoryService operationHistoryService;
+        private readonly TransactionHistoryService operationHistoryService;
         private readonly BalanceService balanceService;
 
-        public TradingOperationService(IClientService clientService, IClientsSharesService clientsSharesService, OperationHistoryService operationHistoryService, BalanceService balanceService)
+        public TradingOperationService(IClientService clientService, IClientsSharesService clientsSharesService, TransactionHistoryService operationHistoryService, BalanceService balanceService)
         {
             this.clientService = clientService;
             this.clientsSharesService = clientsSharesService;
@@ -36,23 +36,40 @@ namespace Trading.Core.Services
             {
                 ClientID = shareType.ClientID,
                 ShareID = shareType.ShareID,
-                Amount = -numberOfSoldShares
+                Amount = shareType.Amount - numberOfSoldShares,
+                CostOfOneShare = shareType.CostOfOneShare
             };
             clientsSharesService.UpdateShares(sharesInfo);
-            sharesInfo.Amount *= -1;
-            sharesInfo.ClientID = secondClientID;
-            clientsSharesService.UpdateShares(sharesInfo);
+
+            sharesInfo.ClientID = firstClientID;
+            var secondClientShares = clientsSharesService.GetAllClientsShares().Where(x => x.ClientID == sharesInfo.ClientID && x.ShareID == sharesInfo.ShareID).FirstOrDefault();
+            if (secondClientShares == null)
+            {
+                ClientsSharesInfo clientsSharesInfo = new ClientsSharesInfo()
+                {
+                    ClientID = sharesInfo.ClientID,
+                    ShareID = sharesInfo.ShareID,
+                    Amount = numberOfSoldShares
+                };
+                clientsSharesService.AddShares(clientsSharesInfo);
+            }
+            else
+            {
+                sharesInfo.Amount = secondClientShares.Amount + numberOfSoldShares;
+                clientsSharesService.UpdateShares(sharesInfo);
+            }
 
             balanceService.ChangeMoney(firstClientID, shareType.CostOfOneShare * numberOfSoldShares);
             balanceService.ChangeMoney(secondClientID, -(shareType.CostOfOneShare * numberOfSoldShares));
 
-            OperationHistoryInfo operationHistoryInfo = new OperationHistoryInfo()
+            TransactionHistoryInfo operationHistoryInfo = new TransactionHistoryInfo()
             {
                 BuyerClientID = firstClientID,
                 SellerClientID = secondClientID,
                 ShareID = shareType.ShareID,
                 Amount = numberOfSoldShares,
-                SumOfOperation = shareType.CostOfOneShare * numberOfSoldShares
+                SumOfOperation = shareType.CostOfOneShare * numberOfSoldShares,
+                DateTime = DateTime.Now
             };
 
             operationHistoryService.Add(operationHistoryInfo);

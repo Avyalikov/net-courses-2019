@@ -12,10 +12,14 @@ namespace Trading.WebApp
             // Configure Web API for self-host. 
             HttpConfiguration config = new HttpConfiguration();
             config.Routes.MapHttpRoute(
-                name: "ControllersApi",
-                routeTemplate: "{controller}/{id}",
+                name: "ControllersAndActions",
+                routeTemplate: "{controller}/{action}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "ControllerOnly",
+                routeTemplate: "{controller}");
 
             StructureMapDependencyResolver container = new StructureMapDependencyResolver();
 

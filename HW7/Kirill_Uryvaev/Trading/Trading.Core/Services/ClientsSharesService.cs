@@ -11,10 +11,12 @@ namespace Trading.Core.Services
     public class ClientsSharesService : IClientsSharesService
     {
         private readonly IClientsSharesRepository clientsSharesRepository;
+        private readonly IValidator validator;
 
-        public ClientsSharesService(IClientsSharesRepository clientsSharesRepository)
+        public ClientsSharesService(IClientsSharesRepository clientsSharesRepository, IValidator validator)
         {
             this.clientsSharesRepository = clientsSharesRepository;
+            this.validator = validator;
         }
 
         public void RemoveShares(ClientsSharesEntity clientsSharesInfo)
@@ -30,20 +32,23 @@ namespace Trading.Core.Services
 
         public void AddShares(ClientsSharesInfo clientsSharesInfo)
         {
-            var clientsShares = new ClientsSharesEntity()
+            if (validator.ValidateShareToClient(clientsSharesInfo))
             {
-                ClientID = clientsSharesInfo.ClientID,
-                ShareID = clientsSharesInfo.ShareID,
-                Amount = clientsSharesInfo.Amount,
-                CostOfOneShare = clientsSharesInfo.CostOfOneShare
-            };
-            var clientSharesToAdd = clientsSharesRepository.LoadClientsSharesByID(clientsShares);
-            if (clientSharesToAdd != null)
-            {
-                return;
+                var clientsShares = new ClientsSharesEntity()
+                {
+                    ClientID = clientsSharesInfo.ClientID,
+                    ShareID = clientsSharesInfo.ShareID,
+                    Amount = clientsSharesInfo.Amount,
+                    CostOfOneShare = clientsSharesInfo.CostOfOneShare
+                };
+                var clientSharesToAdd = clientsSharesRepository.LoadClientsSharesByID(clientsShares);
+                if (clientSharesToAdd != null)
+                {
+                    return;
+                }
+                clientsSharesRepository.Add(clientsShares);
+                clientsSharesRepository.SaveChanges();
             }
-            clientsSharesRepository.Add(clientsShares);
-            clientsSharesRepository.SaveChanges();
         }
 
         public void UpdateShares(ClientsSharesEntity clientsSharesInfo)
@@ -51,6 +56,11 @@ namespace Trading.Core.Services
             clientsSharesRepository.Update(clientsSharesInfo);
 
             clientsSharesRepository.SaveChanges();
+        }
+
+        public IEnumerable<ClientsSharesEntity> GetAllClientsShares()
+        {
+            return clientsSharesRepository.GetAllShares();
         }
     }
 }

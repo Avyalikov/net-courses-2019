@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StructureMap;
-using Trading.Core.DataTransferObjects;
+using Trading.ClientApp.StrategyPattern;
+using System.Timers;
 
 namespace Trading.ClientApp
 {
@@ -17,46 +18,46 @@ namespace Trading.ClientApp
             string userInput = "";
             RequestSender requestSender = container.GetInstance<RequestSender>();
             Console.WriteLine($"{DateTime.Now} Client started");
+            Timer timer = new Timer(10000) { AutoReset = true };
+            timer.Elapsed += (sender, e) => { container.GetInstance<TradeSimulator>().ClientsTrade(); };
+            timer.Start();
+
+            IEnumerable<IRequestStrategy> strategies = InitializeRequestStrategy();
+
             while (!userInput.ToLower().Equals(exitKey))
             {
                 userInput = Console.ReadLine();
-                Console.WriteLine(GetRequestResult(userInput, requestSender));
+                Console.WriteLine(GetRequestResult(userInput, requestSender, strategies));
             }
-            
+
         }
-        static string GetRequestResult(string userInput, RequestSender requestSender)
+        static string GetRequestResult(string userInput, RequestSender requestSender, IEnumerable<IRequestStrategy> strategies)
         {
-            string answer ="";
-            string[] splittedUserInpit = userInput.Split(' ','\t');
-            switch (splittedUserInpit[0].ToLower())
+            string[] splittedUserInpit = userInput.Split(' ', '\t');
+            var strategy = strategies.FirstOrDefault(x => x.CanExicute(splittedUserInpit[0]));
+            if (strategy == null)
             {
-                case "top10clients":
-                    int page = 1;
-                    if (splittedUserInpit.Length > 1)
-                    {
-                        if (!int.TryParse(splittedUserInpit[1], out page))
-                        {
-                            page = 1;
-                        }
-                    }
-                    requestSender.GetTop10Clients(page, out answer);
-                    return answer;
-                case "addclient":
-                    if (splittedUserInpit.Length < 3)
-                    {
-                        return "Not enough parameters";
-                    }
-                    ClientRegistrationInfo clientInfo = new ClientRegistrationInfo
-                    {
-                        FirstName = splittedUserInpit[1],
-                        LastName = splittedUserInpit[2],
-                        PhoneNumber = splittedUserInpit[3]
-                    };
-                    requestSender.PostAddClient(clientInfo, out answer);
-                    return answer;
-                default:
-                    return "Unknown command";
-            }            
+                return "Unknown command";
+            }
+            return strategy.Run(splittedUserInpit, requestSender);
+        }
+        static IEnumerable<IRequestStrategy> InitializeRequestStrategy()
+        {
+            IEnumerable<IRequestStrategy> requestStrategies = new List<IRequestStrategy>()
+            {
+                new AddClientRequestStrategy(),
+                new AddSharesRequestStrategy(),
+                new GetClientsSharesRequestStrategy(), 
+                new GetTopTenRequestStrategy(),
+                new UpdateClientRequestStrategy(),
+                new UpdateSharesRequestStrategy(),
+                new RemoveClientRequestStrategy(),
+                new RemoveSharesRequestStrategy(),
+                new GetClientZoneRequestStrategy(),
+                new GetClientTransactionsRequestStrategy(),
+                new MakeDealRequestStrategy()
+            };
+            return requestStrategies;
         }
     }
 }

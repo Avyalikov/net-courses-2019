@@ -9,36 +9,37 @@ using Trading.Core;
 
 namespace Trading.Core.Services
 {
-    public class OperationHistoryService
+    public class TransactionHistoryService
     {
-        private readonly IOperationHistoryRepository operationHistoryRepository;
+        private readonly ITransactionHistoryRepository operationHistoryRepository;
 
-        public OperationHistoryService(IOperationHistoryRepository operationHistoryRepository)
+        public TransactionHistoryService(ITransactionHistoryRepository operationHistoryRepository)
         {
             this.operationHistoryRepository = operationHistoryRepository;
         }
 
-        public int Add(OperationHistoryInfo operationHistoryInfo)
+        public int Add(TransactionHistoryInfo operationHistoryInfo)
         {
-            var operationHistory = new OperationHistoryEntity()
+            var operationHistory = new TransactionHistoryEntity()
             {
                 BuyerClientID = operationHistoryInfo.BuyerClientID,
                 SellerClientID = operationHistoryInfo.SellerClientID,
                 Amount = operationHistoryInfo.Amount,
                 ShareID = operationHistoryInfo.ShareID,
-                SumOfOperation = operationHistoryInfo.SumOfOperation
+                SumOfOperation = operationHistoryInfo.SumOfOperation,
+                DateTime = operationHistoryInfo.DateTime
             };
             operationHistoryRepository.Add(operationHistory);
             operationHistoryRepository.SaveChanges();
-            return operationHistory.OperationID;
+            return operationHistory.TransactionID;
         }
 
-        public IEnumerable<OperationHistoryEntity> GetOperationOfClient(int ID)
+        public IEnumerable<TransactionHistoryEntity> GetOperationOfClient(int ID)
         {
             return operationHistoryRepository.LoadOperationsWithClientByID(ID);
         }
 
-        public OperationHistoryEntity GetOperation(int ID)
+        public TransactionHistoryEntity GetOperation(int ID)
         {
             return operationHistoryRepository.LoadOperationByID(ID);
         }

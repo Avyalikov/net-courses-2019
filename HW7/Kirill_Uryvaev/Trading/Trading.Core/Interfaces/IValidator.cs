@@ -9,10 +9,10 @@ namespace Trading.Core
 {
     public interface IValidator
     {
-        bool ValidateClientInfo(ClientRegistrationInfo clientInfo, ILogger logger);
-        bool ValidateShareToClient(ClientsSharesInfo shareToClientInfo, ILogger logger);
-        bool ValidateClientMoney(int clientID, int amountOfMoney, ILogger logger);
-        bool ValidateClientList(IEnumerable<ClientEntity> clients, ILogger logger);
-        bool ValidateTradingClient(ClientEntity client, ILogger logger);
+        bool ValidateClientInfo(ClientRegistrationInfo clientInfo);
+        bool ValidateShareToClient(ClientsSharesInfo shareToClientInfo);
+        bool ValidateClientMoney(int clientID, decimal amountOfMoney);
+        bool ValidateClientList(IEnumerable<ClientEntity> clients);
+        bool ValidateTradingClient(ClientEntity client);
     }
 }

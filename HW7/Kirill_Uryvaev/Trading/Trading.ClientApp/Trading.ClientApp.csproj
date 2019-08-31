@@ -58,6 +58,18 @@
     <Compile Include="Services\RequestSender.cs" />
     <Compile Include="Services\TradeSimulator.cs" />
     <Compile Include="Services\TradingRegistry.cs" />
+    <Compile Include="StrategyPattern\AddClientRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\AddSharesRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\GetClientsSharesRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\GetClientTransactionsRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\GetClientZoneRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\GetTopTenRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\IRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\MakeDealRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\RemoveClientRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\RemoveSharesRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\UpdateClientRequestStrategy.cs" />
+    <Compile Include="StrategyPattern\UpdateSharesRequestStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

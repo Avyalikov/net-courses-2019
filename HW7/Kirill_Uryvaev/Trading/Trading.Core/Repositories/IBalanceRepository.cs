@@ -8,7 +8,8 @@ namespace Trading.Core.Repositories
 {
     public interface IBalanceRepository: IDBTable
     {
-        BalanceEntity LoadClientByID(int ID);
+        IEnumerable<BalanceEntity> LoadAllBalances();
+        BalanceEntity LoadBalanceByID(int ID);
         void Add(BalanceEntity balance);
         void Update(BalanceEntity balance);
     }

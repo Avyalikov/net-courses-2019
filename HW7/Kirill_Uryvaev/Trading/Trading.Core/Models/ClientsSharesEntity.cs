@@ -11,7 +11,7 @@ namespace Trading.Core
 
         public int Amount { get; set; }
 
-        public int CostOfOneShare { get; set; }
+        public decimal CostOfOneShare { get; set; }
 
         public virtual ClientEntity Clients { get; set; }
 

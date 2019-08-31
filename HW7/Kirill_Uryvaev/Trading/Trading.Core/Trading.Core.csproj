@@ -43,25 +43,25 @@
   <ItemGroup>
     <Compile Include="DataTransferObjects\ClientRegistrationInfo.cs" />
     <Compile Include="DataTransferObjects\ClientsSharesInfo.cs" />
-    <Compile Include="DataTransferObjects\OperationHistoryInfo.cs" />
+    <Compile Include="DataTransferObjects\TransactionHistoryInfo.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IValidator.cs" />
     <Compile Include="Models\BalanceEntity.cs" />
     <Compile Include="Models\ClientEntity.cs" />
     <Compile Include="Models\ClientsSharesEntity.cs" />
-    <Compile Include="Models\OperationHistoryEntity.cs" />
+    <Compile Include="Models\TransactionHistoryEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IBalanceRepository.cs" />
     <Compile Include="Repositories\IClientRepository.cs" />
     <Compile Include="Repositories\IClientsSharesRepository.cs" />
     <Compile Include="Repositories\IDBTable.cs" />
-    <Compile Include="Repositories\IOperationHistoryRepository.cs" />
+    <Compile Include="Repositories\ITransactionHistoryRepository.cs" />
     <Compile Include="Services\BalanceService.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ClientsSharesService.cs" />
     <Compile Include="Interfaces\IClientService.cs" />
     <Compile Include="Interfaces\IClientsSharesService.cs" />
-    <Compile Include="Services\OperationHistoryService.cs" />
+    <Compile Include="Services\TransactionHistoryService.cs" />
     <Compile Include="Services\TradeValidator.cs" />
     <Compile Include="Services\TradingOperationService.cs" />
   </ItemGroup>

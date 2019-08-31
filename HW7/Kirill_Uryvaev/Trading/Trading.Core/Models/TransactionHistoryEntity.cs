@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Trading.Core
 {
-    public class OperationHistoryEntity
+    public class TransactionHistoryEntity
     {
-        public int OperationID { get; set; }
+        public int TransactionID { get; set; }
 
         public int BuyerClientID { get; set; }
 
@@ -19,5 +19,7 @@ namespace Trading.Core
         public int Amount { get; set; }
 
         public decimal SumOfOperation { get; set; }
+
+        public DateTime DateTime { get; set; }
     }
 }

@@ -11,25 +11,41 @@ namespace Trading.Core.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository clientsRepository;
+        private readonly IBalanceRepository balanceRepository;
+        private readonly IValidator validator;
 
-        public ClientService(IClientRepository clientsRepository)
+        public ClientService(IClientRepository clientsRepository, IBalanceRepository balanceRepository, IValidator validator)
         {
             this.clientsRepository = clientsRepository;
+            this.balanceRepository = balanceRepository;
+            this.validator = validator;
         }
 
         public int AddClient(ClientRegistrationInfo clientInfo)
         {
-            var clientToAdd = new ClientEntity()
+            if (validator.ValidateClientInfo(clientInfo))
             {
-                ClientFirstName = clientInfo.FirstName,
-                ClientLastName = clientInfo.LastName,
-                PhoneNumber = clientInfo.PhoneNumber
-            };
+                var clientToAdd = new ClientEntity()
+                {
+                    ClientFirstName = clientInfo.FirstName,
+                    ClientLastName = clientInfo.LastName,
+                    PhoneNumber = clientInfo.PhoneNumber
+                };
 
-            clientsRepository.Add(clientToAdd);
-            clientsRepository.SaveChanges();
+                clientsRepository.Add(clientToAdd);
+                clientsRepository.SaveChanges();
 
-            return clientToAdd.ClientID;
+                var balance = new BalanceEntity()
+                {
+                    ClientID = clientToAdd.ClientID,
+                    ClientBalance = 0
+                };
+
+                balanceRepository.Add(balance);
+                balanceRepository.SaveChanges();
+                return clientToAdd.ClientID;
+            }
+            return -1;
         }
 
         public void UpdateClient(ClientEntity client)
@@ -52,21 +68,6 @@ namespace Trading.Core.Services
         public IEnumerable<ClientEntity> GetAllClients()
         {
             return clientsRepository.LoadAllClients();
-        }
-
-        public IEnumerable<ClientEntity> GetClientsFromGreenZone()
-        {
-            return clientsRepository.LoadAllClients().Where(x => x.ClientBalance.ClientBalance > 0);
-        }
-
-        public IEnumerable<ClientEntity> GetClientsFromOrangeZone()
-        {
-            return clientsRepository.LoadAllClients().Where(x=>x.ClientBalance.ClientBalance==0);
-        }
-
-        public IEnumerable<ClientEntity> GetClientsFromBlackZone()
-        {
-            return clientsRepository.LoadAllClients().Where(x => x.ClientBalance.ClientBalance < 0);
         }
     }
 }

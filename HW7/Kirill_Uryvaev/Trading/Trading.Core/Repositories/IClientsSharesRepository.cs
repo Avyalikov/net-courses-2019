@@ -13,5 +13,6 @@ namespace Trading.Core.Repositories
         void Update(ClientsSharesEntity clientsShares);
         void Remove(ClientsSharesEntity clientsShares);
         ClientsSharesEntity LoadClientsSharesByID(ClientsSharesEntity clientsShares);
+        IEnumerable<ClientsSharesEntity> GetAllShares();
     }
 }
