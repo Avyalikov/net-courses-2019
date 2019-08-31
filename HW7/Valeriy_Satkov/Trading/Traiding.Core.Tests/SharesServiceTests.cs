@@ -136,5 +136,21 @@
             this.shareTableRepository.Received(1).SetType(testShareId, this.type);
             this.shareTableRepository.Received(1).SaveChanges();
         }
+
+        [TestMethod]
+        public void ShouldRemoveShare()
+        {
+            // Arrange
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
+            this.shareTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            SharesService sharesService = new SharesService(this.shareTableRepository);
+
+            // Act
+            sharesService.RemoveShare(55);
+
+            // Assert
+            this.shareTableRepository.Received(1).Deactivate(55);
+            this.shareTableRepository.Received(1).SaveChanges();
+        }
     }    
 }

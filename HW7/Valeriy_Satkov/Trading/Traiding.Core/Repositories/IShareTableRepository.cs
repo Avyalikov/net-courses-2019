@@ -12,5 +12,6 @@
         void SetCompanyName(int entityId, string newCompanyName);
         void SetType(int entityId, ShareTypeEntity newType);
         int GetSharesCount();
+        void Deactivate(int shareId);
     }
 }

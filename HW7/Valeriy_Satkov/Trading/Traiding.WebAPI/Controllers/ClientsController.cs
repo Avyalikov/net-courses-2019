@@ -28,7 +28,7 @@
         }
 
 
-        // GET
+        // GET /clients?top=10&page=1  return first 10 clients
         public IEnumerable<ClientEntity> Get([FromUri]int top, int page)
         {
             var clients = this.reportsService.GetFirstClients(top, page);           

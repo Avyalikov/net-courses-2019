@@ -220,7 +220,7 @@
             this.clientTableRepository.GetClientsCount().Returns(clients.Count);
             this.clientTableRepository.Take(Arg.Is(5), Arg.Is(1)).Returns(new List<ClientEntity>()
             {
-                clients[0], clients[1], clients[2], clients[3]
+                clients[0], clients[1], clients[2], clients[3], clients[4]
             });
 
         }
@@ -399,7 +399,7 @@
             this.clientTableRepository.Received(1).Take(5, 1);
             for (int i = 0; i < 5; i++)
             {
-                if (clients[i+1].Id != i+1) throw new ArgumentException("Wrong id in list of clients.");
+                if (clients[i].Id != i+1) throw new ArgumentException("Wrong id in list of clients.");
             }
         }
     }    

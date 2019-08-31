@@ -69,6 +69,15 @@
             this.clientTableRepository = Substitute.For<IClientTableRepository>();
             var clientId = 44;
             this.clientTableRepository.ContainsById(Arg.Is(clientId)).Returns(true);
+            this.clientTableRepository.Get(Arg.Is(clientId)).Returns(new ClientEntity()
+            {
+                Id = clientId,
+                CreatedAt = DateTime.Now,
+                LastName = "Misha",
+                FirstName = "Lomonosow",
+                PhoneNumber = "+79211234567",
+                Status = true
+            });
             ClientsService clientsService = new ClientsService(this.clientTableRepository);
 
             ClientRegistrationInfo args = new ClientRegistrationInfo();
@@ -80,7 +89,7 @@
             clientsService.UpdateClientData(clientId, args);
 
             // Assert
-            this.clientTableRepository.Received(1).Add(Arg.Is<ClientEntity>(
+            this.clientTableRepository.Received(1).Update(Arg.Is<ClientEntity>(
                 c => c.LastName == args.LastName
                 && c.FirstName == args.FirstName
                 && c.PhoneNumber == args.PhoneNumber));

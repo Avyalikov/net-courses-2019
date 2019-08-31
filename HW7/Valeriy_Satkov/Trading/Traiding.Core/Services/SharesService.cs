@@ -21,7 +21,7 @@
                 CreatedAt = DateTime.Now,
                 CompanyName = args.CompanyName,
                 Type = args.Type,
-                Status = args.Status
+                Status = true
             };
 
             if (this.tableRepository.Contains(entityToAdd))
@@ -66,6 +66,14 @@
 
             this.tableRepository.SetType(shareId, newShareType);
 
+            this.tableRepository.SaveChanges();
+        }
+
+        public void RemoveShare(int shareId)
+        {
+            ContainsById(shareId);
+
+            this.tableRepository.Deactivate(shareId);
             this.tableRepository.SaveChanges();
         }
     }
