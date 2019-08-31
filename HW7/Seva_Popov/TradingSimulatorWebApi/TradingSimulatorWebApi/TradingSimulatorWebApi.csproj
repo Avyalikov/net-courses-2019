@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\hello-world2\net-courses-2019\HW6\Seva_Popov\Trading\TradingSimulator.Core\TradingSimulator.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Dependency\" />
   </ItemGroup>
 
