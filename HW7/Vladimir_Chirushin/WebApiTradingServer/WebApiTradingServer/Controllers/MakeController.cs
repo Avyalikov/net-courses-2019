@@ -1,6 +1,7 @@
 ﻿namespace WebApiTradingServer.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Services;
 
     [Route("deal/[controller]")]
@@ -16,9 +17,9 @@
 
         // POST api/make?sellerID=...&buyerID=...&shareID=...&shareAmount=...
         [HttpPost]
-        public ActionResult<string> Post(int sellerID, int buyerID, int shareID, int shareAmount)
+        public ActionResult<string> Post([FromBody] TransactionsMakeData transaction)
         {
-            if(transactionManager.Make(sellerID, buyerID, shareID, shareAmount))
+            if(transactionManager.Make(transaction))
             {
                 return new ActionResult<string>("Success");
             }

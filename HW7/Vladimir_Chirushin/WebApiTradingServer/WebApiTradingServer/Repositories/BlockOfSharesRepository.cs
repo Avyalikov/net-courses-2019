@@ -61,5 +61,18 @@
                 return db.BlockOfSharesTable.Where(b => b.ClientID == clientID).AsEnumerable<BlockOfShares>().ToList();
             }
         }
+
+        public void Remove(BlockOfShares blockOfShare)
+        {
+            using (var db = new TradingContext())
+            {
+                var blockToDelete = db.BlockOfSharesTable
+                    .Where(b => b.ShareID == blockOfShare.ShareID && 
+                           b.ClientID == blockOfShare.ClientID)
+                    .FirstOrDefault();
+                db.BlockOfSharesTable.Remove(blockToDelete);
+                db.SaveChanges();
+            }
+        }
     }
 }

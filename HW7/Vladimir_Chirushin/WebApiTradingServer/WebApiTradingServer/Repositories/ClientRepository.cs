@@ -86,5 +86,27 @@ namespace WebApiTradingServer.Repositories
                 return true;
             }
         }
+
+        public void Remove(Client client)
+        {
+            using (var db = new TradingContext())
+            {
+                var clientToDelete = db.Clients.Where(c => c.Name == client.Name).FirstOrDefault();
+                db.Clients.Remove(clientToDelete);
+                db.SaveChanges();
+            }
+        }
+
+        public void ClientUpdate(Client clientData)
+        {
+            using (var db = new TradingContext())
+            {
+                var clientToUpdate = db.Clients.Where(c => c.ClientID == clientData.ClientID).FirstOrDefault();
+                clientToUpdate.Name = clientData.Name;
+                clientToUpdate.PhoneNumber = clientData.PhoneNumber;
+                clientToUpdate.Balance = clientData.Balance;
+                db.SaveChanges();
+            }
+        }
     }
 }

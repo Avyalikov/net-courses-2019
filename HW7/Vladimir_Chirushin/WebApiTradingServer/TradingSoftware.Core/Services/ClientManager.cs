@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
 
@@ -36,6 +37,27 @@
             {
                 throw new Exception($"User {client.Name} already exist in DB");
             }
+        }
+
+        public ClientBalanceStatus GetClientBalanceStatus(int clientID)
+        {
+            ClientBalanceStatus status = new ClientBalanceStatus();
+
+            status.Name = GetClientName(clientID);
+            status.Balance = GetClientBalance(clientID);
+            status.Status = "Green";
+
+            if (status.Balance < 0)
+            {
+                status.Status = "Black";
+            }
+
+            if(status.Balance == 0)
+            {
+                status.Status = "Orange";
+            }
+
+            return status;
         }
 
         public string GetClientName(int clientID)
@@ -97,6 +119,19 @@
             else
             {
                 throw new Exception($"There is no clients with id {clientID}");
+            }
+        }
+
+        public void ClientUpdate(Client client)
+        {
+            clientRepository.ClientUpdate(client);
+        }
+
+        public void DeleteClient(Client client)
+        {
+            if(IsClientExist(client.Name))
+            {
+                this.clientRepository.Remove(client);
             }
         }
     }

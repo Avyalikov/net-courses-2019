@@ -97,5 +97,18 @@
         {
             throw new NotImplementedException();
         }
+
+        [TestMethod]
+        public void UpdateClientSharesTest()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [TestMethod]
+        public void Delete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

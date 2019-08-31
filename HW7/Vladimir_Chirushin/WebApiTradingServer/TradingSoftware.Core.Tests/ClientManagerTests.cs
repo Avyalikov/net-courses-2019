@@ -287,5 +287,26 @@
             // Asserts
             clientRepositoryMock.DidNotReceive().ChangeBalance(clientID, amount);
         }
+
+
+        [TestMethod]
+        public void DeleteClientTest()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [TestMethod]
+        public void ClientUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [TestMethod]
+        public void GetClientBalanceStatus()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

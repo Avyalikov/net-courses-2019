@@ -1,6 +1,7 @@
 ﻿namespace TradingSoftware.Core.Services
 {
     using System.Collections.Generic;
+    using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Models;
 
     public interface IClientManager
@@ -23,6 +24,12 @@
 
         int GetNumberOfClients();
 
+        void ClientUpdate(Client client);
+
         decimal GetClientBalance(int clientID);
+
+        ClientBalanceStatus GetClientBalanceStatus(int clientID);
+
+        void DeleteClient(Client client);
     }
 }

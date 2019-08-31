@@ -134,15 +134,15 @@
             this.clientManager.ChangeBalance(transaction.SellerID, sharePrice * transaction.Amount);
         }
 
-        public bool Make(int sellerID, int buyerID, int shareID, int shareAmount)
+        public bool Make(TransactionsMakeData transactionsMakeData)
         {
             var transaction = new Transaction
             {
                 dateTime = DateTime.Now,
-                SellerID = sellerID,
-                BuyerID = buyerID,
-                ShareID = shareID,
-                Amount = shareAmount
+                SellerID = transactionsMakeData.sellerID,
+                BuyerID = transactionsMakeData.buyerID,
+                ShareID = transactionsMakeData.shareID,
+                Amount = transactionsMakeData.shareAmount
             };
             if (this.Validate(transaction))
             {

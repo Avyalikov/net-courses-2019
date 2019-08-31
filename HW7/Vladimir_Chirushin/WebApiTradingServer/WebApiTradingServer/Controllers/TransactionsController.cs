@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace WebApiTradingServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TransactionsController : ControllerBase
     {

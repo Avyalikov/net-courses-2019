@@ -22,5 +22,9 @@
         bool IsClientExist(string clientName);
 
         bool ChangeBalance(int clientID, decimal accountGain);
+
+        void Remove(Client client);
+
+        void ClientUpdate(Client client);
     }
 }

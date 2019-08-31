@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\ClientBalanceStatus.cs" />
     <Compile Include="Dto\ClientShares.cs" />
+    <Compile Include="Dto\TransactionsMakeData.cs" />
     <Compile Include="Dto\TransactionsFullData.cs" />
     <Compile Include="Models\BlockOfShares.cs" />
     <Compile Include="Models\Client.cs">

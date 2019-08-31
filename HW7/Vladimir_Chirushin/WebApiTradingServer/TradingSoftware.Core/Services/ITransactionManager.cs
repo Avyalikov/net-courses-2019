@@ -18,6 +18,6 @@
 
         IEnumerable<TransactionsFullData> GetTransactionWithClient(int clientID);
 
-        bool Make(int sellerID, int buyerID, int shareID, int shareAmount);
+        bool Make(TransactionsMakeData transactionsMakeData);
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace TradingSoftware.Core.Services
 {
     using System.Collections.Generic;
+    using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Models;
 
     public interface IBlockOfSharesManager
@@ -15,6 +16,10 @@
 
         IEnumerable<BlockOfShares> GetAllBlockOfShares();
 
-        IEnumerable<BlockOfShares> GetClientShares(int clientID);
+        ClientShares GetClientShares(int clientID);
+
+        void UpdateClientShares(BlockOfShares blockOfShares);
+
+        void Delete(BlockOfShares blockOfShare);
     }
 }

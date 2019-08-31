@@ -16,5 +16,7 @@
         IEnumerable<BlockOfShares> GetAllBlockOfShares();
 
         IEnumerable<BlockOfShares> GetClientShares(int clientID);
+
+        void Remove(BlockOfShares blockOfShare);
     }
 }

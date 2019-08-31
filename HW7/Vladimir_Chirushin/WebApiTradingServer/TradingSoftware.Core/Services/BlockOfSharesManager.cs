@@ -1,16 +1,24 @@
 ﻿namespace TradingSoftware.Core.Services
 {
     using System.Collections.Generic;
+    using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
 
     public class BlockOfSharesManager : IBlockOfSharesManager
     {
         private readonly IBlockOfSharesRepository blockOfSharesRepository;
+        private readonly IClientRepository clientRepository;
+        private readonly ISharesRepository shareRepository;
 
-        public BlockOfSharesManager(IBlockOfSharesRepository blockOfSharesRepository)
+        public BlockOfSharesManager(
+            IBlockOfSharesRepository blockOfSharesRepository,
+            IClientRepository clientRepository,
+            ISharesRepository shareRepository)
         {
             this.blockOfSharesRepository = blockOfSharesRepository;
+            this.clientRepository = clientRepository;
+            this.shareRepository = shareRepository;
         }
 
         public void AddShare(BlockOfShares blockOfShares)
@@ -28,20 +36,47 @@
             this.blockOfSharesRepository.ChangeShareAmountForClient(blockOfShares);
         }
 
+
         public int GetClientShareAmount(int clientID, int shareID)
         {
             return this.blockOfSharesRepository.GetClientShareAmount(clientID, shareID);
         }
 
-        public IEnumerable<BlockOfShares> GetClientShares(int clientID)
+        public ClientShares GetClientShares(int clientID)
         {
-            return this.blockOfSharesRepository.GetClientShares(clientID);
+            var blockOfShares =  this.blockOfSharesRepository.GetClientShares(clientID);
+            var clientShares = new ClientShares();
+            clientShares.clientName = clientRepository.GetClientName(clientID);
+            foreach(var block in blockOfShares)
+            {
+                clientShares.ShareWithPrice.Add(
+                    shareRepository.GetShareType(block.ShareID),
+                    shareRepository.GetSharePrice(block.ShareID));
+            }
+            return clientShares;
+
         }
 
         public IEnumerable<BlockOfShares> GetAllBlockOfShares()
         {
-            IEnumerable<BlockOfShares> allShares = this.blockOfSharesRepository.GetAllBlockOfShares();
-            return allShares;
+            return this.blockOfSharesRepository.GetAllBlockOfShares();
+        }
+
+        public void UpdateClientShares(BlockOfShares blockOfShares)
+        {
+            if(IsClientHasStockType(blockOfShares.ClientID, blockOfShares.ShareID))
+            {
+                this.ChangeShareAmountForClient(blockOfShares);
+            }
+            else
+            {
+                this.AddShare(blockOfShares);
+            }
+        }
+
+        public void Delete(BlockOfShares blockOfShare)
+        {
+            this.blockOfSharesRepository.Remove(blockOfShare);
         }
     }
 }

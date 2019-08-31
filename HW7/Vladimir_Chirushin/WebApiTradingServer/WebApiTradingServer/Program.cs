@@ -12,8 +12,7 @@ namespace WebApiTradingServer
     class Program
     {
         static void Main(string[] args)
-        {
-            /*
+        {   /*
              IClientRepository clientRepository = new ClientRepository();
              IClientManager clientManager = new ClientManager(clientRepository);
 
@@ -36,7 +35,6 @@ namespace WebApiTradingServer
                 simManager.MakeRandomTransaction();
             }
             */
-
 
             var host = new WebHostBuilder()
                 .UseKestrel((context, options) =>
