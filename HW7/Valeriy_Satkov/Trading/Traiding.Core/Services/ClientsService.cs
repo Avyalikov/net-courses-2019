@@ -16,15 +16,7 @@
 
         public int RegisterNewClient(ClientRegistrationInfo args)
         {
-            if (args.LastName.Length < 2 
-                || args.LastName.Length > 20
-                || args.FirstName.Length < 2
-                || args.FirstName.Length > 20
-                || args.PhoneNumber.Length < 2
-                || args.PhoneNumber.Length > 20)
-            {
-                throw new ArgumentException("Invalid ClientRegistrationInfo. Can't continue.");
-            }
+            Validation(args);
 
             var entityToAdd = new ClientEntity()
             {
@@ -47,14 +39,55 @@
             return entityToAdd.Id;
         }
 
+        public void UpdateClientData(int clientId, ClientRegistrationInfo args)
+        {
+            Validation(args);
+
+            var client = GetClient(clientId);
+
+            client.LastName = args.LastName;
+            client.FirstName = args.FirstName;
+            client.PhoneNumber = args.PhoneNumber;            
+
+            this.tableRepository.Update(client);
+
+            this.tableRepository.SaveChanges();
+        }
+
         public ClientEntity GetClient(int clientId)
+        {
+            ContainsById(clientId);
+
+            return this.tableRepository.Get(clientId);
+        }
+
+        public void RemoveClient(int clientId)
+        {
+            ContainsById(clientId);
+
+            this.tableRepository.Deactivate(clientId);
+            this.tableRepository.SaveChanges();
+        }
+
+        public void Validation(ClientRegistrationInfo args)
+        {
+            if (args.LastName.Length < 2
+                || args.LastName.Length > 20
+                || args.FirstName.Length < 2
+                || args.FirstName.Length > 20
+                || args.PhoneNumber.Length < 2
+                || args.PhoneNumber.Length > 20)
+            {
+                throw new ArgumentException("Invalid ClientRegistrationInfo. Can't continue.");
+            }
+        }
+
+        public void ContainsById(int clientId)
         {
             if (!this.tableRepository.ContainsById(clientId))
             {
-                throw new ArgumentException("Can't get client by this Id. May it has not been registered.");
+                throw new ArgumentException("Can't find client by this Id. May it has not been registered.");
             }
-
-            return this.tableRepository.Get(clientId);
         }
     }
 }

@@ -218,6 +218,10 @@
 
             this.clientTableRepository = Substitute.For<IClientTableRepository>();
             this.clientTableRepository.GetClientsCount().Returns(clients.Count);
+            this.clientTableRepository.Take(Arg.Is(5), Arg.Is(1)).Returns(new List<ClientEntity>()
+            {
+                clients[0], clients[1], clients[2], clients[3]
+            });
 
         }
 
@@ -374,6 +378,29 @@
             // Assert
             this.shareTableRepository.Received(1).GetSharesCount();
             if (count != 3) throw new ArgumentException("Result count is not 9");
+        }
+
+        [TestMethod]
+        public void ShouldGetFirstClients()
+        {
+            // Arrange
+            reportsService = new ReportsService(
+                operationTableRepository: this.operationTableRepository,
+            sharesNumberTableRepository: this.sharesNumberTableRepository,
+            balanceTableRepository: this.balanceTableRepository,
+            shareTableRepository: this.shareTableRepository,
+            clientTableRepository: this.clientTableRepository);
+
+            // Act
+            List<ClientEntity> clients = new List<ClientEntity>();
+            clients.AddRange(reportsService.GetFirstClients(5, 1));
+
+            // Assert
+            this.clientTableRepository.Received(1).Take(5, 1);
+            for (int i = 0; i < 5; i++)
+            {
+                if (clients[i+1].Id != i+1) throw new ArgumentException("Wrong id in list of clients.");
+            }
         }
     }    
 }

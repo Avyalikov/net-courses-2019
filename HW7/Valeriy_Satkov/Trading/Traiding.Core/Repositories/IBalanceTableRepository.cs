@@ -15,5 +15,7 @@
         IEnumerable<BalanceEntity> GetNegativeBalances();
         // BalanceEntity GetByClient(int clientEntityId); // not implemented
         void ChangeAmount(int entityId, decimal newAmount);
+        //bool Deactivate(int clientId);
+        //bool Activate(int clientId);
     }
 }

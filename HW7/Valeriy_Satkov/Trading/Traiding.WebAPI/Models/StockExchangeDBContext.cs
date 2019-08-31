@@ -9,10 +9,11 @@
 
     public class StockExchangeDBContext : DbContext
     {
-        public StockExchangeDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
-        {
-            Database.SetInitializer(new StockExchangeInitializer());
-        }
+        //// Already implemented in Global.asax
+        //public StockExchangeDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        //{
+        //    Database.SetInitializer(new StockExchangeInitializer());
+        //}
 
         /// <summary>
         /// Represent a set of entities stored in a database

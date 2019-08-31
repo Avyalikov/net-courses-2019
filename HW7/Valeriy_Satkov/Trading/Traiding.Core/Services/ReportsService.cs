@@ -94,5 +94,15 @@
         //{
         //    return this.operationTableRepository.GetTopOperations(10);
         //}
+
+        public IEnumerable<ClientEntity> GetFirstClients(int number, int rank)
+        {
+            var result = this.clientTableRepository.Take(number, rank);
+            if (result == null)
+            {
+                return new List<ClientEntity>();
+            }
+            return result;
+        }
     }
 }

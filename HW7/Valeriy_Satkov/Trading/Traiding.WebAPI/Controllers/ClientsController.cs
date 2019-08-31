@@ -1,39 +1,107 @@
 ﻿namespace Traiding.WebAPI.Controllers
 {
+    using StructureMap;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using System.Web.Http.Results;
+    using Traiding.Core.Dto;
+    using Traiding.Core.Models;
+    using Traiding.Core.Services;
 
     public class ClientsController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        private readonly ClientsService clientsService;
+        private readonly BalancesService balancesService;
+        private readonly SalesService salesService;
+        private readonly ReportsService reportsService;
+
+        public ClientsController()
         {
-            return new string[] { "value1", "value2" };
+            this.clientsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ClientsService>();
+            this.balancesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<BalancesService>();
+            this.salesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SalesService>();
+            this.reportsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ReportsService>();
         }
 
-        // GET api/values/5
-        public string Get(int id)
+
+        // GET
+        public IEnumerable<ClientEntity> Get([FromUri]int top, int page)
         {
-            return "value";
+            var clients = this.reportsService.GetFirstClients(top, page);           
+
+            return clients;
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
+        // POST clients/add
+        public HttpResponseMessage Add([FromBody]ClientInputData value)
         {
+            if (value == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
+            var clientId = clientsService.RegisterNewClient(new ClientRegistrationInfo()
+            {
+                LastName = value.LastName,
+                FirstName = value.FirstName,
+                PhoneNumber = value.PhoneNumber
+            });
+
+            balancesService.RegisterNewBalance(new BalanceRegistrationInfo()
+            {
+                Client = clientsService.GetClient(clientId),
+                Amount = value.Amount
+            });
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        // POST clients/update
+        public HttpResponseMessage Update([FromBody]ClientInputData value)
         {
+            if (value == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }           
+
+            clientsService.UpdateClientData(value.Id, new ClientRegistrationInfo()
+            {
+                LastName = value.LastName,
+                FirstName = value.FirstName,
+                PhoneNumber = value.PhoneNumber
+            });
+
+            //// Uncomment if it will need
+            //var balance = salesService.SearchBalanceByClientId(value.Id);
+            //balancesService.ChangeBalance(balance.Id, value.Amount);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        // DELETE api/values/5
-        public void Delete(int id)
+        // POST clients/remove
+        public HttpResponseMessage Remove([FromBody]int value)
         {
+            if (value == 0)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
+            clientsService.RemoveClient(value);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        public class ClientInputData
+        {
+            public int Id { get; set; }
+            public string LastName { get; set; }
+            public string FirstName { get; set; }
+            public string PhoneNumber { get; set; }
+            public decimal Amount { get; set; }
         }
     }
 }

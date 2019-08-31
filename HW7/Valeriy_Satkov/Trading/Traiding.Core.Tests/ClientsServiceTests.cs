@@ -48,7 +48,6 @@
             args.LastName = "Michael";
             args.FirstName = "Lomonosov";
             args.PhoneNumber = "+79521234567";
-            args.Status = true;
 
             // Act
             clientsService.RegisterNewClient(args);
@@ -56,10 +55,52 @@
             this.clientTableRepository.Contains(Arg.Is<ClientEntity>(
                 c => c.LastName == args.LastName
                 && c.FirstName == args.FirstName
-                && c.PhoneNumber == args.PhoneNumber
-                && c.Status == args.Status)).Returns(true);
+                && c.PhoneNumber == args.PhoneNumber)).Returns(true);
 
             clientsService.RegisterNewClient(args);
+
+            // Assert
+        }
+
+        [TestMethod]
+        public void ShouldUpdateClient()
+        {
+            // Arrange
+            this.clientTableRepository = Substitute.For<IClientTableRepository>();
+            var clientId = 44;
+            this.clientTableRepository.ContainsById(Arg.Is(clientId)).Returns(true);
+            ClientsService clientsService = new ClientsService(this.clientTableRepository);
+
+            ClientRegistrationInfo args = new ClientRegistrationInfo();
+            args.LastName = "Michael";
+            args.FirstName = "Lomonosov";
+            args.PhoneNumber = "+79521234567";
+
+            // Act
+            clientsService.UpdateClientData(clientId, args);
+
+            // Assert
+            this.clientTableRepository.Received(1).Add(Arg.Is<ClientEntity>(
+                c => c.LastName == args.LastName
+                && c.FirstName == args.FirstName
+                && c.PhoneNumber == args.PhoneNumber));
+            this.clientTableRepository.Received(1).SaveChanges();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfValidationRegDataFailed()
+        {
+            // Arrange
+            this.clientTableRepository = Substitute.For<IClientTableRepository>();
+            ClientsService clientsService = new ClientsService(this.clientTableRepository);
+            ClientRegistrationInfo args = new ClientRegistrationInfo();
+            args.LastName = "M";
+            args.FirstName = "LomonosovLomonosovLom";
+            args.PhoneNumber = "0";
+
+            // Act
+            clientsService.Validation(args);
 
             // Assert
         }
@@ -89,9 +130,25 @@
             ClientsService clientsService = new ClientsService(this.clientTableRepository);
 
             // Act
-            var clientInfo = clientsService.GetClient(55);
+            clientsService.ContainsById(55);
 
             // Assert
+        }
+
+        [TestMethod]
+        public void ShouldRemoveClient()
+        {
+            // Arrange
+            this.clientTableRepository = Substitute.For<IClientTableRepository>();
+            this.clientTableRepository.ContainsById(Arg.Is(55)).Returns(true);
+            ClientsService clientsService = new ClientsService(this.clientTableRepository);
+
+            // Act
+            clientsService.RemoveClient(55);
+
+            // Assert
+            this.clientTableRepository.Received(1).Deactivate(55);
+            this.clientTableRepository.Received(1).SaveChanges();
         }
     }    
 }
