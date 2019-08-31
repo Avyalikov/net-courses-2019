@@ -22,7 +22,7 @@ namespace stockSimulator.Modulation
         {
             var clients = new List<ClientEntity>
             {
-            new ClientEntity{Name="Patrick",Surname="Libovsky",CreateAt=DateTime.Parse("2005-09-01"),PhoneNumber="+79654161414",AccountBalance=1000},
+            new ClientEntity{Name="Danny",Surname="Libovsky",CreateAt=DateTime.Parse("2005-09-01"),PhoneNumber="+79654161414",AccountBalance=1000},
             new ClientEntity{Name="Larisa",Surname="Dolina",CreateAt=DateTime.Parse("2005-12-01"),PhoneNumber="+76321458552",AccountBalance=5000},
             new ClientEntity{Name="Patrick",Surname="Star",CreateAt=DateTime.Parse("2006-05-01"),PhoneNumber="+79654513154",AccountBalance=2500},
             new ClientEntity{Name="John",Surname="Lenon",CreateAt=DateTime.Parse("2000-03-01"),PhoneNumber="+34516485161",AccountBalance=9000},

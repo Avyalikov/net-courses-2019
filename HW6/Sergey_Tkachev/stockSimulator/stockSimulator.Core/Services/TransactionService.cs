@@ -11,16 +11,19 @@ namespace stockSimulator.Core.Services
         private readonly IStockTableRepository stockTableRepository;
         private readonly IStockOfClientsTableRepository stockClientTableRepository;
         private readonly ITransactionHistoryTableRepository transactionHistoryTableRepository;
+        private readonly EditCleintStockService editCleintStockService;
 
         public TransactionService(IClientTableRepository clientTableRepository,
                                   IStockTableRepository stockTableRepository,
                                   IStockOfClientsTableRepository stockClientTableRepository,
-                                  ITransactionHistoryTableRepository transactionHistoryTableRepository)
+                                  ITransactionHistoryTableRepository transactionHistoryTableRepository,
+                                  EditCleintStockService editCleintStockService)
         {
             this.clientTableRepository = clientTableRepository;
             this.stockTableRepository = stockTableRepository;
             this.stockClientTableRepository = stockClientTableRepository;
             this.transactionHistoryTableRepository = transactionHistoryTableRepository;
+            this.editCleintStockService = editCleintStockService;
         }
 
         public void Trade(TradeInfo tradeInfo)
@@ -65,10 +68,13 @@ namespace stockSimulator.Core.Services
             int newCustomerStockAmount = customerStocks + tradeInfo.Amount;
 
             clientTableRepository.UpdateBalance(tradeInfo.Customer_ID, newCustomerBalance);
-           
-            stockClientTableRepository.UpdateAmount(tradeInfo.Customer_ID,
-                                                    tradeInfo.Stock_ID,
-                                                    newCustomerStockAmount);
+
+            editCleintStockService.Edit(new EditStockOfClientInfo
+            {
+                Client_ID = tradeInfo.Customer_ID,
+                Stock_ID = tradeInfo.Stock_ID,
+                AmountOfStocks = newCustomerStockAmount
+            });
             clientTableRepository.SaveChanges();
         }
 
@@ -81,9 +87,12 @@ namespace stockSimulator.Core.Services
             clientTableRepository.UpdateBalance(tradeInfo.Seller_ID, newSellerBalance);
             int sellerStocks = stockClientTableRepository.GetAmount(tradeInfo.Seller_ID, tradeInfo.Stock_ID);
             int newSellerStockAmount = sellerStocks - tradeInfo.Amount;
-            stockClientTableRepository.UpdateAmount(tradeInfo.Seller_ID,
-                                                    tradeInfo.Stock_ID,
-                                                    newSellerStockAmount);
+            editCleintStockService.Edit(new EditStockOfClientInfo
+            {
+                Client_ID = tradeInfo.Seller_ID,
+                Stock_ID = tradeInfo.Stock_ID,
+                AmountOfStocks = newSellerStockAmount
+            });
             clientTableRepository.SaveChanges();
         }
 
