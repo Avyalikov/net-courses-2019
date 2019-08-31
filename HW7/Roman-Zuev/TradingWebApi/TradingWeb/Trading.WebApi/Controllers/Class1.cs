@@ -26,7 +26,7 @@ namespace Trading.WebApi.Controllers
         public string Get(int top, int page)
         {
 
-            return JsonConvert.SerializeObject(clientsService.GetClientsList(top, page));
+            return JsonConvert.SerializeObject(clientsService.GetClientsInBlackZone());
             
         }
 

@@ -14,7 +14,7 @@ namespace Trading.Repository.Context
         public DbSet<ClientSharesEntity> ClientShares { get; set; }
         public DbSet<SharesEntity> Shares { get; set; }
         public DbSet<TransactionHistoryEntity> TransactionHistories { get; set; }
-        public TradesEmulatorDbContext() : base ("TradesEmulatorConnectionString")
+        public TradesEmulatorDbContext() : base ("name=TradesEmulatorConnectionString")
         {
             Database.SetInitializer(new TradesEmulatorDbInitializer());
         }
