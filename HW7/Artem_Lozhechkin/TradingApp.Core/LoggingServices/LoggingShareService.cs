@@ -8,8 +8,11 @@
 
     public class LoggingShareService : ShareService
     {
-        public LoggingShareService(IRepository<ShareEntity> shareTableRepository, IRepository<ShareTypeEntity> shareTypeTableRepository) 
-            : base(shareTableRepository, shareTypeTableRepository) { }
+        public LoggingShareService(IRepository<ShareEntity> shareTableRepository, 
+            IRepository<ShareTypeEntity> shareTypeTableRepository, 
+            IRepository<StockEntity> stockTableRepository, 
+            IRepository<TraderEntity> traderTableRepository) 
+            : base(shareTableRepository, shareTypeTableRepository, stockTableRepository, traderTableRepository) { }
         public override void ChangeShareType(int shareId, int shareTypeId)
         {
             try

@@ -3,7 +3,7 @@
     using System.Data.Entity;
     using TradingApp.Core.Models;
 
-    public class SeedInitializer : DropCreateDatabaseAlways<TradingAppDbContext>
+    public class SeedInitializer : DropCreateDatabaseIfModelChanges<TradingAppDbContext>
     {
         protected override void Seed(TradingAppDbContext context)
         {

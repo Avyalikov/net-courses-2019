@@ -121,7 +121,7 @@ namespace TradingApp.ConsoleTradingManager
                     Logger.ConsoleLogger.Error(ex.Message);
                 }
 
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
             }
         }
 

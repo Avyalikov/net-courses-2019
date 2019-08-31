@@ -1,6 +1,8 @@
 ﻿namespace TradingApp.Core.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using TradingApp.Core.Models;
     using TradingApp.Core.Repositories;
 
@@ -58,6 +60,15 @@
 
             this.transactionTableRepository.SaveChanges();
             return transactionId;
+        }
+        public virtual IEnumerable<string> GetTopTransactionsByUser(int traderId, int top)
+        {
+            ValidateTraderExistenceInDataSource(traderId);
+            return this.transactionTableRepository
+                .GetAll().Where(t => t.Buyer.Id == traderId || t.Seller.Id == traderId)
+                .Select(t => $"Seller: {t.Seller.FirstName} {t.Seller.LastName}, Buyer: {t.Buyer.FirstName} {t.Buyer.LastName}, " +
+                $"Price: {t.TransactionPayment}, TimeStamp: {t.TransactionDate}")
+                .Take(top);
         }
         private void ValidateTraderExistenceInDataSource(int traderId)
         {

@@ -4,6 +4,7 @@ using TradingApp.Core.Models;
 using TradingApp.Core.Repositories;
 using TradingApp.Core.Services;
 using TradingApp.Core.DTO;
+using System.Collections.Generic;
 
 namespace WebApi.Controllers
 {
@@ -43,6 +44,18 @@ namespace WebApi.Controllers
             }
             return Ok();
         }
-
+        [Route("")]
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> GetTopTransactionsByUser(int clientId, int top)
+        {
+            try
+            {
+                return Ok(transactionService.GetTopTransactionsByUser(clientId, top));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

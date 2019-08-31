@@ -11,7 +11,7 @@
         int Save(T entity);
         int Delete(T entity);
         T GetById(int? id);
-        //IEnumerable<T> GetByPredicate(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> GetByPredicate(Expression<Func<T, bool>> predicate);
         List<T> GetAll();
         bool Contains(T entity);
         int SaveChanges();

@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\ShareInfo.cs" />
     <Compile Include="DTO\TraderInfo.cs" />
     <Compile Include="DTO\TransactionInfo.cs" />
     <Compile Include="Logger.cs" />
