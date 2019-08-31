@@ -72,5 +72,10 @@ namespace HW7.Server.Repositories
 
             context.SaveChanges();
         }
+
+        public int GetShareQuantityFromPortfoio(int traderId, int shareId)
+        {
+            return context.Portfolios.Where(p => p.TraderID == traderId && p.ShareId == shareId).Select(x => x.Quantity).FirstOrDefault();
+        }
     }
 }

@@ -37,6 +37,12 @@ namespace HW7.Server.Controllers
             }
         }
 
+        [Route("shares/availableshares")]
+        public async Task<ActionResult<IEnumerable<int>>> GetAvailableShares(int clientId)
+        {
+            return sharesService.GetAvailableShares(clientId);
+        }
+
         //Adds share
         [Route("shares/add")]
         public async Task<ActionResult<string>> Add([FromBody]ShareToAdd share)

@@ -47,5 +47,10 @@ namespace HW7.Core.Services
         {
             return sharesRepository.RemoveShare(id);
         }
+
+        public List<int> GetAvailableShares(int traderId)
+        {
+            return sharesRepository.GetAvailableShares(traderId);
+        }
     }
 }

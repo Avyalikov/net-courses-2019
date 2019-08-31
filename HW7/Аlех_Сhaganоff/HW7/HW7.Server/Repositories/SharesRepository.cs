@@ -31,6 +31,11 @@ namespace HW7.Server.Repositories
             return newShare;
         }
 
+        public List<int> GetAvailableShares(int traderId)
+        {
+            return context.Portfolios.Where(p => p.TraderID == traderId).Select(x => x.ShareId).ToList();
+        }
+
         public decimal GetPrice(int shareId)
         {
             return context.Shares.Where(s => s.ShareId == shareId).Select(x => x.Price).FirstOrDefault();
@@ -62,7 +67,7 @@ namespace HW7.Server.Repositories
 
             context.Shares.Remove(shareToRemove);
             
-context.SaveChanges();
+            context.SaveChanges();
 
             return true;
         }

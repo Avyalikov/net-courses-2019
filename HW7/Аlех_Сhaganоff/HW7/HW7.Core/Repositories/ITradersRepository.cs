@@ -26,5 +26,9 @@ namespace HW7.Core.Repositories
         void AddToBalance(int traderId, decimal amount);
 
         void SubtractFromBalance(int traderId, decimal amount);
+
+        List<int> GetAvailableSellers();
+
+        List<int> GetAvailableBuyers();
     }
 }

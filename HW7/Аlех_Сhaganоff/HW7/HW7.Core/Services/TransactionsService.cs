@@ -75,5 +75,10 @@ namespace HW7.Core.Services
 
             return newTransaction;
         }
+
+        public int GetShareQuantityFromPortfoio(int traderId, int shareId)
+        {
+            return portfoliosRepository.GetShareQuantityFromPortfoio(traderId, shareId);
+        }
     }
 }

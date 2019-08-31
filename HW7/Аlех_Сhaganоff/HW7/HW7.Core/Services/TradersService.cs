@@ -57,5 +57,15 @@ namespace HW7.Core.Services
         {
             return tradersRepository.RemoveTrader(id);
         }
+
+        public List<int> GetAvailableSellers()
+        {
+            return tradersRepository.GetAvailableSellers();
+        }
+
+        public List<int> GetAvailableBuyers()
+        {
+            return tradersRepository.GetAvailableBuyers();
+        }
     }
 }

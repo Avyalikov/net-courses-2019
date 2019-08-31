@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HW7.Server.Controllers
 {
-    [Route("transactions")]
-    [ApiController]
+    
     public class TransactionsController : ControllerBase
     {
         private readonly TransactionsService transactionsService;
@@ -23,10 +22,16 @@ namespace HW7.Server.Controllers
         }
 
         //Returns first N transactions involving a trader
-        [HttpGet]
+        [Route("transactions")]
         public async Task<ActionResult<IEnumerable<Transaction>>> Get(int clientId, int top)
         {
             return await transactionsService.GetNumberTransactionsForTrader(clientId, top).ToListAsync();
+        }
+
+        [Route("transactions/sharequantity")]
+        public async Task<ActionResult<int>> GetShareQuantityFromPortfoio(int clientId, int shareId)
+        {
+            return transactionsService.GetShareQuantityFromPortfoio(clientId, shareId);
         }
     }
 }

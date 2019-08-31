@@ -18,6 +18,8 @@ namespace HW7.Core.Repositories
 
         bool RemoveShare(int id);
 
-        decimal GetPrice(int shareId); 
+        decimal GetPrice(int shareId);
+
+        List<int> GetAvailableShares(int traderId);
     }
 }

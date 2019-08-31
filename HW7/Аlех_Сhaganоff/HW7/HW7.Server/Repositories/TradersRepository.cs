@@ -102,5 +102,15 @@ namespace HW7.Server.Repositories
 
             context.SaveChanges();
         }
+
+        public List<int> GetAvailableSellers()
+        {
+            return context.Portfolios.Where(p => p.Quantity > 0).Select(x => x.TraderID).Distinct().ToList();
+        }
+
+        public List<int> GetAvailableBuyers()
+        {
+            return context.Portfolios.Select(x => x.TraderID).Distinct().ToList();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HW7.Client
@@ -19,7 +20,7 @@ namespace HW7.Client
         {
             bool exitCondition = false;
             int userChoice = 0;
-            List<int> menuChoices = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0 };
+            List<int> menuChoices = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0 };
             
             requests.Get(requests.connectionString);
 
@@ -57,6 +58,7 @@ namespace HW7.Client
                 case 9: requests.GetBalance(); break;
                 case 10: requests.GetTransactions(); break;
                 case 11: requests.MakeDeal(); break;
+                case 12: SimulationHandler(); break;
             }
         }
 
@@ -105,7 +107,48 @@ namespace HW7.Client
             Console.WriteLine("9-Get balance");
             Console.WriteLine("10-Get transactions");
             Console.WriteLine("11-Make deal");
+            Console.WriteLine("12-Start/stop simulation");
             Console.WriteLine("0-Exit");
+        }
+
+        public void SimulationHandler()
+        {
+            if (requests.simulationIsWorking == false)
+            {
+                requests.simulationIsWorking = true;
+                Console.WriteLine("Simulation started");
+                RunTradingSimulation();
+            }
+            else
+            {
+                requests.simulationIsWorking = false;
+                Console.WriteLine("Simulation ended");
+            }
+        }
+
+        public void RunTradingSimulation()
+        {
+           Task t = Task.Run(() =>
+           {
+                while (requests.simulationIsWorking)
+                {
+                    var result = requests.PerformRandomOperation();
+
+                    requests.MakeDeal(result);
+
+                    for (int j = 1; j < 100 && requests.simulationIsWorking; j++)
+                    {
+                        if (requests.simulationIsWorking)
+                        {
+                            Thread.Sleep(10);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            });
         }
     }
 }

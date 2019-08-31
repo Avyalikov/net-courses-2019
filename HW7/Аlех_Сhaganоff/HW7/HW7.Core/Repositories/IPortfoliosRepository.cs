@@ -20,5 +20,7 @@ namespace HW7.Core.Repositories
         void AddShares(Portfolio portfolio, int quantity);
 
         void RemoveShares(Portfolio portfolio, int quantity);
+
+        int GetShareQuantityFromPortfoio(int traderId, int shareId);
     }
 }

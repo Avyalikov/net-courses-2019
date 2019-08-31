@@ -31,7 +31,19 @@ namespace HW7.Server.Controllers
             return await tradersService.GetListOfSeveralTraders(amounttoSkip, amounttoTake).ToListAsync();
         }
 
-       // Adds trader
+        [Route("clients/sellerslist")]
+        public async Task<ActionResult<IEnumerable<int>>> SellersList()
+        {
+            return  tradersService.GetAvailableSellers();
+        }
+
+        [Route("clients/buyerslist")]
+        public async Task<ActionResult<IEnumerable<int>>> BuyersList()
+        {
+            return tradersService.GetAvailableBuyers();
+        }
+
+        // Adds trader
         [Route("clients/add")]
         public async Task<ActionResult<string>> Add([FromBody]TraderToAdd trader)
         {
