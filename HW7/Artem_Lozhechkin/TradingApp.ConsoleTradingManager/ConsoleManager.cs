@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading;
 using TradingApp.Core;
 using TradingApp.Core.DTO;
@@ -20,6 +25,7 @@ namespace TradingApp.ConsoleTradingManager
         private readonly IRepository<StockEntity> stockTableRepository;
         private readonly IRepository<ShareTypeEntity> shareTypeTableRepository;
         private readonly IRepository<TransactionEntity> transactionTableRepository;
+        private readonly RequestSender requestSender;
 
         public ConsoleManager(
             TraderService traderService,
@@ -30,7 +36,8 @@ namespace TradingApp.ConsoleTradingManager
             IRepository<CompanyEntity> companyTableRepository,
             IRepository<StockEntity> stockTableRepository,
             IRepository<ShareTypeEntity> shareTypeTableRepository,
-            IRepository<TransactionEntity> transactionTableRepository)
+            IRepository<TransactionEntity> transactionTableRepository,
+            RequestSender requestSender)
         {
             this.traderService = traderService;
             this.shareService = shareService;
@@ -41,6 +48,7 @@ namespace TradingApp.ConsoleTradingManager
             this.stockTableRepository = stockTableRepository;
             this.shareTypeTableRepository = shareTypeTableRepository;
             this.transactionTableRepository = transactionTableRepository;
+            this.requestSender = requestSender;
         }
         private void ShowMenu()
         {
@@ -105,23 +113,25 @@ namespace TradingApp.ConsoleTradingManager
                 try
                 {
                     int sellerId, buyerId, shareId;
-                    sellerId = rand.Next(1, this.traderTableRepository.GetAll().Count + 1);
-                    buyerId = rand.Next(1, this.traderTableRepository.GetAll().Count + 1);
-                    var sellerShares = this.shareService.GetAllSharesByTraderId(sellerId);
+                    sellerId = rand.Next(1, this.requestSender.GetAllTradersList().Count() + 1);
+                    buyerId = rand.Next(1, this.requestSender.GetAllTradersList().Count() + 1);
+                    var sellerShares = this.requestSender.GetAllSharesByTrader(sellerId);
                     shareId = sellerShares[rand.Next(0, sellerShares.Count())].Id;
 
-                    var transactionId = transactionService.MakeShareTransaction(sellerId, buyerId, shareId);
+                    var transactionInfo = new TransactionInfo {
+                        BuyerId = buyerId,
+                        SellerId = sellerId,
+                        ShareId = shareId
+                    };
 
-                    var transaction = this.transactionTableRepository.GetById(transactionId);
-                    Console.WriteLine($"Проведена сделка между {transaction.Seller.FirstName + " " + transaction.Seller.LastName} " +
-                        $"и {transaction.Buyer.FirstName + " " + transaction.Buyer.LastName} стоимостью {transaction.TransactionPayment:0.00}");
+                    Console.WriteLine(requestSender.MakeTransaction(transactionInfo));
                 }
                 catch (Exception ex)
                 {
                     Logger.ConsoleLogger.Error(ex.Message);
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
             }
         }
 

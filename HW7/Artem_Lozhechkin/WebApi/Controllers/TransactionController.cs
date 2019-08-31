@@ -37,12 +37,12 @@ namespace WebApi.Controllers
                     transactionInfo.SellerId, 
                     transactionInfo.BuyerId, 
                     transactionInfo.ShareId);
+                return Ok("Made a transaction");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
         }
         [Route("")]
         [HttpGet]

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using TradingApp.Core.DTO;
 using TradingApp.Core.Models;
 using TradingApp.Core.Repositories;
@@ -18,9 +21,21 @@ namespace WebApi.Controllers
         {
             this.shareService = shareService;
         }
-
+        [Route("all_shares")]
         [HttpGet]
-        public ActionResult<List<string>> GetSharesByClientId(int clientId)
+        public ActionResult<List<ShareEntity>> GetSharesByClientId(int clientId)
+        {
+            try
+            {
+                return Ok(JsonConvert.SerializeObject(this.shareService.GetAllSharesByTraderId(clientId)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet]
+        public ActionResult<List<string>> GetSharesListByClientId(int clientId)
         {
             try
             {

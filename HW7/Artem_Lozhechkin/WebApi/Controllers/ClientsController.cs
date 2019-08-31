@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using TradingApp.Core.DTO;
@@ -20,12 +21,6 @@ namespace WebApi.Controllers
             this.clientRepository = clientRepository;
             this.service = service;
         }
-        //[Route("get")]
-        //[HttpGet]
-        //public ActionResult<List<TraderEntity>> Get(int top, int page)
-        //{
-        //    return this.clientRepository.GetAll();
-        //}
         [Route("add")]
         [HttpPost]
         public IActionResult RegisterUser([FromBody] TraderInfo traderInfo)
@@ -75,6 +70,20 @@ namespace WebApi.Controllers
             try
             {
                return Ok(this.service.GetUserLists(top, page));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("all")]
+        [HttpGet]
+        public ActionResult<string> GetAll()
+        {
+            try
+            {
+                var responseContent = JsonConvert.SerializeObject(this.service.GetAllTraders());
+                return Ok(responseContent);
             }
             catch (Exception ex)
             {

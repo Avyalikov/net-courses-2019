@@ -25,7 +25,7 @@
             this.For<ShareService>().Use<LoggingShareService>();
             this.For<TraderService>().Use<LoggingTraderService>();
             this.For<TransactionService>().Use<LoggingTransactionService>();
-            
+            this.For<RequestSender>().Use<RequestSender>();
             this.For<TradingAppDbContext>().Use<TradingAppDbContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingAppConnectionString"].ConnectionString);
             this.For<ConsoleManager>().Use<ConsoleManager>();
         }
