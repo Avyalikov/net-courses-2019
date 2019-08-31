@@ -18,5 +18,12 @@
         {
             return JsonConvert.SerializeObject(transactionService.GetTransactions(clientId, top));
         }
+
+        // GET: /transaction/list
+        [HttpGet("list")]
+        public string Get()
+        {
+            return JsonConvert.SerializeObject(transactionService.GetTransactions());
+        }
     }
 }
