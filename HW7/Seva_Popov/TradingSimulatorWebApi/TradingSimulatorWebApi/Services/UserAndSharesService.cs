@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TradingSimulator.Core.Services
+namespace TradingSimulatorWebApi.Services
 {
     public class UserAndSharesService
     {

@@ -43,5 +43,17 @@ namespace TradingSimulatorWebApi.Repositories
             dbContext.SaveChanges();
             return user;
         }
+
+        public IEnumerable<UserEntity> GetUserBlackList()
+        {
+            var users = dbContext.Users.Where(q => q.Balance < 0).ToList();
+            return users;
+        }
+
+        public IEnumerable<UserEntity> GetUserOrangeList()
+        {
+            var users = dbContext.Users.Where(q => q.Balance == 0).ToList();
+            return users;
+        }
     }
 }

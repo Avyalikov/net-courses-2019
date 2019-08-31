@@ -39,5 +39,17 @@ namespace TradingSimulator.Core.Services
             UserTableRepository userTableRepository = new UserTableRepository(dbContext);
             return userTableRepository.Put(user);
         }
+
+        public IEnumerable<UserEntity> GetUserBlackList()
+        {
+            UserTableRepository userTableRepository = new UserTableRepository(dbContext);
+            return userTableRepository.GetUserBlackList();
+        }
+        
+        public IEnumerable<UserEntity> GetUserOrangeList()
+        {
+            UserTableRepository userTableRepository = new UserTableRepository(dbContext);
+            return userTableRepository.GetUserOrangeList();
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TradingSimulator.Core.Services
 {
-    public class TransactionService
+    public interface IUserAndSharesService
     {
     }
 }
