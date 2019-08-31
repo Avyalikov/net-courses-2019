@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using Trading.Core.Models;
 
 namespace Trading.Core.Repositories
 {
     public interface IClientTableRepository
     {
-        void SaveChanges();
+        ClientEntity this[int i] { get; }
+
+        int Count { get; }
+
         void Add(ClientEntity entity);
-        bool Contains(ClientEntity entityToAdd);
+        void Change(ClientEntity changedClient);
+        bool Contains(ClientEntity entity);
         bool ContainsById(int clientId);
         ClientEntity GetById(int clientId);
-        void Change(ClientEntity changedClient);
         ICollection<ClientEntity> GetClientsInBlackZone();
         ICollection<ClientEntity> GetClientsInOrangeZone();
-        int Count { get; }
-        ClientEntity this[int i] { get; }
+        ICollection<ClientEntity> GetTop(int clientsAmount);
+        void Remove(ClientEntity client);
+        void SaveChanges();
     }
 }

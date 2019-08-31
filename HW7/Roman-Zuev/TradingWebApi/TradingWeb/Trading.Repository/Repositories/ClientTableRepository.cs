@@ -34,7 +34,7 @@ namespace Trading.Repository.Repositories
 
         public bool Contains(ClientEntity entity)
         {
-            return dbContext.Clients.Any(c=>
+            return dbContext.Clients.Any(c =>
             c.Name == entity.Name
             && c.Phone == entity.Phone);
         }
@@ -59,9 +59,14 @@ namespace Trading.Repository.Repositories
             return this.dbContext.Clients.Where(c => c.Balance == 0).ToList();
         }
 
-        public ICollection<ClientEntity> GetTop(int topCount)
+        public ICollection<ClientEntity> GetTop(int clientsAmount)
         {
-            return this.dbContext.Clients.Take(topCount).ToList();
+            return this.dbContext.Clients.Take(clientsAmount).ToList();
+        }
+
+        public void Remove(ClientEntity client)
+        {
+            this.dbContext.Clients.Remove(client);
         }
 
         public void SaveChanges()

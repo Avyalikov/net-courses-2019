@@ -67,15 +67,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\HW6\Roman-Zuev\TradingRefactored\TradingRefactored\Trading.Core\Trading.Core.csproj">
-      <Project>{00db62cb-f506-43fd-810e-ecd9bdc22a13}</Project>
-      <Name>Trading.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Migrations\201908301923020_Initial.resx">
       <DependentUpon>201908301923020_Initial.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Trading.Core\Trading.Core.csproj">
+      <Project>{00db62cb-f506-43fd-810e-ecd9bdc22a13}</Project>
+      <Name>Trading.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

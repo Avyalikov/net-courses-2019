@@ -10,10 +10,12 @@ namespace Trading.Core.Services
     public class ClientsService : IClientsService
     {
         private readonly IClientTableRepository clientTableRepository;
+        private readonly ISharesTableRepository sharesTableRepository;
 
-        public ClientsService(IClientTableRepository clientTableRepository)
+        public ClientsService(IClientTableRepository clientTableRepository, ISharesTableRepository sharesTableRepository)
         {
             this.clientTableRepository = clientTableRepository;
+            this.sharesTableRepository = sharesTableRepository;
         }
         public int RegisterNewClient(ClientRegistrationInfo args)
         {
@@ -54,6 +56,78 @@ namespace Trading.Core.Services
         public ICollection<ClientEntity> GetClientsInBlackZone()
         {
             return clientTableRepository.GetClientsInBlackZone();
+        }
+
+        public void UpdateClientInfo(int clientId, ClientRegistrationInfo infoToUpdate)
+        {
+            if (infoToUpdate.Name.Length < 2)
+            {
+                throw new ArgumentException("Wrong data");
+            }
+            if (!clientTableRepository.ContainsById(clientId))
+            {
+                throw new ArgumentException($"Client with Id {clientId} doesn't exist");
+            }
+
+            ClientEntity clientToChangeBalance = clientTableRepository.GetById(clientId);
+            clientToChangeBalance.Name = infoToUpdate.Name;
+            clientToChangeBalance.Phone = infoToUpdate.Phone;
+            clientTableRepository.Change(clientToChangeBalance);
+            clientTableRepository.SaveChanges();
+        }
+
+        public ICollection<ClientEntity> GetTop(int top, int page)
+        {
+            if (clientTableRepository.Count < (page - 1) * top)
+            {
+                throw new ArgumentException("Empty page");
+            }
+            var clients = clientTableRepository.GetTop(page * top).ToList();
+            clients.RemoveRange(0, (page - 1) * top);
+            return clients;
+        }
+
+        public void RemoveClientById(int clientId)
+        {
+            if (!clientTableRepository.ContainsById(clientId))
+            {
+                throw new ArgumentException($"Client with Id {clientId} doesn't exist");
+            }
+            ClientEntity client = clientTableRepository.GetById(clientId);
+            clientTableRepository.Remove(client);
+            clientTableRepository.SaveChanges();
+        }
+
+        public string GetBalance(int clientId)
+        {
+            if (!clientTableRepository.ContainsById(clientId))
+            {
+                throw new ArgumentException($"Client with Id {clientId} doesn't exist");
+            }
+            ClientEntity client = clientTableRepository.GetById(clientId);
+            return string.Format($"Balance: {client.Balance}, Zone: " + (client.Balance > 0 ? "Green" : client.Balance < 0 ? "Black" : "Orange"));
+        }
+
+        public IDictionary<SharesEntity, int> GetClientSharesById(int clientId)
+        {
+            if (!clientTableRepository.ContainsById(clientId))
+            {
+                throw new ArgumentException($"Client with Id {clientId} doesn't exist");
+            }
+
+            ClientEntity client = clientTableRepository.GetById(clientId);
+            if (client.Portfolio.Count < 1)
+            {
+                throw new ArgumentException("Client have no shares left");
+            }
+
+            Dictionary<SharesEntity, int> sharesWithQuantity = new Dictionary<SharesEntity, int>();
+            foreach (var item in client.Portfolio)
+            {
+                sharesWithQuantity.Add(sharesTableRepository.GetById(item.Shares.Id), item.Quantity);
+            }
+
+            return sharesWithQuantity;
         }
     }
 }

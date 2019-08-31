@@ -28,6 +28,8 @@ namespace Trading.WebApi
             services.AddScoped<ITransactionHistoryTableRepository, TransactionHistoryTableRepository>();
             services.AddScoped<IClientsService, ClientsService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<ISharesService, SharesService>();
+            services.AddScoped<ITransactionHistoryService, TransactionHistoryService>();
             services.AddScoped<TradesEmulatorDbContext, TradesEmulatorDbContext>();
         }
 

@@ -55,9 +55,13 @@
     <Compile Include="Repositories\IClientSharesTableRepository.cs" />
     <Compile Include="Repositories\IClientTableRepository.cs" />
     <Compile Include="Repositories\ISharesTableRepository.cs" />
+    <Compile Include="Services\TransactionHistoryService.cs" />
+    <Compile Include="Services\ITransactionHistoryService.cs" />
+    <Compile Include="Services\SharesService.cs" />
     <Compile Include="Services\ClientsService.cs" />
     <Compile Include="Repositories\ITransactionHistoryTableRepository.cs" />
     <Compile Include="Services\IClientsService.cs" />
+    <Compile Include="Services\ISharesService.cs" />
     <Compile Include="Services\ITransactionService.cs" />
     <Compile Include="Services\TransactionService.cs" />
   </ItemGroup>

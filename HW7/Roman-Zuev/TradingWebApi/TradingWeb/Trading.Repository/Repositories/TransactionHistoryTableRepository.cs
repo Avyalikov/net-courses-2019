@@ -1,19 +1,18 @@
-﻿using Trading.Repository.Context;
-
-namespace Trading.Repository.Repositories
+﻿namespace Trading.Repository.Repositories
 {
     using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
     using Trading.Core.Models;
     using Trading.Core.Repositories;
     using Trading.Repository.Context;
+    using System.Collections;
     using System.Linq;
+    using System.Collections.Generic;
+
     public class TransactionHistoryTableRepository : ITransactionHistoryTableRepository
     {
         private readonly TradesEmulatorDbContext dbContext;
 
-        public TransactionHistoryTableRepository (TradesEmulatorDbContext dbContext)
+        public TransactionHistoryTableRepository(TradesEmulatorDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -21,6 +20,13 @@ namespace Trading.Repository.Repositories
         public void Add(TransactionHistoryEntity transaction)
         {
             this.dbContext.TransactionHistories.Add(transaction);
+        }
+
+        public ICollection<TransactionHistoryEntity> GetTransactionsById(int clientId, int top)
+        {
+            return this.dbContext.TransactionHistories
+                .Where(h => h.Buyer.Id == clientId || h.Seller.Id == clientId)
+                .Take(top).ToList();
         }
 
         public void SaveChanges()

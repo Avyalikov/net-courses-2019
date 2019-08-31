@@ -13,11 +13,13 @@ namespace Trading.Core.Tests
     public class ClientsServiceTests
     {
         IClientTableRepository clientTableRepository;
+        ISharesTableRepository sharesTableRepository;
         ClientsService clientsService;
         [TestInitialize]
         public void Initialize()
         {
             clientTableRepository = Substitute.For<IClientTableRepository>();
+            sharesTableRepository = Substitute.For<ISharesTableRepository>();
             clientTableRepository.GetById(1).Returns(new ClientEntity()
             {
                 Id = 1,
@@ -28,7 +30,7 @@ namespace Trading.Core.Tests
                 .Returns(new List<ClientEntity>());
             clientTableRepository.GetClientsInBlackZone()
                 .Returns(new List<ClientEntity>());
-            clientsService = new ClientsService(clientTableRepository);
+            clientsService = new ClientsService(clientTableRepository, sharesTableRepository);
         }
         [TestMethod]
         public void ShouldRegisterNewClient()
