@@ -1,8 +1,8 @@
 ﻿namespace TradingSoftware.Core.Tests
 {
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
-    using System;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
     using TradingSoftware.Core.Services;
@@ -472,21 +472,63 @@
             clientManagerMock
                 .Received(1)
                 .ChangeBalance(transaction.SellerID, calculatedSharesPrice);
-
-
-
         }
 
         [TestMethod]
         public void GetTransactionWithClientTest()
         {
-            throw new NotImplementedException();
-        }
+            // Arrange
+            var clientManagerMock = Substitute.For<IClientManager>();
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
+            var transactionRepositoryMock = Substitute.For<ITransactionRepository>();
 
-        [TestMethod]
-        public void MakeTest()
-        {
-            throw new NotImplementedException();
+            var sut = new TransactionManager(
+                clientManagerMock,
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock,
+                transactionRepositoryMock);
+
+            var transaction = new Transaction
+            {
+                SellerID = 1,
+                BuyerID = 2,
+                ShareID = 3,
+                Amount = 4
+            };
+            int clientID = 1;
+            decimal sharePrice = 509;
+
+            transactionRepositoryMock
+                .GetTransactionWithClient(clientID)
+                .Returns(new Transaction[] { transaction });
+
+            clientManagerMock
+                .GetClientName(transaction.SellerID)
+                .Returns("Yevgeny Zamyatin");
+
+            clientManagerMock
+                .GetClientName(transaction.BuyerID)
+                .Returns("George Orwell");
+
+            sharesRepositoryMock
+                .GetShareType(transaction.ShareID)
+                .Returns("We1984");
+
+            sharesRepositoryMock
+                .GetSharePrice(transaction.ShareID)
+                .Returns(sharePrice);
+
+            // Act
+            var transactionsFullDataResult = sut.GetTransactionWithClient(clientID);
+
+            // Asserts
+            Assert.AreEqual(transactionsFullDataResult.ElementAt(0).SellerName, "Yevgeny Zamyatin");
+            Assert.AreEqual(transactionsFullDataResult.ElementAt(0).BuyerName, "George Orwell");
+            Assert.AreEqual(transactionsFullDataResult.ElementAt(0).ShareType, "We1984");
+            Assert.AreEqual(transactionsFullDataResult.ElementAt(0).ShareAmount, 4);
         }
     }
 }

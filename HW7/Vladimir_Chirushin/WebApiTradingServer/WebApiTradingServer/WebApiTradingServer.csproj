@@ -519,7 +519,7 @@
     <Compile Include="Controllers\MakeController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\SharesController.cs" />
-    <Compile Include="Services\SimulationManager.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="TradingContext.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Program.cs" />
@@ -528,15 +528,8 @@
     <Compile Include="Repositories\SharesRepository.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
     <Compile Include="Repositories\BlockOfSharesRepository.cs" />
-    <Compile Include="Services\DataBaseInitializer.cs" />
-    <Compile Include="Services\CommandStrategy\ReadAllClientsStrategy.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\ILoggerService.cs" />
-    <Compile Include="Services\CommandParser.cs" />
-    <Compile Include="Services\CommandStrategy\CommandStrategyRegistry.cs" />
-    <Compile Include="Services\ICommandParser.cs" />
-    <Compile Include="Services\CommandStrategy\AddClientStrategy.cs" />
-    <Compile Include="Services\CommandStrategy\ICommandStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

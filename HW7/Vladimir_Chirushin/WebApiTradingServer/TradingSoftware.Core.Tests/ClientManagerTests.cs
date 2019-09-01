@@ -288,7 +288,6 @@
             clientRepositoryMock.DidNotReceive().ChangeBalance(clientID, amount);
         }
 
-
         [TestMethod]
         public void DeleteClientTest()
         {
@@ -302,10 +301,9 @@
                 PhoneNumber = "327-57-53",
                 Balance = 145
             };
-            int clientID = 3;
 
             clientRepositoryMock
-                .IsClientExist(Arg.Is<int>(clientID))
+                .IsClientExist(Arg.Is<string>(client.Name))
                 .Returns(true);
 
             // Act
@@ -362,7 +360,6 @@
             clientRepositoryMock.Received(1).ClientUpdate(client);
         }
 
-
         [TestMethod]
         public void GetClientBalanceStatusGreenTest()
         {
@@ -378,16 +375,17 @@
             };
             int clientID = 3;
 
-            sut.
-                GetClientName(clientID)
-                .Returns(client.Name);
-            sut.
-                GetClientBalance(clientID)
-                .Returns(156);
-
             clientRepositoryMock
                 .IsClientExist(Arg.Is<int>(clientID))
-                .Returns(false);
+                .Returns(true);
+
+            clientRepositoryMock
+                .GetClientName(Arg.Is<int>(clientID))
+                .Returns(client.Name);
+
+            clientRepositoryMock
+                .GetClientBalance(Arg.Is<int>(clientID))
+                .Returns(145);
 
             // Act
             var result = sut.GetClientBalanceStatus(clientID);
@@ -397,7 +395,6 @@
             Assert.AreEqual(result.Status, "Green");
             Assert.AreEqual(result.Balance, client.Balance);
         }
-
 
         [TestMethod]
         public void GetClientBalanceStatusOrangeTest()
@@ -423,16 +420,8 @@
                 .Returns(client.Name);
 
             clientRepositoryMock
-                .IsClientExist(Arg.Is<int>(clientID))
-                .Returns(true);
-
-            clientRepositoryMock.
-                GetClientBalance(Arg.Is<int>(clientID))
-                .Returns(156);
-
-            clientRepositoryMock
-                .IsClientExist(Arg.Is<int>(clientID))
-                .Returns(false);
+                .GetClientBalance(Arg.Is<int>(clientID))
+                .Returns(0);
 
             // Act
             var result = sut.GetClientBalanceStatus(clientID);
@@ -457,17 +446,18 @@
                 Balance = -98765
             };
             int clientID = 3;
-
-            sut.
-                GetClientName(clientID)
-                .Returns(client.Name);
-            sut.
-                GetClientBalance(clientID)
-                .Returns(156);
-
+            
             clientRepositoryMock
                 .IsClientExist(Arg.Is<int>(clientID))
-                .Returns(false);
+                .Returns(true);
+
+            clientRepositoryMock
+                .GetClientName(Arg.Is<int>(clientID))
+                .Returns(client.Name);
+
+            clientRepositoryMock
+                .GetClientBalance(Arg.Is<int>(clientID))
+                .Returns(-98765);
 
             // Act
             var result = sut.GetClientBalanceStatus(clientID);

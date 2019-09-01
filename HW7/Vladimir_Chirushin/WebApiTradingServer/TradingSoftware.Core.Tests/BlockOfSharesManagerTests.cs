@@ -1,8 +1,8 @@
 ﻿namespace TradingSoftware.Core.Tests
 {
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
-    using System;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
     using TradingSoftware.Core.Services;
@@ -122,20 +122,166 @@
         [TestMethod]
         public void GetClientSharesTest()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
+
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
+
+            int clientID = 1;
+            int firstShareID = 3;
+            int secondShareID = 7;
+
+            var blockOfShares = new[] 
+            {
+                new BlockOfShares { ClientID = clientID, ShareID = firstShareID, Amount = 1 },
+                new BlockOfShares { ClientID = clientID, ShareID = secondShareID, Amount = 3 }
+            };
+
+            blockOfSharesRepositoryMock
+                .GetClientShares(clientID)
+                .Returns(blockOfShares);
+
+            sharesRepositoryMock
+                .GetShareType(3)
+                .Returns("Umbrella");
+
+            sharesRepositoryMock
+                .GetSharePrice(3)
+                .Returns(123);
+
+            sharesRepositoryMock
+                .GetShareType(7)
+                .Returns("Weyland-Yutani");
+
+            sharesRepositoryMock
+               .GetSharePrice(7)
+               .Returns(321);
+
+            // Act
+            var clientSharesResult = sut.GetClientShares(clientID);
+
+            // Asserts
+            Assert.AreEqual(clientSharesResult.ShareWithPrice.ElementAt(0).Key, "Umbrella");
+            Assert.AreEqual(clientSharesResult.ShareWithPrice.ElementAt(0).Value, 123);
+
+            Assert.AreEqual(clientSharesResult.ShareWithPrice.ElementAt(1).Key, "Weyland-Yutani");
+            Assert.AreEqual(clientSharesResult.ShareWithPrice.ElementAt(1).Value, 321);
+        }
+
+        [TestMethod]
+        public void UpdateClientSharesThatDidntExistTest()
+        {
+            // Arrange
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
+
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
+
+            int clientID = 1;
+            int shareID = 3;
+            int amount = 13;
+            var blockOfShareToUpdate =
+                new BlockOfShares
+                {
+                    ClientID = clientID,
+                    ShareID = shareID,
+                    Amount = amount
+                };
+
+            blockOfSharesRepositoryMock
+                .IsClientHasShareType(
+                    blockOfShareToUpdate.ClientID,
+                    blockOfShareToUpdate.ShareID)
+                .Returns(false);
+
+            // Act
+            sut.UpdateClientShares(blockOfShareToUpdate);
+
+            // Asserts
+            blockOfSharesRepositoryMock
+                .Received(1)
+                .Insert(blockOfShareToUpdate);
         }
 
         [TestMethod]
         public void UpdateClientSharesTest()
         {
-            throw new NotImplementedException();
-        }
+            // Arrange
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
 
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
+
+            int clientID = 1;
+            int shareID = 3;
+            int amount = 13;
+            var blockOfShareToUpdate =
+                new BlockOfShares
+                {
+                    ClientID = clientID,
+                    ShareID = shareID,
+                    Amount = amount
+                };
+
+            blockOfSharesRepositoryMock
+                .IsClientHasShareType(
+                    blockOfShareToUpdate.ClientID,
+                    blockOfShareToUpdate.ShareID)
+                .Returns(true);
+
+            // Act
+            sut.UpdateClientShares(blockOfShareToUpdate);
+
+            // Asserts
+            blockOfSharesRepositoryMock
+                .Received(1)
+                .ChangeShareAmountForClient(blockOfShareToUpdate);
+        }
 
         [TestMethod]
         public void Delete()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
+
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
+
+            int clientID = 1;
+            int shareID = 3;
+            int amount = 13;
+            var blockOfShareToUpdate =
+                new BlockOfShares
+                {
+                    ClientID = clientID,
+                    ShareID = shareID,
+                    Amount = amount
+                };
+
+            // Act
+            sut.Delete(blockOfShareToUpdate);
+
+            // Asserts
+            blockOfSharesRepositoryMock
+                .Received(1)
+                .Remove(blockOfShareToUpdate);
         }
     }
 }
