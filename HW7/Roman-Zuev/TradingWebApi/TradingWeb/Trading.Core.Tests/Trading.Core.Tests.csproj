@@ -60,6 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TransactionHistoryServiceTests.cs" />
+    <Compile Include="SharesServiceTests.cs" />
     <Compile Include="ClientsServiceTests.cs" />
     <Compile Include="TransactionServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
