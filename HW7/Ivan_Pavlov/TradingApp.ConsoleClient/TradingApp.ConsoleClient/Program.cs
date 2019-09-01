@@ -13,11 +13,11 @@
     {
         static void Main(string[] args)
         {
-            //UsersRequests.Add();
+            // UsersRequests.Add();
 
             //UsersRequests.Update(2);
 
-            UsersRequests.PrintAllUsers(10);
+            //UsersRequests.PrintAllUsers(10);
 
             //UsersRequests.Delete(9);
 
@@ -33,22 +33,22 @@
 
             //BalancesRequests.Update(2, -200);
 
-            //Random rnd = new Random();
-            //while (true)
-            //{
-            //    JsonTransactionStory transaction = new JsonTransactionStory()
-            //    {
-            //        SellerId = rnd.Next(1, 6),
-            //        CustomerId = rnd.Next(1, 6),
-            //        ShareId = rnd.Next(1, 6),
-            //        AmountOfShares = rnd.Next(1, 1000),
-            //        DateTime = DateTime.Now
-            //    };
+            Random rnd = new Random();
+            while (true)
+            {
+                JsonTransactionStory transaction = new JsonTransactionStory()
+                {
+                    SellerId = rnd.Next(1, 6),
+                    CustomerId = rnd.Next(1, 6),
+                    ShareId = rnd.Next(1, 6),
+                    AmountOfShares = rnd.Next(1, 1000),
+                    DateTime = DateTime.Now
+                };
 
 
-            //    DealMakerRequests.DealMaker(transaction);
-            //    Thread.Sleep(2000);
-            //}
+                DealMakerRequests.DealMaker(transaction);
+                Thread.Sleep(2000);
+            }
 
             Console.ReadKey();
         }

@@ -1,5 +1,6 @@
 ﻿namespace TradingApp.OwinHostApi.Controller
 {
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System.Web.Http;
     using TradingApp.Core.Dto;
@@ -22,24 +23,14 @@
         [ActionName("update")]
         public void PutUpdateShare(int id, JObject json)
         {
-            ShareInfo share = new ShareInfo()
-            {
-                Name = json.Value<string>("Name"),
-                CompanyName = json.Value<string>("CompanyName"),
-                Price = json.Value<decimal>("Price")
-            };
+            var share = JsonConvert.DeserializeObject<ShareInfo>(json.ToString());
             shareServices.Update(id, share);
         }
 
         [ActionName("add")]
         public void PostAdd(JObject json)
         {
-            ShareInfo share = new ShareInfo()
-            {
-                Name = json.Value<string>("Name"),
-                CompanyName = json.Value<string>("CompanyName"),
-                Price = json.Value<decimal>("Price")
-            };
+            var share = JsonConvert.DeserializeObject<ShareInfo>(json.ToString());
             shareServices.AddNewShare(share);
         }
 

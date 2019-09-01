@@ -1,5 +1,6 @@
 ﻿namespace TradingApp.OwinHostApi.Controller
 {
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Linq;
@@ -29,18 +30,11 @@
         [ActionName("make")]
         public void PostMake(JObject json)
         {
-            TransactionStoryInfo args = new TransactionStoryInfo()
-            {
-                sellerId = json.Value<int>("SellerId"),
-                customerId = json.Value<int>("CustomerId"),
-                shareId = json.Value<int>("ShareId"),
-                DateTime = json.Value<DateTime>("DateTime"),
-                AmountOfShares = json.Value<int>("AmountOfShares"),
-            };
+            var args = JsonConvert.DeserializeObject<TransactionStoryInfo>(json.ToString());
             var share = shareServices.GetShareById(args.shareId);         
             if (share == null)
                 return;
-           // args.Share = share; // из-за этого добавляется в табл с акциями новая акция
+            //args.Share = share; // из-за этого добавляется в табл с акциями новая акция
             args.TransactionCost = share.Price * args.AmountOfShares;
             try
             {

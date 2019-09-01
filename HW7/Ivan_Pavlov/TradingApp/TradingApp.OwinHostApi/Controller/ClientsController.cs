@@ -1,5 +1,6 @@
 ﻿namespace TradingApp.OwinHostApi.Controller
 {
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
@@ -45,26 +46,19 @@
         [ActionName("add")]
         public void PostAdd(JObject json)
         {
-            UserInfo user = new UserInfo()
-            {
-                Name = json.Value<string>("Name"),
-                SurName = json.Value<string>("SurName"),
-                Phone = json.Value<string>("Phone"),
-                Balance = json.Value<decimal>("Balance")
-            };
+            var user = JsonConvert.DeserializeObject<UserInfo>(json.ToString());
+    
             usersService.AddNewUser(user);          
         }
 
         [ActionName("update")]
         public void PutUpdateUser(int id, JObject json)
         {
-            UserInfo user = new UserInfo()
-            {
-                Name = json.Value<string>("Name"),
-                SurName = json.Value<string>("SurName"),
-                Phone = json.Value<string>("Phone"),              
-            };
+            var userBalance = usersService.GetUserById(id).Balance;
+            var user = JsonConvert.DeserializeObject<UserInfo>(json.ToString());
+            user.Balance = userBalance;
             usersService.Update(id, user);
+
             decimal balance = decimal.Parse(json.Value<string>("Balance"));
             if (balance != 0)
                 usersService.ChangeUserBalance(id, balance);
