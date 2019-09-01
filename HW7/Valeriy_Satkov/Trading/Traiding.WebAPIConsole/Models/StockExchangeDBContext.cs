@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Traiding.Core.Models;
-
-namespace Traiding.ConsoleApp
+﻿namespace Traiding.WebAPIConsole.Models
 {
+    using System.Data.Entity;
+    using Traiding.Core.Models;
+
     public class StockExchangeDBContext : DbContext
     {
-        public StockExchangeDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        public StockExchangeDBContext() : base()
         {
             Database.SetInitializer(new StockExchangeInitializer());
         }
+
+        //public StockExchangeDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        //{
+        //    Database.SetInitializer(new StockExchangeInitializer());
+        //}
 
         /// <summary>
         /// Represent a set of entities stored in a database
@@ -38,7 +38,7 @@ namespace Traiding.ConsoleApp
         /// <summary>
         /// Represent a set of entities stored in a database
         /// </summary>
-        public virtual DbSet<ShareEntity> Shares { get; set; } 
+        public virtual DbSet<ShareEntity> Shares { get; set; }
 
         /// <summary>
         /// Represent a set of entities stored in a database

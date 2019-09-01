@@ -40,7 +40,7 @@
         {
             if (!this.tableRepository.ContainsById(shareId))
             {
-                throw new ArgumentException("Can't find share type by this Id. May it has not been registered.");
+                throw new ArgumentException("Can't find share by this Id. May it has not been registered.");
             }
         }
 

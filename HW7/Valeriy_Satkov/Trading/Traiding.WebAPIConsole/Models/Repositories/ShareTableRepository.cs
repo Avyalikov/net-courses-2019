@@ -1,4 +1,4 @@
-﻿namespace Traiding.ConsoleApp.Repositories
+﻿namespace Traiding.WebAPIConsole.Models.Repositories
 {
     using System.Linq;
     using Traiding.Core.Models;
@@ -28,6 +28,11 @@
         public bool ContainsById(int entityId)
         {
             return this.dBContext.Shares.Any(s => s.Id == entityId);
+        }
+
+        public void Deactivate(int shareId)
+        {
+            this.dBContext.Shares.First(n => n.Id == shareId).Status = false; // it will fall here if we can't find
         }
 
         public ShareEntity Get(int entityId)

@@ -1,4 +1,4 @@
-﻿namespace Traiding.ConsoleApp.Repositories
+﻿namespace Traiding.WebAPIConsole.Models.Repositories
 {
     using System.Collections.Generic;
     using System.Linq;    
@@ -27,8 +27,7 @@
 
         public bool Contains(BalanceEntity entity)
         {
-            return this.dBContext.Balances.Any(b =>
-            b.Client == entity.Client);
+            return this.dBContext.Balances.Any(b => b.Client.Id == entity.Client.Id);
         }
 
         public bool ContainsById(int entityId)

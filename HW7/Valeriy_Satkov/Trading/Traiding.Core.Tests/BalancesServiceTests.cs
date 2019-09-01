@@ -60,9 +60,7 @@
             balancesService.RegisterNewBalance(args);
 
             this.balanceTableRepository.Contains(Arg.Is<BalanceEntity>( // Now Contains returns true (table contains this balance of client)
-                b => b.Client == args.Client
-                && b.Amount == args.Amount
-                && b.Status == args.Status)).Returns(true);
+                b => b.Client == args.Client)).Returns(true);
 
             balancesService.RegisterNewBalance(args); // Try to reg. same twice and get exception
 

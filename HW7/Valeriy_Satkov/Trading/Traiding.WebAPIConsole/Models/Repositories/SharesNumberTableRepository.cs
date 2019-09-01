@@ -1,4 +1,4 @@
-﻿namespace Traiding.ConsoleApp.Repositories
+﻿namespace Traiding.WebAPIConsole.Models.Repositories
 {
     using System.Collections.Generic;
     using System.Linq;

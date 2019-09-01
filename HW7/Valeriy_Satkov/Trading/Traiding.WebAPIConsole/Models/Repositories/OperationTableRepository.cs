@@ -1,4 +1,4 @@
-﻿namespace Traiding.ConsoleApp.Repositories
+﻿namespace Traiding.WebAPIConsole.Models.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -34,9 +34,9 @@
             operation.ChargeDate = chargeDate;
         }
 
-        public IEnumerable<OperationEntity> GetByClient(int clientId)
+        public IEnumerable<OperationEntity> GetByClient(int clientId, int number)
         {
-            return this.dBContext.Operations.Where(o => o.Customer.Id == clientId);
+            return this.dBContext.Operations.Where(o => o.Customer.Id == clientId).Take(number);
         }
 
         public IEnumerable<OperationEntity> GetTopOperations(int number)

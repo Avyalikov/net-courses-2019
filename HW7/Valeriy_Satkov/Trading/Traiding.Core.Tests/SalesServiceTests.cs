@@ -17,6 +17,7 @@
         ISharesNumberTableRepository sharesNumberTableRepository;
         IBlockedMoneyTableRepository blockedMoneyTableRepository;        
         IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository;
+        IShareTableRepository shareTableRepository;
 
         [TestInitialize]
         public void Initialize()
@@ -30,6 +31,8 @@
             this.blockedMoneyTableRepository = Substitute.For<IBlockedMoneyTableRepository>();
 
             this.blockedSharesNumberTableRepository = Substitute.For<IBlockedSharesNumberTableRepository>();
+
+            this.shareTableRepository = Substitute.For<IShareTableRepository>();
         }
 
         /* 'Operation' methods
@@ -43,7 +46,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
 
             // Act
             var operation = salesService.CreateOperation();
@@ -70,7 +74,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             var testBlockedMoney = new BlockedMoneyEntity()
             {
                 Id = 2,
@@ -110,7 +115,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             var testOperation = new OperationEntity() { Id = 500 };
 
             // Act
@@ -132,7 +138,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             var testBalance = new BalanceEntity()
             {
                 Id = 10,
@@ -169,7 +176,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);            
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);            
 
             // Act
             var balance = salesService.SearchBalanceByClientId(testClientId);
@@ -192,7 +200,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
 
             // Act
             var balance = salesService.SearchBalanceByClientId(testClientId);
@@ -218,7 +227,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
 
             // Act
             var balance = salesService.SearchBalanceByClientId(testClientId);
@@ -237,7 +247,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             BlockedMoneyRegistrationInfo args = new BlockedMoneyRegistrationInfo();
             args.ClientBalance = new BalanceEntity()
             {
@@ -281,7 +292,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             BlockedMoneyEntity blockedMoney = new BlockedMoneyEntity() { Id = 4 };
 
             // Act
@@ -303,7 +315,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             SharesNumberRegistrationInfo args = new SharesNumberRegistrationInfo();
             args.Client = new ClientEntity()
             {
@@ -358,7 +371,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
 
             // Act
             var sharesNumberResult = salesService.SearchSharesNumberForBuy(shareId, reqNumber);
@@ -383,7 +397,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
 
             // Act
             var sharesNumberResult = salesService.SearchSharesNumberForBuy(shareId, reqNumber);
@@ -408,7 +423,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
 
             // Act
             var sharesNumberResult = salesService.SearchOrCreateSharesNumberForAddition(client, share);
@@ -432,7 +448,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
 
             // Act
             var sharesNumberResult = salesService.SearchOrCreateSharesNumberForAddition(client, share);
@@ -452,7 +469,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             var sharesNumber = new SharesNumberEntity()
             {
                 Id = 4,
@@ -478,7 +496,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             SharesNumberEntity sharesNumber = new SharesNumberEntity() { Id = 68 };
 
             // Act
@@ -500,7 +519,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             BlockedSharesNumberRegistrationInfo args = new BlockedSharesNumberRegistrationInfo();
 
             var tempShare = new ShareEntity()
@@ -563,7 +583,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             var blockedSharesNumber = new BlockedSharesNumberEntity() { Id = 43 };
 
             // Act
@@ -585,7 +606,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             var share = new ShareEntity()
             {
                 Id = 3,
@@ -616,7 +638,8 @@
                 this.balanceTableRepository,
                 this.blockedMoneyTableRepository,
                 this.sharesNumberTableRepository,
-                this.blockedSharesNumberTableRepository);
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
             var share = new ShareEntity()
             {
                 Id = 3,
@@ -636,6 +659,49 @@
             salesService.CheckShareAndShareTypeStatuses(share);
 
             // Assert            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "I didn't get exception it's wrong!")]
+        public void ShouldThrowExceptionIfCantFindShare()
+        {
+            // Arrange
+            
+            int testId = 54;
+            this.shareTableRepository.ContainsById(Arg.Is(testId)).Returns(false); // Now Contains returns false (table don't contains share type with this Id)
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
+
+            // Act
+            salesService.GetShare(testId); // Try to get share type and get exception
+
+            // Assert
+        }
+
+        [TestMethod]
+        public void ShouldGetShareInfo()
+        {
+            // Arrange
+            int testId = 55;
+            this.shareTableRepository.ContainsById(Arg.Is(testId)).Returns(true);
+            SalesService salesService = new SalesService(
+                this.operationTableRepository,
+                this.balanceTableRepository,
+                this.blockedMoneyTableRepository,
+                this.sharesNumberTableRepository,
+                this.blockedSharesNumberTableRepository,
+                this.shareTableRepository);
+
+            // Act
+            var shareInfo = salesService.GetShare(testId);
+
+            // Assert
+            this.shareTableRepository.Received(1).Get(testId);
         }
     }
 }

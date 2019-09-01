@@ -1,11 +1,10 @@
-﻿namespace Traiding.ConsoleApp
+﻿namespace Traiding.WebAPIConsole.Models
 {
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using System.Web;
     using Traiding.Core.Models;
 
     public class StockExchangeInitializer : DropCreateDatabaseIfModelChanges<StockExchangeDBContext>

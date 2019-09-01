@@ -4,6 +4,17 @@ namespace Traiding.ConsoleApp
 {
     public static class StockExchangeValidation
     {
+        public static bool checkId(int inputInt)
+        {
+            if (inputInt <= 0)
+            {
+                Console.WriteLine("Wrong Id. Try again.");
+                return false;
+            }
+
+            return true;
+        }
+
         public static bool checkClientLastName(string inputString)
         {
             if (inputString.Length < 2 || inputString.Length > 20)
@@ -42,6 +53,17 @@ namespace Traiding.ConsoleApp
             if (inputDecimal <= 0)
             {
                 Console.WriteLine("Wrong Client Balance Amount. Try again.");
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool checkCompanyName(string inputString)
+        {
+            if (inputString.Length < 2 || inputString.Length > 20)
+            {
+                Console.WriteLine("Wrong Company Name. Try again.");
                 return false;
             }
 

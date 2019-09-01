@@ -12,14 +12,16 @@
         private IBlockedMoneyTableRepository blockedMoneyTableRepository;
         private ISharesNumberTableRepository sharesNumberTableRepository;
         private IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository;
+        private IShareTableRepository shareTableRepository;
 
-        public SalesService(IOperationTableRepository operationTableRepository, IBalanceTableRepository balanceTableRepository, IBlockedMoneyTableRepository blockedMoneyTableRepository, ISharesNumberTableRepository sharesNumberTableRepository, IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository)
+        public SalesService(IOperationTableRepository operationTableRepository, IBalanceTableRepository balanceTableRepository, IBlockedMoneyTableRepository blockedMoneyTableRepository, ISharesNumberTableRepository sharesNumberTableRepository, IBlockedSharesNumberTableRepository blockedSharesNumberTableRepository, IShareTableRepository shareTableRepository)
         {
             this.operationTableRepository = operationTableRepository;
             this.balanceTableRepository = balanceTableRepository;
             this.blockedMoneyTableRepository = blockedMoneyTableRepository;
             this.sharesNumberTableRepository = sharesNumberTableRepository;
             this.blockedSharesNumberTableRepository = blockedSharesNumberTableRepository;
+            this.shareTableRepository = shareTableRepository;
         }
 
 
@@ -41,13 +43,13 @@
          * 9.  Remove blocked money
          * 10. Remove blocked shares number
          */
-        public void Deal(int customerId, int shareId, int requiredSharesNumber)
+        public void Deal(int customerId, int sellerId, int shareId, int requiredSharesNumber)
         {
             OperationEntity operation = null;
             SharesNumberEntity customerSharesNumber = null;
             SharesNumberEntity sellerSharesNumber = null;
             ClientEntity customer = null;
-            ClientEntity seller = null;
+            //ClientEntity seller = null;
             BalanceEntity customerBalance = null;
             BalanceEntity sellerBalance = null;
             ShareEntity share = null;
@@ -63,11 +65,13 @@
             try
             {
                 sellerSharesNumber = SearchSharesNumberForBuy(shareId, requiredSharesNumber); // search required shares on stock exchange
-                seller = sellerSharesNumber.Client;
-                share = sellerSharesNumber.Share;
+                //seller = sellerSharesNumber.Client;
+                //share = sellerSharesNumber.Share;
+                share = GetShare(shareId);
                 customerBalance = SearchBalanceByClientId(customerId);
                 customer = customerBalance.Client;
-                sellerBalance = SearchBalanceByClientId(seller.Id);
+                //sellerBalance = SearchBalanceByClientId(seller.Id);
+                sellerBalance = SearchBalanceByClientId(sellerId);
 
                 // get total
                 CheckShareAndShareTypeStatuses(share);
@@ -122,7 +126,8 @@
                     }
                 }
 
-                throw new ArgumentException($"Deal was broken cause: {e.Message}");
+                // throw new ArgumentException($"Deal was broken cause: {e.Message}");
+                throw e;
             }
 
             if (sellerSharesNumber.Number == 0)
@@ -344,6 +349,16 @@
             {
                 throw new ArgumentException("Operations with this share type have been blocked.");
             }
+        }
+
+        public ShareEntity GetShare(int shareId)
+        {
+            if (!this.shareTableRepository.ContainsById(shareId))
+            {
+                throw new ArgumentException("Can't find share by this Id. May it has not been registered.");
+            }
+
+            return this.shareTableRepository.Get(shareId);
         }
     }
 }

@@ -57,7 +57,7 @@
 
         public IEnumerable<ClientEntity> Take(int number, int rank)
         {
-            var clients = this.dBContext.Clients.Skip(number * (rank - 1)).Take(number).ToList();
+            var clients = this.dBContext.Clients.OrderBy(c => c.Id).Skip(number * (rank - 1)).Take(number).ToList();
             return clients; // 10; // need return count of Clients
         }
 
