@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using TradingSoftware.Core.Dto;
-using TradingSoftware.Core.Services;
-using System.Linq;
-
-namespace WebApiTradingServer.Controllers
+﻿namespace WebApiTradingServer.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
+    using TradingSoftware.Core.Dto;
+    using TradingSoftware.Core.Services;
+
     [Route("[controller]")]
     [ApiController]
     public class TransactionsController : ControllerBase
@@ -21,7 +21,7 @@ namespace WebApiTradingServer.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<TransactionsFullData>> Get(int clientID, int top)
         { 
-            return Ok(transactionManager.GetTransactionWithClient(clientID).Take(top));
+            return Ok(this.transactionManager.GetTransactionWithClient(clientID).Take(top));
         }
     }
 }

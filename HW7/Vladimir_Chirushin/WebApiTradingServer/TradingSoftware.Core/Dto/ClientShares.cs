@@ -6,10 +6,11 @@
     {
         public ClientShares()
         {
-            ShareWithPrice = new Dictionary<string, decimal>();
+            this.ShareWithPrice = new Dictionary<string, decimal>();
         }
 
-        public string clientName;
-        public Dictionary<string, decimal> ShareWithPrice;
+        public string clientName { get; set; }
+
+        public Dictionary<string, decimal> ShareWithPrice { get; set; }
     }
 }

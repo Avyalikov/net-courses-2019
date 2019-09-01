@@ -1,9 +1,11 @@
 ﻿namespace TradingApiClient.Services
 {
+    using System.Net.Http;
+
     public interface IHttpRequestManager
     {
-        string Get(string url);
+        HttpResponseMessage PostAsync(string url, HttpContent contentString);
 
-        string Post(string url, string body);
+        HttpResponseMessage GetAsync(string url);
     }
 }

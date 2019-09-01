@@ -36,7 +36,6 @@
             this.blockOfSharesRepository.ChangeShareAmountForClient(blockOfShares);
         }
 
-
         public int GetClientShareAmount(int clientID, int shareID)
         {
             return this.blockOfSharesRepository.GetClientShareAmount(clientID, shareID);
@@ -44,17 +43,17 @@
 
         public ClientShares GetClientShares(int clientID)
         {
-            var blockOfShares =  this.blockOfSharesRepository.GetClientShares(clientID);
+            var blockOfShares = this.blockOfSharesRepository.GetClientShares(clientID);
             var clientShares = new ClientShares();
-            clientShares.clientName = clientRepository.GetClientName(clientID);
-            foreach(var block in blockOfShares)
+            clientShares.clientName = this.clientRepository.GetClientName(clientID);
+            foreach (var block in blockOfShares)
             {
                 clientShares.ShareWithPrice.Add(
-                    shareRepository.GetShareType(block.ShareID),
-                    shareRepository.GetSharePrice(block.ShareID));
+                    this.shareRepository.GetShareType(block.ShareID),
+                    this.shareRepository.GetSharePrice(block.ShareID));
             }
-            return clientShares;
 
+            return clientShares;
         }
 
         public IEnumerable<BlockOfShares> GetAllBlockOfShares()
@@ -64,7 +63,7 @@
 
         public void UpdateClientShares(BlockOfShares blockOfShares)
         {
-            if(IsClientHasStockType(blockOfShares.ClientID, blockOfShares.ShareID))
+            if (this.IsClientHasStockType(blockOfShares.ClientID, blockOfShares.ShareID))
             {
                 this.ChangeShareAmountForClient(blockOfShares);
             }

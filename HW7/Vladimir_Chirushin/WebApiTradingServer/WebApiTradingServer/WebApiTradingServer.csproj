@@ -513,21 +513,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\BalancesController.cs" />
+    <Compile Include="Controllers\BalancesController.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Controllers\MakeController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
-    <Compile Include="Controllers\Shares\SharesController.cs" />
+    <Compile Include="Controllers\SharesController.cs" />
     <Compile Include="Services\SimulationManager.cs" />
     <Compile Include="TradingContext.cs" />
-    <Compile Include="Controllers\Clients\ClientsController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\TransactionRepository.cs" />
     <Compile Include="Repositories\SharesRepository.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
     <Compile Include="Repositories\BlockOfSharesRepository.cs" />
-    <Compile Include="Services\IDataBaseInitializer.cs" />
     <Compile Include="Services\DataBaseInitializer.cs" />
     <Compile Include="Services\CommandStrategy\ReadAllClientsStrategy.cs" />
     <Compile Include="Services\LoggerService.cs" />

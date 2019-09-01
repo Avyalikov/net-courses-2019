@@ -2,6 +2,7 @@
 {
     public class TransactionsMakeData
     {
+
         public int sellerID { get; set; }
 
         public int buyerID { get; set; }

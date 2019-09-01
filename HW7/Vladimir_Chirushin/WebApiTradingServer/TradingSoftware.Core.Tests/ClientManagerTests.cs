@@ -292,21 +292,190 @@
         [TestMethod]
         public void DeleteClientTest()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sut = new ClientManager(clientRepositoryMock);
+            var client = new Client
+            {
+                ClientID = 3,
+                Name = "Kilgore Trout",
+                PhoneNumber = "327-57-53",
+                Balance = 145
+            };
+            int clientID = 3;
+
+            clientRepositoryMock
+                .IsClientExist(Arg.Is<int>(clientID))
+                .Returns(true);
+
+            // Act
+            sut.DeleteClient(client);
+
+            // Asserts
+            clientRepositoryMock.Received(1).Remove(client);
+        }
+
+        [TestMethod]
+        public void DeleteClientThatDoesntExistTest()
+        {
+            // Arrange
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sut = new ClientManager(clientRepositoryMock);
+            var client = new Client
+            {
+                ClientID = 3,
+                Name = "Kilgore Trout",
+                PhoneNumber = "327-57-53",
+                Balance = 145
+            };
+            int clientID = 3;
+
+            clientRepositoryMock
+                .IsClientExist(Arg.Is<int>(clientID))
+                .Returns(false);
+
+            // Act
+            sut.DeleteClient(client);
+
+            // Asserts
+            clientRepositoryMock.DidNotReceive().Remove(client);
+        }
+
+        [TestMethod]
+        public void ClientUpdateTest()
+        {
+            // Arrange
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sut = new ClientManager(clientRepositoryMock);
+            var client = new Client
+            {
+                ClientID = 3,
+                Name = "Kilgore Trout",
+                PhoneNumber = "327-57-53",
+                Balance = 145
+            };
+
+            // Act
+            sut.ClientUpdate(client);
+
+            // Asserts
+            clientRepositoryMock.Received(1).ClientUpdate(client);
         }
 
 
         [TestMethod]
-        public void ClientUpdate()
+        public void GetClientBalanceStatusGreenTest()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sut = new ClientManager(clientRepositoryMock);
+            var client = new Client
+            {
+                ClientID = 3,
+                Name = "Kilgore Trout",
+                PhoneNumber = "327-57-53",
+                Balance = 145
+            };
+            int clientID = 3;
+
+            sut.
+                GetClientName(clientID)
+                .Returns(client.Name);
+            sut.
+                GetClientBalance(clientID)
+                .Returns(156);
+
+            clientRepositoryMock
+                .IsClientExist(Arg.Is<int>(clientID))
+                .Returns(false);
+
+            // Act
+            var result = sut.GetClientBalanceStatus(clientID);
+
+            // Asserts
+            Assert.AreEqual(result.Name, client.Name);
+            Assert.AreEqual(result.Status, "Green");
+            Assert.AreEqual(result.Balance, client.Balance);
         }
 
 
         [TestMethod]
-        public void GetClientBalanceStatus()
+        public void GetClientBalanceStatusOrangeTest()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sut = new ClientManager(clientRepositoryMock);
+            var client = new Client
+            {
+                ClientID = 3,
+                Name = "Kilgore Trout",
+                PhoneNumber = "327-57-53",
+                Balance = 0
+            };
+            int clientID = 3;
+
+            clientRepositoryMock
+                .IsClientExist(Arg.Is<int>(clientID))
+                .Returns(true);
+
+            clientRepositoryMock
+                .GetClientName(Arg.Is<int>(clientID))
+                .Returns(client.Name);
+
+            clientRepositoryMock
+                .IsClientExist(Arg.Is<int>(clientID))
+                .Returns(true);
+
+            clientRepositoryMock.
+                GetClientBalance(Arg.Is<int>(clientID))
+                .Returns(156);
+
+            clientRepositoryMock
+                .IsClientExist(Arg.Is<int>(clientID))
+                .Returns(false);
+
+            // Act
+            var result = sut.GetClientBalanceStatus(clientID);
+
+            // Asserts
+            Assert.AreEqual(result.Name, client.Name);
+            Assert.AreEqual(result.Status, "Orange");
+            Assert.AreEqual(result.Balance, client.Balance);
+        }
+
+        [TestMethod]
+        public void GetClientBalanceStatusBlackTest()
+        {
+            // Arrange
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sut = new ClientManager(clientRepositoryMock);
+            var client = new Client
+            {
+                ClientID = 3,
+                Name = "Kilgore Trout",
+                PhoneNumber = "327-57-53",
+                Balance = -98765
+            };
+            int clientID = 3;
+
+            sut.
+                GetClientName(clientID)
+                .Returns(client.Name);
+            sut.
+                GetClientBalance(clientID)
+                .Returns(156);
+
+            clientRepositoryMock
+                .IsClientExist(Arg.Is<int>(clientID))
+                .Returns(false);
+
+            // Act
+            var result = sut.GetClientBalanceStatus(clientID);
+
+            // Asserts
+            Assert.AreEqual(result.Name, client.Name);
+            Assert.AreEqual(result.Status, "Black");
+            Assert.AreEqual(result.Balance, client.Balance);
         }
     }
 }

@@ -15,8 +15,13 @@
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
-            
-            var sut = new BlockOfSharesManager(blockOfSharesRepositoryMock);
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
+
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
 
             BlockOfShares blockOfShares = new BlockOfShares();
 
@@ -32,8 +37,13 @@
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
 
-            var sut = new BlockOfSharesManager(blockOfSharesRepositoryMock);
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
 
             int clientID = 2;
             int shareID = 3;
@@ -50,8 +60,13 @@
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
 
-            var sut = new BlockOfSharesManager(blockOfSharesRepositoryMock);
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
 
             BlockOfShares blockOfShares = new BlockOfShares { ClientID = 3, ShareID = 6, Amount = 10 };
 
@@ -67,7 +82,13 @@
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
-            var sut = new BlockOfSharesManager(blockOfSharesRepositoryMock);
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
+
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
             int clientID = 3;
             int shareID = 5;
 
@@ -83,7 +104,13 @@
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
-            var sut = new BlockOfSharesManager(blockOfSharesRepositoryMock);
+            var clientRepositoryMock = Substitute.For<IClientRepository>();
+            var sharesRepositoryMock = Substitute.For<ISharesRepository>();
+
+            var sut = new BlockOfSharesManager(
+                blockOfSharesRepositoryMock,
+                clientRepositoryMock,
+                sharesRepositoryMock);
 
             // Act
             sut.GetAllBlockOfShares();

@@ -70,10 +70,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TradingSoftware.ConsoleClient\TradingSoftware.ConsoleClient.csproj">
-      <Project>{F753D26A-B00D-48AD-898B-DD99FA00081B}</Project>
-      <Name>TradingSoftware.ConsoleClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TradingSoftware.Core\TradingSoftware.Core.csproj">
       <Project>{D04F2B63-6B6D-4AAE-A04D-186C2670FD25}</Project>
       <Name>TradingSoftware.Core</Name>

@@ -46,20 +46,21 @@
             this.transactionRepository.Insert(transaction);
         }
 
-
         public IEnumerable<TransactionsFullData> GetTransactionWithClient(int clientID)
         {
-            var transactions = transactionRepository.GetTransactionWithClient(clientID);
+            var transactions = this.transactionRepository.GetTransactionWithClient(clientID);
             List<TransactionsFullData> transactionsFullData = new List<TransactionsFullData>();
-            foreach (var transaction in transactions )
+            foreach (var transaction in transactions)
             {
                 transactionsFullData.Add(
                     new TransactionsFullData
                     {
-                        SellerName = clientManager.GetClientName(transaction.SellerID),
-                        BuyerName = clientManager.GetClientName(transaction.BuyerID),
-                        ShareType = sharesRepository.GetShareType(transaction.ShareID),
-                        SharePrice = sharesRepository.GetSharePrice(transaction.ShareID),
+                        TransactionID = transaction.TransactionID,
+                        dateTime = transaction.dateTime,
+                        SellerName = this.clientManager.GetClientName(transaction.SellerID),
+                        BuyerName = this.clientManager.GetClientName(transaction.BuyerID),
+                        ShareType = this.sharesRepository.GetShareType(transaction.ShareID),
+                        SharePrice = this.sharesRepository.GetSharePrice(transaction.ShareID),
                         ShareAmount = transaction.Amount
                     });
             }
@@ -150,6 +151,7 @@
                 this.AddTransaction(transaction);
                 return true;
             }
+
             return false;
         }
     }

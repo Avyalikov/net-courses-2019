@@ -2,10 +2,10 @@
 {
     public class ClientBalanceStatus
     {
-        public string Name;
+        public string Name { get; set; }
 
-        public decimal Balance;
+        public decimal Balance { get; set; }
 
-        public string Status;
+        public string Status { get; set; }
     }
 }

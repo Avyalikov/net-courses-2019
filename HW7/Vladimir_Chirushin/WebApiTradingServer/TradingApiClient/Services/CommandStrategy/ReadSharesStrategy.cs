@@ -1,20 +1,21 @@
-﻿using Newtonsoft.Json;
-using System;
-using TradingApiClient.Devices;
-
-namespace TradingApiClient.Services.CommandStrategy
+﻿namespace TradingApiClient.Services.CommandStrategy
 {
+    using Newtonsoft.Json;
+    using TradingApiClient.Devices;
 
     public class ReadSharesStrategy : ICommandStrategy
     {
         private readonly IOutputDevice outputDevice;
+        private readonly IInputDevice inputDevice;
         private readonly IHttpRequestManager httpRequestManager;
 
 
         public ReadSharesStrategy(
             IOutputDevice outputDevice,
-            IHttpRequestManager httpRequestManager)
+            IHttpRequestManager httpRequestManager,
+            IInputDevice inputDevice)
         {
+            this.inputDevice = inputDevice;
             this.outputDevice = outputDevice;
             this.httpRequestManager = httpRequestManager;
         }
@@ -29,15 +30,20 @@ namespace TradingApiClient.Services.CommandStrategy
             return false;
         }
 
-        public void Execute()
+        public async void Execute()
         {
-            var result = httpRequestManager.Get("http://localhost/shares?clientId=1");
-            dynamic dynObj = JsonConvert.DeserializeObject(result);
+            this.outputDevice.WriteLine("Write clientID you want to read shares for:");
+            string clientIdInput = this.inputDevice.ReadLine();
 
-            outputDevice.WriteLine($"Client {dynObj.clientName.ToString()} has shares:");
+            string url = $"http://localhost/shares?clientId={clientIdInput}";
+
+            var result = this.httpRequestManager.GetAsync(url).Content.ReadAsStringAsync();
+            dynamic dynObj = JsonConvert.DeserializeObject(await result);
+
+            this.outputDevice.WriteLine($"Client {dynObj.clientName.ToString()} has shares:");
             foreach (var data in dynObj.shareWithPrice)
             {
-                outputDevice.WriteLine(data.ToString()); 
+                this.outputDevice.WriteLine(data.ToString()); 
             }
         }
     }

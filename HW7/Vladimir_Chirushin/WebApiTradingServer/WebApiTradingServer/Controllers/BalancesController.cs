@@ -1,7 +1,7 @@
 ﻿namespace WebApiTradingServer.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Mvc;
     using TradingSoftware.Core.Dto;
     using TradingSoftware.Core.Services;
 
@@ -20,7 +20,7 @@
         [HttpGet]
         public ActionResult<IEnumerable<ClientBalanceStatus>> Get(int clientID)
         {
-            return Ok(clientManager.GetClientBalanceStatus(clientID));
+            return Ok(this.clientManager.GetClientBalanceStatus(clientID));
         }
     }
 }

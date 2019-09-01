@@ -1,44 +1,18 @@
-﻿using System.IO;
-using System.Net;
-
-namespace TradingApiClient.Services
+﻿namespace TradingApiClient.Services
 {
-    public class HttpRequestManager: IHttpRequestManager
+    using System.Net.Http;
+
+    public class HttpRequestManager : IHttpRequestManager
     {
+        private HttpClient httpClient = new HttpClient();
 
-        public string Get(string url)
+        public HttpResponseMessage PostAsync(string url, HttpContent contentString)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "GET";
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                return result;
-            }
+            return this.httpClient.PostAsync(url, contentString).Result;
         }
-
-        public string Post(string url, string body)
+        public HttpResponseMessage GetAsync(string url)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                streamWriter.Write(body);
-            }
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                return result;
-            }
+            return this.httpClient.GetAsync(url).Result;
         }
     }
 }

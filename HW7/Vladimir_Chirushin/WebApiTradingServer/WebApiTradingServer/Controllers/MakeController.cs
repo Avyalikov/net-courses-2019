@@ -19,7 +19,7 @@
         [HttpPost]
         public ActionResult<string> Post([FromBody] TransactionsMakeData transaction)
         {
-            if(transactionManager.Make(transaction))
+            if (this.transactionManager.Make(transaction))
             {
                 return new ActionResult<string>("Success");
             }

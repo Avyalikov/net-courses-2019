@@ -1,8 +1,8 @@
-﻿using TradingApiClient.Devices;
-using TradingApiClient.Services;
-
-namespace TradingApiClient
+﻿namespace TradingApiClient
 {
+    using TradingApiClient.Devices;
+    using TradingApiClient.Services;
+
     public class TradingApiClientEngine : ITradingApiClientEngine
     {
         private readonly IInputDevice inputDevice;

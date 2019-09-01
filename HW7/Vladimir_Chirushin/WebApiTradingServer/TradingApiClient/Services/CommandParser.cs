@@ -1,14 +1,12 @@
-﻿using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TradingApiClient.Devices;
-using TradingApiClient.Services.CommandStrategy;
-
-namespace TradingApiClient.Services
+﻿namespace TradingApiClient.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using StructureMap;
+    using TradingApiClient.Devices;
+    using TradingApiClient.Services.CommandStrategy;
+
     public enum Command
     {
         help,

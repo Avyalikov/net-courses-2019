@@ -32,8 +32,8 @@
             using (var db = new TradingContext())
             {
                 IEnumerable<Transaction> query = db.TransactionHistory
-                    .Where(t=>t.BuyerID == clientID ||
-                              t.SellerID == clientID)
+                    .Where(t => t.BuyerID == clientID ||
+                                t.SellerID == clientID)
                     .AsEnumerable<Transaction>()
                     .ToList();
                 return query;

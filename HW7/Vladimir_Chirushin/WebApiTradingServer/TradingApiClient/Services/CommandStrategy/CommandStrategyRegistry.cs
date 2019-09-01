@@ -1,7 +1,7 @@
 ﻿namespace TradingApiClient.Services.CommandStrategy
 {
-    using StructureMap;
     using System.Collections.Generic;
+    using StructureMap;
     using TradingApiClient.Devices;
 
     public class CommandStrategyRegistry : Registry

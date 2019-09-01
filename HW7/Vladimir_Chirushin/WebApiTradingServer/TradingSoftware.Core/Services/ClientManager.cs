@@ -43,8 +43,8 @@
         {
             ClientBalanceStatus status = new ClientBalanceStatus();
 
-            status.Name = GetClientName(clientID);
-            status.Balance = GetClientBalance(clientID);
+            status.Name = this.GetClientName(clientID);
+            status.Balance = this.GetClientBalance(clientID);
             status.Status = "Green";
 
             if (status.Balance < 0)
@@ -52,7 +52,7 @@
                 status.Status = "Black";
             }
 
-            if(status.Balance == 0)
+            if (status.Balance == 0)
             {
                 status.Status = "Orange";
             }
@@ -124,12 +124,12 @@
 
         public void ClientUpdate(Client client)
         {
-            clientRepository.ClientUpdate(client);
+            this.clientRepository.ClientUpdate(client);
         }
 
         public void DeleteClient(Client client)
         {
-            if(IsClientExist(client.Name))
+            if (this.IsClientExist(client.Name))
             {
                 this.clientRepository.Remove(client);
             }

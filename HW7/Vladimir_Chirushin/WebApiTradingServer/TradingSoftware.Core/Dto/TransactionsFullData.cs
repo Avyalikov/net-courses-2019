@@ -1,7 +1,13 @@
 ﻿namespace TradingSoftware.Core.Dto
 {
+    using System;
+
     public class TransactionsFullData
     {
+        public int TransactionID { get; set; }
+
+        public DateTime dateTime { get; set; }
+
         public string SellerName { get; set; }
 
         public string BuyerName { get; set; }
