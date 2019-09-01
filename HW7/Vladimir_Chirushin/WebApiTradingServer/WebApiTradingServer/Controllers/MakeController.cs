@@ -21,9 +21,9 @@
         {
             if (this.transactionManager.Make(transaction))
             {
-                return new ActionResult<string>("Success");
+                return Ok("Transaction completed");
             }
-            return new ActionResult<string>("Fail");
+            return BadRequest("Transactions failed");
         }
     }
 }

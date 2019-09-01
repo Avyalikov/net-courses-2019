@@ -30,7 +30,7 @@
         public ActionResult<string> AddClient([FromBody] Client client)
         {
             this.clientManager.AddClient(client);
-            return new ActionResult<string>("Success");
+            return Ok($"Client {client.Name} added");
         }
 
         // POST clients/update
@@ -39,7 +39,7 @@
         public ActionResult<string> UpdateClient([FromBody] Client client)
         {
             this.clientManager.ClientUpdate(client);
-            return new ActionResult<string>("Success");
+            return Ok($"Client {client.ClientID} updated");
         }
 
         // POST clients/add
@@ -48,7 +48,7 @@
         public ActionResult<string> Post([FromBody] Client client)
         {
             this.clientManager.DeleteClient(client);
-            return new ActionResult<string>("Success");
+            return Ok($"Client {client.ClientID} removed");
         }
     }
 }

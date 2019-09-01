@@ -29,7 +29,7 @@
         public ActionResult<string> AddClientShares([FromBody] BlockOfShares blockOfShare)
         {
             blockOfSharesManager.AddShare(blockOfShare);
-            return new ActionResult<string>("Success");
+            return Ok($"Share ID {blockOfShare.ShareID} added to client ID {blockOfShare.ClientID}");
         }
 
         // POST shares/remove
@@ -38,7 +38,7 @@
         public ActionResult<string> UpdateClientShares([FromBody] BlockOfShares blockOfShare)
         {
             blockOfSharesManager.UpdateClientShares(blockOfShare);
-            return new ActionResult<string>("Success");
+            return Ok($"BlockOfShares updated");
         }
 
         // POST shares/remove
@@ -47,7 +47,7 @@
         public ActionResult<string> DeleteClientShares([FromBody] BlockOfShares blockOfShare)
         {
             this.blockOfSharesManager.Delete(blockOfShare);
-            return new ActionResult<string>("Success");
+            return Ok($"Share ID {blockOfShare.ShareID} deleted from client ID {blockOfShare.ClientID}");
         }
     }
 }
