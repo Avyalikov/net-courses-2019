@@ -60,7 +60,6 @@
                 return BadRequest(ex.Message);
             }
         }
-        [Route("")]
         [HttpGet]
         public ActionResult<IEnumerable<string>> GetTop(int top, int page)
         {
