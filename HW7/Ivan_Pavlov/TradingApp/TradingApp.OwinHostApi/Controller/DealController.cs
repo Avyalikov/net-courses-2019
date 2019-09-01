@@ -29,19 +29,31 @@
         [ActionName("make")]
         public void PostMake(JObject json)
         {
+            //TransactionStoryInfo args = new TransactionStoryInfo()
+            //{
+            //    sellerId = json.Value<int>("SellerId"),
+            //    customerId = json.Value<int>("CustomerId"),
+            //    shareId = json.Value<int>("ShareId"),
+            //    DateTime = json.Value<DateTime>("DateTime"),
+            //    AmountOfShares = json.Value<int>("AmountOfShares"),              
+            //};
+            //args.Share = shareServices.GetShareById(args.shareId);
+            //if (args.Share == null)
+            //    return;
+
+            var share = shareServices.GetShareById(1);
             TransactionStoryInfo args = new TransactionStoryInfo()
             {
-                sellerId = json.Value<int>("SellerId"),
-                customerId = json.Value<int>("CustomerId"),
-                shareId = json.Value<int>("ShareId"),
-                DateTime = json.Value<DateTime>("DateTime"),
-                AmountOfShares = json.Value<int>("AmountOfShares"),              
+                sellerId = 1,
+                customerId = 2,
+                shareId = 1,
+                Share = share,
+                DateTime = DateTime.Now,
+                AmountOfShares = 1,
+                TransactionCost = 20000
             };
-            args.Share = shareServices.GetShareById(args.shareId);
-            if (args.Share == null)
-                return;
             
-            args.TransactionCost = args.Share.Price * args.AmountOfShares;
+           // args.TransactionCost = args.Share.Price * args.AmountOfShares;
             try
             {
                 transaction.AddShareInPortfolio(args); 

@@ -32,30 +32,22 @@
             //BalancesRequests.Update(2, -200);
 
             Random rnd = new Random();
-          //  while (true)
-          //  {
-                //JsTransactionStory transaction = new JsTransactionStory()
-                //{
-                //    SellerId = rnd.Next(1, 8),
-                //    CustomerId = rnd.Next(1, 8),
-                //    ShareId = rnd.Next(1, 8),
-                //    AmountOfShares = rnd.Next(100, 200),
-                //    DateTime = DateTime.Now
-                //};
-
+            while (true)
+            {
                 JsTransactionStory transaction = new JsTransactionStory()
                 {
-                    SellerId = 2,
-                    CustomerId = 3,
-                    ShareId = 2,
-                    AmountOfShares = 1,
+                    SellerId = rnd.Next(1, 8),
+                    CustomerId = rnd.Next(1, 8),
+                    ShareId = rnd.Next(1, 8),
+                    AmountOfShares = rnd.Next(100, 200),
                     DateTime = DateTime.Now
                 };
+
 
                 DealMakerRequests.DealMaker(transaction);
                 Console.WriteLine("+");
                 Thread.Sleep(2000);
-            //}
+            }
 
             Console.ReadKey();
         }
