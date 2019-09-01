@@ -90,7 +90,7 @@ namespace TradingWebSimulation
                 throw new NullReferenceException("There are no clients to select from");
             }
             int number = random.Next(0, clientsAmount-1);
-            Client client = allClients.ElementAt(number);
+            Client client = allClients.ToList().ElementAt(number);
             return client;
         }
 
@@ -159,7 +159,8 @@ namespace TradingWebSimulation
                 });
                 this.logger.Info($"Order for sale stock {clstock.StockID} for client {clstock.ClientID} has been added to DB");
 
-                Order salerOrder = orderService.LastOrder();
+                //Order salerOrder = orderService.LastOrder();
+                int salerorderId = orderService.LastOrder().OrderID;
 
                 Client customer;
                 do
@@ -177,8 +178,8 @@ namespace TradingWebSimulation
                 });
                 this.logger.Info($"Order for purchasing stock {clstock.StockID} for client {customer.ClientID} has been added to DB");
 
-                Order customerOrder = orderService.LastOrder();
-
+                //Order customerOrder = orderService.LastOrder();
+                int customerorderId = orderService.LastOrder().OrderID;
                 DateTime dealDateTime = DateTime.Now;
                 decimal dealPrice = this.stockService.GetEntityByID(clstock.StockID).Price;
                    
@@ -187,9 +188,9 @@ namespace TradingWebSimulation
                 clientService.EditClientBalance(customer.ClientID, (-1 * dealPrice * amountForSale));
                 this.logger.Info($"Client {customer.ClientID} balance has been reduced by {(dealPrice * amountForSale)}");
                 clientStockService.EditClientStocksAmount(saler.ClientID, clstock.StockID, -amountForSale);
-                this.logger.Info($"Client {saler.ClientID} stock {salerOrder.StockID} amount has been reduced on {amountForSale}");
+                //this.logger.Info($"Client {saler.ClientID} stock {salerOrder.StockID} amount has been reduced on {amountForSale}");
                 clientStockService.EditClientStocksAmount(customer.ClientID, clstock.StockID, amountForSale);
-                this.logger.Info($"Client {customer.ClientID} stock {salerOrder.StockID} amount has been increased on {amountForSale}");
+               // this.logger.Info($"Client {customer.ClientID} stock {salerOrder.StockID} amount has been increased on {amountForSale}");
 
 
                transactionHistoryService.AddTransactionInfo(new TransactionInfo()
@@ -200,10 +201,10 @@ namespace TradingWebSimulation
                 var lastTransaction = transactionHistoryService.GetLastTransaction();
                 this.logger.Info($"Transaction {lastTransaction.TransactionHistoryID} has been added to DB");
 
-                orderService.SetIsExecuted(salerOrder.OrderID, lastTransaction.TransactionHistoryID);
-                this.logger.Info($"Saler's order {salerOrder.OrderID} status has been set as 'IsExecuted'");
-                orderService.SetIsExecuted(customerOrder.OrderID, lastTransaction.TransactionHistoryID);
-                this.logger.Info($"Customer's order {customerOrder.OrderID} status has been set as 'IsExecuted'");
+                orderService.SetIsExecuted(salerorderId, lastTransaction.TransactionHistoryID);
+               // this.logger.Info($"Saler's order {salerOrder.OrderID} status has been set as 'IsExecuted'");
+                orderService.SetIsExecuted(customerorderId, lastTransaction.TransactionHistoryID);
+              //  this.logger.Info($"Customer's order {customerOrder.OrderID} status has been set as 'IsExecuted'");
                 this.logger.Info($"Deal is finished");
 
                 

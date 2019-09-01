@@ -87,12 +87,12 @@ namespace Trading.Core.Services
         public IQueryable GetclientStocks(int clientId)
         {
            // var client = this.unitOfWork.Clients.Get(c => c.ClientID == clientId);
-            var clientstocks = this.unitOfWork.ClientStocks.Get(c=>c.ClientID==clientId);
-            var stocks = this.unitOfWork.Stocks.GetAll();
+            var clientstocks = this.unitOfWork.ClientStocks.Get(c=>c.ClientID==clientId).ToList();
+            var stocks = this.unitOfWork.Stocks.GetAll().ToList();
             var result = from cs in clientstocks
                                join s in stocks on cs.StockID equals s.StockID
                    select new {s.Issuer, s.StockPrefix, s.StockType, s.Price, cs.Quantity };
-            return result;    
+            return (IQueryable)result;    
                      
         }
 

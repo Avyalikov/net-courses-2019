@@ -65,7 +65,7 @@ namespace Trading.Core.Services
 
         public Order LastOrder()
         {
-            var orders = this.unitOfWork.Orders.GetAll().OrderByDescending(o=>o.OrderID);
+            var orders = this.unitOfWork.Orders.GetAll().OrderByDescending(o=>o.OrderID).ToList();
             return orders.First();
 
         }
@@ -73,16 +73,30 @@ namespace Trading.Core.Services
         public void SetIsExecuted(int orderId, int transactionId)
         {
             var order = this.unitOfWork.Orders.Get(o => o.OrderID == orderId).Single();
+            // this.unitOfWork.Orders.Update(order);
+           
             order.IsExecuted = true;
-            //this.unitOfWork.Orders.Update(order);
+           
             this.unitOfWork.Save();
           
         }
 
-       
+        public IEnumerable<Order> GetAllOrders()
+        {
+            return this.unitOfWork.Orders.GetAll();
+        }
+
+        public IEnumerable<Order> GetTopOrdersForClient(int amount, int clientid)
+        {
+            return this.GetAllOrders().Where(c=>c.ClientID==clientid).Take(amount);
+        }
+
+
         public void Update(int id)
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

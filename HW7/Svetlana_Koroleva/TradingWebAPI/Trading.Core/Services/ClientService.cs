@@ -99,7 +99,7 @@ namespace Trading.Core.Services
             clientToUpdate.Phone = clientinfo.Phone;
             clientToUpdate.Balance = clientinfo.Balance;
             this.unitOfWork.Clients.Update(clientToUpdate);
-            this.unitOfWork.Save(); ;
+            this.unitOfWork.Save(); 
         }
 
         public IEnumerable<Client> GetAllClients()

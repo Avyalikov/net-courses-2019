@@ -19,8 +19,8 @@ namespace Trading.Core.Repositories
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
-        IQueryable <TEntity> Get(Func<TEntity, bool> predicate );
-        IEnumerable<TEntity> GetAll();
+        IQueryable<TEntity> Get(Func<TEntity, bool> predicate );
+        IQueryable<TEntity> GetAll();
         // void SaveChanges();
         // bool ContainsByPK(params object[] pk);
         //  bool Contains(TEntity entity);

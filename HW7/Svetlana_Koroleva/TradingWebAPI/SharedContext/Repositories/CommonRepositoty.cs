@@ -29,7 +29,7 @@ namespace SharedContext.Repositories
            this.dbSet = db.Set<TEntity>();
         }
 
-        public IQueryable <TEntity> Get(Func<TEntity, bool> predicate)
+        public IQueryable<TEntity> Get(Func<TEntity, bool> predicate)
         {
             return dbSet.AsNoTracking().Where(predicate).AsQueryable();
         }
@@ -51,7 +51,7 @@ namespace SharedContext.Repositories
            this.dbSet.Remove(entity);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
            return this.dbSet.AsNoTracking();
         }
