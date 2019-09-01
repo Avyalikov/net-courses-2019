@@ -95,6 +95,10 @@ namespace Trading.Core.Services
             {
                 throw new ArgumentException($"Wrong quantity : {args.Quantity}");
             }
+            if (args.SellerId == args.BuyerId)
+            {
+                throw new ArgumentException($"Seller and buyer have the same Id");
+            }
             if (!clientTableRepository.ContainsById(args.SellerId))
             {
                 throw new ArgumentException($"Client with Id {args.SellerId} doesn't exist");
