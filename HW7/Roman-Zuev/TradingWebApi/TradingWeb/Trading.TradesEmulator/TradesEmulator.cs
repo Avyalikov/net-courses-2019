@@ -49,7 +49,7 @@ namespace Trading.TradesEmulator
         }
         private void SetTimer()
         {
-            aTimer = new Timer(10000);
+            aTimer = new Timer(20000);
             aTimer.Elapsed += StartTrades;
             aTimer.AutoReset = true;
             aTimer.Enabled = true;

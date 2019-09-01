@@ -16,7 +16,7 @@ namespace Trading.Core.Services
         {
             this.sharesTableRepository = sharesTableRepository;
         }
-        public void AddNewShares(SharesEntity sharesToAdd)
+        public void Add(SharesEntity sharesToAdd)
         {
             if (sharesToAdd.Price<=0 || sharesToAdd.SharesType.Length < 2)
             {
@@ -32,7 +32,7 @@ namespace Trading.Core.Services
             sharesTableRepository.SaveChanges();
         }
 
-        public void RemoveShares(SharesEntity sharesInfo)
+        public void Remove(SharesEntity sharesInfo)
         {
             if (!sharesTableRepository.Contains(sharesInfo))
             {
@@ -43,7 +43,7 @@ namespace Trading.Core.Services
             sharesTableRepository.SaveChanges();
         }
 
-        public void UpdateShares(SharesEntity sharesInfo)
+        public void Update(SharesEntity sharesInfo)
         {
             if (sharesInfo.Price <= 0 || sharesInfo.SharesType.Length < 2 || sharesInfo.Id == 0)
             {

@@ -6,6 +6,6 @@ namespace Trading.Core.Repositories
     {
         void SaveChanges();
         void Add(ClientSharesEntity newShares);
-        void Change(ClientSharesEntity buyersItem);
+        void Update(ClientSharesEntity clientShares);
     }
 }

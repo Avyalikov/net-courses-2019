@@ -26,9 +26,9 @@ namespace Trading.Core.Tests
                 Balance = 0M,
                 Name = "Vlad Blood"
             });
-            clientTableRepository.GetClientsInOrangeZone()
+            clientTableRepository.GetAllInOrangeZone()
                 .Returns(new List<ClientEntity>());
-            clientTableRepository.GetClientsInBlackZone()
+            clientTableRepository.GetAllInBlackZone()
                 .Returns(new List<ClientEntity>());
             clientsService = new ClientsService(clientTableRepository, sharesTableRepository);
         }
@@ -40,7 +40,7 @@ namespace Trading.Core.Tests
             args.Name = "Alex Grind";
             args.Phone = "+3 893 212 11 21";
             //Act
-            int clientId = clientsService.RegisterNewClient(args);
+            int clientId = clientsService.RegisterNew(args);
             //Assert
             clientTableRepository.Received(1).Add(Arg.Is<ClientEntity>(
                 s => s.Name == args.Name
@@ -57,13 +57,13 @@ namespace Trading.Core.Tests
             args.Name = "Alex Grind";
             args.Phone = "+3 893 212 11 21";
             //Act
-            clientsService.RegisterNewClient(args);
+            clientsService.RegisterNew(args);
             clientTableRepository.Contains(Arg.Is<ClientEntity>(
                 s => s.Name == args.Name
                 && s.Phone == args.Phone)).Returns(true);
 
             //Assert
-            clientsService.RegisterNewClient(args);
+            clientsService.RegisterNew(args);
         }
         [TestMethod]
         public void ShouldPutMoneyToBalance()
@@ -104,10 +104,10 @@ namespace Trading.Core.Tests
         public void ShouldGetClientsInOrangeZone()
         {
             //Arrange
-            var clientsWhichHaveZeroBalance = clientTableRepository.GetClientsInOrangeZone();
+            var clientsWhichHaveZeroBalance = clientTableRepository.GetAllInOrangeZone();
             IEnumerable<ClientEntity> clientsInOrangeZone;
             //Act
-            clientsInOrangeZone = clientsService.GetClientsInOrangeZone();
+            clientsInOrangeZone = clientsService.GetAllInOrangeZone();
 
             //Assert
             Assert.AreEqual(clientsWhichHaveZeroBalance, clientsInOrangeZone);
@@ -116,10 +116,10 @@ namespace Trading.Core.Tests
         public void ShouldGetClientsInBlackZone()
         {
             //Arrange
-            var clientsWhichHaveLessThanZeroBalance = clientTableRepository.GetClientsInBlackZone();
+            var clientsWhichHaveLessThanZeroBalance = clientTableRepository.GetAllInBlackZone();
             IEnumerable<ClientEntity> clientsInBlackZone;
             //Act
-            clientsInBlackZone = clientsService.GetClientsInBlackZone();
+            clientsInBlackZone = clientsService.GetAllInBlackZone();
 
             //Assert
             Assert.AreEqual(clientsWhichHaveLessThanZeroBalance, clientsInBlackZone);
@@ -135,7 +135,7 @@ namespace Trading.Core.Tests
             int clientId = 1;
             clientTableRepository.ContainsById(Arg.Is<int>(clientId)).Returns(true);
             //Act
-            clientsService.UpdateClientInfo(clientId, args);
+            clientsService.UpdateInfo(clientId, args);
             //Assert
             clientTableRepository.Received(1).Change(Arg.Is<ClientEntity>(
                 s => s.Name == args.Name
@@ -154,7 +154,7 @@ namespace Trading.Core.Tests
             int clientId = 1;
             clientTableRepository.ContainsById(Arg.Is<int>(clientId)).Returns(false);
             //Act
-            clientsService.UpdateClientInfo(clientId, args);
+            clientsService.UpdateInfo(clientId, args);
             //Assert
 
         }
@@ -193,7 +193,7 @@ namespace Trading.Core.Tests
             clientTableRepository.GetById(clientId).Returns(new ClientEntity() { Name = "Sad", Id=clientId });
             clientTableRepository.ContainsById(Arg.Is<int>(1)).Returns(true);
             //Act
-            clientsService.RemoveClientById(clientId);
+            clientsService.RemoveById(clientId);
             //Assert
             clientTableRepository.Received(1).Remove(Arg.Is<ClientEntity>(c =>
             c.Id == clientId && c.Name == "Sad"));
@@ -208,7 +208,7 @@ namespace Trading.Core.Tests
             clientTableRepository.GetById(clientId).Returns(new ClientEntity() { Name = "Sad", Id = clientId });
             clientTableRepository.ContainsById(Arg.Is<int>(clientId)).Returns(false);
             //Act
-            clientsService.RemoveClientById(clientId);
+            clientsService.RemoveById(clientId);
             //Assert
         }
 

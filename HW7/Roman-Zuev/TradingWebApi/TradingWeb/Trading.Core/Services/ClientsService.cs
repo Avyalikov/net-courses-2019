@@ -17,7 +17,7 @@ namespace Trading.Core.Services
             this.clientTableRepository = clientTableRepository;
             this.sharesTableRepository = sharesTableRepository;
         }
-        public int RegisterNewClient(ClientRegistrationInfo args)
+        public int RegisterNew(ClientRegistrationInfo args)
         {
             if (args.Name.Length < 2)
             {
@@ -53,17 +53,17 @@ namespace Trading.Core.Services
             clientTableRepository.SaveChanges();
         }
 
-        public ICollection<ClientEntity> GetClientsInOrangeZone()
+        public ICollection<ClientEntity> GetAllInOrangeZone()
         {
-            return clientTableRepository.GetClientsInOrangeZone();
+            return clientTableRepository.GetAllInOrangeZone();
         }
 
-        public ICollection<ClientEntity> GetClientsInBlackZone()
+        public ICollection<ClientEntity> GetAllInBlackZone()
         {
-            return clientTableRepository.GetClientsInBlackZone();
+            return clientTableRepository.GetAllInBlackZone();
         }
 
-        public void UpdateClientInfo(int clientId, ClientRegistrationInfo infoToUpdate)
+        public void UpdateInfo(int clientId, ClientRegistrationInfo infoToUpdate)
         {
             if (infoToUpdate.Name.Length < 2)
             {
@@ -92,7 +92,7 @@ namespace Trading.Core.Services
             return clients;
         }
 
-        public void RemoveClientById(int clientId)
+        public void RemoveById(int clientId)
         {
             if (!clientTableRepository.ContainsById(clientId))
             {

@@ -14,9 +14,9 @@ namespace Trading.Core.Services
         {
             this.transactionHistoryTableRepository = transactionHistoryTableRepository;
         }
-        public ICollection<TransactionHistoryEntity> GetTransactions(int clientId, int top)
+        public ICollection<TransactionHistoryEntity> GetTopByClientId(int clientId, int top)
         {
-            return transactionHistoryTableRepository.GetTransactionsById(clientId, top);
+            return transactionHistoryTableRepository.GetTopById(clientId, top);
         }
     }
 }

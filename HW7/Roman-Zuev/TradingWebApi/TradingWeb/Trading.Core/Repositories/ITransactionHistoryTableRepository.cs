@@ -7,7 +7,7 @@ namespace Trading.Core.Repositories
     public interface ITransactionHistoryTableRepository
     {
         void Add(TransactionHistoryEntity transaction);
-        ICollection<TransactionHistoryEntity> GetTransactionsById(int clientId, int top);
+        ICollection<TransactionHistoryEntity> GetTopById(int clientId, int top);
         void SaveChanges();
     }
 }

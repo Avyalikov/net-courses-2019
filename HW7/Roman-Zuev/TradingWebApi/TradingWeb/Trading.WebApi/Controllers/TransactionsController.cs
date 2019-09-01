@@ -22,7 +22,7 @@ namespace Trading.WebApi.Controllers
             try
             {
                 string transactions = string.Empty;
-                foreach (var item in transactionHistoryService.GetTransactions(clientId, top))
+                foreach (var item in transactionHistoryService.GetTopByClientId(clientId, top))
                 {
                     transactions += $"{item.DateTime} {item.Seller.Name} {item.Buyer.Name} " +
                         $"{item.SelledItem.SharesType} {item.Quantity}{Environment.NewLine}";

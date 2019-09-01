@@ -29,7 +29,7 @@ namespace Trading.Core.Services
         {
             try
             {
-                ValidateTransaction(args);
+                ValidateArguments(args);
                 var seller = clientTableRepository.GetById(args.SellerId);
                 var buyer = clientTableRepository.GetById(args.BuyerId);
                 var sellersItem = GetItemFromPortfolio(seller, args.SharesId);
@@ -42,8 +42,8 @@ namespace Trading.Core.Services
 
                 clientTableRepository.Change(seller);
                 clientTableRepository.Change(buyer);
-                clientSharesTableRepository.Change(sellersItem);
-                clientSharesTableRepository.Change(buyersItem);
+                clientSharesTableRepository.Update(sellersItem);
+                clientSharesTableRepository.Update(buyersItem);
                 clientTableRepository.SaveChanges();
                 clientSharesTableRepository.SaveChanges();
                 WriteTransactionHistory(args, sum);
@@ -89,7 +89,7 @@ namespace Trading.Core.Services
             return newShares;
         }
 
-        private void ValidateTransaction(TransactionArguments args)
+        private void ValidateArguments(TransactionArguments args)
         {
             if (args.Quantity <= 0)
             {

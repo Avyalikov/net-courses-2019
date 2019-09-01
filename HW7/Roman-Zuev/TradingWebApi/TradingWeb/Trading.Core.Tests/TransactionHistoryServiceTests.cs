@@ -25,9 +25,9 @@ namespace Trading.Core.Tests
             int clientId = 1;
             int top = 10;
             //Act
-            transactionHistoryService.GetTransactions(clientId, top);
+            transactionHistoryService.GetTopByClientId(clientId, top);
             //Assert
-            transactionHistoryTableRepository.Received(1).GetTransactionsById(clientId, top);
+            transactionHistoryTableRepository.Received(1).GetTopById(clientId, top);
         }
     }
 }

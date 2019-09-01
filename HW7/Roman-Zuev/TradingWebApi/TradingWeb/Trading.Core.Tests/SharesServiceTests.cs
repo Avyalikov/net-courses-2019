@@ -26,7 +26,7 @@ namespace Trading.Core.Tests
             //Arrange
             SharesEntity shares = new SharesEntity() { SharesType = "AAA", Price = 100 };
             //Act
-            sharesService.AddNewShares(shares);
+            sharesService.Add(shares);
             //Assert
             sharesTableRepository.Received(1).Add(Arg.Is<SharesEntity>(s =>
             s.SharesType == shares.SharesType
@@ -41,7 +41,7 @@ namespace Trading.Core.Tests
             SharesEntity shares = new SharesEntity() { SharesType = "AAA", Price = 100 };
             sharesTableRepository.Contains(shares).Returns(true);
             //Act
-            sharesService.AddNewShares(shares);
+            sharesService.Add(shares);
             //Assert
         }
 
@@ -52,7 +52,7 @@ namespace Trading.Core.Tests
             //Arrange
             SharesEntity shares = new SharesEntity() { SharesType = "a", Price = 100 };
             //Act
-            sharesService.AddNewShares(shares);
+            sharesService.Add(shares);
             //Assert
         }
 
@@ -64,7 +64,7 @@ namespace Trading.Core.Tests
             sharesTableRepository.Contains(shares).Returns(true);
             sharesTableRepository.GetById(shares.Id).Returns(shares);
             //Act
-            sharesService.RemoveShares(shares);
+            sharesService.Remove(shares);
             //Assert
             sharesTableRepository.Received(1).Remove(Arg.Is<SharesEntity>(s =>
             s.SharesType == shares.SharesType
@@ -80,7 +80,7 @@ namespace Trading.Core.Tests
             SharesEntity shares = new SharesEntity() { Id = 1, SharesType = "AAA", Price = 100 };
             sharesTableRepository.Contains(shares).Returns(false);
             //Act
-            sharesService.RemoveShares(shares);
+            sharesService.Remove(shares);
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace Trading.Core.Tests
             sharesTableRepository.Contains(shares).Returns(true);
             sharesTableRepository.GetById(shares.Id).Returns(shares);
             //Act
-            sharesService.UpdateShares(shares);
+            sharesService.Update(shares);
             //Assert
             sharesTableRepository.Received(1).Update(Arg.Is<SharesEntity>(s =>
             s.SharesType == shares.SharesType
@@ -107,7 +107,7 @@ namespace Trading.Core.Tests
             SharesEntity shares = new SharesEntity() { Id = 1, SharesType = "AAA", Price = 100 };
             sharesTableRepository.Contains(shares).Returns(false);
             //Act
-            sharesService.UpdateShares(shares);
+            sharesService.Update(shares);
         }
     }
 }

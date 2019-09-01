@@ -6,6 +6,6 @@ namespace Trading.Core.Services
 {
     public interface ITransactionHistoryService
     {
-        ICollection<TransactionHistoryEntity> GetTransactions(int clientId, int top);
+        ICollection<TransactionHistoryEntity> GetTopByClientId(int clientId, int top);
     }
 }

@@ -6,13 +6,13 @@ namespace Trading.Core.Services
 {
     public interface IClientsService
     {
-        ICollection<ClientEntity> GetClientsInBlackZone();
-        ICollection<ClientEntity> GetClientsInOrangeZone();
+        ICollection<ClientEntity> GetAllInBlackZone();
+        ICollection<ClientEntity> GetAllInOrangeZone();
         void PutMoneyToBalance(ArgumentsForPutMoneyToBalance args);
-        int RegisterNewClient(ClientRegistrationInfo args);
-        void UpdateClientInfo(int clientId, ClientRegistrationInfo infoToUpdate);
+        int RegisterNew(ClientRegistrationInfo args);
+        void UpdateInfo(int clientId, ClientRegistrationInfo infoToUpdate);
         ICollection<ClientEntity> GetTop(int top, int page);
-        void RemoveClientById(int clientId);
+        void RemoveById(int clientId);
         string GetBalance(int clientId);
         IDictionary<SharesEntity, int> GetClientSharesById(int clientId);
     }

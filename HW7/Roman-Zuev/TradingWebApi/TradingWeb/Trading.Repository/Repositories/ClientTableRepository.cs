@@ -49,12 +49,12 @@ namespace Trading.Repository.Repositories
             return this.dbContext.Clients.First(c => c.Id == clientId);
         }
 
-        public ICollection<ClientEntity> GetClientsInBlackZone()
+        public ICollection<ClientEntity> GetAllInBlackZone()
         {
             return this.dbContext.Clients.Where(c => c.Balance < 0).ToList();
         }
 
-        public ICollection<ClientEntity> GetClientsInOrangeZone()
+        public ICollection<ClientEntity> GetAllInOrangeZone()
         {
             return this.dbContext.Clients.Where(c => c.Balance == 0).ToList();
         }

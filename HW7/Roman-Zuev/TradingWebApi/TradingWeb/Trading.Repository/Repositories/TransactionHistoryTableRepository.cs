@@ -22,7 +22,7 @@
             this.dbContext.TransactionHistories.Add(transaction);
         }
 
-        public ICollection<TransactionHistoryEntity> GetTransactionsById(int clientId, int top)
+        public ICollection<TransactionHistoryEntity> GetTopById(int clientId, int top)
         {
             return this.dbContext.TransactionHistories
                 .Where(h => h.Buyer.Id == clientId || h.Seller.Id == clientId)

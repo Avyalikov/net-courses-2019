@@ -14,8 +14,8 @@ namespace Trading.Core.Repositories
         bool Contains(ClientEntity entity);
         bool ContainsById(int clientId);
         ClientEntity GetById(int clientId);
-        ICollection<ClientEntity> GetClientsInBlackZone();
-        ICollection<ClientEntity> GetClientsInOrangeZone();
+        ICollection<ClientEntity> GetAllInBlackZone();
+        ICollection<ClientEntity> GetAllInOrangeZone();
         ICollection<ClientEntity> GetTop(int clientsAmount);
         void Remove(ClientEntity client);
         void SaveChanges();

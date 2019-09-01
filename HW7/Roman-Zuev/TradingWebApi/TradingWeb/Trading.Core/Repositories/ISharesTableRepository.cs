@@ -14,6 +14,6 @@ namespace Trading.Core.Repositories
         SharesEntity GetById(int sharesId);
         void Remove(SharesEntity sharesToRemove);
         void SaveChanges();
-        void Update(SharesEntity sharesToAdd);
+        void Update(SharesEntity sharesToUpdate);
     }
 }

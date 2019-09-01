@@ -42,7 +42,7 @@ namespace Trading.WebApi.Controllers
         {
             try
             {
-                sharesService.AddNewShares(sharesToAdd);
+                sharesService.Add(sharesToAdd);
                 return Ok("Shares successfully added");
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace Trading.WebApi.Controllers
         {
             try
             {
-                sharesService.UpdateShares(sharesToAdd);
+                sharesService.Update(sharesToAdd);
                 return Ok("Shares successfully updated");
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace Trading.WebApi.Controllers
         {
             try
             {
-                sharesService.RemoveShares(sharesToRemove);
+                sharesService.Remove(sharesToRemove);
                 return Ok("Shares successfully removed");
             }
             catch (Exception ex)

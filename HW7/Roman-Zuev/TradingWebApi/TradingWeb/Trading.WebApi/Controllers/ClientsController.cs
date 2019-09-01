@@ -41,7 +41,7 @@ namespace Trading.WebApi.Controllers
         {
             try
             {
-                clientsService.RegisterNewClient(client);
+                clientsService.RegisterNew(client);
                 return Ok("Client Successfully Registered");
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace Trading.WebApi.Controllers
         {
             try
             {
-                clientsService.UpdateClientInfo(clientId, infoToUpdate);
+                clientsService.UpdateInfo(clientId, infoToUpdate);
                 return Ok("Client Successfully Updated");
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace Trading.WebApi.Controllers
         {
             try
             {
-                clientsService.RemoveClientById(clientId);
+                clientsService.RemoveById(clientId);
                 return Ok("Client Successfully Removed");
             }
             catch (Exception ex)

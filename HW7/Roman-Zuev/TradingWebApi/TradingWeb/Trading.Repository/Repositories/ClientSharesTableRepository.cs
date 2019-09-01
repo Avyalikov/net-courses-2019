@@ -18,7 +18,7 @@
             this.dbContext.ClientShares.Add(newShares);
         }
 
-        public void Change(ClientSharesEntity buyersItem)
+        public void Update(ClientSharesEntity buyersItem)
         {
             this.dbContext.Entry(buyersItem).State = EntityState.Modified;
         }

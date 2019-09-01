@@ -188,7 +188,7 @@ namespace Trading.Core.Tests
             //Act
             transactionService.MakeTransaction(args);
             //Assert
-            clientSharesTableRepository.Received(1).Change(Arg.Is<ClientSharesEntity>(s =>
+            clientSharesTableRepository.Received(1).Update(Arg.Is<ClientSharesEntity>(s =>
             s.Shares.Id == 1
             && s.Quantity == quantityBeforeChange - args.Quantity));
             clientTableRepository.Received(1).SaveChanges();
@@ -217,7 +217,7 @@ namespace Trading.Core.Tests
             //Act
             transactionService.MakeTransaction(args);
             //Assert
-            clientSharesTableRepository.Received(1).Change(Arg.Is<ClientSharesEntity>(s =>
+            clientSharesTableRepository.Received(1).Update(Arg.Is<ClientSharesEntity>(s =>
             s.Shares.Id == 1
             && s.Quantity == quantityBeforeChange + args.Quantity));
             clientTableRepository.Received(1).SaveChanges();

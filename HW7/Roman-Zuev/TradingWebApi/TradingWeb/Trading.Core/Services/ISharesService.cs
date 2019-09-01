@@ -4,8 +4,8 @@ namespace Trading.Core.Services
 {
     public interface ISharesService
     {
-        void AddNewShares(SharesEntity sharesToAdd);
-        void UpdateShares(SharesEntity sharesToAdd);
-        void RemoveShares(SharesEntity sharesToRemove);
+        void Add(SharesEntity sharesToAdd);
+        void Update(SharesEntity sharesToAdd);
+        void Remove(SharesEntity sharesToRemove);
     }
 }
