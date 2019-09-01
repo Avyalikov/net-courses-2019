@@ -41,5 +41,20 @@ namespace TradingApp.Core.LoggingServices
                 throw ex;
             }
         }
+
+        public override IEnumerable<string> GetTopTransactionsByUser(int traderId, int top)
+        {
+            try
+            {
+                var transactions = base.GetTopTransactionsByUser(traderId, top);
+                Logger.FileLogger.Info($"Request for top {top} transactions of user with id = {traderId}");
+                return transactions;
+            }
+            catch (Exception ex)
+            {
+                Logger.FileLogger.Error(ex);
+                throw ex;
+            }
+        }
     }
 }

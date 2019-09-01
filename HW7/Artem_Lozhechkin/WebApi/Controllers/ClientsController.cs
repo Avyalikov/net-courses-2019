@@ -13,12 +13,10 @@ namespace WebApi.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        private readonly IRepository<TraderEntity> clientRepository;
         private readonly TraderService service;
 
-        public ClientsController(IRepository<TraderEntity> clientRepository, TraderService service)
+        public ClientsController(TraderService service)
         {
-            this.clientRepository = clientRepository;
             this.service = service;
         }
         [Route("add")]
@@ -28,12 +26,12 @@ namespace WebApi.Controllers
             try
             {
                 this.service.RegisterNewUser(traderInfo);
+                return Ok("User successfully added");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
         }
         [Route("update")]
         [HttpPost]
@@ -83,6 +81,34 @@ namespace WebApi.Controllers
             try
             {
                 var responseContent = JsonConvert.SerializeObject(this.service.GetAllTraders());
+                return Ok(responseContent);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("black")]
+        [HttpGet]
+        public ActionResult<string> GetBlackStatusClients()
+        {
+            try
+            {
+                var responseContent = JsonConvert.SerializeObject(this.service.GetTradersFromBlackZone());
+                return Ok(responseContent);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("orange")]
+        [HttpGet]
+        public ActionResult<string> GetOrangeStatusClients()
+        {
+            try
+            {
+                var responseContent = JsonConvert.SerializeObject(this.service.GetTradersFromOrangeZone());
                 return Ok(responseContent);
             }
             catch (Exception ex)

@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         {
             this.shareService = shareService;
         }
-        [Route("all_shares")]
+        [Route("client_shares")]
         [HttpGet]
         public ActionResult<List<ShareEntity>> GetSharesByClientId(int clientId)
         {
@@ -42,6 +42,34 @@ namespace WebApi.Controllers
                 return Ok(this.shareService.GetAllSharesListByTraderId(clientId));
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("all")]
+        [HttpGet]
+        public ActionResult<string> GetAllShares(int shareId, int shareTypeId)
+        {
+            try
+            {
+                var allShares = this.shareService.GetAllShares();
+                return Ok(JsonConvert.SerializeObject(allShares));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("change")]
+        [HttpGet]
+        public ActionResult<string> ChangeShareType(int shareId, int shareTypeId)
+        {
+            try
+            {
+                this.shareService.ChangeShareType(shareId, shareTypeId);
+                return Ok("Share type changed");
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

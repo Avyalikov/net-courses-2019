@@ -54,6 +54,37 @@
                 throw ex;
             }
         }
+
+        public override IEnumerable<string> GetUserLists(int top, int page)
+        {
+            try
+            {
+                var users = base.GetUserLists(top, page);
+                Logger.FileLogger.Info($"Page {page} with {top} traders was requested");
+                return users;
+            }
+            catch (Exception ex)
+            {
+                Logger.FileLogger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public override string GetUserStatus(int id)
+        {
+            try
+            {
+                var status = base.GetUserStatus(id);
+                Logger.FileLogger.Info($"Status of user with id = {id} was requested");
+                return status;
+            }
+            catch (Exception ex)
+            {
+                Logger.FileLogger.Error(ex);
+                throw ex;
+            }
+        }
+
         public override int RegisterNewUser(TraderInfo info)
         {
             try
@@ -61,6 +92,34 @@
                 var traderId = base.RegisterNewUser(info);
                 Logger.FileLogger.Info("Registered new user");
                 return traderId;
+            }
+            catch (Exception ex)
+            {
+                Logger.FileLogger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public override void RemoveUser(TraderInfo info)
+        {
+            try
+            {
+                base.RemoveUser(info);
+                Logger.FileLogger.Info($"Removed user {info.FirstName} {info.LastName}");
+            }
+            catch (Exception ex)
+            {
+                Logger.FileLogger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public override void UpdateUser(TraderEntity traderEntity)
+        {
+            try
+            {
+                base.UpdateUser(traderEntity);
+                Logger.FileLogger.Info($"Removed user with id = {traderEntity.Id}");
             }
             catch (Exception ex)
             {

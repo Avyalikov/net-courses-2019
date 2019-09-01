@@ -1,53 +1,17 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using TradingApp.Core;
 using TradingApp.Core.DTO;
-using TradingApp.Core.Models;
-using TradingApp.Core.Repositories;
-using TradingApp.Core.Services;
 
 namespace TradingApp.ConsoleTradingManager
 {
     public class ConsoleManager
     {
-        private readonly TransactionService transactionService;
-        private readonly TraderService traderService;
-        private readonly ShareService shareService;
-        private readonly IRepository<TraderEntity> traderTableRepository;
-        private readonly IRepository<ShareEntity> shareTableRepository;
-        private readonly IRepository<CompanyEntity> companyTableRepository;
-        private readonly IRepository<StockEntity> stockTableRepository;
-        private readonly IRepository<ShareTypeEntity> shareTypeTableRepository;
-        private readonly IRepository<TransactionEntity> transactionTableRepository;
         private readonly RequestSender requestSender;
 
-        public ConsoleManager(
-            TraderService traderService,
-            ShareService shareService,
-            TransactionService transactionService,
-            IRepository<TraderEntity> traderTableRepository,
-            IRepository<ShareEntity> shareTableRepository,
-            IRepository<CompanyEntity> companyTableRepository,
-            IRepository<StockEntity> stockTableRepository,
-            IRepository<ShareTypeEntity> shareTypeTableRepository,
-            IRepository<TransactionEntity> transactionTableRepository,
-            RequestSender requestSender)
+        public ConsoleManager(RequestSender requestSender)
         {
-            this.traderService = traderService;
-            this.shareService = shareService;
-            this.transactionService = transactionService;
-            this.traderTableRepository = traderTableRepository;
-            this.shareTableRepository = shareTableRepository;
-            this.companyTableRepository = companyTableRepository;
-            this.stockTableRepository = stockTableRepository;
-            this.shareTypeTableRepository = shareTypeTableRepository;
-            this.transactionTableRepository = transactionTableRepository;
             this.requestSender = requestSender;
         }
         private void ShowMenu()
@@ -118,7 +82,8 @@ namespace TradingApp.ConsoleTradingManager
                     var sellerShares = this.requestSender.GetAllSharesByTrader(sellerId);
                     shareId = sellerShares[rand.Next(0, sellerShares.Count())].Id;
 
-                    var transactionInfo = new TransactionInfo {
+                    var transactionInfo = new TransactionInfo
+                    {
                         BuyerId = buyerId,
                         SellerId = sellerId,
                         ShareId = shareId
@@ -145,7 +110,7 @@ namespace TradingApp.ConsoleTradingManager
 
             try
             {
-                var allTraders = traderService.GetTradersFromOrangeZone();
+                var allTraders = requestSender.GetOrangeStatusClients();
                 foreach (var trader in allTraders)
                 {
                     Console.WriteLine($"{trader.Id,-3} |{trader.FirstName + " " + trader.LastName,-20} |{trader.Balance,-6}");
@@ -169,7 +134,7 @@ namespace TradingApp.ConsoleTradingManager
 
             try
             {
-                var allTraders = traderService.GetTradersFromBlackZone();
+                var allTraders = requestSender.GetBlackStatusClients();
                 foreach (var trader in allTraders)
                 {
                     Console.WriteLine($"{trader.Id,-3} |{trader.FirstName + " " + trader.LastName,-20} |{trader.Balance,-6}");
@@ -191,7 +156,7 @@ namespace TradingApp.ConsoleTradingManager
             Console.WriteLine("Чтобы вернуться в меню введите menu на любом из этапов заполнения");
             Console.WriteLine("Список пользователей, находящихся на бирже:");
 
-            var allTraders = traderService.GetAllTraders();
+            var allTraders = requestSender.GetAllTradersList();
             Console.WriteLine("ID\tПользователь");
             foreach (var trader in allTraders)
             {
@@ -215,24 +180,14 @@ namespace TradingApp.ConsoleTradingManager
                 if (consoleInput.ToLower() == "menu") return;
             } while (!int.TryParse(consoleInput, out buyerId) || buyerId < allTraders.Min(t => t.Id) || buyerId > allTraders.Max(t => t.Id) || sellerId == buyerId);
 
-            var sellersShares = from share in this.shareTableRepository.GetAll().Where(s => s.Owner.Id == sellerId)
-                                join trader in this.traderTableRepository.GetAll() on share.Owner equals trader
-                                join stock in this.stockTableRepository.GetAll() on share.Stock equals stock
-                                join company in this.companyTableRepository.GetAll() on stock.Company equals company
-                                join shareType in this.shareTypeTableRepository.GetAll() on share.ShareType equals shareType
-                                select new
-                                {
-                                    share.Id,
-                                    CompanyName = company.Name,
-                                    share.Amount,
-                                    PackagePrice = share.Amount * shareType.Multiplier * stock.PricePerUnit,
-                                    ShareTypeName = shareType.Name
-                                };
+            var sellersShares = requestSender.GetAllSharesByTrader(sellerId);
             Console.WriteLine("Продавец обладает следующими акциями:");
             Console.WriteLine("{0, -3} {1, -15} {2, -10} {3, -9} {4,-10}", "ID", "Компания", "Количество", "Стоимость", "Тип");
             foreach (var item in sellersShares)
             {
-                Console.WriteLine($"{item.Id,-3} {item.CompanyName,-15} {item.Amount,-10} {item.PackagePrice,-9:0.00} {item.ShareTypeName,-10}");
+                Console.WriteLine($"{item.Id,-3} {item.Stock.Company.Name,-15} " +
+                    $"{item.Amount,-10} {item.Stock.PricePerUnit * item.Amount * item.ShareType.Multiplier,-9:0.00} " +
+                    $"{item.ShareType.Name,-10}");
             }
             int shareId;
             do
@@ -244,7 +199,13 @@ namespace TradingApp.ConsoleTradingManager
 
             try
             {
-                transactionService.MakeShareTransaction(sellerId, buyerId, shareId);
+                var transactionInfo = new TransactionInfo
+                {
+                    BuyerId = buyerId,
+                    SellerId = sellerId,
+                    ShareId = shareId
+                };
+                requestSender.MakeTransaction(transactionInfo);
 
                 Console.WriteLine("Продажа проведена успешно!");
             }
@@ -266,24 +227,13 @@ namespace TradingApp.ConsoleTradingManager
             Console.WriteLine("{0, -5} |{1,-20} |{2,-15} |{3,-10} |{4,-10} |{5}",
                 "Номер", "Владелец", "Компания", "Количество", "Тип акции", "Стоимость пакета");
 
-            var sharesWithInfo = from share in this.shareTableRepository.GetAll()
-                                 join trader in this.traderTableRepository.GetAll() on share.Owner equals trader
-                                 join stock in this.stockTableRepository.GetAll() on share.Stock equals stock
-                                 join company in this.companyTableRepository.GetAll() on stock.Company equals company
-                                 join shareType in this.shareTypeTableRepository.GetAll() on share.ShareType equals shareType
-                                 select new
-                                 {
-                                     share.Id,
-                                     OwnerFullName = trader.FirstName + " " + trader.LastName,
-                                     CompanyName = company.Name,
-                                     share.Amount,
-                                     PackagePrice = share.Amount * shareType.Multiplier * stock.PricePerUnit,
-                                     ShareTypeName = shareType.Name
-                                 };
+            var sharesWithInfo = requestSender.GetAllShares();
 
             foreach (var item in sharesWithInfo)
             {
-                Console.Write($"{item.Id,-5} |{item.OwnerFullName,-20} |{item.CompanyName,-15} |{item.Amount,-10} |{item.ShareTypeName,-10} |{item.PackagePrice:0.00}\n");
+                Console.Write($"{item.Id,-5} |{item.Owner.FirstName + " " + item.Owner.LastName,-20} " +
+                    $"|{item.Stock.Company.Name,-15} |{item.Amount,-10} |{item.ShareType.Name,-10} " +
+                    $"|{item.Amount * item.Stock.PricePerUnit * item.ShareType.Multiplier:0.00}\n");
             }
             Console.WriteLine();
             int shareId;
@@ -302,8 +252,7 @@ namespace TradingApp.ConsoleTradingManager
 
             try
             {
-                shareService.ChangeShareType(shareId, shareTypeId);
-                Console.WriteLine("Тип акции успешно изменён.");
+                Console.WriteLine(requestSender.ChangeShareType(shareId, shareTypeId));
             }
             catch (Exception ex)
             {
@@ -354,11 +303,11 @@ namespace TradingApp.ConsoleTradingManager
 
             try
             {
-                traderService.RegisterNewUser(
+                var resp = requestSender.RegisterTrader(
                     new TraderInfo()
                     { FirstName = firstName, LastName = lastName, PhoneNumber = phoneNumber, Balance = balance });
 
-                Console.WriteLine("Пользователь добавлен!");
+                Console.WriteLine(resp);
             }
             catch (Exception ex)
             {

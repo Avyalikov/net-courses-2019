@@ -36,27 +36,11 @@
 
             this.shareTableRepository.Save(shareToChange);
         }
-
-        private void ValidateShareTypeExistence(int shareTypeId)
-        {
-            if (this.shareTypeTableRepository.GetById(shareTypeId) == null)
-            {
-                throw new Exception("There is no share type with given Id.");
-            }
-        }
-
-        private void ValidateShareExistence(int shareId)
-        {
-            if (this.shareTableRepository.GetById(shareId) == null)
-            {
-                throw new Exception("There is no share with given Id.");
-            }
-        }
-
         public virtual List<ShareEntity> GetAllSharesByTraderId(int traderId)
         {
             ValidateTradersShareExistence(traderId);
-            return this.shareTableRepository.GetAll().Where(s => s.Owner.Id == traderId).ToList();
+            return this.shareTableRepository.GetAll()
+                .Where(s => s.Owner.Id == traderId).ToList();
         }
         public virtual List<string> GetAllSharesListByTraderId(int traderId)
         {
@@ -87,7 +71,10 @@
 
             this.shareTableRepository.SaveChanges();
         }
-
+        public virtual List<ShareEntity> GetAllShares()
+        { 
+            return this.shareTableRepository.GetAll();
+        }
         public virtual void UpdateShare(ShareInfo shareInfo)
         {
             ValidateShareExistence(shareInfo.Id);
@@ -114,7 +101,6 @@
 
             this.shareTableRepository.SaveChanges();
         }
-
         private void ValidateOwnerExitence(int ownerId)
         {
             if (this.traderTableRepository.GetById(ownerId) == null)
@@ -122,7 +108,6 @@
                 throw new Exception($"There's no user with given id in data source.");
             }
         }
-
         private void ValidateStockExistence(int stockId)
         {
             if (this.stockTableRepository.GetById(stockId) == null)
@@ -130,12 +115,25 @@
                 throw new Exception($"There's no stock with given id in data source.");
             }
         }
-
         private void ValidateTradersShareExistence(int traderId)
         {
             if (this.shareTableRepository.GetAll().Where(s => s.Owner.Id == traderId).Count() == 0)
             {
                 throw new Exception("User doesnt have any shares.");
+            }
+        }
+        private void ValidateShareTypeExistence(int shareTypeId)
+        {
+            if (this.shareTypeTableRepository.GetById(shareTypeId) == null)
+            {
+                throw new Exception("There is no share type with given Id.");
+            }
+        }
+        private void ValidateShareExistence(int shareId)
+        {
+            if (this.shareTableRepository.GetById(shareId) == null)
+            {
+                throw new Exception("There is no share with given Id.");
             }
         }
     }
