@@ -35,7 +35,9 @@ namespace Trading.Core.Services
                 StockID = args.StockId,
                 Quantity = args.Quantity,
                 OrderType = (OrderType)args.OrderType,
-                IsExecuted = false }
+                IsExecuted = false,
+                TransactionHistoryID=null
+            }
             ;
          
             unitOfWork.Orders.Add(order);
@@ -68,13 +70,16 @@ namespace Trading.Core.Services
 
         }
    
-        public void SetIsExecuted(Order order)
+        public void SetIsExecuted(int orderId, int transactionId)
         {
+            var order = this.unitOfWork.Orders.Get(o => o.OrderID == orderId).Single();
             order.IsExecuted = true;
-            unitOfWork.Save();
+            //this.unitOfWork.Orders.Update(order);
+            this.unitOfWork.Save();
           
         }
 
+       
         public void Update(int id)
         {
             throw new NotImplementedException();

@@ -70,7 +70,7 @@
     <Compile Include="Repositories\ICommonRepository.cs" />
     <Compile Include="Repositories\IOrderRepository.cs" />
     <Compile Include="Repositories\IStockRepository.cs" />
-    <Compile Include="Repositories\ITransactionHistoryReepository.cs" />
+    <Compile Include="Repositories\ITransactionHistoryRepository.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ClientStockService.cs" />
     <Compile Include="Services\OrderService.cs" />

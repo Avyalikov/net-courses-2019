@@ -41,7 +41,8 @@ namespace SharedContext.Repositories
 
         public void Update(TEntity entity)
         {
-            this.db.Entry(entity).State = EntityState.Modified; ;
+            
+            this.db.Entry(entity).State = EntityState.Modified; 
         }
 
         public void Delete(TEntity entity)

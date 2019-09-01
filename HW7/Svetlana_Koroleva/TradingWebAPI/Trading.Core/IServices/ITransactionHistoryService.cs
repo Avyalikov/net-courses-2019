@@ -21,6 +21,6 @@ namespace Trading.Core.IServices
     {
         void AddTransactionInfo(TransactionInfo args);
         TransactionHistory GetTransactionByID(int id);
-
+        TransactionHistory GetLastTransaction();
     }
 }

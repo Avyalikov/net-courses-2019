@@ -36,7 +36,7 @@ namespace Trading.Core.Services
                 Price=args.Price
                 
             };
-            if (this.unitOfWork.Stocks.Get(s=>s.StockPrefix==args.StockPrefix&&s.Issuer==args.Issuer&&s.StockType==args.ShareType)!=null)
+            if (this.unitOfWork.Stocks.Get(s=>s.StockPrefix==args.StockPrefix&&s.Issuer==args.Issuer&&s.StockType==args.ShareType).Count()!=0)
             {
                 throw new ArgumentException("This stock exists. Can't continue");
             };
@@ -54,7 +54,7 @@ namespace Trading.Core.Services
 
         public Stock GetEntityByID(int id)
         {
-            if (this.unitOfWork.Stocks.Get(s=>s.StockID==id)==null)
+            if (this.unitOfWork.Stocks.Get(s=>s.StockID==id).Count()==0)
             {
                 throw new ArgumentException("Stock doesn't exist");
             }

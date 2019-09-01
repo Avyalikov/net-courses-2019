@@ -15,8 +15,7 @@ namespace Trading.Core.DTO
     /// </summary>
     public class TransactionInfo
     {
-        public int CustomerOrderId { get; set; }
-        public int SalerOrderId { get; set; }
+       
         public DateTime TrDateTime { get; set; }
     }
 }

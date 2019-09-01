@@ -34,6 +34,13 @@ namespace Trading.Core.Services
             unitOfWork.Save();
 
         }
+
+        public TransactionHistory GetLastTransaction()
+        {
+            var transactions = this.unitOfWork.Transactions.GetAll().OrderByDescending(o => o.TransactionHistoryID);
+            return transactions.First();
+        }
+
         public TransactionHistory GetTransactionByID(int id)
         {
             if (this.unitOfWork.Transactions.Get(t=>t.TransactionHistoryID==id)==null)

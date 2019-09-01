@@ -65,6 +65,7 @@ namespace Trading.Core.Services
         {
             var client = this.GetEntityByID(clientId);
             client.Balance += sumToAdd;
+            unitOfWork.Clients.Update(client);
             unitOfWork.Save();
         }
 
@@ -97,6 +98,7 @@ namespace Trading.Core.Services
             clientToUpdate.LastName = clientinfo.LastName;
             clientToUpdate.Phone = clientinfo.Phone;
             clientToUpdate.Balance = clientinfo.Balance;
+            this.unitOfWork.Clients.Update(clientToUpdate);
             this.unitOfWork.Save(); ;
         }
 

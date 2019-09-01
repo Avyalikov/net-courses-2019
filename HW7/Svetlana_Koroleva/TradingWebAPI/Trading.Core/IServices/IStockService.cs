@@ -23,5 +23,6 @@ namespace Trading.Core.IServices
         Stock GetEntityByID(int id);
 
 
+
     }
 }

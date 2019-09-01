@@ -17,5 +17,6 @@ namespace Trading.Core.Model
     {
         public int TransactionHistoryID { get; set; }
         public DateTime TransactionDateTime{get;set;}
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

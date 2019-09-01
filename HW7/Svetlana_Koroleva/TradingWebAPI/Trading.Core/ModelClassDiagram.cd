@@ -19,14 +19,13 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Trading.Core.Model.Order">
-    <Position X="4" Y="2.75" Width="1.5" />
+    <Position X="4" Y="2.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAIAAAAAAgAAAAAAAAAAAAAAAAEAgAAACQA=</HashCode>
       <FileName>Model\Order.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="OrderType" />
-      <Property Name="TransactionHistory" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Trading.Core.Model.Stock">
@@ -40,11 +39,14 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Trading.Core.Model.TransactionHistory">
-    <Position X="5.75" Y="3" Width="2.25" />
+    <Position X="8" Y="3.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAEAAAAAAA=</HashCode>
       <FileName>Model\TransactionHistory.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Orders" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Enum Name="Trading.Core.Model.OrderType">
     <Position X="1.5" Y="3.25" Width="1.5" />

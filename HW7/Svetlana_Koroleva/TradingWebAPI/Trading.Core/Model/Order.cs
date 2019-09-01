@@ -30,12 +30,6 @@ namespace Trading.Core.Model
         public OrderType OrderType { get; set; }
         public bool IsExecuted { get; set; }
 
-        public TransactionHistory TransactionHistory
-        {
-            get => default(TransactionHistory);
-            set
-            {
-            }
-        }
+        public int? TransactionHistoryID   {   get;set;  }
     }
 }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedContext", "SharedCont
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingSHWebAPI", "TradingSHWebAPI\TradingSHWebAPI.csproj", "{DDF66F32-2E5D-4A10-B483-891D0ED66328}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingWebSimulation", "TradingWebSimulation\TradingWebSimulation.csproj", "{5B99E5AC-064F-438E-9B50-828485B99ED2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DDF66F32-2E5D-4A10-B483-891D0ED66328}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDF66F32-2E5D-4A10-B483-891D0ED66328}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDF66F32-2E5D-4A10-B483-891D0ED66328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B99E5AC-064F-438E-9B50-828485B99ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B99E5AC-064F-438E-9B50-828485B99ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B99E5AC-064F-438E-9B50-828485B99ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B99E5AC-064F-438E-9B50-828485B99ED2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

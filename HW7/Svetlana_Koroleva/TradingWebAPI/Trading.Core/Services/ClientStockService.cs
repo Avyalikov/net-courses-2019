@@ -29,7 +29,7 @@ namespace Trading.Core.Services
                 Quantity = args.Amount
 
             };
-            if (this.unitOfWork.ClientStocks.Get(c=>c.ClientID==args.ClientId&&c.StockID==args.StockId)!=null)
+            if (this.unitOfWork.ClientStocks.Get(c=>c.ClientID==args.ClientId&&c.StockID==args.StockId).Count()!=0)
             {
                 throw new ArgumentException("This clientstock exists. Can't continue");
             };
@@ -41,7 +41,7 @@ namespace Trading.Core.Services
 
         public ClientStock GetEntityByCompositeID(int clientId, int stockId)
         {
-            if (this.unitOfWork.ClientStocks.Get(c=>c.StockID==stockId&&c.ClientID==clientId)==null)
+            if (this.unitOfWork.ClientStocks.Get(c=>c.StockID==stockId&&c.ClientID==clientId).Count()==0)
             {
                 throw new ArgumentException("Clientstock doesn't exist");
             }
@@ -65,6 +65,7 @@ namespace Trading.Core.Services
             {
                 ClientStock clientStock = this.GetEntityByCompositeID(clientId, stockId);
                 clientStock.Quantity += amountToAdd;
+                this.unitOfWork.ClientStocks.Update(clientStock);
                 this.unitOfWork.Save();
             }
             
