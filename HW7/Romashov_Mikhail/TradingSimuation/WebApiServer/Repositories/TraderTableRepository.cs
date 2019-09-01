@@ -28,8 +28,7 @@ namespace WebApiServer.Repositories
         {
             return this.dbContext.Traders.Any(t =>
             t.Name == entityToAdd.Name
-            && t.Surname == entityToAdd.Surname
-            && t.PhoneNumber == entityToAdd.PhoneNumber);
+            && t.Surname == entityToAdd.Surname);
         }
 
         public bool ContainsById(int entityId)
