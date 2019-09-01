@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using TradingSimulator.Core.Models;
 
-namespace TradingSimulatorWebApi.Data
+namespace TradingSimulatorConsoleApp.Data
 {
     public class TradingSimulatorDbContext : DbContext
     {

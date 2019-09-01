@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator.Core", "Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator.Core.Tests", "TradingSimulator.Core.Tests\TradingSimulator.Core.Tests.csproj", "{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulatorConsoleApp", "TradingSimulatorConsoleApp\TradingSimulatorConsoleApp.csproj", "{82E45910-86F6-42E5-809E-C5BB8F46D7D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82E45910-86F6-42E5-809E-C5BB8F46D7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82E45910-86F6-42E5-809E-C5BB8F46D7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82E45910-86F6-42E5-809E-C5BB8F46D7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82E45910-86F6-42E5-809E-C5BB8F46D7D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

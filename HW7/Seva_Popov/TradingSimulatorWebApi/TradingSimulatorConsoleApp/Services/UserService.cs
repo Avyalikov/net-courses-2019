@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using TradingSimulator.Core.Models;
-using TradingSimulatorWebApi.Data;
-using TradingSimulatorWebApi.Repositories;
+using TradingSimulator.Core.Services;
+using TradingSimulatorConsoleApp.Data;
+using TradingSimulatorConsoleApp.Repositories;
 
-namespace TradingSimulator.Core.Services
+namespace TradingSimulatorConsoleApp.Services
 {
     public class UserService : IUserService
     {
@@ -45,7 +46,7 @@ namespace TradingSimulator.Core.Services
             UserTableRepository userTableRepository = new UserTableRepository(dbContext);
             return userTableRepository.GetUserBlackList();
         }
-        
+
         public IEnumerable<UserEntity> GetUserOrangeList()
         {
             UserTableRepository userTableRepository = new UserTableRepository(dbContext);

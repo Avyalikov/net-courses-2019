@@ -14,10 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TradingSimulator.Core\TradingSimulator.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="interfaces\" />
+    <ProjectReference Include="..\TradingSimulatorConsoleApp\TradingSimulatorConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>

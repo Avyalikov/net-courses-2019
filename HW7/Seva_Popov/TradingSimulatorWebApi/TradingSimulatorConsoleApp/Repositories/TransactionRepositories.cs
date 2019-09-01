@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using TradingSimulator.Core.Models;
-using TradingSimulatorWebApi.Data;
+using TradingSimulator.Core.Repositories;
+using TradingSimulatorConsoleApp.Data;
 
-namespace TradingSimulatorWebApi.Repositories
+namespace TradingSimulatorConsoleApp.Repositories
 {
-    public class TransactionRepositories
+    public class TransactionRepositories : ITransactionRepositories
     {
         private readonly TradingSimulatorDbContext dbContext;
 

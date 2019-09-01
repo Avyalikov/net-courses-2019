@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Services;
-using TradingSimulatorWebApi.Data;
-using TradingSimulatorWebApi.Repositories;
+using TradingSimulatorConsoleApp.Data;
+using TradingSimulatorConsoleApp.Services;
+
 
 namespace TradingSimulatorWebApi.Controllers
 {

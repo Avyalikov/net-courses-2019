@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using TradingSimulator.Core.Models;
-using TradingSimulator.Core.Repositories;
-using TradingSimulatorWebApi.Data;
-using TradingSimulatorWebApi.Services;
+using TradingSimulatorConsoleApp.Data;
+using TradingSimulatorConsoleApp.Services;
 
-namespace TradingSimulatorWebApi
+namespace TradingSimulatorConsoleApp
 {
     public class TradingSimulation
     {
@@ -19,7 +17,7 @@ namespace TradingSimulatorWebApi
         }
 
         Random random = new Random();
-        
+
         public UserEntity ChooseARandomUser()
         {
             TransactionService transactionService = new TransactionService(dbContext);
@@ -109,5 +107,5 @@ namespace TradingSimulatorWebApi
             TransactionService transactionService = new TransactionService(dbContext);
             transactionService.RegisterNewTransactionHistory(transactionHistoryEntity);
         }
-    }    
+    }
 }

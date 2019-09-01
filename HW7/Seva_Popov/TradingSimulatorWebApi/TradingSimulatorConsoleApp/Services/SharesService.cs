@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using TradingSimulator.Core.Models;
-using TradingSimulatorWebApi.Data;
-using TradingSimulatorWebApi.Repositories;
+using TradingSimulatorConsoleApp.Data;
+using TradingSimulatorConsoleApp.Repositories;
 
-namespace TradingSimulatorWebApi.Services
+namespace TradingSimulatorConsoleApp.Services
 {
     public class SharesService
     {
@@ -19,7 +18,7 @@ namespace TradingSimulatorWebApi.Services
 
         public IEnumerable<SharesEntity> Get()
         {
-            SharesTableRepository sharesTableRepository= new SharesTableRepository(dbContext);
+            SharesTableRepository sharesTableRepository = new SharesTableRepository(dbContext);
             return sharesTableRepository.Get();
         }
         public SharesEntity Add(SharesEntity shares)

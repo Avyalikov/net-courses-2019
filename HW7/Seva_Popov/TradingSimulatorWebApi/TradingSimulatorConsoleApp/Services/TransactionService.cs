@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using TradingSimulator.Core.Models;
-using TradingSimulator.Core.Repositories;
-using TradingSimulatorWebApi.Data;
-using TradingSimulatorWebApi.Repositories;
+using TradingSimulatorConsoleApp.Data;
+using TradingSimulatorConsoleApp.Repositories;
 
-namespace TradingSimulatorWebApi.Services
+namespace TradingSimulatorConsoleApp.Services
 {
     public class TransactionService
     {

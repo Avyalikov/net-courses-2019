@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TradingSimulator.Core.Models;
-using TradingSimulatorWebApi.Data;
+using TradingSimulatorConsoleApp;
+using TradingSimulatorConsoleApp.Data;
+
 
 namespace TradingSimulatorWebApi.Controllers
 {
