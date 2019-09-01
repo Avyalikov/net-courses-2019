@@ -19,19 +19,23 @@ namespace WebApiServer.Controllers
 
         // GET /balance?clientId=_
         [HttpGet]
-        public string Get(int clientId)
+        public ActionResult Get(int clientId)
         {
             decimal traderBalance;
             try
             {
                 traderBalance = tradersService.GetBalanceById(clientId);
             }
-            catch(Exception ex)
+            catch(ArgumentException)
             {
-                return ex.Message;
+                return StatusCode(400, $"Can`t find this id {clientId}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
             string zone = traderBalance == 0 ? "Orange zone" : traderBalance > 0 ? "green zone" : "black zone";
-            return string.Concat("Client balance = " + traderBalance.ToString() + " zone = " + zone);
+            return Ok(string.Concat("Client balance = " + traderBalance.ToString() + " zone = " + zone));
         }
     }
 }

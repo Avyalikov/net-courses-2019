@@ -60,11 +60,15 @@ namespace WebApiServer.Controllers
             };
             if (!validator.TraderInfoValidate(newTrader))
             {
-                return BadRequest("Bad values for registration new trader");
+                return StatusCode(400, "Bad values for registration new trader");
             }
             try
             {
                 tradersService.RegisterNewTrader(newTrader);
+            }
+            catch (ArgumentException)
+            {
+                return StatusCode(400, "This trader has been registered)");
             }
             catch (Exception ex)
             {

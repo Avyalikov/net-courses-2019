@@ -37,6 +37,10 @@ namespace WebApiServer.Controllers
                 };
                 saleService.HandleBuy(buy);
             }
+            catch(ArgumentException)
+            {
+                return StatusCode(400, "Operation cancel");
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);

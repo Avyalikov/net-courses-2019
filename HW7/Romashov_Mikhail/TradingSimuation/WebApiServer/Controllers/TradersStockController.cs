@@ -46,7 +46,7 @@ namespace WebApiServer.Controllers
         {
             if (!validator.StockToTraderValidate(traderName, stockName))
             {
-                return BadRequest($"Can`t add stock {stockName} to trader {traderName}");
+                return StatusCode(400, $"Can`t add stock {stockName} to trader {traderName}");
             }
 
             var trader = tradersService.GetTraderByName(traderName);
@@ -57,7 +57,7 @@ namespace WebApiServer.Controllers
 
             if (!validCount)
             {
-                return Ok("Bad count value. Operation cancel");
+                return StatusCode(400, "Bad count value. Operation cancel");
             }
 
 
