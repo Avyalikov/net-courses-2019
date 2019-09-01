@@ -3,6 +3,7 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Net.Http;
     using System.Text;
     using TradingApp.Core.DTO;
@@ -11,14 +12,16 @@
     public class RequestSender
     {
         private readonly HttpClient httpClient;
+        private readonly string baseAddress;
         public RequestSender()
         {
             httpClient = new HttpClient();
+            baseAddress = ConfigurationManager.AppSettings["WebApiAddress"];
         }
 
         public List<ShareEntity> GetAllSharesByTrader(int traderId)
         {
-            var response = httpClient.GetAsync($"https://localhost:5001/shares/client_shares?clientId={traderId}").Result;
+            var response = this.httpClient.GetAsync(this.baseAddress + $"shares/client_shares?clientId={traderId}").Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             if (response.IsSuccessStatusCode)
@@ -29,7 +32,7 @@
         }
         public List<TraderEntity> GetAllTradersList()
         {
-            var response = httpClient.GetAsync("https://localhost:5001/clients/all").Result;
+            var response = this.httpClient.GetAsync(this.baseAddress + "clients/all").Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             if (response.IsSuccessStatusCode)
@@ -41,7 +44,7 @@
         public string MakeTransaction(TransactionInfo transactionInfo)
         {
             var content = new StringContent(JsonConvert.SerializeObject(transactionInfo), Encoding.UTF8, "application/json");
-            var response = httpClient.PostAsync("https://localhost:5001/deal/make", content).Result;
+            var response = this.httpClient.PostAsync(this.baseAddress + "deal/make", content).Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
@@ -51,7 +54,7 @@
         }
         public List<TraderEntity> GetBlackStatusClients()
         {
-            var response = httpClient.GetAsync("https://localhost:5001/clients/black").Result;
+            var response = this.httpClient.GetAsync(this.baseAddress + "clients/black").Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             if (response.IsSuccessStatusCode)
@@ -62,7 +65,7 @@
         }
         public List<TraderEntity> GetOrangeStatusClients()
         {
-            var response = httpClient.GetAsync("https://localhost:5001/clients/orange").Result;
+            var response = this.httpClient.GetAsync(this.baseAddress + "clients/orange").Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             if (response.IsSuccessStatusCode)
@@ -74,7 +77,7 @@
         public string RegisterTrader(TraderInfo traderInfo)
         {
             var content = new StringContent(JsonConvert.SerializeObject(traderInfo), Encoding.UTF8, "application/json");
-            var response = httpClient.PostAsync("https://localhost:5001/clients/add", content).Result;
+            var response = this.httpClient.PostAsync(this.baseAddress + "clients/add", content).Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             if (response.IsSuccessStatusCode)
@@ -85,7 +88,7 @@
         }
         public string ChangeShareType(int shareId, int shareTypeId)
         {
-            var response = httpClient.GetAsync($"https://localhost:5001/shares/change?shareId={shareId}&shareTypeId={shareTypeId}").Result;
+            var response = this.httpClient.GetAsync(this.baseAddress + $"shares/change?shareId={shareId}&shareTypeId={shareTypeId}").Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             if (response.IsSuccessStatusCode)
@@ -96,7 +99,7 @@
         }
         public IEnumerable<ShareEntity> GetAllShares()
         {
-            var response = httpClient.GetAsync("https://localhost:5001/shares/all").Result;
+            var response = this.httpClient.GetAsync(this.baseAddress + "shares/all").Result;
             var responseBody = response.Content.ReadAsStringAsync().Result;
 
             if (response.IsSuccessStatusCode)
