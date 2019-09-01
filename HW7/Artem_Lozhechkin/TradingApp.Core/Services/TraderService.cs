@@ -48,9 +48,8 @@
         public virtual void UpdateUser(TraderEntity traderEntity)
         {
             ValidateTraderInfo(traderEntity);
-
+            ValidateTradersExistence(traderEntity.Id);
             var trader = this.traderTableRepository.GetById(traderEntity.Id);
-            if (trader == null) throw new Exception("There is no user with given Id");
 
             trader.FirstName = traderEntity.FirstName;
             trader.LastName = traderEntity.LastName;
@@ -67,6 +66,7 @@
                 t.LastName == info.LastName &&
                 t.PhoneNumber == info.PhoneNumber &&
                 t.Balance == info.Balance).FirstOrDefault();
+            ValidateTradersExistence(trader);
 
 
             this.traderTableRepository.Delete(trader);
@@ -86,8 +86,13 @@
         }
         public virtual IEnumerable<string> GetUserLists(int top, int page)
         {
-            if (top * (page-1) > this.GetAllTraders().Count()) throw new Exception($"There is no page with number {page}");
+            ValidateContentForPages(top, page);
             return this.GetAllTraders().Skip((page - 1) * top).Take(top).Select(t => $"{t.FirstName} {t.LastName}");
+        }
+        private void ValidateContentForPages(int top, int page)
+        {
+            if (top * (page - 1) > this.GetAllTraders().Count())
+                throw new Exception($"There is no page with number {page}");
         }
         private void ValidateTraderInfo(TraderInfo info)
         {
@@ -123,6 +128,13 @@
         private void ValidateTradersExistence(int id)
         {
             if (this.traderTableRepository.GetById(id) == null) throw new Exception("There is no user with given Id");
+        }
+        private void ValidateTradersExistence(TraderEntity traderEntity)
+        {
+            if (traderEntity == null)
+            {
+                throw new Exception("There is no user with given info");
+            }
         }
     }
 }

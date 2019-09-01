@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TradingApp.Shared;
-
-namespace WebApi
+﻿namespace TradingApp.WebApi
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using StructureMap;
+    using System;
+
     class Program
     {
         static void Main(string[] args)
@@ -39,7 +34,7 @@ namespace WebApi
 
             var container = new Container();
 
-            container.Configure(config => 
+            container.Configure(config =>
             {
                 config.AddRegistry(new WebApiRegistry());
                 config.Populate(services);

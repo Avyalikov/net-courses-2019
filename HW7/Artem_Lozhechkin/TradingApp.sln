@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.Core.Tests", "Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.ConsoleTradingManager", "TradingApp.ConsoleTradingManager\TradingApp.ConsoleTradingManager.csproj", "{7E9AA7CF-24AA-4D01-A1E0-05C9FE8FAC2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{2A632037-C154-4184-93D3-10F28C9B61D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.WebApi", "WebApi\TradingApp.WebApi.csproj", "{2A632037-C154-4184-93D3-10F28C9B61D2}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{AE0E5087-030A-4EEC-8C7C-20D75EA722A5}"
 EndProject

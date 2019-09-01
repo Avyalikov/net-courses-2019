@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TradingApp.Core.Services;
-
-namespace WebApi.Controllers
+﻿namespace TradingApp.WebApi.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using TradingApp.Core.Services;
+
     [Route("balances")]
     [ApiController]
     public class BalancesController : ControllerBase

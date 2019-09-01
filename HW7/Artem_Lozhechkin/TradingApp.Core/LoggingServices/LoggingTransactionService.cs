@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TradingApp.Core.Models;
-namespace TradingApp.Core.LoggingServices
+﻿namespace TradingApp.Core.LoggingServices
 {
+    using System;
+    using System.Collections.Generic;
+    using TradingApp.Core.Models;
     using TradingApp.Core.Repositories;
     using TradingApp.Core.Services;
 
     public class LoggingTransactionService : TransactionService
     {
         public LoggingTransactionService(
-            IRepository<ShareEntity> shareTableRepository, 
-            IRepository<TransactionEntity> transactionTableRepository, 
-            IRepository<TraderEntity> traderTableRepository, 
+            IRepository<ShareEntity> shareTableRepository,
+            IRepository<TransactionEntity> transactionTableRepository,
+            IRepository<TraderEntity> traderTableRepository,
             IRepository<StockEntity> stockTableRepository
             ) : base(shareTableRepository, transactionTableRepository, traderTableRepository, stockTableRepository)
         {

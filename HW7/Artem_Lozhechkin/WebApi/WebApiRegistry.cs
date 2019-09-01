@@ -1,20 +1,15 @@
-﻿using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TradingApp.Core.LoggingServices;
-using TradingApp.Core.Models;
-using TradingApp.Core.Repositories;
-using TradingApp.Core.Services;
-using TradingApp.Shared;
-using TradingApp.Shared.Repositories;
-using WebApi.Controllers;
-
-namespace WebApi
+﻿namespace TradingApp.WebApi
 {
+    using StructureMap;
+    using System.Configuration;
+    using TradingApp.Core.LoggingServices;
+    using TradingApp.Core.Models;
+    using TradingApp.Core.Repositories;
+    using TradingApp.Core.Services;
+    using TradingApp.Shared;
+    using TradingApp.Shared.Repositories;
+    using WebApi.Controllers;
+
     public class WebApiRegistry : Registry
     {
         public WebApiRegistry()

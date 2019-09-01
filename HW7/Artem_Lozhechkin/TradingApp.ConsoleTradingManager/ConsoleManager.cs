@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using TradingApp.Core;
-using TradingApp.Core.DTO;
-
-namespace TradingApp.ConsoleTradingManager
+﻿namespace TradingApp.ConsoleTradingManager
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+    using TradingApp.Core;
+    using TradingApp.Core.DTO;
+
     public class ConsoleManager
     {
         private readonly RequestSender requestSender;

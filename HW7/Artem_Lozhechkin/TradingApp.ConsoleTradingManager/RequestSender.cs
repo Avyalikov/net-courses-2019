@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using TradingApp.Core.DTO;
-using TradingApp.Core.Models;
-
-namespace TradingApp.ConsoleTradingManager
+﻿namespace TradingApp.ConsoleTradingManager
 {
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Text;
+    using TradingApp.Core.DTO;
+    using TradingApp.Core.Models;
+
     public class RequestSender
     {
         private readonly HttpClient httpClient;

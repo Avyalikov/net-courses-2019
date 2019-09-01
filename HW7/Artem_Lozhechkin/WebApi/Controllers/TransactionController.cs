@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using TradingApp.Core.Models;
-using TradingApp.Core.Repositories;
-using TradingApp.Core.Services;
-using TradingApp.Core.DTO;
-using System.Collections.Generic;
-
-namespace WebApi.Controllers
+﻿namespace TradingApp.WebApi.Controllers
 {
-    [Route("deal")]
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Collections.Generic;
+    using TradingApp.Core.DTO;
+    using TradingApp.Core.Models;
+    using TradingApp.Core.Repositories;
+    using TradingApp.Core.Services;
+
     [ApiController]
     public class TransactionController : ControllerBase
 
@@ -21,21 +20,15 @@ namespace WebApi.Controllers
             this.transactionRepository = transactionRepository;
             this.transactionService = transactionService;
         }
-        //[Route("get")]
-        //[HttpGet]
-        //public ActionResult<List<TraderEntity>> Get(int top, int page)
-        //{
-        //    return this.clientRepository.GetAll();
-        //}
-        [Route("make")]
+        [Route("deal/make")]
         [HttpPost]
         public ActionResult MakeTransaction([FromBody] TransactionInfo transactionInfo)
         {
             try
             {
                 transactionService.MakeShareTransaction(
-                    transactionInfo.SellerId, 
-                    transactionInfo.BuyerId, 
+                    transactionInfo.SellerId,
+                    transactionInfo.BuyerId,
                     transactionInfo.ShareId);
                 return Ok("Made a transaction");
             }
@@ -44,7 +37,7 @@ namespace WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Route("")]
+        [Route("transactions")]
         [HttpGet]
         public ActionResult<IEnumerable<string>> GetTopTransactionsByUser(int clientId, int top)
         {
@@ -52,7 +45,7 @@ namespace WebApi.Controllers
             {
                 return Ok(transactionService.GetTopTransactionsByUser(clientId, top));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

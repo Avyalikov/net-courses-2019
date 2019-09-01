@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using TradingApp.Core.DTO;
-using TradingApp.Core.Models;
-using TradingApp.Core.Repositories;
-using TradingApp.Core.Services;
-
-namespace WebApi.Controllers
+﻿namespace TradingApp.WebApi.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using TradingApp.Core.DTO;
+    using TradingApp.Core.Models;
+    using TradingApp.Core.Services;
+
     [Route("clients")]
     [ApiController]
     public class ClientsController : ControllerBase
@@ -54,12 +53,12 @@ namespace WebApi.Controllers
             try
             {
                 this.service.RemoveUser(traderInfo);
+                return Ok("Successfully removed user from database");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
         }
         [Route("")]
         [HttpGet]
@@ -67,7 +66,7 @@ namespace WebApi.Controllers
         {
             try
             {
-               return Ok(this.service.GetUserLists(top, page));
+                return Ok(this.service.GetUserLists(top, page));
             }
             catch (Exception ex)
             {
