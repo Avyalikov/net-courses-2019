@@ -11,7 +11,7 @@
     public class ShareManagerTests
     {
         [TestMethod]
-        public void AddTest()
+        public void ShouldAddShare()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -32,7 +32,7 @@
         }
 
         [TestMethod]
-        public void AddParametrsTest()
+        public void ShouldAddShareByParametrs()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -51,7 +51,7 @@
         }
 
         [TestMethod]
-        public void GetShareTypeTest()
+        public void ShouldGetShareType()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -73,7 +73,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no shares with id = 135")]
-        public void GetShareTypeDidntExistTest()
+        public void ShouldThrowExceptionWhileGettingShareTypeDidntExist()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -93,7 +93,7 @@
         }
 
         [TestMethod]
-        public void GetShareIDTest()
+        public void ShouldGetShareID()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -115,7 +115,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no shares with type = Umbrella")]
-        public void GetShareIDDidntExistTest()
+        public void ShouldThrowExceptionWhileGettingShareIDDidntExist()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -135,7 +135,7 @@
         }
 
         [TestMethod]
-        public void GetNumberOfSharesTest()
+        public void ShouldGetNumberOfShares()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -150,7 +150,7 @@
         }
 
         [TestMethod]
-        public void GetSharePriceTest()
+        public void ShouldGetSharePrice()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -172,7 +172,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no shares with id = 135")]
-        public void GetSharePriceDidntExistTest()
+        public void ShouldThrowExceptionWhileGettingSharePriceDidntExist()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -192,7 +192,7 @@
         }
 
         [TestMethod]
-        public void GetAllSharesTest()
+        public void ShouldGetAllShares()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -207,7 +207,7 @@
         }
 
         [TestMethod]
-        public void IsShareExistTest()
+        public void ShouldCheckIsShareExistTest()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -224,7 +224,7 @@
         }
 
         [TestMethod]
-        public void IsShareExistShareTypeTest()
+        public void ShouldCheckIsShareExistShareTypeTest()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -241,7 +241,7 @@
         }
 
         [TestMethod]
-        public void ChangeSharePriceTest()
+        public void ShouldChangeSharePrice()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();
@@ -264,7 +264,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no clients with id 135")]
-        public void ChangeSharePriceDidntExistTest()
+        public void ShouldThrowExceptionWhileChangingSharePriceDidntExist()
         {
             // Arrange
             var shareRepositoryMock = Substitute.For<ISharesRepository>();

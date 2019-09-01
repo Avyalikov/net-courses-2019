@@ -11,7 +11,7 @@
     public class BlockOfSharesManagerTests
     {
         [TestMethod]
-        public void AddShareTest()
+        public void ShouldAddShare()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -33,7 +33,7 @@
         }
 
         [TestMethod]
-        public void IsClientHasStockTypeTest()
+        public void ShouldCheckIsClientHasStockType()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -56,7 +56,7 @@
         }
 
         [TestMethod]
-        public void ChangeShareAmountForClientTest()
+        public void ShouldChangeShareAmountForClient()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -78,7 +78,7 @@
         }
 
         [TestMethod]
-        public void GetClientShareAmountTest()
+        public void ShouldGetClientShareAmount()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -100,7 +100,7 @@
         }
 
         [TestMethod]
-        public void GetAllBlockOfSharesTest()
+        public void ShouldGetAllBlockOfShares()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -120,7 +120,7 @@
         }
 
         [TestMethod]
-        public void GetClientSharesTest()
+        public void ShouldGetClientShares()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -174,7 +174,7 @@
         }
 
         [TestMethod]
-        public void UpdateClientSharesThatDidntExistTest()
+        public void ShouldCreateClientSharesInsteadOfUpdatingClientSharesThatDidntExist()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -213,7 +213,7 @@
         }
 
         [TestMethod]
-        public void UpdateClientSharesTest()
+        public void ShouldUpdateClientShares()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();
@@ -252,7 +252,7 @@
         }
 
         [TestMethod]
-        public void Delete()
+        public void ShouldDeleteBlockOfShares()
         {
             // Arrange
             var blockOfSharesRepositoryMock = Substitute.For<IBlockOfSharesRepository>();

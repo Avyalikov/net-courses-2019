@@ -11,7 +11,7 @@
     public class ClientManagerTests
     {
         [TestMethod]
-        public void AddClientTest()
+        public void ShouldAddClient()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -33,7 +33,7 @@
         }
 
         [TestMethod]
-        public void AddClientParametrsTest()
+        public void ShouldAddClientWithParametrs()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -60,7 +60,7 @@
         }
 
         [TestMethod]
-        public void GetAllClientsTest()
+        public void ShouldGetAllClients()
         {  
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -75,7 +75,7 @@
         }
 
         [TestMethod]
-        public void GetClientNameTest()
+        public void ShouldGetClientName()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -97,7 +97,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no clients with id 12")]
-        public void GetClientNameThatDidntExistTest()
+        public void ShouldThrowExceptionWhileGetingClientNameThatDidntExist()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -117,7 +117,7 @@
         }
 
         [TestMethod]
-        public void GetClientIDTest()
+        public void ShouldGetClientID()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -139,7 +139,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no clients with name Ruth Morse")]
-        public void GetClientIDDidntExistTest()
+        public void ShouldThrowExceptionWhileGetingClientIDDidntExistTest()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -159,7 +159,7 @@
         }
 
         [TestMethod]
-        public void IsClientIDExistTest()
+        public void ShouldCheckIsClientIDExist()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -176,7 +176,7 @@
         }
 
         [TestMethod]
-        public void IsClientNameExistTest()
+        public void ShouldCheckIsClientNameExist()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -193,7 +193,7 @@
         }
 
         [TestMethod]
-        public void GetNumberOfClientsTest()
+        public void ShouldGetNumberOfClients()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -208,7 +208,7 @@
         }
 
         [TestMethod]
-        public void GetClientBalanceTest()
+        public void ShouldGetClientBalance()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -228,7 +228,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no clients with id 12")]
-        public void GetClientBalanceDidntExistTest()
+        public void ShouldThrowExceptionWhileGettingClientBalanceDidntExist()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -246,7 +246,7 @@
         }
 
         [TestMethod]
-        public void ChangeBalanceTest()
+        public void ShouldChangeBalance()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -268,7 +268,7 @@
         [TestMethod]
         [ExpectedException(typeof(Exception),
            "There is no clients with id 12")]
-        public void ChangeBalanceDidntExistTest()
+        public void ShouldThrowExxceptionWhileChangingBalanceDidntExist()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -289,7 +289,7 @@
         }
 
         [TestMethod]
-        public void DeleteClientTest()
+        public void ShouldDeleteClient()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -314,7 +314,7 @@
         }
 
         [TestMethod]
-        public void DeleteClientThatDoesntExistTest()
+        public void ShouldNotCallDeleteForClientThatDoesntExist()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -340,7 +340,7 @@
         }
 
         [TestMethod]
-        public void ClientUpdateTest()
+        public void ShouldUpdateClient()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -361,7 +361,7 @@
         }
 
         [TestMethod]
-        public void GetClientBalanceStatusGreenTest()
+        public void ShouldGetClientBalanceStatusGreen()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -397,7 +397,7 @@
         }
 
         [TestMethod]
-        public void GetClientBalanceStatusOrangeTest()
+        public void ShouldGetClientBalanceStatusOrange()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
@@ -433,7 +433,7 @@
         }
 
         [TestMethod]
-        public void GetClientBalanceStatusBlackTest()
+        public void ShouldGetClientBalanceStatusBlack()
         {
             // Arrange
             var clientRepositoryMock = Substitute.For<IClientRepository>();
