@@ -1,8 +1,8 @@
-﻿namespace TradingApp.ConsoleClient.JsModels
+﻿namespace TradingApp.ConsoleClient.JsonModels
 {
     using System;
 
-    public class JsTransactionStory
+    public class JsonTransactionStory
     {
         public int SellerId { get; set; }
         public int CustomerId { get; set; }

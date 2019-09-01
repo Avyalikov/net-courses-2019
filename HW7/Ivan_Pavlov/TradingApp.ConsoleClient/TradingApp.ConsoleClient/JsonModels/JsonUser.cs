@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-
-namespace TradingApp.ConsoleClient.JsModels
+﻿namespace TradingApp.ConsoleClient.JsonModels
 {
-    public class JsUser
+    using System.Collections.Generic;
+
+    public class JsonUser
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string SurName { get; set; }
         public decimal Balance { get; set; }
         public string Phone { get; set; }
-        public virtual ICollection<JsPortfolio> UsersShares { get; set; }
+        public virtual ICollection<JsonPortfolio> UsersShares { get; set; }
 
-        public JsUser()
+        public JsonUser()
         {
-            UsersShares = new List<JsPortfolio>();
+            UsersShares = new List<JsonPortfolio>();
         }
 
         public override string ToString()

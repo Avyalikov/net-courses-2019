@@ -2,7 +2,7 @@
 {
     using System;
     using System.Net.Http;
-    using TradingApp.ConsoleClient.JsModels;
+    using TradingApp.ConsoleClient.JsonModels;
 
     public static class SharesRequests
     {
@@ -11,10 +11,10 @@
         public static async void PrintUsersShares(int clientid)
         {
             var client = new HttpClient();
-            var responce = await client.GetAsync($"{baseUrl}api/shares?clientId={clientid}");
-            var jsonString = await responce.Content.ReadAsStringAsync();
+            var response = await client.GetAsync($"{baseUrl}api/shares?clientId={clientid}");
+            var jsonString = await response.Content.ReadAsStringAsync();
          
-            var shares = JsParser.ParseShares(jsonString);
+            var shares = JsonParser.ParseColleciont<JsonShare>(jsonString);
             if (shares == null)
             {
                 Console.WriteLine("У данного клиента акций нет");
@@ -29,32 +29,32 @@
 
         public static void Add()
         {
-            var share = new JsShare()
+            var share = new JsonShare()
             {
                 Name = "testFromClient",
                 Price = 100
 
             };
             var client = new HttpClient();
-            var responce = client.PostAsJsonAsync($"{baseUrl}api/shares/add/", share);
+            var response = client.PostAsJsonAsync($"{baseUrl}api/shares/add/", share);
         }
 
         public static void Update(int shareId)
         {
-            var share = new JsShare()
+            var share = new JsonShare()
             {
                 Name = "testUpdate",
                 Price = 100
 
             };
             var client = new HttpClient();
-            var responce = client.PutAsJsonAsync($"{baseUrl}api/shares/update/{shareId}", share);
+            var response = client.PutAsJsonAsync($"{baseUrl}api/shares/update/{shareId}", share);
         }
 
         public static void Delete(int shareId)
         {
             var client = new HttpClient();
-            var responce = client.DeleteAsync($"{baseUrl}api/shares/remove/{shareId}");
+            var response = client.DeleteAsync($"{baseUrl}api/shares/remove/{shareId}");
         }
     }
 }

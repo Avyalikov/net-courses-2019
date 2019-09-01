@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net.Http;
+    using TradingApp.ConsoleClient.JsonModels;
 
     public class TransactionsRequests
     {
@@ -10,10 +11,10 @@
         public static async void PrintUserTransactions(int userId, int top)
         {
             var client = new HttpClient();
-            var responce = await client.GetAsync($"{baseUrl}api/transaction?userId={userId}&top={top}");
-            var jsonString = await responce.Content.ReadAsStringAsync();
+            var response = await client.GetAsync($"{baseUrl}api/transaction?userId={userId}&top={top}");
+            var jsonString = await response.Content.ReadAsStringAsync();
 
-            var transactions = JsParser.ParseTransaction(jsonString);
+            var transactions = JsonParser.ParseColleciont<JsonTransactionStory>(jsonString);
             foreach (var t in transactions)
             {
                 Console.WriteLine(t.ToString());

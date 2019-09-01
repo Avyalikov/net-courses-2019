@@ -1,6 +1,6 @@
-﻿namespace TradingApp.ConsoleClient.JsModels
+﻿namespace TradingApp.ConsoleClient.JsonModels
 {
-    public class JsShare
+    public class JsonShare
     {
         public int Id { get; set; }
         public string Name { get; set; }

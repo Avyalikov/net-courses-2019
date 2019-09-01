@@ -2,16 +2,16 @@
 {
     using System;
     using System.Net.Http;
-    using TradingApp.ConsoleClient.JsModels;
+    using TradingApp.ConsoleClient.JsonModels;
 
     public static class DealMakerRequests
     {
         private readonly static string baseUrl = "http://localhost:9000/";
 
-        public static void DealMaker(JsTransactionStory transaction)
+        public static void DealMaker(JsonTransactionStory transaction)
         {           
             var client = new HttpClient();
-            var responce = client.PostAsJsonAsync($"{baseUrl}api/deal/make", transaction);
+            var response = client.PostAsJsonAsync($"{baseUrl}api/deal/make", transaction);
         }
     }
 }

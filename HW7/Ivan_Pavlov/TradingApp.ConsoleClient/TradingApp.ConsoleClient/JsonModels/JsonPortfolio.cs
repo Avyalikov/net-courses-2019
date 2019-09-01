@@ -1,13 +1,13 @@
-﻿namespace TradingApp.ConsoleClient.JsModels
+﻿namespace TradingApp.ConsoleClient.JsonModels
 {
-    public class JsPortfolio
+    public class JsonPortfolio
     {
         public int Id { get; set; }
         public int UserEntityId { get; set; }
         public int ShareId { get; set; }
         public int Amount { get; set; }
 
-        public virtual JsShare Share { get; set; }
+        public virtual JsonShare Share { get; set; }
 
         public override string ToString()
         {
