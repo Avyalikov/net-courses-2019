@@ -32,7 +32,7 @@ namespace WebApiServer.Controllers
             return JsonConvert.SerializeObject(tradersList);
         }
 
-        // POST: /stocks/add?name=_&surname=_&phone=_&
+        // POST: /stocks/add?traderName=_&stockName=_&count=_&
         [HttpPost("add")]
         public ActionResult AddStock(string traderName, string stockName, string count)
         {
@@ -49,7 +49,7 @@ namespace WebApiServer.Controllers
 
             if (!validCount)
             {
-                return BadRequest("Bad count value");
+                return Ok("Bad count value. Operation cancel");
             }
 
           
@@ -75,7 +75,7 @@ namespace WebApiServer.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
-                return Ok();
+                return Ok("Stock to trader added succesfully");
         }
     }
 }

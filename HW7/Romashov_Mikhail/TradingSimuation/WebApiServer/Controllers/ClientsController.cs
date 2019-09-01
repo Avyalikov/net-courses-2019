@@ -56,7 +56,7 @@ namespace WebApiServer.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
+            return Ok("New trader added succesfully");
         }
 
         // GET /clients/blackzone
