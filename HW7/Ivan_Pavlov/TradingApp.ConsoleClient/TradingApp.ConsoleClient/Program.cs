@@ -19,9 +19,11 @@
 
             //UsersRequests.PrintAllUsers(10);
 
-            //UsersRequests.Delete(3);
+            //UsersRequests.Delete(9);
 
             //SharesRequests.PrintUsersShares(2);
+
+            //SharesRequests.Delete(10);
 
             //BalancesRequests.PrintUsersBalance(4);
 
@@ -36,16 +38,15 @@
             {
                 JsTransactionStory transaction = new JsTransactionStory()
                 {
-                    SellerId = rnd.Next(1, 8),
-                    CustomerId = rnd.Next(1, 8),
-                    ShareId = rnd.Next(1, 8),
-                    AmountOfShares = rnd.Next(100, 200),
+                    SellerId = rnd.Next(1, 6),
+                    CustomerId = rnd.Next(1, 6),
+                    ShareId = rnd.Next(1, 6),
+                    AmountOfShares = rnd.Next(1, 1000),
                     DateTime = DateTime.Now
                 };
 
 
                 DealMakerRequests.DealMaker(transaction);
-                Console.WriteLine("+");
                 Thread.Sleep(2000);
             }
 

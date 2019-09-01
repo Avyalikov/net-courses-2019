@@ -37,10 +37,11 @@
                 DateTime = json.Value<DateTime>("DateTime"),
                 AmountOfShares = json.Value<int>("AmountOfShares"),
             };
-            args.Share = shareServices.GetShareById(args.shareId);
-            if (args.Share == null)
+            var share = shareServices.GetShareById(args.shareId);         
+            if (share == null)
                 return;
-            args.TransactionCost = args.Share.Price * args.AmountOfShares;
+           // args.Share = share; // из-за этого добавляется в табл с акциями новая акция
+            args.TransactionCost = share.Price * args.AmountOfShares;
             try
             {
                 transaction.AddShareInPortfolio(args); 
@@ -50,7 +51,7 @@
                 return;
             }
 
-            transaction.AddNewTransaction(args); 
+            transaction.AddNewTransaction(args);
         }   
     }
 }
