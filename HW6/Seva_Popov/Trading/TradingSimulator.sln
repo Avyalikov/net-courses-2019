@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator.Core", "TradingSimulator.Core\TradingSimulator.Core.csproj", "{3B3424F5-4E8F-41AE-9F9E-1B03B2E677C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator.Core.Tests", "TradingSimulator.Core.Tests\TradingSimulator.Core.Tests.csproj", "{49BDCEDE-863E-446C-812A-85D65D2D62F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator.ConsoleApp", "TradingSimulator.ConsoleApp\TradingSimulator.ConsoleApp.csproj", "{19BA56B9-4001-4DD0-AD5A-F00526EA7265}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B3424F5-4E8F-41AE-9F9E-1B03B2E677C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B3424F5-4E8F-41AE-9F9E-1B03B2E677C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B3424F5-4E8F-41AE-9F9E-1B03B2E677C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B3424F5-4E8F-41AE-9F9E-1B03B2E677C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49BDCEDE-863E-446C-812A-85D65D2D62F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49BDCEDE-863E-446C-812A-85D65D2D62F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49BDCEDE-863E-446C-812A-85D65D2D62F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49BDCEDE-863E-446C-812A-85D65D2D62F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19BA56B9-4001-4DD0-AD5A-F00526EA7265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19BA56B9-4001-4DD0-AD5A-F00526EA7265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19BA56B9-4001-4DD0-AD5A-F00526EA7265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19BA56B9-4001-4DD0-AD5A-F00526EA7265}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6668A62-17F0-459E-8944-E3078C2362E1}
+	EndGlobalSection
+EndGlobal
