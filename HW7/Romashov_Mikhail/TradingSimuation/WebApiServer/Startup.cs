@@ -7,6 +7,8 @@ using StructureMap;
 using System.Configuration;
 using TradingSimulator.Core.Repositories;
 using TradingSimulator.Core.Services;
+using WebApiServer.Components;
+using WebApiServer.Interfaces;
 using WebApiServer.Repositories;
 
 namespace WebApiServer
@@ -32,13 +34,21 @@ namespace WebApiServer
             registry.For<IStockTableRepository>().Use<StockTableRepository>();
             registry.For<IHistoryTableRepository>().Use<HistoryTableRepository>();
             registry.For<ITraderStockTableRepository>().Use<TraderStockTableRepository>();
+            registry.For<IBankruptRepository>().Use<BankruptRepository>();
+            registry.For<IHistoryTableRepository>().Use<HistoryTableRepository>();
             registry.For<ITraderService>().Use<TradersService>();
+            registry.For<IStockService>().Use<StockService>();
+            registry.For<IBankruptService>().Use<BankruptService>();
+            registry.For<IHistoryService>().Use<HistoryService>();
+            registry.For<ITraderStocksService>().Use<TraderStocksService>();
+            registry.For<ILogger>().Use<LoggerService>();
+            registry.For<IValidator>().Use<Validator>();
             registry.For<TradingSimulatorDBContext>().Use<TradingSimulatorDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingSimulatorConnectionString"].ConnectionString);
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseMvc();
         }

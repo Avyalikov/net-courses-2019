@@ -35,6 +35,8 @@ namespace WebApiServer
                 new TraderEntityDB { CreatedAt = DateTime.Now, Name = "Antonio", Surname = "Banderaz", PhoneNumber = "87775557766", Balance = 100M },
                 new TraderEntityDB { CreatedAt = DateTime.Now, Name = "German", Surname = "Brynza", PhoneNumber = "81112223344", Balance = 10000M },
                 new TraderEntityDB { CreatedAt = DateTime.Now, Name = "Vinni", Surname = "Puh", PhoneNumber = "80000000001", Balance = 12390M },
+                new TraderEntityDB { CreatedAt = DateTime.Now, Name = "Pavel", Surname = "Durov", PhoneNumber = "81111223344", Balance = 0M },
+                new TraderEntityDB { CreatedAt = DateTime.Now, Name = "Ekaterina", Surname = "Velikaya", PhoneNumber = "80023000001", Balance = -390M }
             };
             context.SaveChanges();
             traders.ForEach(s => context.Traders.Add(s));
@@ -58,6 +60,8 @@ namespace WebApiServer
             {
                 new HistoryEntity { CreateAt = DateTime.Now, CustomerID = 1, SellerID = 2, StockID = 3, StockCount = 3, TotalPrice = 999M },
                 new HistoryEntity { CreateAt = DateTime.Now, CustomerID = 4, SellerID = 5, StockID = 6, StockCount = 2, TotalPrice = 123M },
+                new HistoryEntity { CreateAt = DateTime.Now, CustomerID = 2, SellerID = 5, StockID = 3, StockCount = 3, TotalPrice = 999M },
+                new HistoryEntity { CreateAt = DateTime.Now, CustomerID = 5, SellerID = 6, StockID = 6, StockCount = 2, TotalPrice = 123M }
             };
 
             history.ForEach(s => context.TradeHistory.Add(s));

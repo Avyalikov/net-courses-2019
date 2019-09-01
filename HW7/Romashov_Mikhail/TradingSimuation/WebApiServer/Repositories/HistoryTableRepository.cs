@@ -1,4 +1,6 @@
-﻿using TradingSimulator.Core.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Repositories;
 
 namespace WebApiServer.Repositories
@@ -14,6 +16,11 @@ namespace WebApiServer.Repositories
         public void Add(HistoryEntity historyEntity)
         {
             this.dbContext.TradeHistory.Add(historyEntity);
+        }
+
+        public IEnumerable<HistoryEntity> GetHistoryById(int traderId)
+        {
+            return this.dbContext.TradeHistory.Where(t => t.SellerID == traderId || t.CustomerID == traderId);
         }
 
         public void SaveChanges()

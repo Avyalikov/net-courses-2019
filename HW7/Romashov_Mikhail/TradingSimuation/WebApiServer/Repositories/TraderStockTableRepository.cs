@@ -85,6 +85,11 @@ namespace WebApiServer.Repositories
             return listItems;
         }
 
+        public IEnumerable<StockToTraderEntityDB> GetTradersStockById(int traderId)
+        {
+            return this.dbContext.TraderStocks.Where(t => t.TraderId == traderId);
+        }
+
         public StockToTraderEntityDB GetTraderStockById(int id)
         {
             return this.dbContext.TraderStocks.First(t => t.Id == id);

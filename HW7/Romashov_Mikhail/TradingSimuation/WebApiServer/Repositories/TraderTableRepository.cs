@@ -42,6 +42,7 @@ namespace WebApiServer.Repositories
             return this.dbContext.Traders.Any(t => t.Name == traderName);
         }
 
+
         public TraderEntityDB GetById(int traderID)
         {
             var item = this.dbContext.Traders.First(t => t.Id == traderID);
@@ -52,6 +53,11 @@ namespace WebApiServer.Repositories
         {
             var item = this.dbContext.Traders.First(t => t.Name == traderName);
             return item;
+        }
+
+        public IEnumerable<TraderEntityDB> GetListOfTraders()
+        {
+            return this.dbContext.Traders.ToList();
         }
 
         public List<int> GetListTradersId()
