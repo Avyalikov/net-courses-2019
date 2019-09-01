@@ -68,6 +68,12 @@ namespace TradingSimulator.Core.Services
         {
             return traderTableRepository.GetListTradersId();
         }
+
+        public int GetCountIds()
+        {
+            return traderTableRepository.CountIds();
+        }
+
         public List<string> GetListOfTraders(int maxCount)
         {
             var traders = traderTableRepository.GetListOfTraders();

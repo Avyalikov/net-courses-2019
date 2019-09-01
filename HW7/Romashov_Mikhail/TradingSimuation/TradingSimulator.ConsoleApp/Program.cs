@@ -20,7 +20,6 @@ namespace TradingSimulator.ConsoleApp
                 dbContext.Database.Initialize(false);
                 Timer operationTimer = new Timer(10000) { AutoReset = true };
                 operationTimer.Elapsed += (sender, e) => { tradeSimulation.Run(); };
-                //operationTimer.Start();
                 operationTimer.Enabled = true;
 
                 tradeData.Run();

@@ -41,7 +41,7 @@ namespace WebApiServer.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            return Ok();
+            return Ok("Transaction was succesfully");
         }
     }
 }

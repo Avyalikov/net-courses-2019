@@ -42,6 +42,11 @@ namespace TradingSimulator.ConsoleApp.Repositories
             return this.dbContext.Traders.Any(t => t.Name == traderName);
         }
 
+        public int CountIds()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public TraderEntityDB GetById(int traderID)
         {
             var item = this.dbContext.Traders.First(t => t.Id == traderID);

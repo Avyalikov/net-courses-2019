@@ -54,6 +54,10 @@ namespace WebApiServer.Repositories
             var item = this.dbContext.Traders.First(t => t.Name == traderName);
             return item;
         }
+        public int CountIds()
+        {
+            return this.dbContext.Traders.Count();
+        }
 
         public IEnumerable<TraderEntityDB> GetListOfTraders()
         {

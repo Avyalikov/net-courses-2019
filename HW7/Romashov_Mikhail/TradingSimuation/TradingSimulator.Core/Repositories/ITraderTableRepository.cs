@@ -18,5 +18,6 @@ namespace TradingSimulator.Core.Repositories
         TraderEntityDB GetByName(string traderName);
         List<int> GetListTradersId();
         IEnumerable<TraderEntityDB> GetListOfTraders();
+        int CountIds();
     }
 }

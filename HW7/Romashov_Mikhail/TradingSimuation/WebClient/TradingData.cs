@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingSimulator.Core.Dto;
+using TradingSimulator.Core.Models;
+using WebClient.Components;
 
-namespace WebClient.Components
+namespace WebClient
 {
     class TradingData
     {

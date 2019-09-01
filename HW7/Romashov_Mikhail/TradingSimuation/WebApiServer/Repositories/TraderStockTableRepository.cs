@@ -85,6 +85,12 @@ namespace WebApiServer.Repositories
             return listItems;
         }
 
+        public int GetCountOfListOfTraderStocksIds()
+        {
+            var count = this.dbContext.TraderStocks.Count();
+            return count;
+        }
+
         public IEnumerable<StockToTraderEntityDB> GetTradersStockById(int traderId)
         {
             return this.dbContext.TraderStocks.Where(t => t.TraderId == traderId);

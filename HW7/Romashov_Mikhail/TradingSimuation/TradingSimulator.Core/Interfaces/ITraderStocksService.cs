@@ -10,6 +10,9 @@ namespace TradingSimulator.Core.Interfaces
         List<int> GetListTradersStock();
         IEnumerable<string> GetTradersStockById(int traderId);
         StockToTraderEntityDB GetTraderStockById(int id);
-       
+
+        int GetCountIds();
+
+
     }
 }

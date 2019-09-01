@@ -38,6 +38,11 @@ namespace TradingSimulator.Core.Services
             return entityToAdd.Id;
         }
 
+        public int GetCountIds()
+        {
+            return traderStockTableRepository.GetCountOfListOfTraderStocksIds();
+        }
+
         public List<int> GetListTradersStock()
         {
             return traderStockTableRepository.GetListOfTraderStocksIds();

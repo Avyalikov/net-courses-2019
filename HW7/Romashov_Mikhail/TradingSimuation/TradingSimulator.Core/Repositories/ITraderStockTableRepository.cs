@@ -18,5 +18,6 @@ namespace TradingSimulator.Core.Repositories
         bool ContainsById(int id);
         IEnumerable<StockToTraderEntityDB> GetTradersStockById(int traderId);
         StockToTraderEntityDB GetTraderStockById(int id);
+        int GetCountOfListOfTraderStocksIds();
     }
 }

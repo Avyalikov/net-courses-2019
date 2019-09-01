@@ -1,23 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Interfaces;
+using TradingSimulator.Core.Models;
 using WebApiServer.Interfaces;
 
 namespace WebApiServer.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class StocksController : ControllerBase
+    public class TradersStockController : ControllerBase
     {
         private readonly ITraderStocksService traderStocksService;
         private readonly ITraderService tradersService;
         private readonly IStockService stockService;
         private readonly IValidator validator;
 
-        public StocksController(ITraderStocksService traderStocksService, ITraderService tradersService, IStockService stockService, IValidator validator)
+        public TradersStockController(ITraderStocksService traderStocksService, ITraderService tradersService, IStockService stockService, IValidator validator)
         {
             this.traderStocksService = traderStocksService;
             this.tradersService = tradersService;
@@ -25,13 +25,20 @@ namespace WebApiServer.Controllers
             this.validator = validator;
         }
 
-        // GET stocks?clientId=_
-        [HttpGet]
-        public string Get(int clientId)
+        // GET TradersStock/count
+        [HttpGet("count")]
+        public string Get()
         {
-            var tradersList = traderStocksService.GetTradersStockById(clientId);
-            return JsonConvert.SerializeObject(tradersList);
+            return JsonConvert.SerializeObject(traderStocksService.GetCountIds());
         }
+
+        // GET TradersStock?id=3
+        [HttpGet]
+        public string GetAll(int id)
+        {
+            return JsonConvert.SerializeObject((traderStocksService.GetTraderStockById(id)));
+        }
+        
 
         // POST: /stocks/add?traderName=_&stockName=_&count=_&
         [HttpPost("add")]
@@ -53,30 +60,30 @@ namespace WebApiServer.Controllers
                 return Ok("Bad count value. Operation cancel");
             }
 
-          
-                TraderInfo traderInfo = new TraderInfo
-                {
-                    Id = trader.Id,
-                    Name = trader.Name,
-                };
-                StockInfo stockInfo = new StockInfo
-                {
-                    Id = stock.Id,
-                    Name = stock.Name,
-                    Count = countStock,
-                    PricePerItem = stock.PricePerItem
 
-                };
+            TraderInfo traderInfo = new TraderInfo
+            {
+                Id = trader.Id,
+                Name = trader.Name,
+            };
+            StockInfo stockInfo = new StockInfo
+            {
+                Id = stock.Id,
+                Name = stock.Name,
+                Count = countStock,
+                PricePerItem = stock.PricePerItem
 
-                try
-                {
-                    traderStocksService.AddNewStockToTrader(traderInfo, stockInfo);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-                return Ok("Stock to trader added succesfully");
+            };
+
+            try
+            {
+                traderStocksService.AddNewStockToTrader(traderInfo, stockInfo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok("Stock to trader added succesfully");
         }
     }
 }

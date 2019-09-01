@@ -283,6 +283,7 @@
     <Compile Include="Controllers\DealController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
+    <Compile Include="Controllers\TradersStockController.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IValidator.cs" />
     <Compile Include="Program.cs" />

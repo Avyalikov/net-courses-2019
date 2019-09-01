@@ -94,5 +94,10 @@ namespace TradingSimulator.ConsoleApp.Repositories
         {
             throw new System.NotImplementedException();
         }
+
+        public int GetCountOfListOfTraderStocksIds()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

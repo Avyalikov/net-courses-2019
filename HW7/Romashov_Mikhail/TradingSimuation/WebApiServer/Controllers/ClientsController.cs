@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using TradingSimulator.Core.Dto;
 using TradingSimulator.Core.Interfaces;
+using TradingSimulator.Core.Models;
 using TradingSimulator.Core.Services;
 using WebApiServer.Interfaces;
 
@@ -32,6 +33,19 @@ namespace WebApiServer.Controllers
             return JsonConvert.SerializeObject(tradersList);
         }
 
+        // GET /clients/get?id=_
+        [HttpGet("get")]
+        public string GetByID(int id)
+        {
+            return JsonConvert.SerializeObject(tradersService.GetTraderById(id));
+        }
+
+        // GET /clients/count
+        [HttpGet("count")]
+        public string Get()
+        {
+            return JsonConvert.SerializeObject(tradersService.GetCountIds());
+        }
 
         // POST: /clients/add?name=_&surname=_&phone=_&
         [HttpPost("add")]

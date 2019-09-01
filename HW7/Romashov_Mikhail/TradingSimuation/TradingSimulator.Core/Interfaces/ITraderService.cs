@@ -13,5 +13,6 @@ namespace TradingSimulator.Core.Interfaces
         List<int> GetList();
         List<string> GetListOfTraders(int maxCount);
         decimal GetBalanceById(int traderId);
+        int GetCountIds();
     }
 }
