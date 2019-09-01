@@ -113,11 +113,5 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Traiding.WebAPI\Traiding.WebAPI.csproj">
-      <Project>{ea46a83a-7959-49e2-864e-3c07cae78130}</Project>
-      <Name>Traiding.WebAPI</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
