@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using TradingSimulator.Core.Dto;
-using TradingSimulator.Core.Services;
+using TradingSimulator.Core.Interfaces;
 using WebApiServer.Interfaces;
 
 namespace WebApiServer.Controllers
@@ -24,7 +24,7 @@ namespace WebApiServer.Controllers
             this.validator = validator;
         }
 
-        // GET api/stocks
+        // GET stocks?clientId=_
         [HttpGet]
         public string Get(int clientId)
         {

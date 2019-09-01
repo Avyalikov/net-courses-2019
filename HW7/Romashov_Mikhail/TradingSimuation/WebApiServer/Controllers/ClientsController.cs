@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using TradingSimulator.Core.Dto;
+using TradingSimulator.Core.Interfaces;
 using TradingSimulator.Core.Services;
 using WebApiServer.Interfaces;
 

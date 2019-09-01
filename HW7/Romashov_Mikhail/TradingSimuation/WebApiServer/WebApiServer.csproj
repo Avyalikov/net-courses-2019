@@ -280,6 +280,7 @@
     <Compile Include="Components\Validator.cs" />
     <Compile Include="Controllers\BalanceController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\DealController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
@@ -300,8 +301,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Git_backup\TradingSimulator\TradingSimulator.Core\TradingSimulator.Core.csproj">
-      <Project>{48da082e-c4db-444f-855a-e8308c1e366b}</Project>
+    <ProjectReference Include="..\TradingSimulator.Core\TradingSimulator.Core.csproj">
+      <Project>{e1f256e5-3810-4613-b4ca-2b1a8e87c6fd}</Project>
       <Name>TradingSimulator.Core</Name>
     </ProjectReference>
   </ItemGroup>

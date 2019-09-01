@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using TradingSimulator.Core.Interfaces;
 using TradingSimulator.Core.Services;
 
 namespace WebApiServer.Controllers

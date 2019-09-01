@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StructureMap;
 using System.Configuration;
+using TradingSimulator.Core.Interfaces;
 using TradingSimulator.Core.Repositories;
 using TradingSimulator.Core.Services;
 using WebApiServer.Components;
@@ -41,6 +42,7 @@ namespace WebApiServer
             registry.For<IBankruptService>().Use<BankruptService>();
             registry.For<IHistoryService>().Use<HistoryService>();
             registry.For<ITraderStocksService>().Use<TraderStocksService>();
+            registry.For<ISaleService>().Use<SaleService>();
             registry.For<ILogger>().Use<LoggerService>();
             registry.For<IValidator>().Use<Validator>();
             registry.For<TradingSimulatorDBContext>().Use<TradingSimulatorDBContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingSimulatorConnectionString"].ConnectionString);
