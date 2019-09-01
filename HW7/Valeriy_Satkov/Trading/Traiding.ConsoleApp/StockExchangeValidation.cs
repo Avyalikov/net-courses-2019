@@ -8,7 +8,7 @@ namespace Traiding.ConsoleApp
         {
             if (inputInt <= 0)
             {
-                Console.WriteLine("Wrong Id. Try again.");
+                Console.WriteLine("Wrong Id number. Try again.");
                 return false;
             }
 
