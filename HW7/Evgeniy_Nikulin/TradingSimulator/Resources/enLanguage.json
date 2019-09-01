@@ -1,0 +1,47 @@
+{
+  "HeaderMain": "Main page.",
+  "HeaderHistory": "History page.",
+  "HeaderTraderList": "Traders lists page.",
+  "HeaderTraderManaging": "Trader managing page.",
+
+  "HeaderGreenList": "Green list page.",
+  "HeaderOrangeList": "Orange list page.",
+  "HeaderBlackList": "Black list page.",
+
+  "HeaderAddTrader": "Add trader page.",
+  "HeaderAddShare": "Add share page.",
+  "HeaderChandeShare": "Change share page.",
+
+  "ButtonBack": "Back.",
+  "ButtonRefresh": "Refresh.",
+  "ButtonMenu": "Menu",
+
+  "DescriptionMain": "Hello it's tradig somulator.",
+  "DescriptionHistory": "History of trades.",
+  "DescriptionTraderList": "Here you can find lists of traders.",
+  "DescriptionTraderManaging": "Here you can manage the traders and their shares.",
+
+  "DescriptionGreenList": "List of traders in green list.",
+  "DescriptionOrangeList": "List of traders in orange list.",
+  "DescriptionBlackList": "List of traders in black list.",
+
+  "DescriptionAddTrader": "You can create a trader.",
+  "DescriptionAddShare": "You can create share for traders below.",
+  "DescriptionChandeShare": "You can change share for traders below.",
+
+  "Green": "Green",
+  "Orange": "Orange",
+  "Black": "Black",
+
+  "Sold": "sold",
+  "SharesOf": "shares of",
+  "To": "to",
+
+  "Choose": "Choose : ",
+  "EnterName": "Enter name: ",
+  "EnterSuname": "Enter surname: ",
+  "EnterPhone": "Enter phone: ",
+  "EnterMoney": "Enter money: ",
+  "EnterPrice": "Enter price: ",
+  "EnterQuantity": "Enter quantity: ",
+}
