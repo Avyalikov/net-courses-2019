@@ -113,27 +113,24 @@ namespace TradingWebSimulation
 
         public void AddOrder(OrderInfo orderInfo)
          {
-            //string json = JsonConvert.SerializeObject(orderInfo);
-            //HttpContent content = new StringContent(json);
-            // httpclient.PostAsync($"http://localhost:5000/deal/addorder", content);
-            httpclient.PostAsJsonAsync($"http://localhost:5000/deal/addorder", orderInfo);
+           
+             httpclient.PostAsJsonAsync($"http://localhost:5000/deal/addorder", orderInfo);
+            
         }
 
 
         public void EditClient(int clientid, ClientInfo clientInfo)
         {
-           string json = JsonConvert.SerializeObject(clientInfo);
-            //HttpContent content = new ObjectContent<ClientInfo> (clientInfo,mediaType);
-            httpclient.PostAsJsonAsync($"http://localhost:5000/clients/update?id={clientid}", clientInfo);
-           // httpclient.PostAsync($"http://localhost:5000/clients/update?id={clientid}", content );
+           
+          httpclient.PostAsJsonAsync($"http://localhost:5000/clients/update?id={clientid}", clientInfo);
+         
         }
 
 
         public void EditClientStockAmount(int clientid, int stockid, ClientStockInfo clientStockInfo)
         {
-            string json = JsonConvert.SerializeObject(clientStockInfo);
-            HttpContent content = new StringContent(json);
-            httpclient.PostAsync($"http://localhost:5000/clients/update?clientid={clientid}&stockid={stockid}", content);
+            httpclient.PostAsJsonAsync($"http://localhost:5000/clients/update?clientid={clientid}&stockid={stockid}", clientStockInfo);
+            
         }
 
         public Client GetRandomClient()
@@ -194,17 +191,14 @@ namespace TradingWebSimulation
 
 
 
-                OrderInfo orderInfo = new OrderInfo()
-                {
-                    ClientId = clstock.ClientID,
-                    StockId = clstock.StockID,
-                    Quantity = amountForSale,
-                    OrderType = OrderInfo.OrdType.Sale
-                };
 
-                //this.orderService.AddOrder(orderInfo);
-
-               this.AddOrder(orderInfo);
+               this.AddOrder(new OrderInfo()
+               {
+                   ClientId = clstock.ClientID,
+                   StockId = clstock.StockID,
+                   Quantity = amountForSale,
+                   OrderType = OrderInfo.OrdType.Sale
+               });
 
                 this.logger.Info($"Order for sale stock {clstock.StockID} for client {clstock.ClientID} has been added to DB");
 
@@ -257,12 +251,12 @@ namespace TradingWebSimulation
                
 
                 clientStockService.EditClientStocksAmount(saler.ClientID, clstock.StockID, -amountForSale);
-                //this.logger.Info($"Client {saler.ClientID} stock {salerOrder.StockID} amount has been reduced on {amountForSale}");
+                this.logger.Info($"Client {saler.ClientID} stock {clstock.StockID} amount has been reduced on {amountForSale}");
 
 
 
                 clientStockService.EditClientStocksAmount(customer.ClientID, clstock.StockID, amountForSale);
-               // this.logger.Info($"Client {customer.ClientID} stock {salerOrder.StockID} amount has been increased on {amountForSale}");
+                this.logger.Info($"Client {customer.ClientID} stock {clstock.StockID} amount has been increased on {amountForSale}");
 
 
                transactionHistoryService.AddTransactionInfo(new TransactionInfo()
@@ -274,9 +268,9 @@ namespace TradingWebSimulation
                 this.logger.Info($"Transaction {lastTransaction.TransactionHistoryID} has been added to DB");
 
                 orderService.SetIsExecuted(salerorderId, lastTransaction.TransactionHistoryID);
-               // this.logger.Info($"Saler's order {salerOrder.OrderID} status has been set as 'IsExecuted'");
+               this.logger.Info($"Saler's order {salerorderId} status has been set as 'IsExecuted'");
                 orderService.SetIsExecuted(customerorderId, lastTransaction.TransactionHistoryID);
-              //  this.logger.Info($"Customer's order {customerOrder.OrderID} status has been set as 'IsExecuted'");
+               this.logger.Info($"Customer's order {customerorderId} status has been set as 'IsExecuted'");
                 this.logger.Info($"Deal is finished");
 
                 

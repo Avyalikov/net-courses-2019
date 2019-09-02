@@ -30,12 +30,12 @@ namespace TradingSHWebAPI.Controllers
 
        [HttpPost]
        [Route("addorder")]
-       public IActionResult Make(string orderInfo)
+       public IActionResult Make([FromBody]OrderInfo orderInfo)
        {
            try
            {
                 
-               this.orderService.AddOrder(JsonConvert.DeserializeObject<OrderInfo>( orderInfo));
+               this.orderService.AddOrder(orderInfo);
                return Ok();
            }
            catch (Exception e)
