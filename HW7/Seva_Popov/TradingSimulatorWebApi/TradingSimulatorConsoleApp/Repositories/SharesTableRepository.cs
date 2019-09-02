@@ -19,29 +19,57 @@ namespace TradingSimulatorConsoleApp.Repositories
 
         public IEnumerable<SharesEntity> Get()
         {
-            return dbContext.Shares.ToList();
+            try
+            {
+                return dbContext.Shares.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public SharesEntity Add(SharesEntity shares)
         {
-            dbContext.Shares.Add(shares);
-            dbContext.SaveChanges();
-            return shares;
+            try
+            {
+                dbContext.Shares.Add(shares);
+                dbContext.SaveChanges();
+                return shares;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public SharesEntity Delete(int id)
         {
-            SharesEntity shares = dbContext.Shares.FirstOrDefault(x => x.Id == id);
-            dbContext.Shares.Remove(shares);
-            dbContext.SaveChanges();
-            return shares;
+            try
+            {
+                SharesEntity shares = dbContext.Shares.FirstOrDefault(x => x.Id == id);
+                dbContext.Shares.Remove(shares);
+                dbContext.SaveChanges();
+                return shares;
+            }
+            catch (System.ArgumentNullException)
+            {
+                throw;
+            } 
         }
 
         public SharesEntity Put(SharesEntity shares)
         {
-            dbContext.Update(shares);
-            dbContext.SaveChanges();
-            return shares;
+            try
+            {
+                dbContext.Update(shares);
+                dbContext.SaveChanges();
+                return shares;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

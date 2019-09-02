@@ -5,11 +5,9 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingSimulatorWebApi", "TradingSimulatorWebApi\TradingSimulatorWebApi.csproj", "{1C9489AE-150D-4D97-9FCC-9AEE9D09A28D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator.Core", "TradingSimulator.Core\TradingSimulator.Core.csproj", "{C7FF8867-841E-4529-B66D-82DE06AACD5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingSimulator.Core", "TradingSimulator.Core\TradingSimulator.Core.csproj", "{C7FF8867-841E-4529-B66D-82DE06AACD5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulator.Core.Tests", "TradingSimulator.Core.Tests\TradingSimulator.Core.Tests.csproj", "{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingSimulatorConsoleApp", "TradingSimulatorConsoleApp\TradingSimulatorConsoleApp.csproj", "{82E45910-86F6-42E5-809E-C5BB8F46D7D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingSimulatorConsoleApp", "TradingSimulatorConsoleApp\TradingSimulatorConsoleApp.csproj", "{82E45910-86F6-42E5-809E-C5BB8F46D7D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{C7FF8867-841E-4529-B66D-82DE06AACD5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7FF8867-841E-4529-B66D-82DE06AACD5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7FF8867-841E-4529-B66D-82DE06AACD5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0FC2D7C-5AAB-464D-A387-3216F0FCA488}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82E45910-86F6-42E5-809E-C5BB8F46D7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82E45910-86F6-42E5-809E-C5BB8F46D7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82E45910-86F6-42E5-809E-C5BB8F46D7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU

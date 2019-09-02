@@ -20,9 +20,16 @@ namespace TradingSimulatorWebApi.Controllers
         [HttpPost] // https://localhost:44397/api/transaction
         public IActionResult Post()
         {
-            TradingSimulation tradingSimulation = new TradingSimulation(db);
-            tradingSimulation.RunTradingSimulation();
-            return Ok();
+            try
+            {
+                TradingSimulation tradingSimulation = new TradingSimulation(db);
+                tradingSimulation.RunTradingSimulation();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -50,8 +50,15 @@ namespace TradingSimulatorWebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            UserService userService = new UserService(db);
-            return Ok(userService.Delete(id));
+            try
+            {
+                UserService userService = new UserService(db);
+                return Ok(userService.Delete(id));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }       
     }
 }

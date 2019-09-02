@@ -21,8 +21,15 @@ namespace TradingSimulatorWebApi.Controllers
         [HttpGet]
         public IEnumerable<UserEntity> Get()
         {
-            UserService userService = new UserService(db);
-            return userService.GetUserBlackList();
+            try
+            {
+                UserService userService = new UserService(db);
+                return userService.GetUserBlackList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
