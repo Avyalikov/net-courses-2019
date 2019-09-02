@@ -95,6 +95,25 @@ namespace TradingSHWebAPI
 
 
         [HttpGet]
+        public IActionResult GetClientStockWithPrice(int clientid)
+        {
+            try
+            {
+                var clientStocks = this.clientStockService.GetClientStocksWithPrice(clientid);
+                return Ok(clientStocks);
+            }
+            catch (Exception e)
+            {
+                var ex = e.Message;
+                return StatusCode(500);
+            }
+
+        }
+
+
+
+        [HttpGet]
+        [Route("getclientstock")]
         public IActionResult GetClientStock(int clientid)
         {
             try
@@ -111,6 +130,7 @@ namespace TradingSHWebAPI
         }
 
         [HttpGet]
+        [Route("getstock")]
         public IActionResult GetStockDetails(int stockid)
         {
             try

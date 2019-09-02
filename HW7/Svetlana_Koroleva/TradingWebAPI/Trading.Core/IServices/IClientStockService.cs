@@ -22,7 +22,8 @@ namespace Trading.Core.IServices
         void Update(int clientId, int stockId, ClientStockInfo clientStockInfo);
         ClientStock GetEntityByCompositeID(int clientId, int stockId);
         void EditClientStocksAmount(int clientId, int stockId, int amountToAdd);
-        IQueryable GetclientStocks(int clientId);
+        IQueryable GetClientStocksWithPrice(int clientId);
+        IEnumerable<ClientStock> GetclientStocks(int clientId);
 
 
     }

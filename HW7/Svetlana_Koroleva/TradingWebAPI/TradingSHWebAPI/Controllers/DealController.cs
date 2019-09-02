@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Trading.Core;
 using Trading.Core.DTO;
 using Trading.Core.IServices;
@@ -29,11 +30,12 @@ namespace TradingSHWebAPI.Controllers
 
        [HttpPost]
        [Route("addorder")]
-       public IActionResult Make([FromBody]OrderInfo orderInfo)
+       public IActionResult Make(string orderInfo)
        {
            try
            {
-                this.orderService.AddOrder(orderInfo);
+                
+               this.orderService.AddOrder(JsonConvert.DeserializeObject<OrderInfo>( orderInfo));
                return Ok();
            }
            catch (Exception e)

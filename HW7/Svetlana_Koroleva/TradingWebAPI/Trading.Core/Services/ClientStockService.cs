@@ -84,16 +84,24 @@ namespace Trading.Core.Services
             stockToUpdate.Quantity = clientStockInfo.Amount;
             this.unitOfWork.Save();
         }
-        public IQueryable GetclientStocks(int clientId)
+        public IQueryable GetClientStocksWithPrice(int clientId)
         {
-           // var client = this.unitOfWork.Clients.Get(c => c.ClientID == clientId);
             var clientstocks = this.unitOfWork.ClientStocks.Get(c=>c.ClientID==clientId).ToList();
             var stocks = this.unitOfWork.Stocks.GetAll().ToList();
             var result = from cs in clientstocks
                                join s in stocks on cs.StockID equals s.StockID
                    select new {s.Issuer, s.StockPrefix, s.StockType, s.Price, cs.Quantity };
-            return (IQueryable)result;    
+
+           
+            return result.AsQueryable();    
                      
+        }
+
+        public IEnumerable<ClientStock> GetclientStocks(int clientId)
+        {
+                    
+            return this.unitOfWork.ClientStocks.Get(c => c.ClientID == clientId).ToList();
+
         }
 
     }

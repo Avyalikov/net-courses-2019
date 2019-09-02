@@ -37,6 +37,8 @@ namespace TradingSHWebAPI
             services.AddScoped<ExchangeContext>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IClientStockService, ClientStockService>();
+            services.AddScoped<IStockService, StockService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITransactionHistoryService, TransactionHistoryService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
            

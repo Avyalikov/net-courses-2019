@@ -68,7 +68,7 @@ namespace TradingWebSimulation
 
         public IEnumerable<Client> GetAllClients()
         {
-            var response = httpclient.GetAsync("http://localhost:5001/clients/all").Result;
+            var response = httpclient.GetAsync("http://localhost:5000/clients/all").Result;
             string json = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
@@ -79,7 +79,7 @@ namespace TradingWebSimulation
 
         public IEnumerable<ClientStock> GetAllClientStocks(int clientId)
         {
-            var response = httpclient.GetAsync($"http://localhost:5001/shares?clientId={clientId}").Result;
+            var response = httpclient.GetAsync($"http://localhost:5000/shares/getclientstock?clientId={clientId}").Result;
             string json = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
@@ -90,7 +90,7 @@ namespace TradingWebSimulation
 
         public Order GetLastOrder()
         {
-            var response = httpclient.GetAsync("http://localhost:5001/transactions/lastorder").Result;
+            var response = httpclient.GetAsync("http://localhost:5000/transactions/lastorder").Result;
             string json = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
@@ -102,7 +102,7 @@ namespace TradingWebSimulation
 
         public Stock GetStockById(int stockId)
         {
-            var response = httpclient.GetAsync($"http://localhost:5001/shares?stockid={stockId}").Result;
+            var response = httpclient.GetAsync($"http://localhost:5000/shares/getstock?stockid={stockId}").Result;
             string json = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
@@ -113,17 +113,19 @@ namespace TradingWebSimulation
 
         public void AddOrder(OrderInfo orderInfo)
          {
-            string json = JsonConvert.SerializeObject(orderInfo);
-            HttpContent content = new StringContent(json);
-            httpclient.PostAsync($"http://localhost:5001/deal/addorder", content);
+            //string json = JsonConvert.SerializeObject(orderInfo);
+            //HttpContent content = new StringContent(json);
+            // httpclient.PostAsync($"http://localhost:5000/deal/addorder", content);
+            httpclient.PostAsJsonAsync($"http://localhost:5000/deal/addorder", orderInfo);
         }
 
 
         public void EditClient(int clientid, ClientInfo clientInfo)
         {
-            string json = JsonConvert.SerializeObject(clientInfo);
-            HttpContent content = new StringContent(json);
-            httpclient.PostAsync($"http://localhost:5001/clients/update?id={clientid}", content );
+           string json = JsonConvert.SerializeObject(clientInfo);
+            //HttpContent content = new ObjectContent<ClientInfo> (clientInfo,mediaType);
+            httpclient.PostAsJsonAsync($"http://localhost:5000/clients/update?id={clientid}", clientInfo);
+           // httpclient.PostAsync($"http://localhost:5000/clients/update?id={clientid}", content );
         }
 
 
@@ -131,7 +133,7 @@ namespace TradingWebSimulation
         {
             string json = JsonConvert.SerializeObject(clientStockInfo);
             HttpContent content = new StringContent(json);
-            httpclient.PostAsync($"http://localhost:5001/clients/update?clientid={clientid}&stockid={stockid}", content);
+            httpclient.PostAsync($"http://localhost:5000/clients/update?clientid={clientid}&stockid={stockid}", content);
         }
 
         public Client GetRandomClient()
@@ -178,13 +180,13 @@ namespace TradingWebSimulation
                 //Select random saler
                 Client saler = GetRandomClient();
                 //Select random stock for saler
-                ClientStock clstock = GetRandomClientStock(saler.ClientID);
+                var clstock = GetRandomClientStock(saler.ClientID);
                 if (clstock == null || clstock.Quantity < 10)
                 {
                     continue;
                    
                 }
-
+               
                 //determine amount for sale
                 int lotsAmount = clstock.Quantity / amountInLotForSale;
                 Random random = new Random();
@@ -200,7 +202,9 @@ namespace TradingWebSimulation
                     OrderType = OrderInfo.OrdType.Sale
                 };
 
-                this.AddOrder(orderInfo);
+                //this.orderService.AddOrder(orderInfo);
+
+               this.AddOrder(orderInfo);
 
                 this.logger.Info($"Order for sale stock {clstock.StockID} for client {clstock.ClientID} has been added to DB");
 
