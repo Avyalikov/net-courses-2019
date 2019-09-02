@@ -1,7 +1,13 @@
 ﻿namespace Multithread.Core.Tests
 {
     using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using Moq.Protected;
     using Multithread.Core.Models;
     using Multithread.Core.Repositories;
     using Multithread.Core.Services;
@@ -13,7 +19,36 @@
         [TestMethod]
         public void ShouldDownloadPage()
         {
-            throw new NotImplementedException();
+            // Arrange
+            string testLink = "https://en.wikipedia.org/wiki/The_Mummy_Returns";
+            string testContentString = "Hello world";
+            
+            var testHandler = new Mock<HttpMessageHandler>();
+            testHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .Returns(Task<HttpResponseMessage>.Factory.StartNew(() =>
+                {
+                    var message = new HttpResponseMessage(HttpStatusCode.OK);
+                    message.Content = new StringContent(testContentString);
+                    return message;
+                }))
+                .Callback<HttpRequestMessage, CancellationToken>((r, c) =>
+                {
+                    Assert.AreEqual(HttpMethod.Get, r.Method);
+                });
+
+            ILinkTableRepository linkTableRepository = Substitute.For<ILinkTableRepository>();
+            ParsingService parsingService = new ParsingService(linkTableRepository);
+
+            // Act
+            var downoloadPageTask = parsingService.DownloadPage(testLink, testHandler.Object);
+
+            // Assert
+            var finishedString = downoloadPageTask.Result;
+            if (finishedString != testContentString)
+            {
+                throw new ArgumentException("Wrong content");
+            }
         }
 
         [TestMethod]
@@ -33,7 +68,7 @@
             ParsingService parsingService = new ParsingService(linkTableRepository);            
 
             // Act
-            parsingService.Add(testLink, testIterationId);
+            parsingService.Save(testLink, testIterationId);
 
             // Assert
             linkTableRepository.Received(1).Add(Arg.Is<LinkEntity>(
@@ -69,7 +104,7 @@
             ParsingService parsingService = new ParsingService(linkTableRepository);
 
             // Act
-            parsingService.AddValidation(testLink, testIterationId);
+            parsingService.SaveValidation(testLink, testIterationId);
 
             // Assert
         }
@@ -85,7 +120,7 @@
             ParsingService parsingService = new ParsingService(linkTableRepository);
 
             // Act
-            parsingService.AddValidation(testLink, testIterationId);
+            parsingService.SaveValidation(testLink, testIterationId);
 
             // Assert
         }

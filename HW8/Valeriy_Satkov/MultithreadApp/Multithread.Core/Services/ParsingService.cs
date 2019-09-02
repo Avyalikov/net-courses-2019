@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
     using Multithread.Core.Models;
@@ -17,9 +18,24 @@
             this.linkTableRepository = linkTableRepository;
         }
 
-        public int Add(string link, int iterationId)
+        public async Task<string> DownloadPage(string link, HttpMessageHandler handler)
         {
-            AddValidation(link, iterationId);
+            using (var client = new HttpClient(handler))
+            {
+                using (var response = await client.GetAsync(link))
+                {
+                    using (var content = response.Content)
+                    {
+                        var jsonString = await content.ReadAsStringAsync();
+                        return jsonString;
+                    }
+                }
+            }
+        }
+
+        public int Save(string link, int iterationId)
+        {
+            SaveValidation(link, iterationId);
 
             ContainsByLink(link);
 
@@ -36,7 +52,7 @@
             return entityToAdd.Id;
         }
 
-        public void AddValidation(string link, int iterationId)
+        public void SaveValidation(string link, int iterationId)
         {
             if (string.IsNullOrWhiteSpace(link))
             {
