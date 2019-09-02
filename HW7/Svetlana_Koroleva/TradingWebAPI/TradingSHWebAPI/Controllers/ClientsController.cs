@@ -32,12 +32,12 @@ namespace TradingSHWebAPI
         }
 
         //Get top clients
-        [HttpGet("{top}&{page}")]
-        public IActionResult GetTop(int amount)
+        [HttpGet]
+        public IActionResult GetTop(int top, int page)
         {
             try
             {
-                var clients = this.clientService.GetTopClients(amount);
+                var clients = this.clientService.GetTopClients(top);
                 return Ok(clients);
             }
             catch (Exception e)
@@ -105,17 +105,35 @@ namespace TradingSHWebAPI
         }
 
         [HttpGet]
-        public string GetClient(int id)
+        [Route("getbyid")]
+        public IActionResult GetClient(int id)
         {
             try
             {
                 var client = this.clientService.GetEntityByID(id);
-                return JsonConvert.SerializeObject(client);
+                return Ok(client);
             }
             catch (Exception e)
             {
                 var ex = e.Message;
-                return ex;
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("all")]
+
+        public IActionResult GetAllClients()
+        {
+            try
+            {
+                var clients = this.clientService.GetAllClients();
+                return Ok(clients);
+            }
+            catch (Exception e)
+            {
+                var ex = e.Message;
+                return StatusCode(500);
             }
         }
 

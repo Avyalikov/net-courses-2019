@@ -25,11 +25,13 @@ namespace TradingSHWebAPI
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IClientStockService clientStockService;
+        private readonly IStockService stockService;
 
-        public ClientStocksController(IUnitOfWork unitOfWork, IClientStockService service)
+        public ClientStocksController(IUnitOfWork unitOfWork, IClientStockService service, IStockService stockService)
         {
             this.unitOfWork = unitOfWork;
             this.clientStockService = service;
+            this.stockService = stockService;
         }
 
 
@@ -92,20 +94,36 @@ namespace TradingSHWebAPI
 
 
 
-        [HttpGet("{clientid}")]
-        public string GetClient(int id)
+        [HttpGet]
+        public IActionResult GetClientStock(int clientid)
         {
             try
             {
-                var clientStocks = this.clientStockService.GetclientStocks(id);
-                return JsonConvert.SerializeObject(clientStocks);
+                var clientStocks = this.clientStockService.GetclientStocks(clientid);
+                return Ok(clientStocks);
             }
             catch (Exception e)
             {
                 var ex = e.Message;
-                return ex;
+                return StatusCode(500);
             }
 
+        }
+
+        [HttpGet]
+        public IActionResult GetStockDetails(int stockid)
+        {
+            try
+            {
+                var stock=this.stockService.GetEntityByID(stockid);
+                return Ok(stock);
+            }
+            catch (Exception e)
+            {
+                var ex = e.Message;
+                return StatusCode(500);
+
+            }
         }
 
     }

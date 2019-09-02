@@ -19,22 +19,19 @@ namespace TradingWebSimulation
     using Trading.Core.IServices;
     using Trading.Core;
     using SharedContext;
+    using System.Net;
+    using System.IO;
+    using Newtonsoft.Json;
+    using System.Net.Http;
+    using static System.Net.WebRequestMethods;
 
     /// <summary>
     /// StockExchange description
     /// </summary>
     public class StockExchange
     {
-       // private readonly ExchangeContext db;
-
-      /*  private readonly IClientRepository clientRepository;
-        private readonly IClientStockRepository clientStockRepository;
-        private readonly IOrderRepository orderRepository;
-        private readonly IStockRepository stockRepository;
-        private readonly ITransactionHistoryRepository transactionHistoryRepository;*/
-
-
-
+      
+        static readonly HttpClient httpclient = new HttpClient();
         private readonly IUnitOfWork unitOfWork;
 
         private readonly IClientService clientService;
@@ -45,13 +42,7 @@ namespace TradingWebSimulation
 
         private readonly ILogger logger;
 
-        public StockExchange(/*ExchangeContext db,
-            IClientRepository clientRepository,
-        IClientStockRepository clientStockRepository,
-            IOrderRepository orderRepository,
-            IStockRepository stockRepository,
-            ITransactionHistoryRepository transactionHistoryRepository,*/
-
+        public StockExchange(
             IUnitOfWork unitOfWork,
 
             IClientService clientService,
@@ -63,12 +54,7 @@ namespace TradingWebSimulation
              ILogger logger
             )
         {
-            /*this.db = db;
-            this.clientRepository = clientRepository;
-            this.clientStockRepository = clientStockRepository;
-            this.orderRepository = orderRepository;
-            this.stockRepository = stockRepository;
-            this.transactionHistoryRepository = transactionHistoryRepository;*/
+            
             this.unitOfWork = unitOfWork;
             this.clientService = clientService;
             this.clientStockService = clientStockService;
@@ -80,10 +66,78 @@ namespace TradingWebSimulation
 
 
 
+        public IEnumerable<Client> GetAllClients()
+        {
+            var response = httpclient.GetAsync("http://localhost:5001/clients/all").Result;
+            string json = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<IEnumerable<Client>>(json);
+            }
+            throw new Exception(response.StatusCode.ToString());
+        }
+
+        public IEnumerable<ClientStock> GetAllClientStocks(int clientId)
+        {
+            var response = httpclient.GetAsync($"http://localhost:5001/shares?clientId={clientId}").Result;
+            string json = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<IEnumerable<ClientStock>>(json);
+            }
+            throw new Exception(response.StatusCode.ToString());
+        }
+
+        public Order GetLastOrder()
+        {
+            var response = httpclient.GetAsync("http://localhost:5001/transactions/lastorder").Result;
+            string json = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<Order>(json);
+            }
+            throw new Exception(response.StatusCode.ToString());
+        }
+
+
+        public Stock GetStockById(int stockId)
+        {
+            var response = httpclient.GetAsync($"http://localhost:5001/shares?stockid={stockId}").Result;
+            string json = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<Stock>(json);
+            }
+            throw new Exception(response.StatusCode.ToString());
+        }
+
+        public void AddOrder(OrderInfo orderInfo)
+         {
+            string json = JsonConvert.SerializeObject(orderInfo);
+            HttpContent content = new StringContent(json);
+            httpclient.PostAsync($"http://localhost:5001/deal/addorder", content);
+        }
+
+
+        public void EditClient(int clientid, ClientInfo clientInfo)
+        {
+            string json = JsonConvert.SerializeObject(clientInfo);
+            HttpContent content = new StringContent(json);
+            httpclient.PostAsync($"http://localhost:5001/clients/update?id={clientid}", content );
+        }
+
+
+        public void EditClientStockAmount(int clientid, int stockid, ClientStockInfo clientStockInfo)
+        {
+            string json = JsonConvert.SerializeObject(clientStockInfo);
+            HttpContent content = new StringContent(json);
+            httpclient.PostAsync($"http://localhost:5001/clients/update?clientid={clientid}&stockid={stockid}", content);
+        }
+
         public Client GetRandomClient()
         {
             Random random = new Random();
-            var allClients = this.unitOfWork.Clients.GetAll();
+            var allClients = this.GetAllClients();
             int clientsAmount = allClients.Count();
             if (clientsAmount == 0)
             {
@@ -97,7 +151,7 @@ namespace TradingWebSimulation
         public ClientStock GetRandomClientStock(int clientID)
         {
             Random random = new Random();
-            var clientStocks = this.unitOfWork.ClientStocks.Get(o => o.ClientID == clientID).ToList();
+            var clientStocks = this.GetAllClientStocks(clientID);
             int stocksAmount = clientStocks.Count();
             if (stocksAmount == 0)
             {
@@ -108,21 +162,7 @@ namespace TradingWebSimulation
             return clientStock;
         }
 
-        public Stock GetRandomStock()
-        {
-            Random random = new Random();
-            var allStocks = this.unitOfWork.Stocks.GetAll();
-            int stocksAmount = allStocks.Count();
-            if (stocksAmount == 0)
-            {
-                throw new NullReferenceException("There are no stocks to select from");
-            }
-            int number = random.Next(0, stocksAmount-1);
-            Stock stock = allStocks.ElementAt(number);
-
-            return stock;
-        }
-
+       
 
         public void RunTraiding()
         {
@@ -150,17 +190,21 @@ namespace TradingWebSimulation
                 Random random = new Random();
                 int amountForSale = random.Next(1, lotsAmount) * amountInLotForSale;
 
-                orderService.AddOrder(new OrderInfo()
+
+
+                OrderInfo orderInfo = new OrderInfo()
                 {
                     ClientId = clstock.ClientID,
                     StockId = clstock.StockID,
                     Quantity = amountForSale,
                     OrderType = OrderInfo.OrdType.Sale
-                });
+                };
+
+                this.AddOrder(orderInfo);
+
                 this.logger.Info($"Order for sale stock {clstock.StockID} for client {clstock.ClientID} has been added to DB");
 
-                //Order salerOrder = orderService.LastOrder();
-                int salerorderId = orderService.LastOrder().OrderID;
+                int salerorderId = this.GetLastOrder().OrderID;
 
                 Client customer;
                 do
@@ -169,26 +213,50 @@ namespace TradingWebSimulation
                 }
                 while (customer.ClientID == saler.ClientID);
 
-                orderService.AddOrder(new OrderInfo()
+
+
+                this.AddOrder(new OrderInfo()
                 {
                     ClientId = customer.ClientID,
                     StockId = clstock.StockID,
                     Quantity = amountForSale,
                     OrderType = OrderInfo.OrdType.Purchase
                 });
+
                 this.logger.Info($"Order for purchasing stock {clstock.StockID} for client {customer.ClientID} has been added to DB");
 
-                //Order customerOrder = orderService.LastOrder();
-                int customerorderId = orderService.LastOrder().OrderID;
+                int customerorderId = this.GetLastOrder().OrderID;
                 DateTime dealDateTime = DateTime.Now;
-                decimal dealPrice = this.stockService.GetEntityByID(clstock.StockID).Price;
-                   
-                clientService.EditClientBalance(saler.ClientID, (dealPrice * amountForSale));
+                decimal dealPrice = this.GetStockById(clstock.StockID).Price;
+
+                ClientInfo salerInfo = new ClientInfo() {
+                    FirstName = saler.FirstName,
+                    LastName=saler.LastName,
+                    Phone=saler.Phone,
+                    Balance=saler.Balance+(dealPrice * amountForSale)
+                };
+
+                this.EditClient(saler.ClientID, salerInfo);
                 this.logger.Info($"Client {saler.ClientID} balance has been increased by {(dealPrice * amountForSale)}");
-                clientService.EditClientBalance(customer.ClientID, (-1 * dealPrice * amountForSale));
+
+                ClientInfo customerInfo = new ClientInfo()
+                {
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Phone = customer.Phone,
+                    Balance = customer.Balance - (dealPrice * amountForSale)
+                };
+
+                this.EditClient(customer.ClientID, customerInfo);
                 this.logger.Info($"Client {customer.ClientID} balance has been reduced by {(dealPrice * amountForSale)}");
+
+               
+
                 clientStockService.EditClientStocksAmount(saler.ClientID, clstock.StockID, -amountForSale);
                 //this.logger.Info($"Client {saler.ClientID} stock {salerOrder.StockID} amount has been reduced on {amountForSale}");
+
+
+
                 clientStockService.EditClientStocksAmount(customer.ClientID, clstock.StockID, amountForSale);
                // this.logger.Info($"Client {customer.ClientID} stock {salerOrder.StockID} amount has been increased on {amountForSale}");
 

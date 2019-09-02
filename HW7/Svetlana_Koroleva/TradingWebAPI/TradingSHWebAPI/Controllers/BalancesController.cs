@@ -31,7 +31,7 @@ namespace TradingSHWebAPI.Controllers
         }
 
         //Get client balance
-        [HttpGet("{clientid}")]
+        [HttpGet]
         public IActionResult GetBalace(int clientId)
         {
             try

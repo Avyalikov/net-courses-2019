@@ -31,7 +31,7 @@ namespace TradingSHWebAPI.Controllers
         }
 
         //Get top transactions for client
-        [HttpGet("{clientId}&{top}")]
+        [HttpGet]
         public IActionResult GetTop(int clientId, int amount)
         {
             try
@@ -46,6 +46,24 @@ namespace TradingSHWebAPI.Controllers
 
             }
         }
+
+        [HttpGet]
+        [Route("lastorder")]
+        public IActionResult GetLast()
+        {
+            try
+            {
+                var transaction = this.orderService.LastOrder();
+                return Ok(transaction);
+            }
+            catch (Exception e)
+            {
+                var ex = e.Message;
+                return StatusCode(500);
+
+            }
+        }
+
 
     }
 }

@@ -27,25 +27,45 @@ namespace TradingSHWebAPI.Controllers
         }
 
 
+       [HttpPost]
+       [Route("addorder")]
+       public IActionResult Make([FromBody]OrderInfo orderInfo)
+       {
+           try
+           {
+                this.orderService.AddOrder(orderInfo);
+               return Ok();
+           }
+           catch (Exception e)
+           {
+               var ex = e.Message;
+               return StatusCode(500);
 
-        [HttpPost]
-        [Route("make")]
-        public IActionResult Make([FromBody]int orderId, TransactionInfo transactionInfo)
-        {
-            try
-            {
-                this.transactionService.AddTransactionInfo(transactionInfo);
-                int transactionId = this.transactionService.GetLastTransaction().TransactionHistoryID;
-                this.orderService.SetIsExecuted(orderId, transactionId);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                var ex = e.Message;
-                return StatusCode(500);
+           }
+       }
 
-            }
-        }
+    
+
+
+          [HttpPost]
+          [Route("make")]
+          public IActionResult Make(int orderId, [FromBody]TransactionInfo transactionInfo)
+          {
+              try
+              {
+                  this.transactionService.AddTransactionInfo(transactionInfo);
+                  int transactionId = this.transactionService.GetLastTransaction().TransactionHistoryID;
+                 this.orderService.SetIsExecuted(orderId, transactionId);
+                  return Ok();
+              }
+              catch (Exception e)
+              {
+                  var ex = e.Message;
+                  return StatusCode(500);
+
+              }
+          }
+          
 
     }
 }
