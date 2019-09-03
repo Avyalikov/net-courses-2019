@@ -15,17 +15,17 @@
             this.dBContext = dBContext;
         }
 
-        public void Insert(Shares share)
+        public void Insert(Share share)
         {
             dBContext.Shares.Add(share);
         }
 
-        public Shares GetShareByID(int shareID)
+        public Share GetShareByID(int shareID)
         {
             return dBContext.Shares.Where(x => x.ShareID == shareID).FirstOrDefault();
         }
 
-        public IEnumerable<Shares> GetAllShares()
+        public IEnumerable<Share> GetAllShares()
         {
             return dBContext.Shares;
         }

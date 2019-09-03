@@ -221,7 +221,7 @@
                 sharesReposMock,
                 portfolioReposMock);
 
-            Clients client = new Clients()
+            Client client = new Client()
             {
                 ClientID = -2,
                 Name = "Ivan Ivanov",
@@ -250,10 +250,10 @@
                 sharesReposMock,
                 portfolioReposMock);
 
-            IEnumerable<Clients> clients = new List<Clients>()
+            IEnumerable<Client> clients = new List<Client>()
             {
-                new Clients(),
-                new Clients()
+                new Client(),
+                new Client()
             };
 
             //Act
@@ -277,7 +277,7 @@
                 sharesReposMock,
                 portfolioReposMock);
 
-            IEnumerable<Clients> clients = new List<Clients>();
+            IEnumerable<Client> clients = new List<Client>();
 
             //Act
             var isValid = sut.ValidateClientsAmount(clients, loggerMock);
@@ -300,7 +300,7 @@
                 sharesReposMock,
                 portfolioReposMock);
 
-            var transaction = new Transactions
+            var transaction = new Transaction
             {
                 SellerID = 3,
                 BuyerID = 5,
@@ -329,7 +329,7 @@
                 sharesReposMock,
                 portfolioReposMock);
 
-            var transaction = new Transactions
+            var transaction = new Transaction
             {
                 SellerID = 3,
                 BuyerID = 3,

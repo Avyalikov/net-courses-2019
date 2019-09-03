@@ -5,10 +5,10 @@
 
     interface ITradeTable
     {
-        void Draw(IEnumerable<Shares> shares);
-        void Draw(IEnumerable<Clients> clients);
-        void Draw(IEnumerable<Transactions> transactions);
-        void Draw(IEnumerable<ClientsPortfolios> portfolios);
+        void Draw(IEnumerable<Share> shares);
+        void Draw(IEnumerable<Client> clients);
+        void Draw(IEnumerable<Transaction> transactions);
+        void Draw(IEnumerable<ClientPortfolio> portfolios);
     }
 }
 

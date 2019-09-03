@@ -23,7 +23,7 @@
             this.sharesService = sharesService;
         }
 
-        public void Draw(IEnumerable<Shares> shares)
+        public void Draw(IEnumerable<Share> shares)
         {
             string numberColumnName = "#";
             string shareColumnName = "Share Type";
@@ -40,7 +40,7 @@
             this.outputDevice.WriteOutput($"|____|______________________|______________|");
         }
 
-        public void Draw(IEnumerable<Clients> clients)
+        public void Draw(IEnumerable<Client> clients)
         {
             string numberColumnName = "#";
             string nameColumnName = "Name";
@@ -58,7 +58,7 @@
             this.outputDevice.WriteOutput($"|____|______________________|______________|______________|");
         }
 
-        public void Draw(IEnumerable<Transactions> transactions)
+        public void Draw(IEnumerable<Transaction> transactions)
         {
             string numberNameColumn = "#";
             string dateTimeNameColumn = "Date and Time";
@@ -91,7 +91,7 @@
             this.outputDevice.WriteOutput($"|____|____________________|______________________|______________________|______________________|____|___________|");
         }
 
-        public void Draw(IEnumerable<ClientsPortfolios> portfolios)
+        public void Draw(IEnumerable<ClientPortfolio> portfolios)
         {
             string numberName = "#";
             string clientNameColumn = "Client";

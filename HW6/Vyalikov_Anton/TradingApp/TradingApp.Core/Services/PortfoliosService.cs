@@ -17,7 +17,7 @@
 
         public void RegisterPortfolio(PortfolioData portfolioData)
         {
-            var newPortfolio = new ClientsPortfolios()
+            var newPortfolio = new ClientPortfolio()
             {
                 ClientID = portfolioData.ClientID,
                 ShareID = portfolioData.ShareID,
@@ -28,7 +28,7 @@
             portfolioRepository.SaveChanges();
         }
 
-        public void ChangeAmountOfShares(ClientsPortfolios portfolios)
+        public void ChangeAmountOfShares(ClientPortfolio portfolios)
         {
             var newSharesForClient = portfolioRepository.GetPortfolioByClientID(portfolios.ClientID);
 
@@ -39,7 +39,7 @@
 
             else
             {
-                newSharesForClient = new ClientsPortfolios()
+                newSharesForClient = new ClientPortfolio()
                 {
                     ClientID = portfolios.ClientID,
                     ShareID = portfolios.ShareID,
@@ -51,7 +51,7 @@
             portfolioRepository.SaveChanges();
         }
 
-        public IEnumerable<ClientsPortfolios> GetAllPortfolios()
+        public IEnumerable<ClientPortfolio> GetAllPortfolios()
         {
             return portfolioRepository.GetAllPortfolios();
         }

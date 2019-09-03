@@ -9,6 +9,6 @@
         void ChangeBalance(int clientID, decimal cost);
         string GetClientName(int clientID);
         int GetClientIDByName(string name);
-        IEnumerable<Clients> GetAllClients();
+        IEnumerable<Client> GetAllClients();
     }
 }
