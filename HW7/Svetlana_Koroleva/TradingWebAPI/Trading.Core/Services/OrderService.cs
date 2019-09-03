@@ -72,11 +72,10 @@ namespace Trading.Core.Services
    
         public void SetIsExecuted(int orderId, int transactionId)
         {
-            var order = this.unitOfWork.Orders.Get(o => o.OrderID == orderId).Single();
-            // this.unitOfWork.Orders.Update(order);
-           
+            var order = this.unitOfWork.Orders.Get(o => o.OrderID == orderId).Single();           
             order.IsExecuted = true;
-           
+            order.TransactionHistoryID = transactionId;
+            this.unitOfWork.Orders.Update(order);
             this.unitOfWork.Save();
           
         }
@@ -92,9 +91,16 @@ namespace Trading.Core.Services
         }
 
 
-        public void Update(int id)
+        public void Update(int id, OrderInfo orderInfo)
         {
-            throw new NotImplementedException();
+            var orderToUpdate = this.GetEntityByID(id);
+            orderToUpdate.ClientID = orderInfo.ClientId;
+            orderToUpdate.IsExecuted = orderInfo.IsExecuted;
+            orderToUpdate.StockID = orderInfo.StockId;
+            orderToUpdate.OrderType =(OrderType)orderInfo.OrderType;
+            orderToUpdate.Quantity = orderInfo.Quantity;
+            this.unitOfWork.Orders.Update(orderToUpdate);
+            this.unitOfWork.Save();
         }
 
 
