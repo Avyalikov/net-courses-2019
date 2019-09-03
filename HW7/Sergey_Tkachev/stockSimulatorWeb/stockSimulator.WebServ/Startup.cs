@@ -8,22 +8,33 @@ using Microsoft.Extensions.DependencyInjection;
 using stockSimulator.Core.Repositories;
 using stockSimulator.Core.Services;
 using stockSimulator.WebServ.Repositories;
+using System;
+using System.IO;
 
 namespace stockSimulator.WebServ
 {
     class Startup
     {
-        public Startup(IConfiguration configuration)
+        public static IConfigurationRoot configuration;
+        public Startup()
         {
-            Configuration = configuration;
-        }
+            // Create service collection
+            ServiceCollection serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
 
-        public IConfiguration Configuration { get; }
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<StockSimulatorDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            // Build configuration
+            configuration = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+               .AddJsonFile("appsettings.json", false)
+               .Build();
+
+            services.AddDbContext<StockSimulatorDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
            // services.AddScoped<IClientTableRepository, ClientTableRepository>();
             services.AddSingleton<ClientService>(_ => new ClientService(
@@ -34,18 +45,20 @@ namespace stockSimulator.WebServ
                     )
                 )
             );
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseMvc();
+
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }

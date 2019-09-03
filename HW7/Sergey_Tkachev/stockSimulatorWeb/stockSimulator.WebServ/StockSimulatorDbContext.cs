@@ -31,5 +31,29 @@ namespace stockSimulator.WebServ
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<ClientEntity>()
+               .HasMany<StockOfClientsEntity>(c => c.Stocks)
+               .WithOne(sc => sc.Client)
+               .HasForeignKey(sc => sc.ClientID);
+
+            modelBuilder.Entity<StockEntity>()
+               .HasMany<StockOfClientsEntity>(s => s.Clients)
+               .WithOne(sc => sc.Stock)
+               .HasForeignKey(sc => sc.StockID);
+
+            modelBuilder.Entity<StockOfClientsEntity>()
+               .HasOne<ClientEntity>(sc => sc.Client)
+               .WithMany(c => c.Stocks)
+               .HasForeignKey(sc => sc.ClientID);
+
+            modelBuilder.Entity<StockOfClientsEntity>()
+               .HasOne<StockEntity>(sc => sc.Stock)
+               .WithMany(c => c.Clients)
+               .HasForeignKey(sc => sc.StockID);
+        }
     }
 }
