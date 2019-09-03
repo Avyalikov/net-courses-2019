@@ -6,11 +6,12 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    class Program
+    public class ConnectedLinksParser
     {
-        static void Main(string[] args)
+        public void Start()
         {
-            new ConnectedLinksParser().Start();
+            Console.WriteLine("Enter the url and stay away:");
+            string inputString = Console.ReadLine();
         }
     }
 }
