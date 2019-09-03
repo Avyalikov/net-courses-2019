@@ -34,6 +34,8 @@ namespace stockSimulator.WebServ
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("dbo");
 
             modelBuilder.Entity<ClientEntity>()
                .HasMany<StockOfClientsEntity>(c => c.Stocks)

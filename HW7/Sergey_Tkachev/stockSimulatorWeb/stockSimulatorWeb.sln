@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stockSimulator.Core", "stoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stockSimulator.Core.Tests", "stockSimulator.Core.Tests\stockSimulator.Core.Tests.csproj", "{EE8D6C6F-56C4-4792-8C74-3EFA1FF3BAA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stockSimulator.WebServ", "stockSimulator.WebServ\stockSimulator.WebServ.csproj", "{DF63942F-E19A-4BEE-A8DB-A852605A998A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stockSimulator.Client", "stockSimulator.Client\stockSimulator.Client.csproj", "{AC1EBF2B-7AED-41F6-B665-635A9AF75DE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stockSimulator.WevServer", "stockSimulator.WevServer\stockSimulator.WevServer.csproj", "{F9ACF250-6CDE-424E-B653-C250255DB338}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{EE8D6C6F-56C4-4792-8C74-3EFA1FF3BAA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE8D6C6F-56C4-4792-8C74-3EFA1FF3BAA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE8D6C6F-56C4-4792-8C74-3EFA1FF3BAA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF63942F-E19A-4BEE-A8DB-A852605A998A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF63942F-E19A-4BEE-A8DB-A852605A998A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF63942F-E19A-4BEE-A8DB-A852605A998A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF63942F-E19A-4BEE-A8DB-A852605A998A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC1EBF2B-7AED-41F6-B665-635A9AF75DE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC1EBF2B-7AED-41F6-B665-635A9AF75DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC1EBF2B-7AED-41F6-B665-635A9AF75DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC1EBF2B-7AED-41F6-B665-635A9AF75DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9ACF250-6CDE-424E-B653-C250255DB338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9ACF250-6CDE-424E-B653-C250255DB338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9ACF250-6CDE-424E-B653-C250255DB338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9ACF250-6CDE-424E-B653-C250255DB338}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

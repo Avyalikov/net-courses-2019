@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using stockSimulator.Core.Models;
 using stockSimulator.Core.Services;
 
-namespace stockSimulator.WebServ.Controllers
+namespace stockSimulator.WevServer.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -27,7 +25,7 @@ namespace stockSimulator.WebServ.Controllers
         {
             try
             {
-                var clients = this.clientService.GetClients(top, page).ToList();
+                var clients = this.clientService.GetClients(top, page);
                 return Ok(clients);
             }catch(Exeption ex)
             {

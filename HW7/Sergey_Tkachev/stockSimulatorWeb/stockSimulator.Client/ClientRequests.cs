@@ -10,7 +10,9 @@ namespace stockSimulator.Client
 {
     public class ClientRequests
     {
-        string connectionString = "http://localhost:62094/";
+        const string url = "http://localhost:";
+        const string port = ":5000/";
+        string connectionString = url + port;
         internal void ShowListOfClients()
         {
             Console.WriteLine("Select number of clients on one page: ");
