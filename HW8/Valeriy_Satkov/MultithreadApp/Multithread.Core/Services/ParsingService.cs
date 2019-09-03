@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Multithread.Core.Models;
     using Multithread.Core.Repositories;
@@ -31,6 +33,30 @@
                     }
                 }
             }
+        }
+
+        public List<string> ExtractLinksFromHtmlString(string startPageHost, string htmlContent)
+        {
+            /* regular
+             * ver.1
+             * <a href="(https:\/\/awaps\.yandex\.net\/.*)"
+             * ver.2
+             * string startPageHost = "https://en.wikipedia.org"
+             * $"<a href=\"({startPageHost}.*)"
+             */
+            List<string> resultList = new List<string>();
+
+            Regex regex = new Regex($"<a.href=\"({startPageHost}.*)");
+            MatchCollection matches = regex.Matches(htmlContent);
+            if (matches.Count > 0)
+            {
+                foreach (Match match in matches)
+                {
+                    resultList.Add(match.Value);
+                }                    
+            }
+
+            return resultList;
         }
 
         public int Save(string link, int iterationId)
