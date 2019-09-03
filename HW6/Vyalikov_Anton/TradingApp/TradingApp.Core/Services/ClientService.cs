@@ -18,7 +18,7 @@
 
         public void RegisterClient(ClientRegistrationData clientData)
         {
-            var newClient = new Clients()
+            var newClient = new Client()
             {
                 Name = clientData.ClientName,
                 PhoneNumber = clientData.ClientPhone,
@@ -52,7 +52,7 @@
             return clientRepository.GetAllClients().Where(x => x.Name == name).FirstOrDefault().ClientID;
         }
 
-        public IEnumerable<Clients> GetAllClients()
+        public IEnumerable<Client> GetAllClients()
         {
             return clientRepository.GetAllClients();
         }

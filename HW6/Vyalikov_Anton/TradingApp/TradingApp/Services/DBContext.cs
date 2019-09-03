@@ -9,68 +9,68 @@
         {
         }
 
-        public virtual DbSet<Clients> Clients { get; set; }
-        public virtual DbSet<ClientsPortfolios> ClientsPortfolios { get; set; }
-        public virtual DbSet<Shares> Shares { get; set; }
-        public virtual DbSet<Transactions> Transactions { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<ClientPortfolio> ClientsPortfolios { get; set; }
+        public virtual DbSet<Share> Shares { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
-                 .Entity<Clients>()
+                 .Entity<Client>()
                  .HasKey(c => c.ClientID)
                  .ToTable("Clients");
 
             modelBuilder
-                 .Entity<ClientsPortfolios>()
+                 .Entity<ClientPortfolio>()
                  .HasKey(p => new { p.ClientID, p.ShareID })
                  .ToTable("ClientsPortfolios");
 
             modelBuilder
-                .Entity<Shares>()
+                .Entity<Share>()
                 .HasKey(s => s.ShareID)
                 .ToTable("Shares");
 
             modelBuilder
-                .Entity<Transactions>()
+                .Entity<Transaction>()
                 .HasKey(t => t.TransactionID)
                 .ToTable("Transactions");
 
             modelBuilder
-                .Entity<Clients>()
+                .Entity<Client>()
                 .HasMany(c => c.ClientPortfolios)
                 .WithRequired(p => p.Clients)
                 .HasForeignKey(p => p.ClientID);
 
             modelBuilder
-                .Entity<Clients>()
+                .Entity<Client>()
                 .Property(c => c.Balance)
                 .HasPrecision(20, 5);
 
             modelBuilder
-                .Entity<Clients>()
+                .Entity<Client>()
                 .HasMany(c => c.ClientPortfolios)
                 .WithRequired(p => p.Clients)
                 .WillCascadeOnDelete(false);
 
             modelBuilder
-                .Entity<Shares>()
+                .Entity<Share>()
                 .HasMany(s => s.ClientsPortfolios)
                 .WithRequired(p => p.Shares)
                 .HasForeignKey(p => p.ShareID);
 
             modelBuilder
-                .Entity<Shares>()
+                .Entity<Share>()
                 .Property(s => s.ShareType)
                 .IsFixedLength();
 
             modelBuilder
-                .Entity<Shares>()
+                .Entity<Share>()
                 .Property(s => s.Price)
                 .HasPrecision(20, 5);
 
             modelBuilder
-                .Entity<Shares>()
+                .Entity<Share>()
                 .HasMany(s => s.ClientsPortfolios)
                 .WithRequired(p => p.Shares)
                 .WillCascadeOnDelete(false);

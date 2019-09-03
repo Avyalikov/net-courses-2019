@@ -7,7 +7,7 @@
     public interface IPortfoliosService
     {
         void RegisterPortfolio(PortfolioData portfolioData);
-        void ChangeAmountOfShares(ClientsPortfolios portfolios);
-        IEnumerable<ClientsPortfolios> GetAllPortfolios();
+        void ChangeAmountOfShares(ClientPortfolio portfolios);
+        IEnumerable<ClientPortfolio> GetAllPortfolios();
     }
 }

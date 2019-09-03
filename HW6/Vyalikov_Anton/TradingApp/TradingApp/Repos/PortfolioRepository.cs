@@ -15,12 +15,12 @@
             this.dBContext = dBContext;
         }
 
-        public void Insert(ClientsPortfolios portfolio)
+        public void Insert(ClientPortfolio portfolio)
         {
             dBContext.ClientsPortfolios.Add(portfolio);
         }
 
-        public ClientsPortfolios GetPortfolioByClientID(int clientID)
+        public ClientPortfolio GetPortfolioByClientID(int clientID)
         {
             return dBContext.ClientsPortfolios.Where(x => x.ClientID == clientID).FirstOrDefault();
         }
@@ -30,12 +30,12 @@
             return dBContext.ClientsPortfolios.Where(x => x.ClientID == clientID && x.ShareID == shareID).FirstOrDefault().AmountOfShares != null;
         }
 
-        public IEnumerable<ClientsPortfolios> GetAllPortfolios()
+        public IEnumerable<ClientPortfolio> GetAllPortfolios()
         {
             return dBContext.ClientsPortfolios;
         }
 
-        public void ChangeAmountOfShares(ClientsPortfolios portfolios)
+        public void ChangeAmountOfShares(ClientPortfolio portfolios)
         {
             dBContext.ClientsPortfolios.Where(x => x.ClientID == portfolios.ClientID).FirstOrDefault().AmountOfShares += portfolios.AmountOfShares;
             dBContext.SaveChanges();

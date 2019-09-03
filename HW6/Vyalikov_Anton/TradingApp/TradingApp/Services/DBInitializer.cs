@@ -55,7 +55,7 @@
             int shareID = this.random.Next(1, this.clientService.GetAllClients().Count());
             int amountOfShares = this.random.Next(1, 10);
 
-            var portfolio = new ClientsPortfolios
+            var portfolio = new ClientPortfolio
             {
                 ClientID = clientID,
                 ShareID = shareID,

@@ -15,12 +15,12 @@
             this.dBContext = dBContext;
         }
 
-        public void Insert(Clients client)
+        public void Insert(Client client)
         {
             dBContext.Clients.Add(client);
         }
 
-        public Clients GetClientByID(int clientID)
+        public Client GetClientByID(int clientID)
         {
             return dBContext.Clients.Where(x => x.ClientID == clientID).FirstOrDefault();
         }
@@ -56,7 +56,7 @@
             dBContext.SaveChanges();
         }
 
-        public IEnumerable<Clients> GetAllClients()
+        public IEnumerable<Client> GetAllClients()
         {
             return dBContext.Clients;
         }

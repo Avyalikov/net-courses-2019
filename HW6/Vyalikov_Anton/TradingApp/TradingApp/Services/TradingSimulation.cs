@@ -33,7 +33,7 @@
         {
             int sharesForTrade = random.Next(1, 20);
 
-            Transactions transaction = new Transactions
+            Transaction transaction = new Transaction
             {
                 BuyerID = random.Next(1, clientService.GetAllClients().Count()),
                 SellerID = random.Next(1, clientService.GetAllClients().Count()),

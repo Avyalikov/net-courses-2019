@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     public interface IPortfolioRepository : IDBComm
     {
-        void Insert(ClientsPortfolios portfolio);
-        IEnumerable<ClientsPortfolios> GetAllPortfolios();
+        void Insert(ClientPortfolio portfolio);
+        IEnumerable<ClientPortfolio> GetAllPortfolios();
         bool DoesClientGetRequiredShares(int clientID, int shareID);
-        void ChangeAmountOfShares(ClientsPortfolios portfolios);
-        ClientsPortfolios GetPortfolioByClientID(int clientID);
+        void ChangeAmountOfShares(ClientPortfolio portfolios);
+        ClientPortfolio GetPortfolioByClientID(int clientID);
     }
 }
