@@ -1,0 +1,148 @@
+﻿using HW8.Intefaces;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace HW8
+{
+    public class WebPageProcessor
+    {
+        private string startingUrl;
+        private int recursionLimit;
+        private IStorageProvider storageProvider;
+        private IInputProvider inputProvider;
+        private IOutputProvider outputProvider;
+        private IPageProvider pageProvider;
+        private ILinkProcessorProvider linkProcessorProvider;
+        private IPageParserProvider pageParserProvider;
+
+        public long numberOfThreadsRunning;
+
+        private object storageLock = new object();
+        private object threadcounterLock = new object();
+
+        public WebPageProcessor
+        (//string startingUrl, 
+         //int recursionLimit,
+         IStorageProvider storageProvider,
+         IInputProvider inputProvider,
+         IOutputProvider outputProvider,
+         IPageProvider pageProvider,
+         ILinkProcessorProvider linkProcessorProvider,
+         IPageParserProvider pageParserProvider)
+        {
+            //this.startingUrl = startingUrl;
+            //this.recursionLimit = recursionLimit;
+            this.storageProvider = storageProvider;
+            this.inputProvider = inputProvider;
+            this.outputProvider = outputProvider;
+            this.pageProvider = pageProvider;
+            this.linkProcessorProvider = linkProcessorProvider;
+            this.pageParserProvider = pageParserProvider;
+        }
+
+        public void Start()
+        {
+            GetStartingUrl();
+            GetRecursionLimit();
+
+            Task.Run(() =>
+            {
+                if (startingUrl.EndsWith(@"/"))
+                {
+                    startingUrl = startingUrl.Substring(0, startingUrl.Length - 1);
+                }
+
+                ProcessWebPage(startingUrl, 0);
+            });
+        }
+
+        public void ProcessWebPage(string url, int recursionLevel)
+        {
+            string data = pageProvider.GetPage(url);
+
+            List<string> links = pageParserProvider.GetLinks(data);
+
+            int counter = 0;
+
+            if (links != null)
+            {
+                Parallel.ForEach(links, (element) =>
+                {
+                    counter++;
+
+                    string result = linkProcessorProvider.ProcessLink(element, recursionLevel, startingUrl, storageLock);
+
+                    if (result != null && recursionLevel < recursionLimit)
+                    {
+                        Thread.Sleep(1000);
+
+                        Task.Run(() =>
+                        {
+                            lock (threadcounterLock) { numberOfThreadsRunning++; }
+
+                            ProcessWebPage(result, recursionLevel + 1);
+
+                            lock (threadcounterLock) { numberOfThreadsRunning--; }
+                        });
+                    }
+                });
+            }
+        }
+
+        void GetStartingUrl()
+        {
+            string inputString = string.Empty;
+            bool inputCheck = true;
+            Uri uriResult;
+
+            outputProvider.WriteLine("Please enter URL");
+            do
+            {
+                inputString = inputProvider.ReadLine();
+                inputCheck = Uri.TryCreate(inputString, UriKind.Absolute, out uriResult)&& (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                
+                if(inputCheck == false)
+                {
+                    outputProvider.WriteLine("Incorrect URL format");
+                    outputProvider.WriteLine("Please enter avsolute URL");
+                }
+            }
+            while (inputCheck == false);
+
+            startingUrl = inputString;
+        }
+
+        void GetRecursionLimit()
+        {
+            bool inputCheck = false;
+            int inputValue = 0;
+
+            outputProvider.WriteLine("Please enter recursion limit");
+
+            do
+            {
+                try
+                {
+                    string inputString = inputProvider.ReadLine();
+                    inputValue = Convert.ToInt32(inputString);
+                    inputCheck = true;
+                }
+                catch (Exception)
+                {
+                    outputProvider.WriteLine("Incorrect input");
+                    outputProvider.WriteLine("Please enter a single integer value");
+                }
+            }
+            while (inputCheck == false);
+
+            recursionLimit = inputValue;
+        }
+    }
+}
