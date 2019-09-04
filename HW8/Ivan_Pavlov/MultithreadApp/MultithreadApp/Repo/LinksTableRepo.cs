@@ -1,10 +1,12 @@
 ﻿namespace MultithreadApp.Repo
 {
+    using Microsoft.Win32.SafeHandles;
     using MultithreadApp.Core.Model;
     using MultithreadApp.Core.Repo;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
 
     public class LinksTableRepo : ILinksTableRepo
     {

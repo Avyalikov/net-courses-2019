@@ -108,31 +108,12 @@
             {
                 SaveTagsIntoDb(u, fatherLink);
             }
-
             Console.WriteLine("RunSingle finished");
-        }
+        }     
 
-        public void RunMulti(string url)
+        public ICollection<Link> GetLinks()
         {
-            var links = this.repo.GetAllLinksWithoutChildren();
-            if (links == null)
-                RunSingle(url);
-            else
-            {
-                foreach (var link in links)
-                {
-                    Task taskA = new Task(() =>
-                    {
-                        RunSingle(link.URL);
-                        
-                    });
-                    taskA.Start();
-                    Console.WriteLine("Таска запущена -----------------------------");
-                    break;
-                }
-            }
-
-            Console.WriteLine("RunMulti finished *****************************");
+            return this.repo.GetAllLinksWithoutChildren();
         }
     }
 }
