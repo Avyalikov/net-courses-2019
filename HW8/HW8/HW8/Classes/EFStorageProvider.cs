@@ -19,8 +19,6 @@ namespace HW8.Classes
         public EFStorageProvider()
         {
             context = new LinksContext();
-
-            Clear();
         }
 
         public void Clear()

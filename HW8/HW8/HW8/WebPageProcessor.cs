@@ -51,6 +51,7 @@ namespace HW8
         {
             GetStartingUrl();
             GetRecursionLimit();
+            GetClearOnStartSetting();
 
             Task.Run(() =>
             {
@@ -143,6 +144,45 @@ namespace HW8
             while (inputCheck == false);
 
             recursionLimit = inputValue;
+        }
+
+        void GetClearOnStartSetting()
+        {
+            int inputValue = 0;
+            bool inputCheck = true;
+
+            Console.WriteLine("Clear exisitng database?");
+            Console.WriteLine("1 - yes, 0 - no");
+
+            do
+            {
+                try
+                {
+                    string input = Console.ReadLine();
+                    inputValue = Convert.ToInt32(input);
+
+                    if (!(inputValue == 0 || inputValue == 1))
+                    {
+                        inputCheck = false;
+                        Console.WriteLine("Please choose 1 or 0");
+                    }
+                    else
+                    {
+                        inputCheck = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Incorrect input");
+                    Console.WriteLine("Please enter a single integer value");
+                }
+            }
+            while (inputCheck == false);
+
+            if(inputValue == 1)
+            {
+                storageProvider.Clear();
+            }
         }
     }
 }
