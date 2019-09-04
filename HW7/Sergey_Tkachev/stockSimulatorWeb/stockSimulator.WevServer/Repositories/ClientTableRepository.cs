@@ -49,6 +49,21 @@ namespace stockSimulator.WevServer.Repositories
                 .FirstOrDefault();
         }
 
+        public int GetClientId(ClientEntity entityToCheck)
+        {
+            int clientID;
+
+            clientID = this.dbContext.Clients
+               .Where(c => c.Name == entityToCheck.Name
+               && c.Surname == entityToCheck.Surname
+               && c.PhoneNumber == entityToCheck.PhoneNumber
+               && c.AccountBalance == entityToCheck.AccountBalance)
+               .Select(c => c.ID)
+               .FirstOrDefault();
+
+            return clientID;
+        }
+
         public IEnumerable<ClientEntity> GetClients()
         {
             var retListOfClients = this.dbContext.Clients.ToList();

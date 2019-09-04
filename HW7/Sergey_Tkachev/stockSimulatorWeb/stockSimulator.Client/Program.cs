@@ -14,8 +14,6 @@ namespace stockSimulator.Client
 
             simulator.start();
 
-            Console.ReadKey();
-
             simulator.stop();
         }
     }

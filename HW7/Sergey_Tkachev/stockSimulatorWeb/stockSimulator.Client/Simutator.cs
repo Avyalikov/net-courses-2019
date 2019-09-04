@@ -2,6 +2,9 @@
 using stockSimulator.Core.Services;
 using StructureMap;
 using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using stockSimulator.Core.Models;
 
 namespace stockSimulator.Client
 {
@@ -11,28 +14,80 @@ namespace stockSimulator.Client
         const int firstFunction = 1;
         const int exitCode = -1;
 
+        ClientRequests clientRequests = new ClientRequests();
+
         public Simutator()
         {
         }
 
         internal void start()
         {
-            ClientRequests clientRequests = new ClientRequests();
             int userChoise;
             do
             {
                 ShowMenu();
-                Console.WriteLine("Choose one of numbers or print '-1' to exit: ");
+                Console.Write("Choose one of numbers or print '-1' to exit: ");
                 userChoise = GetNum(firstFunction, numberOfFunctions);
                 switch (userChoise)
                 {
-                    case 1:
-                        clientRequests.ShowListOfClients();
-                        break;
+                    case 1: ShowListOfClients(); break;
+                    case 2: AddNewClient(); break;
                     default:
                         break;
                 }
             } while (userChoise != exitCode);
+        }
+
+        private void AddNewClient()
+        {
+            Console.WriteLine();
+            Console.Write("Enter name for new client: ");
+            string name = Console.ReadLine();
+            Console.Write("Enter surname for new client: ");
+            string surname = Console.ReadLine();
+            Console.Write("Enter phone number for new client: ");
+            string phonenumber = Console.ReadLine();
+            Console.Write("Enter account balance for new client: ");
+            decimal accountbalance = 0;
+            try
+            {
+                accountbalance = decimal.Parse(Console.ReadLine());
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Incorrect input, needed a number. Default balance '1000' was assigned.");
+                accountbalance = 1000;
+            }
+            ClientRegistrationInfo newClient = new ClientRegistrationInfo
+            {
+                Name = name,
+                Surname = surname,
+                PhoneNumber = phonenumber,
+                AccountBalance = accountbalance
+            };
+            string result = clientRequests.AddNewClient(newClient);
+            Console.WriteLine("ID of registered client is " + result);
+        }
+
+        private void ShowListOfClients()
+        {
+            Console.WriteLine();
+            Console.Write("Select number of clients on one page: ");
+            int numberOfClientsToPrint = GetNum();
+            Console.Write("Select number of page to show clients: ");
+            int numberOfPages = GetNum();
+            string unparsedJson = clientRequests.GetListOfClients(numberOfClientsToPrint, numberOfPages);
+            List<ClientEntity> clients = JsonConvert.DeserializeObject<List<ClientEntity>>(unparsedJson);
+            if(clients.Count == 0)
+            {
+                Console.WriteLine("These clients don't exist, please try smaller number.");
+                return;
+            }
+            foreach (var client in clients)
+            {
+                Console.WriteLine(client);
+            }
+            Console.WriteLine();
         }
 
         private void ShowMenu()

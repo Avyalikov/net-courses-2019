@@ -11,6 +11,7 @@ namespace stockSimulator.Core.Repositories
         void SaveChanges();
         bool Contains(ClientEntity entityToCheck);
         ClientEntity Get(int clientId);
+        int GetClientId(ClientEntity entityToCheck);
         bool ContainsById(int clientId);
         void Update(int clientId, ClientEntity entityToEdit);
         decimal GetBalance(int clientId);

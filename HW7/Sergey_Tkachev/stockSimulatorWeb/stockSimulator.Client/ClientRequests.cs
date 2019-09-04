@@ -3,30 +3,50 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using stockSimulator.Core.DTO;
 
 namespace stockSimulator.Client
 {
     public class ClientRequests
     {
         const string url = "http://localhost:";
-        const string port = ":5000/";
+        const string port = "5000/";
         string connectionString = url + port;
-        internal void ShowListOfClients()
+
+        internal string GetListOfClients(int numberOfClientsToPrint, int numberOfPages)
         {
-            Console.WriteLine("Select number of clients on one page: ");
-            int numberOfClientsToPrint = Simutator.GetNum();
-            Console.WriteLine("Select number of page to show clients: ");
-            int numberOfPages = Simutator.GetNum();
             string request = connectionString + "clients?top=" + numberOfClientsToPrint + "&page=" + numberOfPages;
-            Get(request);
+            string result = Get(request);
+            return result;
         }
 
-        private void Get(string url)
+        internal string AddNewClient(ClientRegistrationInfo newClient)
+        {
+            string request = connectionString + "clients/add";
+            string jsonData = JsonConvert.SerializeObject(newClient, Formatting.Indented);
+            var result = Task.Run(() => Post(request, jsonData));
+            return result.Result;
+        }
+
+        private string Post(string url, string data)
+        {
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(data, Encoding.UTF8, "application/json");
+                var result = client.PostAsync(url, content).Result;
+                return result.Content.ReadAsStringAsync().Result;
+            }
+        }
+
+        private string Get(string url)
         {
             // Create a request for the URL.   
             WebRequest request = WebRequest.Create(url);
+           
             WebResponse response = null;
             try
             {
@@ -41,7 +61,7 @@ namespace stockSimulator.Client
             if (response != null)
             {
                 // Display the status.  
-                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                Console.WriteLine("Server answer: " + ((HttpWebResponse)response).StatusDescription);
 
                 // Get the stream containing content returned by the server. 
                 // The using block ensures the stream is automatically closed. 
@@ -51,14 +71,15 @@ namespace stockSimulator.Client
                     StreamReader reader = new StreamReader(dataStream);
                     // Read the content.  
                     string responseFromServer = reader.ReadToEnd();
-                    // Display the content.  
-                    Console.WriteLine(responseFromServer);
+                    response.Close();
+                    // Return the content.  
+                    return responseFromServer;
                 }
-
-                // Close the response.  
-                response.Close();
             }
-
+            response.Close();
+            return null;
         }
+
+       
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using stockSimulator.Core.DTO;
 using stockSimulator.Core.Models;
 using stockSimulator.Core.Services;
 
@@ -21,6 +23,7 @@ namespace stockSimulator.WevServer.Controllers
 
         [HttpGet]
         [Route("")]
+        // clients
         public ActionResult<IEnumerable<ClientEntity>> Get(int top, int page)
         {
             try
@@ -31,7 +34,22 @@ namespace stockSimulator.WevServer.Controllers
             {
                 return StatusCode(500, ex);
             }
+        }
 
+        [HttpPost]
+        [Route("add")]
+        public ActionResult<string> AddNewClient([FromBody]ClientRegistrationInfo registrationInfo)
+        {
+            try
+            {
+                //ClientRegistrationInfo clientToAdd = JsonConvert.DeserializeObject<ClientRegistrationInfo>(registrationInfo);
+                int registeredID = this.clientService.RegisterNewClient(registrationInfo);
+                return Ok(registeredID);
+            }
+            catch (Exeption ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [Serializable]

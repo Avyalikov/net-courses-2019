@@ -25,5 +25,11 @@ namespace stockSimulator.Core.Models
             }
             return false;
         }
+
+        public override string ToString()
+        {
+            return $"ID: {this.ID}, Name: {this.Name}, Surname: {this.Surname}, Phonenumber: {this.PhoneNumber}, " +
+                $"Registered {this.CreateAt.ToString()}, Balance: {this.AccountBalance}";
+        }
     }
 }

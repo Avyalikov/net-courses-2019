@@ -37,6 +37,8 @@ namespace stockSimulator.Core.Services
 
             this.clientTableRepository.SaveChanges();
 
+            entityToAdd.ID = this.clientTableRepository.GetClientId(entityToAdd);
+
             return entityToAdd.ID;
         }
 
