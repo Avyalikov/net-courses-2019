@@ -1,4 +1,5 @@
-﻿using stockSimulator.Core.Models;
+﻿using stockSimulator.Core.DTO;
+using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,10 +84,21 @@ namespace stockSimulator.WevServer.Repositories
             this.dbContext.SaveChanges();
         }
 
-        public void Update(int clientId, ClientEntity entityToEdit)
+        public string Update(UpdateClientInfo updateInfo)
         {
+            int clientId = updateInfo.ID;
+            
             var clientToUpdate = this.dbContext.Clients.First(c => c.ID == clientId);
-            clientToUpdate = entityToEdit;
+            if (clientToUpdate != null)
+            {
+                clientToUpdate.Name = updateInfo.Name;
+                clientToUpdate.Surname = updateInfo.Surname;
+                clientToUpdate.PhoneNumber = updateInfo.PhoneNumber;
+                clientToUpdate.AccountBalance = updateInfo.AccountBalance;
+                SaveChanges();
+                return "Client data updated.";
+            }
+            return "Client wasn't found.";
         }
 
         public void UpdateBalance(int clientId, decimal newBalance)

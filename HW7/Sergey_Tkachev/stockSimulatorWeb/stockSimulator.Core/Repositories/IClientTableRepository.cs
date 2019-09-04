@@ -1,4 +1,5 @@
-﻿using stockSimulator.Core.Models;
+﻿using stockSimulator.Core.DTO;
+using stockSimulator.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace stockSimulator.Core.Repositories
         ClientEntity Get(int clientId);
         int GetClientId(ClientEntity entityToCheck);
         bool ContainsById(int clientId);
-        void Update(int clientId, ClientEntity entityToEdit);
+        string Update(UpdateClientInfo updateInfo);
         decimal GetBalance(int clientId);
         void UpdateBalance(int clientId, decimal newBalance);
         IEnumerable<ClientEntity> GetClients();

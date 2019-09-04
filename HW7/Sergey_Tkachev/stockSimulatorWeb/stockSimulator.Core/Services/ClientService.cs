@@ -57,6 +57,12 @@ namespace stockSimulator.Core.Services
             return this.clientTableRepository.Get(clientId);
         }
 
+        public string UpdateClient(UpdateClientInfo updateInfo)
+        {
+            string result = clientTableRepository.Update(updateInfo);
+            return result;
+        }
+
         public IEnumerable<ClientEntity> GetClientsWithPositiveBalance()
         {
             var clients = clientTableRepository.GetClients();

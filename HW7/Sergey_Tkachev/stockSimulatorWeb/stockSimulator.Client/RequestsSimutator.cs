@@ -8,7 +8,7 @@ using stockSimulator.Core.Models;
 
 namespace stockSimulator.Client
 {
-    internal class Simutator
+    internal class RequestsSimutator
     {
         const int numberOfFunctions = 10;
         const int firstFunction = 1;
@@ -16,7 +16,7 @@ namespace stockSimulator.Client
 
         ClientRequests clientRequests = new ClientRequests();
 
-        public Simutator()
+        public RequestsSimutator()
         {
         }
 
@@ -32,10 +32,37 @@ namespace stockSimulator.Client
                 {
                     case 1: ShowListOfClients(); break;
                     case 2: AddNewClient(); break;
+                    case 3: UpdateExistingClient(); break;
                     default:
                         break;
                 }
             } while (userChoise != exitCode);
+        }
+
+        private void UpdateExistingClient()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to change: ");
+            int id = int.Parse( Console.ReadLine());
+            Console.Write("Enter name for this client: ");
+            string name = Console.ReadLine();
+            Console.Write("Enter surname for this client: ");
+            string surname = Console.ReadLine();
+            Console.Write("Enter phone number for this client: ");
+            string phonenumber = Console.ReadLine();
+            Console.Write("Enter account balance for this client: ");
+            decimal accountbalance = GetNum();
+
+            UpdateClientInfo changedClient = new UpdateClientInfo
+            {
+                ID = id,
+                Name = name,
+                Surname = surname,
+                PhoneNumber = phonenumber,
+                AccountBalance = accountbalance
+            };
+            string result = clientRequests.UpdateClient(changedClient);
+            Console.WriteLine("Server answered: " + result);
         }
 
         private void AddNewClient()
@@ -48,16 +75,8 @@ namespace stockSimulator.Client
             Console.Write("Enter phone number for new client: ");
             string phonenumber = Console.ReadLine();
             Console.Write("Enter account balance for new client: ");
-            decimal accountbalance = 0;
-            try
-            {
-                accountbalance = decimal.Parse(Console.ReadLine());
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("Incorrect input, needed a number. Default balance '1000' was assigned.");
-                accountbalance = 1000;
-            }
+            decimal accountbalance = GetNum();
+            
             ClientRegistrationInfo newClient = new ClientRegistrationInfo
             {
                 Name = name,
@@ -110,7 +129,7 @@ namespace stockSimulator.Client
             throw new NotImplementedException();
         }
 
-        public static int GetNum(int min = -2147483648, int max = 2147483647)
+        public static int GetNum(int min = int.MinValue, int max = int.MaxValue)
         {
             while (true)
                 if (!int.TryParse(Console.ReadLine(), out int enteredNum) && ((enteredNum >=min && enteredNum <= max) || enteredNum == exitCode))

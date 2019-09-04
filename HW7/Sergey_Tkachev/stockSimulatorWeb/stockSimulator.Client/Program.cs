@@ -10,7 +10,7 @@ namespace stockSimulator.Client
     {
         static void Main(string[] args)
         {
-            Simutator simulator = new Simutator();
+            RequestsSimutator simulator = new RequestsSimutator();
 
             simulator.start();
 

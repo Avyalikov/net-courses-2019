@@ -32,6 +32,14 @@ namespace stockSimulator.Client
             return result.Result;
         }
 
+        internal string UpdateClient(UpdateClientInfo changedClient)
+        {
+            string request = connectionString + "clients/update";
+            string jsonData = JsonConvert.SerializeObject(changedClient, Formatting.Indented);
+            var result = Task.Run(() => Post(request, jsonData));
+            return result.Result;
+        }
+
         private string Post(string url, string data)
         {
             using (var client = new HttpClient())

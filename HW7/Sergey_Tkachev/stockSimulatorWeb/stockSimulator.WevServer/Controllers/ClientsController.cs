@@ -52,6 +52,21 @@ namespace stockSimulator.WevServer.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("update")]
+        public ActionResult<string> UpdateClient([FromBody]UpdateClientInfo updateInfo)
+        {
+            try
+            {
+                string result = this.clientService.UpdateClient(updateInfo);
+                return Ok(result);
+            }
+            catch (Exeption ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [Serializable]
         private class Exeption : Exception
         {
