@@ -14,85 +14,76 @@ namespace WikiURLCollector.ConsoleApp
 {
     class Program
     {
+        static string baseAdress = "https://en.wikipedia.org/";
+        static UrlParsingService parsingService;
+        static UrlService urlService;
+        static object locker = new object();
         static void Main(string[] args)
         {
             var container = new Container(new WikiUrlRegistry());
-            var parsingService = container.GetInstance<UrlParsingService>();
-            var urlService = container.GetInstance<UrlService>();
+            parsingService = container.GetInstance<UrlParsingService>();
+            urlService = container.GetInstance<UrlService>();
             string exitCode = "e";
             string userInput = "";
-            int maxIterations = 5;
+            int maxIterations = 2;
             Console.WriteLine($"{DateTime.Now} Program started");
             while (!userInput.ToLower().Equals(exitCode))
             {
                 userInput = Console.ReadLine();
-                GetUrls(userInput, parsingService, urlService, maxIterations);
+                GetUrls(userInput, maxIterations);
             }
         }
 
-        static async void GetUrls(string userInput, UrlParsingService parsingService, UrlService urlService, int maxIterations)
+        static async void GetUrls(string userInput, int maxIterations)
         {
-            List<Task<IEnumerable<UrlEntity>>> tasks = new List<Task<IEnumerable<UrlEntity>>>();
-            List<Task<IEnumerable<UrlEntity>>> nextTasks = new List<Task<IEnumerable<UrlEntity>>>();
-            CancellationToken token = new CancellationToken();
-            int i = 1;
-            tasks.Add(new Task<IEnumerable<UrlEntity>>(()=> { return LoadPage(userInput, parsingService, i).Result; }, token));
             Stopwatch watch = new Stopwatch();
-            string baseAdress = "https://en.wikipedia.org/";
             Console.WriteLine($"{DateTime.Now} Start url parsing");
-            while (tasks.Count > 0 && i <= maxIterations)
-            {
-                watch.Restart();
-                tasks.ForEach(t => t.Start());
-                await Task.WhenAll(tasks);
-                watch.Stop();
-                if (tasks.Any(t => t.Exception != null))
-                {
-                    Console.WriteLine("Error has occurred");
-                    return;
-                }
-                Console.WriteLine($"Iteration {i} is completed in {watch.Elapsed}");
-
-                i++;
-                foreach (var task in tasks)
-                {
-                    foreach (var url in task.Result)
-                    {
-                        if (urlService.GetUrl(url.URL) == null)
-                        {
-                            urlService.AddUrl(url);
-                            nextTasks.Add(new Task<IEnumerable<UrlEntity>>(() => { return LoadPage(baseAdress + url.URL, parsingService, i).Result; }, token));
-                        }
-                    }
-                }
-                tasks.Clear();
-                tasks = nextTasks;
-                nextTasks = new List<Task<IEnumerable<UrlEntity>>>();
-            }
+            watch.Start();
+            await LoadPage(userInput, 1, maxIterations);
+            watch.Stop();
+            Console.WriteLine($"Parsing with derph {maxIterations} is completed in {watch.Elapsed}");
         }
 
-        static async Task<IEnumerable<UrlEntity>> LoadPage(string adress, UrlParsingService parsingService, int iteration)
+        static async Task LoadPage(string adress, int iteration, int maxIteration)
         {
             IEnumerable<UrlEntity> result = null;
-            try
+            using (HttpClient client = new HttpClient())
             {
-                using (HttpClient client = new HttpClient())
+                HttpResponseMessage response = await client.GetAsync(adress);
+                if (response.IsSuccessStatusCode)
                 {
-                    using (HttpResponseMessage response = client.GetAsync(adress).Result)
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var pageContents = await response.Content.ReadAsStringAsync();
-                            result = parsingService.ExtractAllUrlsFromPage(pageContents, iteration);
-                        }
-                    }
+                    var pageContents = await response.Content.ReadAsStringAsync();
+                    result = parsingService.ExtractAllUrlsFromPage(pageContents, iteration);                    
                 }
             }
-            catch (AggregateException e)
+            if (result==null)
             {
-                Thread.Sleep(1000);
+                return;
             }
-            return result;
+            if (iteration <= maxIteration)
+            {
+                List<Task> tasks = new List<Task>();
+                foreach (var url in result)
+                {
+                    if (urlService.GetUrl(url.URL) == null)
+                    {
+                        lock(locker)
+                        {
+                            if (urlService.GetUrl(url.URL) == null)
+                            {
+                                urlService.AddUrl(url);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        int nextIteration = iteration++;
+                        tasks.Add(Task.Factory.StartNew(() => LoadPage(baseAdress + url.URL, nextIteration, maxIteration)));
+                    }
+                }
+                Task.WaitAll(tasks.ToArray());
+            }
         }
     }
-}
+} 

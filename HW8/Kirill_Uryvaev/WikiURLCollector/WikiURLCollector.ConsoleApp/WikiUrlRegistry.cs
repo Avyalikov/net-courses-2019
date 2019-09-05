@@ -19,6 +19,8 @@ namespace WikiURLCollector.ConsoleApp
 
             For<IUrlService>().Use<UrlService>();
             For<UrlParsingService>().Use<UrlParsingService>();
+
+            For<WikiUrlDbContext>().Use<WikiUrlDbContext>().Singleton();
         }
     }
 }
