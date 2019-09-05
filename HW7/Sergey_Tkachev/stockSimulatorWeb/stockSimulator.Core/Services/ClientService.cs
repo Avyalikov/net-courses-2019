@@ -70,6 +70,12 @@ namespace stockSimulator.Core.Services
             return result;
         }
 
+        public string RemoveClient(int clientId)
+        {
+            string result = clientTableRepository.Remove(clientId);
+            return result;
+        }
+
         public IEnumerable<ClientEntity> GetClientsWithZeroBalance()
         {
             var clients = clientTableRepository.GetClients();

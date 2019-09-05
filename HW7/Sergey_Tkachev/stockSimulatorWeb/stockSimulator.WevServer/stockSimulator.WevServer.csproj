@@ -530,6 +530,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\SharesController.cs" />
     <Compile Include="Dependecies\StockSimulatorRegistry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

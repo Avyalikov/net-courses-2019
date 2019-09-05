@@ -14,7 +14,7 @@ namespace stockSimulator.Client
         const int firstFunction = 1;
         const int exitCode = -1;
 
-        ClientRequests clientRequests = new ClientRequests();
+        ApiRequests clientRequests = new ApiRequests();
 
         public RequestsSimutator()
         {
@@ -33,10 +33,48 @@ namespace stockSimulator.Client
                     case 1: ShowListOfClients(); break;
                     case 2: AddNewClient(); break;
                     case 3: UpdateExistingClient(); break;
+                    case 4: RemoveExistingClient(); break;
+                    case 5: ShowClientStocks(); break;
                     default:
                         break;
                 }
             } while (userChoise != exitCode);
+        }
+
+        private void ShowClientStocks()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to show his stocks: ");
+            int clientId = GetNum();
+            string unparsedJson = clientRequests.GetListOfStocksOfClient(clientId);
+            List<StockOfClientsEntity> stocks = JsonConvert.DeserializeObject<List<StockOfClientsEntity>>(unparsedJson);
+            if (stocks.Count == 0)
+            {
+                Console.WriteLine("This client doesn't have any stocks.");
+                return;
+            }
+            Console.WriteLine("This client has the next stocks:");
+            foreach (var stock in stocks)
+            {
+                StocksOfClientInfo stocksOfClientInfo = new StocksOfClientInfo
+                {
+                    StockName = stock.Stock.Name,
+                    StockType = stock.Stock.Type,
+                    StockAmount = stock.Amount,
+                    Cost = stock.Stock.Cost
+                };
+                Console.WriteLine(stocksOfClientInfo);
+            }
+            Console.WriteLine();
+        }
+
+        private void RemoveExistingClient()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to remove: ");
+            int clientId = int.Parse(Console.ReadLine());
+            string result = clientRequests.RemoveClient(clientId);
+            Console.WriteLine("Server answered: " + result);
         }
 
         private void UpdateExistingClient()

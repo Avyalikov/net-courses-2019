@@ -11,7 +11,7 @@ using stockSimulator.Core.DTO;
 
 namespace stockSimulator.Client
 {
-    public class ClientRequests
+    public class ApiRequests
     {
         const string url = "http://localhost:";
         const string port = "5000/";
@@ -38,6 +38,21 @@ namespace stockSimulator.Client
             string jsonData = JsonConvert.SerializeObject(changedClient, Formatting.Indented);
             var result = Task.Run(() => Post(request, jsonData));
             return result.Result;
+        }
+
+        internal string RemoveClient(int clientId)
+        {
+            string request = connectionString + "clients/remove";
+            string jsonData = JsonConvert.SerializeObject(clientId, Formatting.Indented);
+            var result = Task.Run(() => Post(request, jsonData));
+            return result.Result;
+        }
+
+        internal string GetListOfStocksOfClient(int clientId)
+        {
+            string request = connectionString + "shares?clientId=" + clientId;
+            string result = Get(request);
+            return result;
         }
 
         private string Post(string url, string data)
@@ -84,7 +99,6 @@ namespace stockSimulator.Client
                     return responseFromServer;
                 }
             }
-            response.Close();
             return null;
         }
 

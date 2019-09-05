@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using stockSimulator.Core.DTO;
 using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
@@ -30,12 +31,17 @@ namespace stockSimulator.Core.Services
             }
             else
             {
-                this.stockOfClientsTableRepository.Add(entityToEdit);
+                throw new ArgumentException("There is no such client in DataBase");
             }
 
             this.stockOfClientsTableRepository.SaveChanges();
 
             return entityToEdit.ID;
+        }
+
+        public IEnumerable<StockOfClientsEntity> GetStocksOfClient(int clientId)
+        {
+            return stockOfClientsTableRepository.GetStocksOfClient(clientId);
         }
     }
 }

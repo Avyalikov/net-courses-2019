@@ -14,5 +14,6 @@ namespace stockSimulator.Core.Repositories
         void Update(int entityId, StockOfClientsEntity newEntity);
         int GetAmount(int client_id, int stockId);
         void UpdateAmount(int client_id, int stockId, int newStockAmount);
+        IEnumerable<StockOfClientsEntity> GetStocksOfClient(int clientId);
     }
 }

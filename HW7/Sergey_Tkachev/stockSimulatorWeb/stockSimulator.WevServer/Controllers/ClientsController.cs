@@ -67,6 +67,21 @@ namespace stockSimulator.WevServer.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("remove")]
+        public ActionResult<string> RemoveClient([FromBody]int clientId)
+        {
+            try
+            {
+                string result = this.clientService.RemoveClient(clientId);
+                return Ok(result);
+            }
+            catch (Exeption ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [Serializable]
         private class Exeption : Exception
         {

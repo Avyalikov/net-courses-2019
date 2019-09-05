@@ -79,6 +79,18 @@ namespace stockSimulator.WevServer.Repositories
             return retListOfClients;
         }
 
+        public string Remove(int clientId)
+        {
+            var client = this.dbContext.Clients.FirstOrDefault(c => c.ID == clientId);
+            if (client != null)
+            {
+                this.dbContext.Clients.Remove(client);
+                this.dbContext.SaveChanges();
+                return "Client was deleted.";
+            }
+            return "Client wasn't found.";
+        }
+
         public void SaveChanges()
         {
             this.dbContext.SaveChanges();
@@ -88,7 +100,7 @@ namespace stockSimulator.WevServer.Repositories
         {
             int clientId = updateInfo.ID;
             
-            var clientToUpdate = this.dbContext.Clients.First(c => c.ID == clientId);
+            var clientToUpdate = this.dbContext.Clients.FirstOrDefault(c => c.ID == clientId);
             if (clientToUpdate != null)
             {
                 clientToUpdate.Name = updateInfo.Name;

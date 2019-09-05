@@ -1,5 +1,6 @@
 ﻿using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace stockSimulator.WevServer.Repositories
@@ -52,6 +53,13 @@ namespace stockSimulator.WevServer.Repositories
                && sc.StockID == stockId)
                .Select(soc => soc.Amount)
                .FirstOrDefault();
+        }
+
+        public IEnumerable<StockOfClientsEntity> GetStocksOfClient(int clientId)
+        {
+            var retListOfStocksOfClient = this.dbContext.StockOfClients.Where(sc => sc.ClientID == clientId);
+
+            return retListOfStocksOfClient;
         }
 
         public void SaveChanges()
