@@ -6,13 +6,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     public class LinksServices
     {
         private readonly ILinksTableRepo repo;
         private static string startDomen { get; set; }
+        private static HtmlDocument startPage { get; set; }
 
         public LinksServices(ILinksTableRepo repo)
         {
@@ -22,6 +21,13 @@
         public HtmlDocument DownloadPage(string url)
         {
             var web = new HtmlWeb();
+
+            if (startPage == null)
+            {
+                startPage = web.Load(url);
+                return startPage;
+            }
+
             return web.Load(url);
         }
 
@@ -38,9 +44,9 @@
 
             foreach (var link in pagesLinks)
             {
-                if (link.Contains(startDomen)) // отрезаем ссылки на стр на других языках 
+                if (link.Contains(startDomen)) // ссылки только в домене базовой ссылки
                     urls.Add(link);
-                if (link.StartsWith("/wiki/")) // приводим ссылки к искомому виду
+                if (link.StartsWith("/wiki/")) 
                 {
                     urls.Add(startDomen + link);
                 }
@@ -57,6 +63,7 @@
             if (link != null)
                 //throw new ArgumentException($"ОШИБКА: Повторная ссылка - {url}");
                 return;
+
 
             link = new Link()
             {
@@ -94,12 +101,11 @@
         {
             Link fatherLink = this.repo.GetByURl(url);
 
-            if (fatherLink == null) // настройка при нулевой ссылки
+            if (fatherLink == null) // настройка от базовой ссылки
             {
                 startDomen = url.Split(new string[] { "/wiki/" }, StringSplitOptions.RemoveEmptyEntries)[0];
                 SaveTagsIntoDb(url);
-                fatherLink = this.repo.GetByURl(url);
-                // определяем домен по которому ищем ссылки                
+                fatherLink = this.repo.GetByURl(url);           
             }
 
             var page = DownloadPage(url);
@@ -108,7 +114,7 @@
             {
                 SaveTagsIntoDb(u, fatherLink);
             }
-            Console.WriteLine("RunSingle finished");
+            Console.WriteLine($"{url} отработана");
         }     
 
         public ICollection<Link> GetLinks()

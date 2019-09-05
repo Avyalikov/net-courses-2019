@@ -13,14 +13,19 @@
         {
             string URL = "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)";
             Console.WriteLine("Подключение к дб.....");
-            
-            int count = 0;
-            while (count != 5)
-            {
-                Runner(URL);
-                count++;
-            }
 
+            int iterations = 0;
+            Task task = Task.Factory.StartNew(() =>
+            {
+
+
+                while (iterations != 2)
+                {
+                    Runner(URL);
+                    iterations++;
+                }
+            });
+            task.Wait();
             Console.WriteLine("Тест окончен");
             Console.ReadKey();
         }
@@ -31,17 +36,21 @@
             linksService.RunSingle(URL);
             var links = linksService.GetLinks();
             linksService = null;
-            foreach(var link in links)
+            Task startTask = new Task(() =>
             {
-                Task task = new Task(() =>
+                foreach (var link in links)
                 {
-                    linksService = new LinksServices(new LinksTableRepo(new LinksDbContext()));
-                    linksService.RunSingle(link.URL);
-                });
-                task.Start();
-                Console.WriteLine("{0}", i++);
-                Thread.Sleep(1);
-            }
+                    Task t = Task.Factory.StartNew(() =>
+                    {
+                        linksService = new LinksServices(new LinksTableRepo(new LinksDbContext()));
+                        linksService.RunSingle(link.URL);
+                        Thread.Sleep(1);
+                    });                          
+                    Console.WriteLine("{0}", i++);
+                }
+            });
+            startTask.Start();
+            startTask.Wait();
         }
     }
 }
