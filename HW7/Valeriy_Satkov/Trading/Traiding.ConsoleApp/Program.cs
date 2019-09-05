@@ -13,7 +13,8 @@
             loggerService.Log.Info("Start logging");
 
             new StockExchange(
-                new Container(new DependencyInjection.TraidingRegistry())
+                new Container(new DependencyInjection.TraidingRegistry()),
+                "http://localhost:52804"
                 ).Start();
         }
     }

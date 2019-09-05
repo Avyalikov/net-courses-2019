@@ -11,7 +11,7 @@ namespace Traiding.ConsoleApp.DependencyInjection
     {
         public TraidingRegistry()
         {
-            
+            For<RequestSender>().Use<RequestSender>();
         }
     }
 }

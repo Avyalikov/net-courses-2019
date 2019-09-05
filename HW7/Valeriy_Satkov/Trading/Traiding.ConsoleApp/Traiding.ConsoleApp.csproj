@@ -78,12 +78,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyInjection\RequestSender.cs" />
     <Compile Include="DependencyInjection\TraidingRegistry.cs" />
     <Compile Include="Dto\ShareInputData.cs" />
     <Compile Include="Dto\OperationInputData.cs" />
     <Compile Include="Dto\ClientInputData.cs" />
     <Compile Include="Logger\ILoggerService.cs" />
     <Compile Include="Logger\LoggerService.cs" />
+    <Compile Include="MenuStrategies\AddClientStrategy.cs" />
     <Compile Include="Models\BalanceEntity.cs" />
     <Compile Include="Models\BlockedMoneyEntity.cs" />
     <Compile Include="Models\BlockedSharesNumberEntity.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StockExchangeValidation.cs" />
+    <Compile Include="MenuStrategies\IChoiceStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

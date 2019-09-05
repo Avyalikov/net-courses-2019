@@ -11,32 +11,41 @@
     using Newtonsoft.Json;
     using System.Text;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.DependencyInjection;
+    using Traiding.ConsoleApp.MenuStrategies;
+    using System.Linq;
 
     public class StockExchange
     {
         private readonly Container traidingRegistryContainer;
+        private readonly RequestSender requestSender;
 
         public HttpClient client = new HttpClient();
 
-        public StockExchange(Container traidingRegistryContainer)
+        public StockExchange(Container traidingRegistryContainer, string APIaddress)
         {
             this.traidingRegistryContainer = traidingRegistryContainer;
+            this.requestSender = traidingRegistryContainer.GetInstance<RequestSender>();
+            this.requestSender.BaseAddress = APIaddress;
 
-            client.BaseAddress = new Uri("http://localhost:52804");
+            //client.BaseAddress = new Uri("http://localhost:52804");
         }        
 
         public void Start()
         {
+            //Console.WriteLine($"{DateTime.Now} Client started");
             Console.WriteLine("Please wait while the database is loading...");
 
-            GetClientsReq(1, 1); // first call of db
+            //GetClientsReq(1, 1); // first call of db
 
-            CancellationTokenSource traidingCancelTokenSource = new CancellationTokenSource();
-            CancellationToken traidingCancellationToken = traidingCancelTokenSource.Token;
+            //CancellationTokenSource traidingCancelTokenSource = new CancellationTokenSource();
+            //CancellationToken traidingCancellationToken = traidingCancelTokenSource.Token;
 
-            Task traidingLive = new Task(() => Traiding(traidingCancellationToken));
+            //Task traidingLive = new Task(() => Traiding(traidingCancellationToken));
 
-            traidingLive.Start();
+            //traidingLive.Start();
+
+            IEnumerable<IChoiceStrategy> choiceStrategies = InitializeRequestStrategy();
 
             string inputString;
             do
@@ -48,59 +57,83 @@
                 Console.WriteLine(String.Empty);
                 Console.WriteLine("Menu");
                 Console.WriteLine(" 1. Add a new client");
-                Console.WriteLine(" 2. Edit client info by Id");
-                Console.WriteLine(" 3. Remove client by Id");
-                Console.WriteLine(" 4. Print client balance zone by Client Id");
-                Console.WriteLine(" 5. Print client operations");
-                Console.WriteLine(" 6. Add a new share");
-                Console.WriteLine(" 7. Edit share info by Id");
-                Console.WriteLine(" 8. Remove share by Id");
+                //Console.WriteLine(" 2. Edit client info by Id");
+                //Console.WriteLine(" 3. Remove client by Id");
+                //Console.WriteLine(" 4. Print client balance zone by Client Id");
+                //Console.WriteLine(" 5. Print client operations");
+                //Console.WriteLine(" 6. Add a new share");
+                //Console.WriteLine(" 7. Edit share info by Id");
+                //Console.WriteLine(" 8. Remove share by Id");
                 Console.WriteLine(String.Empty);
                 Console.Write("Type the number or 'e' for exit and press Enter: ");
 
                 inputString = Console.ReadLine();
-                switch (inputString)
+                if (!inputString.ToLowerInvariant().Equals("e")) break;
+
+                var choiceStrategy = choiceStrategies.FirstOrDefault(
+                    s => s.CanExecute(inputString));
+                if (choiceStrategy == null)
                 {
-                    case "1":
-                        Console.WriteLine("  Clients registration service."); // signal about enter into case
-                        AddOrEditClient(true);
-                        break;
-                    case "2":
-                        Console.WriteLine("  Edit Clients info service."); // signal about enter into case
-                        AddOrEditClient(false);
-                        break;
-                    case "3":
-                        Console.WriteLine("  Remove Clients service."); // signal about enter into case
-                        DelClient();
-                        break;
-                    case "4":
-                        Console.WriteLine("  Reports service - balances."); // signal about enter into case
-                        PrintBalanceZoneByClientId();
-                        break;
-                    case "5":
-                        Console.WriteLine("  Reports service - operations."); // signal about enter into case
-                        PrintOperationsOfClient();
-                        break;
-                    case "6":
-                        Console.WriteLine("  Shares registration service."); // signal about enter into case
-                        AddOrEditShare(true);
-                        break;
-                    case "7":
-                        Console.WriteLine("  Edit Share info service."); // signal about enter into case
-                        AddOrEditShare(false);
-                        break;
-                    case "8":
-                        Console.WriteLine("  Remove Shares service."); // signal about enter into case
-                        DelShare();
-                        break;
-                    default:
-                        break;
+                    Console.WriteLine("Unknown command");
                 }
-            } while (inputString != "e");
+                else
+                {
+                    Console.WriteLine(choiceStrategy.Run(requestSender));
+                }
+
+                Console.ReadKey();
+
+                //switch (inputString)
+                //{
+                //    case "1":
+                //        Console.WriteLine("  Clients registration service."); // signal about enter into case
+                //        AddOrEditClient(true);
+                //        break;
+                //    case "2":
+                //        Console.WriteLine("  Edit Clients info service."); // signal about enter into case
+                //        AddOrEditClient(false);
+                //        break;
+                //    case "3":
+                //        Console.WriteLine("  Remove Clients service."); // signal about enter into case
+                //        DelClient();
+                //        break;
+                //    case "4":
+                //        Console.WriteLine("  Reports service - balances."); // signal about enter into case
+                //        PrintBalanceZoneByClientId();
+                //        break;
+                //    case "5":
+                //        Console.WriteLine("  Reports service - operations."); // signal about enter into case
+                //        PrintOperationsOfClient();
+                //        break;
+                //    case "6":
+                //        Console.WriteLine("  Shares registration service."); // signal about enter into case
+                //        AddOrEditShare(true);
+                //        break;
+                //    case "7":
+                //        Console.WriteLine("  Edit Share info service."); // signal about enter into case
+                //        AddOrEditShare(false);
+                //        break;
+                //    case "8":
+                //        Console.WriteLine("  Remove Shares service."); // signal about enter into case
+                //        DelShare();
+                //        break;
+                //    default:
+                //        break;
+                //}
+            } while (!inputString.ToLowerInvariant().Equals("e"));
 
             Console.ReadKey();
-            traidingCancelTokenSource.Cancel();
-            traidingLive.Wait();
+            //traidingCancelTokenSource.Cancel();
+            //traidingLive.Wait();
+        }
+
+        static IEnumerable<IChoiceStrategy> InitializeRequestStrategy()
+        {
+            IEnumerable<IChoiceStrategy> choiceStrategies = new List<IChoiceStrategy>()
+            {
+                new AddClientStrategy()
+            };
+            return choiceStrategies;
         }
 
         public void Traiding(CancellationToken token)
