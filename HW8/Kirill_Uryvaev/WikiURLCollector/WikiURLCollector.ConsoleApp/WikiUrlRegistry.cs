@@ -20,6 +20,7 @@ namespace WikiURLCollector.ConsoleApp
             For<IUrlService>().Use<UrlService>();
             For<UrlParsingService>().Use<UrlParsingService>();
 
+            For<ParallelUrlCollector>().Use<ParallelUrlCollector>();
             For<WikiUrlDbContext>().Use<WikiUrlDbContext>().Singleton();
         }
     }

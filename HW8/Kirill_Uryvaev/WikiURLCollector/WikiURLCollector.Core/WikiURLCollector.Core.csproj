@@ -49,6 +49,7 @@
     <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Repositories\IUrlRepository.cs" />
     <Compile Include="Interfaces\IUrlService.cs" />
+    <Compile Include="Services\PageDownloadingService.cs" />
     <Compile Include="Services\UrlParsingService.cs" />
     <Compile Include="Services\UrlService.cs" />
   </ItemGroup>
