@@ -18,7 +18,9 @@ namespace WikiURLCollector.ConsoleApp
             For<IUrlRepository>().Use<UrlRepository>();
 
             For<IUrlService>().Use<UrlService>();
-            For<UrlParsingService>().Use<UrlParsingService>();
+            For<IUrlParsingService>().Use<UrlParsingService>();
+            For<IPageDownloadingService>().Use<PageDownloadingService>().SelectConstructor(()=>new PageDownloadingService());
+            For<IParallelUrlCollectingService>().Use<ParallelUrlCollectingService>();
 
             For<ParallelUrlCollector>().Use<ParallelUrlCollector>();
             For<WikiUrlDbContext>().Use<WikiUrlDbContext>().Singleton();

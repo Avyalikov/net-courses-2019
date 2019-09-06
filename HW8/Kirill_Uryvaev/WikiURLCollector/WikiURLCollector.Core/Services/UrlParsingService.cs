@@ -10,13 +10,8 @@ using WikiURLCollector.Core.Models;
 
 namespace WikiURLCollector.Core.Services
 {
-    public class UrlParsingService
+    public class UrlParsingService : IUrlParsingService
     {
-        private readonly IUrlService urlService;
-        public UrlParsingService(IUrlService urlService)
-        {
-            this.urlService = urlService;
-        }
         public IEnumerable<UrlEntity> ExtractAllUrlsFromPage(string rawDocument, int iteration)
         {
             List<UrlEntity> wikiUrls = new List<UrlEntity>();
@@ -24,24 +19,24 @@ namespace WikiURLCollector.Core.Services
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(rawDocument);
             IEnumerable<HtmlNode> allUrls = document.DocumentNode.SelectNodes("//a[@href]");
-            var filtredUrls = allUrls.Where(a=> a.Attributes["href"].Value.StartsWith("/wiki/")).Where((a)=>
-            {
-                if (a.ParentNode.Attributes["class"] != null)
-                {
-                    return a.ParentNode.Attributes["class"].Value.Equals("reference");
-                }
-                if (a.ParentNode.Attributes.Count()!=0)
-                {
-                    return false;
-                }
-                return true;
-            });
+            var filtredUrls = allUrls.Where(a => a.Attributes["href"].Value.StartsWith("/wiki/")).Where((a) =>
+             {
+                 if (a.ParentNode.Attributes["class"] != null)
+                 {
+                     return a.ParentNode.Attributes["class"].Value.Equals("mw-redirect");
+                 }
+                 if (a.ParentNode.Attributes.Count() != 0)
+                 {
+                     return false;
+                 }
+                 return true;
+             });
             if (filtredUrls.Count() == 0)
                 return null;
 
             foreach (var url in filtredUrls)
             {
-                if (wikiUrls.Where(u=>u.URL == url.Attributes["href"].Value).Count()==0)
+                if (wikiUrls.Where(u => u.URL == url.Attributes["href"].Value).Count() == 0)
                 {
                     UrlEntity urlEntity = new UrlEntity() { URL = url.Attributes["href"].Value, IterationId = iteration };
                     wikiUrls.Add(urlEntity);

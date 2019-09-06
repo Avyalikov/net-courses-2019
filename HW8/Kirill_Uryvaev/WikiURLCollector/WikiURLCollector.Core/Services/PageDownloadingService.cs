@@ -5,49 +5,56 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WikiURLCollector.Core.Models;
+using WikiURLCollector.Core.Interfaces;
 
 namespace WikiURLCollector.Core.Services
 {
-    public class PageDownloadingService
+    public class PageDownloadingService : IPageDownloadingService
     {
-        private int numberOfTries = 1000;
+        private int numberOfTries = 100;
+        private readonly HttpClient client;
 
-        public async Task<string> GetPage(string adress)
+        public PageDownloadingService()
         {
-            using (HttpClient client = new HttpClient())
+            this.client = new HttpClient();
+        }
+        public PageDownloadingService(HttpClient client)
+        {
+            this.client = client;
+        }
+        public async Task<string> GetPage(string address)
+        {
+            HttpResponseMessage response = null;
+            int currentTry = 0;
+            bool isResponsed = false;
+            while (!isResponsed && currentTry < numberOfTries)
             {
-                HttpResponseMessage response = null;
-                int currentTry = 0;
-                bool isResponsed = false;
-                while (!isResponsed && currentTry < numberOfTries)
+                try
                 {
-                    try
-                    {
-                        currentTry++;
-                        response = await client.GetAsync(adress);
-                        isResponsed = true;
-                    }
-                    catch (HttpRequestException)
-                    {
-                        continue;
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    currentTry++;
+                    response = await client.GetAsync(address);
+                    isResponsed = true;
                 }
-                if (response == null)
+                catch (HttpRequestException)
                 {
-                    throw new Exception("Cannot get answer from website");
+                    Thread.Sleep(10);
                 }
-                if (response.IsSuccessStatusCode)
+                catch
                 {
-                    var pageContents = await response.Content.ReadAsStringAsync();
-                    return pageContents;
+                    throw;
                 }
+            }
+            if (response == null)
+            {
+                throw new Exception("Cannot get answer from website");
+            }
+            if (response.IsSuccessStatusCode)
+            {
+                var pageContents = await response.Content.ReadAsStringAsync();
+                return pageContents;
             }
             return null;
         }
     }
 }
+

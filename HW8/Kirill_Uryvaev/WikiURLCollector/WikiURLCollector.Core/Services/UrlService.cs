@@ -19,7 +19,7 @@ namespace WikiURLCollector.Core.Services
         public void AddUrl(UrlEntity urlEntity)
         {
             var url = urlRepository.GetUrlEntity(urlEntity.URL);
-            if (url!=null)
+            if (url != null)
             {
                 return;
             }
@@ -34,6 +34,19 @@ namespace WikiURLCollector.Core.Services
         public UrlEntity GetUrl(string Url)
         {
             return urlRepository.GetUrlEntity(Url);
+        }
+
+        public void AddUrlDictionary(Dictionary<string, int> urls)
+        {
+            var urlsFromDB = urlRepository.GetAllUrls();
+            foreach (var url in urls)
+            {
+                if (!urlsFromDB.Any(x => x.URL == url.Key))
+                {
+                    var urlEntity = new UrlEntity() { URL = url.Key, IterationId = url.Value };
+                    AddUrl(urlEntity);
+                }
+            }
         }
     }
 }

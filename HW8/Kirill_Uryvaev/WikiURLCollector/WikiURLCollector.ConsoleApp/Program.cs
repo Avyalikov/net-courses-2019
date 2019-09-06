@@ -26,7 +26,7 @@ namespace WikiURLCollector.ConsoleApp
             while (!userInput.ToLower().Equals(exitCode))
             {
                 userInput = Console.ReadLine();
-                urls = urlCollector.GetUrls(userInput, maxIterations).Result;
+                urlCollector.GetUrls(userInput, maxIterations);
             }
         }
 

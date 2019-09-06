@@ -49,7 +49,11 @@
     <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Repositories\IUrlRepository.cs" />
     <Compile Include="Interfaces\IUrlService.cs" />
+    <Compile Include="Interfaces\IUrlParsingService.cs" />
+    <Compile Include="Interfaces\IParallelUrlCollectingService.cs" />
+    <Compile Include="Interfaces\IPageDownloadingService.cs" />
     <Compile Include="Services\PageDownloadingService.cs" />
+    <Compile Include="Services\ParallelUrlCollectingService.cs" />
     <Compile Include="Services\UrlParsingService.cs" />
     <Compile Include="Services\UrlService.cs" />
   </ItemGroup>
