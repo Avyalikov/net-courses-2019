@@ -68,7 +68,7 @@
                 Console.Write("Type the number or 'e' for exit and press Enter: ");
 
                 inputString = Console.ReadLine();
-                if (!inputString.ToLowerInvariant().Equals("e")) break;
+                if (inputString.ToLowerInvariant().Equals("e")) break;
 
                 var choiceStrategy = choiceStrategies.FirstOrDefault(
                     s => s.CanExecute(inputString));
@@ -122,6 +122,7 @@
                 //}
             } while (!inputString.ToLowerInvariant().Equals("e"));
 
+            Console.WriteLine("Good bye");
             Console.ReadKey();
             //traidingCancelTokenSource.Cancel();
             //traidingLive.Wait();
