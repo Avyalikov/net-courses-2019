@@ -42,9 +42,9 @@
             CancellationToken traidingCancellationToken = traidingCancelTokenSource.Token;
             TraidingSimulator traidingSimulator = new TraidingSimulator(requestSender);
 
-            Task traidingLive = new Task(() => traidingSimulator.Start(traidingCancellationToken));
+            Task traidingLive = new Task(() => traidingSimulator.randomDeal(traidingCancellationToken, 10));
 
-            //traidingLive.Start();
+            traidingLive.Start();
 
             IEnumerable<IChoiceStrategy> choiceStrategies = InitializeRequestStrategy();
 
@@ -107,93 +107,6 @@
                 new PrintOperationsByClientIdStrategy()
             };
             return choiceStrategies;
-        }
-
-        //public void Traiding(CancellationToken token)
-        //{
-        //    int count = 3;
-        //    int clientsCount;
-        //    int randCustomerId;
-        //    int randSellerId;
-        //    int shareId;
-        //    int sharesNumber;
-        //    List<SharesNumberEntity> sellerSharesNumberList;
-        //    Random rand = new Random();
-
-        //    while (!token.IsCancellationRequested)
-        //    {
-        //        clientsCount = GetClientsReq(10, 1).Count;
-        //        //sharesCount = this.reportsService.GetSharesCount();
-        //        randCustomerId = rand.Next(1, clientsCount);
-        //        randSellerId = 0;
-        //        sellerSharesNumberList = new List<SharesNumberEntity>();
-        //        while (randSellerId == 0 
-        //            || randSellerId == randCustomerId 
-        //            || sellerSharesNumberList.Count == 0)
-        //        {
-        //            randSellerId = rand.Next(1, clientsCount);
-        //            sellerSharesNumberList = GetSharesNumbersOfClientReq(randSellerId);
-        //        }
-
-        //        shareId = sellerSharesNumberList[0].Share.Id;
-        //        int sellerSharesNumber = sellerSharesNumberList[0].Number;
-        //        sharesNumber = 1;
-        //        if (sellerSharesNumber > 1)
-        //        {
-        //            sharesNumber++;
-        //        }
-
-        //        if (count == 0)
-        //        {
-        //            //Console.WriteLine("Now!");
-        //            DealReq(randCustomerId, randSellerId, shareId, sharesNumber);
-        //            count = 3;
-        //        }
-        //        else
-        //        {
-        //            //Console.WriteLine(count);
-        //            count--;
-        //        }
-
-        //        Thread.Sleep(400);
-        //    }
-        //}        
-
-        //public List<ClientEntity> GetClientsReq(int number, int page)
-        //{
-        //    HttpResponseMessage resp = this.client.GetAsync($"clients?top={number}&page={page}").Result;
-        //    resp.EnsureSuccessStatusCode();
-
-        //    List<ClientEntity> clients = new List<ClientEntity>();
-        //    clients.AddRange(resp.Content.ReadAsAsync<IEnumerable<ClientEntity>>().Result);
-        //    return clients;
-        //}
-
-        //public List<SharesNumberEntity> GetSharesNumbersOfClientReq(int clientId)
-        //{
-        //    HttpResponseMessage resp = this.client.GetAsync($"shares?clientId={clientId}").Result;
-        //    resp.EnsureSuccessStatusCode();
-
-        //    List<SharesNumberEntity> sharesNumbers = new List<SharesNumberEntity>();
-        //    sharesNumbers.AddRange(resp.Content.ReadAsAsync<IEnumerable<SharesNumberEntity>>().Result);
-        //    return sharesNumbers;
-        //}
-
-        //public void DealReq(int customerId, int sellerId, int shareId, int sharesNumber)
-        //{
-        //    var clientInputData = new OperationInputData
-        //    {
-        //        CustomerId = customerId,
-        //        SellerId = sellerId,
-        //        ShareId = shareId,
-        //        RequiredSharesNumber = sharesNumber
-        //    };
-
-        //    var jsonString = JsonConvert.SerializeObject(clientInputData);
-        //    HttpContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-        //    HttpResponseMessage resp = this.client.PostAsync("deal/make", content).Result;
-        //    resp.EnsureSuccessStatusCode();
-        //}      
+        }     
     }
 }

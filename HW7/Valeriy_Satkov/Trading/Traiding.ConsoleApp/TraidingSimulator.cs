@@ -20,9 +20,9 @@
             this.requestSender = requestSender;
         }
 
-        public void Start(CancellationToken token)
+        public void randomDeal(CancellationToken token, int frequencyInSec)
         {
-            int count = 10;
+            int count = frequencyInSec;
             int clientsCount;
             int randCustomerId;
             int randSellerId;
@@ -67,7 +67,7 @@
                     };
 
                     requestSender.Deal(operationInputData);
-                    count = 10;
+                    count = frequencyInSec;
                 }
                 else
                 {
@@ -75,7 +75,7 @@
                     count--;
                 }
 
-                Thread.Sleep(400);
+                Thread.Sleep(1000);
             }
         }
     }
