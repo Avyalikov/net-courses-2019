@@ -26,8 +26,15 @@
             this.For<IBlockedMoneyTableRepository>().Use<BlockedMoneyTableRepository>();
             this.For<IBlockedSharesNumberTableRepository>().Use<BlockedSharesNumberTableRepository>();
 
-            this.For<StockExchangeDBContext>().Use<StockExchangeDBContext>().Ctor<string>("connectionString")
-                .Is(ConfigurationManager.ConnectionStrings["traidingConnectionString"].ConnectionString);
+            this.For<ClientsService>().Use<ClientsService>();
+            this.For<BalancesService>().Use<BalancesService>();
+            this.For<SalesService>().Use<SalesService>();
+            this.For<ReportsService>().Use<ReportsService>();
+            this.For<SharesService>().Use<SharesService>();
+            this.For<ShareTypesService>().Use<ShareTypesService>();
+
+            //this.For<StockExchangeDBContext>().Use<StockExchangeDBContext>().Ctor<string>("connectionString")
+            //    .Is(ConfigurationManager.ConnectionStrings["traidingConnectionString"].ConnectionString);
         }
     }    
 }

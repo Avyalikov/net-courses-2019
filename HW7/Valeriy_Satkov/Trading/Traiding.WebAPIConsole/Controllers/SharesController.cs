@@ -15,13 +15,19 @@
         private readonly ShareTypesService shareTypesService;
         private readonly ReportsService reportsService;
 
-        public SharesController()
+        public SharesController(SharesService sharesService, ShareTypesService shareTypesService, ReportsService reportsService)
         {
-            this.sharesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SharesService>();
-            this.shareTypesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ShareTypesService>();
-            this.reportsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ReportsService>();
+            this.sharesService = sharesService;
+            this.shareTypesService = shareTypesService;
+            this.reportsService = reportsService;
         }
 
+        //public SharesController()
+        //{
+        //    this.sharesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SharesService>();
+        //    this.shareTypesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ShareTypesService>();
+        //    this.reportsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ReportsService>();
+        //}
 
         // GET /shares?clientId=...  returns all shares for client
         public IEnumerable<SharesNumberEntity> Get([FromUri]int clientId)

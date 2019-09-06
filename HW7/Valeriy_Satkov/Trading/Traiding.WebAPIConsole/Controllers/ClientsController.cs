@@ -16,14 +16,21 @@
         private readonly SalesService salesService;
         private readonly ReportsService reportsService;
 
-        public ClientsController()
+        public ClientsController(ClientsService clientsService, BalancesService balancesService, SalesService salesService, ReportsService reportsService)
         {
-            this.clientsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ClientsService>();
-            this.balancesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<BalancesService>();
-            this.salesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SalesService>();
-            this.reportsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ReportsService>();
+            this.clientsService = clientsService;
+            this.balancesService = balancesService;
+            this.salesService = salesService;
+            this.reportsService = reportsService;
         }
 
+        //public ClientsController()
+        //{
+        //    this.clientsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ClientsService>();
+        //    this.balancesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<BalancesService>();
+        //    this.salesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SalesService>();
+        //    this.reportsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ReportsService>();
+        //}
 
         // GET /clients?top=10&page=1  return first 10 clients
         public IEnumerable<ClientEntity> Get([FromUri]int top, int page)

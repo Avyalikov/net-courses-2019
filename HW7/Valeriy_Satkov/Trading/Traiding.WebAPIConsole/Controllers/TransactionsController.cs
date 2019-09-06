@@ -10,10 +10,15 @@
     {
         private readonly ReportsService reportsService;
 
-        public TransactionsController()
+        public TransactionsController(ReportsService reportsService)
         {
-            this.reportsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ReportsService>();
+            this.reportsService = reportsService;
         }
+
+        //public TransactionsController()
+        //{
+        //    this.reportsService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<ReportsService>();
+        //}
 
         // GET /transactions?clientId=2&top=1
         public IEnumerable<OperationEntity> Get([FromUri]int clientId, int top)

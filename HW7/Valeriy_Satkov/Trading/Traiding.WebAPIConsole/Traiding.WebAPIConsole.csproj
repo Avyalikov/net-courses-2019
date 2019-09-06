@@ -103,7 +103,6 @@
     <Compile Include="Controllers\DealController.cs" />
     <Compile Include="Controllers\SharesController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Models\DependencyInjection\TraidingRegistry.cs" />
     <Compile Include="Models\Repositories\BalanceTableRepository.cs" />
     <Compile Include="Models\Repositories\BlockedMoneyTableRepository.cs" />
@@ -118,6 +117,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="StructureMapDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -42,7 +42,7 @@
                     int inputInt;
                     int.TryParse(inputString, out inputInt);
                     if (!StockExchangeValidation.checkId(inputInt)) continue;
-                    clientId = inputInt;
+                    top = inputInt;
                 }
 
                 break;
@@ -58,21 +58,23 @@
             var reqResult = requestSender.GetClientOperations(clientId, top);
             if (reqResult != null)
             {
+                StringBuilder operationString;
                 foreach (var operation in reqResult)
                 {
-                    Console.WriteLine(
-                        $"Id: {operation.Id}" +
-                        $"Debit Date: {operation.DebitDate}" +
-                        $"Customer Id: {operation.Customer.Id}" +
-                        $"Charge Date: {operation.ChargeDate}" +
-                        $"Seller Id: {operation.Seller.Id}" +
-                        $"Share Id: {operation.Share.Id}" +
-                        $"Share type name: {operation.ShareTypeName}" +
-                        $"Cost: {operation.Cost}" +
-                        $"Number: {operation.Number}" +
-                        $"Total: {operation.Total}");
+                    operationString = new StringBuilder();
+                    operationString.Append($"Id: {operation.Id}\n");
+                    operationString.Append($" Debit Date: {operation.DebitDate}\n");
+                    operationString.Append($" Customer Id: {operation.Customer.Id}\n");
+                    operationString.Append($" Charge Date: {operation.ChargeDate}\n");
+                    operationString.Append($" Seller Id: {operation.Seller.Id}\n");
+                    operationString.Append($" Share Id: {operation.Share.Id}\n");
+                    operationString.Append($" Share Type Name: {operation.ShareTypeName}\n");
+                    operationString.Append($" Cost: {operation.Cost}\n");
+                    operationString.Append($" Number: {operation.Number}\n");
+                    operationString.Append($" Total: {operation.Total}");
+                    Console.WriteLine(operationString.ToString());
                 }
-                return "List of client operations";
+                return $"List of operations for clientId = {clientId}";
             }
             return "Error. Client wasn't finded! Press Enter.";
         }

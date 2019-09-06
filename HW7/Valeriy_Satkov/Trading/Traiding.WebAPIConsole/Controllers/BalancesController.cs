@@ -8,10 +8,15 @@
     {
         private readonly SalesService salesService;
 
-        public BalancesController()
+        public BalancesController(SalesService salesService)
         {
-            this.salesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SalesService>();
+            this.salesService = salesService;
         }
+
+        //public BalancesController()
+        //{
+        //    this.salesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SalesService>();
+        //}
 
         // GET /balances?clientId=...  returns client status (orange, bloack, green)
         public string Get([FromUri]int clientId)

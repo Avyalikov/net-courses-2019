@@ -5,7 +5,7 @@
 
     public class StockExchangeDBContext : DbContext
     {
-        public StockExchangeDBContext() : base()
+        public StockExchangeDBContext() : base("name=traidingConnectionString")
         {
             Database.SetInitializer(new StockExchangeInitializer());
         }

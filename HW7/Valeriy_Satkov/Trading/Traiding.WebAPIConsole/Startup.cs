@@ -23,8 +23,10 @@
             config.Routes.MapHttpRoute(
                 name: "ReportsAPI",
                 routeTemplate: "{controller}"
-            );         
-            
+            );
+
+            config.DependencyResolver = new StructureMapDependencyResolver();
+
             appBuilder.UseWebApi(config);
         }
     }

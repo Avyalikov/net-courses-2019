@@ -10,10 +10,15 @@
     {
         private readonly SalesService salesService;
 
-        public DealController()
+        public DealController(SalesService salesService)
         {
-            this.salesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SalesService>();
+            this.salesService = salesService;
         }
+
+        //public DealController()
+        //{
+        //    this.salesService = new Container(new Models.DependencyInjection.TraidingRegistry()).GetInstance<SalesService>();
+        //}
 
         // POST deal/make
         public HttpResponseMessage Make([FromBody]OperationInputData value)
