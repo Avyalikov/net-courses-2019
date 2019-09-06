@@ -24,6 +24,7 @@ namespace WikiURLCollector.Tests.Tests
             var tags = urlParsingService.ExtractAllUrlsFromPage(page, 1);
             //Assert
             Assert.AreEqual(54, tags.Count());
+            Assert.IsTrue(tags.Where(x => x.URL == "/wiki/United_Kingdom").Count() > 0);
         }
     }
 }

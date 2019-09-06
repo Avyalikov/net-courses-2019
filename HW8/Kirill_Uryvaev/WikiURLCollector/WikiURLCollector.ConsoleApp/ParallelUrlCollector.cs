@@ -29,7 +29,7 @@ namespace WikiURLCollector.ConsoleApp
             watch.Start();
             var urlsDictionary = await parallelUrlCollectingService.GetUrls(userInput, maxIterations);
             watch.Stop();
-            Console.WriteLine($"Parsing with derph {maxIterations} is completed in {watch.Elapsed}");
+            Console.WriteLine($"{DateTime.Now} Parsing with derph {maxIterations} is completed in {watch.Elapsed}");
         }
 
     }
