@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using stockSimulator.Core.DTO;
 using stockSimulator.Core.Models;
 using stockSimulator.Core.Services;
 using System;
@@ -32,6 +33,51 @@ namespace stockSimulator.WevServer.Controllers
                 return Ok(stocks);
             }
             catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("add")]
+        public ActionResult<string> AddNewStockToClient([FromBody]EditStockOfClientInfo addInfo)
+        {
+            try
+            {
+                string result = this.editCleintStockService.addStock(addInfo);
+                return Ok(result);
+            }
+            catch (Exeption ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public ActionResult<string> UpdateStockInfoOfClient([FromBody]EditStockOfClientInfo updateInfo)
+        {
+            try
+            {
+                string result = this.editCleintStockService.Edit(updateInfo);
+                return Ok(result);
+            }
+            catch (Exeption ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("remove")]
+        public ActionResult<string> RemoveStockInfoOfClient([FromBody]EditStockOfClientInfo removeInfo)
+        {
+            try
+            {
+                string result = this.editCleintStockService.Remove(removeInfo);
+                return Ok(result);
+            }
+            catch (Exeption ex)
             {
                 return StatusCode(500, ex);
             }

@@ -35,10 +35,67 @@ namespace stockSimulator.Client
                     case 3: UpdateExistingClient(); break;
                     case 4: RemoveExistingClient(); break;
                     case 5: ShowClientStocks(); break;
+                    case 6: AddNewStockToClient(); break;
+                    case 7: UpdateStockOfClient(); break;
+                    case 8: RemoveStockOfClient(); break;
                     default:
                         break;
                 }
             } while (userChoise != exitCode);
+        }
+
+        private void RemoveStockOfClient()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to remove information about his stocks: ");
+            int clientId = GetNum();
+            Console.Write("Enter id of his stock to remove: ");
+            int stockId = GetNum();
+            EditStockOfClientInfo removeStockOfClientInfo = new EditStockOfClientInfo
+            {
+                Client_ID = clientId,
+                Stock_ID = stockId
+            };
+            string result = clientRequests.RemoveStockOfClient(removeStockOfClientInfo);
+            Console.WriteLine("Server answered: " + result);
+        }
+
+        private void UpdateStockOfClient()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to update information about his stocks: ");
+            int clientId = GetNum();
+            Console.Write("Enter id of his stock to edit: ");
+            int stockId = GetNum();
+            Console.Write("Enter amount of entered stock to edit: ");
+            int stockAmount = GetNum();
+            EditStockOfClientInfo editStockOfClientInfo = new EditStockOfClientInfo
+            {
+                AmountOfStocks = stockAmount,
+                Client_ID = clientId,
+                Stock_ID = stockId
+            };
+            string result = clientRequests.EditStockInfoOfClient(editStockOfClientInfo);
+            Console.WriteLine("Server answered: " + result);
+        }
+
+        private void AddNewStockToClient()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to add him new stock: ");
+            int clientId = GetNum();
+            Console.Write("Enter id of stock to add: ");
+            int stockId = GetNum();
+            Console.Write("Enter amount of entered stock to add: ");
+            int stockAmount = GetNum();
+            EditStockOfClientInfo editStockOfClientInfo = new EditStockOfClientInfo
+            {
+                AmountOfStocks = stockAmount,
+                Client_ID = clientId,
+                Stock_ID = stockId
+            };
+            string result = clientRequests.AddStockToClient(editStockOfClientInfo);
+            Console.WriteLine("Server answered: " + result);
         }
 
         private void ShowClientStocks()
@@ -58,6 +115,7 @@ namespace stockSimulator.Client
             {
                 StocksOfClientInfo stocksOfClientInfo = new StocksOfClientInfo
                 {
+                    StockID = stock.Stock.ID,
                     StockName = stock.Stock.Name,
                     StockType = stock.Stock.Type,
                     StockAmount = stock.Amount,
@@ -72,7 +130,7 @@ namespace stockSimulator.Client
         {
             Console.WriteLine();
             Console.Write("Enter id of client to remove: ");
-            int clientId = int.Parse(Console.ReadLine());
+            int clientId = GetNum();
             string result = clientRequests.RemoveClient(clientId);
             Console.WriteLine("Server answered: " + result);
         }
