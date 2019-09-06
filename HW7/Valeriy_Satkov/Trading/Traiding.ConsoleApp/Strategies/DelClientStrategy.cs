@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.Logger;
 
     class DelClientStrategy : IChoiceStrategy
     {
@@ -15,9 +16,11 @@
             return userChoice.Equals("3");
         }
 
-        public string Run(RequestSender requestSender)
+        public string Run(RequestSender requestSender, ILoggerService log)
         {
-            Console.WriteLine("  Remove Clients service."); // signal about enter into case
+            string welcome = "  Remove Clients service.";
+            log.Info(welcome);
+            Console.WriteLine(welcome); // signal about enter into case
 
             int clientId = 0;
 
@@ -28,6 +31,7 @@
                 {
                     Console.Write("   Enter the Id of client for del: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Id of client for del input: {inputString}");
                     int inputInt;
                     int.TryParse(inputString, out inputInt);
                     if (!StockExchangeValidation.checkId(inputInt)) continue;
@@ -39,12 +43,15 @@
 
             if (inputString == "e")
             {
-                return "Exit from Remove Clients service";
+                string exitString = "Exit from Remove Clients service";
+                log.Info(exitString);
+                return exitString;
             }
 
             Console.WriteLine("    Wait a few seconds, please.");
 
             var reqResult = requestSender.RemoveClient(clientId);
+            log.Info($"Request result: {reqResult}.");
             if (string.IsNullOrWhiteSpace(reqResult))
             {
                 return $"     Client with Id = {clientId} was removed! Press Enter.";

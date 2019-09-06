@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.Logger;
 
     class PrintOperationsByClientIdStrategy : IChoiceStrategy
     {
@@ -15,9 +16,11 @@
             return userChoice.Equals("8");
         }
 
-        public string Run(RequestSender requestSender)
+        public string Run(RequestSender requestSender, ILoggerService log)
         {
-            Console.WriteLine("  Reports service - operations"); // signal about enter into case
+            string welcome = "  Reports service - operations";
+            log.Info(welcome);
+            Console.WriteLine(welcome); // signal about enter into case
 
             int clientId = 0;
             int top = 0;
@@ -29,6 +32,7 @@
                 {
                     Console.Write("   Enter the Id of client: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Id of client input: {inputString}");
                     int inputInt;
                     int.TryParse(inputString, out inputInt);
                     if (!StockExchangeValidation.checkId(inputInt)) continue;
@@ -39,6 +43,7 @@
                 {
                     Console.Write("   Enter the number of operations for view: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Number of operations for view input: {inputString}");
                     int inputInt;
                     int.TryParse(inputString, out inputInt);
                     if (!StockExchangeValidation.checkId(inputInt)) continue;
@@ -73,10 +78,12 @@
                     operationString.Append($" Number: {operation.Number}\n");
                     operationString.Append($" Total: {operation.Total}");
                     Console.WriteLine(operationString.ToString());
+                    log.Info(operationString.ToString());
                 }
                 return $"List of operations for clientId = {clientId}";
             }
-            return "Error. Client wasn't finded! Press Enter.";
+            log.Info("Error. Client wasn't found!");
+            return "Error. Client wasn't found! Press Enter.";
         }
     }
 }

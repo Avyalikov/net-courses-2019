@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.Logger;
 
     class AddShareStrategy : IChoiceStrategy
     {
@@ -15,9 +16,11 @@
             return userChoice.Equals("4");
         }
 
-        public string Run(RequestSender requestSender)
+        public string Run(RequestSender requestSender, ILoggerService log)
         {
-            Console.WriteLine("  Share registration service."); // signal about enter into case
+            string welcome = "  Share registration service.";
+            log.Info(welcome);
+            Console.WriteLine(welcome); // signal about enter into case
 
             int shareTypeId = 0;
             string companyName = string.Empty;
@@ -29,6 +32,7 @@
                 {
                     Console.Write("   Enter the Company name: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Company name input: {inputString}");
                     if (!StockExchangeValidation.checkCompanyName(inputString)) continue;
                     companyName = inputString;
                 }
@@ -37,6 +41,7 @@
                 {
                     Console.Write("   Enter the Id of share type: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Id of share type input: {inputString}");
                     int inputInt;
                     int.TryParse(inputString, out inputInt);
                     if (!StockExchangeValidation.checkId(inputInt)) continue;
@@ -48,7 +53,9 @@
 
             if (inputString == "e")
             {
-                return "Exit from registration";
+                string exitString = "Exit from registration";
+                log.Info(exitString);
+                return exitString;
             }
 
             Console.WriteLine("    Wait a few seconds, please.");
@@ -59,7 +66,10 @@
                 ShareTypeId = shareTypeId
             };
 
+            log.Info($"Created ShareInputData with CompanyName = {companyName}, ShareTypeId = { shareTypeId}");
+
             var reqResult = requestSender.AddShare(shareInputData);
+            log.Info($"Request result: {reqResult}.");
             if (string.IsNullOrWhiteSpace(reqResult))
             {
                 return "New share was added! Press Enter.";

@@ -19,11 +19,14 @@
     {
         private readonly Container traidingRegistryContainer;
         private readonly RequestSender requestSender;
+        private readonly ILoggerService log;
 
         public StockExchange(Container traidingRegistryContainer)
         {
             this.traidingRegistryContainer = traidingRegistryContainer;
             this.requestSender = traidingRegistryContainer.GetInstance<RequestSender>();
+            this.log = new Log4NetService(false);
+            this.log.InitLogger();
         }        
 
         public void Start()
@@ -39,12 +42,15 @@
 
             traidingLive.Start();
 
+            log.Info("Traiding sim was started");
+
             IEnumerable<IChoiceStrategy> choiceStrategies = InitializeRequestStrategy();
 
             string inputString;
             do
             {
                 Console.Clear();
+                log.Info("Menu view");
 
                 Console.WriteLine("---The Traiding App---");
                 Console.WriteLine("Traiding is running.");
@@ -62,6 +68,7 @@
                 Console.Write("Type the number or 'e' for exit and press Enter: ");
 
                 inputString = Console.ReadLine();
+                log.Info($"User input: {inputString}");
                 if (inputString.ToLowerInvariant().Equals("e")) break;
 
                 var choiceStrategy = choiceStrategies.FirstOrDefault(
@@ -69,11 +76,13 @@
 
                 if (choiceStrategy == null)
                 {
-                    Console.WriteLine("Unknown command");
+                    string answer = "Unknown command";
+                    log.Info(answer);
+                    Console.WriteLine(answer);
                 }
                 else
                 {
-                    Console.WriteLine(choiceStrategy.Run(requestSender));
+                    Console.WriteLine(choiceStrategy.Run(requestSender, log));
                 }
 
                 Console.ReadKey(); // pause
@@ -83,7 +92,9 @@
             Console.ReadKey(); // pause
 
             traidingCancelTokenSource.Cancel();
+            log.Info("Token was cancelled");
             traidingLive.Wait();
+            log.Info("Trading was end");
         }
 
         static IEnumerable<IChoiceStrategy> InitializeRequestStrategy()

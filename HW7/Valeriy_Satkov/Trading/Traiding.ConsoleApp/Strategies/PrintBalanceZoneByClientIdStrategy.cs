@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.Logger;
 
     class PrintBalanceZoneByClientIdStrategy : IChoiceStrategy
     {
@@ -15,9 +16,11 @@
             return userChoice.Equals("7");
         }
 
-        public string Run(RequestSender requestSender)
+        public string Run(RequestSender requestSender, ILoggerService log)
         {
-            Console.WriteLine("  Reports service - balance zone"); // signal about enter into case
+            string welcome = "  Reports service - balance zone";
+            log.Info(welcome);
+            Console.WriteLine(welcome); // signal about enter into case
 
             int clientId = 0;
 
@@ -28,6 +31,7 @@
                 {
                     Console.Write("   Enter the Id of client: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Id of client input: {inputString}");
                     int inputInt;
                     int.TryParse(inputString, out inputInt);
                     if (!StockExchangeValidation.checkId(inputInt)) continue;
@@ -39,12 +43,15 @@
 
             if (inputString == "e")
             {
-                return "Exit from Reports service - balance zone";
+                string exitString = "Exit from Reports service - balance zone";
+                log.Info(exitString);
+                return exitString;
             }
 
             Console.WriteLine("    Wait a few seconds, please.");
 
             var reqResult = requestSender.GetBalanceZoneColor(clientId);
+            log.Info($"Request result: {reqResult}.");
             if (!string.IsNullOrWhiteSpace(reqResult))
             {
                 return $"Balance zone for client Id = {clientId} — {reqResult}.";

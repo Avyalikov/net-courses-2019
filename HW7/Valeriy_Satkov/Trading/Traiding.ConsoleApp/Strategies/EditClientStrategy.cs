@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.Logger;
 
     class EditClientStrategy : IChoiceStrategy
     {
@@ -15,9 +16,11 @@
             return userChoice.Equals("5");
         }
 
-        public string Run(RequestSender requestSender)
+        public string Run(RequestSender requestSender, ILoggerService log)
         {
-            Console.WriteLine("  Edit Clients info service."); // signal about enter into case
+            string welcome = "  Edit Clients info service.";
+            log.Info(welcome);
+            Console.WriteLine(welcome); // signal about enter into case
 
             int id = 0;
             string lastName = string.Empty,
@@ -31,6 +34,7 @@
                 {
                     Console.Write("   Enter the Id of client: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Id of client input: {inputString}");
                     int inputInt;
                     int.TryParse(inputString, out inputInt);
                     if (!StockExchangeValidation.checkId(inputInt)) continue;
@@ -41,6 +45,7 @@
                 {
                     Console.Write("   Enter the Last name of client: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Last name input: {inputString}");
                     if (!StockExchangeValidation.checkClientLastName(inputString)) continue;
                     lastName = inputString;
                 }
@@ -49,6 +54,7 @@
                 {
                     Console.Write("   Enter the First name of client: ");
                     inputString = Console.ReadLine();
+                    log.Info($"First name input: {inputString}");
                     if (!StockExchangeValidation.checkClientFirstName(inputString)) continue;
                     firstName = inputString;
                 }
@@ -57,6 +63,7 @@
                 {
                     Console.Write("   Enter the phone number of client: ");
                     inputString = Console.ReadLine();
+                    log.Info($"Phone number input: {inputString}");
                     if (!StockExchangeValidation.checkClientPhoneNumber(inputString)) continue;
                     phoneNumber = inputString;
                 }
@@ -66,7 +73,9 @@
 
             if (inputString == "e")
             {
-                return "Exit from registration";
+                string exitString = "Exit from registration";
+                log.Info(exitString);
+                return exitString;
             }
 
             Console.WriteLine("    Wait a few seconds, please.");
@@ -79,7 +88,10 @@
                 PhoneNumber = phoneNumber
             };
 
+            log.Info($"Created ClientInputData with Id = {id}, LastName = {lastName}, FirstName = { firstName}, PhoneNumber = { phoneNumber}");
+
             var reqResult = requestSender.EditClient(clientInputData);
+            log.Info($"Request result: {reqResult}.");
             if (string.IsNullOrWhiteSpace(reqResult))
             {
                 return $"     Client with Id = {id} was changed! Press Enter.";
