@@ -66,7 +66,13 @@
                         RequiredSharesNumber = sharesNumber
                     };
 
-                    requestSender.Deal(operationInputData);
+                    var resultString = requestSender.Deal(operationInputData);
+
+                    if (!string.IsNullOrWhiteSpace(resultString))
+                    {
+                        // LOG
+                    }
+
                     count = frequencyInSec;
                 }
                 else

@@ -104,7 +104,7 @@
                     Number = requiredSharesNumber
                 });
             }
-            catch (Exception e)
+            catch
             {
                 RemoveOperation(operation);
 
@@ -127,7 +127,7 @@
                 }
 
                 // throw new ArgumentException($"Deal was broken cause: {e.Message}");
-                throw e;
+                throw;
             }
 
             if (sellerSharesNumber.Number == 0)

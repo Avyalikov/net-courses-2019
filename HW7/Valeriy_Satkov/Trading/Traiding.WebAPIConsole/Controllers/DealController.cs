@@ -1,6 +1,7 @@
 ﻿namespace Traiding.WebAPIConsole.Controllers
 {
     using StructureMap;
+    using System;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -21,20 +22,27 @@
         //}
 
         // POST deal/make
-        public HttpResponseMessage Make([FromBody]OperationInputData value)
+        public IHttpActionResult Make([FromBody]OperationInputData value)
         {
             if (value == null)
             {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                return BadRequest();
             }
 
-            salesService.Deal(
-                customerId: value.CustomerId, 
-                sellerId: value.SellerId, 
-                shareId: value.ShareId, 
-                requiredSharesNumber: value.RequiredSharesNumber);
-            
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            try
+            {
+                salesService.Deal(
+                customerId: value.CustomerId,
+                sellerId: value.SellerId,
+                shareId: value.ShareId,
+                requiredSharesNumber: value.RequiredSharesNumber);                
+            }
+            catch (Exception e)
+            {
+                return Ok(e.Message);
+            }
+
+            return Ok();
         }
 
         public class OperationInputData

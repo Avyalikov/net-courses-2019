@@ -34,17 +34,17 @@
         public void Start()
         {
             //Console.WriteLine($"{DateTime.Now} Client started");
-            Console.WriteLine("Please wait while the database is loading...");            
+            Console.WriteLine("Please wait while the database is loading...");
 
             //GetClientsReq(1, 1); // first call of db
 
-            //CancellationTokenSource traidingCancelTokenSource = new CancellationTokenSource();
-            //CancellationToken traidingCancellationToken = traidingCancelTokenSource.Token;
-            //TraidingSimulator traidingSimulator = new TraidingSimulator(requestSender);
+            CancellationTokenSource traidingCancelTokenSource = new CancellationTokenSource();
+            CancellationToken traidingCancellationToken = traidingCancelTokenSource.Token;
+            TraidingSimulator traidingSimulator = new TraidingSimulator(requestSender);
 
-            //Task traidingLive = new Task(() => traidingSimulator.randomDeal(traidingCancellationToken, 10));
+            Task traidingLive = new Task(() => traidingSimulator.randomDeal(traidingCancellationToken, 10));
 
-            //traidingLive.Start();
+            traidingLive.Start();
 
             IEnumerable<IChoiceStrategy> choiceStrategies = InitializeRequestStrategy();
 
@@ -89,8 +89,8 @@
             Console.WriteLine("Good bye");
             Console.ReadKey(); // pause
 
-            //traidingCancelTokenSource.Cancel();
-            //traidingLive.Wait();
+            traidingCancelTokenSource.Cancel();
+            traidingLive.Wait();
         }
 
         static IEnumerable<IChoiceStrategy> InitializeRequestStrategy()
