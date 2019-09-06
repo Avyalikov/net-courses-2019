@@ -1,4 +1,4 @@
-﻿namespace Traiding.ConsoleApp.MenuStrategies
+﻿namespace Traiding.ConsoleApp.Strategies
 {
     using System;
     using System.Collections.Generic;
@@ -8,25 +8,35 @@
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
 
-    class AddClientStrategy : IChoiceStrategy
+    class EditClientStrategy : IChoiceStrategy
     {
         public bool CanExecute(string userChoice)
         {
-            return userChoice.Equals("1");
+            return userChoice.Equals("5");
         }
 
         public string Run(RequestSender requestSender)
         {
-            Console.WriteLine("  Clients registration service."); // signal about enter into case
+            Console.WriteLine("  Edit Clients info service."); // signal about enter into case
 
+            int id = 0;
             string lastName = string.Empty,
                 firstName = string.Empty,
                 phoneNumber = string.Empty;
-            decimal moneyAmount = 0;
 
             string inputString = string.Empty;
             while (inputString != "e")
             {
+                if (id == 0)
+                {
+                    Console.Write("   Enter the Id of client: ");
+                    inputString = Console.ReadLine();
+                    int inputInt;
+                    int.TryParse(inputString, out inputInt);
+                    if (!StockExchangeValidation.checkId(inputInt)) continue;
+                    id = inputInt;
+                }
+
                 if (string.IsNullOrEmpty(lastName))
                 {
                     Console.Write("   Enter the Last name of client: ");
@@ -51,16 +61,6 @@
                     phoneNumber = inputString;
                 }
 
-                if (moneyAmount == 0)
-                {
-                    Console.Write("   Enter the money amount of client: ");
-                    inputString = Console.ReadLine();
-                    decimal inputDecimal;
-                    decimal.TryParse(inputString, out inputDecimal);
-                    if (!StockExchangeValidation.checkClientBalanceAmount(inputDecimal)) continue;
-                    moneyAmount = inputDecimal;
-                }
-
                 break;
             }
 
@@ -71,18 +71,20 @@
 
             Console.WriteLine("    Wait a few seconds, please.");
 
-            var clientInputData = new ClientInputData();
-            clientInputData.LastName = lastName;
-            clientInputData.FirstName = firstName;
-            clientInputData.PhoneNumber = phoneNumber;
-            clientInputData.Amount = moneyAmount;
+            var clientInputData = new ClientInputData
+            {
+                Id = id,
+                LastName = lastName,
+                FirstName = firstName,
+                PhoneNumber = phoneNumber
+            };
 
-            var reqResult = requestSender.AddClient(clientInputData);
+            var reqResult = requestSender.EditClient(clientInputData);
             if (string.IsNullOrWhiteSpace(reqResult))
             {
-                return "New client was added! Press Enter.";
+                return $"     Client with Id = {id} was changed! Press Enter.";
             }
-            return "Error. Client wasn't added! Press Enter.";
+            return "Error. Client wasn't edited! Press Enter.";
         }
     }
 }

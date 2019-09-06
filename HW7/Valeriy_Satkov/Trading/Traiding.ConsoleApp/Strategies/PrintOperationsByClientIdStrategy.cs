@@ -1,4 +1,4 @@
-﻿namespace Traiding.ConsoleApp.MenuStrategies
+﻿namespace Traiding.ConsoleApp.Strategies
 {
     using System;
     using System.Collections.Generic;

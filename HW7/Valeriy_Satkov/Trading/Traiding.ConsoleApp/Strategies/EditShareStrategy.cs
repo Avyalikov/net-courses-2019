@@ -1,4 +1,4 @@
-﻿namespace Traiding.ConsoleApp.MenuStrategies
+﻿namespace Traiding.ConsoleApp.Strategies
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
 
-    class AddShareStrategy : IChoiceStrategy
+    class EditShareStrategy : IChoiceStrategy
     {
         public bool CanExecute(string userChoice)
         {
@@ -17,14 +17,24 @@
 
         public string Run(RequestSender requestSender)
         {
-            Console.WriteLine("  Share registration service."); // signal about enter into case
+            Console.WriteLine("  Edit Share info service"); // signal about enter into case
 
-            int shareTypeId = 0;
+            int id = 0, shareTypeId = 0;
             string companyName = string.Empty;
 
             string inputString = string.Empty;
             while (inputString != "e")
             {
+                if (id == 0)
+                {
+                    Console.Write("   Enter the Id of share: ");
+                    inputString = Console.ReadLine();
+                    int inputInt;
+                    int.TryParse(inputString, out inputInt);
+                    if (!StockExchangeValidation.checkId(inputInt)) continue;
+                    id = inputInt;
+                }
+
                 if (string.IsNullOrEmpty(companyName))
                 {
                     Console.Write("   Enter the Company name: ");
@@ -48,23 +58,24 @@
 
             if (inputString == "e")
             {
-                return "Exit from registration";
+                return "Exit from Edit Share info service";
             }
 
             Console.WriteLine("    Wait a few seconds, please.");
 
             var shareInputData = new ShareInputData
             {
+                Id = id,
                 CompanyName = companyName,
                 ShareTypeId = shareTypeId
             };
 
-            var reqResult = requestSender.AddShare(shareInputData);
+            var reqResult = requestSender.EditShare(shareInputData);
             if (string.IsNullOrWhiteSpace(reqResult))
             {
-                return "New share was added! Press Enter.";
+                return $"Share with Id = {id} was changed! Press Enter.";
             }
-            return "Error. Share wasn't added! Press Enter.";
+            return "Error. Share wasn't changed! Press Enter.";
         }
     }
 }

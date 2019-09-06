@@ -11,7 +11,7 @@
     using Traiding.ConsoleApp.Dto;
     using Traiding.ConsoleApp.Models;
 
-    class RequestSender
+    public class RequestSender
     {
         private readonly HttpClient client;
         public RequestSender()
@@ -95,6 +95,24 @@
         {
             string request = $"transactions?clientId={clientId}&top={top}";
             return Get<IEnumerable<OperationEntity>>(request);
+        }
+
+        public IEnumerable<ClientEntity> GetClients(int number, int page)
+        {
+            string request = $"clients?top={number}&page={page}";
+            return Get<IEnumerable<ClientEntity>>(request);
+        }
+
+        public IEnumerable<SharesNumberEntity> GetSharesNumbersByClientId(int clientId)
+        {
+            string request = $"shares?clientId={clientId}";
+            return Get<IEnumerable<SharesNumberEntity>>(request);
+        }
+
+        public string Deal(OperationInputData operationInputData)
+        {
+            string request = "deal/make";
+            return Post<OperationInputData, string>(request, operationInputData);
         }
     }
 }
