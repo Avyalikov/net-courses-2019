@@ -1,6 +1,5 @@
 ﻿namespace Traiding.ConsoleApp.Logger
 {
-    using log4net;
     using System;
 
     public interface ILoggerService
@@ -14,7 +13,5 @@
         void Error(Exception ex);
 
         void InitLogger();
-
-        ILog Log { get; }
     }
 }

@@ -8,16 +8,21 @@
     using System.Threading.Tasks;
     using Traiding.ConsoleApp.DependencyInjection;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.Logger;
     using Traiding.ConsoleApp.Models;
     using Traiding.ConsoleApp.Strategies;
 
     public class TraidingSimulator
     {
         private readonly RequestSender requestSender;
+        private readonly ILoggerService log;
 
-        public TraidingSimulator(RequestSender requestSender)
+        public TraidingSimulator(RequestSender requestSender, ILoggerService loggerService)
         {
             this.requestSender = requestSender;
+            this.log = loggerService;
+
+            log.InitLogger();
         }
 
         public void randomDeal(CancellationToken token, int frequencyInSec)
@@ -33,17 +38,31 @@
 
             while (!token.IsCancellationRequested)
             {
+                if (count != 0)
+                {
+                    log.Info(count.ToString());
+                    count--;
+                    Thread.Sleep(1000);
+                    continue;
+                }
+
+                log.Info("Now!");
+
                 clientsCount = requestSender.GetClients(10, 1).Count();
                 //sharesCount = this.reportsService.GetSharesCount();
                 randCustomerId = rand.Next(1, clientsCount);
+                log.Info($"Random customer Id is {randCustomerId}");
                 randSellerId = 0;
                 sellerSharesNumberList = new List<SharesNumberEntity>();
+                int sellerSharesNumberListCount = 0;
                 while (randSellerId == 0
                     || randSellerId == randCustomerId
-                    || sellerSharesNumberList.Count() == 0)
+                    || sellerSharesNumberListCount == 0)
                 {
                     randSellerId = rand.Next(1, clientsCount);
                     sellerSharesNumberList = requestSender.GetSharesNumbersByClientId(randSellerId);
+                    sellerSharesNumberListCount = sellerSharesNumberList.Count();
+                    log.Info($"Try find seller: sellerId = {randSellerId}, Shares Numbers Count by seller = {sellerSharesNumberListCount}");
                 }
 
                 var sellerSharesNumberFirst = sellerSharesNumberList.First();
@@ -55,31 +74,28 @@
                     sharesNumber++;
                 }
 
-                if (count == 0)
+                var operationInputData = new OperationInputData
                 {
-                    //Console.WriteLine("Now!");
-                    var operationInputData = new OperationInputData
-                    {
-                        CustomerId = randCustomerId,
-                        SellerId = randSellerId,
-                        ShareId = shareId,
-                        RequiredSharesNumber = sharesNumber
-                    };
+                    CustomerId = randCustomerId,
+                    SellerId = randSellerId,
+                    ShareId = shareId,
+                    RequiredSharesNumber = sharesNumber
+                };
 
-                    var resultString = requestSender.Deal(operationInputData);
+                log.Info($"Created OperationInputData with CustomerId = {randCustomerId}, SellerId = { randSellerId}, ShareId = {shareId}, RequiredSharesNumber = { sharesNumber} ");
 
-                    if (!string.IsNullOrWhiteSpace(resultString))
-                    {
-                        // LOG
-                    }
+                var resultString = requestSender.Deal(operationInputData);
 
-                    count = frequencyInSec;
+                if (!string.IsNullOrWhiteSpace(resultString))
+                {
+                    log.Info($"Deal was failed cause: {resultString}.");
                 }
                 else
                 {
-                    //Console.WriteLine(count);
-                    count--;
+                    log.Info("Deal was successful.");
                 }
+
+                count = frequencyInSec;
 
                 Thread.Sleep(1000);
             }

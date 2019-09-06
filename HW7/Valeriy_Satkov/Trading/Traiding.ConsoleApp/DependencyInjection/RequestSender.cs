@@ -17,13 +17,9 @@
         public RequestSender()
         {
             this.client = new HttpClient();
+            this.client.BaseAddress = new Uri("http://localhost:52804");
         }
-
-        public void SetBaseAddress(string address)
-        {
-            this.client.BaseAddress = new Uri(address);
-        }
-
+        
         private R Post<T, R>(string reqString, T content)
         {
             var jsonString = JsonConvert.SerializeObject(content);

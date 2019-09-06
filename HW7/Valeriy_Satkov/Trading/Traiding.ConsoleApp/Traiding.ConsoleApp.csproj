@@ -84,7 +84,7 @@
     <Compile Include="Dto\OperationInputData.cs" />
     <Compile Include="Dto\ClientInputData.cs" />
     <Compile Include="Logger\ILoggerService.cs" />
-    <Compile Include="Logger\LoggerService.cs" />
+    <Compile Include="Logger\Log4NetService.cs" />
     <Compile Include="Strategies\PrintOperationsByClientIdStrategy.cs" />
     <Compile Include="Strategies\PrintBalanceZoneByClientIdStrategy.cs" />
     <Compile Include="Strategies\DelShareStrategy.cs" />

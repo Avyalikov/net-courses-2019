@@ -4,18 +4,20 @@
     using log4net;
     using log4net.Config;
 
-    public class LoggerService : ILoggerService
+    public class Log4NetService : ILoggerService
     {
         private readonly ILog logger;
 
-        public LoggerService()
+        public Log4NetService(bool isItTrading)
         {
-            this.logger = LogManager.GetLogger("LOGGER");
-        }
-
-        public LoggerService(ILog logger)
-        {
-            this.logger = logger;
+            if (isItTrading)
+            {
+                this.logger = LogManager.GetLogger("TraidingLOGGER");
+            }
+            else
+            {
+                this.logger = LogManager.GetLogger("LOGGER");
+            }
         }
 
         public void Error(Exception ex)

@@ -20,15 +20,10 @@
         private readonly Container traidingRegistryContainer;
         private readonly RequestSender requestSender;
 
-        // public HttpClient client = new HttpClient();
-
-        public StockExchange(Container traidingRegistryContainer, string APIaddress)
+        public StockExchange(Container traidingRegistryContainer)
         {
             this.traidingRegistryContainer = traidingRegistryContainer;
             this.requestSender = traidingRegistryContainer.GetInstance<RequestSender>();
-            this.requestSender.SetBaseAddress(APIaddress);
-
-            //client.BaseAddress = new Uri("http://localhost:52804");
         }        
 
         public void Start()
@@ -36,11 +31,9 @@
             //Console.WriteLine($"{DateTime.Now} Client started");
             Console.WriteLine("Please wait while the database is loading...");
 
-            //GetClientsReq(1, 1); // first call of db
-
             CancellationTokenSource traidingCancelTokenSource = new CancellationTokenSource();
             CancellationToken traidingCancellationToken = traidingCancelTokenSource.Token;
-            TraidingSimulator traidingSimulator = new TraidingSimulator(requestSender);
+            TraidingSimulator traidingSimulator = traidingRegistryContainer.GetInstance<TraidingSimulator>();
 
             Task traidingLive = new Task(() => traidingSimulator.randomDeal(traidingCancellationToken, 10));
 
