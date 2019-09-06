@@ -85,6 +85,13 @@
     <Compile Include="Dto\ClientInputData.cs" />
     <Compile Include="Logger\ILoggerService.cs" />
     <Compile Include="Logger\LoggerService.cs" />
+    <Compile Include="MenuStrategies\PrintOperationsByClientIdStrategy.cs" />
+    <Compile Include="MenuStrategies\PrintBalanceZoneByClientIdStrategy.cs" />
+    <Compile Include="MenuStrategies\DelShareStrategy.cs" />
+    <Compile Include="MenuStrategies\EditShareStrategy.cs" />
+    <Compile Include="MenuStrategies\AddShareStrategy.cs" />
+    <Compile Include="MenuStrategies\DelClientStrategy.cs" />
+    <Compile Include="MenuStrategies\EditClientStrategy.cs" />
     <Compile Include="MenuStrategies\AddClientStrategy.cs" />
     <Compile Include="Models\BalanceEntity.cs" />
     <Compile Include="Models\BlockedMoneyEntity.cs" />

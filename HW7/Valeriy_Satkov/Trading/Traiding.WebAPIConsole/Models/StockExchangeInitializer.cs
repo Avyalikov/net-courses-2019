@@ -7,7 +7,7 @@
     using System.Web;
     using Traiding.Core.Models;
 
-    public class StockExchangeInitializer : DropCreateDatabaseIfModelChanges<StockExchangeDBContext>
+    public class StockExchangeInitializer : DropCreateDatabaseAlways<StockExchangeDBContext>//DropCreateDatabaseIfModelChanges<StockExchangeDBContext>
     {
         protected override void Seed(StockExchangeDBContext context)
         {

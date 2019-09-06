@@ -2,12 +2,14 @@
 {
     using Newtonsoft.Json;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
     using Traiding.ConsoleApp.Dto;
+    using Traiding.ConsoleApp.Models;
 
     class RequestSender
     {
@@ -17,39 +19,82 @@
             this.client = new HttpClient();
         }
 
-        public string BaseAddress
+        public void SetBaseAddress(string address)
         {
-            set
-            {
-                this.client.BaseAddress = new Uri(value);
-            }
+            this.client.BaseAddress = new Uri(address);
         }
 
-        private string Post<T>(string reqString, T content)
+        private R Post<T, R>(string reqString, T content)
         {
             var jsonString = JsonConvert.SerializeObject(content);
             HttpContent contentString = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            var resp = client.PostAsync(reqString, contentString).Result;
-            return returnValueFromRequest(resp, out string answer);
+            var response = client.PostAsync(reqString, contentString).Result;
+            return ReturnValueFromRequest<R>(response);
         }
 
-        private string returnValueFromRequest(HttpResponseMessage response, out string answer)
+        private R Get<R>(string reqString)
         {
-            answer = response.ToString();
+            var resp = client.GetAsync(reqString).Result;
+            return ReturnValueFromRequest<R>(resp);
+        }
+
+        private R ReturnValueFromRequest<R>(HttpResponseMessage response)
+        {
             var responseContent = response.Content.ReadAsStringAsync();
-            string result = "";
+            R result = default(R);
             if (response.IsSuccessStatusCode)
             {
-                result = responseContent.Result;
-            }
-            answer += responseContent.Result;
+                result = JsonConvert.DeserializeObject<R>(responseContent.Result);
+            }            
             return result;
         }
 
         public string AddClient(ClientInputData clientInputData)
         {
             string request = "clients/add";
-            return Post(request, clientInputData);
+            return Post<ClientInputData, string>(request, clientInputData);
+        }
+
+        public string EditClient(ClientInputData clientInputData)
+        {
+            string request = "clients/update";
+            return Post<ClientInputData, string>(request, clientInputData);
+        }
+
+        public string RemoveClient(int clientId)
+        {
+            string request = "clients/remove";
+            return Post<int, string>(request, clientId);
+        }
+
+        public string AddShare(ShareInputData shareInputData)
+        {
+            string request = "share/add";
+            return Post<ShareInputData, string>(request, shareInputData);
+        }
+
+        public string EditShare(ShareInputData shareInputData)
+        {
+            string request = "share/update";
+            return Post<ShareInputData, string>(request, shareInputData);
+        }
+
+        public string RemoveShare(int shareId)
+        {
+            string request = "share/remove";
+            return Post<int, string>(request, shareId);
+        }
+
+        public string GetBalanceZoneColor(int clientId)
+        {
+            string request = $"balances?clientId={clientId}";
+            return Get<string>(request);
+        }
+
+        public IEnumerable<OperationEntity> GetClientOperations(int clientId, int top)
+        {
+            string request = $"transactions?clientId={clientId}&top={top}";
+            return Get<IEnumerable<OperationEntity>>(request);
         }
     }
 }
