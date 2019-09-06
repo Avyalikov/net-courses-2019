@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UrlLinksCore.Repository;
 using UrlLinksCore.Service;
-using LinkContext;
 using System.Threading;
 
 namespace Links
@@ -16,20 +15,18 @@ namespace Links
     {
         static void Main(string[] args)
         {
-            //  private readonly string url="";
-            //   private readonly string filename="";
+           
             LinksContext context = new LinksContext();
             ILinkRepository linkRepository = new LinkRepository(context);
             ILinkService linkService = new LinkService(linkRepository);
             Downloader downloader = new Downloader(
-                "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)",
-                @"C:\***",
                 context,
                 linkService
                 );
+            ThreadPool.GetMaxThreads(out int workerThreads, out int completionPortThreads);
 
-            Thread thread1 = new Thread(new ThreadStart(downloader.Run));
-            thread1.Start();
+            new Thread(() => downloader.Run(2, "https://en.wikipedia.org/wiki/Russian_State_Library", "C:***")).Start();
+           
         }
     }
 }

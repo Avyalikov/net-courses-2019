@@ -30,7 +30,7 @@ namespace LinkContext
         {
             if (this.ContainsLink(linkDTO.Link))
             {
-                throw new ArgumentException ("DB contains item");
+               return;
             }
 
             Link linkToAdd = new Link()
@@ -56,6 +56,13 @@ namespace LinkContext
         public IEnumerable<Link> GetAllLinksByIteration(int iterationId)
         {
             return this.linkRepository.GetByCondition(l => l.IterationId == iterationId);
+        }
+
+        public IEnumerable<int> GetIterations()
+        {
+            var links = this.GetAllLinks();
+            IEnumerable<int> iterations = links.Select(i=>i.IterationId).Distinct();
+            return iterations;
         }
     }
 }

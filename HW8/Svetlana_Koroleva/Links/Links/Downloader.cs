@@ -22,15 +22,13 @@ namespace Links
     /// </summary>
     public class Downloader
     {
-        private readonly string url;
-        private readonly string filename;
+        
         private readonly LinksContext context;
         private readonly ILinkService linkService;
 
-        public Downloader(string starturl, string filename, LinksContext context, ILinkService linkService)
+        public Downloader( LinksContext context, ILinkService linkService)
         {
-            this.url = starturl;// 
-            this.filename = filename;
+           
             this.context = context;
             this.linkService = linkService;
         }
@@ -43,7 +41,7 @@ namespace Links
             }
         }
 
-       
+             
 
         public List<string> GetLinksFromHtml(string html, string url)
         {
@@ -86,27 +84,63 @@ namespace Links
         }
 
 
-        public void Run()
+        public int GetCurrentIteration()
         {
-            int iterations = 1;
-            for (int i = 0; i < iterations; i++)
+             int dbiteration;
+            List<int> iterations = this.linkService.GetIterations().ToList();
+            if (iterations.Count() == 0)
             {
-                this.DownloadHtml(url, filename);
-                List<string> links = this.GetLinksFromHtml(filename, url);
+                dbiteration = 1;
+            }
+            else
+            {
+                dbiteration = iterations.Last() + 1;
+            }
+            return dbiteration;
+        }
+
+        public void AddLinksToDB(int iteration, string url, string filename)
+        {
+            this.DownloadHtml(url, filename);
+            List<string> links = this.GetLinksFromHtml(filename, url);
+            foreach (string s in links)
+            {
+
+                LinkDTO link = new LinkDTO()
+                {
+                    Link = s,
+                    IterationId = iteration
+                };
+                this.linkService.AddLinkToDB(link);
+            }
+                   
+        }
 
 
+        public void Run(int deep, string url, string filename)
+        {
+            if (deep <= 0)
+            {
+                return;
+            }
+
+            if (deep == 1)
+
+            {
+                int iteration = this.GetCurrentIteration();
+                AddLinksToDB(iteration, url, filename);
+            }
+
+
+            else
+            {
+                int iteration = this.GetCurrentIteration();
+                AddLinksToDB(iteration, url, filename);
+                List<string> links = this.linkService.GetAllLinksByIteration(iteration).Select(l => l.Url).ToList();
                 foreach (string s in links)
                 {
-
-                    LinkDTO link = new LinkDTO()
-                    {
-                        Link = s,
-                        IterationId = i + 1
-                    };
-                    this.linkService.AddLinkToDB(link);
-
+                    Run(deep-1, s, filename);
                 }
-
             }
         }
 

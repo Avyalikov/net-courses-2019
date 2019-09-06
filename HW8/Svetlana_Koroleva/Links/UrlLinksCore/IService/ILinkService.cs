@@ -21,6 +21,7 @@ namespace UrlLinksCore.Service
         bool ContainsLink(string link);
         IEnumerable<Link> GetAllLinks();
         IEnumerable<Link> GetAllLinksByIteration(int iterationId);
+        IEnumerable<int> GetIterations();
 
        
     }
