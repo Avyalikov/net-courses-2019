@@ -34,13 +34,6 @@
 
             string filePath = $@"LinkFiles\{id}.txt";
 
-            //string path = $@"LinkFiles\{id}.txt";
-            //FileInfo fileInf = new FileInfo(path);
-            //if (!fileInf.Exists)
-            //{
-            //    fileInf.Create();
-            //}
-
             using (var client = new HttpClient(handler))
             {
                 using (var response = await client.GetAsync(link))
@@ -62,22 +55,7 @@
                 }
             }
         }
-
-        //public async Task<string> DownloadPageToRAM(string link, HttpMessageHandler handler)
-        //{
-        //    using (var client = new HttpClient(handler))
-        //    {
-        //        using (var response = await client.GetAsync(link))
-        //        {
-        //            using (var content = response.Content)
-        //            {
-        //                var jsonString = await content.ReadAsStringAsync();
-        //                return jsonString;
-        //            }
-        //        }
-        //    }
-        //}
-
+        
         /// <summary>
         /// Extract all anchor tags using HtmlAgilityPack
         /// Sample from https://habr.com/ru/post/273807/
@@ -110,59 +88,6 @@
 
             return hrefTags;
         }
-
-        //public List<string> ExtractLinksFromHtmlStringUseRegex(string[] startPageHosts, string htmlContent)
-        //{
-        //    /* regular
-        //     * ver.1
-        //     * <a href="(https:\/\/awaps\.yandex\.net\/.*)"
-        //     * ver.2
-        //     * string startPageHost = "https://en.wikipedia.org"
-        //     * $"<a href=\"({startPageHost}.*)"
-        //     */
-
-        //    if (startPageHosts == null)
-        //    {
-        //        throw new ArgumentNullException("startPageHosts is null");
-        //    }
-
-        //    List<string> resultList = new List<string>();
-
-        //    List<Regex> regexs = new List<Regex>();
-        //    List<MatchCollection> matches = new List<MatchCollection>();
-
-        //    foreach (var startPageHost in startPageHosts)
-        //    {
-        //        regexs.Add(new Regex($"<a.href=\"({startPageHost}.*)\""));
-        //    }
-        //    foreach (var regex in regexs)
-        //    {
-        //        matches.Add(regex.Matches(htmlContent));
-        //    }
-        //    foreach (var matchesItem in matches)
-        //    {
-        //        if (matchesItem.Count > 0)
-        //        {
-        //            foreach (Match match in matchesItem)
-        //            {
-        //                resultList.Add(match.Groups[1].Value);
-        //            }  
-        //        }
-        //    }
-
-        //    // Regex regex = new Regex($"<a.href=\"({startPageHost}.*)"); // https://en.wikipedia.org
-        //    // Regex regex = new Regex($"<a.href=\"(.*{startPageHost}.*)"); // en.wikipedia.org
-        //    //MatchCollection matches = regex.Matches(htmlContent);
-        //    //if (matches.Count > 0)
-        //    //{
-        //    //    foreach (Match match in matches)
-        //    //    {
-        //    //        resultList.Add(match.Groups[1].Value);
-        //    //    }                    
-        //    //}
-
-        //    return resultList;
-        //}
 
         public int Save(string link, int iterationId)
         {
@@ -200,56 +125,6 @@
         {
             if (cancellationToken.IsCancellationRequested) return;
 
-            // List<int> extractLinkIds = new List<int>();
-
-            // Get Entity list from DB by operationId
-            //var entityList = new List<LinkEntity>();
-            //lock (linksTableLocker)
-            //{
-            //    entityList = this.linkTableRepository.EntityListByIterationId(iterationId);
-            //}            
-
-            // For each link in list from DB...
-            //foreach (var linkEntity in entityList)
-            //{
-            //    // Async Download link content. Create id.txt file                
-            //    var filePathTask = this.DownloadPage(linkEntity.Link, null, linkEntity.Id); // Warnung!!! need to check for deadlock
-            //    filePathTask.Wait();
-            //    // Get links list from file
-            //    var extractlinksList = this.ExtractLinksFromHtmlString(ref startPageHosts, filePathTask.Result);
-
-            //    // Remove file
-            //    FileInfo fileInf = new FileInfo(filePathTask.Result);
-            //    if (fileInf.Exists)
-            //    {
-            //        fileInf.Delete();
-            //    }
-
-            //    // For each extract link in list...
-            //    foreach (var extractLink in extractlinksList)
-            //    {
-            //        try
-            //        {
-            //            // Save extractLink to DB and get her Id
-            //            int newIterationId;
-            //            lock (linksTableLocker)
-            //            {
-            //                newIterationId = this.Save(startPageHosts[0] + extractLink, linkEntity.Id);
-            //            }
-            //            extractLinkIds.Add(newIterationId);
-                        
-            //            //// ver.1
-            //            //// Use this Id as iterationId with recursion
-            //            //ParsingLinksByIterationId(newIterationId, ref startPageHosts);
-            //        }
-            //        catch (ArgumentException e)
-            //        {
-            //            // If find link in DB, write message
-            //            var message = e.Message;
-            //        }
-            //    }
-            //}
-
             // Async Download link content. Create id.txt file                
             var filePathTask = this.DownloadPage(link, null, id); // Warnung!!! need to check for deadlock
             filePathTask.Wait();
@@ -273,12 +148,7 @@
                     lock (linksTableLocker)
                     {
                         newIterationId = this.Save(startPageHosts[0] + extractLink, id);
-                    }
-                    //extractLinkIds.Add(newIterationId);
-
-                    //// ver.1
-                    //// Use this Id as iterationId with recursion
-                    //ParsingLinksByIterationId(newIterationId, ref startPageHosts);
+                    }                    
                 }
                 catch (ArgumentException e)
                 {
@@ -305,13 +175,6 @@
                     // Use this Id as iterationId with recursion
                     parsingTasks.Add(Task.Factory.StartNew(() => ParsingLinksByIterationId(linkEntity.Link, linkEntity.Id, startPageHosts, cancellationToken)));
                 }
-
-                //foreach (var extractLinkId in extractLinkIds)
-                //{
-                //    // ver.2
-                //    // Use this Id as iterationId with recursion
-                //    parsingTasks.Add(Task.Factory.StartNew(() => ParsingLinksByIterationId(extractLinkId, startPageHosts, cancellationToken)));
-                //}
 
                 Task.WaitAll(parsingTasks.ToArray());
             }
