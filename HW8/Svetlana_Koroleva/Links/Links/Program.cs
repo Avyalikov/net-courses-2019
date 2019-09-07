@@ -15,18 +15,14 @@ namespace Links
     {
         static void Main(string[] args)
         {
-           
+
             LinksContext context = new LinksContext();
             ILinkRepository linkRepository = new LinkRepository(context);
             ILinkService linkService = new LinkService(linkRepository);
-            Downloader downloader = new Downloader(
-                context,
-                linkService
-                );
-            ThreadPool.GetMaxThreads(out int workerThreads, out int completionPortThreads);
+            Downloader downloader = new Downloader(context, linkService);
 
-            new Thread(() => downloader.Run(2, "https://en.wikipedia.org/wiki/Russian_State_Library", "C:***")).Start();
-           
+            Task addUrls = Task.Run(() => downloader.Run(2, "https://en.wikipedia.org/wiki/Rusyn_language"));
+            addUrls.Wait();
         }
     }
 }

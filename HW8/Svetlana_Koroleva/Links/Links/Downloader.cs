@@ -11,6 +11,7 @@ namespace Links
     using System.Linq;
     using System.Net;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Xml;
     using UrlLinksCore.DTO;
@@ -22,17 +23,16 @@ namespace Links
     /// </summary>
     public class Downloader
     {
-        
+
         private readonly LinksContext context;
         private readonly ILinkService linkService;
 
-        public Downloader( LinksContext context, ILinkService linkService)
+        public Downloader(LinksContext context, ILinkService linkService)
         {
-           
             this.context = context;
             this.linkService = linkService;
         }
-          
+
         public void DownloadHtml(string url, string filename)
         {
             using (WebClient client = new WebClient())
@@ -41,7 +41,7 @@ namespace Links
             }
         }
 
-             
+
 
         public List<string> GetLinksFromHtml(string html, string url)
         {
@@ -72,21 +72,17 @@ namespace Links
                             {
                                 links.Add(linkToAdd);
                             }
-
                         }
-
                     }
-
                 }
 
             return links;
-
         }
 
 
         public int GetCurrentIteration()
         {
-             int dbiteration;
+            int dbiteration;
             List<int> iterations = this.linkService.GetIterations().ToList();
             if (iterations.Count() == 0)
             {
@@ -99,13 +95,13 @@ namespace Links
             return dbiteration;
         }
 
+        //Take(5)- for debug mode
         public void AddLinksToDB(int iteration, string url, string filename)
         {
             this.DownloadHtml(url, filename);
-            List<string> links = this.GetLinksFromHtml(filename, url);
+            List<string> links = this.GetLinksFromHtml(filename, url).Take(5).ToList();
             foreach (string s in links)
             {
-
                 LinkDTO link = new LinkDTO()
                 {
                     Link = s,
@@ -113,36 +109,34 @@ namespace Links
                 };
                 this.linkService.AddLinkToDB(link);
             }
-                   
         }
 
 
-        public void Run(int deep, string url, string filename)
+        public async Task Run(int deep, string url)
         {
+            Thread.Sleep(5000);
+            string filename = null;
             if (deep <= 0)
             {
                 return;
             }
-
             if (deep == 1)
-
             {
                 int iteration = this.GetCurrentIteration();
+                filename = "html" + iteration + ".html";
                 AddLinksToDB(iteration, url, filename);
             }
-
-
             else
             {
                 int iteration = this.GetCurrentIteration();
+                filename = "html" + iteration + ".html";
                 AddLinksToDB(iteration, url, filename);
                 List<string> links = this.linkService.GetAllLinksByIteration(iteration).Select(l => l.Url).ToList();
                 foreach (string s in links)
                 {
-                    Run(deep-1, s, filename);
+                    await Run(deep - 1, s);
                 }
             }
         }
-
     }
 }
