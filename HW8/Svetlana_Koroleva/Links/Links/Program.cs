@@ -21,7 +21,7 @@ namespace Links
             ILinkService linkService = new LinkService(linkRepository);
             Downloader downloader = new Downloader(context, linkService);
 
-            Task addUrls = Task.Run(() => downloader.Run(2, "https://en.wikipedia.org/wiki/Rusyn_language"));
+            Task addUrls = Task.Run(() => downloader.Run(2, "https://en.wikipedia.org/wiki/Rusnak_(surname)"));
             addUrls.Wait();
         }
     }

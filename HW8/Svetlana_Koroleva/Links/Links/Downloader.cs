@@ -96,8 +96,10 @@ namespace Links
         }
 
         //Take(5)- for debug mode
-        public void AddLinksToDB(int iteration, string url, string filename)
+        public void AddLinksToDB(string url)
         {
+            int iteration = this.GetCurrentIteration();
+            string  filename = "html" + iteration + ".html";
             this.DownloadHtml(url, filename);
             List<string> links = this.GetLinksFromHtml(filename, url).Take(5).ToList();
             foreach (string s in links)
@@ -115,23 +117,20 @@ namespace Links
         public async Task Run(int deep, string url)
         {
             Thread.Sleep(5000);
-            string filename = null;
+           
             if (deep <= 0)
             {
                 return;
             }
             if (deep == 1)
             {
-                int iteration = this.GetCurrentIteration();
-                filename = "html" + iteration + ".html";
-                AddLinksToDB(iteration, url, filename);
+                
+                AddLinksToDB(url);
             }
             else
             {
-                int iteration = this.GetCurrentIteration();
-                filename = "html" + iteration + ".html";
-                AddLinksToDB(iteration, url, filename);
-                List<string> links = this.linkService.GetAllLinksByIteration(iteration).Select(l => l.Url).ToList();
+                AddLinksToDB( url);
+                List<string> links = this.linkService.GetAllLinksByIteration(this.GetCurrentIteration()-1).Select(l => l.Url).ToList();
                 foreach (string s in links)
                 {
                     await Run(deep - 1, s);
