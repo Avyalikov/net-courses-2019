@@ -22,7 +22,10 @@
         public void AddRange(ICollection<Link> links)
         {
             using (LinksDbContext db = new LinksDbContext())
+            {
                 db.Links.AddRange(links);
+                db.SaveChanges();
+            }        
         }
 
         public bool Contains(string url)

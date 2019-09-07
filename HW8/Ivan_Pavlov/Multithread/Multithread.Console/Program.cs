@@ -8,9 +8,10 @@
     {
         static void Main(string[] args)
         {
-            int endIteration = 4;
+            int endIteration = 3;
             string url = "https://en.wikipedia.org/wiki/Mummia";
             var linkService = new LinksServices(new LinksRepo());
+
             linkService.SingleThread(url);
             
             linkService.ParsingForEachPage(endIteration);

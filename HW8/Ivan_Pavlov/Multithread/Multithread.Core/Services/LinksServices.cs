@@ -10,7 +10,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public  class LinksServices
+    public class LinksServices
     {
         private string startUrl;
         private static int Iteration = 0;
@@ -32,18 +32,10 @@
                 Iteration++;
             }
 
-            //WebClient wc = new WebClient();
-            //wc.Proxy = new WebProxy("159.89.83.24:8080");
-            //var page = wc.DownloadString(url);
-
-            //HtmlDocument doc = new HtmlDocument();
-            //doc.LoadHtml(page);
-            //return doc;
-
             var web = new HtmlWeb();
             Thread.Sleep(rnd.Next(20, 100));
             return web.Load(url);
-        }       
+        }
 
         public ICollection<string> ExtraxctHtmlTags(string url)
         {
@@ -59,8 +51,9 @@
             foreach (var link in pagesLinks)
             {
 #if DEBUG
-                if (new List<int> { 1, 2, 3}.Contains(rnd.Next(1, 10)))
-                    break;
+                // для ручного теста, уменьшаем число обрабатываемых ссылок
+                //if (new List<int> { 1, 2, 3}.Contains(rnd.Next(1, 10)))
+                //    break;
 #endif
                 if (link.Contains(startUrl))
                     urls.Add(link);
@@ -73,7 +66,7 @@
 
         public void SaveTagsIntoDb(ICollection<string> urls)
         {
-            foreach(var ur in urls)
+            foreach (var ur in urls)
             {
                 if (!this.repo.Contains(ur))
                 {
@@ -82,7 +75,7 @@
                         Url = ur,
                         IterationId = Iteration
                     });
-                }             
+                }
             }
         }
 
@@ -91,7 +84,7 @@
             if (Iteration == endIteration)
             {
                 return;
-            }          
+            }
 
             var urls = this.repo.GetAllWithIteration(Iteration);
 
@@ -99,11 +92,20 @@
             {
                 this.repo.RemoveDuplicate();
 #if DEBUG
-                    Console.WriteLine("все таки они умудряются повторятся");
+                Console.WriteLine("есть дубликаты");
+                if (this.repo.GetAllWithIteration(Iteration).Count == urls.Distinct().ToList().Count)
+                    Console.WriteLine("костыль отработал, дубликатов больше нет");
 #endif
             }
             Iteration++;
-            ParallelLoopResult result = Parallel.ForEach<string>(urls, SingleThread);            
+     
+            Parallel.ForEach<string>(urls, url =>
+            {
+                {
+                    Task t = Task.Factory.StartNew(() => { SingleThread(url); });
+                    t.Wait();
+                }
+            });
 
             ParsingForEachPage(endIteration);
         }
@@ -116,4 +118,3 @@
         }
     }
 }
- 
