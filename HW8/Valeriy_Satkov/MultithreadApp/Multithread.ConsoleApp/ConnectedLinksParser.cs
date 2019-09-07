@@ -23,7 +23,7 @@
 
         public void Start()
         {
-            Console.WriteLine("Enter the url and stay away:");
+            Console.WriteLine("Enter the url:");
             // string inputString = Console.ReadLine();
 
             //string inputString = "https://en.wikipedia.org/wiki/Mitichi"; // TEST
@@ -51,12 +51,37 @@
                 dirInfo.Create();
             }
 
-            int id = 0;
+            int firstId = 0;
 
-            Task<string> linkContentPath = parsingService.DownloadPage(inputString, defaultClientHandler, id);
+            parsingService.Save(inputString, firstId);
+
+            Console.WriteLine("Press 'Enter' and stay away:");
+            Console.ReadKey(); // pause
+
+            Task<string> linkContentPath = parsingService.DownloadPage(inputString, defaultClientHandler, firstId);
             string htmlContentPath = linkContentPath.Result;
 
             List<string> links = parsingService.ExtractLinksFromHtmlString(startPageHost, htmlContentPath);
+
+            FileInfo fileInf = new FileInfo(htmlContentPath);
+            if (fileInf.Exists)
+            {
+                fileInf.Delete();
+            }
+
+            int id = 1;
+
+            foreach (var link in links)
+            {
+                try
+                {
+                    parsingService.Save(mainPageHost + link, id);
+                }
+                catch (ArgumentException e)
+                {
+                    var message = e.Message;                    
+                }                
+            }
 
             Console.ReadKey();
         }

@@ -19,17 +19,17 @@
 
         public void Add(LinkEntity linkEntity)
         {
-            throw new NotImplementedException();
+            this.dBContext.Links.Add(linkEntity);
         }
 
         public bool ContainsByLink(string link)
         {
-            throw new NotImplementedException();
+            return this.dBContext.Links.Any(lnk => lnk.Link == link);
         }
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            this.dBContext.SaveChanges();
         }
     }
 }

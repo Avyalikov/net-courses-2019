@@ -181,9 +181,9 @@
                 throw new ArgumentException("'link' is null, empty or consists only of white-space characters");
             }
 
-            if (iterationId <= 0)
+            if (iterationId < 0)
             {
-                throw new ArgumentException("'iterationId' is zero or negative");
+                throw new ArgumentException("'iterationId' is negative");
             }
         }
 
