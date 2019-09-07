@@ -13,5 +13,6 @@
         bool ContainsByLink(string link);
         void SaveChanges();
         List<LinkEntity> EntityListByIterationId(int iterationId);
+        Dictionary<string, int> LookingForDuplicateLinkStrings();
     }
 }

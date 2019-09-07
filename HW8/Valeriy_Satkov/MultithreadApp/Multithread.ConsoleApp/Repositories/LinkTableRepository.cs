@@ -33,10 +33,26 @@
             var list = this.dBContext.Links.Where(lnk => lnk.IterationId == iterationId);
             if (list != null)
             {
-                list.ToList();
+                var newList = list.ToList();
+                return newList;
             }
 
             return emptyList;
+        }
+
+        public Dictionary<string, int> LookingForDuplicateLinkStrings()
+        {
+            Dictionary<string, int> resultList = new Dictionary<string, int>();
+
+            var linkGroups = this.dBContext.Links.GroupBy(lnk => lnk.Link)
+                        .Select(g => new { LinkName = g.Key, Count = g.Count() }).Where(s => s.Count > 1);
+
+            if (linkGroups != null)
+            {
+                resultList = linkGroups.ToDictionary(k => k.LinkName, v => v.Count);
+            }
+
+            return resultList;
         }
 
         public void SaveChanges()

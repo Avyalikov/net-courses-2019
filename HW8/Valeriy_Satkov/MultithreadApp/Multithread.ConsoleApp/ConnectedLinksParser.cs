@@ -51,15 +51,15 @@
                 dirInfo.Create();
             }
 
-            CancellationTokenSource parseCancelTokenSource = new CancellationTokenSource(30000);
+            CancellationTokenSource parseCancelTokenSource = new CancellationTokenSource(); //new CancellationTokenSource(20000);
             CancellationToken parseCancellationToken = parseCancelTokenSource.Token;
 
-            int firstIterationId = 0;
+            int firstId = 0;
 
             try
             {
                 // Save link to DB and get her Id
-                parsingService.Save(inputString, firstIterationId);
+                firstId = parsingService.Save(inputString, 0);
             }
             catch (ArgumentException e)
             {
@@ -68,19 +68,28 @@
                 var message = e.Message;
             }            
 
-            Task parseTask = new Task(() => parsingService.ParsingLinksByIterationId(firstIterationId, startPageHost, parseCancellationToken));
+            Task parseTask = new Task(() => parsingService.ParsingLinksByIterationId(inputString, firstId, startPageHost, parseCancellationToken));
 
             Console.WriteLine("Press 'Enter' and stay away:");
             Console.ReadKey(); // pause
 
             parseTask.Start();
+            Console.WriteLine(" Wait for it to destroy your SSD with too many requests");
 
-            //Thread.Sleep(10000);
-            //parseCancelTokenSource.Cancel();
+            Thread.Sleep(30000);            
+            parseCancelTokenSource.Cancel();
+            Console.WriteLine("Now it is trying to stop. Please wait until it finished correctly");
 
             parseTask.Wait();
 
             Console.WriteLine("The End.");
+            var duplicatesList = parsingService.LookingForDuplicatesInDb();
+            Console.WriteLine("Duplicates: ");
+            foreach (var duplicateString in duplicatesList)
+            {
+                Console.WriteLine($"{duplicateString.Key} — {duplicateString.Value}");
+            }
+            Console.WriteLine("Thats all.");
             Console.ReadKey();            
         }
     }
