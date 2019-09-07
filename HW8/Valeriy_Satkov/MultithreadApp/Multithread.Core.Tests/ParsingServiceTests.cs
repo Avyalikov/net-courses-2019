@@ -23,6 +23,7 @@
             // Arrange
             string testLink = "https://en.wikipedia.org/wiki/The_Mummy_Returns";
             string testContentString = "Hello world";
+            int testId = 5;
             
             var testHandler = new Mock<HttpMessageHandler>();
             testHandler.Protected()
@@ -42,7 +43,7 @@
             ParsingService parsingService = new ParsingService(linkTableRepository);
 
             // Act
-            var downoloadPageTask = parsingService.DownloadPage(testLink, testHandler.Object);
+            var downoloadPageTask = parsingService.DownloadPage(testLink, testHandler.Object, testId);
 
             // Assert
             var finishedString = downoloadPageTask.Result;
@@ -56,8 +57,10 @@
         public void ShouldExtractHtmlTags()
         {
             // Arrange
-            string testStartPageHost = "https://awaps.yandex.net";
-            string testLink1 = "https://awaps.yandex.net/1/c1/tx21lszVAoU5Fo8Pyi8d5u801OmKYBxm6WN0NZHl0S8jbyoimyHnsfliHjnIc_tO51oAXjPOAEJ73w3x7St1HdQlP9oHcN3iN-lNNXz1pxiSKo6U3WAlAnsXX9e_t5neFTAo+DgL9lWyrQgoh9dW7b-XR+EsQTUhI5o9Qn2NevLRBrYsvK8fL7QpK_tyLbIomKDQbsdBPLVgOHKzFSDPUAA1jb7ZoWFuUIOBXW8Mmokj2iU7gknw4XW_tEuXB3a8uAtu1Yzj0X4ZSDJHNTy4mI7RDE+fwALHBvqqtCWPyq52OO7RwH5BD_tmKbaIRy0YQhkKstlzDsmRw6ovNy1PKJKp6RfmDGn-6h8rL51A1d5xHqPpwKq_aR5Wx4uFr06eoBi+DO-k-XEN5WZycj9geI9gA_A_.htm";
+            string[] testStartPageHost = new string[1];
+            testStartPageHost[0] = "https://awaps.yandex.net";
+
+            string testLink1 = "https://awaps.yandex.net/1/c1/tx21lszVAoU5Fo8Pyi8d5u801OmKYBxm6WN0NZHl0S8jbyoimyHnsfliHjnIc_tO51oAXjPOAEJ73w3x7St1HdQlP9oHcN3iN-lNNXz1pxiSKo6U3WAlAnsXX9e_t5neFTAo+DgL9lWyrQgoh9dW7b-XR+EsQTUhI5o9Qn2NevLRBrYsvK8fL7QpK_tyLbIomKDQbsdBPLVgOHKzFSDPUAA1jb7ZoWFuUIOBXW8Mmokj2iU7gknw4XW_tEuXB3a8uAtu1Yzj0X4ZSDJHNTy4mI7RDE+fwALHBvqqtCWPyq52OO7RwH5BD_tmKbaIRy0YQhkKstlzDsmRw6ovNy1PKJKp6RfmDGn-6h8rL51A1d5xHqPpwKq_aR5Wx4uFr06eoBi+DO-k-XEN5WZycj9geI9gA_A_.htm" ;
             string imgLink1 = "https://awaps.yandex.net/0/c1/tVK-Oiz0m0j0AMEash5AnURBkzyTF9BKY0dPAy395Pjd85Vt4G57swybMF+QA_tsciMoIpSf8YqzVn3LopCbHWs2ElxXpT5xEMR9HZCUpPygSLc73OkyGCfqCJx_tH+Mpwzxo93HBzQ3nUfDHcvIJA5aZCKdzgJohTGCLkYRrnIYTGsrE0Qp-Ih4Z_t5SzOl1lQvytTBplcBNe45PwM-m8VUxnivjKRF8TKJgUoZg8HBEFXSeN8ebpq_tQSlSC9ZgpeDSZjm2ZzRwQ7fE6f4v3HW5MXkgNuGVkLkGHGsXJsx24vyXkjS1_tfNSC4r5WZSTPD-sMSPyh1C+Pdviz02f5toDqEfXwG-YTy-vy-";
             string htmlContent = $"</a></span></div></div></div></div></div></fgn></fwap></eflll></div></div><div class=\"container container__banner container__line\"><div class=\"row third\"><div class=\"b - inline b - inline_banner\"><div id=\"banner\" class=\"b - banner__content\"><div class=\"b - banner__wrap\"><div id=\"bc\"><noscript><a href=\"{testLink1}\" target=\"_blank\" rel=\"noopener\"><img src=\"{imgLink1}\"";
 
