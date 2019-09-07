@@ -1,6 +1,6 @@
-﻿namespace MultithreadApp
+﻿namespace Multithread.Console
 {
-    using MultithreadApp.Core.Model;
+    using Multithread.Core.Models;
     using System.Data.Entity;
 
     public class LinksDbContext : DbContext
