@@ -47,6 +47,8 @@
     <Compile Include="Models\LinkEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ILinkTableRepository.cs" />
+    <Compile Include="Services\FileManager.cs" />
+    <Compile Include="Services\IFileManager.cs" />
     <Compile Include="Services\ParsingService.cs" />
   </ItemGroup>
   <ItemGroup>

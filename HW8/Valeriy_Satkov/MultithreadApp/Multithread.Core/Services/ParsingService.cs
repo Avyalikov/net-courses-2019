@@ -16,11 +16,14 @@
     public class ParsingService
     {
         private ILinkTableRepository linkTableRepository;
+        private IFileManager fileManager;
+
         static object linksTableLocker = new object();
 
-        public ParsingService(ILinkTableRepository linkTableRepository)
+        public ParsingService(ILinkTableRepository linkTableRepository, IFileManager fileManager)
         {
             this.linkTableRepository = linkTableRepository;
+            this.fileManager = fileManager;
         }
 
         public async Task<string> DownloadPage(string link, HttpMessageHandler handler, int id)
@@ -42,7 +45,7 @@
                     {
                         var jsonString = await content.ReadAsStringAsync();                        
 
-                        using (FileStream fstream = new FileStream(filePath, FileMode.OpenOrCreate))
+                        using (FileStream fstream = this.fileManager.FileStream(filePath, FileMode.OpenOrCreate))
                         {
                             // convert string to bytes
                             byte[] array = System.Text.Encoding.Default.GetBytes(jsonString);
@@ -64,7 +67,7 @@
         {
             string content;
 
-            using (StreamReader sr = new StreamReader(htmlContentFilePath))
+            using (StreamReader sr = this.fileManager.StreamReader(htmlContentFilePath))
             {
                 content = sr.ReadToEnd();
             }
