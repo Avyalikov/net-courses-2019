@@ -27,6 +27,18 @@
             return this.dBContext.Links.Any(lnk => lnk.Link == link);
         }
 
+        public List<LinkEntity> EntityListByIterationId(int iterationId)
+        {
+            List<LinkEntity> emptyList = new List<LinkEntity>();
+            var list = this.dBContext.Links.Where(lnk => lnk.IterationId == iterationId);
+            if (list != null)
+            {
+                list.ToList();
+            }
+
+            return emptyList;
+        }
+
         public void SaveChanges()
         {
             this.dBContext.SaveChanges();

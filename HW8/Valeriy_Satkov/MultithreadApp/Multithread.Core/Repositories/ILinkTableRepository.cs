@@ -12,5 +12,6 @@
         void Add(LinkEntity linkEntity);
         bool ContainsByLink(string link);
         void SaveChanges();
+        List<LinkEntity> EntityListByIterationId(int iterationId);
     }
 }

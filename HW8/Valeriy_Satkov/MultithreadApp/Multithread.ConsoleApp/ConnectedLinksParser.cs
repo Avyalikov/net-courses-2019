@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Net.Http;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class ConnectedLinksParser
@@ -26,7 +27,7 @@
             Console.WriteLine("Enter the url:");
             // string inputString = Console.ReadLine();
 
-            //string inputString = "https://en.wikipedia.org/wiki/Mitichi"; // TEST
+            //string inputString = "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)"; // TEST
 
             //string[] startPageHost = new string[3];
             //int dotOrgPos = inputString.IndexOf(".org");
@@ -36,13 +37,12 @@
 
             string inputString = "https://gameofthrones.fandom.com/wiki/Jon_Snow"; // TEST
 
-            string[] startPageHost = new string[1];
+            string[] startPageHost = new string[2];
             int dotComPos = inputString.IndexOf(".com");
-            string mainPageHost = inputString.Substring(0, dotComPos + 4); // https://gameofthrones.fandom.com
-            startPageHost[0] = inputString.Substring(dotComPos + 4, 6); // /wiki/
+            startPageHost[0] = inputString.Substring(0, dotComPos + 4); // https://gameofthrones.fandom.com
+            startPageHost[1] = inputString.Substring(dotComPos + 4, 6); // /wiki/
 
-            HttpClientHandler defaultClientHandler = new HttpClientHandler();
-            defaultClientHandler.UseDefaultCredentials = true;
+            
 
             string path = @"LinkFiles";
             DirectoryInfo dirInfo = new DirectoryInfo(path);
@@ -51,39 +51,37 @@
                 dirInfo.Create();
             }
 
-            int firstId = 0;
+            CancellationTokenSource parseCancelTokenSource = new CancellationTokenSource(30000);
+            CancellationToken parseCancellationToken = parseCancelTokenSource.Token;
 
-            parsingService.Save(inputString, firstId);
+            int firstIterationId = 0;
+
+            try
+            {
+                // Save link to DB and get her Id
+                parsingService.Save(inputString, firstIterationId);
+            }
+            catch (ArgumentException e)
+            {
+                // If find link in DB, write message
+                parseCancelTokenSource.Cancel();
+                var message = e.Message;
+            }            
+
+            Task parseTask = new Task(() => parsingService.ParsingLinksByIterationId(firstIterationId, startPageHost, parseCancellationToken));
 
             Console.WriteLine("Press 'Enter' and stay away:");
             Console.ReadKey(); // pause
 
-            Task<string> linkContentPath = parsingService.DownloadPage(inputString, defaultClientHandler, firstId);
-            string htmlContentPath = linkContentPath.Result;
+            parseTask.Start();
 
-            List<string> links = parsingService.ExtractLinksFromHtmlString(startPageHost, htmlContentPath);
+            //Thread.Sleep(10000);
+            //parseCancelTokenSource.Cancel();
 
-            FileInfo fileInf = new FileInfo(htmlContentPath);
-            if (fileInf.Exists)
-            {
-                fileInf.Delete();
-            }
+            parseTask.Wait();
 
-            int id = 1;
-
-            foreach (var link in links)
-            {
-                try
-                {
-                    parsingService.Save(mainPageHost + link, id);
-                }
-                catch (ArgumentException e)
-                {
-                    var message = e.Message;                    
-                }                
-            }
-
-            Console.ReadKey();
+            Console.WriteLine("The End.");
+            Console.ReadKey();            
         }
     }
 }

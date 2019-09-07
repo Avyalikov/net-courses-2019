@@ -7,6 +7,7 @@
     using System.Net.Http;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Threading;
     using System.Threading.Tasks;
     using HtmlAgilityPack;
     using Multithread.Core.Models;
@@ -15,6 +16,7 @@
     public class ParsingService
     {
         private ILinkTableRepository linkTableRepository;
+        static object saveLocker = new object();
 
         public ParsingService(ILinkTableRepository linkTableRepository)
         {
@@ -23,6 +25,13 @@
 
         public async Task<string> DownloadPage(string link, HttpMessageHandler handler, int id)
         {
+            if (handler == null)
+            {
+                var defaultClientHandler = new HttpClientHandler();
+                defaultClientHandler.UseDefaultCredentials = true;
+                handler = defaultClientHandler;
+            }
+
             string filePath = $@"LinkFiles\{id}.txt";
 
             //string path = $@"LinkFiles\{id}.txt";
@@ -45,7 +54,7 @@
                             // convert string to bytes
                             byte[] array = System.Text.Encoding.Default.GetBytes(jsonString);
                             // record byte array to file
-                            fstream.Write(array, 0, array.Length);                            
+                            await fstream.WriteAsync(array, 0, array.Length);                            
 
                             return filePath;
                         }                        
@@ -73,7 +82,7 @@
         /// Extract all anchor tags using HtmlAgilityPack
         /// Sample from https://habr.com/ru/post/273807/
         /// </summary>
-        public List<string> ExtractLinksFromHtmlString(string[] startPageHosts, string htmlContentFilePath)
+        public List<string> ExtractLinksFromHtmlString(ref string[] startPageHosts, string htmlContentFilePath)
         {
             string content;
 
@@ -90,13 +99,13 @@
             foreach (HtmlNode link in htmlSnippet.DocumentNode.SelectNodes("//a[@href]"))
             {
                 HtmlAttribute att = link.Attributes["href"];
-                foreach (var startPageHost in startPageHosts)
+                for (int i = 1; i < startPageHosts.Length; i++)
                 {
-                    if (att.Value.StartsWith(startPageHost))
+                    if (att.Value.StartsWith(startPageHosts[i]))
                     {
                         hrefTags.Add(att.Value);
                     }
-                }
+                }                
             }
 
             return hrefTags;
@@ -185,6 +194,72 @@
             {
                 throw new ArgumentException("'iterationId' is negative");
             }
+        }
+
+        public void ParsingLinksByIterationId(int iterationId, string[] startPageHosts, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested) return;
+
+            List<int> extractLinkIds = new List<int>();
+
+            // Get Entity list from DB by operationId
+            var entityList = this.linkTableRepository.EntityListByIterationId(iterationId);
+
+            // For each link in list from DB...
+            foreach (var linkEntity in entityList)
+            {
+                // Async Download link content. Create id.txt file                
+                var filePathTask = this.DownloadPage(linkEntity.Link, null, linkEntity.Id); // Warnung!!! need to check for deadlock
+                filePathTask.Wait();
+                // Get links list from file
+                var extractlinksList = this.ExtractLinksFromHtmlString(ref startPageHosts, filePathTask.Result);
+
+                // Remove file
+                FileInfo fileInf = new FileInfo(filePathTask.Result);
+                if (fileInf.Exists)
+                {
+                    fileInf.Delete();
+                }
+
+                // For each extract link in list...
+                foreach (var extractLink in extractlinksList)
+                {
+                    try
+                    {
+                        // Save extractLink to DB and get her Id
+                        int newIterationId;
+                        lock (saveLocker)
+                        {
+                            newIterationId = this.Save(startPageHosts[0] + extractLink, linkEntity.Id);
+                        }
+                        extractLinkIds.Add(newIterationId);
+                        
+                        //// ver.1
+                        //// Use this Id as iterationId with recursion
+                        //ParsingLinksByIterationId(newIterationId, ref startPageHosts);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        // If find link in DB, write message
+                        var message = e.Message;
+                    }
+                }
+            }
+
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                List<Task> parsingTasks = new List<Task>();
+
+                foreach (var extractLinkId in extractLinkIds)
+                {
+                    // ver.2
+                    // Use this Id as iterationId with recursion
+                    parsingTasks.Add(Task.Factory.StartNew(() => ParsingLinksByIterationId(extractLinkId, startPageHosts, cancellationToken)));
+                }
+
+                Task.WaitAll(parsingTasks.ToArray());
+            }
+            
         }
 
         public void ContainsByLink(string link)
