@@ -50,18 +50,18 @@ namespace LinkContext
 
         public IEnumerable<Link> GetAllLinks()
         {
-          return  this.linkRepository.GetAll();
+          return  this.linkRepository.GetAll().ToList();
         }
 
-        public IEnumerable<Link> GetAllLinksByIteration(int iterationId)
+        public  IEnumerable<Link> GetAllLinksByIteration(int iterationId)
         {
-            return this.linkRepository.GetByCondition(l => l.IterationId == iterationId);
+            return this.linkRepository.GetByCondition(l => l.IterationId == iterationId).ToList();
         }
 
         public IEnumerable<int> GetIterations()
         {
             var links = this.GetAllLinks();
-            IEnumerable<int> iterations = links.Select(i=>i.IterationId).Distinct();
+            IEnumerable<int> iterations = links.Select(i=>i.IterationId).Distinct().ToList();
             return iterations;
         }
     }

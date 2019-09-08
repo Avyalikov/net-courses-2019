@@ -26,6 +26,7 @@ namespace Links
 
         private readonly LinksContext context;
         private readonly ILinkService linkService;
+        readonly Object locker = new Object();
 
         public Downloader(LinksContext context, ILinkService linkService)
         {
@@ -33,7 +34,7 @@ namespace Links
             this.linkService = linkService;
         }
 
-        public void DownloadHtml(string url, string filename)
+        private void DownloadHtml(string url, string filename)
         {
             using (WebClient client = new WebClient())
             {
@@ -43,7 +44,7 @@ namespace Links
 
 
 
-        public List<string> GetLinksFromHtml(string html, string url)
+        private List<string> GetLinksFromHtml(string html, string url)
         {
             Uri uri = new Uri(url);
             string protocol_domen = url.Replace(uri.LocalPath, string.Empty);
@@ -80,62 +81,68 @@ namespace Links
         }
 
 
-        public int GetCurrentIteration()
+        private int GetCurrentIteration()
         {
-            int dbiteration;
-            List<int> iterations = this.linkService.GetIterations().ToList();
-            if (iterations.Count() == 0)
+            lock (locker)
             {
-                dbiteration = 1;
-            }
-            else
-            {
-                dbiteration = iterations.Last() + 1;
-            }
-            return dbiteration;
-        }
-
-        //Take(5)- for debug mode
-        public void AddLinksToDB(string url)
-        {
-            int iteration = this.GetCurrentIteration();
-            string  filename = "html" + iteration + ".html";
-            this.DownloadHtml(url, filename);
-            List<string> links = this.GetLinksFromHtml(filename, url).Take(5).ToList();
-            foreach (string s in links)
-            {
-                LinkDTO link = new LinkDTO()
+                int dbiteration;
+                List<int> iterations = this.linkService.GetIterations().ToList();
+                if (iterations.Count() == 0)
                 {
-                    Link = s,
-                    IterationId = iteration
-                };
-                this.linkService.AddLinkToDB(link);
+                    dbiteration = 1;
+                }
+                else
+                {
+                    dbiteration = iterations.Last() + 1;
+                }
+                return dbiteration;
+            }
+        }
+
+        //Take(2)- for debug mode
+        private async Task AddLinksToDB(string url)
+        {
+            lock (locker)
+            {
+                int iteration = this.GetCurrentIteration();
+                string filename = "html" + iteration + ".html";
+                this.DownloadHtml(url, filename);
+                List<string> links = this.GetLinksFromHtml(filename, url).Take(2).ToList();
+                foreach (string s in links)
+                {
+                    LinkDTO link = new LinkDTO()
+                    {
+                        Link = s,
+                        IterationId = iteration
+                    };
+                    this.linkService.AddLinkToDB(link);
+                }
             }
         }
 
 
-        public async Task Run(int deep, string url)
+        public async void Run(int deep, string url)
         {
-            Thread.Sleep(5000);
-           
+            Thread.Sleep(500);
+            
             if (deep <= 0)
             {
                 return;
             }
             if (deep == 1)
             {
-                
-                AddLinksToDB(url);
+                Task t=Task.Run(()=>AddLinksToDB(url));
+                t.Wait();
             }
             else
             {
-                AddLinksToDB( url);
-                List<string> links = this.linkService.GetAllLinksByIteration(this.GetCurrentIteration()-1).Select(l => l.Url).ToList();
-                foreach (string s in links)
-                {
-                    await Run(deep - 1, s);
-                }
-            }
+                Task addLinksToDB = Task.Run(() => AddLinksToDB(url));
+                addLinksToDB.Wait();
+                var getlinks = Task.Run(() => this.linkService.GetAllLinksByIteration(this.GetCurrentIteration() - 1).Select(l => l.Url).ToList());
+                getlinks.Wait();
+                List<string> links=getlinks.Result;
+                Parallel.ForEach<string>(links, (link) => Run(deep - 1, link));
+            } 
         }
     }
 }
