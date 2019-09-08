@@ -24,6 +24,8 @@ namespace stockSimulator.WevServer
             new ClientEntity{Name="Patrick",Surname="Star",CreateAt=DateTime.Parse("2006-05-01"),PhoneNumber="+79654513154",AccountBalance=2500},
             new ClientEntity{Name="John",Surname="Lenon",CreateAt=DateTime.Parse("2000-03-01"),PhoneNumber="+34516485161",AccountBalance=9000},
             new ClientEntity{Name="Mike",Surname="Vazovsky",CreateAt=DateTime.Parse("2003-07-01"),PhoneNumber="+7654165165",AccountBalance=4000},
+            new ClientEntity{Name="Tom",Surname="Harley",CreateAt=DateTime.Parse("2002-06-01"),PhoneNumber="+7654144580",AccountBalance=0},
+            new ClientEntity{Name="Gray",Surname="Smith",CreateAt=DateTime.Parse("2001-11-01"),PhoneNumber="+7334495180",AccountBalance=-5},
             };
 
             clients.ForEach(c => context.Clients.Add(c));

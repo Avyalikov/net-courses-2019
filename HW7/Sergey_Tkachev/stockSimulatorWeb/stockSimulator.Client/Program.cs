@@ -14,7 +14,7 @@ namespace stockSimulator.Client
 
             simulator.start();
 
-            simulator.stop();
+           // simulator.stop();
         }
     }
 }

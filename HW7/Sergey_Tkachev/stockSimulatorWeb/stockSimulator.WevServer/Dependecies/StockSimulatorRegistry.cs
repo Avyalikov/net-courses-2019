@@ -19,6 +19,7 @@ namespace stockSimulator.WevServer.Dependecies
             this.For<EditCleintStockService>().Use<EditCleintStockService>();
             this.For<StockService>().Use<StockService>();
             this.For<TransactionService>().Use<TransactionService>();
+            this.For<TransactionHistoryService>().Use<TransactionHistoryService>();
 
             this.For<StockSimulatorDbContext>().Use<StockSimulatorDbContext>().Ctor<string>("connectionString")
                 .Is(ConfigurationManager.ConnectionStrings["stockSimulatorConnectionString"].ConnectionString);

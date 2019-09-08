@@ -42,6 +42,30 @@ namespace stockSimulator.Core.Services
             return entityToAdd.ID;
         }
 
+        public string GetStateOfClient(int clientId)
+        {
+            string result = string.Empty;
+            if (clientTableRepository.ContainsById(clientId))
+            {
+                decimal clientBalance = clientTableRepository.GetBalance(clientId);
+                if (clientBalance > 0)
+                {
+                    result = $"This client belongs to Green zone.";
+                }
+                else if (clientBalance == 0)
+                {
+                    result = $"This client belongs to Orange zone.";
+                }
+                else if (clientBalance < 0)
+                {
+                    result = $"This client belongs to Black zone.";
+                }
+                return result;
+            }
+            result = "Such client doesn't exist in DataBase.";
+            return result;
+        }
+
         public IEnumerable<ClientEntity> GetClients(int amount, int page)
         {
             return clientTableRepository.GetClients(amount * page - amount, amount);

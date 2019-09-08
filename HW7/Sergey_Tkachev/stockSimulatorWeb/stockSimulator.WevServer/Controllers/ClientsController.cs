@@ -30,7 +30,7 @@ namespace stockSimulator.WevServer.Controllers
             {
                 var clients = this.clientService.GetClients(top, page);
                 return Ok(clients);
-            }catch(Exeption ex)
+            }catch(Exception ex)
             {
                 return StatusCode(500, ex);
             }
@@ -46,7 +46,7 @@ namespace stockSimulator.WevServer.Controllers
                 int registeredID = this.clientService.RegisterNewClient(registrationInfo);
                 return Ok(registeredID);
             }
-            catch (Exeption ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex);
             }
@@ -61,7 +61,7 @@ namespace stockSimulator.WevServer.Controllers
                 string result = this.clientService.UpdateClient(updateInfo);
                 return Ok(result);
             }
-            catch (Exeption ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex);
             }
@@ -76,30 +76,12 @@ namespace stockSimulator.WevServer.Controllers
                 string result = this.clientService.RemoveClient(clientId);
                 return Ok(result);
             }
-            catch (Exeption ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex);
             }
         }
 
-        [Serializable]
-        private class Exeption : Exception
-        {
-            public Exeption()
-            {
-            }
-
-            public Exeption(string message) : base(message)
-            {
-            }
-
-            public Exeption(string message, Exception innerException) : base(message, innerException)
-            {
-            }
-
-            protected Exeption(SerializationInfo info, StreamingContext context) : base(info, context)
-            {
-            }
-        }
+        
     }
 }

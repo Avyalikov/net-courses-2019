@@ -48,6 +48,20 @@ namespace stockSimulator.Client
             return result.Result;
         }
 
+        internal string GetStateOfClient(int clientId)
+        {
+            string request = connectionString + "balances?clientId=" + clientId;
+            string result = Get(request);
+            return result;
+        }
+
+        internal string GetListOfClientTransactions(int clientId, int numOfTransactions)
+        {
+            string request = connectionString + "transactions?clientId=" + clientId + "&top=" + numOfTransactions;
+            string result = Get(request);
+            return result;
+        }
+
         internal string AddStockToClient(EditStockOfClientInfo editStockOfClientInfo)
         {
             string request = connectionString + "shares/add";
@@ -68,6 +82,14 @@ namespace stockSimulator.Client
         {
             string request = connectionString + "shares/update";
             string jsonData = JsonConvert.SerializeObject(editStockOfClientInfo, Formatting.Indented);
+            var result = Task.Run(() => Post(request, jsonData));
+            return result.Result;
+        }
+
+        internal string MakeDeal(TradeInfo tradeInfo)
+        {
+            string request = connectionString + "deal/make";
+            string jsonData = JsonConvert.SerializeObject(tradeInfo, Formatting.Indented);
             var result = Task.Run(() => Post(request, jsonData));
             return result.Result;
         }

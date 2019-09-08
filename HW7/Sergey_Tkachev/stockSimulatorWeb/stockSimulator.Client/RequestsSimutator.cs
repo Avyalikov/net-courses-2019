@@ -38,10 +38,86 @@ namespace stockSimulator.Client
                     case 6: AddNewStockToClient(); break;
                     case 7: UpdateStockOfClient(); break;
                     case 8: RemoveStockOfClient(); break;
+                    case 9: GetStateOfClient(); break;
+                    case 10: GetListOfClientTransactions(); break;
+                    case 11: MakeNewDealBetweenClients(); break;
                     default:
                         break;
                 }
             } while (userChoise != exitCode);
+        }
+
+        private void MakeNewDealBetweenClients()
+        {
+            Console.WriteLine();
+            Console.Write("Enter CustomerID: ");
+            int customerID = GetNum();
+            Console.Write("Enter SellerID: ");
+            int sellerID = GetNum();
+            string unparsedJson = clientRequests.GetListOfStocksOfClient(sellerID);
+            List<StockOfClientsEntity> sellerStocks = JsonConvert.DeserializeObject<List<StockOfClientsEntity>>(unparsedJson);
+            if (sellerStocks.Count == 0)
+            {
+                Console.WriteLine("Seller has no stocks.");
+                return;
+            }
+            Console.WriteLine("Seller has the next stocks:");
+            foreach (var stock in sellerStocks)
+            {
+                StocksOfClientInfo stocksOfClientInfo = new StocksOfClientInfo
+                {
+                    StockID = stock.Stock.ID,
+                    StockName = stock.Stock.Name,
+                    StockType = stock.Stock.Type,
+                    StockAmount = stock.Amount,
+                    Cost = stock.Stock.Cost
+                };
+                Console.WriteLine(stocksOfClientInfo);
+            }
+            Console.Write("Enter StockID: ");
+            int stockID = GetNum();
+            Console.Write("Enter amount of stocks to buy: ");
+            int amountOfStocks = GetNum();
+            TradeInfo tradeInfo = new TradeInfo 
+            {
+                Customer_ID = customerID,
+                Seller_ID = sellerID,
+                Amount = amountOfStocks,
+                Stock_ID = stockID
+            };
+            string result = clientRequests.MakeDeal(tradeInfo);
+            Console.WriteLine("Server answered: " + result);
+        }
+
+        private void GetListOfClientTransactions()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to show his transactions: ");
+            int clientId = GetNum();
+            Console.Write("Enter number of transactions to show: ");
+            int numOfTransactions = GetNum();
+            string unparsedJson = clientRequests.GetListOfClientTransactions(clientId, numOfTransactions);
+            List<HistoryEntity> clientTransactions = JsonConvert.DeserializeObject<List<HistoryEntity>>(unparsedJson);
+            if (clientTransactions.Count == 0)
+            {
+                Console.WriteLine("This client doesn't have any transactions.");
+                return;
+            }
+            Console.WriteLine("This client has the next transactions:");
+            foreach (var transaction in clientTransactions)
+            {
+                Console.WriteLine(transaction);
+            }
+            Console.WriteLine();
+        }
+
+        private void GetStateOfClient()
+        {
+            Console.WriteLine();
+            Console.Write("Enter id of client to know which area he belongs to: ");
+            int clientId = GetNum();
+            string result = clientRequests.GetStateOfClient(clientId);
+            Console.WriteLine(result);
         }
 
         private void RemoveStockOfClient()
@@ -216,14 +292,15 @@ namespace stockSimulator.Client
 6 - Add new stock to client.
 7 - Update client's stock.
 8 - Remove client's stock.
-9 - Show list of 'n' client's transactions.
-10 - Make a new deal between clients.");
+9 - Get client state.
+10 - Show list of 'n' client's transactions.
+11 - Make a new deal between clients.");
         }
 
-        internal void stop()
-        {
-            throw new NotImplementedException();
-        }
+        //internal void stop()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public static int GetNum(int min = int.MinValue, int max = int.MaxValue)
         {

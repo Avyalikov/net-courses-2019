@@ -32,8 +32,9 @@ namespace stockSimulator.Core.Services
             }
             else
             {
-                result = null;
-                throw new ArgumentException("There is no entry in DataBase, may be you eentered wrong userID or stockID");
+                this.stockOfClientsTableRepository.Add(entityToEdit);
+                result = $"Entry for client {entityToEdit.ClientID} was added into DB";
+                //throw new ArgumentException("There is no entry in DataBase, may be you eentered wrong userID or stockID");
             }
 
             this.stockOfClientsTableRepository.SaveChanges();
