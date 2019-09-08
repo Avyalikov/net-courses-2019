@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 
@@ -13,15 +14,25 @@ namespace WikipediaParser.Services
         public string GetHTMLSource(string url)
         {
             string result = string.Empty;
-            using (HttpClient client = new HttpClient())
+            try
             {
-                using (HttpResponseMessage response = client.GetAsync(url).Result)
+                using (HttpClient client = new HttpClient())
                 {
-                    using (HttpContent content = response.Content)
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        result = content.ReadAsStringAsync().Result;
+                        using (HttpContent content = response.Content)
+                        {
+                            using (StreamWriter file = File.CreateText(url.Substring(url.Length-10, url.Length)))
+                            {
+                                file.Write(content.ReadAsStringAsync().Result);
+                            }
+                        }
                     }
                 }
+            }
+            catch
+            {
+                throw;
             }
             return result;
         }

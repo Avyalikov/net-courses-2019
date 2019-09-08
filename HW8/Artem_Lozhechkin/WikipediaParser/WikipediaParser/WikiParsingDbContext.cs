@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using WikipediaParser.Models;
 
 namespace WikipediaParser
 {
+    
     public class WikiParsingDbContext : DbContext
     {
         public DbSet<LinkEntity> Links { get; set; }

@@ -11,13 +11,13 @@ namespace WikipediaParser
     {
         public WikipediaParserRegistry()
         {
-            this.For<LinksTableRepository>().Use<LinksTableRepository>();
+            this.For<LinksTableRepository>().Use<LinksTableRepository>().Transient();
 
             this.For<DownloadingService>().Use<DownloadingService>();
             this.For<PageParsingService>().Use<PageParsingService>();
             this.For<WikipediaParsingService>().Use<WikipediaParsingService>();
 
-            this.For<WikiParsingDbContext>().Use<WikiParsingDbContext>();
+            this.For<WikiParsingDbContext>().Use<WikiParsingDbContext>().Transient();
         }
     }
 }

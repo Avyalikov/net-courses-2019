@@ -17,10 +17,13 @@ namespace WikipediaParser.Services
             foreach (XElement obs in content.Descendants("a"))
             {
                 var link = obs.Attribute("href");
-                if (link != null && (link.Value.StartsWith("/w") || link.Value.Contains("/en.wikipedia.org")))
+                if (link != null && (link.Value.StartsWith("/wiki") || link.Value.Contains("/en.wikipedia.org")))
                 {
-                    if (link.Value.StartsWith("/w"))
+                    if (link.Value.StartsWith("/wiki"))
+                    {
+                        Console.WriteLine(link.Value);
                         links.Add("https://en.wikipedia.org" + link.Value);
+                    }
                     else if (link.Value.StartsWith("//"))
                         links.Add("https:" + link.Value);
                     else links.Add(link.Value);
