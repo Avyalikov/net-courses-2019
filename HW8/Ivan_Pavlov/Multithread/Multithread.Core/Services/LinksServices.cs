@@ -6,20 +6,21 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
     public class LinksServices
     {
         private string startUrl;
-        private static int Iteration = 0;
-        private readonly ILinksRepo repo;
+        private int Iteration = 0;
+        private readonly ILinksRepo linkRepo;
+        private readonly IWebRepo webRepo;
         private readonly Random rnd = new Random();
 
-        public LinksServices(ILinksRepo repo)
+        public LinksServices(ILinksRepo linkRepo, IWebRepo webRepo)
         {
-            this.repo = repo;
+            this.linkRepo = linkRepo;
+            this.webRepo = webRepo;
         }
 
         public HtmlDocument DowloandPage(string url)
@@ -32,29 +33,19 @@
                 Iteration++;
             }
 
-            var web = new HtmlWeb();
-            Thread.Sleep(rnd.Next(20, 100));
-            return web.Load(url);
+            return webRepo.DowloandPage(url);
         }
 
         public ICollection<string> ExtraxctHtmlTags(string url)
         {
             var page = DowloandPage(url);
 
-            var pagesLinks = page.DocumentNode
-                                 .Descendants("a")
-                                 .Select(a => a.GetAttributeValue("href", null))
-                                 .Where(u => !String.IsNullOrEmpty(u));
+            var pagesLinks = webRepo.GetAllTagsFromPage(page);
             page = null;
 
             ICollection<string> urls = new List<string>();
             foreach (var link in pagesLinks)
             {
-#if DEBUG
-                // для ручного теста, уменьшаем число обрабатываемых ссылок
-                //if (new List<int> { 1, 2, 3}.Contains(rnd.Next(1, 10)))
-                //    break;
-#endif
                 if (link.Contains(startUrl))
                     urls.Add(link);
 
@@ -68,9 +59,9 @@
         {
             foreach (var ur in urls)
             {
-                if (!this.repo.Contains(ur))
+                if (!this.linkRepo.Contains(ur))
                 {
-                    this.repo.CheckAddSave(new Link()
+                    this.linkRepo.CheckAddSave(new Link()
                     {
                         Url = ur,
                         IterationId = Iteration
@@ -86,14 +77,14 @@
                 return;
             }
 
-            var urls = this.repo.GetAllWithIteration(Iteration);
+            var urls = this.linkRepo.GetAllWithIteration(Iteration);
 
             if (urls.Count != urls.Distinct().ToList().Count)
             {
-                this.repo.RemoveDuplicate();
+                this.linkRepo.RemoveDuplicate();
 #if DEBUG
                 Console.WriteLine("есть дубликаты");
-                if (this.repo.GetAllWithIteration(Iteration).Count == urls.Distinct().ToList().Count)
+                if (this.linkRepo.GetAllWithIteration(Iteration).Count == urls.Distinct().ToList().Count)
                     Console.WriteLine("костыль отработал, дубликатов больше нет");
 #endif
             }

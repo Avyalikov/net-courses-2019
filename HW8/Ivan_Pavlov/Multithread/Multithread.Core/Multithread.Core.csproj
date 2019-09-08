@@ -47,6 +47,7 @@
     <Compile Include="Models\Link.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\ILinksRepo.cs" />
+    <Compile Include="Repo\IWebRepo.cs" />
     <Compile Include="Services\LinksServices.cs" />
   </ItemGroup>
   <ItemGroup>

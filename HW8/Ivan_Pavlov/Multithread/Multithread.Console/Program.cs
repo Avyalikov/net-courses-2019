@@ -10,7 +10,7 @@
         {
             int endIteration = 3;
             string url = "https://en.wikipedia.org/wiki/Mummia";
-            var linkService = new LinksServices(new LinksRepo());
+            var linkService = new LinksServices(new LinksRepo(), new WebRepo());
 
             linkService.SingleThread(url);
             
