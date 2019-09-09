@@ -13,7 +13,7 @@ namespace ReferenceCollectorApp.Context
         public DbSet<ReferenceEntity> References { get; set; }
         public ReferenceCollectorDbContext() : base ("name=ReferenceCollectorConnectionString")
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ReferenceCollectorDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<ReferenceCollectorDbContext>());
         }
         //public static ReferenceCollectorDbContext GetInstance { get => new ReferenceCollectorDbContext(); }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

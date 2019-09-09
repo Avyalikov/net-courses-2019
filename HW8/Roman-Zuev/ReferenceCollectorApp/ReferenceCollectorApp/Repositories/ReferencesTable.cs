@@ -1,4 +1,5 @@
 ﻿using ReferenceCollectorApp.Context;
+using ReferenceCollectorApp.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,20 +18,26 @@ namespace ReferenceCollectorApp.Repositories
             this.db = db;
         }
 
-        public void AddBatch(Dictionary<string,string> data)
+        public void Add(ReferenceEntity referenceItem)
+        {
+            db.References.Add(referenceItem);
+        }
+
+        public void AddBatch(List<ReferenceEntity> data)
         {
             using (db)
             {
                 foreach (var item in data)
                 {
-                    db.References.Add(new Models.ReferenceEntity
-                    {
-                        Reference = item.Key,
-                        iterationId = item.Value
-                    });
+                        db.References.Add(item);               
                 }
                 db.SaveChanges();
             }
+        }
+
+        public bool ContainsById (string id)
+        {
+            return db.References.Any(r => r.Reference == id);
         }
 
         public void SaveChanges()
