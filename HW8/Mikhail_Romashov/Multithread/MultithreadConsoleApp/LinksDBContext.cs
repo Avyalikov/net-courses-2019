@@ -7,9 +7,9 @@ namespace MultithreadConsoleApp
     {
         public DbSet<LinkEntity> Links { get; set; }
 
-        public LinksDBContext(string connectionString) : base(connectionString)
+        public LinksDBContext() : base("linksConnectionString")
         {
-            //Database.SetInitializer<TradingSimulatorDBContext>(new TraidingDbInitializer());
+        
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -12,7 +12,7 @@ namespace Multithread.Core.Repositories
         bool Contains(string link);
         bool ContainsById(int entityId);
         LinkEntity GetById(int linkId);
-        List<LinkEntity> GetListOfLinks();
-        List<LinkEntity> GetListOfLinksByIteration(int iteration);
+        IEnumerable<LinkEntity> GetListOfLinks();
+        IEnumerable<LinkEntity> GetListOfLinksByIteration(int iteration);
     }
 }

@@ -61,12 +61,16 @@
     <Compile Include="Components\HtmlParser.cs" />
     <Compile Include="Components\IOFile.cs" />
     <Compile Include="Dependencies\MultithreadRegistry.cs" />
+    <Compile Include="Dependencies\UrlsStrategyRegistry.cs" />
     <Compile Include="Multithread.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LinksDbInitializer.cs" />
     <Compile Include="LinksDBContext.cs" />
     <Compile Include="Repositories\LinkRepository.cs" />
+    <Compile Include="UrlsStrategy\FilmUrls.cs" />
+    <Compile Include="UrlsStrategy\IChooseUrl.cs" />
+    <Compile Include="Components\UrlForWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -16,6 +16,10 @@ namespace Multithread.Core.Services
             this.linkTableRepository = linkTableRepository;
         }
 
+        public void SaveChanges()
+        {
+            this.linkTableRepository.SaveChanges();
+        }
         public int AddNewLink(LinkInfo linkInfo)
         {
             var entityToAdd = new LinkEntity()
@@ -30,9 +34,7 @@ namespace Multithread.Core.Services
             }
 
             this.linkTableRepository.Add(entityToAdd);
-
             this.linkTableRepository.SaveChanges();
-
             return entityToAdd.Id;
         }
 
@@ -41,7 +43,7 @@ namespace Multithread.Core.Services
             return this.linkTableRepository.Contains(link);
         }
 
-        public List<LinkEntity> GetListOfLinks()
+        public IEnumerable<LinkEntity> GetListOfLinks()
         {
             return this.linkTableRepository.GetListOfLinks();
         }
@@ -63,7 +65,7 @@ namespace Multithread.Core.Services
             }
             return linkTableRepository.GetById(linkId);
         }
-        public List<LinkEntity> GetListOfLinksByIteration(int iteration)
+        public IEnumerable<LinkEntity> GetListOfLinksByIteration(int iteration)
         {
             return linkTableRepository.GetListOfLinksByIteration(iteration);
         }

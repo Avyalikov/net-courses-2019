@@ -39,6 +39,21 @@ namespace MultithreadConsoleApp.Components
             }
             return result;
         }
+
+        public static void DeleteFile(string pathToDelete)
+        {
+            string result = string.Empty;
+            try
+            {
+                File.Delete(pathToDelete);
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return ;
+            }
+        }
     }
 }
    

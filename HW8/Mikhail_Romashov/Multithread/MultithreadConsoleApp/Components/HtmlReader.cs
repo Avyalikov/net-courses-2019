@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MultithreadConsoleApp.Components
@@ -10,21 +11,43 @@ namespace MultithreadConsoleApp.Components
     {
         public static async Task<string> ReadHttp(string url)
         {
-            string result = string.Empty;
             using (var httpClient = new HttpClient())
             {
-                try
+                HttpResponseMessage response = null;
+                int iteration = 0;
+                bool isResponsed = false;
+                while (!isResponsed && iteration < 10)
                 {
-                    result = await httpClient.GetStringAsync(url);
+                    try
+                    {
+                        iteration++;
+                        response = await httpClient.GetAsync(url);
+                        isResponsed = true;
+                    }
+                    catch (HttpRequestException)
+                    {
+                        Thread.Sleep(10);
+                    }
+                    catch
+                    {
+                        throw;
+                    }
                 }
-                catch (Exception e)
+                if (response == null)
                 {
-                    Console.WriteLine(e.Message);
-                    return null;
+                    throw new Exception("Cannot get answer from website");
                 }
+                if (response.IsSuccessStatusCode)
+                {
+                    var pageContents = await response.Content.ReadAsStringAsync();
+                    return pageContents;
+                }
+                return null;
             }
-            return result;
         }
     }
 }
-   
+
+
+
+        

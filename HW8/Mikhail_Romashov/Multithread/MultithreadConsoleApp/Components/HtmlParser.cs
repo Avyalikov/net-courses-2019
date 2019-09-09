@@ -18,7 +18,6 @@ namespace MultithreadConsoleApp.Components
                 var link = node.Attributes["href"];
                 if (link.Value.Contains("wikipedia.org") && link.Value.Contains("https://"))
                 {
-                   //Console.WriteLine(link.Value);
                     result.Add(link.Value);
                 }
 
@@ -26,5 +25,5 @@ namespace MultithreadConsoleApp.Components
             return result;
         }
     }
-    }
+}
    

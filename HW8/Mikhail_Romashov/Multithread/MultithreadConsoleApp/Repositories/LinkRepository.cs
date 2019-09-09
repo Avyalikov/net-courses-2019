@@ -1,5 +1,6 @@
 ﻿using Multithread.Core.Models;
 using Multithread.Core.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,7 +35,7 @@ namespace MultithreadConsoleApp.Repositories
             return this.dbContext.Links.First(l => l.Id == linkId);
         }
 
-        public List<LinkEntity> GetListOfLinks()
+        public IEnumerable<LinkEntity> GetListOfLinks()
         {
             List<LinkEntity> listItems = new List<LinkEntity>();
             foreach (var item in this.dbContext.Links)
@@ -42,10 +43,10 @@ namespace MultithreadConsoleApp.Repositories
                 listItems.Add(item);
             }
 
-            return listItems;
+            return listItems.ToList();
         }
 
-        public List<LinkEntity> GetListOfLinksByIteration(int iteration)
+        public IEnumerable<LinkEntity> GetListOfLinksByIteration(int iteration)
         {
             List<LinkEntity> listItems = new List<LinkEntity>();
             foreach (var item in this.dbContext.Links.Where(l => l.Iteration == iteration))
@@ -53,9 +54,8 @@ namespace MultithreadConsoleApp.Repositories
                 listItems.Add(item);
             }
 
-            return listItems;
+            return listItems.ToList();
         }
-
         public void SaveChanges()
         {
             this.dbContext.SaveChanges();
