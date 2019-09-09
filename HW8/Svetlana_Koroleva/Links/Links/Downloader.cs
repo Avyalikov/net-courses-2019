@@ -96,53 +96,76 @@ namespace Links
                     dbiteration = iterations.Last() + 1;
                 }
                 return dbiteration;
+
             }
         }
+
+        
 
         //Take(2)- for debug mode
         private async Task AddLinksToDB(string url)
         {
-            lock (locker)
+            await Task.Run(() =>
             {
-                int iteration = this.GetCurrentIteration();
-                string filename = "html" + iteration + ".html";
-                this.DownloadHtml(url, filename);
-                List<string> links = this.GetLinksFromHtml(filename, url).Take(2).ToList();
-                foreach (string s in links)
+                lock (locker)
                 {
-                    LinkDTO link = new LinkDTO()
+                   
+                    int iteration = this.GetCurrentIteration();
+                    string filename = "html" + iteration + ".html";
+                    this.DownloadHtml(url, filename);
+                    List<string> links = this.GetLinksFromHtml(filename, url).Take(2).ToList();
+                    foreach (string s in links)
                     {
-                        Link = s,
-                        IterationId = iteration
-                    };
-                    this.linkService.AddLinkToDB(link);
+                        LinkDTO link = new LinkDTO()
+                        {
+                            Link = s,
+                            IterationId = iteration
+                        };
+                        this.linkService.AddLinkToDB(link);
+                    }
                 }
             }
+            );
         }
 
 
-        public async void Run(int deep, string url)
+        public async Task Run(int deep, string url)
         {
-            Thread.Sleep(500);
-            
-            if (deep <= 0)
+            await Task.Run(() =>
             {
-                return;
+
+                Thread.Sleep(500);
+
+                if (deep <= 0)
+                {
+                    return;
+                }
+                if (deep == 1)
+                {
+
+                    Task t = Task.Run(() => AddLinksToDB(url));
+                    t.Wait();
+
+                }
+                else
+                {
+
+
+                    Task addLinksToDB = Task.Run(() => AddLinksToDB(url));
+                    addLinksToDB.Wait();
+                    var getlinks = Task.Run(() => this.linkService.GetAllLinksByIteration(this.GetCurrentIteration() - 1).Select(l => l.Url).ToList());
+                    getlinks.Wait();
+                    List<string> links = getlinks.Result;
+                    Parallel.ForEach<string>(links, (link) =>
+                    {
+                        Task t = Task.Run(() => Run(deep - 1, link));
+                        t.Wait();
+                    });
+
+                }
+            });
+
             }
-            if (deep == 1)
-            {
-                Task t=Task.Run(()=>AddLinksToDB(url));
-                t.Wait();
-            }
-            else
-            {
-                Task addLinksToDB = Task.Run(() => AddLinksToDB(url));
-                addLinksToDB.Wait();
-                var getlinks = Task.Run(() => this.linkService.GetAllLinksByIteration(this.GetCurrentIteration() - 1).Select(l => l.Url).ToList());
-                getlinks.Wait();
-                List<string> links=getlinks.Result;
-                Parallel.ForEach<string>(links, (link) => Run(deep - 1, link));
-            } 
         }
     }
-}
+

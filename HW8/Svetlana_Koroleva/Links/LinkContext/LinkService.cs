@@ -60,7 +60,7 @@ namespace LinkContext
 
         public IEnumerable<int> GetIterations()
         {
-            var links = this.GetAllLinks();
+            var links = this.GetAllLinks().ToList();
             IEnumerable<int> iterations = links.Select(i=>i.IterationId).Distinct().ToList();
             return iterations;
         }

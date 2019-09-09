@@ -24,12 +24,12 @@ namespace LinkContext
 
         public IEnumerable<Link> GetAll()
         {
-            return this.dbcontext.Links;
+            return this.dbcontext.Links.ToList();
         }
 
         public IEnumerable<Link> GetByCondition(Func<Link, bool> predicate)
         {
-            return this.dbcontext.Links.AsNoTracking().Where(predicate);
+            return this.dbcontext.Links.AsNoTracking().Where(predicate).ToList();
         }
 
         public void Save()

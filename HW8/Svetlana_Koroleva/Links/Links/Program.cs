@@ -23,8 +23,9 @@ namespace Links
 
             using (context)
             {
-                
-                downloader.Run(3, "https://en.wikipedia.org/wiki/Pipe_(material)");
+              
+                Task t= downloader.Run(3, "https://en.wikipedia.org/wiki/Symmetry_group");
+                  t.Wait();
 
             }
         }
