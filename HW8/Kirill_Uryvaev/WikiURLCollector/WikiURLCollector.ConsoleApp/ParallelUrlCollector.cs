@@ -16,10 +16,12 @@ namespace WikiURLCollector.ConsoleApp
     public class ParallelUrlCollector
     {
         private readonly IParallelUrlCollectingService parallelUrlCollectingService;
+        private readonly UrlService urlService;
 
-        public ParallelUrlCollector(IParallelUrlCollectingService parallelUrlCollectingService)
+        public ParallelUrlCollector(IParallelUrlCollectingService parallelUrlCollectingService, UrlService urlService)
         {
             this.parallelUrlCollectingService = parallelUrlCollectingService;
+            this.urlService = urlService;
         }
 
         public async Task GetUrls(string userInput, int maxIterations)
@@ -30,6 +32,11 @@ namespace WikiURLCollector.ConsoleApp
             var urlsDictionary = await parallelUrlCollectingService.GetUrls(userInput, maxIterations);
             watch.Stop();
             Console.WriteLine($"{DateTime.Now} Parsing with derph {maxIterations} is completed in {watch.Elapsed}");
+            Console.WriteLine($"{DateTime.Now} Start save url to database");
+            watch.Restart();
+            urlService.AddUrlDictionary(urlsDictionary);
+            watch.Stop();
+            Console.WriteLine($"{DateTime.Now} Saving to database is completed in {watch.Elapsed}");
         }
 
     }

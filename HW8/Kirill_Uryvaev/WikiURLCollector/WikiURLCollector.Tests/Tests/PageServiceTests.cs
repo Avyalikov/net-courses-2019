@@ -16,10 +16,10 @@ namespace WikiURLCollector.Tests.Tests
     /// Summary description for PageDownloadingServiceTests
     /// </summary>
     [TestClass]
-    public class PageDownloadingServiceTests
+    public class PageServiceTests
     {
         HttpClient client;
-        
+
         [TestInitialize]
         public void Initialize()
         {
@@ -42,7 +42,7 @@ namespace WikiURLCollector.Tests.Tests
                         Content = page
                     };
                 }
-                if (request.RequestUri.Equals("https://en.wikipedia.org/wiki/Not_Respond"))
+                if (request.RequestUri.Equals("https://en.wikipedia.org/wiki/Latency"))
                 {
                     tryNumber++;
                     if (tryNumber < 5)
@@ -67,41 +67,48 @@ namespace WikiURLCollector.Tests.Tests
         public void ShouldDownloadPage()
         {
             //Arrange
-            PageDownloadingService pageDownloadingService = new PageDownloadingService(client);
+            PageService pageDownloadingService = new PageService(client);
             string address = "https://en.wikipedia.org/wiki/Emu_War";
 
             //Act
-            var page = pageDownloadingService.GetPage(address);
+            var fileName = pageDownloadingService.DownloadPageIntoFile(address);
+            var page = File.ReadAllText(fileName.Result);
+            File.Delete(fileName.Result);
             //Assert
             var truePage = File.ReadAllText("Resources\\Emu War - Wikipedia.html");
-            Assert.AreEqual(truePage, page.Result);
+            Assert.AreEqual(truePage, page);
         }
 
         [TestMethod]
         public void ShouldDownloadPageWithSomeLatency()
         {
             //Arrange
-            PageDownloadingService pageDownloadingService = new PageDownloadingService(client);
-            string address = "https://en.wikipedia.org/wiki/Not_Respond";
+            PageService pageDownloadingService = new PageService(client);
+            string address = "https://en.wikipedia.org/wiki/Latency";
 
             //Act
-            var page = pageDownloadingService.GetPage(address);
+            var fileName = pageDownloadingService.DownloadPageIntoFile(address);
+            var page = File.ReadAllText(fileName.Result);
+            File.Delete(fileName.Result);
             //Assert
             var truePage = "Some html content";
-            Assert.AreEqual(truePage, page.Result);
+            Assert.AreEqual(truePage, page);
 
         }
         [TestMethod]
+        [ExpectedException(typeof(HttpRequestException),"NotFound Not Found")]
         public void ShouldNotDownloadPage()
         {
             //Arrange
-            PageDownloadingService pageDownloadingService = new PageDownloadingService(client);
+            PageService pageDownloadingService = new PageService(client);
             string address = "https://en.wikipedia.org/wiki/Random";
 
             //Act
-            var page = pageDownloadingService.GetPage(address);
+            var fileName = pageDownloadingService.DownloadPageIntoFile(address);
             //Assert
-            Assert.IsNull(page.Result);
+            Assert.IsNotNull(fileName.Exception);
+            Assert.AreEqual(1, fileName.Exception.InnerExceptions.Count);
+            throw fileName.Exception.InnerException;
         }
     }
 }

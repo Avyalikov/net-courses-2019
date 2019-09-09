@@ -61,7 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests\PageDownloadingServiceTests.cs" />
+    <Compile Include="Tests\PageServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\ParallelUrlCollectingServiceTests.cs" />
     <Compile Include="Tests\UrlParsingServiceTests.cs" />

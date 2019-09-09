@@ -16,7 +16,7 @@ namespace WikiURLCollector.Tests.Tests
     [TestClass]
     public class ParallelUrlCollectingServiceTests
     {
-        IPageDownloadingService pageDownloadingService;
+        IPageService pageDownloadingService;
         IUrlParsingService urlParsingService;
         [TestInitialize]
         public void Initialize()
@@ -33,7 +33,7 @@ namespace WikiURLCollector.Tests.Tests
                 new UrlEntity(){URL = "/wiki/Movietone_News"},
                 new UrlEntity(){URL = "/wiki/World_War_I"}
             };
-            pageDownloadingService = Substitute.For<IPageDownloadingService>();
+            pageDownloadingService = Substitute.For<IPageService>();
             urlParsingService = Substitute.For<IUrlParsingService>();
             urlParsingService.ExtractAllUrlsFromPage(Arg.Any<string>(), 1).Returns(urls1);
             urlParsingService.ExtractAllUrlsFromPage(Arg.Any<string>(), 2).Returns(urls2);
@@ -50,7 +50,7 @@ namespace WikiURLCollector.Tests.Tests
             //Assert
             Assert.AreEqual(5, urls.Count);
             urlParsingService.Received(4).ExtractAllUrlsFromPage(Arg.Any<string>(), Arg.Any<int>());
-            pageDownloadingService.Received(4).GetPage(Arg.Any<string>());
+            pageDownloadingService.Received(4).DownloadPageIntoFile(Arg.Any<string>());
         }
     }
 }

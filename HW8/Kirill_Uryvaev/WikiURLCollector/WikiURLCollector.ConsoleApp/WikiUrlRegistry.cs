@@ -8,6 +8,7 @@ using WikiURLCollector.Core.Interfaces;
 using WikiURLCollector.Core.Services;
 using WikiURLCollector.Core.Repositories;
 using WikiURLCollector.ConsoleApp.Repositories;
+using System.Net.Http;
 
 namespace WikiURLCollector.ConsoleApp
 {
@@ -17,9 +18,11 @@ namespace WikiURLCollector.ConsoleApp
         {
             For<IUrlRepository>().Use<UrlRepository>();
 
+            For<HttpClient>().Use<HttpClient>().SelectConstructor(() => new HttpClient());
+
             For<IUrlService>().Use<UrlService>();
             For<IUrlParsingService>().Use<UrlParsingService>();
-            For<IPageDownloadingService>().Use<PageDownloadingService>().SelectConstructor(()=>new PageDownloadingService());
+            For<IPageService>().Use<PageService>();
             For<IParallelUrlCollectingService>().Use<ParallelUrlCollectingService>();
 
             For<ParallelUrlCollector>().Use<ParallelUrlCollector>();

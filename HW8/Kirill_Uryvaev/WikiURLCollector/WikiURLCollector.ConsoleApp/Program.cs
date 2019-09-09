@@ -21,7 +21,6 @@ namespace WikiURLCollector.ConsoleApp
             string exitCode = "e";
             string userInput = "";
             int maxIterations = 2;
-            Dictionary<string, int> urls;
             Console.WriteLine($"{DateTime.Now} Program started");
             while (!userInput.ToLower().Equals(exitCode))
             {

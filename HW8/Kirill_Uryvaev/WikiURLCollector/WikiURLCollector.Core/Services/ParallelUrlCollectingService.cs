@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace WikiURLCollector.Core.Services
 {
     public class ParallelUrlCollectingService : IParallelUrlCollectingService
     {
-        private readonly IPageDownloadingService pageDownloadingService;
+        private readonly IPageService pageService;
         private readonly IUrlParsingService urlParsingService;
 
         private string baseAddress = "https://en.wikipedia.org";
@@ -18,9 +19,9 @@ namespace WikiURLCollector.Core.Services
         private ConcurrentDictionary<string, int> urlsDictionary;
         private List<Task> tasks;
 
-        public ParallelUrlCollectingService(IPageDownloadingService pageDownloadingService, IUrlParsingService urlParsingService)
+        public ParallelUrlCollectingService(IPageService pageDownloadingService, IUrlParsingService urlParsingService)
         {
-            this.pageDownloadingService = pageDownloadingService;
+            this.pageService = pageDownloadingService;
             this.urlParsingService = urlParsingService;
             urlsDictionary = new ConcurrentDictionary<string, int>();
             tasks = new List<Task>();
@@ -29,7 +30,7 @@ namespace WikiURLCollector.Core.Services
         public async Task<Dictionary<string, int>> GetUrls(string address, int maxIteration)
         {
             bool isCompleted = false;
-            tasks.Add(Task.Run(() => reccyrentUrlsExtracting(address, 1, maxIteration)));
+            tasks.Add(Task.Run(() => recurrentUrlsExtracting(address, 1, maxIteration)));
             while (!isCompleted)
             {
                 await Task.WhenAll(tasks.ToArray());
@@ -42,9 +43,10 @@ namespace WikiURLCollector.Core.Services
             return urlsDictionary.ToDictionary(entry => entry.Key, entry => entry.Value);
         }
 
-        private async Task reccyrentUrlsExtracting(string address, int iteration, int maxIteration)
+        private async Task recurrentUrlsExtracting(string address, int iteration, int maxIteration)
         {
-            var page = await pageDownloadingService.GetPage(address);
+            var pageFile = await pageService.DownloadPageIntoFile(address);
+            var page = pageService.ReadPageFile(pageFile);
             var result = urlParsingService.ExtractAllUrlsFromPage(page, iteration);
             if (iteration <= maxIteration)
             {
@@ -61,7 +63,7 @@ namespace WikiURLCollector.Core.Services
                             }
                             lock (locker)
                             {
-                                tasks.Add(Task.Run(() => reccyrentUrlsExtracting(baseAddress + url.URL, nextIteration, maxIteration)));
+                                tasks.Add(Task.Run(() => recurrentUrlsExtracting(baseAddress + url.URL, nextIteration, maxIteration)));
                             }
                         }
                     }
