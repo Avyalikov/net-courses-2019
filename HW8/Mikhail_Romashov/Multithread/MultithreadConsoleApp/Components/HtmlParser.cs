@@ -16,9 +16,10 @@ namespace MultithreadConsoleApp.Components
             foreach (var node in linkCollection)
             {
                 var link = node.Attributes["href"];
-                if (link.Value.Contains("wikipedia.org") && link.Value.Contains("https://"))
+               // if (link.Value.Contains("wikipedia.org") && link.Value.Contains("https://"))
+                if (link.Value.StartsWith("/wiki/"))
                 {
-                    result.Add(link.Value);
+                    result.Add("https://en.wikipedia.org"+link.Value);
                 }
 
             }
