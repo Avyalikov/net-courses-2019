@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace HW8.Classes
 {
-    public class LinkProcessor : ILinkProcessorProvider
+    public class LinkProcessorProvider : ILinkProcessorProvider
     {
         private IOutputProvider outputProvider;
         private IStorageProvider storageProvider;
 
-        public LinkProcessor(IOutputProvider outputProvider, IStorageProvider storageProvider)
+        public LinkProcessorProvider(IOutputProvider outputProvider, IStorageProvider storageProvider)
         {
             this.outputProvider = outputProvider;
             this.storageProvider = storageProvider;

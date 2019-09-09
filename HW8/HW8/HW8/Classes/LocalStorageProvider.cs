@@ -41,5 +41,10 @@ namespace HW8.Classes
         {
             dictionary.TryAdd(link, recursionLevel + 1);
         }
+
+        public int Count()
+        {
+            return dictionary.Count;
+        }
     }
 }

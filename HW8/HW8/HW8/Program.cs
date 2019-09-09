@@ -21,11 +21,12 @@ namespace HW8
             IOutputProvider outputProvider = new ConsoleOutputProvider();
             //IStorageProvider storageProvider = new LocalStorageProvider();
             IStorageProvider storageProvider = new EFStorageProvider();
-            IPageProvider pageProvider = new WebClinetPageProvider();
-            ILinkProcessorProvider linkProcessorProvider = new LinkProcessor(outputProvider, storageProvider);
+            IClientProvider clientProvider= new WebClientProvider();
+            IPageProvider pageProvider = new WebClinetPageProvider(clientProvider);
+            ILinkProcessorProvider linkProcessorProvider = new LinkProcessorProvider(outputProvider, storageProvider);
             IPageParserProvider pageParserProvider = new PageParserProvider();
             
-            WebPageProcessor wpp = new WebPageProcessor(storageProvider, inputProvider, outputProvider, pageProvider, linkProcessorProvider, pageParserProvider);
+            WebPageProcessor wpp = new WebPageProcessor(storageProvider, inputProvider, outputProvider, pageProvider, linkProcessorProvider, pageParserProvider, 1000);
 
             wpp.Start();
 

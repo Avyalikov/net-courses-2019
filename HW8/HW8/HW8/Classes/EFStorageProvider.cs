@@ -47,6 +47,11 @@ namespace HW8.Classes
             }
         }
 
+        public int Count()
+        {
+            return context.Links.ToList().Count;
+        }
+
         public void Dispose()
         {
             context.Dispose();

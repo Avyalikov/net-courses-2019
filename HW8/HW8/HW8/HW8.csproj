@@ -53,10 +53,13 @@
     <Compile Include="Classes\ConsoleInputProvider.cs" />
     <Compile Include="Classes\ConsoleOutputProvider.cs" />
     <Compile Include="Classes\EFStorageProvider.cs" />
-    <Compile Include="Classes\LinkProcessor.cs" />
+    <Compile Include="Classes\LinkProcessorProvider.cs" />
     <Compile Include="Classes\LocalStorageProvider.cs" />
     <Compile Include="Classes\PageParserProvider.cs" />
+    <Compile Include="Classes\WebClientDownloadPageProvider.cs" />
+    <Compile Include="Classes\WebClientProvider.cs" />
     <Compile Include="Classes\WebClinetPageProvider.cs" />
+    <Compile Include="Intefaces\IClientProvider.cs" />
     <Compile Include="Intefaces\IInputProvider.cs" />
     <Compile Include="Intefaces\ILinkProcessorProvider.cs" />
     <Compile Include="Intefaces\IOutputProvider.cs" />

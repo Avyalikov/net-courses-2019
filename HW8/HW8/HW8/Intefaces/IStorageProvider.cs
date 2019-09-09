@@ -9,6 +9,7 @@ namespace HW8.Intefaces
     public interface IStorageProvider
     {
         void Clear();
+        int Count();
         void SaveChanges();
         void Dispose();
         bool Contains(string link);

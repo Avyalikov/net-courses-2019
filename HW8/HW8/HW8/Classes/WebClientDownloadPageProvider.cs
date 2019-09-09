@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace HW8.Classes
 {
-    public class WebClinetPageProvider : IPageProvider
+    public class WebClientDownloadPageProvider : IPageProvider
     {
         private IClientProvider webClient;
 
-        public WebClinetPageProvider(IClientProvider webClient)
+        public WebClientDownloadPageProvider(IClientProvider webClient)
         {
             this.webClient = webClient;
         }
@@ -20,18 +20,23 @@ namespace HW8.Classes
         public string GetPage(string url)
         {
             string data = string.Empty;
-            WebClient webClient = null;
-            
+            //WebClient webClient = null;
+
             try
             {
-                webClient = new WebClient();
+                //webClient = new WebClient();
                 data = webClient.DownloadString(url);
-                
+                webClient.DownloadFile(url, url + ".htm");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+
+            //if (webClient != null)
+            //{
+            //    webClient.Dispose();
+            //}
 
             return data;
         }

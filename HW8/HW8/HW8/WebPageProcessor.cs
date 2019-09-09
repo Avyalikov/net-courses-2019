@@ -15,6 +15,7 @@ namespace HW8
     {
         private string startingUrl;
         private int recursionLimit;
+        private int threadSleepTime;
         private IStorageProvider storageProvider;
         private IInputProvider inputProvider;
         private IOutputProvider outputProvider;
@@ -35,7 +36,8 @@ namespace HW8
          IOutputProvider outputProvider,
          IPageProvider pageProvider,
          ILinkProcessorProvider linkProcessorProvider,
-         IPageParserProvider pageParserProvider)
+         IPageParserProvider pageParserProvider,
+         int threadSleepTime)
         {
             //this.startingUrl = startingUrl;
             //this.recursionLimit = recursionLimit;
@@ -45,6 +47,9 @@ namespace HW8
             this.pageProvider = pageProvider;
             this.linkProcessorProvider = linkProcessorProvider;
             this.pageParserProvider = pageParserProvider;
+            this.threadSleepTime = threadSleepTime;
+
+            this.recursionLimit = 2;
         }
 
         public void Start()
@@ -70,19 +75,15 @@ namespace HW8
 
             List<string> links = pageParserProvider.GetLinks(data);
 
-            int counter = 0;
-
             if (links != null)
             {
                 Parallel.ForEach(links, (element) =>
                 {
-                    counter++;
-
                     string result = linkProcessorProvider.ProcessLink(element, recursionLevel, startingUrl, storageLock);
 
                     if (result != null && recursionLevel < recursionLimit)
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(threadSleepTime);
 
                         Task.Run(() =>
                         {
