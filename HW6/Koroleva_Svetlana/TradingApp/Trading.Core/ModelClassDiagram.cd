@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Trading.Core.Model.Client">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAEAAAAIAAEAAAAgAAAAIAAAAAAAAAAAAIAAAAAg=</HashCode>
+      <FileName>Model\Client.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ClientStocks" />
+      <Property Name="Orders" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Trading.Core.Model.ClientStock">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAgAAACAA=</HashCode>
+      <FileName>Model\ClientStock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Trading.Core.Model.Issuer">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAIAAAgAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Issuer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Stocks" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Trading.Core.Model.Order">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAIAAAAAAgAAAAAAAAAAAAAAAAEAgAAACAA=</HashCode>
+      <FileName>Model\Order.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="OrderType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Trading.Core.Model.PriceHistory">
+    <Position X="8.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAQEAAAAAAAABAACAA=</HashCode>
+      <FileName>Model\PriceHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Trading.Core.Model.Stock">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAgCAAAAAAIAAIAAAAAAAAAAAAAAQACAA=</HashCode>
+      <FileName>Model\Stock.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="StockType" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="PriceHistories" />
+      <Property Name="ClientStocks" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Trading.Core.Model.TransactionHistory">
+    <Position X="5.75" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAQAAEAAAAgAA=</HashCode>
+      <FileName>Model\TransactionHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Trading.Core.Model.OrderType">
+    <Position X="1.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Order.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Trading.Core.Model.StockType">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Stock.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
