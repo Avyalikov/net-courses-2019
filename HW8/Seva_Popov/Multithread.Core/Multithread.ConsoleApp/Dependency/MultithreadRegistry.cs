@@ -1,4 +1,5 @@
-﻿using Multithread.ConsoleApp.Data;
+﻿using Multithread.ConsoleApp.Components;
+using Multithread.ConsoleApp.Data;
 using Multithread.ConsoleApp.Repositories;
 using Multithread.Core.Repositories;
 using Multithread.Core.Services;
@@ -17,6 +18,7 @@ namespace Multithread.ConsoleApp.Dependency
             this.For<LinksHistoryServices>().Use<LinksHistoryServices>();
             this.For<MultithreadDbContext>().Use<MultithreadDbContext>();
             this.For<StartApp>().Use<StartApp>();
+            this.For<ParserPages>().Use<ParserPages>();
         }
     }
 }
