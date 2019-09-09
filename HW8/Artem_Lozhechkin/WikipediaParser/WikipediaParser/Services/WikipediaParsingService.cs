@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using WikipediaParser.Repositories;
-using WikipediaParser.Models;
-using System.Net.Http;
+using System.Diagnostics;
 using System.IO;
-using WikipediaParser.DTO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using WikipediaParser.DTO;
+using WikipediaParser.Models;
 
 namespace WikipediaParser.Services
 {
@@ -25,25 +24,30 @@ namespace WikipediaParser.Services
 
             LinkInfo link = new LinkInfo { Level = 0, URL = this.baseAddress };
 
-            ProcessUrlRecursive(link);
+            ProcessUrlRecursive(link).Wait();
         }
-        private void ProcessUrlRecursive(LinkInfo link)
+        private async Task ProcessUrlRecursive(LinkInfo link)
         {
             bool isSucceeded = false;
             do
             {
-                if (link.Level < 3)
+                if (link.Level < 3 && isSucceeded == false)
                 {
                     try
                     {
-                        link.FileName = this.DownloadSourceToFile(link);
+                        link.FileName = await this.DownloadSourceToFile(link);
                         List<LinkInfo> links;
                         using (UnitOfWork uof = new UnitOfWork())
                         {
                             links = this.ExtractTags(uof, link);
-                            AddToDb(uof, link);
+                            await AddToDb(uof, link);
                         }
-                        Parallel.ForEach(links, ProcessUrlRecursive);
+                        List<Task> t = new List<Task>();
+                        foreach (var item in links)
+                        {
+                            t.Add(Task.Run(() => ProcessUrlRecursive(item)));
+                        }
+                        await Task.WhenAll(t);
                         isSucceeded = true;
                     }
                     catch (Exception ex)
@@ -52,7 +56,7 @@ namespace WikipediaParser.Services
                     }
                 }
                 else isSucceeded = true;
-            } while (!isSucceeded);
+                } while (!isSucceeded);
         }
 
         private List<LinkInfo> ExtractTags(UnitOfWork uof, LinkInfo linkInfo)
@@ -102,41 +106,46 @@ namespace WikipediaParser.Services
             {
                 File.Delete(linkInfo.FileName);
             }
-
             return links;
         }
 
-        public string DownloadSourceToFile(LinkInfo link)
+        public async Task<string> DownloadSourceToFile(LinkInfo link)
         {
             string filename = link.Level + " " + link.URL.GetHashCode() + ".html";
-            try
+            bool isSucceded = false;
+            do
             {
-                using (HttpClient client = new HttpClient())
+                try
                 {
-                    using (HttpResponseMessage response = client.GetAsync(link.URL).Result)
+                    using (HttpClient client = new HttpClient())
                     {
-                        using (HttpContent content = response.Content)
+                        using (HttpResponseMessage response = await client.GetAsync(link.URL))
                         {
-                            using (StreamWriter file = File.CreateText(filename))
+                            using (HttpContent content = response.Content)
                             {
-                                file.Write(content.ReadAsStringAsync().Result);
+                                using (StreamWriter file = File.CreateText(filename))
+                                {
+                                    file.Write(await content.ReadAsStringAsync());
+                                    isSucceded = true;
+                                }
                             }
                         }
                     }
                 }
-            }
-            catch
-            {
-                throw;
-            }
+                catch
+                {
+                    Console.WriteLine("Got a timeout - Trying to reconnect");
+                    await Task.Delay(2000);
+                }
+            } while (!isSucceded);
             return filename;
         }
-        public void AddToDb(UnitOfWork uof, LinkInfo linkInfo)
+        public async Task AddToDb(UnitOfWork uof, LinkInfo linkInfo)
         {
             LinkEntity linkEntity = new LinkEntity { IterationId = linkInfo.Level, Link = linkInfo.URL };
             if (!uof.LinksTableRepository.ContainsByUrl(linkEntity))
             {
-                uof.LinksTableRepository.Add(linkEntity);
+                await uof.LinksTableRepository.AddAsync(linkEntity);
             }
         }
 

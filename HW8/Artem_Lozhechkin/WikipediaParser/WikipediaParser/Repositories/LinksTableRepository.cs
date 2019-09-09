@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using WikipediaParser.Models;
 
 namespace WikipediaParser.Repositories
@@ -10,10 +11,10 @@ namespace WikipediaParser.Repositories
         {
             this.dbContext = dbContext;
         }
-        public int Add(LinkEntity linkEntity)
+        public async Task<int> AddAsync(LinkEntity linkEntity)
         {
-            this.dbContext.Links.Add(linkEntity);
-            return SaveChanges();
+            await this.dbContext.Links.AddAsync(linkEntity);
+            return await SaveChangesAsync();
         }
         public LinkEntity GetById(int id)
         {
@@ -21,11 +22,11 @@ namespace WikipediaParser.Repositories
         }
         public bool ContainsByUrl(LinkEntity linkEntity)
         {
-            return this.dbContext.Links.Any(link => link.Link == linkEntity.Link);
+            return this.dbContext.Links.AsParallel().Any(link => link.Link == linkEntity.Link);
         }
-        public int SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            return this.dbContext.SaveChanges();
+            return await this.dbContext.SaveChangesAsync();
         }
     }
 }
