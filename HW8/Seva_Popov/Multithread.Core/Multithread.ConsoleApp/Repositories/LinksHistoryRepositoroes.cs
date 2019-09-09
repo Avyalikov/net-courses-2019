@@ -10,27 +10,38 @@ namespace Multithread.ConsoleApp.Repositories
 {
     public class LinksHistoryRepositoroes : ILinksHistoryRepositoroes
     {
-        private readonly MultithreadDbContext dbContext;
+        //private readonly MultithreadDbContext dbContext;
 
-        public LinksHistoryRepositoroes(MultithreadDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+        //public LinksHistoryRepositoroes(MultithreadDbContext dbContext)
+        //{
+        //    this.dbContext = dbContext;
+        //}
 
         public void Add(LinksHistoryEntity linksHistoryEntity)
         {
-            this.dbContext.Links.Add(linksHistoryEntity);
+            using (MultithreadDbContext dbContext = new MultithreadDbContext())
+            {
+                dbContext.Links.Add(linksHistoryEntity);
+                dbContext.SaveChanges();
+            }               
         }
 
         public bool Contains(LinksHistoryEntity linksHistoryEntity)
         {
-            return this.dbContext.Links.Any(f =>
-           f.Links == linksHistoryEntity.Links);
+            using (MultithreadDbContext dbContext = new MultithreadDbContext())
+            {
+                return dbContext.Links.Any(f =>
+                f.Links == linksHistoryEntity.Links);
+            }    
         }
 
         public void SaveChanges()
         {
-            this.dbContext.SaveChanges();
+            using (MultithreadDbContext dbContext = new MultithreadDbContext())
+            {
+                dbContext.SaveChanges();
+            }
+            
         }
     }
 }

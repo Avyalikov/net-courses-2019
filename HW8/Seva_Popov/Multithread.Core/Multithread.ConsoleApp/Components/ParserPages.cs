@@ -28,17 +28,17 @@ namespace Multithread.ConsoleApp.Components
             this.linksHistoryServices = linksHistoryServices;
         }
 
-        public void ParsingThePageCsQuery(string href)
+        public void ParsingThePageCsQuery(object href)
         {
                 WebClient webClient = new WebClient();
 
-                string html = webClient.DownloadString(href);
+                string html = webClient.DownloadString((string)href);
 
                 CQ cq = CQ.Create(html);
 
                 foreach (IDomObject obj in cq.Find("a[href^='/wiki/']"))
                 {
-                    LinksHistoryEntity linksHistoryEntity = new LinksHistoryEntity() { Links = "https://en.wikipedia.org" + obj.GetAttribute("href"), PreviousLink = href };
+                    LinksHistoryEntity linksHistoryEntity = new LinksHistoryEntity() { Links = "https://en.wikipedia.org" + obj.GetAttribute("href"), PreviousLink = (string)href };
 
                     if (!linksHistoryServices.ContainsLinks(linksHistoryEntity))
                     {
@@ -83,9 +83,5 @@ namespace Multithread.ConsoleApp.Components
             return hrefTags;
         }
 
-        public void Cccc(object s)
-        {
-            Console.WriteLine("что то печаиаю !!!" + (string)s);
-        }
     }
 }
