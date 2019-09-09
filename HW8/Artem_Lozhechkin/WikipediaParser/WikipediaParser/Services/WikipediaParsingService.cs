@@ -14,12 +14,10 @@ namespace WikipediaParser.Services
 {
     public class WikipediaParsingService
     {
-        private readonly LinksTableRepository linksTableRepository;
         private string baseAddress;
 
-        public WikipediaParsingService(LinksTableRepository linksTableRepository)
+        public WikipediaParsingService()
         {
-            this.linksTableRepository = linksTableRepository;
         }
         public void Start(string baseUrl)
         {
@@ -39,9 +37,12 @@ namespace WikipediaParser.Services
                     try
                     {
                         link.FileName = this.DownloadSourceToFile(link);
-                        var links = this.ExtractTags(link);
-
-                        AddToDb(link);
+                        List<LinkInfo> links;
+                        using (UnitOfWork uof = new UnitOfWork())
+                        {
+                            links = this.ExtractTags(uof, link);
+                            AddToDb(uof, link);
+                        }
                         Parallel.ForEach(links, ProcessUrlRecursive);
                         isSucceeded = true;
                     }
@@ -54,7 +55,7 @@ namespace WikipediaParser.Services
             } while (!isSucceeded);
         }
 
-        private List<LinkInfo> ExtractTags(LinkInfo linkInfo)
+        private List<LinkInfo> ExtractTags(UnitOfWork uof, LinkInfo linkInfo)
         {
             List<LinkInfo> links = new List<LinkInfo>();
             try
@@ -74,18 +75,18 @@ namespace WikipediaParser.Services
                                 if (link.Value.StartsWith("/wiki"))
                                 {
                                     string url = "https://en.wikipedia.org" + link.Value;
-                                    if (!this.linksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
+                                    if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
                                         links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
                                 }
                                 else if (link.Value.StartsWith("//"))
                                 {
                                     string url = "https:" + link.Value;
-                                    if (!this.linksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
+                                    if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
                                         links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
                                 }
                                 else
                                 {
-                                    if (!this.linksTableRepository.ContainsByUrl(new LinkEntity { Link = link.Value }))
+                                    if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = link.Value }))
                                         links.Add(new LinkInfo { URL = link.Value, Level = linkInfo.Level + 1 });
                                 }
                             }
@@ -130,12 +131,12 @@ namespace WikipediaParser.Services
             }
             return filename;
         }
-        public void AddToDb(LinkInfo linkInfo)
+        public void AddToDb(UnitOfWork uof, LinkInfo linkInfo)
         {
             LinkEntity linkEntity = new LinkEntity { IterationId = linkInfo.Level, Link = linkInfo.URL };
-            if (!this.linksTableRepository.ContainsByUrl(linkEntity))
+            if (!uof.LinksTableRepository.ContainsByUrl(linkEntity))
             {
-                this.linksTableRepository.Add(linkEntity);
+                uof.LinksTableRepository.Add(linkEntity);
             }
         }
 
