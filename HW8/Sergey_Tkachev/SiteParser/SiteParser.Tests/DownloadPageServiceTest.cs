@@ -17,7 +17,7 @@ namespace SiteParser.Tests
             DownloadPageService downloadPageService = new DownloadPageService(downloader);
             string requestUrl = "https://en.wikipedia.org/wiki/Fox";
             string pageContent = "Foxes have a flattened skull, upright triangular ears, a pointed, slightly upturned snout, and a long bushy tail.";
-            string expectedString = "Page has been saved info file.";
+            string expectedString = "/Resources/Fox.html";
             downloader.Download(Arg.Is<string>(requestUrl))
                 .Returns(pageContent);
             downloader.SaveIntoFile(Arg.Is<string>(pageContent))

@@ -9,4 +9,9 @@
     <Folder Include="DTO\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
+    <PackageReference Include="structuremap" Version="4.7.1" />
+  </ItemGroup>
+
 </Project>

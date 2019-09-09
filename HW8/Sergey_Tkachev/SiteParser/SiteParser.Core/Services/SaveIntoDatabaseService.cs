@@ -19,5 +19,11 @@ namespace SiteParser.Core.Services
             var result = saver.Save(url);
             return result;           
         }
+
+        public void SaveUrls(List<string> listOfUrls)
+        {
+            foreach (string item in listOfUrls)
+                SaveUrl(item);
+        }
     }
 }

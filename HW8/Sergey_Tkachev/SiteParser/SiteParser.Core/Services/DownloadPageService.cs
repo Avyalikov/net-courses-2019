@@ -18,8 +18,8 @@ namespace SiteParser.Core.Services
         public string DownLoadPage(string requestUrl)
         {
             var downloadedResult = downloader.Download(requestUrl);
-            var result = downloader.SaveIntoFile(downloadedResult);
-            return result;
+            var resultPath = downloader.SaveIntoFile(downloadedResult);
+            return resultPath;
             //using (HttpClient client = new HttpClient())
             //{
             //    using (HttpResponseMessage response = client.GetAsync(requestUrl).Result)
