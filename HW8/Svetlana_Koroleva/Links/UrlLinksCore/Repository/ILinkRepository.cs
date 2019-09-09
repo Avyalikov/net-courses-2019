@@ -19,7 +19,6 @@ namespace UrlLinksCore.Repository
         void Add(Link link);
         IEnumerable<Link> GetAll();
         IEnumerable<Link> GetByCondition(Func<Link, bool> predicate);
-        void Save();
-
+        
     }
 }

@@ -32,9 +32,6 @@ namespace LinkContext
             return this.dbcontext.Links.AsNoTracking().Where(predicate).ToList();
         }
 
-        public void Save()
-        {
-            this.dbcontext.SaveChanges();
-        }
+        
     }
 }

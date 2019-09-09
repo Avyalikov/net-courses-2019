@@ -20,7 +20,7 @@ namespace UrlLinksCore.Service
         void AddLinkToDB(LinkDTO linkDTO);
         bool ContainsLink(string link);
         IEnumerable<Link> GetAllLinks();
-        IEnumerable<Link> GetAllLinksByIteration(int iterationId);
+        IEnumerable<String> GetAllLinksByIteration(int iterationId);
         IEnumerable<int> GetIterations();
 
        

@@ -16,18 +16,13 @@ namespace Links
         static void Main(string[] args)
         {
 
-            LinksContext context = new LinksContext();
-            ILinkRepository linkRepository = new LinkRepository(context);
-            ILinkService linkService = new LinkService(linkRepository);
-            Downloader downloader = new Downloader(context, linkService);
+           
+            Downloader downloader = new Downloader();
 
-            using (context)
-            {
-              
-                Task t= downloader.Run(3, "https://en.wikipedia.org/wiki/Symmetry_group");
-                  t.Wait();
+            downloader.Run(3, "https://en.m.wikipedia.org/wiki/San_Francisco");
 
-            }
+
+
         }
     }
 }

@@ -13,17 +13,18 @@ namespace LinkContext
     using UrlLinksCore.Model;
     using UrlLinksCore.Repository;
     using UrlLinksCore.Service;
+    using LinkContext.DAL;
+    using UrlLinksCore;
 
     /// <summary>
     /// LinkService description
     /// </summary>
     public class LinkService : ILinkService
     {
-        private readonly ILinkRepository linkRepository;
-
-        public LinkService(ILinkRepository linkRepository)
+        private readonly IUnitOfWork unitOfWork;
+        public LinkService(IUnitOfWork unitOfWork)
         {
-            this.linkRepository = linkRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public void AddLinkToDB(LinkDTO linkDTO)
@@ -39,23 +40,24 @@ namespace LinkContext
                 IterationId = linkDTO.IterationId
 
             };
-            this.linkRepository.Add(linkToAdd);
-            this.linkRepository.Save();
+            this.unitOfWork.Links.Add(linkToAdd);
+            this.unitOfWork.Save();
         }
 
         public bool ContainsLink(string link)
         {
-            return this.linkRepository.GetByCondition(l => l.Url == link).Count()!=0;
+            return this.unitOfWork.Links.GetByCondition(l => l.Url == link).Count()!=0;
         }
 
         public IEnumerable<Link> GetAllLinks()
         {
-          return  this.linkRepository.GetAll().ToList();
+          return  this.unitOfWork.Links.GetAll().ToList();
         }
 
-        public  IEnumerable<Link> GetAllLinksByIteration(int iterationId)
+       
+        public IEnumerable<String> GetAllLinksByIteration(int iterationId)
         {
-            return this.linkRepository.GetByCondition(l => l.IterationId == iterationId).ToList();
+            return this.unitOfWork.Links.GetByCondition(l => l.IterationId == iterationId).Select(l=>l.Url).ToList();
         }
 
         public IEnumerable<int> GetIterations()

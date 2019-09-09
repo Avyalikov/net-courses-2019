@@ -5,6 +5,7 @@
 namespace Links
 {
     using HtmlAgilityPack;
+    using LinkContext;
     using LinkContext.DAL;
     using System;
     using System.Collections.Generic;
@@ -24,21 +25,22 @@ namespace Links
     public class Downloader
     {
 
-        private readonly LinksContext context;
-        private readonly ILinkService linkService;
         readonly Object locker = new Object();
-
-        public Downloader(LinksContext context, ILinkService linkService)
-        {
-            this.context = context;
-            this.linkService = linkService;
-        }
+       
 
         private void DownloadHtml(string url, string filename)
         {
             using (WebClient client = new WebClient())
             {
-                client.DownloadFile(url, filename);
+                try
+                {
+                    client.DownloadFile(url, filename);
+                }
+
+                catch
+                {
+                    return;
+                }
             }
         }
 
@@ -83,37 +85,40 @@ namespace Links
 
         private int GetCurrentIteration()
         {
-            lock (locker)
+           
             {
-                int dbiteration;
-                List<int> iterations = this.linkService.GetIterations().ToList();
-                if (iterations.Count() == 0)
+                using (UnitOfWork unitOfWork = new UnitOfWork())
                 {
-                    dbiteration = 1;
+                    LinkService linkService = new LinkService(unitOfWork);
+                    int dbiteration;
+                    List<int> iterations = linkService.GetIterations().ToList();
+                    if (iterations.Count() == 0)
+                    {
+                        dbiteration = 1;
+                    }
+                    else
+                    {
+                        dbiteration = iterations.Last() + 1;
+                    }
+                    return dbiteration;
                 }
-                else
-                {
-                    dbiteration = iterations.Last() + 1;
-                }
-                return dbiteration;
-
             }
         }
 
         
-
-        //Take(2)- for debug mode
-        private async Task AddLinksToDB(string url)
+        //Take(5)- for debug mode
+        private void AddLinksToDB(string url)
         {
-            await Task.Run(() =>
+
+            lock (locker)
             {
-                lock (locker)
+                using (UnitOfWork unitOfWork = new UnitOfWork())
                 {
-                   
+                    LinkService linkService = new LinkService(unitOfWork);
                     int iteration = this.GetCurrentIteration();
                     string filename = "html" + iteration + ".html";
                     this.DownloadHtml(url, filename);
-                    List<string> links = this.GetLinksFromHtml(filename, url).Take(2).ToList();
+                    List<string> links = this.GetLinksFromHtml(filename, url).Take(5).ToList();
                     foreach (string s in links)
                     {
                         LinkDTO link = new LinkDTO()
@@ -121,17 +126,17 @@ namespace Links
                             Link = s,
                             IterationId = iteration
                         };
-                        this.linkService.AddLinkToDB(link);
+                        linkService.AddLinkToDB(link);
                     }
                 }
+
             }
-            );
         }
 
 
-        public async Task Run(int deep, string url)
+        public void Run(int deep, string url)
         {
-            await Task.Run(() =>
+           
             {
 
                 Thread.Sleep(500);
@@ -143,29 +148,31 @@ namespace Links
                 if (deep == 1)
                 {
 
-                    Task t = Task.Run(() => AddLinksToDB(url));
-                    t.Wait();
+                    AddLinksToDB(url);
 
                 }
                 else
                 {
 
-
-                    Task addLinksToDB = Task.Run(() => AddLinksToDB(url));
-                    addLinksToDB.Wait();
-                    var getlinks = Task.Run(() => this.linkService.GetAllLinksByIteration(this.GetCurrentIteration() - 1).Select(l => l.Url).ToList());
-                    getlinks.Wait();
-                    List<string> links = getlinks.Result;
-                    Parallel.ForEach<string>(links, (link) =>
+                    using (UnitOfWork unitOfWork = new UnitOfWork())
                     {
-                        Task t = Task.Run(() => Run(deep - 1, link));
-                        t.Wait();
-                    });
+                        LinkService linkService = new LinkService(unitOfWork);
 
+                        AddLinksToDB(url);
+                        int previousIteration = this.GetCurrentIteration() - 1;
+                        var links = linkService.GetAllLinksByIteration(previousIteration);
+                        if (links.Count() != 0)
+                        {
+                            Parallel.ForEach<string>(links, (link) =>
+                            {
+                                   Run(deep - 1, link);
+                            });
+                        }
+                    }
                 }
-            });
-
+               
             }
         }
     }
 
+}
