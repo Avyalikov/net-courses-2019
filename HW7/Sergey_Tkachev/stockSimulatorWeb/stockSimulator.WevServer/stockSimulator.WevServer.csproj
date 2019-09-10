@@ -529,7 +529,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BalancesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\DealController.cs" />
+    <Compile Include="Controllers\SharesController.cs" />
+    <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Dependecies\StockSimulatorRegistry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

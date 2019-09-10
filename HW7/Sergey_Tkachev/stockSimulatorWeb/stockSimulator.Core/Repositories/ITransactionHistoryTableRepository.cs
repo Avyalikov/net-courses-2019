@@ -1,4 +1,5 @@
-﻿using stockSimulator.Core.Models;
+﻿using System.Collections.Generic;
+using stockSimulator.Core.Models;
 
 namespace stockSimulator.Core.Repositories
 {
@@ -10,5 +11,7 @@ namespace stockSimulator.Core.Repositories
         HistoryEntity Get(int historyId);
         bool ContainsById(int historyId);
         void Update(int historyId, HistoryEntity entityToEdit);
+        IEnumerable<HistoryEntity> GetClientsTransactions(int clientId, int top);
+        bool ContainsByClientId(int clientId);
     }
 }

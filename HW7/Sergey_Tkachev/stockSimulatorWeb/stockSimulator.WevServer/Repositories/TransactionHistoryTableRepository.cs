@@ -1,4 +1,5 @@
 ﻿using stockSimulator.Core.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace stockSimulator.WevServer.Repositories
@@ -27,6 +28,13 @@ namespace stockSimulator.WevServer.Repositories
                && t.TransactionCost == entityToCheck.TransactionCost);
         }
 
+        public bool ContainsByClientId(int clientId)
+        {
+            return this.dbContext.TransactionHistory
+               .Any(t => t.CustomerID == clientId
+               || t.SellerID == clientId);
+        }
+
         public bool ContainsById(int historyId)
         {
             return this.dbContext.TransactionHistory
@@ -39,6 +47,14 @@ namespace stockSimulator.WevServer.Repositories
             return this.dbContext.TransactionHistory
                .Where(t => t.ID == historyId)
                .FirstOrDefault();
+        }
+
+        public IEnumerable<HistoryEntity> GetClientsTransactions(int clientId, int top)
+        {
+            return this.dbContext.TransactionHistory
+                .Where(th => th.SellerID == clientId
+                || th.CustomerID == clientId)
+                .Take(top);
         }
 
         public void SaveChanges()

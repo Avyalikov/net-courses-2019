@@ -11,4 +11,10 @@ public class HistoryEntity
     public decimal TransactionCost { get; set; }
     public DateTime TransactionTime { get; set; }
 
+    public override string ToString()
+    {
+        return $"ID: {this.ID}, CustomerID: {this.CustomerID}, SellerID: {this.SellerID}, StockID: {this.StockID}, StockType: {this.StockType}," +
+            $" StockAmount: {this.StockAmount}, TransactionCost: {this.TransactionCost}, TransactionTime: {this.TransactionTime}";
+    }
+
 }

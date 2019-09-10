@@ -37,7 +37,33 @@ namespace stockSimulator.Core.Services
 
             this.clientTableRepository.SaveChanges();
 
+            entityToAdd.ID = this.clientTableRepository.GetClientId(entityToAdd);
+
             return entityToAdd.ID;
+        }
+
+        public string GetStateOfClient(int clientId)
+        {
+            string result = string.Empty;
+            if (clientTableRepository.ContainsById(clientId))
+            {
+                decimal clientBalance = clientTableRepository.GetBalance(clientId);
+                if (clientBalance > 0)
+                {
+                    result = $"This client belongs to Green zone.";
+                }
+                else if (clientBalance == 0)
+                {
+                    result = $"This client belongs to Orange zone.";
+                }
+                else if (clientBalance < 0)
+                {
+                    result = $"This client belongs to Black zone.";
+                }
+                return result;
+            }
+            result = "Such client doesn't exist in DataBase.";
+            return result;
         }
 
         public IEnumerable<ClientEntity> GetClients(int amount, int page)
@@ -55,10 +81,22 @@ namespace stockSimulator.Core.Services
             return this.clientTableRepository.Get(clientId);
         }
 
+        public string UpdateClient(UpdateClientInfo updateInfo)
+        {
+            string result = clientTableRepository.Update(updateInfo);
+            return result;
+        }
+
         public IEnumerable<ClientEntity> GetClientsWithPositiveBalance()
         {
             var clients = clientTableRepository.GetClients();
             var result = clients.Where(c => c.AccountBalance > 0).ToList();
+            return result;
+        }
+
+        public string RemoveClient(int clientId)
+        {
+            string result = clientTableRepository.Remove(clientId);
             return result;
         }
 

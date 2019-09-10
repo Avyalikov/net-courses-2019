@@ -1,4 +1,5 @@
-﻿using stockSimulator.Core.Models;
+﻿using stockSimulator.Core.DTO;
+using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,21 @@ namespace stockSimulator.WevServer.Repositories
                 .FirstOrDefault();
         }
 
+        public int GetClientId(ClientEntity entityToCheck)
+        {
+            int clientID;
+
+            clientID = this.dbContext.Clients
+               .Where(c => c.Name == entityToCheck.Name
+               && c.Surname == entityToCheck.Surname
+               && c.PhoneNumber == entityToCheck.PhoneNumber
+               && c.AccountBalance == entityToCheck.AccountBalance)
+               .Select(c => c.ID)
+               .FirstOrDefault();
+
+            return clientID;
+        }
+
         public IEnumerable<ClientEntity> GetClients()
         {
             var retListOfClients = this.dbContext.Clients.ToList();
@@ -63,15 +79,38 @@ namespace stockSimulator.WevServer.Repositories
             return retListOfClients;
         }
 
+        public string Remove(int clientId)
+        {
+            var client = this.dbContext.Clients.FirstOrDefault(c => c.ID == clientId);
+            if (client != null)
+            {
+                this.dbContext.Clients.Remove(client);
+                this.dbContext.SaveChanges();
+                return "Client was deleted.";
+            }
+            return "Client wasn't found.";
+        }
+
         public void SaveChanges()
         {
             this.dbContext.SaveChanges();
         }
 
-        public void Update(int clientId, ClientEntity entityToEdit)
+        public string Update(UpdateClientInfo updateInfo)
         {
-            var clientToUpdate = this.dbContext.Clients.First(c => c.ID == clientId);
-            clientToUpdate = entityToEdit;
+            int clientId = updateInfo.ID;
+            
+            var clientToUpdate = this.dbContext.Clients.FirstOrDefault(c => c.ID == clientId);
+            if (clientToUpdate != null)
+            {
+                clientToUpdate.Name = updateInfo.Name;
+                clientToUpdate.Surname = updateInfo.Surname;
+                clientToUpdate.PhoneNumber = updateInfo.PhoneNumber;
+                clientToUpdate.AccountBalance = updateInfo.AccountBalance;
+                SaveChanges();
+                return "Client data updated.";
+            }
+            return "Client wasn't found.";
         }
 
         public void UpdateBalance(int clientId, decimal newBalance)

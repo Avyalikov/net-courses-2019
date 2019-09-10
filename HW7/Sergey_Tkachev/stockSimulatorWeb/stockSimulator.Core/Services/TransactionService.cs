@@ -32,7 +32,6 @@ namespace stockSimulator.Core.Services
             this.BuyPartOfTrasaction(tradeInfo);
             this.SellPartOfTrasaction(tradeInfo);
             this.AddEntryToTransactionHistoryTable(tradeInfo);
-
         }
 
         private void AddEntryToTransactionHistoryTable(TradeInfo tradeInfo)

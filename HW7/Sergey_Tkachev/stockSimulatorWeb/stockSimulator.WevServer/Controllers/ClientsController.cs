@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using stockSimulator.Core.DTO;
 using stockSimulator.Core.Models;
 using stockSimulator.Core.Services;
 
@@ -21,37 +23,65 @@ namespace stockSimulator.WevServer.Controllers
 
         [HttpGet]
         [Route("")]
+        // clients
         public ActionResult<IEnumerable<ClientEntity>> Get(int top, int page)
         {
             try
             {
                 var clients = this.clientService.GetClients(top, page);
                 return Ok(clients);
-            }catch(Exeption ex)
+            }catch(Exception ex)
             {
                 return StatusCode(500, ex);
             }
-
         }
 
-        [Serializable]
-        private class Exeption : Exception
+        [HttpPost]
+        [Route("add")]
+        public ActionResult<string> AddNewClient([FromBody]ClientRegistrationInfo registrationInfo)
         {
-            public Exeption()
+            try
             {
+                //ClientRegistrationInfo clientToAdd = JsonConvert.DeserializeObject<ClientRegistrationInfo>(registrationInfo);
+                int registeredID = this.clientService.RegisterNewClient(registrationInfo);
+                return Ok(registeredID);
             }
-
-            public Exeption(string message) : base(message)
+            catch (Exception ex)
             {
-            }
-
-            public Exeption(string message, Exception innerException) : base(message, innerException)
-            {
-            }
-
-            protected Exeption(SerializationInfo info, StreamingContext context) : base(info, context)
-            {
+                return StatusCode(500, ex);
             }
         }
+
+        [HttpPost]
+        [Route("update")]
+        public ActionResult<string> UpdateClient([FromBody]UpdateClientInfo updateInfo)
+        {
+            try
+            {
+                string result = this.clientService.UpdateClient(updateInfo);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("remove")]
+        public ActionResult<string> RemoveClient([FromBody]int clientId)
+        {
+            try
+            {
+                string result = this.clientService.RemoveClient(clientId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        
     }
 }
