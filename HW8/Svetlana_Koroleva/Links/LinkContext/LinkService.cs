@@ -46,7 +46,7 @@ namespace LinkContext
 
         public bool ContainsLink(string link)
         {
-            return this.unitOfWork.Links.GetByCondition(l => l.Url == link).Count()!=0;
+          return this.unitOfWork.Links.GetByCondition(l => l.Url == link).Count()!=0;
         }
 
         public IEnumerable<Link> GetAllLinks()

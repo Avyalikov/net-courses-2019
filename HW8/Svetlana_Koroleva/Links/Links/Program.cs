@@ -15,14 +15,9 @@ namespace Links
     {
         static void Main(string[] args)
         {
-
-           
             Downloader downloader = new Downloader();
-
-            downloader.Run(3, "https://en.m.wikipedia.org/wiki/San_Francisco");
-
-
-
+            Task start=downloader.Run(3, "https://en.m.wikipedia.org/wiki/Colotomic");
+            start.Wait();
         }
     }
 }
