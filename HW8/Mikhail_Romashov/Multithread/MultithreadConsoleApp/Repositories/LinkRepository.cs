@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MultithreadConsoleApp.Repositories
 {
-    class LinkRepository : ILinkTableRepository
+    public class LinkRepository : ILinkTableRepository
     {
         private readonly LinksDBContext dbContext;
 

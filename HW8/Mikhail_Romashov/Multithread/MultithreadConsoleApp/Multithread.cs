@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MultithreadConsoleApp
 {
-    class Multithread
+    public class Multithread
     {
         private static int num = 0;
         private static int substr = 0;

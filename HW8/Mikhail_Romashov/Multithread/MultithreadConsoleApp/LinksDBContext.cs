@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace MultithreadConsoleApp
 {
-    class LinksDBContext : DbContext
+    public class LinksDBContext : DbContext
     {
         public DbSet<LinkEntity> Links { get; set; }
 
