@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadConsoleApp", "MultithreadConsoleApp\MultithreadConsoleApp.csproj", "{1CBBB436-401F-4AC2-B675-8E300AD9178D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multithread.Core", "Multithread.Core\Multithread.Core.csproj", "{2565DDDF-79FF-4BA6-878D-15D44F95A774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multithread.Core", "Multithread.Core\Multithread.Core.csproj", "{2565DDDF-79FF-4BA6-878D-15D44F95A774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadConsoleApp.Tests", "MultithreadConsoleApp.Tests\MultithreadConsoleApp.Tests.csproj", "{B8CED26C-9EF3-44D1-B4BC-E678E78416E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2565DDDF-79FF-4BA6-878D-15D44F95A774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2565DDDF-79FF-4BA6-878D-15D44F95A774}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2565DDDF-79FF-4BA6-878D-15D44F95A774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8CED26C-9EF3-44D1-B4BC-E678E78416E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8CED26C-9EF3-44D1-B4BC-E678E78416E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8CED26C-9EF3-44D1-B4BC-E678E78416E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8CED26C-9EF3-44D1-B4BC-E678E78416E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

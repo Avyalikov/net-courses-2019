@@ -1,6 +1,7 @@
 ﻿using Multithread.Core.Dto;
 using Multithread.Core.Services;
 using MultithreadConsoleApp.Components;
+using MultithreadConsoleApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,12 +16,14 @@ namespace MultithreadConsoleApp
         private static int substr = 0;
 
         private readonly LinkService linkService;
+        private readonly IHtmlParser htmlParser;
         private readonly object locker;
         private List<Task> tasks;
 
 
-        public Multithread(LinkService linkService)
+        public Multithread(LinkService linkService, IHtmlParser htmlParser)
         {
+            this.htmlParser = htmlParser;
             this.linkService = linkService;
             locker = new object();
             tasks = new List<Task>();
@@ -72,7 +75,7 @@ namespace MultithreadConsoleApp
             //IOFile.WriteToFile(result.Result, filename);
             //var newResult = IOFile.ReadFromFile(filename);
             //IOFile.DeleteFile(filename);
-            collection = HtmlParser.FindLinksFromStr(result);
+            collection = this.htmlParser.FindLinksFromHtml(result);
             return collection; 
         }
 
@@ -110,7 +113,7 @@ namespace MultithreadConsoleApp
             num++;
             Console.WriteLine($"Start {iteration} iteration with number {num}");
             var collection = await ParseHtml(url);
-            if (collection == null)
+            if (collection.Count == 0)
                 return;
             this.AddCollectionToDB(collection, iteration);
             foreach (var item in collection)

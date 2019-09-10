@@ -1,25 +1,25 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
+using MultithreadConsoleApp.Interfaces;
 namespace MultithreadConsoleApp.Components
 {
-    public static class HtmlParser
-    {
-        public static List<string> FindLinksFromStr(string inputStream)
+    public class HtmlParser : IHtmlParser
+    { 
+        public List<string> FindLinksFromHtml(string html)
         {
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(inputStream);
-            var linkCollection = doc.DocumentNode.SelectNodes("//a[@href]");
             List<string> result = new List<string>();
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            var linkCollection = doc.DocumentNode.SelectNodes("//a[@href]");
+            if (linkCollection == null)
+                return result;
             foreach (var node in linkCollection)
             {
                 var link = node.Attributes["href"];
-               // if (link.Value.Contains("wikipedia.org") && link.Value.Contains("https://"))
                 if (link.Value.StartsWith("/wiki/"))
                 {
-                    result.Add("https://en.wikipedia.org"+link.Value);
+                    result.Add("https://en.wikipedia.org" + link.Value);
                 }
 
             }

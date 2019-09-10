@@ -62,6 +62,7 @@
     <Compile Include="Components\IOFile.cs" />
     <Compile Include="Dependencies\MultithreadRegistry.cs" />
     <Compile Include="Dependencies\UrlsStrategyRegistry.cs" />
+    <Compile Include="Interfaces\IHtmlParser.cs" />
     <Compile Include="Multithread.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

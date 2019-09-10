@@ -1,8 +1,8 @@
 ﻿using Multithread.Core.Repositories;
 using MultithreadConsoleApp.Components;
+using MultithreadConsoleApp.Interfaces;
 using MultithreadConsoleApp.Repositories;
 using StructureMap;
-using System.Configuration;
 
 namespace MultithreadConsoleApp.Dependencies
 {
@@ -11,6 +11,7 @@ namespace MultithreadConsoleApp.Dependencies
         public MultithreadRegistry()
         {
             this.For<ILinkTableRepository>().Use<LinkRepository>();
+            this.For<IHtmlParser>().Use<HtmlParser>();
             this.For<LinksDBContext>().Use<LinksDBContext>();
         }
     }
