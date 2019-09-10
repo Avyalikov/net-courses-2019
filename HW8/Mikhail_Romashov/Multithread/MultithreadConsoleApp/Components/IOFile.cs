@@ -3,9 +3,9 @@ using System.IO;
 
 namespace MultithreadConsoleApp.Components
 {
-    public static class IOFile
-    {
-        public static void WriteToFile(string textToWrite, string pathToWrite)
+    public class IOFile
+    { 
+        public void WriteToFile(string textToWrite, string pathToWrite)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace MultithreadConsoleApp.Components
             }
         }
 
-        public static string ReadFromFile(string pathToRead)
+        public string ReadFromFile(string pathToRead)
         {
             string result = string.Empty;
             try
@@ -40,7 +40,7 @@ namespace MultithreadConsoleApp.Components
             return result;
         }
 
-        public static void DeleteFile(string pathToDelete)
+        public void DeleteFile(string pathToDelete)
         {
             string result = string.Empty;
             try

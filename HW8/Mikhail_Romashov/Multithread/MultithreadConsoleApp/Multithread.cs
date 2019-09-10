@@ -5,6 +5,7 @@ using MultithreadConsoleApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,14 +17,16 @@ namespace MultithreadConsoleApp
         private static int substr = 0;
 
         private readonly LinkService linkService;
+        private readonly IHtmlReader htmlReader;
         private readonly IHtmlParser htmlParser;
         private readonly object locker;
         private List<Task> tasks;
 
 
-        public Multithread(LinkService linkService, IHtmlParser htmlParser)
+        public Multithread(LinkService linkService, IHtmlParser htmlParser, IHtmlReader htmlReader)
         {
             this.htmlParser = htmlParser;
+            this.htmlReader = htmlReader;
             this.linkService = linkService;
             locker = new object();
             tasks = new List<Task>();
@@ -62,7 +65,7 @@ namespace MultithreadConsoleApp
             List<string> collection = new List<string>();
             try
             {
-                result = await HtmlReader.ReadHttp(url);
+                result = await this.htmlReader.ReadHttp(url);
             }
             catch (Exception)
             {

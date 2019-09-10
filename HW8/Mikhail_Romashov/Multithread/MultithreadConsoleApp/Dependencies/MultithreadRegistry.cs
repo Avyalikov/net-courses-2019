@@ -3,6 +3,7 @@ using MultithreadConsoleApp.Components;
 using MultithreadConsoleApp.Interfaces;
 using MultithreadConsoleApp.Repositories;
 using StructureMap;
+using System.Net.Http;
 
 namespace MultithreadConsoleApp.Dependencies
 {
@@ -10,8 +11,10 @@ namespace MultithreadConsoleApp.Dependencies
     {
         public MultithreadRegistry()
         {
+            For<HttpClient>().Use<HttpClient>().SelectConstructor(() => new HttpClient());
             this.For<ILinkTableRepository>().Use<LinkRepository>();
             this.For<IHtmlParser>().Use<HtmlParser>();
+            this.For<IHtmlReader>().Use<HtmlReader>();
             this.For<LinksDBContext>().Use<LinksDBContext>();
         }
     }

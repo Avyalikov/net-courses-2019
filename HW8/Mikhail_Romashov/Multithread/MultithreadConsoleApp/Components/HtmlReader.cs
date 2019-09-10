@@ -1,52 +1,55 @@
-﻿using System;
-using System.Linq;
+﻿using MultithreadConsoleApp.Interfaces;
+using System;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MultithreadConsoleApp.Components
 {
-    public static class HtmlReader
+    public class HtmlReader : IHtmlReader
     {
-        public static async Task<string> ReadHttp(string url)
+        HttpClient httpClient;
+        public HtmlReader(HttpClient httpClient)
         {
-            using (var httpClient = new HttpClient())
+            this.httpClient = httpClient;
+        }
+        public async Task<string> ReadHttp(string url)
+        {
+            HttpResponseMessage response = null;
+            int iteration = 0;
+            bool isResponsed = false;
+            while (!isResponsed && iteration < 10)
             {
-                HttpResponseMessage response = null;
-                int iteration = 0;
-                bool isResponsed = false;
-                while (!isResponsed && iteration < 10)
+                try
                 {
-                    try
-                    {
-                        iteration++;
-                        response = await httpClient.GetAsync(url);
-                        isResponsed = true;
-                    }
-                    catch (HttpRequestException)
-                    {
-                        Thread.Sleep(10);
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    iteration++;
+                    response = await httpClient.GetAsync(url);
+                    isResponsed = true;
                 }
-                if (response == null)
+                catch (HttpRequestException)
                 {
-                    throw new Exception("Cannot get answer from website");
+                    Thread.Sleep(10);
                 }
-                if (response.IsSuccessStatusCode)
+                catch
                 {
-                    var pageContents = await response.Content.ReadAsStringAsync();
-                    return pageContents;
+                    throw;
                 }
-                return null;
             }
+            if (response == null)
+            {
+                throw new Exception("Cannot get answer from website");
+            }
+            if (response.IsSuccessStatusCode)
+            {
+                var pageContents = await response.Content.ReadAsStringAsync();
+                return pageContents;
+            }
+            return null;
         }
     }
 }
+
+
 
 
 
