@@ -31,7 +31,7 @@ namespace Multithread.ConsoleApp
 
         public void Run()
         {           
-            List<string> s = parserPages.CsQuery();
+            List<string> s = parserPages.GettingTheInitialListOfLinks();
             Parallel.ForEach(s, sb => { parserPages.ParsingThePageCsQuery("https://en.wikipedia.org" + sb); });
             Console.ReadKey();
         }

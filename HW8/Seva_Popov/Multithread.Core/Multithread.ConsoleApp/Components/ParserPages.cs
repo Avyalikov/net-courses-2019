@@ -32,11 +32,11 @@ namespace Multithread.ConsoleApp.Components
         {
                 WebClient webClient = new WebClient();
 
-                string html = webClient.DownloadString((string)href);
+                string htmlPage = webClient.DownloadString((string)href);
 
-                CQ cq = CQ.Create(html);
+                CQ parserObject = CQ.Create(htmlPage);
 
-                foreach (IDomObject obj in cq.Find("a[href^='/wiki/']"))
+                foreach (IDomObject obj in parserObject.Find("a[href^='/wiki/']"))
                 {
                     LinksHistoryEntity linksHistoryEntity = new LinksHistoryEntity() { Links = "https://en.wikipedia.org" + obj.GetAttribute("href"), PreviousLink = (string)href };
 
@@ -45,36 +45,20 @@ namespace Multithread.ConsoleApp.Components
                         linksHistoryServices.RegisterNewLinks(linksHistoryEntity);
                     }
                 }   
-
-            //    List<string> hrefTags = new List<string>();
-
-            //    WebClient webClient = new WebClient();
-
-            //    string html = webClient.DownloadString("https://en.wikipedia.org/wiki/Main_Page");
-
-            //    CQ cq = CQ.Create(html);
-
-            //    foreach (IDomObject obj in cq.Find("a[href^='/wiki/']"))
-
-            //    {
-            //        hrefTags.Add(obj.GetAttribute("href"));
-            //    }
-
-            //    return hrefTags;
         }
 
 
-        public List<string> CsQuery()
+        public List<string> GettingTheInitialListOfLinks()
         {
             List<string> hrefTags = new List<string>();
 
             WebClient webClient = new WebClient();
 
-            string html = webClient.DownloadString("https://en.wikipedia.org/wiki/Takeoff");
+            string htmlPage = webClient.DownloadString("https://en.wikipedia.org/wiki/Takeoff");
 
-            CQ cq = CQ.Create(html);
+            CQ parserObject = CQ.Create(htmlPage);
 
-            foreach (IDomObject obj in cq.Find("a[href^='/wiki/']"))
+            foreach (IDomObject obj in parserObject.Find("a[href^='/wiki/']"))
 
             {
                 hrefTags.Add(obj.GetAttribute("href"));
