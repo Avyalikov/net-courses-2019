@@ -3,12 +3,12 @@ using WikipediaParser.Repositories;
 
 namespace WikipediaParser
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private readonly WikiParsingDbContext dbContext = new WikiParsingDbContext();
         private LinksTableRepository repository;
 
-        public LinksTableRepository LinksTableRepository
+        public ILinksTableRepository LinksTableRepository
         {
             get
             {

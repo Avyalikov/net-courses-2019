@@ -4,7 +4,7 @@ using WikipediaParser.Models;
 
 namespace WikipediaParser.Repositories
 {
-    public class LinksTableRepository
+    public class LinksTableRepository : ILinksTableRepository
     {
         private readonly WikiParsingDbContext dbContext;
         public LinksTableRepository(WikiParsingDbContext dbContext)
@@ -20,9 +20,9 @@ namespace WikipediaParser.Repositories
         {
             return this.dbContext.Links.Find(id);
         }
-        public bool ContainsByUrl(LinkEntity linkEntity)
+        public async Task<bool> ContainsByUrl(LinkEntity linkEntity)
         {
-            return this.dbContext.Links.AsParallel().Any(link => link.Link == linkEntity.Link);
+            return this.dbContext.Links.Any(link => link.Link == linkEntity.Link);
         }
         public async Task<int> SaveChangesAsync()
         {

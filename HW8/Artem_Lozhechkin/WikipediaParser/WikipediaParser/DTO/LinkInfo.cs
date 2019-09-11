@@ -9,5 +9,6 @@ namespace WikipediaParser.DTO
         public string URL { get; set; }
         public int Level { get; set; }
         public string FileName { get; set; }
+        public string Content { get; set; }
     }
 }
