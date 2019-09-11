@@ -1,6 +1,6 @@
-﻿namespace MultithreadLinkParser
+﻿namespace MultithreadLinkParser.Console
 {
-    using MultithreadLinkParser.Models;
+    using MultithreadLinkParser.Core.Models;
     using System.Data.Entity;
 
     public class LinksParserContext : DbContext

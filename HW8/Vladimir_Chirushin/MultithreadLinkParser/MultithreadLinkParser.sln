@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadLinkParser", "MultithreadLinkParser\MultithreadLinkParser.csproj", "{B5F5038B-D7F3-4C07-9BA8-584F35DD1149}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadLinkParser.Core", "MultithreadLinkParser.Core\MultithreadLinkParser.Core.csproj", "{036000A5-3531-4BC4-84BF-A80D9E4665D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadLinkParser.Tests", "MultithreadLinkParser.Tests\MultithreadLinkParser.Tests.csproj", "{7DD43F75-C9E9-418C-9CB2-00384DBD9656}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadLinkParser.Core.Tests", "MultithreadLinkParser.Core.Tests\MultithreadLinkParser.Core.Tests.csproj", "{030DFAFD-8B1E-43BD-9F04-04C48AB2B368}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadLinkParser.Console", "MultithreadLinkParser.Console\MultithreadLinkParser.Console.csproj", "{13153581-84F6-4D1B-87AE-7E37DFF223C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B5F5038B-D7F3-4C07-9BA8-584F35DD1149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5F5038B-D7F3-4C07-9BA8-584F35DD1149}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5F5038B-D7F3-4C07-9BA8-584F35DD1149}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5F5038B-D7F3-4C07-9BA8-584F35DD1149}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DD43F75-C9E9-418C-9CB2-00384DBD9656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DD43F75-C9E9-418C-9CB2-00384DBD9656}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DD43F75-C9E9-418C-9CB2-00384DBD9656}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DD43F75-C9E9-418C-9CB2-00384DBD9656}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036000A5-3531-4BC4-84BF-A80D9E4665D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036000A5-3531-4BC4-84BF-A80D9E4665D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036000A5-3531-4BC4-84BF-A80D9E4665D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036000A5-3531-4BC4-84BF-A80D9E4665D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{030DFAFD-8B1E-43BD-9F04-04C48AB2B368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{030DFAFD-8B1E-43BD-9F04-04C48AB2B368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{030DFAFD-8B1E-43BD-9F04-04C48AB2B368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{030DFAFD-8B1E-43BD-9F04-04C48AB2B368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13153581-84F6-4D1B-87AE-7E37DFF223C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13153581-84F6-4D1B-87AE-7E37DFF223C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13153581-84F6-4D1B-87AE-7E37DFF223C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13153581-84F6-4D1B-87AE-7E37DFF223C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
