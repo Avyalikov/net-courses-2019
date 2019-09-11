@@ -1,22 +1,23 @@
 ﻿namespace Multithread.Console
 {
     using System;
-    using Multithread.Console.Repo;
+    using Multithread.Console.DependencyInjection;
     using Multithread.Core.Services;
+    using StructureMap;
 
     class Program
     {
         static void Main(string[] args)
-        {
+        {           
             int endIteration = 3;
             string url = "https://en.wikipedia.org/wiki/Mummia";
-            var linkService = new LinksServices(new LinksRepo(), new WebRepo());
+            var linkProcessingService = new Container(new AppRegistry()).GetInstance<LinkProcessingService>();
 
-            linkService.SingleThread(url);
-            
-            linkService.ParsingForEachPage(endIteration);
+            linkProcessingService.SingleThread(url);
 
-            Console.WriteLine("end");
+            linkProcessingService.ParsingForEachPage(endIteration);
+
+            Console.WriteLine("End");
             Console.ReadKey();
         }
     }

@@ -16,7 +16,7 @@
         {
             var linkRepo = Substitute.For<ILinksRepo>();
             var webRepo = Substitute.For<IWebRepo>();
-            LinksServices linksServices = new LinksServices(linkRepo, webRepo);
+            LinkProcessingService linkProcessingService = new LinkProcessingService(linkRepo, webRepo);
             var testUrl = "Resource\\Mummia.html";
             HtmlDocument html = new HtmlDocument
             {
@@ -24,7 +24,7 @@
             };
             webRepo.DowloandPage(testUrl).Returns(html);
 
-            var checkFile = linksServices.DowloandPage(testUrl);
+            var checkFile = linkProcessingService.DowloandPage(testUrl);
 
             webRepo.Received(1).DowloandPage(testUrl);
             Assert.AreEqual(checkFile, html);
@@ -35,7 +35,7 @@
         {
             var linkRepo = Substitute.For<ILinksRepo>();
             var webRepo = Substitute.For<IWebRepo>();
-            LinksServices linksServices = new LinksServices(linkRepo, webRepo);
+            LinkProcessingService linkProcessingService = new LinkProcessingService(linkRepo, webRepo);
             var testUrl = "https://en.wikipedia.org/wiki/Mummia";
             HtmlDocument html = new HtmlDocument
             {
@@ -51,7 +51,7 @@
 
             webRepo.GetAllTagsFromPage(html).Returns(pagesLinks);
 
-            var testResult = linksServices.ExtraxctHtmlTags(testUrl);
+            var testResult = linkProcessingService.ExtraxctHtmlTags(testUrl);
 
             webRepo.Received(1).DowloandPage(testUrl);
             webRepo.Received(1).GetAllTagsFromPage(html);
@@ -63,13 +63,13 @@
         {
             var linkRepo = Substitute.For<ILinksRepo>();
             var webRepo = Substitute.For<IWebRepo>();
-            LinksServices linksServices = new LinksServices(linkRepo, webRepo);
+            LinkProcessingService linkProcessingService = new LinkProcessingService(linkRepo, webRepo);
 
             List<string> testUrls = new List<string> { "https://en.wikipedia.org/wiki/Trololo" };
             linkRepo.Contains(testUrls[0]).Returns(false);
             var testLink = new Link() { Url = testUrls[0], IterationId = 0 };
 
-            linksServices.SaveTagsIntoDb(testUrls);
+            linkProcessingService.SaveTagsIntoDb(testUrls);
 
             linkRepo.Received(1).Contains(testUrls[0]);
         }
@@ -79,7 +79,7 @@
         {
             var linkRepo = Substitute.For<ILinksRepo>();
             var webRepo = Substitute.For<IWebRepo>();
-            LinksServices linksServices = new LinksServices(linkRepo, webRepo);
+            LinkProcessingService linkProcessingService = new LinkProcessingService(linkRepo, webRepo);
 
             List<string> Urls = new List<string> { "https://en.wikipedia.org/wiki/Trololo" };
             linkRepo.GetAllWithIteration(0).Returns(Urls);
@@ -91,7 +91,7 @@
                 "https://en.wikipedia.org/wiki/Trololo", "/wiki/LoLo"
             });
 
-            linksServices.ParsingForEachPage(2);
+            linkProcessingService.ParsingForEachPage(2);
 
             linkRepo.GetAllWithIteration(1).Received(1);
         }
@@ -101,9 +101,9 @@
         {
             var linkRepo = Substitute.For<ILinksRepo>();
             var webRepo = Substitute.For<IWebRepo>();
-            LinksServices linksServices = new LinksServices(linkRepo, webRepo);
+            LinkProcessingService linkProcessingService = new LinkProcessingService(linkRepo, webRepo);
 
-            linksServices.ParsingForEachPage(0);
+            linkProcessingService.ParsingForEachPage(0);
 
             linkRepo.GetAllWithIteration(0).DidNotReceive();
         }

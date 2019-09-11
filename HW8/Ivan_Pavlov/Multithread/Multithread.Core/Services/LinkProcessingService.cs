@@ -9,7 +9,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class LinksServices
+    public class LinkProcessingService
     {
         private string startUrl;
         private int Iteration = 0;
@@ -17,7 +17,7 @@
         private readonly IWebRepo webRepo;
         private readonly Random rnd = new Random();
 
-        public LinksServices(ILinksRepo linkRepo, IWebRepo webRepo)
+        public LinkProcessingService(ILinksRepo linkRepo, IWebRepo webRepo)
         {
             this.linkRepo = linkRepo;
             this.webRepo = webRepo;
