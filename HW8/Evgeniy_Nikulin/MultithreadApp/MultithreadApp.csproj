@@ -66,8 +66,10 @@
     <Compile Include="Components\FileProvider.cs" />
     <Compile Include="Components\WikiHttpProvider.cs" />
     <Compile Include="IApplication.cs" />
+    <Compile Include="Interfaces\ILinksServices.cs" />
     <Compile Include="Interfaces\IFileProvider.cs" />
     <Compile Include="Interfaces\IHttpProvider.cs" />
+    <Compile Include="LinksServices.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

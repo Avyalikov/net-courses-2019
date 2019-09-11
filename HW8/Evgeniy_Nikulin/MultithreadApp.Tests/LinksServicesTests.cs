@@ -9,9 +9,9 @@
     using System.Collections.Generic;
 
     [TestClass]
-    public class ApplicationTests
+    public class LinksServicesTests
     {
-        private Application app;
+        private LinksServices linkService;
         private IDataBase db;
         private IFileProvider file;
         private IHttpProvider wiki;
@@ -29,14 +29,14 @@
         public void ShouldDownloadPage()
         {
             // Arrange
-            app = new Application(db, file, wiki);
+            linkService = new LinksServices(db, file, wiki);
 
             string page = "page_name";
 
             wiki.GetHtmlAsync(page).Returns("http page"); ;
 
             // Act
-            app.DownloadPage(page).Wait();
+            linkService.DownloadPage(page).Wait();
 
             // Assert
             wiki.Received(1).GetHtmlAsync(page);
@@ -47,7 +47,7 @@
         public void ShouldExtractHtmlTags()
         {
             // Arrange
-            app = new Application(db, file, wiki);
+            linkService = new LinksServices(db, file, wiki);
 
             string page = "page_name";
 
@@ -60,7 +60,7 @@
                 </body></html>");
 
             // Act
-            var result = app.ParseWikiPage(page);
+            var result = linkService.ParseWikiPage(page);
 
             // Assert
             Assert.AreEqual(1, result.Count);
@@ -71,7 +71,7 @@
         public void ShouldSaveTagsIntoDatabase()
         {
             // Arrange
-            app = new Application(db, file, wiki);
+            linkService = new LinksServices(db, file, wiki);
 
             var pages = new List<string>() { "page 1", "page 2" };
 
@@ -79,7 +79,7 @@
             db.Links.IsExist(Arg.Any<string>()).Returns(false);
 
             // Act
-            app.SavePagesToDb(pages, 1);
+            linkService.SavePagesToDb(pages, 1);
 
             // Assert
             db.Received(1).Connect();
@@ -92,7 +92,7 @@
         public void ShouldNotSaveTagsIntoDatabase()
         {
             // Arrange
-            app = new Application(db, file, wiki);
+            linkService = new LinksServices(db, file, wiki);
 
             var pages = new List<string>() { "page 1", "page 2" };
 
@@ -101,7 +101,7 @@
             db.Links.IsExist("page 2").Returns(false);
 
             // Act
-            app.SavePagesToDb(pages, 1);
+            linkService.SavePagesToDb(pages, 1);
 
             // Assert
             db.Received(1).Connect();
@@ -113,7 +113,7 @@
         public void ShouldCallParsingForEachPageFromPreviousIteration()
         {
             // Arrange
-            app = new Application(db, file, wiki);
+            linkService = new LinksServices(db, file, wiki);
             var pages = new List<string>() { "page 1", "page 2" };
 
             file.LoadHtml("page 1").Returns(
@@ -134,7 +134,7 @@
                 </body></html>");
 
             // Act
-            var result = app.ParseWikiPages(pages);
+            var result = linkService.ParseWikiPages(pages);
 
             // Assert
 
