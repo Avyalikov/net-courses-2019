@@ -55,7 +55,7 @@ namespace MultithreadConsoleApp
             }
         }
         
-        private string GenerateFileName(string url)
+        private string GenerateFileName()
         {
             substr++;
             return "C:\\multi\\file" + substr.ToString() + ".txt";
@@ -76,32 +76,32 @@ namespace MultithreadConsoleApp
 
             if (string.IsNullOrEmpty(result))
                 return null;
-            var filename = this.GenerateFileName(url);
-            await fileSystemManager.WriteToFile(result, filename);
+            await this.SaveDeleteFile(result);
             collection = this.htmlParser.FindLinksFromHtml(result);
-            fileSystemManager.DeleteFile(filename);
             return collection; 
+        }
+
+        private async Task SaveDeleteFile(string result)
+        {
+            var filename = this.GenerateFileName();
+            await fileSystemManager.WriteToFile(result, filename);
+            fileSystemManager.DeleteFile(filename);
         }
 
         private void AddCollectionToDB(List<string> collection, int iteration)
         {
-            
             lock (locker)
             {
                 foreach (var item in collection)
                 {
-                    try
+
+                    if (linkService.ContainsByLink(item))
+                        continue;
+                    var id = linkService.AddNewLink(new LinkInfo()
                     {
-                        var id = linkService.AddNewLink(new LinkInfo()
-                        {
-                            Link = item,
-                            Iteration = iteration
-                        });
-                    }
-                    catch (ArgumentException)
-                    {
-                         continue;
-                    }
+                        Link = item,
+                        Iteration = iteration
+                    });
                 }
             }
         }
@@ -115,11 +115,11 @@ namespace MultithreadConsoleApp
             }
 
             num++;
-            
+            Console.WriteLine($"Start {iteration} iteration with number {num}");
             var collection = await ParseHtml(url);
             if (collection.Count == 0)
                 return;
-            Console.WriteLine($"Start {iteration} iteration with number {num} with collection count = {collection.Count}");
+
             this.AddCollectionToDB(collection, iteration);
             foreach (var item in collection)
             {

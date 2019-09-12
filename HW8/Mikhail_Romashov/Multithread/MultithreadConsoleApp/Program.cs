@@ -2,7 +2,6 @@
 using StructureMap;
 using System;
 
-
 namespace MultithreadConsoleApp
 {
     class Program

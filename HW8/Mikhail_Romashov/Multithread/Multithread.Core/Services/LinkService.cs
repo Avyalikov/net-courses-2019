@@ -28,16 +28,10 @@ namespace Multithread.Core.Services
                 Iteration = linkInfo.Iteration
             };
 
-            if (this.linkTableRepository.Contains(linkInfo.Link))
-            {
-                throw new ArgumentException($"This link {entityToAdd.Link} has been added");
-            }
-
             this.linkTableRepository.Add(entityToAdd);
             this.linkTableRepository.SaveChanges();
             return entityToAdd.Id;
         }
-
         public bool ContainsByLink(string link)
         {
             return this.linkTableRepository.Contains(link);
