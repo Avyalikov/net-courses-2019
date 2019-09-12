@@ -1,13 +1,14 @@
-﻿using LinkContext;
-using LinkContext.DAL;
+﻿using LinkDBContext;
+using LinkDBContext.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrlLinksCore.Repository;
-using UrlLinksCore.Service;
+using UrlLinksCore.Services;
 using System.Threading;
+using UrlLinksCore.IService;
 
 namespace Links
 {
@@ -15,8 +16,10 @@ namespace Links
     {
         static void Main(string[] args)
         {
-            Downloader downloader = new Downloader();
-            Task start=downloader.Run(3, "https://en.m.wikipedia.org/wiki/Colotomic");
+            IDownloadService downloadService = new DownloadService();
+            IParserService parserService = new ParserService();
+            DownloadWorker downloader = new DownloadWorker(downloadService, parserService);
+            Task start = downloader.RunRecursively(3, "https://en.m.wikipedia.org/wiki/Balkan_Mountains");
             start.Wait();
         }
     }

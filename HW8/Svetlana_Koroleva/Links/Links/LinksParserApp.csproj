@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Downloader.cs" />
+    <Compile Include="DownloadWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,9 +61,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LinkContext\LinkContext.csproj">
+    <ProjectReference Include="..\LinkContext\LinkDBContext.csproj">
       <Project>{dc934428-bae7-467b-ac85-a2d0e554ebfd}</Project>
-      <Name>LinkContext</Name>
+      <Name>LinkDBContext</Name>
     </ProjectReference>
     <ProjectReference Include="..\UrlLinksCore\UrlLinksCore.csproj">
       <Project>{432d6df4-033e-42a1-b362-1273e8812bee}</Project>

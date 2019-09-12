@@ -2,7 +2,7 @@
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
-namespace LinkContext.DAL
+namespace LinkDBContext.DAL
 {
     using System;
     using System.Collections.Generic;

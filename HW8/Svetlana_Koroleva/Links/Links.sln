@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Links", "Links\Links.csproj", "{E1334F74-908D-4840-8CF8-F33D32AFF40E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinksParserApp", "Links\LinksParserApp.csproj", "{E1334F74-908D-4840-8CF8-F33D32AFF40E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlLinksCore", "UrlLinksCore\UrlLinksCore.csproj", "{432D6DF4-033E-42A1-B362-1273E8812BEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkContext", "LinkContext\LinkContext.csproj", "{DC934428-BAE7-467B-AC85-A2D0E554EBFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkDBContext", "LinkContext\LinkDBContext.csproj", "{DC934428-BAE7-467B-AC85-A2D0E554EBFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

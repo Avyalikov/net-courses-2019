@@ -2,7 +2,7 @@
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
-namespace UrlLinksCore.Service
+namespace UrlLinksCore.IService
 {
     using System;
     using System.Collections.Generic;
@@ -18,11 +18,11 @@ namespace UrlLinksCore.Service
     public interface ILinkService
     {
         void AddLinkToDB(LinkDTO linkDTO);
+        void AddParsedLinksToDB(List<string> links, int iteration);
         bool ContainsLink(string link);
         IEnumerable<Link> GetAllLinks();
         IEnumerable<String> GetAllLinksByIteration(int iterationId);
         IEnumerable<int> GetIterations();
-
-       
+        int GetCurrentIteration();
     }
 }

@@ -2,9 +2,9 @@
 // Copyright (c) SKorol. All rights reserved.
 // </copyright>
 
-namespace LinkContext
+namespace LinkDBContext
 {
-    using LinkContext.DAL;
+    using LinkDBContext.DAL;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -38,8 +38,6 @@ namespace LinkContext
                 return linkRepository;
             }
         }
-
-        
 
 
         public void Save()
