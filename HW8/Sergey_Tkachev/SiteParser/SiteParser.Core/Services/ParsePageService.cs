@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using SiteParser.Core.Models;
 using SiteParser.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace SiteParser.Core.Services
             this.urls = new List<string>();
         }
 
-        public ICollection<string> Parse(string path, string baseUrl)
+        public ICollection<string> Parse(string path, string baseUrl, int iterationID)
         {
             urls.Clear();
 
@@ -43,7 +44,7 @@ namespace SiteParser.Core.Services
             }
             if (urls.Count != 0)
             {
-                saveIntoDatabaseService.SaveUrls(urls);
+                saveIntoDatabaseService.SaveUrls(urls, iterationID);
             }
             return urls;
         }

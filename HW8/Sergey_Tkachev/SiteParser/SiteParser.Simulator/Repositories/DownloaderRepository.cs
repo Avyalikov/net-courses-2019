@@ -13,7 +13,8 @@ namespace SiteParser.Simulator.Repositories
     class DownloaderRepository : IDownloader
     {
         private readonly SiteParserDbContext dbContext;
-        private string pathToFile = "..\\..\\Pages/";
+        private string pathToFile = string.Empty;
+        private string folder = "Pages";
 
         public DownloaderRepository(SiteParserDbContext dbContext)
         {
@@ -36,18 +37,42 @@ namespace SiteParser.Simulator.Repositories
 
         public string SaveIntoFile(string downloadedResult)
         {
+            this.pathToFile = DirectoryCheck(this.folder);
+
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(downloadedResult);
-            htmlDocument.DocumentNode.Descendants("title").FirstOrDefault();
-            string fullPath = pathToFile + htmlDocument;
+            var title = htmlDocument.DocumentNode.SelectSingleNode("//head/title");
+
+            string fileName = title.InnerText;
+            FileNameCheck(ref fileName);
+            string fullPath = Path.Combine(pathToFile, fileName);
+
             if (File.Exists(fullPath))
             {
                 throw new ArgumentException($"Such file {fullPath} already exists!");
             }
 
             File.WriteAllText(fullPath, downloadedResult, Encoding.UTF8);
-
             return fullPath;
+        }
+
+        private void FileNameCheck (ref string stringToCheck)
+        {
+            stringToCheck = stringToCheck.Replace(':', ' ');
+        }
+
+        private string DirectoryCheck(string folderName)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            string fullpath = Path.Combine(path, folderName);
+
+            bool exists = Directory.Exists(fullpath);
+
+            if (!exists)
+                Directory.CreateDirectory(folderName);
+
+            return fullpath;
         }
     }
 }

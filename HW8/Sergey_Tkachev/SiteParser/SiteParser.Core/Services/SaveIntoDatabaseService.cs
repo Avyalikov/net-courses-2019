@@ -1,4 +1,5 @@
-﻿using SiteParser.Core.Repositories;
+﻿using SiteParser.Core.Models;
+using SiteParser.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,16 +15,21 @@ namespace SiteParser.Core.Services
             this.saver = saver;
         }
 
-        public string SaveUrl(string url)
+        public string SaveUrl(LinkEntity entityToAdd)
         {
-            var result = saver.Save(url);
+            var result = saver.Save(entityToAdd);
             return result;           
         }
 
-        public void SaveUrls(List<string> listOfUrls)
+        public void SaveUrls(List<string> listOfUrls, int iterationId)
         {
-            foreach (string item in listOfUrls)
-                SaveUrl(item);
+            LinkEntity linkToAdd = new LinkEntity();
+            foreach (string url in listOfUrls)
+            {
+                linkToAdd.Link = url;
+                linkToAdd.IterationID = iterationId;
+                SaveUrl(linkToAdd);
+            }
         }
     }
 }

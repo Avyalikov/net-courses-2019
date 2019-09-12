@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SiteParser.Core.Repositories;
+using SiteParser.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +8,21 @@ using System.Threading.Tasks;
 
 namespace SiteParser.Simulator
 {
-    public class Simulator
+    public class Simulator : ISimulator
     {
-        private string startPageToParse;
+        private readonly ISaver saver;
+        private readonly IDownloader downloader;
 
-        public Simulator(string startPageToParse)
+        public Simulator(ISaver saver, IDownloader downloader)
         {
-            this.startPageToParse = startPageToParse;
+            this.saver = saver;
+            this.downloader = downloader;
         }
 
-        internal void Start()
+        public void Start(string startPageToParse, string baseUrl)
         {
-            throw new NotImplementedException();
+            UrlCollectorService urlCollectorService = new UrlCollectorService(saver, downloader);
+            urlCollectorService.InitialDowload(startPageToParse, baseUrl);
         }
     }
 }
