@@ -4,11 +4,10 @@
 
     public class LinkInfo
     {
-        //public int LinkID { get; set; }
-
         [Key]
-        public string urlString { get; set; }
+        [StringLength(300)]
+        public string UrlString { get; set; }
 
-        public int linkLayer { get; set; }
+        public int LinkLayer { get; set; }
     }
 }

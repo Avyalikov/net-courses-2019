@@ -1,12 +1,12 @@
 ﻿namespace MultithreadLinkParser.Core.Repositories
 {
-    using MultithreadLinkParser.Core.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using MultithreadLinkParser.Core.Models;
 
     public interface ITagsRepository
     {
-        bool Insert(LinkInfo linkInfo);
+        void Insert(LinkInfo linkInfo);
 
         Task<bool> IsExistAsync(string link);
 

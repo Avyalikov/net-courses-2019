@@ -7,11 +7,6 @@
 
     public class PageDownloaderService : IPageDownloaderService
     {
-        public PageDownloaderService()
-        {
-
-        }
-
         public async Task<string> DownloadPage(string urlToParse, HttpClient client, CancellationToken cts)
         {
             byte[] urlContents;

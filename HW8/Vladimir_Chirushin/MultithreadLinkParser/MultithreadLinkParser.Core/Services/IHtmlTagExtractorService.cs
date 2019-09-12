@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-
-namespace MultithreadLinkParser.Core.Services
+﻿namespace MultithreadLinkParser.Core.Services
 {
+    using System.Collections.Generic;
+
     public interface IHtmlTagExtractorService
     {
         List<string> ExtractTags(string rawHttpData, string urlToParse);

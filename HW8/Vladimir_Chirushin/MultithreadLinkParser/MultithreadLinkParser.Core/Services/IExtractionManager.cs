@@ -5,6 +5,6 @@
 
     public interface IExtractionManager
     {
-        Task<bool> MyRecAsync(string urlToParse, int linkLayer, CancellationToken cts);
+        Task<bool> RecursionTagExtraction(string urlToParse, int linkLayer, CancellationToken cts);
     }
 }

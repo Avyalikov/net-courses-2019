@@ -1,28 +1,12 @@
-﻿using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace MultithreadLinkParser.Core.Services
+﻿namespace MultithreadLinkParser.Core.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using HtmlAgilityPack;
+
     public class HtmlTagExtractorService : IHtmlTagExtractorService
     {
-        public readonly IPageDownloaderService pageDownloadService;
-        public readonly ITagsDataBaseManager tagsDataBaseManager;
-
-        public List<string> parsedLinks;
-
-        public HtmlTagExtractorService(IPageDownloaderService pageDownloadService, ITagsDataBaseManager tagsDataBaseManager)
-        {
-            this.pageDownloadService = pageDownloadService;
-            this.tagsDataBaseManager = tagsDataBaseManager;
-        }
-
-
         public List<string> ExtractTags(string rawHttpData, string urlToParse)
         {
             HashSet<string> urlHashSet = new HashSet<string>();

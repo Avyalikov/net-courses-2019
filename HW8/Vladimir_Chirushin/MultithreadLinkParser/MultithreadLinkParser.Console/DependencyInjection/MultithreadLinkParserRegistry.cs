@@ -1,11 +1,11 @@
 ﻿namespace MultithreadLinkParser.Console.DependencyInjection
 {
-    using MultithreadLinkParser.Core.Services;
-    using MultithreadLinkParser.Core.Repositories;
-    using StructureMap;
     using MultithreadLinkParser.Console.Repositories;
+    using MultithreadLinkParser.Core.Repositories;
+    using MultithreadLinkParser.Core.Services;
+    using StructureMap;
 
-    class MultithreadLinkParserRegistry : Registry
+    public class MultithreadLinkParserRegistry : Registry
     {
         public MultithreadLinkParserRegistry()
         {

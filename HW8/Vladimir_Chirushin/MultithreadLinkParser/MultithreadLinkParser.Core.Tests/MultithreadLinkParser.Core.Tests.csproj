@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{030DFAFD-8B1E-43BD-9F04-04C48AB2B368}</ProjectGuid>
+    <ProjectGuid>{93418B95-CDF5-4436-AA5A-E989E991DB5F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MultithreadLinkParser.Core.Tests</RootNamespace>
@@ -61,7 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MultiThreadLinkParserTest.cs" />
+    <Compile Include="TagsDataBaseManagerTests.cs" />
+    <Compile Include="PageDownloaderServiceTests.cs" />
+    <Compile Include="HtmlTagExtractionServiceTests.cs" />
+    <Compile Include="ExtractorManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MultithreadLinkParser.Core\MultithreadLinkParser.Core.csproj">
-      <Project>{036000a5-3531-4bc4-84bf-a80d9e4665d8}</Project>
+      <Project>{036000A5-3531-4BC4-84BF-A80D9E4665D8}</Project>
       <Name>MultithreadLinkParser.Core</Name>
     </ProjectReference>
   </ItemGroup>

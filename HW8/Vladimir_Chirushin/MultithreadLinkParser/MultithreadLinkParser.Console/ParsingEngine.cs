@@ -1,12 +1,10 @@
 ﻿namespace MultithreadLinkParser.Console
 {
-    using MultithreadLinkParser.Core.Models;
-    using MultithreadLinkParser.Core.Services;
     using System;
-    using System.Collections.Generic;
     using System.Threading;
+    using MultithreadLinkParser.Core.Services;
 
-    class ParsingEngine : IParsingEngine
+    public class ParsingEngine : IParsingEngine
     {
         private readonly IExtractionManager extractionManager;
 
@@ -22,11 +20,8 @@
 
             Console.WriteLine("Starting!");
 
-            extractionManager.MyRecAsync(startingUrl, 0, cts);
-            while (Console.ReadKey().Key != ConsoleKey.Escape)
-            {
-
-            }
+            this.extractionManager.RecursionTagExtraction(startingUrl, 0, cts);
+            Console.ReadLine();
         }
     }
 }

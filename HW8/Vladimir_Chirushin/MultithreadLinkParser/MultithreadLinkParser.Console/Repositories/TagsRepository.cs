@@ -1,21 +1,20 @@
 ﻿namespace MultithreadLinkParser.Console.Repositories
 {
-    using MultithreadLinkParser.Core.Models;
-    using MultithreadLinkParser.Core.Repositories;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using MultithreadLinkParser.Core.Models;
+    using MultithreadLinkParser.Core.Repositories;
+    
     public class TagsRepository : ITagsRepository
     {
-        public bool Insert(LinkInfo linkInfo)
+        public void Insert(LinkInfo linkInfo)
         {
             using (var db = new LinksParserContext())
             {
                 db.Links.Add(linkInfo);
                 db.SaveChanges();
-                return true;
             }
         }
 
@@ -23,7 +22,7 @@
         {
             using (var db = new LinksParserContext())
             {
-                return await (db.Links.Where(l => l.urlString == link).FirstOrDefaultAsync()) != null;
+                return await db.Links.Where(l => l.UrlString == link).FirstOrDefaultAsync() != null;
             }
         }
 
@@ -32,7 +31,7 @@
             using (var db = new LinksParserContext())
             {
                 db.Links.AddRange(linkInfo);
-                await db.SaveChangesAsync();
+                db.SaveChangesAsync();
             }
         }
     }

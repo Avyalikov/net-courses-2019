@@ -5,13 +5,12 @@
     using System.IO;
     using System.Linq;
     using System.Net.Http;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
     public class ExtractionManager : IExtractionManager
     {
-        const int maxRecursionDepth = 4;
+        private const int MaxRecursionDepth = 4;
 
         private readonly IPageDownloaderService pageDownloader;
         private readonly IHtmlTagExtractorService htmlTagExtractor;
@@ -28,17 +27,17 @@
 
         ~ExtractionManager()
         {
-            if (client != null)
+            if (this.client != null)
             {
-                client.Dispose();
+                this.client.Dispose();
             }
         }
 
-        public async Task<bool> MyRecAsync(string urlToParse, int linkLayer, CancellationToken cts)
+        public async Task<bool> RecursionTagExtraction(string urlToParse, int linkLayer, CancellationToken cts)
         {
             Thread.CurrentThread.Priority = ThreadPriority.Lowest;
 
-            var fileName = pageDownloader.DownloadPage(urlToParse, client, cts);
+            var fileName = this.pageDownloader.DownloadPage(urlToParse, this.client, cts);
             List<string> newUrls = new List<string>();
 
             using (StreamReader sw = new StreamReader(await fileName))
@@ -46,18 +45,18 @@
                 string line = sw.ReadLine();
                 while (line != null)
                 {
-                    newUrls.AddRange(htmlTagExtractor.ExtractTags(line, urlToParse));
+                    newUrls.AddRange(this.htmlTagExtractor.ExtractTags(line, urlToParse));
                     line = sw.ReadLine();
                 }
             }
             Console.WriteLine($"There is {newUrls.Count} extracted from layer {linkLayer}");
 
-            await tagsDataBaseManager.AddLinksAsync(newUrls, linkLayer, cts);
+            this.tagsDataBaseManager.AddLinksAsync(newUrls, linkLayer, cts);
 
-            if (linkLayer < maxRecursionDepth)
+            if (linkLayer < MaxRecursionDepth)
             {
                 IEnumerable<Task<bool>> downloadTasksQuery =
-                    from url in newUrls select MyRecAsync(url, linkLayer + 1, cts);
+                    from url in newUrls select this.RecursionTagExtraction(url, linkLayer + 1, cts);
 
                 List<Task<bool>> downloadTasks = downloadTasksQuery.ToList();
 
