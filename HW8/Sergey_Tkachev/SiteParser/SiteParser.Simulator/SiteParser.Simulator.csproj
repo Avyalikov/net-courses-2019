@@ -61,6 +61,7 @@
     <Compile Include="ISimulator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CleanerRepository.cs" />
     <Compile Include="Repositories\DownloaderRepository.cs" />
     <Compile Include="Repositories\SaverRepository.cs" />
     <Compile Include="Simulator.cs" />

@@ -17,6 +17,7 @@ namespace SiteParser.Simulator.Dependencies
             this.For<ISaver>().Use<SaverRepository>();
             this.For<IDownloader>().Use<DownloaderRepository>();
             this.For<ISimulator>().Use<Simulator>();
+            this.For<ICleaner>().Use<CleanerRepository>();
 
         }
     }
