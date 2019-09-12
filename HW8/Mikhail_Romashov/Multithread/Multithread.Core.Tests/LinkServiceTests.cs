@@ -40,24 +40,5 @@ namespace Multithread.Core.Tests
                 && w.Iteration == link.Iteration));
             this.linkTableRepository.Received(1).SaveChanges();
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "This link https://en.wikipedia.org/wiki/The_Mummy_(1999_film) has been added")]
-        public void ShouldNotAddLinkToDatabaseIfExists()
-        {
-            //Arrange
-
-            LinkInfo link = new LinkInfo()
-            {
-                Link = "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)",
-                Iteration = 1
-            };
-
-            //Act
-            var linkId = linkService.AddNewLink(link);
-            this.linkTableRepository.Contains(Arg.Is<string>(
-                w => w == link.Link)).Returns(true);
-            var linkIdOneMore = linkService.AddNewLink(link);
-        }
     }
 }
