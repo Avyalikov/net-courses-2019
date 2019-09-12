@@ -19,7 +19,7 @@ namespace SiteParser.Tests
             string notExpectedString = "Something went wrong in IterationCall().";
             ISaver saver = Substitute.For<ISaver>();
             IDownloader downloader = Substitute.For<IDownloader>();
-            CallParsingFromPreviousIterationService iterationService = new CallParsingFromPreviousIterationService(saver, downloader);
+            UrlCollectorService iterationService = new UrlCollectorService(saver, downloader);
             downloader.Download(Arg.Is<string>("https://en.wikipedia.org/wiki/Red_fox"))
                .Returns("someDownloadedHtmlText");
             downloader.SaveIntoFile(Arg.Is<string>("someDownloadedHtmlText"))

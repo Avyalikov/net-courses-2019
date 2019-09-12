@@ -6,13 +6,13 @@ using System.Text;
 
 namespace SiteParser.Core.Services
 {
-    public class CallParsingFromPreviousIterationService
+    public class UrlCollectorService
     {
         private readonly SaveIntoDatabaseService saveIntoDatabaseService;
         private readonly ParsePageService parsePageService;
         private readonly DownloadPageService downloadPageService;
 
-        public CallParsingFromPreviousIterationService(ISaver saver, IDownloader downloader)
+        public UrlCollectorService(ISaver saver, IDownloader downloader)
         {
             this.saveIntoDatabaseService = new SaveIntoDatabaseService(saver);
             this.parsePageService = new ParsePageService(saveIntoDatabaseService);

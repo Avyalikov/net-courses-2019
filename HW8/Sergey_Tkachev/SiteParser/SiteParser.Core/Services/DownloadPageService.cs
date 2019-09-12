@@ -20,17 +20,6 @@ namespace SiteParser.Core.Services
             var downloadedResult = downloader.Download(requestUrl);
             var resultPath = downloader.SaveIntoFile(downloadedResult);
             return resultPath;
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    using (HttpResponseMessage response = client.GetAsync(requestUrl).Result)
-            //    {
-            //        using (HttpContent content = response.Content)
-            //        {
-            //            string result = content.ReadAsStringAsync().Result;
-            //            return result; 
-            //        }
-            //    }
-            //}
         }
     }
 }

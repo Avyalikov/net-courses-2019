@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SiteParser.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,6 +9,6 @@ namespace SiteParser.Core.Repositories
     {
         bool Contains(string urlToCheck);
 
-        string Save(string urlToSave);
+        string Save(LinkEntity entityToAdd);
     }
 }
