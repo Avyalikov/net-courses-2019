@@ -48,23 +48,13 @@ namespace Multithread.Core.Services
             return this.linkTableRepository.GetListOfLinks();
         }
 
-
-
         public LinkEntity GetLinkById(int id)
         {
             if (!this.linkTableRepository.ContainsById(id))
                 throw new ArgumentException($"Can`t find item by this id = {id}");
             return this.linkTableRepository.GetById(id);
         }
-      
-        public LinkEntity GetTraderById(int linkId)
-        {
-            if (!linkTableRepository.ContainsById(linkId))
-            {
-                throw new ArgumentException($"Can`t get link by this Id = {linkId}.");
-            }
-            return linkTableRepository.GetById(linkId);
-        }
+
         public IEnumerable<LinkEntity> GetListOfLinksByIteration(int iteration)
         {
             return linkTableRepository.GetListOfLinksByIteration(iteration);

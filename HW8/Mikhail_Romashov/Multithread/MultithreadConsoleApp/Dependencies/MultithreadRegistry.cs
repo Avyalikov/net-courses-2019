@@ -15,6 +15,7 @@ namespace MultithreadConsoleApp.Dependencies
             this.For<ILinkTableRepository>().Use<LinkRepository>();
             this.For<IHtmlParser>().Use<HtmlParser>();
             this.For<IHtmlReader>().Use<HtmlReader>();
+            this.For<IFileSystemManager>().Use<FileSystemManager>();
             this.For<LinksDBContext>().Use<LinksDBContext>();
         }
     }

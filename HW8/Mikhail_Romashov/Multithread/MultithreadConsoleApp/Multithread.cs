@@ -19,14 +19,16 @@ namespace MultithreadConsoleApp
         private readonly LinkService linkService;
         private readonly IHtmlReader htmlReader;
         private readonly IHtmlParser htmlParser;
+        private readonly IFileSystemManager fileSystemManager;
         private readonly object locker;
         private List<Task> tasks;
 
 
-        public Multithread(LinkService linkService, IHtmlParser htmlParser, IHtmlReader htmlReader)
+        public Multithread(LinkService linkService, IHtmlParser htmlParser, IHtmlReader htmlReader, IFileSystemManager fileSystemManager)
         {
             this.htmlParser = htmlParser;
             this.htmlReader = htmlReader;
+            this.fileSystemManager = fileSystemManager;
             this.linkService = linkService;
             locker = new object();
             tasks = new List<Task>();
@@ -74,11 +76,10 @@ namespace MultithreadConsoleApp
 
             if (string.IsNullOrEmpty(result))
                 return null;
-            //var filename = this.GenerateFileName(url);
-            //IOFile.WriteToFile(result.Result, filename);
-            //var newResult = IOFile.ReadFromFile(filename);
-            //IOFile.DeleteFile(filename);
+            var filename = this.GenerateFileName(url);
+            await fileSystemManager.WriteToFile(result, filename);
             collection = this.htmlParser.FindLinksFromHtml(result);
+            fileSystemManager.DeleteFile(filename);
             return collection; 
         }
 
@@ -114,10 +115,11 @@ namespace MultithreadConsoleApp
             }
 
             num++;
-            Console.WriteLine($"Start {iteration} iteration with number {num}");
+            
             var collection = await ParseHtml(url);
             if (collection.Count == 0)
                 return;
+            Console.WriteLine($"Start {iteration} iteration with number {num} with collection count = {collection.Count}");
             this.AddCollectionToDB(collection, iteration);
             foreach (var item in collection)
             {

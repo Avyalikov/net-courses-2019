@@ -19,11 +19,11 @@ namespace MultithreadConsoleApp.Tests
         [TestInitialize]
         public void Initialize()
         {
-            HttpMessageHandler myHttpMessageHandler = new MyHandler();
+            HttpMessageHandler myHttpMessageHandler = new FakeHttpHandler();
             httpClient = new HttpClient(myHttpMessageHandler);
             htmlReader = new HtmlReader(httpClient);
         }
-        public class MyHandler : HttpMessageHandler
+        public class FakeHttpHandler : HttpMessageHandler
         {
             protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
                 CancellationToken cancellationToken)

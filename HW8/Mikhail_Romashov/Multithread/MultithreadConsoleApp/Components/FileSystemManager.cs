@@ -1,17 +1,19 @@
-﻿using System;
+﻿using MultithreadConsoleApp.Interfaces;
+using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MultithreadConsoleApp.Components
 {
-    public class IOFile
+    public class FileSystemManager : IFileSystemManager
     { 
-        public void WriteToFile(string textToWrite, string pathToWrite)
+        public async Task WriteToFile(string textToWrite, string pathToWrite)
         {
             try
             {
                 using (StreamWriter sw = new StreamWriter(pathToWrite, false, System.Text.Encoding.Default))
                 {
-                    sw.WriteLine(textToWrite);
+                    await sw.WriteAsync(textToWrite);
                 }
             }
             catch (Exception e)

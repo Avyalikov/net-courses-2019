@@ -59,8 +59,9 @@
   <ItemGroup>
     <Compile Include="Components\HtmlReader.cs" />
     <Compile Include="Components\HtmlParser.cs" />
+    <Compile Include="Interfaces\IFileSystemManager.cs" />
     <Compile Include="Interfaces\IHtmlReader.cs" />
-    <Compile Include="Components\IOFile.cs" />
+    <Compile Include="Components\FileSystemManager.cs" />
     <Compile Include="Dependencies\MultithreadRegistry.cs" />
     <Compile Include="Dependencies\UrlsStrategyRegistry.cs" />
     <Compile Include="Interfaces\IHtmlParser.cs" />
