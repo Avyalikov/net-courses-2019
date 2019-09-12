@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using WikipediaParser.DTO;
-using WikipediaParser.Models;
-
-namespace WikipediaParser.Services
+﻿namespace WikipediaParser.Services
 {
-    public class WikipediaParsingService
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using WikipediaParser.DTO;
+
+    public class WikipediaParsingService : IWikipediaParsingService
     {
         private string baseAddress;
-        private readonly DownloadingService downloadingService;
-        private readonly PageParsingService pageParsingService;
-        private readonly DatasourceManagementService datasourceManagementService;
+        private readonly IDownloadingService downloadingService;
+        private readonly IPageParsingService pageParsingService;
+        private readonly IDatasourceManagementService datasourceManagementService;
 
         public WikipediaParsingService(
-            DownloadingService downloadingService, 
-            PageParsingService pageParsingService,
-            DatasourceManagementService datasourceManagementService)
+            IDownloadingService downloadingService,
+            IPageParsingService pageParsingService,
+            IDatasourceManagementService datasourceManagementService)
         {
             this.downloadingService = downloadingService;
             this.pageParsingService = pageParsingService;
@@ -35,38 +29,33 @@ namespace WikipediaParser.Services
 
             ProcessUrlRecursive(link).Wait();
         }
-        private async Task ProcessUrlRecursive(LinkInfo link)
+        public async Task ProcessUrlRecursive(LinkInfo link)
         {
-            bool isSucceeded = false;
-            do
+            List<LinkInfo> links;
+
+            if (link.Level < 3)
             {
-                if (link.Level < 2 && isSucceeded == false)
+                try
                 {
-                    try
+                    link.FileName = await this.downloadingService.DownloadSourceToFile(link);
+                    using (UnitOfWork uof = new UnitOfWork())
                     {
-                        link.FileName = await this.downloadingService.DownloadSourceToFile(link);
-                        List<LinkInfo> links;
-                        using (UnitOfWork uof = new UnitOfWork())
-                        {
-                            links = await this.pageParsingService.ExtractTagsFromFile(uof, link);
-                            await this.datasourceManagementService.AddToDb(uof, link);
-                        }
-                        List<Task> t = new List<Task>();
-                        foreach (var item in links)
-                        {
-                            t.Add(Task.Run(() => ProcessUrlRecursive(item)));
-                        }
-                        
-                        await Task.WhenAll(t.ToArray());
-                        isSucceeded = true;
+                        links = await this.pageParsingService.ExtractTagsFromFile(uof, link);
+                        await this.datasourceManagementService.AddToDb(uof, link);
                     }
-                    catch (Exception ex)
+                    List<Task> t = new List<Task>();
+                    foreach (var item in links)
                     {
-                        Console.WriteLine(ex.Message);
+                        t.Add(Task.Run(() => ProcessUrlRecursive(item)));
                     }
+                    
+                    await Task.WhenAll(t);
                 }
-                else isSucceeded = true;
-                } while (!isSucceeded);
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace WikipediaParser.Services
 {
-    public class PageParsingService
+    public class PageParsingService : IPageParsingService
     {
         public async Task<List<LinkInfo>> ExtractTagsFromSource(IUnitOfWork uof, LinkInfo linkInfo)
         {
@@ -48,11 +48,7 @@ namespace WikipediaParser.Services
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                
-            }
-            finally
-            {
-                //File.Delete(linkInfo.FileName);
+
             }
             return links;
         }
@@ -78,18 +74,18 @@ namespace WikipediaParser.Services
                                 if (link.Value.StartsWith("/wiki"))
                                 {
                                     string url = "https://en.wikipedia.org" + link.Value;
-                                    //if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
+                                    if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
                                         links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
                                 }
                                 else if (link.Value.StartsWith("//"))
                                 {
                                     string url = "https:" + link.Value;
-                                    //if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
+                                    if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
                                         links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
                                 }
                                 else
                                 {
-                                    //if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = link.Value })))
+                                    if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = link.Value })))
                                         links.Add(new LinkInfo { URL = link.Value, Level = linkInfo.Level + 1 });
                                 }
                             }

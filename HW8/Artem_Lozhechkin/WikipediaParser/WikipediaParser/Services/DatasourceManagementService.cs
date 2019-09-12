@@ -7,11 +7,12 @@ using WikipediaParser.Models;
 
 namespace WikipediaParser.Services
 {
-    public class DatasourceManagementService
+    public class DatasourceManagementService : IDatasourceManagementService
     {
         public async Task AddToDb(IUnitOfWork uof, LinkInfo linkInfo)
         {
             LinkEntity linkEntity = new LinkEntity { IterationId = linkInfo.Level, Link = linkInfo.URL };
+
             if (!(await uof.LinksTableRepository.ContainsByUrl(linkEntity)))
             {
                 await uof.LinksTableRepository.AddAsync(linkEntity);

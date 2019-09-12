@@ -7,7 +7,7 @@ using WikipediaParser.DTO;
 
 namespace WikipediaParser.Services
 {
-    public class DownloadingService
+    public class DownloadingService : IDownloadingService
     {
         private readonly HttpClient client;
 
@@ -18,7 +18,7 @@ namespace WikipediaParser.Services
         public async Task<string> DownloadSourceToFile(LinkInfo link)
         {
             Random r = new Random();
-            string filename = link.Level + " " + link.URL.GetHashCode() + r.Next() + ".html";
+            string filename = link.Level + " " + link.URL.GetHashCode() + " " + r.Next() + ".html";
             bool isSucceded = false;
             do
             {
@@ -42,14 +42,14 @@ namespace WikipediaParser.Services
                     Console.WriteLine("Got a timeout - Trying to reconnect");
                     await Task.Delay(10000);
                 }
-                catch(NullReferenceException ex)
+                catch (NullReferenceException ex)
                 {
                     throw new NullReferenceException("Resource not found", ex);
                 }
             } while (!isSucceded);
             return filename;
         }
-        public async Task DownloadSourceAsString(LinkInfo link)
+        public async Task<LinkInfo> DownloadSourceAsString(LinkInfo link)
         {
             bool isSucceded = false;
             do
@@ -69,12 +69,17 @@ namespace WikipediaParser.Services
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (HttpRequestException ex)
                 {
-                    Console.WriteLine(ex.Message + "  " + ex);
-                    Thread.Sleep(3000);
+                    Console.WriteLine("Got a timeout - Trying to reconnect");
+                    await Task.Delay(10000);
+                }
+                catch (NullReferenceException ex)
+                {
+                    throw new NullReferenceException("Resource not found", ex);
                 }
             } while (!isSucceded);
+            return link;
         }
     }
 }
