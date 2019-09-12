@@ -23,7 +23,7 @@ namespace MultithreadApp
 
             PageContextInitializer PageInit = new PageContextInitializer();
             List<PageEntity> Links = PageInit.ContextInitializer(ListOfLinks);
-            foreach (PageEntity item in Links)
+            foreach (PageEntity item in Links.Distinct())
             {
                 context.Links.Add(item);
             }

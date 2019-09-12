@@ -47,20 +47,19 @@ namespace MultithreadApp.Core.Services
             return fileName;
         }
 
-        public void Add(string item)
+        public void Add(PageEntity item)
         {
-            var entityToAdd = new PageEntity()
+            if (this.pageRepository.Contains(item))
             {
-                Link = item,
-                IterationId = 1
-            };
-            if (this.pageRepository.Contains(entityToAdd))
-            {
-                throw new ArgumentException("This user has been already registered.Can't continue");
+                //throw//new ArgumentException("This link has been already registered.Can't continue");
             }
-            this.pageRepository.Add(entityToAdd);
+            else
+            {
+                this.pageRepository.Add(item);
 
-            this.pageRepository.SaveChanges();
+                this.pageRepository.SaveChanges();
+            }
+            
         }
 
         public List<string> ExtractHtmlTags(string fileName)

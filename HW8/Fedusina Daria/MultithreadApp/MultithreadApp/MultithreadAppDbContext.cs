@@ -9,7 +9,7 @@ namespace MultithreadApp.Dependencies
         public DbSet<PageEntity> Links { get; set; }
         public MultithreadAppDbContext(string connectionString) : base(connectionString)
         {
-
+            Database.SetInitializer<MultithreadAppDbContext>(new ContextInitializer());
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
