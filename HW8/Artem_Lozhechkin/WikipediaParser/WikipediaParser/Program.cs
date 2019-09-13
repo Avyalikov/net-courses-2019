@@ -1,6 +1,7 @@
 ﻿namespace WikipediaParser
 {
     using StructureMap;
+    using System.Configuration;
     using WikipediaParser.Services;
 
     class Program
@@ -9,7 +10,8 @@
         {
             Container container = new Container(new WikipediaParserRegistry());
             WikipediaParsingService wiki = container.GetInstance<WikipediaParsingService>();
-            wiki.Start("https://en.wikipedia.org");
+            string startUrl = ConfigurationManager.AppSettings.Get("startUrl");
+            wiki.Start(startUrl);
         }
     }
 }

@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Threading.Tasks;
     using WikipediaParser.DTO;
 
     public class WikipediaParsingService : IWikipediaParsingService
     {
         private string baseAddress;
+        private static readonly int maxIteration = int.Parse(ConfigurationManager.AppSettings.Get("maxIteration"));
         private readonly IDownloadingService downloadingService;
         private readonly IPageParsingService pageParsingService;
         private readonly IDatasourceManagementService datasourceManagementService;
@@ -33,7 +35,7 @@
         {
             List<LinkInfo> links;
 
-            if (link.Level < 3)
+            if (link.Level < maxIteration)
             {
                 try
                 {
