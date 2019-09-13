@@ -16,20 +16,20 @@ namespace MultithreadConsoleApp
         private static int num = 0;
         private static int substr = 0;
 
-        private readonly LinkService linkService;
         private readonly IHtmlReader htmlReader;
+        private readonly IDataBaseManager dataBaseManager;
         private readonly IHtmlParser htmlParser;
         private readonly IFileSystemManager fileSystemManager;
         private readonly object locker;
         private List<Task> tasks;
 
 
-        public Multithread(LinkService linkService, IHtmlParser htmlParser, IHtmlReader htmlReader, IFileSystemManager fileSystemManager)
+        public Multithread(IHtmlParser htmlParser, IHtmlReader htmlReader, IFileSystemManager fileSystemManager, IDataBaseManager dataBaseManager)
         {
             this.htmlParser = htmlParser;
             this.htmlReader = htmlReader;
             this.fileSystemManager = fileSystemManager;
-            this.linkService = linkService;
+            this.dataBaseManager = dataBaseManager;
             locker = new object();
             tasks = new List<Task>();
         }
@@ -43,7 +43,7 @@ namespace MultithreadConsoleApp
             int startIteration = 1;
             int maxIteration = 2;
             
-            tasks.Add(Task.Run(() => StartWithRecursion(url, startIteration, maxIteration)));
+            tasks.Add(Task.Run(() => GetUrlsUsingRecursion(url, startIteration, maxIteration)));
             while (!isCompleted)
             {
                 await Task.WhenAll(tasks.ToArray());
@@ -61,10 +61,33 @@ namespace MultithreadConsoleApp
             return "C:\\multi\\file" + substr.ToString() + ".txt";
         }
 
-        private async Task<List<string>> ParseHtml(string url)
+        //private async Task<List<string>> ParseHtml(string url)
+        //{
+        //    string result;
+        //    List<string> collection = new List<string>();
+        //    try
+        //    {
+        //        result = await this.htmlReader.ReadHttp(url);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+
+        //    if (string.IsNullOrEmpty(result))
+        //        return null;
+        //    await this.SaveDeleteFile(result);
+        //    collection = this.htmlParser.FindLinksFromHtml(result);
+        //    return collection; 
+        //}
+        private List<string> ParseHtml(string html)
+        {
+           return this.htmlParser.FindLinksFromHtml(html);
+        }
+
+        private async Task<string> LoadHtml(string url)
         {
             string result;
-            List<string> collection = new List<string>();
             try
             {
                 result = await this.htmlReader.ReadHttp(url);
@@ -76,9 +99,7 @@ namespace MultithreadConsoleApp
 
             if (string.IsNullOrEmpty(result))
                 return null;
-            await this.SaveDeleteFile(result);
-            collection = this.htmlParser.FindLinksFromHtml(result);
-            return collection; 
+            return result;
         }
 
         private async Task SaveDeleteFile(string result)
@@ -92,38 +113,34 @@ namespace MultithreadConsoleApp
         {
             lock (locker)
             {
-                foreach (var item in collection)
-                {
-
-                    if (linkService.ContainsByLink(item))
-                        continue;
-                    var id = linkService.AddNewLink(new LinkInfo()
-                    {
-                        Link = item,
-                        Iteration = iteration
-                    });
-                }
+                this.dataBaseManager.AddLinksToDB(collection, iteration);
             }
         }
 
-        private async Task StartWithRecursion(string url, int iteration, int maxIteration)
+        private async Task GetUrlsUsingRecursion(string url, int iteration, int maxIteration)
         {
             Thread.Sleep(10);
             if (iteration > maxIteration)
             {
                 return;
             }
-
             num++;
             Console.WriteLine($"Start {iteration} iteration with number {num}");
-            var collection = await ParseHtml(url);
+
+            var result = await LoadHtml(url);
+            if (result == null)
+                return;
+
+            await this.SaveDeleteFile(result);
+
+            var collection = this.ParseHtml(result);
             if (collection.Count == 0)
                 return;
 
             this.AddCollectionToDB(collection, iteration);
             foreach (var item in collection)
             {
-                tasks.Add(Task.Run(() => StartWithRecursion(item, iteration + 1, maxIteration)));
+                tasks.Add(Task.Run(() => GetUrlsUsingRecursion(item, iteration + 1, maxIteration)));
             }
         }
     }

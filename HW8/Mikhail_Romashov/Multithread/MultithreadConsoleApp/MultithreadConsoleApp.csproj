@@ -57,8 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\DataBaseManager.cs" />
     <Compile Include="Components\HtmlReader.cs" />
     <Compile Include="Components\HtmlParser.cs" />
+    <Compile Include="Interfaces\IDataBaseManager.cs" />
     <Compile Include="Interfaces\IFileSystemManager.cs" />
     <Compile Include="Interfaces\IHtmlReader.cs" />
     <Compile Include="Components\FileSystemManager.cs" />

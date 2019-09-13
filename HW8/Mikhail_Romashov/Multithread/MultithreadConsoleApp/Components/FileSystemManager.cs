@@ -32,7 +32,7 @@ namespace MultithreadConsoleApp.Components
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return ;
+                return;
             }
         }
     }

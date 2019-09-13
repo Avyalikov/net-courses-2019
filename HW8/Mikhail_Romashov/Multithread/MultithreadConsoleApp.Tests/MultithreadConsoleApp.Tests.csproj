@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataBaseManagerTests.cs" />
     <Compile Include="HtmlReaderTests.cs" />
     <Compile Include="HtmlParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Multithread.Core\Multithread.Core.csproj">
+      <Project>{2565DDDF-79FF-4BA6-878D-15D44F95A774}</Project>
+      <Name>Multithread.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MultithreadConsoleApp\MultithreadConsoleApp.csproj">
       <Project>{1cbbb436-401f-4ac2-b675-8e300ad9178d}</Project>
       <Name>MultithreadConsoleApp</Name>
