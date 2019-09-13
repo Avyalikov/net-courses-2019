@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<body>
+<meta charset="UTF-8"/>
+<title>The Mummy (1999 film) - Wikipedia</title>
+<tr>
+<td><a href="/wiki/Saturn_Award_for_Best_Costume" class="mw-redirect" title="Saturn Award for Best Costume">Best Costumes</a>
+</td>
+</tr>
+<tr>
+<td rowspan="1"><a href="/wiki/Motion_Picture_Sound_Editors" title="Motion Picture Sound Editors">Golden Reel Awards</a>
+</td>
+</tr>
+</body>
+</html>
