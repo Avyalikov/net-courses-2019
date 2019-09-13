@@ -2,13 +2,14 @@
 {
     using Microsoft.EntityFrameworkCore;
     using WikipediaParser.Models;
+    using System.Configuration;
 
     public class WikiParsingDbContext : DbContext
     {
         public DbSet<LinkEntity> Links { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=WikiParsingApp;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
