@@ -17,8 +17,7 @@ namespace UrlLinksCore.Tests
             //Arrange
             string url = "https://en.m.wikipedia.org/wiki/Medicine";
             string filename = "file1.html";
-            IDownloadService downloadService = Substitute.For<IDownloadService>();
-
+            DownloadService downloadService = Substitute.For<DownloadService>();
             //Act
             downloadService.DownloadHtml(url, filename);
 
