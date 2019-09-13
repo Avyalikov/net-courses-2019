@@ -35,12 +35,11 @@ namespace Links
         }
 
 
-        //Take(5)- for debug mode
         private void SingleIteration(string url, LinkService linkService)
         {
             string filename = url.GetHashCode() + ".html";
             this.downloadService.DownloadHtml(url, filename);
-            var linksToAdd = this.parserService.GetLinksFromHtml(filename, url).Take(5).ToList();
+            var linksToAdd = this.parserService.GetLinksFromHtml(filename, url).ToList();
             int iteration = linkService.GetCurrentIteration();
             linkService.AddParsedLinksToDB(linksToAdd, iteration);
         }

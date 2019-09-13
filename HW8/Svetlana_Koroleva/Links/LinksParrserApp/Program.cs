@@ -19,7 +19,7 @@ namespace Links
             IDownloadService downloadService = new DownloadService();
             IParserService parserService = new ParserService();
             DownloadWorker downloader = new DownloadWorker(downloadService, parserService);
-            Task start = downloader.RunRecursively(3, "https://en.m.wikipedia.org/wiki/Balkan_Mountains");
+            Task start = downloader.RunRecursively(3, "https://en.m.wikipedia.org/wiki/Serbs");
             start.Wait();
         }
     }
