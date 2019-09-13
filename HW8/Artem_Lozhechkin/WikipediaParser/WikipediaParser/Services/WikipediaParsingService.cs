@@ -25,7 +25,7 @@
         {
             this.baseAddress = baseUrl;
 
-            LinkInfo link = new LinkInfo { Level = 0, URL = this.baseAddress };
+            LinkInfo link = new LinkInfo { Level = 0, Url = this.baseAddress };
 
             ProcessUrlRecursive(link).Wait();
         }
@@ -40,7 +40,7 @@
                     link.FileName = await this.downloadingService.DownloadSourceToFile(link);
                     using (UnitOfWork uof = new UnitOfWork())
                     {
-                        links = await this.pageParsingService.ExtractTagsFromFile(uof, link);
+                        links = this.pageParsingService.ExtractTagsFromFile(uof, link);
                         await this.datasourceManagementService.AddToDb(uof, link);
                     }
                     List<Task> t = new List<Task>();

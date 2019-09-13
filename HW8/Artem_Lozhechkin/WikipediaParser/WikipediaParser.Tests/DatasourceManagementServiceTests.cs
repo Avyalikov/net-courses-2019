@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using System;
-using System.Threading.Tasks;
-using WikipediaParser.DTO;
-using WikipediaParser.Models;
-using WikipediaParser.Repositories;
-using WikipediaParser.Services;
-
-namespace WikipediaParser.Tests
+﻿namespace WikipediaParser.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using System;
+    using System.Threading.Tasks;
+    using WikipediaParser.DTO;
+    using WikipediaParser.Models;
+    using WikipediaParser.Repositories;
+    using WikipediaParser.Services;
+
     [TestClass]
     public class DatasourceManagementServiceTests
     {
@@ -23,7 +23,7 @@ namespace WikipediaParser.Tests
             string address = "https://en.wikipedia.org";
             tableRepository.ContainsByUrl(Arg.Any<LinkEntity>()).Returns(false);
             // Act
-            datasource.AddToDb(unitOfWork, new LinkInfo { URL = address }).Wait();
+            datasource.AddToDb(unitOfWork, new LinkInfo { Url = address }).Wait();
             // Assert
             unitOfWork.LinksTableRepository.Received(1).AddAsync(
                 Arg.Is<LinkEntity>(e => e.Link == address));
@@ -39,7 +39,8 @@ namespace WikipediaParser.Tests
             string address = "https://en.wikipedia.org";
             tableRepository.ContainsByUrl(Arg.Any<LinkEntity>()).Returns(true);
             // Act
-            Task t = datasource.AddToDb(unitOfWork, new LinkInfo { URL = address });
+            Task t = datasource.AddToDb(unitOfWork, new LinkInfo { Url = address });
+            // Assert
             Assert.AreEqual("Link is already in database", t.Exception.InnerException.Message);
         }
     }

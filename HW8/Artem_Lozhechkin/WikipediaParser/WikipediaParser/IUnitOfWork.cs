@@ -1,8 +1,8 @@
-﻿using System;
-using WikipediaParser.Repositories;
-
-namespace WikipediaParser
+﻿namespace WikipediaParser
 {
+    using System;
+    using WikipediaParser.Repositories;
+
     public interface IUnitOfWork : IDisposable
     {
         ILinksTableRepository LinksTableRepository { get; }

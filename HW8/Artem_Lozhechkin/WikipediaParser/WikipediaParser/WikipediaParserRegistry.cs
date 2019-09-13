@@ -1,13 +1,10 @@
-﻿using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using WikipediaParser.Repositories;
-using WikipediaParser.Services;
-
-namespace WikipediaParser
+﻿namespace WikipediaParser
 {
+    using StructureMap;
+    using System.Net.Http;
+    using WikipediaParser.Repositories;
+    using WikipediaParser.Services;
+
     public class WikipediaParserRegistry : Registry
     {
         public WikipediaParserRegistry()

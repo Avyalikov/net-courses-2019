@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using WikipediaParser.DTO;
-
-namespace WikipediaParser.Services
+﻿namespace WikipediaParser.Services
 {
+    using System;
+    using System.IO;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using WikipediaParser.DTO;
+
     public class DownloadingService : IDownloadingService
     {
         private readonly HttpClient client;
@@ -18,13 +17,13 @@ namespace WikipediaParser.Services
         public async Task<string> DownloadSourceToFile(LinkInfo link)
         {
             Random r = new Random();
-            string filename = link.Level + " " + link.URL.GetHashCode() + " " + r.Next() + ".html";
+            string filename = link.Level + " " + link.Url.GetHashCode() + " " + r.Next() + ".html";
             bool isSucceded = false;
             do
             {
                 try
                 {
-                    using (HttpResponseMessage response = await this.client.GetAsync(link.URL))
+                    using (HttpResponseMessage response = await this.client.GetAsync(link.Url))
                     {
                         using (HttpContent content = response.Content)
                         {
@@ -37,7 +36,7 @@ namespace WikipediaParser.Services
                     }
 
                 }
-                catch (HttpRequestException ex)
+                catch (HttpRequestException)
                 {
                     Console.WriteLine("Got a timeout - Trying to reconnect");
                     await Task.Delay(10000);
@@ -58,7 +57,7 @@ namespace WikipediaParser.Services
                 {
                     using (HttpClient httpClient = new HttpClient())
                     {
-                        using (HttpResponseMessage response = await httpClient.GetAsync(link.URL))
+                        using (HttpResponseMessage response = await httpClient.GetAsync(link.Url))
                         {
                             using (HttpContent content = response.Content)
                             {
@@ -69,7 +68,7 @@ namespace WikipediaParser.Services
                         }
                     }
                 }
-                catch (HttpRequestException ex)
+                catch (HttpRequestException)
                 {
                     Console.WriteLine("Got a timeout - Trying to reconnect");
                     await Task.Delay(10000);

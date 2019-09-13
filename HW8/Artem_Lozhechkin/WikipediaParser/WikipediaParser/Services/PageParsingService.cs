@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using WikipediaParser.DTO;
-using WikipediaParser.Models;
-using HtmlAgilityPack;
-using System.Linq;
-
-namespace WikipediaParser.Services
+﻿namespace WikipediaParser.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+    using System.Xml;
+    using System.Xml.Linq;
+    using WikipediaParser.DTO;
+    using WikipediaParser.Models;
+    using HtmlAgilityPack;
+    using System.Linq;
+
     public class PageParsingService : IPageParsingService
     {
-        public async Task<List<LinkInfo>> ExtractTagsFromSource(IUnitOfWork uof, LinkInfo linkInfo)
+        public List<LinkInfo> ExtractTagsFromSource(IUnitOfWork uof, LinkInfo linkInfo)
         {
             HtmlDocument doc = new HtmlDocument();
             List<LinkInfo> links = new List<LinkInfo>();
@@ -28,19 +28,19 @@ namespace WikipediaParser.Services
                         if (link.StartsWith("/wiki"))
                         {
                             string url = "https://en.wikipedia.org" + link;
-                            if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
-                                links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
+                            if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
+                                links.Add(new LinkInfo { Url = url, Level = linkInfo.Level + 1 });
                         }
                         else if (link.StartsWith("//"))
                         {
                             string url = "https:" + link;
-                            if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
-                                links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
+                            if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
+                                links.Add(new LinkInfo { Url = url, Level = linkInfo.Level + 1 });
                         }
                         else
                         {
-                            if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = link })))
-                                links.Add(new LinkInfo { URL = link, Level = linkInfo.Level + 1 });
+                            if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = link }))
+                                links.Add(new LinkInfo { Url = link, Level = linkInfo.Level + 1 });
                         }
                     }
                 }
@@ -52,7 +52,7 @@ namespace WikipediaParser.Services
             }
             return links;
         }
-        public async Task<List<LinkInfo>> ExtractTagsFromFile(IUnitOfWork uof, LinkInfo linkInfo)
+        public List<LinkInfo> ExtractTagsFromFile(IUnitOfWork uof, LinkInfo linkInfo)
         {
             List<LinkInfo> links = new List<LinkInfo>();
             try
@@ -74,19 +74,19 @@ namespace WikipediaParser.Services
                                 if (link.Value.StartsWith("/wiki"))
                                 {
                                     string url = "https://en.wikipedia.org" + link.Value;
-                                    if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
-                                        links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
+                                    if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
+                                        links.Add(new LinkInfo { Url = url, Level = linkInfo.Level + 1 });
                                 }
                                 else if (link.Value.StartsWith("//"))
                                 {
                                     string url = "https:" + link.Value;
-                                    if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url })))
-                                        links.Add(new LinkInfo { URL = url, Level = linkInfo.Level + 1 });
+                                    if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = url }))
+                                        links.Add(new LinkInfo { Url = url, Level = linkInfo.Level + 1 });
                                 }
                                 else
                                 {
-                                    if (!(await uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = link.Value })))
-                                        links.Add(new LinkInfo { URL = link.Value, Level = linkInfo.Level + 1 });
+                                    if (!uof.LinksTableRepository.ContainsByUrl(new LinkEntity { Link = link.Value }))
+                                        links.Add(new LinkInfo { Url = link.Value, Level = linkInfo.Level + 1 });
                                 }
                             }
                         }

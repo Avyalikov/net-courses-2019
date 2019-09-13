@@ -1,15 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using WikipediaParser.DTO;
-using WikipediaParser.Services;
-
-namespace WikipediaParser.Tests
+﻿namespace WikipediaParser.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Net.Http;
+    using System.Text;
+    using WikipediaParser.DTO;
+    using WikipediaParser.Services;
+
+
     [TestClass]
     public class DownloadingServiceTests
     {
@@ -17,9 +18,9 @@ namespace WikipediaParser.Tests
         public void ShouldDownloadPage()
         {
             //Arrange
-            HttpClient client = new HttpClient(new HttpMessageHandlerStub());
+            HttpClient client = new HttpClient(new HttpMessageHandlerMock());
             DownloadingService downloadingService = new DownloadingService(client);
-            LinkInfo linkInfo = new LinkInfo { URL = "https://en.wikipedia.org" };
+            LinkInfo linkInfo = new LinkInfo { Url = "https://en.wikipedia.org" };
             //Act
             var filename = downloadingService.DownloadSourceToFile(linkInfo).Result;
             //Assert
@@ -31,9 +32,9 @@ namespace WikipediaParser.Tests
         public void ShouldNotDownloadPageIfItDoesntExist()
         {
             //Arrange
-            HttpClient client = new HttpClient(new HttpMessageHandlerStub());
+            HttpClient client = new HttpClient(new HttpMessageHandlerMock());
             DownloadingService downloadingService = new DownloadingService(client);
-            LinkInfo linkInfo = new LinkInfo { URL = "http://en.wikipedia.org" };
+            LinkInfo linkInfo = new LinkInfo { Url = "http://en.wikipedia.org" };
             //Act
             throw downloadingService.DownloadSourceToFile(linkInfo).Exception.InnerException;
         }

@@ -1,13 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using WikipediaParser.Models;
-
-namespace WikipediaParser
+﻿namespace WikipediaParser
 {
-    
+    using Microsoft.EntityFrameworkCore;
+    using WikipediaParser.Models;
+
     public class WikiParsingDbContext : DbContext
     {
         public DbSet<LinkEntity> Links { get; set; }

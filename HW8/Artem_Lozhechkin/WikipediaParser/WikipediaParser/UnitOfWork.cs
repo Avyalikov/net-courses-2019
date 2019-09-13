@@ -1,8 +1,8 @@
-﻿using System;
-using WikipediaParser.Repositories;
-
-namespace WikipediaParser
+﻿namespace WikipediaParser
 {
+    using System;
+    using WikipediaParser.Repositories;
+
     public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private readonly WikiParsingDbContext dbContext = new WikiParsingDbContext();

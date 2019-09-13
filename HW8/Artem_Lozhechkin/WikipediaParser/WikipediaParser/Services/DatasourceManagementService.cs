@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using WikipediaParser.DTO;
-using WikipediaParser.Models;
-
-namespace WikipediaParser.Services
+﻿namespace WikipediaParser.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using WikipediaParser.DTO;
+    using WikipediaParser.Models;
+
     public class DatasourceManagementService : IDatasourceManagementService
     {
         public async Task AddToDb(IUnitOfWork uof, LinkInfo linkInfo)
         {
-            LinkEntity linkEntity = new LinkEntity { IterationId = linkInfo.Level, Link = linkInfo.URL };
+            LinkEntity linkEntity = new LinkEntity { IterationId = linkInfo.Level, Link = linkInfo.Url };
 
-            if (!(await uof.LinksTableRepository.ContainsByUrl(linkEntity)))
+            if (!uof.LinksTableRepository.ContainsByUrl(linkEntity))
             {
                 await uof.LinksTableRepository.AddAsync(linkEntity);
             }

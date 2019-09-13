@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using WikipediaParser.Models;
-
-namespace WikipediaParser.Repositories
+﻿namespace WikipediaParser.Repositories
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using WikipediaParser.Models;
+
     public class LinksTableRepository : ILinksTableRepository
     {
         private readonly WikiParsingDbContext dbContext;
@@ -20,7 +20,7 @@ namespace WikipediaParser.Repositories
         {
             return this.dbContext.Links.Find(id);
         }
-        public async Task<bool> ContainsByUrl(LinkEntity linkEntity)
+        public bool ContainsByUrl(LinkEntity linkEntity)
         {
             return this.dbContext.Links.Any(link => link.Link == linkEntity.Link);
         }

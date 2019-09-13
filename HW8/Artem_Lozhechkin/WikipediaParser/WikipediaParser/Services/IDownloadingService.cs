@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using WikipediaParser.DTO;
-
-namespace WikipediaParser.Services
+﻿namespace WikipediaParser.Services
 {
+    using System.Threading.Tasks;
+    using WikipediaParser.DTO;
+
     public interface IDownloadingService
     {
         Task<LinkInfo> DownloadSourceAsString(LinkInfo link);
