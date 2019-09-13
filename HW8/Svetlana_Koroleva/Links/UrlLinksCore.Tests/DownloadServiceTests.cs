@@ -2,6 +2,7 @@
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using UrlLinksCore.IService;
 using UrlLinksCore.Services;
 
 namespace UrlLinksCore.Tests
@@ -16,21 +17,13 @@ namespace UrlLinksCore.Tests
             //Arrange
             string url = "https://en.m.wikipedia.org/wiki/Medicine";
             string filename = "file1.html";
-            WebClient client = Substitute.For<WebClient>();
-            DownloadService downloadService = Substitute.For<DownloadService>();
-            downloadService.When(w => w.DownloadHtml(url, filename)).Do((callback) =>
-            {
-                callback.ReceivedWithAnyArgs();
-            });
-            
+            IDownloadService downloadService = Substitute.For<IDownloadService>();
 
             //Act
             downloadService.DownloadHtml(url, filename);
 
             //Assert
-
-            //downloadService.Received(1).DownloadHtml(url,filename);
-            var calls=downloadService.ReceivedCalls();
+            downloadService.Received(1).DownloadHtml(url,filename);
         }
     }
 }
