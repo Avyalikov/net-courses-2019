@@ -9,7 +9,7 @@ namespace ReferenceCollectorApp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(ReferenceCollectorApp.Context.ReferenceCollectorDbContext context)

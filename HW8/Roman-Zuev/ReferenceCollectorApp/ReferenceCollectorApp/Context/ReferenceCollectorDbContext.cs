@@ -1,13 +1,7 @@
-﻿using ReferenceCollectorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReferenceCollectorApp.Context
+﻿namespace ReferenceCollectorApp.Context
 {
+    using ReferenceCollectorApp.Models;
+    using System.Data.Entity;
     public class ReferenceCollectorDbContext: DbContext
     {
         public DbSet<ReferenceEntity> References { get; set; }
@@ -15,13 +9,14 @@ namespace ReferenceCollectorApp.Context
         {
             Database.SetInitializer(new DropCreateDatabaseAlways<ReferenceCollectorDbContext>());
         }
-        //public static ReferenceCollectorDbContext GetInstance { get => new ReferenceCollectorDbContext(); }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<ReferenceEntity>()
                 .HasKey(p => p.Reference)
-                .ToTable("References");
+                .ToTable("References")
+                .Property(p => p.Reference).HasMaxLength(256);
         }
     }
 }

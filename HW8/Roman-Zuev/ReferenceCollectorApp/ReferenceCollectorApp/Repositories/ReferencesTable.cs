@@ -1,14 +1,8 @@
-﻿using ReferenceCollectorApp.Context;
-using ReferenceCollectorApp.Models;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-
-
-namespace ReferenceCollectorApp.Repositories
+﻿namespace ReferenceCollectorApp.Repositories
 {
+    using ReferenceCollectorApp.Context;
+    using ReferenceCollectorApp.Models;
+    using System.Linq;
     public class ReferencesTable : IReferenceTable
     {
         private readonly ReferenceCollectorDbContext db;
@@ -21,18 +15,6 @@ namespace ReferenceCollectorApp.Repositories
         public void Add(ReferenceEntity referenceItem)
         {
             db.References.Add(referenceItem);
-        }
-
-        public void AddBatch(List<ReferenceEntity> data)
-        {
-            using (db)
-            {
-                foreach (var item in data)
-                {
-                        db.References.Add(item);               
-                }
-                db.SaveChanges();
-            }
         }
 
         public bool ContainsById (string id)

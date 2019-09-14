@@ -1,6 +1,6 @@
 ﻿namespace ReferenceCollectorApp
 {
-    interface IReferenceCollector
+    interface IWikiReferenceCollector
     {
         void Run();
     }
