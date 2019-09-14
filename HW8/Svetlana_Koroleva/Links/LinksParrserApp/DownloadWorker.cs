@@ -37,11 +37,15 @@ namespace Links
 
         private void SingleIteration(string url, LinkService linkService)
         {
+
             string filename = url.GetHashCode() + ".html";
             this.downloadService.DownloadHtml(url, filename);
-            var linksToAdd = this.parserService.GetLinksFromHtml(filename, url).ToList();
+            var linksToAdd = this.parserService.GetLinksFromHtml(filename, url).Take(5).ToList();
             int iteration = linkService.GetCurrentIteration();
-            linkService.AddParsedLinksToDB(linksToAdd, iteration);
+            if (linksToAdd != null)
+            {
+                linkService.AddParsedLinksToDB(linksToAdd, iteration);
+            }
         }
 
 

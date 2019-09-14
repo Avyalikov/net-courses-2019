@@ -12,21 +12,28 @@ namespace UrlLinksCore.Services
     using System.Threading.Tasks;
     using UrlLinksCore.IService;
     using System.Collections.Concurrent;
+    using System.IO;
 
     /// <summary>
     /// ParserService description
     /// </summary>
     public class ParserService:IParserService
-    {
-        Object locker = new object();
-
+    {       
         public List<string> GetLinksFromHtml(string htmlFilePath, string url)
         {
             Uri uri = new Uri(url);
             string protocol_domen = url.Replace(uri.LocalPath, string.Empty);
             List<string> links = new List<string>();
             HtmlDocument document = new HtmlDocument();
-            document.Load(htmlFilePath);
+            try
+            {
+                document.Load(htmlFilePath);
+            }
+            catch(FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message + "Incorrect path");
+                return null;
+            }
             HtmlNodeCollection htmlNodes = document.DocumentNode.SelectNodes("//a");
             if (htmlNodes != null)
                 foreach (HtmlNode node in htmlNodes)

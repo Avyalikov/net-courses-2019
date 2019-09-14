@@ -55,6 +55,8 @@ namespace UrlLinksCore.Services
             }
         }
 
+
+
         public bool ContainsLink(string link)
         {
             return this.unitOfWork.Links.GetByCondition(l => l.Url == link).Count() != 0;

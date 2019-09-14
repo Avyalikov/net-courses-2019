@@ -21,6 +21,7 @@ namespace Links
             DownloadWorker downloader = new DownloadWorker(downloadService, parserService);
             Task start = downloader.RunRecursively(3, "https://en.m.wikipedia.org/wiki/Serbs");
             start.Wait();
+
         }
     }
 }
