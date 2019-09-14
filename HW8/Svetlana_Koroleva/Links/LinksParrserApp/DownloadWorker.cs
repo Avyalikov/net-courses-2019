@@ -40,7 +40,7 @@ namespace Links
 
             string filename = url.GetHashCode() + ".html";
             this.downloadService.DownloadHtml(url, filename);
-            var linksToAdd = this.parserService.GetLinksFromHtml(filename, url).Take(5).ToList();
+            var linksToAdd = this.parserService.GetLinksFromHtml(filename, url).ToList();
             int iteration = linkService.GetCurrentIteration();
             if (linksToAdd != null)
             {
