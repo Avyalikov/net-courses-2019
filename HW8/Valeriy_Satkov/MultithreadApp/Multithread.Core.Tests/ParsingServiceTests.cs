@@ -20,14 +20,13 @@
     {
         HttpMessageHandler testHandler;
         IFileManager testFileManager;
+        string fakeFileContentsForStreamReader;
 
         [TestInitialize]
         public void Initialize()
         {
-            string testLink = "https://en.wikipedia.org/wiki/The_Mummy_Returns";
-            string testContentString = "Hello world";
-            int testId = 5;
-
+            this.fakeFileContentsForStreamReader = @"<td><div class=""floatright""><a href=""/wiki/Night%27s_Watch"" 	class=""image image-thumbnail link-internal"" 	 title=""Night&#39;s Watch""  	 	><img src=""data:image/gif;base64,R0lGODlhAQABAIABAAAAAP///yH5BAEAAAEALAAAAAABAAEAQAICTAEAOw%3D%3D"" 	 alt=""Night&amp;#039;s-Watch-Main-Shield""  	class=""lzy lzyPlcHld "" 	 	data-image-key=""Night%27s-Watch-Main-Shield.PNG"" 	data-image-name=""Night&#39;s-Watch-Main-Shield.PNG"" 	 data-src=""https://vignette.wikia.nocookie.net/gameofthrones/images/e/ed/Night%27s-Watch-Main-Shield.PNG/revision/latest/scale-to-width-down/50?cb=20161231113156""  	 width=""50""  	 height=""60""  	 	 	 onload=""if(typeof ImgLzy===&#39;object&#39;){ImgLzy.load(this)}""  	><noscript><img src=""https://vignette.wikia.nocookie.net/gameofthrones/images/e/ed/Night%27s-Watch-Main-Shield.PNG/revision/latest/scale-to-width-down/50?cb=20161231113156"" 	 alt=""Night&amp;#039;s-Watch-Main-Shield""  	class="""" 	 	data-image-key=""Night%27s-Watch-Main-Shield.PNG"" 	data-image-name=""Night&#39;s-Watch-Main-Shield.PNG"" 	 	 width=""50""  	 height=""60""  	 	 	 	></noscript></a></div></ td > ";
+            
             // Fake Handler
             var mockHandler = new Mock<HttpMessageHandler>();
             mockHandler.Protected()
@@ -35,7 +34,7 @@
                 .Returns(Task<HttpResponseMessage>.Factory.StartNew(() =>
                 {
                     var message = new HttpResponseMessage(HttpStatusCode.OK);
-                    message.Content = new StringContent(testContentString);
+                    message.Content = new StringContent(fakeFileContentsForStreamReader);
                     return message;
                 }))
                 .Callback<HttpRequestMessage, CancellationToken>((r, c) =>
@@ -46,23 +45,29 @@
 
             // Fake Streams (FileManager)
             Mock<IFileManager> mockFileManager = new Mock<IFileManager>();
-            string fakeFileContents = "Hello world";
-            byte[] fakeFileBytes = System.Text.Encoding.UTF8.GetBytes(fakeFileContents);
+            //string fakeFileContentsForStreamReader = "Hello world";
+            byte[] fakeFileBytes = System.Text.Encoding.UTF8.GetBytes(fakeFileContentsForStreamReader);
 
             MemoryStream fakeMemoryStream = new MemoryStream(fakeFileBytes);
 
             mockFileManager.Setup(fileManager => fileManager.StreamReader(It.IsAny<string>()))
                            .Returns(() => new StreamReader(fakeMemoryStream));
+            // this.testFileManager = mockFileManager.Object;
+
+            // Fake Streams (FileManager)
+            // string mockContent -> Handler -> FiileStream -> string checkContent
+            mockFileManager.Setup(fileManager => fileManager.FileStream(It.IsAny<string>(), FileMode.OpenOrCreate))
+                           .Returns(() => new FileStream(It.IsAny<string>(), FileMode.OpenOrCreate));
+
             this.testFileManager = mockFileManager.Object;
         }
-        
+
         // DownloadPage(...)
         [TestMethod]
         public void ShouldDownloadPage()
         {
             // Arrange            
-            string testLink = "https://en.wikipedia.org/wiki/The_Mummy_Returns";
-            string testContentString = "Hello world";
+            string testLink = "https://en.wikipedia.org/wiki/The_Mummy_Returns";            
             int testId = 5;
 
             ILinkTableRepository linkTableRepository = Substitute.For<ILinkTableRepository>();
@@ -73,7 +78,7 @@
 
             // Assert
             var finishedString = downoloadPageTask.Result;
-            if (finishedString != testContentString)
+            if (finishedString != this.fakeFileContentsForStreamReader)
             {
                 throw new ArgumentException("Wrong content");
             }
@@ -83,34 +88,32 @@
         [TestMethod]
         public void ShouldExtractHtmlTags()
         {
-            throw new NotImplementedException();
-            //// Arrange
-            //string testInputString = "https://gameofthrones.fandom.com/wiki/Jon_Snow";
+            //throw new NotImplementedException();
+            // Arrange
+            string testInputString = "https://gameofthrones.fandom.com/wiki/Jon_Snow";
 
-            //string[] testStartPageHost = new string[2];
-            //int dotComPos = testInputString.IndexOf(".com");
-            //testStartPageHost[0] = testInputString.Substring(0, dotComPos + 4); // https://gameofthrones.fandom.com
-            //testStartPageHost[1] = testInputString.Substring(dotComPos + 4, 6); // /wiki/
+            string[] testStartPageHost = new string[2];
+            int dotComPos = testInputString.IndexOf(".com");
+            testStartPageHost[0] = testInputString.Substring(0, dotComPos + 4); // https://gameofthrones.fandom.com
+            testStartPageHost[1] = "/wiki/"; // /wiki/
 
-            //string testLink1 = "/wiki/File:Battle_of_the_bastards_Jon_main.jpg";            
+            string testLink1 = "/wiki/Night%27s_Watch";
 
-            //string htmlContent = "";
+            ILinkTableRepository linkTableRepository = Substitute.For<ILinkTableRepository>();
+            ParsingService parsingService = new ParsingService(linkTableRepository, this.testFileManager);
 
-            //ILinkTableRepository linkTableRepository = Substitute.For<ILinkTableRepository>();
-            //ParsingService parsingService = new ParsingService(linkTableRepository);
+            // Act
+            List<string> links = parsingService.ExtractLinksFromHtmlString(ref testStartPageHost, "testFilePath");
 
-            //// Act
-            //List<string> links = parsingService.ExtractLinksFromHtmlString(ref testStartPageHost, htmlContent);
-
-            //// Assert
-            //if (links.Count != 1)
-            //{
-            //    throw new ArgumentException("Expected one link in list");
-            //}
-            //if (links[0] != testLink1)
-            //{
-            //    throw new ArgumentException("Wrong link string in list");
-            //}
+            // Assert
+            if (links.Count != 1)
+            {
+                throw new ArgumentException("Expected one link in list");
+            }
+            if (links[0] != testLink1)
+            {
+                throw new ArgumentException("Wrong link string in list");
+            }
         }
 
         // Save(...)

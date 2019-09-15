@@ -16,62 +16,22 @@
     public class ParsingService
     {
         private ILinkTableRepository linkTableRepository;
-        private IFileManager fileManager;
+        LoadService loadService;
 
         static object linksTableLocker = new object();
 
-        public ParsingService(ILinkTableRepository linkTableRepository, IFileManager fileManager)
+        public ParsingService(ILinkTableRepository linkTableRepository, LoadService loadService)
         {
             this.linkTableRepository = linkTableRepository;
-            this.fileManager = fileManager;
+            this.loadService = loadService;
         }
 
-        public async Task<string> DownloadPage(string link, HttpMessageHandler handler, int id)
-        {
-            if (handler == null)
-            {
-                var defaultClientHandler = new HttpClientHandler();
-                defaultClientHandler.UseDefaultCredentials = true;
-                handler = defaultClientHandler;
-            }
-
-            string filePath = $@"LinkFiles\{id}.txt";
-
-            using (var client = new HttpClient(handler))
-            {
-                using (var response = await client.GetAsync(link))
-                {
-                    using (var content = response.Content)
-                    {
-                        var jsonString = await content.ReadAsStringAsync();                        
-
-                        using (FileStream fstream = this.fileManager.FileStream(filePath, FileMode.OpenOrCreate))
-                        {
-                            // convert string to bytes
-                            byte[] array = System.Text.Encoding.Default.GetBytes(jsonString);
-                            // record byte array to file
-                            await fstream.WriteAsync(array, 0, array.Length);                            
-
-                            return filePath;
-                        }                        
-                    }
-                }
-            }
-        }
-        
         /// <summary>
         /// Extract all anchor tags using HtmlAgilityPack
         /// Sample from https://habr.com/ru/post/273807/
         /// </summary>
-        public List<string> ExtractLinksFromHtmlString(ref string[] startPageHosts, string htmlContentFilePath)
+        public List<string> ExtractLinksFromHtmlString(ref string[] startPageHosts, string content)
         {
-            string content;
-
-            using (StreamReader sr = this.fileManager.StreamReader(htmlContentFilePath))
-            {
-                content = sr.ReadToEnd();
-            }
-
             HtmlDocument htmlSnippet = new HtmlDocument();
             htmlSnippet.LoadHtml(content);
 
@@ -129,17 +89,15 @@
             if (cancellationToken.IsCancellationRequested) return;
 
             // Async Download link content. Create id.txt file                
-            var filePathTask = this.DownloadPage(link, null, id); // Warnung!!! need to check for deadlock
+            var filePathTask = this.loadService.DownloadPage(link, null, id); // Warnung!!! need to check for deadlock
             filePathTask.Wait();
+            //Load data from file
+            string content = this.loadService.LoadFromFile(filePathTask.Result);
             // Get links list from file
-            var extractlinksList = this.ExtractLinksFromHtmlString(ref startPageHosts, filePathTask.Result);
+            var extractlinksList = this.ExtractLinksFromHtmlString(ref startPageHosts, content);
 
             // Remove file
-            FileInfo fileInf = new FileInfo(filePathTask.Result);
-            if (fileInf.Exists)
-            {
-                fileInf.Delete();
-            }
+            this.loadService.RemoveFile(filePathTask.Result);
 
             // For each extract link in list...
             foreach (var extractLink in extractlinksList)

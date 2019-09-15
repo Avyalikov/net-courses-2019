@@ -48,7 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ILinkTableRepository.cs" />
     <Compile Include="Services\FileManager.cs" />
-    <Compile Include="Services\IFileManager.cs" />
+    <Compile Include="Interfaces\IFileManager.cs" />
+    <Compile Include="Services\LoadService.cs" />
     <Compile Include="Services\ParsingService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -27,22 +27,23 @@
             Console.WriteLine("Enter the url:");
             // string inputString = Console.ReadLine();
 
-            //string inputString = "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)"; // TEST
-
-            //string[] startPageHost = new string[3];
-            //int dotOrgPos = inputString.IndexOf(".org");
-            //startPageHost[0] = inputString.Substring(0, dotOrgPos + 4); // https://en.wikipedia.org
-            //startPageHost[1] = inputString.Substring(6, dotOrgPos - 2); // //en.wikipedia.org
-            //startPageHost[2] = inputString.Substring(dotOrgPos + 4, 6); // /wiki/
-
-            string inputString = "https://gameofthrones.fandom.com/wiki/Jon_Snow"; // TEST
+            string inputString = "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)"; // TEST
 
             string[] startPageHost = new string[2];
-            int dotComPos = inputString.IndexOf(".com");
-            startPageHost[0] = inputString.Substring(0, dotComPos + 4); // https://gameofthrones.fandom.com
-            startPageHost[1] = inputString.Substring(dotComPos + 4, 6); // /wiki/
+            int dotOrgPos = inputString.IndexOf(".org");
+            startPageHost[0] = inputString.Substring(0, dotOrgPos + 4); // https://en.wikipedia.org
+            //startPageHost[1] = inputString.Substring(6, dotOrgPos - 2); // //en.wikipedia.org/
+            //startPageHost[1] = inputString.Substring(dotOrgPos + 4, 6); // /wiki/
+            startPageHost[1] = "/wiki/"; // /wiki/
 
-            
+            //string inputString = "https://gameofthrones.fandom.com/wiki/Jon_Snow"; // TEST
+
+            //string[] startPageHost = new string[2];
+            //int dotComPos = inputString.IndexOf(".com");
+            //startPageHost[0] = inputString.Substring(0, dotComPos + 4); // https://gameofthrones.fandom.com
+            ////startPageHost[1] = inputString.Substring(dotComPos + 4, 6); // /wiki/
+            //startPageHost[1] = "/wiki/"; // /wiki/
+
 
             string path = @"LinkFiles";
             DirectoryInfo dirInfo = new DirectoryInfo(path);
@@ -51,7 +52,7 @@
                 dirInfo.Create();
             }
 
-            CancellationTokenSource parseCancelTokenSource = new CancellationTokenSource(); //new CancellationTokenSource(20000);
+            CancellationTokenSource parseCancelTokenSource = new CancellationTokenSource(15000);
             CancellationToken parseCancellationToken = parseCancelTokenSource.Token;
 
             int firstId = 0;
@@ -74,11 +75,11 @@
             Console.ReadKey(); // pause
 
             parseTask.Start();
-            Console.WriteLine(" Wait for it to destroy your SSD with too many requests");
+            Console.WriteLine(" Process is running please wait...");
 
-            Thread.Sleep(30000);            
-            parseCancelTokenSource.Cancel();
-            Console.WriteLine("Now it is trying to stop. Please wait until it finished correctly");
+            //Thread.Sleep(30000);            
+            //parseCancelTokenSource.Cancel();
+            //Console.WriteLine("Now it is trying to stop. Please wait until it finished correctly...");
 
             parseTask.Wait();
 
