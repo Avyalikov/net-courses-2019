@@ -15,7 +15,7 @@
         {
             var container = new Container(new ConnectedLinksRegistry());
 
-            new ConnectedLinksParser(container.GetInstance<ParsingService>())
+            new ConnectedLinksParser(container.GetInstance<ParsingService>(), container.GetInstance<ReportsService>())
                 .Start();
         }
     }

@@ -18,6 +18,10 @@
         {
             this.For<ILinkTableRepository>().Use<LinkTableRepository>();
             this.For<IFileManager>().Use<FileManager>();
+
+            this.For<ParsingService>().Use<ParsingService>();
+            this.For<ReportsService>().Use<ReportsService>();
+
             this.For<ConnectedLinksDBContext>().Use<ConnectedLinksDBContext>().Ctor<string>("connectionString")
                 .Is(ConfigurationManager.ConnectionStrings["connectedLinksConnectionString"].ConnectionString);
         }

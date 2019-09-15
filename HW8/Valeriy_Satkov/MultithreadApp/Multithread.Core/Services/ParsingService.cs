@@ -149,15 +149,5 @@
                 throw new ArgumentException("This link has been registered. Can't continue.");
             }
         }
-
-        public Dictionary<string, int> LookingForDuplicatesInDb()
-        {
-            var list = this.linkTableRepository.LookingForDuplicateLinkStrings();
-            if (list == null)
-            {
-                list = new Dictionary<string, int>();
-            }
-            return list;
-        }
     }
 }

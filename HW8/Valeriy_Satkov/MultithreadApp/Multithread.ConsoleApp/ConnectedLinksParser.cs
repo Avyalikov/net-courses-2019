@@ -14,10 +14,12 @@
     public class ConnectedLinksParser
     {
         private readonly ParsingService parsingService;
+        private readonly ReportsService reportsService;
 
-        public ConnectedLinksParser(ParsingService parsingService)
+        public ConnectedLinksParser(ParsingService parsingService, ReportsService reportsService)
         {
             this.parsingService = parsingService;
+            this.reportsService = reportsService;
         }
 
         public void Start()
@@ -82,7 +84,7 @@
             parseTask.Wait();
 
             Console.WriteLine("The End.");
-            var duplicatesList = parsingService.LookingForDuplicatesInDb();
+            var duplicatesList = this.reportsService.LookingForDuplicatesInDb();
             Console.WriteLine("Duplicates: ");
             foreach (var duplicateString in duplicatesList)
             {
