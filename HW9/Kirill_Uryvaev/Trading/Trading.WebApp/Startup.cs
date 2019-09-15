@@ -17,6 +17,9 @@ namespace Trading.WebApp
                 defaults: new { id = RouteParameter.Optional }
             );
 
+
+            SwaggerConfig.Register(config);
+
             config.Routes.MapHttpRoute(
                 name: "ControllerOnly",
                 routeTemplate: "{controller}");
