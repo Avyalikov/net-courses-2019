@@ -13,13 +13,11 @@
 
     public class ConnectedLinksParser
     {
-        private readonly Container connectedLinksRegistryContainer;
         private readonly ParsingService parsingService;
 
-        public ConnectedLinksParser(Container connectedLinksRegistryContainer)
+        public ConnectedLinksParser(ParsingService parsingService)
         {
-            this.connectedLinksRegistryContainer = connectedLinksRegistryContainer;
-            this.parsingService = this.connectedLinksRegistryContainer.GetInstance<ParsingService>();
+            this.parsingService = parsingService;
         }
 
         public void Start()

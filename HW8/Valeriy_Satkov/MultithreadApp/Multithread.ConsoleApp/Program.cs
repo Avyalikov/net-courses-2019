@@ -1,6 +1,7 @@
 ﻿namespace Multithread.ConsoleApp
 {
     using Multithread.ConsoleApp.DependencyInjection;
+    using Multithread.Core.Services;
     using StructureMap;
     using System;
     using System.Collections.Generic;
@@ -12,7 +13,10 @@
     {
         static void Main(string[] args)
         {
-            new ConnectedLinksParser(new Container(new ConnectedLinksRegistry())).Start();
+            var container = new Container(new ConnectedLinksRegistry());
+
+            new ConnectedLinksParser(container.GetInstance<ParsingService>())
+                .Start();
         }
     }
 }
