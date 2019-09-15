@@ -21,6 +21,7 @@
 
             this.For<ParsingService>().Use<ParsingService>();
             this.For<ReportsService>().Use<ReportsService>();
+            this.For<LoadService>().Use<LoadService>();
 
             this.For<ConnectedLinksDBContext>().Use<ConnectedLinksDBContext>().Ctor<string>("connectionString")
                 .Is(ConfigurationManager.ConnectionStrings["connectedLinksConnectionString"].ConnectionString);
