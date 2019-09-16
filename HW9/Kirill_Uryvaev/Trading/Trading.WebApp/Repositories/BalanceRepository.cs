@@ -21,7 +21,7 @@ namespace Trading.WebApp.Repositories
             dbContext.Balances.Add(balance);
         }
 
-        public IEnumerable<BalanceEntity> LoadAllBalances()
+        public IQueryable<BalanceEntity> LoadAllBalances()
         {
             return dbContext.Balances;
         }

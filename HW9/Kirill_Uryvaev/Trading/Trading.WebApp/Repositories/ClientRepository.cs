@@ -21,7 +21,7 @@ namespace Trading.WebApp.Repositories
             dbContext.Clients.Add(client);
         }
 
-        public IEnumerable<ClientEntity> LoadAllClients()
+        public IQueryable<ClientEntity> LoadAllClients()
         {
             return dbContext.Clients;
         }

@@ -20,7 +20,7 @@ namespace Trading.WebApp.Repositories
             dbContext.ClientsShares.Add(clientsShares);
         }
 
-        public IEnumerable<ClientsSharesEntity> GetAllShares()
+        public IQueryable<ClientsSharesEntity> GetAllShares()
         {
             return dbContext.ClientsShares;
         }

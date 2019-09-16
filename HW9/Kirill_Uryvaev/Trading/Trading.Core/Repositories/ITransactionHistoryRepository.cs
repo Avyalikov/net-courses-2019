@@ -8,8 +8,9 @@ namespace Trading.Core.Repositories
 {
     public interface ITransactionHistoryRepository : IDBTable
     {
-        IEnumerable<TransactionHistoryEntity> LoadOperationsWithClientByID(int ID);
+        IQueryable<TransactionHistoryEntity> LoadOperationsWithClientByID(int ID);
         TransactionHistoryEntity LoadOperationByID(int ID);
         void Add(TransactionHistoryEntity operation);
+        IQueryable<TransactionHistoryEntity> LoadAllOperations();
     }
 }

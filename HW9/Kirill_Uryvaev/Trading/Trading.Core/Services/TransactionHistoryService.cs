@@ -34,9 +34,14 @@ namespace Trading.Core.Services
             return operationHistory.TransactionID;
         }
 
-        public IEnumerable<TransactionHistoryEntity> GetOperationOfClient(int ID)
+        public IQueryable<TransactionHistoryEntity> GetOperationOfClient(int ID)
         {
             return operationHistoryRepository.LoadOperationsWithClientByID(ID);
+        }
+
+        public IQueryable<TransactionHistoryEntity> GetAllOperations()
+        {
+            return operationHistoryRepository.LoadAllOperations();
         }
 
         public TransactionHistoryEntity GetOperation(int ID)

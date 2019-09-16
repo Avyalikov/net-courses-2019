@@ -8,7 +8,7 @@ namespace Trading.Core.Repositories
 {
     public interface IClientRepository: IDBTable
     {
-        IEnumerable<ClientEntity> LoadAllClients();
+        IQueryable<ClientEntity> LoadAllClients();
         ClientEntity LoadClientByID(int ID);
         void Add(ClientEntity client);
         void Update(ClientEntity client);

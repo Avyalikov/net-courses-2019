@@ -65,7 +65,7 @@ namespace Trading.Core.Services
             clientsRepository.SaveChanges();
         }
 
-        public IEnumerable<ClientEntity> GetAllClients()
+        public IQueryable<ClientEntity> GetAllClients()
         {
             return clientsRepository.LoadAllClients();
         }

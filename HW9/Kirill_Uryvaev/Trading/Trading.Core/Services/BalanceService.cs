@@ -46,17 +46,22 @@ namespace Trading.Core.Services
             return balanceRepository.LoadBalanceByID(ID);
         }
 
-        public IEnumerable<BalanceEntity> GetClientsFromGreenZone()
+        public IQueryable<BalanceEntity> GetAllBalances()
+        {
+            return balanceRepository.LoadAllBalances();
+        }
+
+        public IQueryable<BalanceEntity> GetClientsFromGreenZone()
         {
             return balanceRepository.LoadAllBalances().Where(x => x.ClientBalance > 0);
         }
 
-        public IEnumerable<BalanceEntity> GetClientsFromOrangeZone()
+        public IQueryable<BalanceEntity> GetClientsFromOrangeZone()
         {
             return balanceRepository.LoadAllBalances().Where(x => x.ClientBalance == 0);
         }
 
-        public IEnumerable<BalanceEntity> GetClientsFromBlackZone()
+        public IQueryable<BalanceEntity> GetClientsFromBlackZone()
         {
             return balanceRepository.LoadAllBalances().Where(x => x.ClientBalance < 0);
         }

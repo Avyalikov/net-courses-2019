@@ -58,7 +58,7 @@ namespace Trading.Core.Services
             clientsSharesRepository.SaveChanges();
         }
 
-        public IEnumerable<ClientsSharesEntity> GetAllClientsShares()
+        public IQueryable<ClientsSharesEntity> GetAllClientsShares()
         {
             return clientsSharesRepository.GetAllShares();
         }

@@ -20,12 +20,17 @@ namespace Trading.WebApp.Repositories
             dbContext.Transactions.Add(operation);
         }
 
+        public IQueryable<TransactionHistoryEntity> LoadAllOperations()
+        {
+            return dbContext.Transactions;
+        }
+
         public TransactionHistoryEntity LoadOperationByID(int ID)
         {
             return dbContext.Transactions.Where(x => x.TransactionID == ID).FirstOrDefault();
         }
 
-        public IEnumerable<TransactionHistoryEntity> LoadOperationsWithClientByID(int ID)
+        public IQueryable<TransactionHistoryEntity> LoadOperationsWithClientByID(int ID)
         {
             return dbContext.Transactions.Where(x => x.BuyerClientID == ID || x.SellerClientID == ID);
         }
