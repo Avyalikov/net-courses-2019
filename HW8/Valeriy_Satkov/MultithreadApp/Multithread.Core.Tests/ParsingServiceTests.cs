@@ -139,29 +139,37 @@
         [TestMethod]
         public void ShouldCallParsingForEachPageFromPreviousIteration()
         {
-            throw new NotImplementedException();
-            //// Arrange
-            //int testIterationId = 6;
-            //ILinkTableRepository linkTableRepository = Substitute.For<ILinkTableRepository>();
-            //linkTableRepository.EntityListByIterationId(Arg.Is(testIterationId)).Returns(new List<LinkEntity>
-            //{
-            //    new LinkEntity()
-            //    {
-            //        Id = 7,
-            //        Link = "https://en.wikipedia.org/wiki/The_Expanse_(TV_series)",
-            //        IterationId = testIterationId
-            //    },
-            //    new LinkEntity()
-            //    {
-            //        Id = 13,
-            //        Link = "https://en.wikipedia.org/wiki/James_S._A._Corey",
-            //        IterationId = testIterationId
-            //    }
-            //});
-            //ParsingService parsingService = new ParsingService(linkTableRepository);
+            // Arrange
+            string testInputString = "https://gameofthrones.fandom.com/wiki/Jon_Snow";
+            string[] testStartPageHost = new string[2];
+            int dotComPos = testInputString.IndexOf(".com");
+            testStartPageHost[0] = testInputString.Substring(0, dotComPos + 4); // https://gameofthrones.fandom.com
+            testStartPageHost[1] = "/wiki/"; // /wiki/
+
+            CancellationTokenSource parseCancelTokenSource = new CancellationTokenSource(15000);
+            CancellationToken parseCancellationToken = parseCancelTokenSource.Token;
+
+            int testIterationId = 6;
+            ILinkTableRepository linkTableRepository = Substitute.For<ILinkTableRepository>();
+            linkTableRepository.EntityListByIterationId(Arg.Is(testIterationId)).Returns(new List<LinkEntity>
+            {
+                new LinkEntity()
+                {
+                    Id = 7,
+                    Link = "https://en.wikipedia.org/wiki/The_Expanse_(TV_series)",
+                    IterationId = testIterationId
+                },
+                new LinkEntity()
+                {
+                    Id = 13,
+                    Link = "https://en.wikipedia.org/wiki/James_S._A._Corey",
+                    IterationId = testIterationId
+                }
+            });
+            ParsingService parsingService = new ParsingService(linkTableRepository, this.testFileManager);
 
             // Act
-            //parsingService.ParsingLinksByIterationId(testIterationId);
+            parsingService.ParsingLinksByIterationId("teststring", testIterationId, testStartPageHost, parseCancellationToken);
 
             // Assert
         }
