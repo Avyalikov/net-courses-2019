@@ -43,23 +43,20 @@
                 });
             this.testHandler = mockHandler.Object;
 
-            // Fake Streams (FileManager)
+            // Fake Reader
             Mock<IFileManager> mockFileManager = new Mock<IFileManager>();
-            //string fakeFileContentsForStreamReader = "Hello world";
             byte[] fakeFileBytes = System.Text.Encoding.UTF8.GetBytes(fakeFileContentsForStreamReader);
 
             MemoryStream fakeMemoryStream = new MemoryStream(fakeFileBytes);
 
             mockFileManager.Setup(fileManager => fileManager.StreamReader(It.IsAny<string>()))
                            .Returns(() => new StreamReader(fakeMemoryStream));
-            // this.testFileManager = mockFileManager.Object;
-
-            // Fake Streams (FileManager)
-            // string mockContent -> Handler -> FiileStream -> string checkContent
-            mockFileManager.Setup(fileManager => fileManager.FileStream(It.IsAny<string>(), FileMode.OpenOrCreate))
-                           .Returns(() => new FileStream(It.IsAny<string>(), FileMode.OpenOrCreate));
 
             this.testFileManager = mockFileManager.Object;
+
+            //this.testFileManager = Substitute.For<IFileManager>();
+            //this.testFileManager.StreamReader(Arg.Any<string>()).Returns(new StreamReader(fakeMemoryStream));
+
         }
 
         // DownloadPage(...)
@@ -77,7 +74,8 @@
             var downoloadPageTask = parsingService.DownloadPage(testLink, this.testHandler, testId);
 
             // Assert
-            var finishedString = downoloadPageTask.Result;
+            var finishedString = File.ReadAllText(downoloadPageTask.Result);
+            File.Delete(downoloadPageTask.Result);
             if (finishedString != this.fakeFileContentsForStreamReader)
             {
                 throw new ArgumentException("Wrong content");
@@ -125,7 +123,7 @@
             int testIterationId = 7;
             ILinkTableRepository linkTableRepository = Substitute.For<ILinkTableRepository>();
             linkTableRepository.ContainsByLink(Arg.Is(testLink)).Returns(false);
-            ParsingService parsingService = new ParsingService(linkTableRepository, this.testFileManager);            
+            ParsingService parsingService = new ParsingService(linkTableRepository, this.testFileManager);
 
             // Act
             parsingService.Save(testLink, testIterationId);

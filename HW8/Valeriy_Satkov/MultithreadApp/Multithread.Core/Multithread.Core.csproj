@@ -49,7 +49,6 @@
     <Compile Include="Repositories\ILinkTableRepository.cs" />
     <Compile Include="Services\FileManager.cs" />
     <Compile Include="Interfaces\IFileManager.cs" />
-    <Compile Include="Services\LoadService.cs" />
     <Compile Include="Services\ReportsService.cs" />
     <Compile Include="Services\ParsingService.cs" />
   </ItemGroup>

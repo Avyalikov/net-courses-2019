@@ -15,17 +15,96 @@
 
     public class ParsingService
     {
-        private ILinkTableRepository linkTableRepository;
-        LoadService loadService;
+        private static readonly object linksTableLocker = new object();
 
-        static object linksTableLocker = new object();
+        private readonly ILinkTableRepository linkTableRepository;
+        private readonly IFileManager fileManager;
 
-        public ParsingService(ILinkTableRepository linkTableRepository, LoadService loadService)
+        public ParsingService(ILinkTableRepository linkTableRepository, IFileManager fileManager)
         {
             this.linkTableRepository = linkTableRepository;
-            this.loadService = loadService;
+            this.fileManager = fileManager;
         }
 
+        public async Task<string> DownloadPage(string link, HttpMessageHandler handler, int id)
+        {
+            bool downloadResult;
+
+            if (handler == null)
+            {
+                handler = new HttpClientHandler
+                {
+                    UseDefaultCredentials = true
+                };
+            }
+
+            string filePath = $@"LinkFiles\{id}.txt";
+
+            using (var client = new HttpClient(handler))
+            {
+                HttpResponseMessage response = null;
+
+                try
+                {
+                    response = await client.GetAsync(link);
+                }
+                catch
+                {
+                    throw;
+                }
+                if (response == null)
+                {
+                    throw new HttpRequestException("Cannot get answer from website");
+                }
+                if (response.IsSuccessStatusCode)
+                {
+                    downloadResult = await LoadIntoFile(filePath, response);
+                    return filePath;
+                }
+                else
+                {
+                    throw new HttpRequestException("Bad response");
+                }
+            }
+        }
+
+        public async Task<bool> LoadIntoFile(string filePath, HttpResponseMessage resp)
+        {
+            //using (FileStream fstream = this.fileManager.FileStream(filePath, FileMode.OpenOrCreate))
+            //{
+            //    var jsonString = await content.ReadAsStringAsync();
+
+            //    // convert string to bytes
+            //    byte[] array = System.Text.Encoding.Default.GetBytes(jsonString);
+            //    // record byte array to file
+            //    await fstream.WriteAsync(array, 0, array.Length);
+            //}
+
+            using (Stream contentStream = await resp.Content.ReadAsStreamAsync(),
+                    stream = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                await contentStream.CopyToAsync(stream);
+            }
+
+            if (File.Exists(filePath))
+            {
+                return true;
+            }
+            throw new ArgumentException("Cannot create file");
+        }
+
+        public string LoadFromFile(string htmlContentFilePath)
+        {
+            string content;
+
+            using (StreamReader sr = this.fileManager.StreamReader(htmlContentFilePath))
+            {
+                content = sr.ReadToEnd();
+            }
+
+            return content;
+        }
+        
         /// <summary>
         /// Extract all anchor tags using HtmlAgilityPack
         /// Sample from https://habr.com/ru/post/273807/
@@ -89,15 +168,19 @@
             if (cancellationToken.IsCancellationRequested) return;
 
             // Async Download link content. Create id.txt file                
-            var filePathTask = this.loadService.DownloadPage(link, null, id); // Warnung!!! need to check for deadlock
+            var filePathTask = DownloadPage(link, null, id);
             filePathTask.Wait();
             //Load data from file
-            string content = this.loadService.LoadFromFile(filePathTask.Result);
+            string content = LoadFromFile(filePathTask.Result);
             // Get links list from file
             var extractlinksList = this.ExtractLinksFromHtmlString(ref startPageHosts, content);
 
             // Remove file
-            this.loadService.RemoveFile(filePathTask.Result);
+            FileInfo fileInf = new FileInfo(filePathTask.Result);
+            if (fileInf.Exists)
+            {
+                fileInf.Delete();
+            }
 
             // For each extract link in list...
             foreach (var extractLink in extractlinksList)
