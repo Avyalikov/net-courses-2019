@@ -14,7 +14,7 @@ namespace HW7.Client
     {
         public string connectionString = "http://localhost:5000/";
         public bool simulationIsWorking = false;
-        public void Get(string url)
+        private void Get(string url)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "application/json";
@@ -37,7 +37,7 @@ namespace HW7.Client
             }
         }
 
-        public void Post(string url, string body)
+        private void Post(string url, string body)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "application/json";
@@ -56,7 +56,7 @@ namespace HW7.Client
             }
         }
 
-        public void PostWithoutResult(string url, string body)
+        private void PostWithoutResult(string url, string body)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "application/json";
@@ -73,6 +73,11 @@ namespace HW7.Client
                 var result = streamReader.ReadToEnd();
                // Console.WriteLine(result);
             }
+        }
+
+        public void CheckConnection(string url)
+        {
+            Get(url);
         }
 
         public void GetListOfClients()

@@ -22,7 +22,7 @@ namespace HW7.Client
             int userChoice = 0;
             List<int> menuChoices = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0 };
             
-            requests.Get(requests.connectionString);
+            requests.CheckConnection(requests.connectionString);
 
             do
             {

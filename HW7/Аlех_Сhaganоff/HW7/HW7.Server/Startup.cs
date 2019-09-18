@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HW7.Core;
+using HW7.Core.Models;
 using HW7.Core.Repositories;
 using HW7.Core.Services;
 using HW7.Server.Repositories;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OData.Edm;
 
 namespace HW7.Server
 {
@@ -29,7 +33,9 @@ namespace HW7.Server
         #region snippet_ConfigureServices
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddOData();
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); // set to Version_2_1 to enable odata routing
             services.AddScoped<IContextProvider>(_ => new TradingContext(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<ITradersRepository>(_ => new TradersRepository(new TradingContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.AddSingleton<ISharesRepository>(_ => new SharesRepository(new TradingContext(Configuration.GetConnectionString("DefaultConnection"))));
@@ -52,7 +58,24 @@ namespace HW7.Server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            //app.UseMvc();
+
+            app.UseMvc(b =>
+            {
+                b.MapODataServiceRoute("odata", "odata", GetEdmModel());
+            });
+        }
+
+        private static IEdmModel GetEdmModel()
+        {
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+
+            builder.EntitySet<Trader>("Traders");
+            builder.EntitySet<Share>("Shares");
+            builder.EntitySet<Transaction>("Transactions");
+            builder.EntitySet<Portfolio>("Portfolios");
+
+            return builder.GetEdmModel();
         }
     }
 }
