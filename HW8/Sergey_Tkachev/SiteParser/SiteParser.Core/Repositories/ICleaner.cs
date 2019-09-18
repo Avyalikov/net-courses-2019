@@ -6,6 +6,7 @@ namespace SiteParser.Core.Repositories
 {
     public interface ICleaner
     {
-        void Clean();
+        void DeleteDirectory();
+        string DeleteFile(string name);
     }
 }

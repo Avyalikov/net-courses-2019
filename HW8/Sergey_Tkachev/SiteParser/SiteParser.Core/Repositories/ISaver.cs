@@ -10,5 +10,6 @@ namespace SiteParser.Core.Repositories
         bool Contains(string urlToCheck);
 
         string Save(LinkEntity entityToAdd);
+        void SaveChanges();
     }
 }

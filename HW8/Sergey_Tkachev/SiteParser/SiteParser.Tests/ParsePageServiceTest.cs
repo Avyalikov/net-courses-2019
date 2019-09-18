@@ -19,8 +19,10 @@ namespace SiteParser.Tests
             string notExpectedString = "https://vk.com/gingerfoxday";
             int iterationId = 5;
             ISaver saver = Substitute.For<ISaver>();
+            ICleaner cleaner = Substitute.For<ICleaner>();
             SaveIntoDatabaseService saveService = new SaveIntoDatabaseService(saver);
-            ParsePageService parsePageService = new ParsePageService(saveService);
+            DeleteFileService deleteService = new DeleteFileService(cleaner);
+            ParsePageService parsePageService = new ParsePageService(saveService, deleteService);
 
             //Act
             var result = parsePageService.Parse(path, baseUrl, iterationId);

@@ -7,7 +7,7 @@ namespace SiteParser.Simulator
     {
         public DbSet<LinkEntity> Links { get; set; }
 
-        public SiteParserDbContext() : base("name=StockSimulatorConnectionString")
+        public SiteParserDbContext() : base("name=stockSimulatorConnectionString")
         {
             Database.SetInitializer(new dbInitializer());
         }

@@ -1,5 +1,4 @@
 ﻿using SiteParser.Core.Repositories;
-using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace SiteParser.Simulator.Repositories
 {
@@ -15,23 +15,50 @@ namespace SiteParser.Simulator.Repositories
         private readonly SiteParserDbContext dbContext;
         private string pathToFile = string.Empty;
         private string folder = "Pages";
+        private static HttpClient client = new HttpClient();
+        static private object locker = new object();
+        private Random random;
 
         public DownloaderRepository(SiteParserDbContext dbContext)
         {
             this.dbContext = dbContext;
+            this.random = new Random();
         }
         public string Download(string requestUrl)
         {
-            using (HttpClient client = new HttpClient())
+            //why httpclient wasn't disposed
+            //https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/
+           
+            HttpResponseMessage response = null;
+            try
             {
-                using (HttpResponseMessage response = client.GetAsync(requestUrl).Result)
+                response = client.GetAsync(requestUrl).Result;
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerException is TaskCanceledException)
                 {
-                    using (HttpContent content = response.Content)
+                    TaskCanceledException iex = (TaskCanceledException)ex.InnerException;
+                    if (iex.CancellationToken.IsCancellationRequested)
                     {
-                        string result = content.ReadAsStringAsync().Result;
-                        return result;
+                        //Task was canceled by something
                     }
+                    //the request timed out
                 }
+                else
+                {
+                    throw ex.InnerException;
+                }
+                
+                return null;
+            }
+
+            using (HttpContent content = response.Content)
+            {
+                string result = content.ReadAsStringAsync().Result;
+                Thread.Sleep(400);
+                response.Dispose();
+                return result;
             }
         }
 
@@ -39,26 +66,27 @@ namespace SiteParser.Simulator.Repositories
         {
             this.pathToFile = DirectoryCheck(this.folder);
 
-            HtmlDocument htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(downloadedResult);
-            var title = htmlDocument.DocumentNode.SelectSingleNode("//head/title");
-
-            string fileName = title.InnerText;
-            FileNameCheck(ref fileName);
+            string fileName = random.Next(1000000).ToString();
             string fullPath = Path.Combine(pathToFile, fileName);
 
-            if (File.Exists(fullPath))
+            lock (locker)
             {
-                throw new ArgumentException($"Such file {fullPath} already exists!");
+                if (File.Exists(fullPath))
+                {
+                    try
+                    {
+                        throw new ArgumentException($"Such file {fullPath} already exists!");
+                    }
+                    catch(ArgumentException ex)
+                    {
+                        return null;
+                    }
+                }
+           
+                File.WriteAllText(fullPath, downloadedResult, Encoding.UTF8);
             }
 
-            File.WriteAllText(fullPath, downloadedResult, Encoding.UTF8);
             return fullPath;
-        }
-
-        private void FileNameCheck (ref string stringToCheck)
-        {
-            stringToCheck = stringToCheck.Replace(':', ' ');
         }
 
         private string DirectoryCheck(string folderName)

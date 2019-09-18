@@ -14,23 +14,31 @@ namespace SiteParser.Tests
         {
             //Arrange
             string baseUrl = "https://en.wikipedia.org";
-            string path = "Resources/test.html";
+            string path1 = "Resources/test.html";
+            string path2 = "Resources/Red_fox.html";
+            string initialUrl = "https://en.wikipedia.org/test.html";
+            string innerUrl = "https://en.wikipedia.org/wiki/Red_fox";
             string expectedString = "IterationCall() done!";
             string notExpectedString = "Something went wrong in IterationCall().";
             ISaver saver = Substitute.For<ISaver>();
             IDownloader downloader = Substitute.For<IDownloader>();
-            UrlCollectorService iterationService = new UrlCollectorService(saver, downloader);
-            downloader.Download(Arg.Is<string>("https://en.wikipedia.org/wiki/Red_fox"))
+            ICleaner cleaner = Substitute.For<ICleaner>();
+            UrlCollectorService iterationService = new UrlCollectorService(saver, downloader, cleaner);
+            downloader.Download(Arg.Is<string>(innerUrl))
                .Returns("someDownloadedHtmlText");
+            downloader.Download(Arg.Is<string>(initialUrl))
+               .Returns("initialtext");
+            downloader.SaveIntoFile(Arg.Is<string>("initialtext"))
+                .Returns(path1);
             downloader.SaveIntoFile(Arg.Is<string>("someDownloadedHtmlText"))
-                .Returns("Resources/Red_fox.html");
+                .Returns(path2);
 
-            //Act
-            var result = iterationService.IterationCall(path, baseUrl);
+           //Act
+            var result = iterationService.Solothread(initialUrl, baseUrl);
 
             //Assert
-            Assert.IsTrue(result.Contains(expectedString), "IterationCall works wrong!");
-            Assert.IsFalse(result.Contains(notExpectedString), "IterationCall works wrong!");
+            Assert.IsTrue(result.Result.Contains(expectedString), "IterationCall works wrong!");
+            Assert.IsFalse(result.Result.Contains(notExpectedString), "IterationCall works wrong!");
         }
     }
 }

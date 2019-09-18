@@ -9,6 +9,7 @@ namespace SiteParser.Core.Services
     public class SaveIntoDatabaseService
     {
         private readonly ISaver saver;
+        
 
         public SaveIntoDatabaseService(ISaver saver)
         {
@@ -17,19 +18,27 @@ namespace SiteParser.Core.Services
 
         public string SaveUrl(LinkEntity entityToAdd)
         {
+            if (saver.Contains(entityToAdd.Link))
+            {
+                return "This link already exeists in DataBase.";
+            }
             var result = saver.Save(entityToAdd);
+            saver.SaveChanges();
             return result;           
         }
 
         public void SaveUrls(List<string> listOfUrls, int iterationId)
         {
+            
+            var listUrlsCopy = new List<string>(listOfUrls);
             LinkEntity linkToAdd = new LinkEntity();
-            foreach (string url in listOfUrls)
+            foreach (string url in listUrlsCopy)
             {
                 linkToAdd.Link = url;
                 linkToAdd.IterationID = iterationId;
                 SaveUrl(linkToAdd);
             }
+            
         }
     }
 }

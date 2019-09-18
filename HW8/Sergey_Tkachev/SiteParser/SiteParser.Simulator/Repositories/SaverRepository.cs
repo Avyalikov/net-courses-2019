@@ -32,9 +32,15 @@ namespace SiteParser.Simulator.Repositories
             catch (Exception ex)
             {
                 result = "Error by entery inserting into Database. " + ex.Message;
+                return result;
             }
             result = "Entity was successfully inserted into Database.";
             return result;
+        }
+
+        public void SaveChanges()
+        {
+            this.dbContext.SaveChanges();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using SiteParser.Core.Models;
 using SiteParser.Core.Repositories;
 using SiteParser.Core.Services;
 
@@ -16,15 +17,24 @@ namespace SiteParser.Tests
             var saver = Substitute.For<ISaver>();
             SaveIntoDatabaseService saveIntoDatabaseService = new SaveIntoDatabaseService(saver);
             string parsedTag = "https://en.wikipedia.org/wiki/Red_fox";
-            string expectedString = "Tag has been saved info database.";
-            saver.Save(Arg.Is<string>(parsedTag))
+            string expectedString = "Entity was successfully inserted into Database.";
+            saver.Save(Arg.Is<LinkEntity>(
+                l => l.Link == parsedTag
+                && l.IterationID == 5))
                 .Returns(expectedString);
+            LinkEntity linkToAdd = new LinkEntity()
+            {
+                IterationID = 5,
+                Link = parsedTag
+            };
 
             //Act
-            var result = saveIntoDatabaseService.SaveUrl(parsedTag);
+            var result = saveIntoDatabaseService.SaveUrl(linkToAdd);
 
             //Assert
-            saver.Received(1).Save(Arg.Is(parsedTag));
+            saver.Received(1).Save(Arg.Is<LinkEntity>(
+                l => l.Link == parsedTag
+                && l.IterationID == 5));
             Assert.AreEqual(expectedString, result, "Tag wasn't save into database.");
         }
     }

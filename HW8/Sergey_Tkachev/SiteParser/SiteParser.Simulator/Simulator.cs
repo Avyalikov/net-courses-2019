@@ -25,8 +25,27 @@ namespace SiteParser.Simulator
 
         public void Start(string startPageToParse, string baseUrl)
         {
-            UrlCollectorService urlCollectorService = new UrlCollectorService(this.saver, this.downloader);
-            urlCollectorService.InitialDowload(startPageToParse, baseUrl);
+            UrlCollectorService urlCollectorService = new UrlCollectorService(this.saver, this.downloader, this.cleaner);
+            Console.WriteLine("Select the way of program's work:");
+            Console.WriteLine("1 - One thread.");
+            Console.WriteLine("2 - Multithread.");
+            int userInput;
+            int.TryParse(Console.ReadLine(), out userInput);
+            Task<string> result = null;
+            switch (userInput)
+            {
+                case 1:
+                    result = urlCollectorService.Solothread(startPageToParse, baseUrl);
+                    break;
+                case 2:
+                    result = urlCollectorService.Multithread(startPageToParse, baseUrl);
+                    break;
+                default:
+                    Console.WriteLine("Unknown command. Input any key to exit.");
+                    break;
+            }
+            Console.WriteLine("Awaiting for async methods...");
+            Console.WriteLine(result.Result);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -39,7 +58,7 @@ namespace SiteParser.Simulator
                 }
 
                 // shared cleanup logic
-                this.cleaner.Clean();
+                this.cleaner.DeleteDirectory();
                 disposed = true;
             }
         }
