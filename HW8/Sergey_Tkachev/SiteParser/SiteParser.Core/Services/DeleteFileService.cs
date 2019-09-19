@@ -1,10 +1,7 @@
-﻿using SiteParser.Core.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SiteParser.Core.Services
+﻿namespace SiteParser.Core.Services
 {
+    using SiteParser.Core.Repositories;
+
     public class DeleteFileService
     {
         private readonly ICleaner cleaner;
@@ -14,9 +11,14 @@ namespace SiteParser.Core.Services
             this.cleaner = cleaner;
         }
 
+        /// <summary>
+        /// Deletes file by name.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <returns></returns>
         public string DeleteFile(string fileName)
         {
-            var result = cleaner.DeleteFile(fileName);
+            var result = this.cleaner.DeleteFile(fileName);
             return result;
         }
     }

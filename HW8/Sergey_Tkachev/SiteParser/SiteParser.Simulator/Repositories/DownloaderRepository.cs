@@ -1,55 +1,57 @@
-﻿using SiteParser.Core.Repositories;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-
-namespace SiteParser.Simulator.Repositories
+﻿namespace SiteParser.Simulator.Repositories
 {
-    class DownloaderRepository : IDownloader
-    {
-        private readonly SiteParserDbContext dbContext;
-        private string pathToFile = string.Empty;
-        private string folder = "Pages";
-        private static HttpClient client = new HttpClient();
-        static private object locker = new object();
-        private Random random;
+    using System;
+    using System.IO;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Threading;
+    using SiteParser.Core.Repositories;
 
-        public DownloaderRepository(SiteParserDbContext dbContext)
+    internal class DownloaderRepository : IDownloader
+    {
+        private static readonly object Locker = new object();
+        private static readonly HttpClient Client = new HttpClient();
+        private readonly string folder = "Pages";
+        private readonly Random random;
+        private string pathToFile = string.Empty;
+
+        public DownloaderRepository()
         {
-            this.dbContext = dbContext;
             this.random = new Random();
         }
+
+        /// <summary>
+        /// Downloads page content by Url adress.
+        /// </summary>
+        /// <param name="requestUrl">Page adress to download.</param>
+        /// <returns></returns>
         public string Download(string requestUrl)
         {
-            //why httpclient wasn't disposed
-            //https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/
+            // why httpClient wasn't disposed
+            // https://aspnetmonsters.com/2016/08/2016-08-27-httpClientwrong/
            
             HttpResponseMessage response = null;
             try
             {
-                response = client.GetAsync(requestUrl).Result;
+                response = Client.GetAsync(requestUrl).Result;
             }
             catch (AggregateException ex)
             {
-                if (ex.InnerException is TaskCanceledException)
+                if (ex.InnerException is TaskCanceledException iex)
                 {
-                    TaskCanceledException iex = (TaskCanceledException)ex.InnerException;
                     if (iex.CancellationToken.IsCancellationRequested)
                     {
-                        //Task was canceled by something
+                        // Task was canceled by something
                     }
-                    //the request timed out
+
+                    // the request timed out
                 }
                 else
                 {
                     throw ex.InnerException;
                 }
-                
+
                 return null;
             }
 
@@ -62,14 +64,19 @@ namespace SiteParser.Simulator.Repositories
             }
         }
 
+        /// <summary>
+        /// Saves the string into file with random name.
+        /// </summary>
+        /// <param name="downloadedResult">String to save.</param>
+        /// <returns></returns>
         public string SaveIntoFile(string downloadedResult)
         {
-            this.pathToFile = DirectoryCheck(this.folder);
+            this.pathToFile = this.DirectoryCheck(this.folder);
 
-            string fileName = random.Next(1000000).ToString();
-            string fullPath = Path.Combine(pathToFile, fileName);
+            string fileName = this.random.Next(1000000).ToString();
+            string fullPath = Path.Combine(this.pathToFile, fileName);
 
-            lock (locker)
+            lock (Locker)
             {
                 if (File.Exists(fullPath))
                 {
@@ -77,7 +84,7 @@ namespace SiteParser.Simulator.Repositories
                     {
                         throw new ArgumentException($"Such file {fullPath} already exists!");
                     }
-                    catch(ArgumentException ex)
+                    catch (ArgumentException ex)
                     {
                         return null;
                     }
@@ -89,6 +96,11 @@ namespace SiteParser.Simulator.Repositories
             return fullPath;
         }
 
+        /// <summary>
+        /// Checks existing of directory. Creates if not. Returns its full path.
+        /// </summary>
+        /// <param name="folderName">Name of directory</param>
+        /// <returns></returns>
         private string DirectoryCheck(string folderName)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
@@ -98,7 +110,9 @@ namespace SiteParser.Simulator.Repositories
             bool exists = Directory.Exists(fullpath);
 
             if (!exists)
+            {
                 Directory.CreateDirectory(folderName);
+            }
 
             return fullpath;
         }

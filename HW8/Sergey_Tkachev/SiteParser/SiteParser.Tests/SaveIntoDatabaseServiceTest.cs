@@ -1,19 +1,18 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using SiteParser.Core.Models;
-using SiteParser.Core.Repositories;
-using SiteParser.Core.Services;
-
-namespace SiteParser.Tests
+﻿namespace SiteParser.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using SiteParser.Core.Models;
+    using SiteParser.Core.Repositories;
+    using SiteParser.Core.Services;
+
     [TestClass]
     public class SaveIntoDatabaseServiceTest
     {
         [TestMethod]
         public void ShouldSaveTagsIntoDatabase()
         {
-            //Arrange
+            // Arrange
             var saver = Substitute.For<ISaver>();
             SaveIntoDatabaseService saveIntoDatabaseService = new SaveIntoDatabaseService(saver);
             string parsedTag = "https://en.wikipedia.org/wiki/Red_fox";
@@ -28,10 +27,10 @@ namespace SiteParser.Tests
                 Link = parsedTag
             };
 
-            //Act
+            // Act
             var result = saveIntoDatabaseService.SaveUrl(linkToAdd);
 
-            //Assert
+            // Assert
             saver.Received(1).Save(Arg.Is<LinkEntity>(
                 l => l.Link == parsedTag
                 && l.IterationID == 5));

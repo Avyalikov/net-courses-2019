@@ -1,19 +1,16 @@
-﻿using HtmlAgilityPack;
-using SiteParser.Core.Models;
-using SiteParser.Core.Repositories;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
-namespace SiteParser.Core.Services
+﻿namespace SiteParser.Core.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using HtmlAgilityPack;
+
     public class ParsePageService
     {
+        private static object locker = new object();
         private readonly SaveIntoDatabaseService saveIntoDatabaseService;
         private readonly DeleteFileService deleteFileService;
-        List<string> urls;
-        static private object locker = new object();
+        private List<string> urls;
 
         public ParsePageService(SaveIntoDatabaseService saveIntoDatabaseService, DeleteFileService deleteFileService)
         {
@@ -22,15 +19,22 @@ namespace SiteParser.Core.Services
             this.urls = new List<string>();
         }
 
+        /// <summary>
+        /// Returns collection of wiki urls.
+        /// </summary>
+        /// <param name="path">Fill path to file.</param>
+        /// <param name="baseUrl">Base url of parsed page.</param>
+        /// <param name="iterationID">Number of iteration. </param>
+        /// <returns></returns>
         public ICollection<string> Parse(string path, string baseUrl, int iterationID)
         {
-            urls.Clear();
+            this.urls.Clear();
 
-            HtmlDocument htmlDocument = LoadFromFile(path);
+            HtmlDocument htmlDocument = this.LoadFromFile(path);
 
-            if(htmlDocument.DocumentNode.SelectNodes("//a[@href]") == null)
+            if (htmlDocument.DocumentNode.SelectNodes("//a[@href]") == null)
             {
-                return urls;
+                return this.urls;
             }
 
             foreach (HtmlNode link in htmlDocument.DocumentNode.SelectNodes("//a[@href]"))
@@ -40,52 +44,68 @@ namespace SiteParser.Core.Services
                 {
                     if (!parsedUrl.Contains("http"))
                     {
-                        if (CheckIfUrlExist(baseUrl + parsedUrl))
+                        if (this.CheckIfUrlExist(baseUrl + parsedUrl))
                         {
                             break;
                         }
-                        urls.Add(baseUrl + parsedUrl);
+
+                        this.urls.Add(baseUrl + parsedUrl);
                         continue;
                     }
 
-                    if (CheckIfUrlExist(baseUrl + parsedUrl))
+                    if (this.CheckIfUrlExist(baseUrl + parsedUrl))
                     {
                         break;
                     }
-                    urls.Add(parsedUrl);
+
+                    this.urls.Add(parsedUrl);
                 }
             }
 
-            if (urls.Count != 0)
+            if (this.urls.Count != 0)
             {
                 lock (locker)
                 {
-                    saveIntoDatabaseService.SaveUrls(urls, iterationID);
-                    deleteFileService.DeleteFile(path);
+                    this.saveIntoDatabaseService.SaveUrls(this.urls, iterationID);
+                    this.deleteFileService.DeleteFile(path);
                 }
             }
-            return urls;
+
+            return this.urls;
         }
 
+        /// <summary>
+        /// Checks if url has already contained in Database.
+        /// </summary>
+        /// <param name="urlToCheck">Url to check.</param>
+        /// <returns></returns>
         private bool CheckIfUrlExist(string urlToCheck)
         {
-            if (urls.Contains(urlToCheck))
+            if (this.urls.Contains(urlToCheck))
             {
                 return true;
             }
+
             return false;
         }
 
-        HtmlDocument LoadFromFile(string path)
+        /// <summary>
+        /// Loads html document from a file.
+        /// </summary>
+        /// <param name="path">Full path to file.</param>
+        /// <returns></returns>
+        private HtmlDocument LoadFromFile(string path)
         {
             var htmlFile = new HtmlDocument();
             try
             {
                 htmlFile.Load(path);
-            } catch (Exception ex) when(ex is DirectoryNotFoundException || ex is FileNotFoundException)
+            }
+            catch (Exception ex) when(ex is DirectoryNotFoundException || ex is FileNotFoundException)
             {
                 Console.WriteLine(ex.Message);
             }
+
             return htmlFile;
         }
     }

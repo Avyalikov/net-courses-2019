@@ -1,18 +1,17 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using SiteParser.Core.Repositories;
-using SiteParser.Core.Services;
-
-namespace SiteParser.Tests
+﻿namespace SiteParser.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using SiteParser.Core.Repositories;
+    using SiteParser.Core.Services;
+
     [TestClass]
     public class ParsePageServiceTest
     {
         [TestMethod]
         public void ShouldExtractHtmlTags()
         {
-            //Arrange
+            // Arrange
             string baseUrl = "https://en.wikipedia.org";
             string path = "Resources/test.html";
             string expectedString = "https://en.wikipedia.org/wiki/Red_fox";
@@ -24,10 +23,10 @@ namespace SiteParser.Tests
             DeleteFileService deleteService = new DeleteFileService(cleaner);
             ParsePageService parsePageService = new ParsePageService(saveService, deleteService);
 
-            //Act
+            // Act
             var result = parsePageService.Parse(path, baseUrl, iterationId);
 
-            //Assert
+            // Assert
             Assert.IsTrue(result.Contains(expectedString), "File has been parsed wrong!");
             Assert.IsFalse(result.Contains(notExpectedString), "File has been parsed wrong!");
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SiteParser.Core.Models
+﻿namespace SiteParser.Core.Models
 {
     public class LinkEntity
     {

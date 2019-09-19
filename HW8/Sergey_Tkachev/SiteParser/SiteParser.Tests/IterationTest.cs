@@ -1,18 +1,17 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using SiteParser.Core.Repositories;
-using SiteParser.Core.Services;
-
-namespace SiteParser.Tests
+﻿namespace SiteParser.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using SiteParser.Core.Repositories;
+    using SiteParser.Core.Services;
+
     [TestClass]
     public class IterationTest
     {
         [TestMethod]
         public void ShouldCallParsingForEachPageFromPreviousIteration()
         {
-            //Arrange
+            // Arrange
             string baseUrl = "https://en.wikipedia.org";
             string path1 = "Resources/test.html";
             string path2 = "Resources/Red_fox.html";
@@ -33,10 +32,10 @@ namespace SiteParser.Tests
             downloader.SaveIntoFile(Arg.Is<string>("someDownloadedHtmlText"))
                 .Returns(path2);
 
-           //Act
+           // Act
             var result = iterationService.Solothread(initialUrl, baseUrl);
 
-            //Assert
+            // Assert
             Assert.IsTrue(result.Result.Contains(expectedString), "IterationCall works wrong!");
             Assert.IsFalse(result.Result.Contains(notExpectedString), "IterationCall works wrong!");
         }
