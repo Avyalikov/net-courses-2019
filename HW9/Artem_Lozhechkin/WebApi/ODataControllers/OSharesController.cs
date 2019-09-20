@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNet.OData;
-using Microsoft.AspNetCore.Mvc;
-using TradingApp.Shared;
-
-namespace WebApi.ODataControllers
+﻿namespace WebApi.ODataControllers
 {
+    using Microsoft.AspNet.OData;
+    using Microsoft.AspNetCore.Mvc;
+    using TradingApp.Shared;
+
     [Route("odata/Shares")]
     public class OSharesController : ODataController
     {

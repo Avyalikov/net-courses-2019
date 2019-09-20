@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNet.OData;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TradingApp.Shared;
-
-namespace WebApi.ODataControllers
+﻿namespace WebApi.ODataControllers
 {
+    using Microsoft.AspNet.OData;
+    using Microsoft.AspNetCore.Mvc;
+    using TradingApp.Shared;
+
     [Route("odata/Companies")]
     public class OCompaniesController : ODataController
     {

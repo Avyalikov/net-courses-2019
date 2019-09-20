@@ -7,7 +7,6 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
     using Microsoft.OData.Edm;
     using StructureMap;

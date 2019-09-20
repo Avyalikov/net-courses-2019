@@ -1,6 +1,5 @@
 ﻿namespace TradingApp.WebApi
 {
-    using global::WebApi.ODataControllers;
     using StructureMap;
     using System.Configuration;
     using TradingApp.Core.LoggingServices;
@@ -9,7 +8,6 @@
     using TradingApp.Core.Services;
     using TradingApp.Shared;
     using TradingApp.Shared.Repositories;
-    using WebApi.Controllers;
 
     public class WebApiRegistry : Registry
     {
@@ -27,7 +25,6 @@
             this.For<ShareService>().Use<LoggingShareService>();
             this.For<TraderService>().Use<LoggingTraderService>();
             this.For<TransactionService>().Use<LoggingTransactionService>();
-
 
             this.For<TradingAppDbContext>().Use<TradingAppDbContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingAppConnectionString"].ConnectionString);
         }
