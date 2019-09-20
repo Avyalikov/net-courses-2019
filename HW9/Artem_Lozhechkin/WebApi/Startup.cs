@@ -63,7 +63,7 @@
             app.UseMvc(options =>
             {
                 options.EnableDependencyInjection();
-                options.Select().Expand().Filter().OrderBy().MaxTop(10);
+                options.Select().Expand().Filter().OrderBy().MaxTop(100);
                 options.MapODataServiceRoute("odata", "odata", GetEdmModel());
             });
             app.UseSwagger();
