@@ -1,5 +1,6 @@
 ﻿namespace TradingApp.WebApi
 {
+    using global::WebApi.ODataControllers;
     using StructureMap;
     using System.Configuration;
     using TradingApp.Core.LoggingServices;
@@ -27,7 +28,6 @@
             this.For<TraderService>().Use<LoggingTraderService>();
             this.For<TransactionService>().Use<LoggingTransactionService>();
 
-            this.For<ClientsController>().Use<ClientsController>();
 
             this.For<TradingAppDbContext>().Use<TradingAppDbContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["tradingAppConnectionString"].ConnectionString);
         }
