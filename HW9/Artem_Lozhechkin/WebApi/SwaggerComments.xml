@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:TradingApp.WebApi.Controllers.BalancesController.GetUserStatus(System.Int32)">
+            <summary>
+            Returns string with message about user's status.
+            </summary>
+            <param name="clientId">Client's identificator.</param>
+            <returns>Status message includes balance and status - 
+            green if balance is above 0, orange if it is equal 0 and black if balance is less than 0.</returns>
+        </member>
+    </members>
+</doc>
