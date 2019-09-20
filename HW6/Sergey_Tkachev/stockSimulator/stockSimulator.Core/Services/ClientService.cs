@@ -50,6 +50,11 @@ namespace stockSimulator.Core.Services
             return this.clientTableRepository.Get(clientId);
         }
 
+        public IQueryable<ClientEntity> GetClients()
+        {
+            return this.clientTableRepository.GetClients();
+        }
+
         public IEnumerable<ClientEntity> GetClientsWithPositiveBalance()
         {
             var clients = clientTableRepository.GetClients();

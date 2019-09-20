@@ -1,5 +1,6 @@
 ﻿using stockSimulator.Core.Models;
 using stockSimulator.Core.Repositories;
+using System.Data.Entity;
 using System.Linq;
 
 namespace stockSimulator.Modulation.Repositories
@@ -54,15 +55,31 @@ namespace stockSimulator.Modulation.Repositories
                .FirstOrDefault();
         }
 
+        public IQueryable<StockOfClientsEntity> GetStocksOfClient(int clientId)
+        {
+            var retListOfStocksOfClient = this.dbContext.StockOfClients
+                .Where(sc => sc.ClientID == clientId)
+                .Include(sc => sc.Stock)
+                .Include(sc => sc.Client);
+
+            return retListOfStocksOfClient;
+        }
+
         public void SaveChanges()
         {
             this.dbContext.SaveChanges();
         }
 
-        public void Update(int entityId, StockOfClientsEntity newEntity)
+        public string Update(int entityId, StockOfClientsEntity newEntity)
         {
-            var entityToUpdate = this.dbContext.StockOfClients.First(sc => sc.ID == entityId);
-            entityToUpdate = newEntity;
+            var stockOfCloentToUpdate = this.dbContext.StockOfClients.FirstOrDefault(c => c.ID == entityId);
+            if (stockOfCloentToUpdate != null)
+            {
+                stockOfCloentToUpdate.Amount = newEntity.Amount;
+                SaveChanges();
+                return "Stock of Client data was updated.";
+            }
+            return "Stock of Client data wasn't found.";
         }
 
         public void UpdateAmount(int client_id, int stockId, int newStockAmount)

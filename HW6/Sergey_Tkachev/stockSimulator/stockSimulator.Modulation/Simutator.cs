@@ -3,10 +3,7 @@ using stockSimulator.Core.Services;
 using stockSimulator.Modulation.Dependencies;
 using StructureMap;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace stockSimulator.Modulation
@@ -14,10 +11,9 @@ namespace stockSimulator.Modulation
     class Simutator
     {
         private static Timer Timer;
+        private static StockSimulatorDbContext db;
         private int period;
         private bool dbInitialize;
-        private static StockSimulatorDbContext db;
-
 
         public Simutator(int period, bool dbInitialize)
         {
@@ -36,12 +32,16 @@ namespace stockSimulator.Modulation
             {
                 Logger.Log.Error("Unable to connect to Database! Error: " + ex.Message);
             }
+
             DbInitialize(dbInitialize);
             SetTimer(period);
             Logger.Log.Info($@"Connection to Database was created. 
 Database: {db.Database.Connection.ConnectionString} 
 DbRecreation: { dbInitialize} 
 Interval between trading: {period} ms.");
+
+            UserInterface ui = new UserInterface();
+            ui.start();
         }
 
         internal void stop()
@@ -55,7 +55,7 @@ Timer was stopped and disposed.");
 
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("At {0:HH:mm:ss.fff}", e.SignalTime);
+            //Console.WriteLine("At {0:HH:mm:ss.fff}", e.SignalTime);
             DoTrade();
         }
 
@@ -73,6 +73,7 @@ Timer was stopped and disposed.");
             {
                 throw new ArgumentException("There is less than 2 Clients, check your DataBase or collection");
             }
+
             GetTwoClients(numberOfClients, out numberOfCustomer, out numberOfSeller);
             var customer = clientService.GetClient(numberOfCustomer);
             var seller = clientService.GetClient(numberOfSeller);
@@ -81,9 +82,10 @@ Timer was stopped and disposed.");
             if (sellersTypesOfStocks == 0)
             {
                 Logger.Log.Info($"But {seller.Name} {seller.Surname} has no stocks to sell.");
-                Console.WriteLine($"{seller.Name} has no stocks to sell");
+               // Console.WriteLine($"{seller.Name} has no stocks to sell");
                 return;
             }
+
             int wantedTypeStock = GetRandomNumberFromRange(sellersTypesOfStocks);
             var wantedStock = seller.Stocks.ElementAt(wantedTypeStock - 1);
             int numberOfAvailableSellerStock = wantedStock.Amount;
@@ -101,14 +103,16 @@ Timer was stopped and disposed.");
             };
 
             transactionService.Trade(tradeInfo);
-            Console.WriteLine($"Between {customer.Name} and {seller.Name} was transaction on {numberOfWantedStocks} stock(s) of '{wantedStock.Stock.Name}'." 
-                + Environment.NewLine);
+           // Console.WriteLine($"Between {customer.Name} and {seller.Name} was transaction on {numberOfWantedStocks} stock(s) of '{wantedStock.Stock.Name}'." 
+             //   + Environment.NewLine);
         }
 
         private static int GetRandomNumberFromRange(int maxValue)
         {
             if (maxValue == 1)
+            {
                 return maxValue;
+            }
 
             Random random = new Random();
 
@@ -123,7 +127,8 @@ Timer was stopped and disposed.");
             do
             {
                 numberOfSeller = random.Next(1, numberOfClients + 1);
-            } while (numberOfCustomer == numberOfSeller);
+            }
+            while (numberOfCustomer == numberOfSeller);
         }
 
         private static void SetTimer(int period)
@@ -140,7 +145,5 @@ Timer was stopped and disposed.");
         {
            db.Database.Initialize(recreate);
         }
-
-       
     }
 }

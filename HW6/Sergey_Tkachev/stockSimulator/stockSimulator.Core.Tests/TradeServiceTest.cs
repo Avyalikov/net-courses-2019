@@ -14,16 +14,18 @@ namespace stockSimulator.Core.Tests
     {
         IClientTableRepository clientTableRepository;
         IStockTableRepository stockTableRepository;
-        IStockOfClientsTableRepository stockClientTableRepository;
+        IStockOfClientsTableRepository stockOfClientsTableRepository;
         ITransactionHistoryTableRepository transactionHistoryTableRepository;
+        EditCleintStockService editCleintStockService;
 
         [TestInitialize]
         public void Initialize()
         {
             this.clientTableRepository = Substitute.For<IClientTableRepository>();
             this.stockTableRepository = Substitute.For<IStockTableRepository>();
-            this.stockClientTableRepository = Substitute.For<IStockOfClientsTableRepository>();
+            this.stockOfClientsTableRepository = Substitute.For<IStockOfClientsTableRepository>();
             this.transactionHistoryTableRepository = Substitute.For<ITransactionHistoryTableRepository>();
+            this.editCleintStockService = new EditCleintStockService(this.stockOfClientsTableRepository);
 
             clientTableRepository.Get(5).Returns(new ClientEntity()
             {
@@ -50,7 +52,7 @@ namespace stockSimulator.Core.Tests
                 Cost = 10
             });
 
-            stockClientTableRepository.Get(2).Returns(new StockOfClientsEntity()
+            stockOfClientsTableRepository.Get(2).Returns(new StockOfClientsEntity()
             {
                 ID = 2,
                 ClientID = 32,
@@ -59,9 +61,9 @@ namespace stockSimulator.Core.Tests
             });
 
             stockTableRepository.GetCost(Arg.Is<int>(1)).Returns(10);
-            stockClientTableRepository.GetAmount(Arg.Is<int>(5),
+            stockOfClientsTableRepository.GetAmount(Arg.Is<int>(5),
                                                 Arg.Is<int>(1)).Returns(0);
-            stockClientTableRepository.GetAmount(Arg.Is<int>(32),
+            stockOfClientsTableRepository.GetAmount(Arg.Is<int>(32),
                                                 Arg.Is<int>(1)).Returns(10);
             clientTableRepository.GetBalance(Arg.Is<int>(5)).Returns(100);
             clientTableRepository.GetBalance(Arg.Is<int>(32)).Returns(50);
@@ -74,12 +76,17 @@ namespace stockSimulator.Core.Tests
         public void ShouldSubstractMoneyAndAddStocks()
         {
             //Arrange
+            stockOfClientsTableRepository.Contains(Arg.Is<StockOfClientsEntity>(sc => sc.Amount == 5
+                                                                                   && sc.ClientID == 5
+                                                                                   && sc.ID == 0
+                                                                                   && sc.StockID == 1), out Arg.Is<int>(0)).Returns(false);
+
             TransactionService transactionService = new TransactionService(this.clientTableRepository,
                                                                             this.stockTableRepository,
-                                                                            this.stockClientTableRepository,
-                                                                            this.transactionHistoryTableRepository);
+                                                                            this.stockOfClientsTableRepository,
+                                                                            this.transactionHistoryTableRepository,
+                                                                            this.editCleintStockService);
 
-            //Act
             TradeInfo tradeInfo = new TradeInfo()
             {
                 Customer_ID = 5,
@@ -87,13 +94,15 @@ namespace stockSimulator.Core.Tests
                 Stock_ID = 1,
                 Amount = 5
             };
+
+            //Act
             transactionService.Trade(tradeInfo);
 
             //Assert
             this.clientTableRepository.Received(1).UpdateBalance(Arg.Is<int>(5), Arg.Is<decimal>(50));
-            this.stockClientTableRepository.Received(1).UpdateAmount(Arg.Is<int>(5),
-                                                                Arg.Is<int>(1),
-                                                                Arg.Is<int>(5));
+            this.stockOfClientsTableRepository.Received(1).Add(Arg.Is<StockOfClientsEntity>(sc => sc.Amount == 5
+                                                                                    && sc.ClientID == 5
+                                                                                    && sc.StockID == 1));
 
             this.clientTableRepository.Received(2).SaveChanges();
         }
@@ -104,10 +113,25 @@ namespace stockSimulator.Core.Tests
             //Arrange
             TransactionService transactionService = new TransactionService(this.clientTableRepository,
                                                                            this.stockTableRepository,
-                                                                           this.stockClientTableRepository,
-                                                                           this.transactionHistoryTableRepository);
+                                                                           this.stockOfClientsTableRepository,
+                                                                           this.transactionHistoryTableRepository,
+                                                                           this.editCleintStockService);
 
-            //Act
+            stockOfClientsTableRepository.Contains(Arg.Is<StockOfClientsEntity>(sc => sc.Amount == 5
+                                                                                 && sc.ClientID == 32
+                                                                                 && sc.StockID == 1),
+                                              out Arg.Any<int>())
+                                              .Returns(x => {
+                                                  x[1] = 2;
+                                                  return true;
+                                              });
+
+            stockOfClientsTableRepository.Update(Arg.Is<int>(2),
+                                               Arg.Is<StockOfClientsEntity>(sc => sc.Amount == 5
+                                                                                  && sc.ClientID == 32
+                                                                                  && sc.ID == 0
+                                                                                  && sc.StockID == 1));
+
             TradeInfo tradeInfo = new TradeInfo()
             {
                 Customer_ID = 5,
@@ -115,13 +139,17 @@ namespace stockSimulator.Core.Tests
                 Stock_ID = 1,
                 Amount = 5
             };
+            //Act
             transactionService.Trade(tradeInfo);
 
             //Assert
             this.clientTableRepository.Received(1).UpdateBalance(Arg.Is<int>(32), Arg.Is<decimal>(100));
-            this.stockClientTableRepository.Received(1).UpdateAmount(Arg.Is<int>(32),
-                                                                Arg.Is<int>(1),
-                                                                Arg.Is<int>(5));
+            this.stockOfClientsTableRepository.Received(1).Update(Arg.Is<int>(2),
+                                                            Arg.Is<StockOfClientsEntity>(sc =>
+                                                                                     sc.Amount == 5
+                                                                                  && sc.ClientID == 32
+                                                                                  && sc.ID == 0
+                                                                                  && sc.StockID == 1));
 
             this.clientTableRepository.Received(2).SaveChanges();
         }
@@ -132,8 +160,9 @@ namespace stockSimulator.Core.Tests
             //Arrange
             TransactionService transactionService = new TransactionService(this.clientTableRepository,
                                                                            this.stockTableRepository,
-                                                                           this.stockClientTableRepository,
-                                                                           this.transactionHistoryTableRepository);
+                                                                           this.stockOfClientsTableRepository,
+                                                                           this.transactionHistoryTableRepository,
+                                                                           this.editCleintStockService);
 
             //Act
             TradeInfo tradeInfo = new TradeInfo()

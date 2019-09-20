@@ -1,13 +1,10 @@
-﻿using stockSimulator.Core.Models;
-using stockSimulator.Core.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace stockSimulator.Modulation.Repositories
+﻿namespace stockSimulator.Modulation.Repositories
 {
+    using stockSimulator.Core.Models;
+    using stockSimulator.Core.Repositories;
+    using System.Collections.Generic;
+    using System.Linq;
+
     class ClientTableRepository : IClientTableRepository
     {
         private readonly StockSimulatorDbContext dbContext;
@@ -52,9 +49,9 @@ namespace stockSimulator.Modulation.Repositories
                 .FirstOrDefault();
         }
 
-        public IEnumerable<ClientEntity> GetClients()
+        public IQueryable<ClientEntity> GetClients()
         {
-            var retListOfClients = this.dbContext.Clients.ToList();
+            var retListOfClients = this.dbContext.Clients;
 
             return retListOfClients;
         }

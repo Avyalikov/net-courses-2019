@@ -14,12 +14,8 @@ namespace stockSimulator.Modulation
 
             simulator.start();
 
-            Console.ReadKey();
-
             simulator.stop();
 
         }
-
-        
     }
 }

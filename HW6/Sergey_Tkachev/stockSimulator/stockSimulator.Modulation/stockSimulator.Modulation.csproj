@@ -68,6 +68,7 @@
     <Compile Include="Simutator.cs" />
     <Compile Include="StockInitializer.cs" />
     <Compile Include="StockSimulatorDbContext.cs" />
+    <Compile Include="UserInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

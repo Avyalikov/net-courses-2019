@@ -1,10 +1,8 @@
-﻿using stockSimulator.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace stockSimulator.Core.Repositories
+﻿namespace stockSimulator.Core.Repositories
 {
+    using stockSimulator.Core.Models;
+    using System.Linq;
+
     public interface IClientTableRepository
     {
         void Add(ClientEntity entity);
@@ -15,6 +13,6 @@ namespace stockSimulator.Core.Repositories
         void Update(int clientId, ClientEntity entityToEdit);
         decimal GetBalance(int clientId);
         void UpdateBalance(int clientId, decimal newBalance);
-        IEnumerable<ClientEntity> GetClients();
+        IQueryable<ClientEntity> GetClients();
     }
 }

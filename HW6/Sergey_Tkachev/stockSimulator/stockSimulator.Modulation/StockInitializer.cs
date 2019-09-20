@@ -56,7 +56,7 @@ namespace stockSimulator.Modulation
             new StockOfClientsEntity{ClientID=3,StockID=6,Amount=5},
             new StockOfClientsEntity{ClientID=2,StockID=7,Amount=5},
             new StockOfClientsEntity{ClientID=1,StockID=8,Amount=5},
-            new StockOfClientsEntity{ClientID=1,StockID=8,Amount=5},
+            new StockOfClientsEntity{ClientID=2,StockID=8,Amount=5},
             new StockOfClientsEntity{ClientID=3,StockID=7,Amount=5},
            
             };
