@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace stockSimulator.Core.Models
+﻿namespace stockSimulator.Core.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class ClientEntity : IEquatable<ClientEntity>
     {
         public int ID { get; set; }
@@ -16,13 +16,14 @@ namespace stockSimulator.Core.Models
 
         public bool Equals(ClientEntity other)
         {
-            if(this.Name == other.Name
+            if (this.Name == other.Name
                 && this.Surname == other.Surname
                 && this.PhoneNumber == other.PhoneNumber
                 && this.AccountBalance == other.AccountBalance)
             {
                 return true;
             }
+
             return false;
         }
 

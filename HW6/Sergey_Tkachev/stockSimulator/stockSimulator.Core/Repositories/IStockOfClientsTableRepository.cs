@@ -1,10 +1,8 @@
-﻿using stockSimulator.Core.Models;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace stockSimulator.Core.Repositories
+﻿namespace stockSimulator.Core.Repositories
 {
+    using System.Linq;
+    using stockSimulator.Core.Models;
+
     public interface IStockOfClientsTableRepository
     {
         void Add(StockOfClientsEntity entity);

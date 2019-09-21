@@ -1,8 +1,8 @@
-﻿using log4net;
-using log4net.Config;
-
-namespace stockSimulator.Modulation
+﻿namespace stockSimulator.Modulation
 {
+    using log4net;
+    using log4net.Config;
+
     public static class Logger
     {
         private static ILog log = LogManager.GetLogger("LOGGER");

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace stockSimulator.Core.Models
+﻿namespace stockSimulator.Core.Models
 {
+    using System.Collections.Generic;
+
     public class StockEntity
     {
         public int ID { get; set; }

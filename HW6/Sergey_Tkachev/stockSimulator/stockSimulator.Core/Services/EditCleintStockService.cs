@@ -1,15 +1,19 @@
-﻿using System;
-using System.Linq;
-using stockSimulator.Core.DTO;
-using stockSimulator.Core.Models;
-using stockSimulator.Core.Repositories;
-
-namespace stockSimulator.Core.Services
+﻿namespace stockSimulator.Core.Services
 {
+    using System;
+    using System.Linq;
+    using stockSimulator.Core.DTO;
+    using stockSimulator.Core.Models;
+    using stockSimulator.Core.Repositories;
+
     public class EditCleintStockService
     {
         private readonly IStockOfClientsTableRepository stockOfClientsTableRepository;
 
+        /// <summary>
+        /// Initializes an Instance of EditCleintStockService class.
+        /// </summary>
+        /// <param name="stockOfClientsTableRepository"></param>
         public EditCleintStockService(IStockOfClientsTableRepository stockOfClientsTableRepository)
         {
             this.stockOfClientsTableRepository = stockOfClientsTableRepository;
@@ -18,7 +22,7 @@ namespace stockSimulator.Core.Services
         public string Edit(EditStockOfClientInfo editArgs)
         {
             int entityId;
-            string result = String.Empty;
+            string result = string.Empty;
             var entityToEdit = new StockOfClientsEntity()
             {
                 ClientID = editArgs.Client_ID,
@@ -34,7 +38,8 @@ namespace stockSimulator.Core.Services
             {
                 this.stockOfClientsTableRepository.Add(entityToEdit);
                 result = $"Entry for client {entityToEdit.ClientID} was added into DB";
-                //throw new ArgumentException("There is no entry in DataBase, may be you eentered wrong userID or stockID");
+
+                // throw new ArgumentException("There is no entry in DataBase, may be you eentered wrong userID or stockID");
             }
 
             this.stockOfClientsTableRepository.SaveChanges();
@@ -42,7 +47,7 @@ namespace stockSimulator.Core.Services
             return result;
         }
 
-        public string addStock(EditStockOfClientInfo addInfo)
+        public string AddStock(EditStockOfClientInfo addInfo)
         {
             int entityId;
             var entityToAdd = new StockOfClientsEntity()
@@ -61,14 +66,14 @@ namespace stockSimulator.Core.Services
 
             this.stockOfClientsTableRepository.SaveChanges();
 
-            stockOfClientsTableRepository.Contains(entityToAdd, out entityId);
+            this.stockOfClientsTableRepository.Contains(entityToAdd, out entityId);
 
             return entityId.ToString();
         }
 
         public IQueryable<StockOfClientsEntity> GetStocksOfClient(int clientId)
         {
-            return stockOfClientsTableRepository.GetStocksOfClient(clientId);
+            return this.stockOfClientsTableRepository.GetStocksOfClient(clientId);
         }
     }
 }

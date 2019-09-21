@@ -1,7 +1,7 @@
-﻿using stockSimulator.Core.Models;
-
-namespace stockSimulator.Core.Repositories
+﻿namespace stockSimulator.Core.Repositories
 {
+    using stockSimulator.Core.Models;
+
     public interface IStockTableRepository
     {
         void Add(StockEntity entity);

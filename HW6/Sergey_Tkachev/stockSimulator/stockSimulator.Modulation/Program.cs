@@ -1,21 +1,17 @@
-﻿using System;
-using System.Timers;
-
-namespace stockSimulator.Modulation
+﻿namespace stockSimulator.Modulation
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
-            const int period = 10000;
-            const bool dbInitialize = true;
+            const int Period = 10000;
+            const bool DbInitialize = true;
 
-            Simutator simulator = new Simutator(period, dbInitialize);
+            Simutator simulator = new Simutator(Period, DbInitialize);
 
-            simulator.start();
+            simulator.Start();
 
-            simulator.stop();
-
+            simulator.Stop();
         }
     }
 }

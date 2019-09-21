@@ -1,7 +1,7 @@
 ﻿namespace stockSimulator.Core.Repositories
 {
-    using stockSimulator.Core.Models;
     using System.Linq;
+    using stockSimulator.Core.Models;
 
     public interface IClientTableRepository
     {

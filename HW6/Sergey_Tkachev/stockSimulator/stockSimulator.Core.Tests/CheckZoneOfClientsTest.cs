@@ -1,18 +1,17 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using stockSimulator.Core.Models;
-using stockSimulator.Core.Repositories;
-using stockSimulator.Core.Services;
-
-namespace stockSimulator.Core.Tests
+﻿namespace stockSimulator.Core.Tests
 {
+    using System.Linq;
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using stockSimulator.Core.Models;
+    using stockSimulator.Core.Repositories;
+    using stockSimulator.Core.Services;
+
     [TestClass]
     public class CheckZoneOfClientsTest
     {
-        IClientTableRepository clientTableRepository;
+        private IClientTableRepository clientTableRepository;
 
         [TestInitialize]
         public void Initialize()
@@ -62,13 +61,13 @@ namespace stockSimulator.Core.Tests
         [TestMethod]
         public void ShouldReturnListOfClientsInGreenZone()
         {
-            //Arrange
-            ClientService clientService = new ClientService(clientTableRepository);
+            // Arrange
+            ClientService clientService = new ClientService(this.clientTableRepository);
 
-            //Act
+            // Act
             var clients = clientService.GetClientsWithPositiveBalance();
 
-            //Assert
+            // Assert
             this.clientTableRepository.Received(1).GetClients();
             IEnumerable<ClientEntity> clientsWithMoney = new List<ClientEntity>
             {
@@ -90,20 +89,22 @@ namespace stockSimulator.Core.Tests
 
             for (int i = 0; i < 2; i++)
             {
-                Assert.IsTrue( clientsWithMoney.ElementAt(i).Equals(clients.ElementAt(i)), $"Client {clientsWithMoney.ElementAt(i).Name}" +
-                    $" not equal {clients.ElementAt(i).Name}" );
+                Assert.IsTrue(
+                    clientsWithMoney.ElementAt(i).Equals(clients.ElementAt(i)),
+                    $"Client { clientsWithMoney.ElementAt(i).Name } not equal { clients.ElementAt(i).Name }");
             }
         }
+
         [TestMethod]
         public void ShouldReturnListOfClientsInOrangeZone()
         {
-            //Arrange
-            ClientService clientService = new ClientService(clientTableRepository);
+            // Arrange
+            ClientService clientService = new ClientService(this.clientTableRepository);
 
-            //Act
+            // Act
             var clients = clientService.GetClientsWithZeroBalance();
 
-            //Assert
+            // Assert
             this.clientTableRepository.Received(1).GetClients();
             IEnumerable<ClientEntity> clientsWithoutMoney = new List<ClientEntity>
             {
@@ -118,21 +119,22 @@ namespace stockSimulator.Core.Tests
 
             for (int i = 0; i < 1; i++)
             {
-                Assert.IsTrue(clientsWithoutMoney.ElementAt(i).Equals(clients.ElementAt(i)), $"Client {clientsWithoutMoney.ElementAt(i).Name}" +
-                    $" not equal {clients.ElementAt(i).Name}");
+                Assert.IsTrue(
+                    clientsWithoutMoney.ElementAt(i).Equals(clients.ElementAt(i)), 
+                    $"Client {clientsWithoutMoney.ElementAt(i).Name} not equal {clients.ElementAt(i).Name}");
             }
         }
 
         [TestMethod]
         public void ShouldReturnListOfClientsInBlackZone()
         {
-            //Arrange
-            ClientService clientService = new ClientService(clientTableRepository);
+            // Arrange
+            ClientService clientService = new ClientService(this.clientTableRepository);
 
-            //Act
+            // Act
             var clients = clientService.GetClientsWithNegativeBalance();
 
-            //Assert
+            // Assert
             this.clientTableRepository.Received(1).GetClients();
             IEnumerable<ClientEntity> clientsWithDebts = new List<ClientEntity>
             {
@@ -154,8 +156,9 @@ namespace stockSimulator.Core.Tests
 
             for (int i = 0; i < 2; i++)
             {
-                Assert.IsTrue(clientsWithDebts.ElementAt(i).Equals(clients.ElementAt(i)), $"Client {clientsWithDebts.ElementAt(i).Name}" +
-                    $" not equal {clients.ElementAt(i).Name}");
+                Assert.IsTrue(
+                    clientsWithDebts.ElementAt(i).Equals(clients.ElementAt(i)), 
+                    $"Client {clientsWithDebts.ElementAt(i).Name} not equal {clients.ElementAt(i).Name}");
             }
         }
     }

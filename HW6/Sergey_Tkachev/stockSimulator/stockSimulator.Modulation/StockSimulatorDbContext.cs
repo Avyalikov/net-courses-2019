@@ -1,14 +1,10 @@
-﻿using stockSimulator.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace stockSimulator.Modulation
+﻿namespace stockSimulator.Modulation
 {
-    class StockSimulatorDbContext : DbContext
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using stockSimulator.Core.Models;
+
+    internal class StockSimulatorDbContext : DbContext
     {
         public DbSet<ClientEntity> Clients { get; set; }
 
@@ -18,11 +14,18 @@ namespace stockSimulator.Modulation
 
         public DbSet<StockOfClientsEntity> StockOfClients { get; set; }
 
+        /// <summary>
+        /// Initializes an Instance of StockSimulatorDbContext class.
+        /// </summary>
         public StockSimulatorDbContext() : base("name=StockSimulatorConnectionString")
         {
             Database.SetInitializer(new StockInitializer());
         }
 
+        /// <summary>
+        /// Establishes relationships between tables.
+        /// </summary>
+        /// <param name="modelBuilder">DbModelBuilder instance.</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<StockOfClientsEntity>()
@@ -41,10 +44,9 @@ namespace stockSimulator.Modulation
                .HasForeignKey<int>(sc => sc.ClientID);
 
             modelBuilder.Entity<StockEntity>()
-              .HasMany<StockOfClientsEntity>(s =>s.Clients)
+              .HasMany<StockOfClientsEntity>(s => s.Clients)
                .WithRequired(sc => sc.Stock)
                .HasForeignKey<int>(sc => sc.StockID);
-
         }
     }
 }
