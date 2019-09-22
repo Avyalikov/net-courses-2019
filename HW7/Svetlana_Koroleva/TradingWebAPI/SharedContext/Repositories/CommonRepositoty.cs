@@ -41,7 +41,7 @@ namespace SharedContext.Repositories
 
         public void Update(TEntity entity)
         {
-            
+            this.dbSet.Attach(entity);
             this.db.Entry(entity).State = EntityState.Modified; 
         }
 

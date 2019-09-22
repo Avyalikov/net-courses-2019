@@ -82,6 +82,7 @@ namespace Trading.Core.Services
         {
             var stockToUpdate = this.GetEntityByCompositeID(clientId, stockId);
             stockToUpdate.Quantity = clientStockInfo.Amount;
+            this.unitOfWork.ClientStocks.Update(stockToUpdate);
             this.unitOfWork.Save();
         }
         public IQueryable GetClientStocksWithPrice(int clientId)

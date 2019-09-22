@@ -22,7 +22,7 @@ namespace Trading.Core.IServices
         Order LastOrder();
         void SetIsExecuted(int orderid, int transactionId);
         void Delete(int id);
-        void Update(int id);
+        void Update(int id, OrderInfo orderInfo);
         IEnumerable<Order> GetAllOrders();
         IEnumerable<Order> GetTopOrdersForClient(int amount, int clientid);
 
