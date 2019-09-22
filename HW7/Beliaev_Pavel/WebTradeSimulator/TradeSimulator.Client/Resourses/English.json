@@ -1,0 +1,43 @@
+{
+  "GeneralReg": "1) Register new client\n",
+  "GeneralTrade": "2) Stock trading\n",
+  "GeneralAutoTrade": "3) Auto - trading\n",
+  "GeneralShow": "4) Show info\n",
+
+  "RegName": "Enter client's name: ",
+  "RegSurname": "Enter client's surame: ",
+  "RegPhone": "Enter client's phone number: ",
+  "RegBalance": "Enter client's balance(amount of money): ",
+
+  "RegStock": "Does client have stocks?\n1) Yes\n2) No\n",
+  "RegStockType": "Enter type of stock: ",
+  "RegStockQuant": "Enter quantity of stock: ",
+  "RegStockPrice": "Enter price of stock: ",
+
+
+  "Trade": "Welcome to stock market\n1) Buy\n1) Sell\n",
+  "TradeBuyer": "Enter buyer's ID: ",
+  "TradeSeller": "Enter seller's ID: ",
+  "TradeStockType": "Enter type of stock: ",
+  "TradeStockQuant": "Enter quantity of stock: ",
+  "TradeDeal": "Make a deal?\n1) Yes\n2) No\n",
+
+  "ShowClients": "1) Show clients\n",
+  "ShowClientsLength": "Enter the number of clents in the list: ",
+  "ShowClientsPage": "Enter the number of the page of clents list: ",
+
+  "ShowStocksOfClients": "2) Show stocks of clients\n",
+  "ShowStocksOfClientsFilter": "Enter client's ID to filter or 'all' to see full list: ",
+
+  "ShowBalance": "3) Show client's balance\n",
+  "ShowBalanceId": "Enter client's ID: ",
+
+  "ShowHistory": "4) Show history of trades\n",
+  "ShowHistoryId": "Enter client's ID: ",
+  "ShowHistoryQuant": "Enter number of records: ",
+
+  "ExitKey": ")Exit\n",
+  "InvalidInput": "\nInvalid input!\n",
+  "Goodbye": "\nGoodbye\n",
+  "CloseProg": "Press any key..."
+}
