@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HW7.Client
 {
-    public class ODataRequestProvider : IRequestsProvider
+    public class ODataRequestsProvider : IRequestsProvider
     {
         private string connectionString = "http://localhost:5000/odata/";
        
@@ -419,6 +419,5 @@ namespace HW7.Client
 
             return inputValue;
         }
-
     }
 }

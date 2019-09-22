@@ -304,6 +304,7 @@ namespace HW7.Client
             {
                 try
                 {
+                    inputCheck = true;
                     string input = Console.ReadLine();
                     inputValue = Convert.ToInt32(input);
                     if (inputValue < 0 || inputValue == 0)
@@ -315,6 +316,7 @@ namespace HW7.Client
                 {
                     Console.WriteLine("Incorrect input");
                     Console.WriteLine("Please enter a single integer value");
+                    inputCheck = false;
                 }
             }
             while (inputCheck == false);
@@ -331,6 +333,7 @@ namespace HW7.Client
             {
                 try
                 {
+                    inputCheck = true;
                     string input = Console.ReadLine();
                     inputValue = Convert.ToDecimal(input);
                 }
@@ -338,6 +341,7 @@ namespace HW7.Client
                 {
                     Console.WriteLine("Incorrect input");
                     Console.WriteLine("Please enter a single decimal value");
+                    inputCheck = false;
                 }
             }
             while (inputCheck == false);

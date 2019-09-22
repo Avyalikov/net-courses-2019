@@ -12,7 +12,7 @@ namespace HW7.Client
     {
         public static void Main(string[] args)
         {
-            IRequestsProvider requests = new ODataRequestProvider();
+            IRequestsProvider requests = new ApiRequestsProvider();
             Client client = new Client(requests);
             client.Run();
         }

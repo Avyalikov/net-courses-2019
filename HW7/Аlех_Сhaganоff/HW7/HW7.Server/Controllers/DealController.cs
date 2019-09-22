@@ -23,6 +23,7 @@ namespace HW7.Server.Controllers
 
         //Adds transaction
         [Route("deal/make")]
+        [HttpPost]
         public async Task<ActionResult<string>> Post([FromBody]TransactionToAdd transaction)
         {
             var newTransaction = transactionsService.PerformNewDeal(transaction);
