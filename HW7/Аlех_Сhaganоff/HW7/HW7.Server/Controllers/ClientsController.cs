@@ -65,7 +65,7 @@ namespace HW7.Server.Controllers
         public async Task<ActionResult<string>> Update([FromBody]TraderToUpdate trader)
         {
             var updatedTrader = tradersService.UpdateTrader(trader);
-
+            
             if (updatedTrader == null)
             {
                 //return BadRequest();
@@ -79,7 +79,12 @@ namespace HW7.Server.Controllers
         [Route("clients/remove")]
         public async Task<ActionResult<string>> Remove([FromBody]TraderToRemove trader)
         {
-            var isDeleted = tradersService.RemoveTrader(trader.TraderId);
+            bool isDeleted = false;
+
+            if (trader != null)
+            {
+                isDeleted = tradersService.RemoveTrader(trader.TraderId);
+            }
 
             if (isDeleted == false)
             {

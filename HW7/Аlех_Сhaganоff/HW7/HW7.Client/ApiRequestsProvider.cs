@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 
 namespace HW7.Client
 {
-    public class Requests
+    public class ApiRequestsProvider : IRequestsProvider
     {
-        public string connectionString = "http://localhost:5000/";
-        public bool simulationIsWorking = false;
+        private string connectionString = "http://localhost:5000/";
+
+        public string ConnectionString { get => connectionString; set => connectionString = value; }
+
         private void Get(string url)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -71,7 +73,7 @@ namespace HW7.Client
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
                 var result = streamReader.ReadToEnd();
-               // Console.WriteLine(result);
+                // Console.WriteLine(result);
             }
         }
 
@@ -88,7 +90,7 @@ namespace HW7.Client
             Console.WriteLine("Please enter page");
             page = GetIntFromInput();
 
-            string url = connectionString + @"clients?top=" + top + @"&page=" + page;
+            string url = ConnectionString + @"clients?top=" + top + @"&page=" + page;
 
             Get(url);
         }
@@ -109,11 +111,11 @@ namespace HW7.Client
             Console.WriteLine("Please enter balance");
             Balance = GetDecimalFromInput();
 
-            string url = connectionString + @"clients/add";
-            string body = @"{""FirstName"": """ + FirstName +@""", " +
-                          @"""LastName"": """ + LastName + @""", " + 
+            string url = ConnectionString + @"clients/add";
+            string body = @"{""FirstName"": """ + FirstName + @""", " +
+                          @"""LastName"": """ + LastName + @""", " +
                           @"""PhoneNumber"": """ + PhoneNumber + @""", " +
-                          @"""Balance"": """ + Balance +@"""}";
+                          @"""Balance"": """ + Balance + @"""}";
 
             Post(url, body);
 
@@ -138,7 +140,7 @@ namespace HW7.Client
             Console.WriteLine("Please enter balance");
             Balance = GetDecimalFromInput();
 
-            string url = connectionString + @"clients/update";
+            string url = ConnectionString + @"clients/update";
             string body = @"{""TraderId"": """ + TraderId + @""", " +
                           @"""FirstName"": """ + FirstName + @""", " +
                           @"""LastName"": """ + LastName + @""", " +
@@ -151,11 +153,11 @@ namespace HW7.Client
         public void RemoveClient()
         {
             int TraderId;
-            
+
             Console.WriteLine("Please enter client id");
             TraderId = GetIntFromInput();
-            
-            string url = connectionString + @"clients/remove";
+
+            string url = ConnectionString + @"clients/remove";
             string body = @"{""TraderId"": """ + TraderId + @"""}";
 
             Post(url, body);
@@ -164,11 +166,11 @@ namespace HW7.Client
         public void GetListOfShares()
         {
             int traderId;
-            
+
             Console.WriteLine("Please enter client id");
             traderId = GetIntFromInput();
 
-            string url = connectionString + @"shares?clientId=" + traderId;
+            string url = ConnectionString + @"shares?clientId=" + traderId;
 
             Get(url);
         }
@@ -183,7 +185,7 @@ namespace HW7.Client
             Console.WriteLine("Please enter price");
             Price = GetDecimalFromInput();
 
-            string url = connectionString + @"shares/add";
+            string url = ConnectionString + @"shares/add";
             string body = @"{""Name"": """ + Name + @""", " +
                           @"""Price"": """ + Price + @"""}";
 
@@ -203,7 +205,7 @@ namespace HW7.Client
             Console.WriteLine("Please enter price");
             Price = GetDecimalFromInput();
 
-            string url = connectionString + @"shares/update";
+            string url = ConnectionString + @"shares/update";
             string body = @"{""ShareId"": """ + ShareId + @""", " +
                           @"""Name"": """ + Name + @""", " +
                           @"""Price"": """ + Price + @"""}";
@@ -214,13 +216,13 @@ namespace HW7.Client
         public void RemoveShare()
         {
             int ShareId;
-            
+
             Console.WriteLine("Please enter share id");
             ShareId = GetIntFromInput();
 
-            string url = connectionString + @"shares/remove";
+            string url = ConnectionString + @"shares/remove";
             string body = @"{""ShareId"": """ + ShareId + @"""}";
-            
+
             Post(url, body);
         }
 
@@ -231,7 +233,7 @@ namespace HW7.Client
             Console.WriteLine("Please enter client id");
             traderId = GetIntFromInput();
 
-            string url = connectionString + @"balances?clientId=" + traderId;
+            string url = ConnectionString + @"balances?clientId=" + traderId;
 
             Get(url);
         }
@@ -246,7 +248,7 @@ namespace HW7.Client
             Console.WriteLine("Please enter number of transactions to show");
             numberOfTransactions = GetIntFromInput();
 
-            string url = connectionString + @"transactions?clientId=" + traderId + @"&top=" + numberOfTransactions;
+            string url = ConnectionString + @"transactions?clientId=" + traderId + @"&top=" + numberOfTransactions;
 
             Get(url);
         }
@@ -268,7 +270,7 @@ namespace HW7.Client
             Quantity = GetIntFromInput();
 
 
-            string url = connectionString + @"deal/make";
+            string url = ConnectionString + @"deal/make";
             string body = @"{""SellerId"": """ + SellerId + @""", " +
                           @"""BuyerId"": """ + BuyerId + @""", " +
                           @"""ShareId"": """ + ShareId + @""", " +
@@ -284,7 +286,7 @@ namespace HW7.Client
             int ShareId = data.shareId;
             int Quantity = data.purchaseQuantity;
 
-            string url = connectionString + @"deal/make";
+            string url = ConnectionString + @"deal/make";
             string body = @"{""SellerId"": """ + SellerId + @""", " +
                           @"""BuyerId"": """ + BuyerId + @""", " +
                           @"""ShareId"": """ + ShareId + @""", " +
@@ -304,7 +306,7 @@ namespace HW7.Client
                 {
                     string input = Console.ReadLine();
                     inputValue = Convert.ToInt32(input);
-                    if(inputValue < 0 || inputValue == 0)
+                    if (inputValue < 0 || inputValue == 0)
                     {
                         throw new Exception();
                     }
@@ -341,148 +343,6 @@ namespace HW7.Client
             while (inputCheck == false);
 
             return inputValue;
-        }
-
-        List<int> GetListOfInt(string url)
-        {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "GET";
-
-            string result;
-
-            try
-            {
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    result = streamReader.ReadToEnd();
-
-                    var jobj = JsonConvert.DeserializeObject<List<int>>(result);
-                    
-                    //var jobj = (List<int>)JsonConvert.DeserializeObject(result);
-
-                    return jobj;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-            return null;
-        }
-
-        int GetInt(string url)
-        {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "GET";
-
-            string result;
-
-            try
-            {
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    result = streamReader.ReadToEnd();
-
-                    //var jobj = (int)JsonConvert.DeserializeObject(result);
-
-                    var jobj = JsonConvert.DeserializeObject<int>(result);
-
-                    return jobj;
-                }
-            }
-            catch
-            {
-
-            }
-
-            return 0;
-        }
-
-        List<int> GetAvailableBuyers()
-        {
-            string url = connectionString + @"clients/buyerslist";
-            return GetListOfInt(url);
-        }
-
-        List<int> GetAvailableSellers()
-        {
-            string url = connectionString + @"clients/sellerslist";
-            return GetListOfInt(url);
-        }
-
-        List<int> GetAvailableShares(int clientId)
-        {
-            string url = connectionString + @"shares/availableshares?clientId=" + clientId;
-            return GetListOfInt(url);
-        }
-
-        int GetShareQuantityFromPortfoio(int clientId, int shareId)
-        {
-            string url = connectionString + @"transactions/sharequantity?clientId=" + clientId + @"&shareId=" + shareId;
-            return GetInt(url);
-        }
-
-        public (int sellerId, int buyerId, int shareId, int purchaseQuantity) PerformRandomOperation()
-        {
-            int sellerId;
-            int buyerId;
-            int shareId;
-            int purchaseQuantity;
-
-            try
-            {
-                List<int> availableSellers = GetAvailableSellers();
-                List<int> availableBuyers = GetAvailableBuyers();
-
-                if (availableSellers.Count > 0)
-                {
-                   sellerId = availableSellers[new Random().Next(0, availableSellers.Count)];
-                }
-                else
-                { 
-                    throw new Exception("No sellers with shares");
-                }
-
-                if (availableBuyers.Count > 1)
-                {
-                    buyerId = availableBuyers[new Random().Next(0, availableBuyers.Count)];
-                }
-                else
-                {
-                    throw new Exception("No buyers");
-                }
-
-                while (sellerId == buyerId)
-                {
-                    buyerId = availableBuyers[new Random().Next(0, availableBuyers.Count)];
-                }
-
-                if (buyerId == sellerId)
-                {
-                   throw new Exception("buyerId == sellerId");
-                }
-                
-                List<int> availableShares = GetAvailableShares(sellerId);                
-
-                shareId = availableShares[new Random().Next(0, availableShares.Count)];
-  
-                purchaseQuantity = new Random().Next(1, GetShareQuantityFromPortfoio(sellerId, shareId) + 1);
-
-                return (sellerId, buyerId, shareId, purchaseQuantity);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-            return (0, 0, 0, 0);
         }
     }
 }

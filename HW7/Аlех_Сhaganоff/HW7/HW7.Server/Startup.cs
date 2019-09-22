@@ -60,9 +60,10 @@ namespace HW7.Server
 
             //app.UseMvc();
 
-            app.UseMvc(b =>
-            {
-                b.MapODataServiceRoute("odata", "odata", GetEdmModel());
+            app.UseMvc(routeBuilder => {
+                routeBuilder.EnableDependencyInjection();
+                routeBuilder.Select().Expand().OrderBy().Filter().MaxTop(100).Count();
+                routeBuilder.MapODataServiceRoute("odata", "odata", GetEdmModel());
             });
         }
 

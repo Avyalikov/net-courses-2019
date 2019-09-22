@@ -77,7 +77,12 @@ namespace HW7.Server.Controllers
         [Route("shares/remove")]
         public async Task<ActionResult<string>> Remove([FromBody]ShareToRemove share)
         {
-            var isDeleted = sharesService.RemoveShare(share.ShareId);
+            bool isDeleted = false;
+
+            if (share != null)
+            {
+                isDeleted = sharesService.RemoveShare(share.ShareId);
+            }
 
             if (isDeleted == false)
             {

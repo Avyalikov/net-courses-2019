@@ -11,13 +11,13 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HW7.Server.Controllers
+namespace HW7.Server.ODataControllers
 {
-    public class DealControllerOData : ODataController
+    public class DealController : ODataController
     {
         private readonly TransactionsService transactionsService;
 
-        public DealControllerOData(TransactionsService transactionsService)
+        public DealController(TransactionsService transactionsService)
         {
             this.transactionsService = transactionsService;
         }

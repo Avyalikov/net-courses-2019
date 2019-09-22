@@ -8,25 +8,23 @@ using HW7.Core.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HW7.Server.Controllers
+namespace HW7.Server.ODataControllers
 {
     [Route("odata")]
     [Route("odata/[controller]")]
-    [ApiController]
-    public class ValuesControllerOData : ODataController
+    public class ValuesController : ODataController
     {
-        private readonly IContextProvider _context;
+        private readonly IContextProvider contextprovider;
 
-        public ValuesControllerOData(IContextProvider context)
+        public ValuesController(IContextProvider contextprovider)
         {
-            _context = context;
+            this.contextprovider = contextprovider;
         }
 
-        // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "Odata" };
+            return new string[] { "Connetction established: Odata" };
         }
     }
 }

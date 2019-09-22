@@ -32,7 +32,7 @@ namespace HW7.Core.Services
 
         public Transaction PerformNewDeal(TransactionToAdd transaction)
         {
-            if (transaction.SellerId == 0 || transaction.BuyerId == 0 || transaction.ShareId == 0 || transaction.Quantity == 0 || transaction.SellerId == transaction.BuyerId)
+            if (transaction == null || transaction.SellerId == 0 || transaction.BuyerId == 0 || transaction.ShareId == 0 || transaction.Quantity == 0 || transaction.SellerId == transaction.BuyerId)
             {
                 return null;
             }
