@@ -1,26 +1,47 @@
-﻿using SiteParser.Core.Repositories;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SiteParser.Simulator.Repositories
+﻿namespace SiteParser.Simulator.Repositories
 {
-    class CleanerRepository : ICleaner
+    using System;
+    using System.IO;
+    using SiteParser.Core.Repositories;
+
+    internal class CleanerRepository : ICleaner
     {
         private string folderName = "Pages";
-        public void Clean()
+
+        /// <summary>
+        /// Deletes a directory.
+        /// </summary>
+        public void DeleteDirectory()
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
 
-            string fullpath = Path.Combine(path, folderName);
+            string fullpath = Path.Combine(path, this.folderName);
             if (Directory.Exists(fullpath))
             {
                 Directory.Delete(fullpath);
             }
+        }
 
+        /// <summary>
+        /// Deletes file by path.
+        /// </summary>
+        /// <param name="path">Path of file to delete.</param>
+        /// <returns></returns>
+        public string DeleteFile(string path)
+        {
+            string result = string.Empty;
+            try
+            {
+                File.Delete(path);
+            }
+            catch (FileNotFoundException ex)
+            {
+                result = $"File {path} doesn't found. " + ex.Message;
+                return result;
+            }
+
+            result = $"File {path} was deleted.";
+            return result;
         }
     }
 }

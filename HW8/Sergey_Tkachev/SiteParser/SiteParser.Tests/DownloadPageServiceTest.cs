@@ -1,18 +1,17 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using SiteParser.Core.Repositories;
-using SiteParser.Core.Services;
-
-namespace SiteParser.Tests
+﻿namespace SiteParser.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NSubstitute;
+    using SiteParser.Core.Repositories;
+    using SiteParser.Core.Services;
+
     [TestClass]
     public class DownloadPageServiceTest
     {
         [TestMethod]
         public void ShouldDownloadPage()
         {
-            //Arrange
+            // Arrange
             var downloader = Substitute.For<IDownloader>();
             DownloadPageService downloadPageService = new DownloadPageService(downloader);
             string requestUrl = "https://en.wikipedia.org/wiki/Fox";
@@ -23,10 +22,10 @@ namespace SiteParser.Tests
             downloader.SaveIntoFile(Arg.Is<string>(pageContent))
                 .Returns(expectedString);
 
-            //Act
+            // Act
             var result = downloadPageService.DownLoadPage(requestUrl);
 
-            //Assert
+            // Assert
             downloader.Received(1).Download(Arg.Is(requestUrl));
             downloader.Received(1).SaveIntoFile(Arg.Is(pageContent));
             Assert.AreEqual(expectedString, result, "Download page service returned wrong result.");

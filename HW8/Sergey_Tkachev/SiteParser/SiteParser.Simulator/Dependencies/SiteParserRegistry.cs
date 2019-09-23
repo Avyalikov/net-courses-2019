@@ -1,10 +1,10 @@
-﻿using SiteParser.Core.Repositories;
-using SiteParser.Core.Services;
-using SiteParser.Simulator.Repositories;
-using StructureMap;
-
-namespace SiteParser.Simulator.Dependencies
+﻿namespace SiteParser.Simulator.Dependencies
 {
+    using SiteParser.Core.Repositories;
+    using SiteParser.Core.Services;
+    using SiteParser.Simulator.Repositories;
+    using StructureMap;
+
     public class SiteParserRegistry : Registry
     {
         public SiteParserRegistry()
@@ -18,7 +18,6 @@ namespace SiteParser.Simulator.Dependencies
             this.For<IDownloader>().Use<DownloaderRepository>();
             this.For<ISimulator>().Use<Simulator>();
             this.For<ICleaner>().Use<CleanerRepository>();
-
         }
     }
 }

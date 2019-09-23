@@ -1,14 +1,10 @@
-﻿using SiteParser.Simulator.Dependencies;
-using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SiteParser.Simulator
+﻿namespace SiteParser.Simulator
 {
-    class Program
+    using System;
+    using SiteParser.Simulator.Dependencies;
+    using StructureMap;
+
+    internal class Program
     {
         static void Main(string[] args)
         {

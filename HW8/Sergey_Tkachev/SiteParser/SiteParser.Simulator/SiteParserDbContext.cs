@@ -1,15 +1,21 @@
-﻿using SiteParser.Core.Models;
-using System.Data.Entity;
-
-namespace SiteParser.Simulator
+﻿namespace SiteParser.Simulator
 {
+    using System.Data.Entity;
+    using SiteParser.Core.Models;
+
+    /// <summary>
+    /// Connect to DB.
+    /// </summary>
     internal class SiteParserDbContext : DbContext
     {
+        /// <summary>
+        /// Table of links.
+        /// </summary>
         public DbSet<LinkEntity> Links { get; set; }
 
-        public SiteParserDbContext() : base("name=StockSimulatorConnectionString")
+        public SiteParserDbContext() : base("name=stockSimulatorConnectionString")
         {
-            Database.SetInitializer(new dbInitializer());
+            Database.SetInitializer(new DbInitializer());
         }
     }
 }
