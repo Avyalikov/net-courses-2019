@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace stockSimulator.Core.DTO
+﻿namespace stockSimulator.Core.DTO
 {
     public class ClientRegistrationInfo
     {

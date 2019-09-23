@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace stockSimulator.Core.Models
+﻿namespace stockSimulator.Core.Models
 {
+    using System.Collections.Generic;
+
     public class StockEntity
     {
         public int ID { get; set; }
@@ -9,6 +9,6 @@ namespace stockSimulator.Core.Models
         public string Type { get; set; }
         public decimal Cost { get; set; }
 
-        public virtual IEnumerable<StockOfClientsEntity> Stocks { get; set; }
+        public virtual ICollection<StockOfClientsEntity> Clients { get; set; }
     }
 }

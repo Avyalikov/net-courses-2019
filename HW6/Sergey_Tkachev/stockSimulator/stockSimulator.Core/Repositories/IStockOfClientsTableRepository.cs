@@ -1,9 +1,8 @@
-﻿using stockSimulator.Core.Models;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace stockSimulator.Core.Repositories
+﻿namespace stockSimulator.Core.Repositories
 {
+    using System.Linq;
+    using stockSimulator.Core.Models;
+
     public interface IStockOfClientsTableRepository
     {
         void Add(StockOfClientsEntity entity);
@@ -11,8 +10,9 @@ namespace stockSimulator.Core.Repositories
         bool Contains(StockOfClientsEntity entityToCheck, out int entityId);
         StockOfClientsEntity Get(int entityId);
         bool ContainsById(int entityId);
-        void Update(int entityId, StockOfClientsEntity newEntity);
+        string Update(int entityId, StockOfClientsEntity newEntity);
         int GetAmount(int client_id, int stockId);
         void UpdateAmount(int client_id, int stockId, int newStockAmount);
+        IQueryable<StockOfClientsEntity> GetStocksOfClient(int clientId);
     }
 }

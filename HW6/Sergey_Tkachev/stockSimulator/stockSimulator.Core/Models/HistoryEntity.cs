@@ -10,5 +10,4 @@ public class HistoryEntity
     public int StockAmount { get; set; }
     public decimal TransactionCost { get; set; }
     public DateTime TransactionTime { get; set; }
-
 }

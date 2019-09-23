@@ -1,17 +1,16 @@
-﻿using stockSimulator.Core.Repositories;
-using stockSimulator.Core.Services;
-using stockSimulator.Modulation.Repositories;
-using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace stockSimulator.Modulation.Dependencies
+﻿namespace stockSimulator.Modulation.Dependencies
 {
-    class StockSimulatorRegistry : Registry
+    using System.Configuration;
+    using stockSimulator.Core.Repositories;
+    using stockSimulator.Core.Services;
+    using stockSimulator.Modulation.Repositories;
+    using StructureMap;
+
+    internal class StockSimulatorRegistry : Registry
     {
+        /// <summary>
+        /// Initializes an Instance of StockSimulatorRegistry class.
+        /// </summary>
         public StockSimulatorRegistry()
         {
             this.For<IClientTableRepository>().Use<ClientTableRepository>();
@@ -24,6 +23,8 @@ namespace stockSimulator.Modulation.Dependencies
             this.For<StockService>().Use<StockService>();
             this.For<TransactionService>().Use<TransactionService>();
 
+            this.For<StockSimulatorDbContext>().Use<StockSimulatorDbContext>().Ctor<string>("connectionString")
+                .Is(ConfigurationManager.ConnectionStrings["stockSimulatorConnectionString"].ConnectionString);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using stockSimulator.Core.Models;
-
-namespace stockSimulator.Core.Repositories
+﻿namespace stockSimulator.Core.Repositories
 {
     public interface ITransactionHistoryTableRepository
     {

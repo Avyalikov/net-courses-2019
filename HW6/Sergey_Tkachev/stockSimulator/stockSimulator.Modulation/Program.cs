@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace stockSimulator.Modulation
+﻿namespace stockSimulator.Modulation
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
+            const int Period = 10000;
+            const bool DbInitialize = true;
+
+            Simutator simulator = new Simutator(Period, DbInitialize);
+
+            simulator.Start();
+
+            simulator.Stop();
         }
     }
 }
