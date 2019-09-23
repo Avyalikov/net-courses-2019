@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.Core", "TradingApp.Core\TradingApp.Core.csproj", "{BF0DB851-5DD2-4419-A078-169AB63E320E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.Core.Tests", "TradingApp.Core.Tests\TradingApp.Core.Tests.csproj", "{B50A0887-1EFD-4DB2-B1CD-E6A624DDBCA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.ConsoleTradingManager", "TradingApp.ConsoleTradingManager\TradingApp.ConsoleTradingManager.csproj", "{7E9AA7CF-24AA-4D01-A1E0-05C9FE8FAC2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.WebApi", "WebApi\TradingApp.WebApi.csproj", "{2A632037-C154-4184-93D3-10F28C9B61D2}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{AE0E5087-030A-4EEC-8C7C-20D75EA722A5}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{2a632037-c154-4184-93d3-10f28c9b61d2}*SharedItemsImports = 4
+		Shared\Shared.projitems*{7e9aa7cf-24aa-4d01-a1e0-05c9fe8fac2d}*SharedItemsImports = 4
+		Shared\Shared.projitems*{ae0e5087-030a-4eec-8c7c-20d75ea722a5}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF0DB851-5DD2-4419-A078-169AB63E320E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0DB851-5DD2-4419-A078-169AB63E320E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0DB851-5DD2-4419-A078-169AB63E320E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0DB851-5DD2-4419-A078-169AB63E320E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B50A0887-1EFD-4DB2-B1CD-E6A624DDBCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B50A0887-1EFD-4DB2-B1CD-E6A624DDBCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B50A0887-1EFD-4DB2-B1CD-E6A624DDBCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B50A0887-1EFD-4DB2-B1CD-E6A624DDBCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E9AA7CF-24AA-4D01-A1E0-05C9FE8FAC2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E9AA7CF-24AA-4D01-A1E0-05C9FE8FAC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E9AA7CF-24AA-4D01-A1E0-05C9FE8FAC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E9AA7CF-24AA-4D01-A1E0-05C9FE8FAC2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A632037-C154-4184-93D3-10F28C9B61D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A632037-C154-4184-93D3-10F28C9B61D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A632037-C154-4184-93D3-10F28C9B61D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A632037-C154-4184-93D3-10F28C9B61D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {282E209E-8FED-4D66-BCA0-480F43DB0A78}
+	EndGlobalSection
+EndGlobal
