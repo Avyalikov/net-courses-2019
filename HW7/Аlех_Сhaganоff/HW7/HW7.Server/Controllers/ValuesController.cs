@@ -26,7 +26,7 @@ namespace HW7.Server.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "Connection established" };
+            return new string[] { "Connection established: Web API" };
         }
     }
 }

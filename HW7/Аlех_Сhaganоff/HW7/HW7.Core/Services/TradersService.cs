@@ -35,7 +35,9 @@ namespace HW7.Core.Services
 
         public Trader AddTrader(TraderToAdd trader)
         {
-            if(trader.FirstName.Length == 0 || trader.LastName.Length == 0)
+            if(trader == null || trader.FirstName == null || trader.FirstName.Length == 0 || trader.FirstName.Length > 100 || 
+            trader.LastName == null || trader.LastName.Length == 0 || trader.LastName.Length > 100 ||
+            (trader.PhoneNumber != null && trader.PhoneNumber.Length > 50))
             {
                 return null;
             }
@@ -45,7 +47,9 @@ namespace HW7.Core.Services
 
         public Trader UpdateTrader(TraderToUpdate trader)
         {
-            if(trader.FirstName.Length>100 || trader.LastName.Length>100 || trader.PhoneNumber.Length>50)
+            if (trader == null || trader.FirstName == null || trader.FirstName.Length == 0 || trader.FirstName.Length > 100 ||
+            trader.LastName == null || trader.LastName.Length == 0 || trader.LastName.Length > 100 ||
+            (trader.PhoneNumber != null && trader.PhoneNumber.Length > 50))
             {
                 return null;
             }

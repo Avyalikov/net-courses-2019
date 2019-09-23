@@ -23,6 +23,7 @@ namespace HW7.Server.Controllers
 
         //Returns client's portfolio with share price
         [Route("shares")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<ShareWithPrice>>> Get(int clientId)
         {
             var result = sharesService.GetSharesWithPrice(clientId);
@@ -38,6 +39,7 @@ namespace HW7.Server.Controllers
         }
 
         [Route("shares/availableshares")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<int>>> GetAvailableShares(int clientId)
         {
             return sharesService.GetAvailableShares(clientId);
@@ -45,6 +47,7 @@ namespace HW7.Server.Controllers
 
         //Adds share
         [Route("shares/add")]
+        [HttpPost]
         public async Task<ActionResult<string>> Add([FromBody]ShareToAdd share)
         {
             var newShare = sharesService.AddShare(share);
@@ -61,6 +64,7 @@ namespace HW7.Server.Controllers
 
         //Update share
         [Route("shares/update")]
+        [HttpPost]
         public async Task<ActionResult<string>> Update([FromBody]ShareToUpdate share)
         {
             var updatedShare = sharesService.UpdateShare(share);
@@ -75,9 +79,15 @@ namespace HW7.Server.Controllers
 
         //Remove share
         [Route("shares/remove")]
+        [HttpPost]
         public async Task<ActionResult<string>> Remove([FromBody]ShareToRemove share)
         {
-            var isDeleted = sharesService.RemoveShare(share.ShareId);
+            bool isDeleted = false;
+
+            if (share != null)
+            {
+                isDeleted = sharesService.RemoveShare(share.ShareId);
+            }
 
             if (isDeleted == false)
             {

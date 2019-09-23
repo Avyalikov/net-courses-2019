@@ -20,7 +20,7 @@ namespace HW7.Core.Services
 
         public Share AddShare(ShareToAdd share)
         {
-            if(share.Name.Length == 0 || share.Price == 0)
+            if(share == null || share.Name == null || share.Name.Length == 0 || share.Name.Length > 100 || share.Price == 0M)
             {
                 return null;
             }
@@ -35,7 +35,7 @@ namespace HW7.Core.Services
 
         public Share UpdateShare(ShareToUpdate share)
         {
-            if (share.Name.Length > 100)
+            if (share == null || share.Name == null || share.Name.Length == 0 || share.Name.Length > 100 || share.Price == 0M)
             {
                 return null;
             }

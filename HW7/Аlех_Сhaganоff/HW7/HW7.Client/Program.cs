@@ -12,7 +12,7 @@ namespace HW7.Client
     {
         public static void Main(string[] args)
         {
-            Requests requests = new Requests();
+            IRequestsProvider requests = new ApiRequestsProvider();
             Client client = new Client(requests);
             client.Run();
         }

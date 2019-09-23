@@ -110,7 +110,7 @@ namespace HW7.Server.Repositories
 
         public List<int> GetAvailableBuyers()
         {
-            return context.Portfolios.Select(x => x.TraderID).Distinct().ToList();
+            return context.Traders.Select(x => x.TraderId).Distinct().ToList();
         }
     }
 }

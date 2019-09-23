@@ -23,6 +23,7 @@ namespace HW7.Server.Controllers
 
         //Returns top 10 clients
         [Route("clients")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Trader>>> Get(int top, int page)
         {
             int amounttoSkip = top * page - top;
@@ -32,12 +33,14 @@ namespace HW7.Server.Controllers
         }
 
         [Route("clients/sellerslist")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<int>>> SellersList()
         {
             return  tradersService.GetAvailableSellers();
         }
 
         [Route("clients/buyerslist")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<int>>> BuyersList()
         {
             return tradersService.GetAvailableBuyers();
@@ -45,6 +48,7 @@ namespace HW7.Server.Controllers
 
         // Adds trader
         [Route("clients/add")]
+        [HttpPost]
         public async Task<ActionResult<string>> Add([FromBody]TraderToAdd trader)
         {
             var newTrader = tradersService.AddTrader(trader);
@@ -62,10 +66,11 @@ namespace HW7.Server.Controllers
 
         //Update trader
         [Route("clients/update")]
+        [HttpPost]
         public async Task<ActionResult<string>> Update([FromBody]TraderToUpdate trader)
         {
             var updatedTrader = tradersService.UpdateTrader(trader);
-
+            
             if (updatedTrader == null)
             {
                 //return BadRequest();
@@ -77,9 +82,15 @@ namespace HW7.Server.Controllers
 
         //Remove trader
         [Route("clients/remove")]
+        [HttpPost]
         public async Task<ActionResult<string>> Remove([FromBody]TraderToRemove trader)
         {
-            var isDeleted = tradersService.RemoveTrader(trader.TraderId);
+            bool isDeleted = false;
+
+            if (trader != null)
+            {
+                isDeleted = tradersService.RemoveTrader(trader.TraderId);
+            }
 
             if (isDeleted == false)
             {

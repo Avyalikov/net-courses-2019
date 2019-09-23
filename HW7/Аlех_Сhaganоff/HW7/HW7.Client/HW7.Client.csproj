@@ -48,9 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="IRequestsProvider.cs" />
+    <Compile Include="ODataRequestsProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests.cs" />
+    <Compile Include="ApiRequestsProvider.cs" />
+    <Compile Include="TradingSimulation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

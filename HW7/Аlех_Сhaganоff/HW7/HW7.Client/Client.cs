@@ -9,11 +9,13 @@ namespace HW7.Client
 {
     public class Client
     {
-        private readonly Requests requests;
+        private readonly IRequestsProvider requests;
+        private readonly TradingSimulation tradingSimulation;
 
-        public Client(Requests requests)
+        public Client(IRequestsProvider requests)
         {
             this.requests = requests;
+            tradingSimulation = new TradingSimulation("http://localhost:5000/");
         }
 
         public void Run()
@@ -22,7 +24,7 @@ namespace HW7.Client
             int userChoice = 0;
             List<int> menuChoices = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0 };
             
-            requests.Get(requests.connectionString);
+            requests.CheckConnection(requests.ConnectionString);
 
             do
             {
@@ -113,15 +115,15 @@ namespace HW7.Client
 
         public void SimulationHandler()
         {
-            if (requests.simulationIsWorking == false)
+            if (tradingSimulation.SimulationIsWorking == false)
             {
-                requests.simulationIsWorking = true;
+                tradingSimulation.SimulationIsWorking = true;
                 Console.WriteLine("Simulation started");
                 RunTradingSimulation();
             }
             else
             {
-                requests.simulationIsWorking = false;
+                tradingSimulation.SimulationIsWorking = false;
                 Console.WriteLine("Simulation ended");
             }
         }
@@ -130,15 +132,15 @@ namespace HW7.Client
         {
            Task t = Task.Run(() =>
            {
-                while (requests.simulationIsWorking)
+                while (tradingSimulation.SimulationIsWorking)
                 {
-                    var result = requests.PerformRandomOperation();
+                    var result = tradingSimulation.PerformRandomOperation();
 
                     requests.MakeDeal(result);
 
-                    for (int j = 1; j < 100 && requests.simulationIsWorking; j++)
+                    for (int j = 1; j < 100 && tradingSimulation.SimulationIsWorking; j++)
                     {
-                        if (requests.simulationIsWorking)
+                        if (tradingSimulation.SimulationIsWorking)
                         {
                             Thread.Sleep(10);
                         }
