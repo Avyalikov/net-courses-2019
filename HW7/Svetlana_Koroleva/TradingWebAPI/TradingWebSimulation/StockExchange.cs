@@ -90,11 +90,11 @@ namespace TradingWebSimulation
 
         public Order GetLastOrder()
         {
-            var response = httpclient.GetAsync("http://localhost:5000/transactions/lastorder").Result;
+            var response =  httpclient.GetAsync("http://localhost:5000/transactions/lastorder").Result;
             string json = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<Order>(json);
+               return  JsonConvert.DeserializeObject<Order>(json);
             }
             throw new Exception(response.StatusCode.ToString());
         }
@@ -111,11 +111,14 @@ namespace TradingWebSimulation
             throw new Exception(response.StatusCode.ToString());
         }
 
-        public void AddOrder(OrderInfo orderInfo)
+        public Task AddOrder(OrderInfo orderInfo)
          {
-           
-             httpclient.PostAsJsonAsync($"http://localhost:5000/deal/addorder", orderInfo);
-            
+                 return httpclient.PostAsJsonAsync($"http://localhost:5000/deal/addorder", orderInfo);
+        }
+
+        public Task AddClientStock(ClientStockInfo clientStockInfo)
+        {
+            return httpclient.PostAsJsonAsync($"http://localhost:5000/shares/add", clientStockInfo);
         }
 
 
@@ -129,7 +132,7 @@ namespace TradingWebSimulation
 
         public void EditClientStockAmount(int clientid, int stockid, ClientStockInfo clientStockInfo)
         {
-            httpclient.PostAsJsonAsync($"http://localhost:5000/clients/update?clientid={clientid}&stockid={stockid}", clientStockInfo);
+          httpclient.PostAsJsonAsync($"http://localhost:5000/shares/update?clientid={clientid}&stockid={stockid}", clientStockInfo);
             
         }
 
@@ -189,16 +192,19 @@ namespace TradingWebSimulation
                 Random random = new Random();
                 int amountForSale = random.Next(1, lotsAmount) * amountInLotForSale;
 
+               
 
 
+                Task addsalerOrder = Task.Run(
+                    () => this.AddOrder(new OrderInfo()
+                {
+                    ClientId = clstock.ClientID,
+                    StockId = clstock.StockID,
+                    Quantity = amountForSale,
+                    OrderType = OrderInfo.OrdType.Sale
+                }));
 
-               this.AddOrder(new OrderInfo()
-               {
-                   ClientId = clstock.ClientID,
-                   StockId = clstock.StockID,
-                   Quantity = amountForSale,
-                   OrderType = OrderInfo.OrdType.Sale
-               });
+                addsalerOrder.Wait();
 
                 this.logger.Info($"Order for sale stock {clstock.StockID} for client {clstock.ClientID} has been added to DB");
 
@@ -213,14 +219,15 @@ namespace TradingWebSimulation
 
 
 
-                this.AddOrder(new OrderInfo()
+                Task addcustomerOrder=Task.Run(()=>this.AddOrder(new OrderInfo()
                 {
                     ClientId = customer.ClientID,
                     StockId = clstock.StockID,
                     Quantity = amountForSale,
                     OrderType = OrderInfo.OrdType.Purchase
-                });
+                }));
 
+                addcustomerOrder.Wait();
                 this.logger.Info($"Order for purchasing stock {clstock.StockID} for client {customer.ClientID} has been added to DB");
 
                 int customerorderId = this.GetLastOrder().OrderID;
@@ -248,14 +255,41 @@ namespace TradingWebSimulation
                 this.EditClient(customer.ClientID, customerInfo);
                 this.logger.Info($"Client {customer.ClientID} balance has been reduced by {(dealPrice * amountForSale)}");
 
-               
 
-                clientStockService.EditClientStocksAmount(saler.ClientID, clstock.StockID, -amountForSale);
+                ClientStockInfo salerStockInfo = new ClientStockInfo()
+                {
+                    ClientId = saler.ClientID,
+                    StockId = clstock.StockID,
+                    Amount =clstock.Quantity-amountForSale
+                };
+               this.EditClientStockAmount(saler.ClientID, clstock.StockID, salerStockInfo );
+              
+              
                 this.logger.Info($"Client {saler.ClientID} stock {clstock.StockID} amount has been reduced on {amountForSale}");
 
+                var customerStock = this.GetAllClientStocks(customer.ClientID).Where(s => s.StockID == clstock.StockID).SingleOrDefault();
+                if (customerStock==null)
+                {
+                    ClientStockInfo clientStockInfo = new ClientStockInfo()
+                    {
+                        ClientId = customer.ClientID,
+                        StockId = clstock.StockID,
+                        Amount = amountForSale
+                    };
+                    Task addStock = Task.Run(() => AddClientStock(clientStockInfo));
+                    addStock.Wait();
+                }
 
-
-                clientStockService.EditClientStocksAmount(customer.ClientID, clstock.StockID, amountForSale);
+                else
+                {
+                    ClientStockInfo clientStockInfo = new ClientStockInfo()
+                    {
+                        ClientId=customer.ClientID,
+                        StockId=clstock.StockID,
+                        Amount = customerStock.Quantity+amountForSale
+                    };
+                    this.EditClientStockAmount(customer.ClientID, clstock.StockID, clientStockInfo);
+                }
                 this.logger.Info($"Client {customer.ClientID} stock {clstock.StockID} amount has been increased on {amountForSale}");
 
 

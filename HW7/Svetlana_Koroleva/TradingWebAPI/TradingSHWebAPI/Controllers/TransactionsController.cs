@@ -49,7 +49,7 @@ namespace TradingSHWebAPI.Controllers
 
         [HttpGet]
         [Route("lastorder")]
-        public IActionResult GetLast()
+        public  IActionResult GetLast()
         {
             try
             {
