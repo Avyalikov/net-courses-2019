@@ -15,7 +15,7 @@ namespace MultithreadApp.Dependencies
         {
             modelBuilder
                  .Entity<PageEntity>()
-                 .HasKey(p=>p.IterationId)
+                 .HasKey(p=>p.Id)
                  .ToTable("Links");
         }
     }

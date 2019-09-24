@@ -15,6 +15,8 @@ namespace MultithreadApp.Dependencies
         public MultithreadAppRegistry()
         {
             this.For<IPageTableRepository>().Use<PageTableRepository>();
+            this.For<IDownloadWebPageRepository>().Use<DownloadWebPageRepository>();
+            this.For<IExtractHtmlTags>().Use<ExtractHtmlTags>();
             this.For<PageService>().Use<PageService>();
             this.For<MultithreadAppDbContext>().Use<MultithreadAppDbContext>().Ctor<string>("connectionString").Is(ConfigurationManager.ConnectionStrings["MultithreadAppConnectionString"].ConnectionString);
         }

@@ -16,10 +16,10 @@ namespace MultithreadApp
 
         protected override void Seed(MultithreadAppDbContext context)
         {
-            string url = "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)";
-            PageService pageService = new PageService();
-            string fileInfo = pageService.DownLoadPage(url);
-            List<string> ListOfLinks = pageService.ExtractHtmlTags(fileInfo);
+            //string url = "https://en.wikipedia.org/wiki/The_Mummy_(1999_film)";
+            //PageService pageService = new PageService();
+            //string fileInfo = pageService.DownLoadPage(url);
+            List<string> ListOfLinks = new List<string>{ "testLink" };//pageService.ExtractHtmlTags(fileInfo);
 
             PageContextInitializer PageInit = new PageContextInitializer();
             List<PageEntity> Links = PageInit.ContextInitializer(ListOfLinks);

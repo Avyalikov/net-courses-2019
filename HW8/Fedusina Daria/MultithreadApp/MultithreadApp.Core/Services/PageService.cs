@@ -1,49 +1,49 @@
 ﻿using HtmlAgilityPack;
+
 using MultithreadApp.Core.Models;
 using MultithreadApp.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-
+using log4net;
+using log4net.Repository.Hierarchy;
 
 namespace MultithreadApp.Core.Services
 {
     public class PageService 
     {
         private readonly IPageTableRepository pageRepository;
-        public PageService (IPageTableRepository pageRepository)
+        private readonly IDownloadWebPageRepository downloadRepository;
+        private readonly IExtractHtmlTags extractHtml;
+        public PageService (IPageTableRepository pageRepository, IDownloadWebPageRepository downloadRepository, IExtractHtmlTags extractHtml)
         {
-            this.pageRepository = pageRepository; 
+            this.pageRepository = pageRepository;
+            this.downloadRepository = downloadRepository;
+            this.extractHtml = extractHtml;
         }
 
-        public PageService()
+        public  string DownLoadPage(string url)
         {
-        }
-
-        private string fileName = "WebPageFile.txt";
-        public string DownLoadPage(string url)
-        {
+            string fileName = "WebPageFile.txt";
             try
             {
-                WebClient client = new WebClient();
-                string Page = client.DownloadString(url);
+                string Page = downloadRepository.DownLoadPage(url);
                 try
                 {
                     StreamWriter SW = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write));
                     SW.Write(Page);
                     SW.Close();
+
                 }
                 catch
                 {
-                    throw new ArgumentException($"Can't save downloaded page from {url} to file {fileName}");
+                    
                 }
             }
             catch
             {
-                throw new ArgumentException($"Can't download url {url}");
+                
             }
-
             return fileName;
         }
 
@@ -51,7 +51,7 @@ namespace MultithreadApp.Core.Services
         {
             if (this.pageRepository.Contains(item))
             {
-                //throw//new ArgumentException("This link has been already registered.Can't continue");
+                //throw new ArgumentException("This link has been already registered.Can't continue");
             }
             else
             {
@@ -64,17 +64,23 @@ namespace MultithreadApp.Core.Services
 
         public List<string> ExtractHtmlTags(string fileName)
         {
-            List<string> hrefList = new List<string>();
-            var doc = new HtmlDocument();
-            doc.Load(fileName);
-
-            var links = doc.DocumentNode.Descendants("a");
-            foreach (var node in links)
-            {
-                var href = node.GetAttributeValue("href", string.Empty);
-                hrefList.Add(href);
-            }
+            List<string> hrefList = extractHtml.ExtractTags(fileName);
+            File.Delete(fileName);
             return hrefList;
+        }
+
+        public List<string> GetNewBanchOfLinks(int iterationNum)
+        {
+            List<string> ListToReturn = new List<string>();
+            IEnumerable<PageEntity> ListOfPages = this.pageRepository.GetPagesFromPreviousIteration(iterationNum);
+            foreach(PageEntity page in ListOfPages)
+            {
+                Console.WriteLine(page.Link);
+                string fileinfo = DownLoadPage(page.Link);           //downloads a webpage to a file
+                List<string> listOfLinks =ExtractHtmlTags(fileinfo);
+                ListToReturn.AddRange(listOfLinks);
+            }
+            return ListToReturn;
         }
     }
 }

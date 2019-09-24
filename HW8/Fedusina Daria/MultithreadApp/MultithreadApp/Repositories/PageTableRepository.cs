@@ -1,6 +1,7 @@
 ﻿using MultithreadApp.Core.Models;
 using MultithreadApp.Core.Repositories;
 using MultithreadApp.Dependencies;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MultithreadApp.Repositories
@@ -25,10 +26,19 @@ namespace MultithreadApp.Repositories
             f.IterationId == entityToAdd.IterationId);
         }
 
-        //public string DownLoadPage(string url)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public IEnumerable<PageEntity> GetPagesFromPreviousIteration(int IterationNumber)
+        {
+            List<PageEntity> listToReturn = new List<PageEntity>();
+            foreach (PageEntity entity in this.dbContext.Links)
+            {
+                if(entity.IterationId == IterationNumber)
+                {
+                    listToReturn.Add(entity);
+                }
+            }
+
+            return listToReturn;
+        }
 
         public void SaveChanges()
         {

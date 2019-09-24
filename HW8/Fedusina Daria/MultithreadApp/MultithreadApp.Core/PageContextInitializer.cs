@@ -16,7 +16,7 @@ namespace MultithreadApp
                 count++;
                 PageEntity page = new PageEntity();
                 page.Link = item;
-                page.IterationId = count;
+                page.IterationId = 0;
                 ListOfPages.Add(page);
             }
             return ListOfPages;
