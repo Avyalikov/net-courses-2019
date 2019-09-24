@@ -1,5 +1,6 @@
 ﻿namespace WebApiTradingServer
 {
+    using System.Linq;
     using Microsoft.AspNet.OData.Builder;
     using Microsoft.AspNet.OData.Extensions;
     using Microsoft.AspNet.OData.Formatter;
@@ -11,9 +12,6 @@
     using Microsoft.Net.Http.Headers;
     using Microsoft.OData.Edm;
     using Swashbuckle.AspNetCore.Swagger;
-    using System;
-    using System.Linq;
-    using System.Web.Mvc;
     using TradingSoftware.Core.Models;
     using TradingSoftware.Core.Repositories;
     using TradingSoftware.Core.Services;
@@ -23,7 +21,7 @@
     public class Startup
     {
         private readonly IConfiguration Configuration;
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public Startup(IConfiguration configuration)
         {
@@ -48,12 +46,13 @@
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "WebApiTradingServer",
-                    Description = "Simple Web Api for Simple Trading server."
-                });
+                c.SwaggerDoc(
+                    "v1", 
+                    new Info {
+                        Version = "v1",
+                        Title = "WebApiTradingServer",
+                        Description = "Simple Web Api for Simple Trading server."
+                    });
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -70,13 +69,14 @@
 
             services.AddCors(options =>
             {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                builder =>
-                {
-                    builder.WithOrigins("http://localhost:4200")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod(); ;
-                });
+                options.AddPolicy(
+                    MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                    });
             });
         }
 
@@ -88,7 +88,7 @@
                 return next.Invoke();
             });
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(this.MyAllowSpecificOrigins);
 
             app.UseDeveloperExceptionPage();
             app.UseMvc(options =>

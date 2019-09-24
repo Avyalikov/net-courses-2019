@@ -1,7 +1,7 @@
 ﻿namespace WebApiTradingServer.Services
 {
-    using log4net;
     using System;
+    using log4net;
 
     public class LoggerService : ILoggerService
     {

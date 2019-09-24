@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNet.OData;
-using System.Linq;
-using TradingSoftware.Core.Dto;
-using TradingSoftware.Core.Services;
-
-namespace WebApiTradingServer.ODataControllers
+﻿namespace WebApiTradingServer.ODataControllers
 {
+    using System.Linq;
+    using Microsoft.AspNet.OData;
+    using TradingSoftware.Core.Dto;
+    using TradingSoftware.Core.Services;
+
     public class ODataTransactionController : ODataController
     {
         private readonly ITransactionManager transactionManager;
@@ -16,13 +16,13 @@ namespace WebApiTradingServer.ODataControllers
         [EnableQuery]
         public IQueryable<TransactionsFullData> Get()
         {
-            return transactionManager.GetAllTransactions().AsQueryable();
+            return this.transactionManager.GetAllTransactions().AsQueryable();
         }
 
         [EnableQuery]
         public SingleResult<TransactionsFullData> Get([FromODataUri] int key)
         {
-            IQueryable<TransactionsFullData> result = transactionManager.GetAllTransactions().Where(t => t.TransactionID == key).AsQueryable();
+            IQueryable<TransactionsFullData> result = this.transactionManager.GetAllTransactions().Where(t => t.TransactionID == key).AsQueryable();
             return SingleResult.Create<TransactionsFullData>(result);
         }
     }

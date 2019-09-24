@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNet.OData;
-using TradingSoftware.Core.Dto;
-using TradingSoftware.Core.Services;
-
-namespace WebApiTradingServer.ODataControllers
+﻿namespace WebApiTradingServer.ODataControllers
 {
-    class ODataBlockOfSharesController
+    using Microsoft.AspNet.OData;
+    using TradingSoftware.Core.Dto;
+    using TradingSoftware.Core.Services;
+
+    public class ODataBlockOfSharesController
     {
         private readonly IBlockOfSharesManager blockOfSharesManager;
         public ODataBlockOfSharesController(IBlockOfSharesManager blockOfSharesManager)
@@ -15,7 +15,7 @@ namespace WebApiTradingServer.ODataControllers
         [EnableQuery]
         public ClientShares Get([FromODataUri] int key)
         {
-            var result = blockOfSharesManager.GetClientShares(key);
+            var result = this.blockOfSharesManager.GetClientShares(key);
             return result;
         }
     }

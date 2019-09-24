@@ -20,7 +20,7 @@
         [HttpGet]
         public ActionResult<IEnumerable<string>> GetClientShares(int clientID)
         {
-            return Ok(blockOfSharesManager.GetClientShares(clientID));
+            return Ok(this.blockOfSharesManager.GetClientShares(clientID));
         }
 
         // POST shares/add
@@ -28,7 +28,7 @@
         [Route("add")]
         public ActionResult<string> AddClientShares([FromBody] BlockOfShares blockOfShare)
         {
-            blockOfSharesManager.AddShare(blockOfShare);
+            this.blockOfSharesManager.AddShare(blockOfShare);
             return Ok($"Share ID {blockOfShare.ShareID} added to client ID {blockOfShare.ClientID}");
         }
 
@@ -37,7 +37,7 @@
         [Route("update")]
         public ActionResult<string> UpdateClientShares([FromBody] BlockOfShares blockOfShare)
         {
-            blockOfSharesManager.UpdateClientShares(blockOfShare);
+            this.blockOfSharesManager.UpdateClientShares(blockOfShare);
             return Ok($"BlockOfShares updated");
         }
 

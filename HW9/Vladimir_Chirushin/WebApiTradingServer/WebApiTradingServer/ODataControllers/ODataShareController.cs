@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNet.OData;
-using System.Linq;
-using TradingSoftware.Core.Models;
-using TradingSoftware.Core.Services;
-
-namespace WebApiTradingServer.ODataControllers
+﻿namespace WebApiTradingServer.ODataControllers
 {
+    using System.Linq;
+    using Microsoft.AspNet.OData;
+    using TradingSoftware.Core.Models;
+    using TradingSoftware.Core.Services;
+
     public class ODataShareController : ODataController
     {
         private readonly IShareManager sharesManager;
@@ -16,13 +16,13 @@ namespace WebApiTradingServer.ODataControllers
         [EnableQuery]
         public IQueryable<Share> Get()
         {
-            return sharesManager.GetAllShares().AsQueryable();
+            return this.sharesManager.GetAllShares().AsQueryable();
         }
 
         [EnableQuery]
         public SingleResult<Share> Get([FromODataUri] int key)
         {
-            IQueryable<Share> result = sharesManager.GetAllShares().Where(s => s.ShareID == key).AsQueryable();
+            IQueryable<Share> result = this.sharesManager.GetAllShares().Where(s => s.ShareID == key).AsQueryable();
             return SingleResult.Create<Share>(result);
         }
     }

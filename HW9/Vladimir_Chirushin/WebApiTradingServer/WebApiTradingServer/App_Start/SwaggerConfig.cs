@@ -1,7 +1,7 @@
 using System.Web.Http;
+using Swashbuckle.Application;
 using WebActivatorEx;
 using WebApiTradingServer;
-using Swashbuckle.Application;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
