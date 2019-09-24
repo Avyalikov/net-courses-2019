@@ -1,0 +1,9 @@
+<form class="form" (ngSubmit)="onSubmit()">
+    <input type="text" name="name" [(ngModel)]="name" placeholder="Client Name">
+
+    <input type="text" name="phoneNumber" [(ngModel)]="phoneNumber" placeholder="Client Phone Number">
+
+    <input type="text" name="balance" [(ngModel)]="balance" placeholder="Client Balance">
+
+    <input type="submit" value="Add client" class="btn">
+</form>
