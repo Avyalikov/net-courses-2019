@@ -1,0 +1,9 @@
+{
+  "Start": "This is game Doors and levels game!!!",
+  "Select-0": "\nYou can go to a next level by choosing and entering one of the given numbers or go to a previous level by entering:",
+  "Select-1": "\nYou can quit the game by entering in the console:",
+  "SelectNumber": "\nSelect and enter one of the given numbers:\n",
+  "WrongValue": "\nYou have entered a wrong value. Please enter a number\n",
+  "StackIsEmpty": "\nStackIsEmpty\n",
+  "#": "########################################"
+}

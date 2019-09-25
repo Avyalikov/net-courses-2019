@@ -1,0 +1,18 @@
+﻿{
+  "Welcome": "",
+  "YouHave": "You have numbers: ",
+  "Select": "Select one of the current level numbers or type '",
+  "AfterExitCode": "': ",
+  "SelectExitDoor": "You are on the last level. Enter ",
+  "ToContinue":  " for continue or type '",
+  "YouSelected": "You selected number ",
+  "GoNext": " and go to next level: ",
+  "GoPrev": " and go to previous level: ",
+  "EmptyString": "You entered empty string. Try again.",
+  "WrongNumber": "Wrong number. Try again.",
+  "NotExitDoor": "You entered not ",
+  "Overflow": "Toooooo large number. Try another one.",
+  "InputError": "Input error. Try again.",
+  "OverflowDoor": "You have too large numbers of doors. Game over.",
+  "Bye": "Good Bye."
+}

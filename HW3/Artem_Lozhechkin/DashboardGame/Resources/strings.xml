@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name ="Russian">
+    <phrase type="Welcome">Добро пожаловать в игру!</phrase>
+    <phrase type="Options">Здесь вы можете построить 4 элемента:</phrase>
+    <phrase type="DotOption">Точка</phrase>
+    <phrase type="VerLineOption">Вертикальная линия</phrase>
+    <phrase type="HorLineOption">Горизонтальная линия</phrase>
+    <phrase type="ParOption">Парабола</phrase>
+    <phrase type="HowToChoose">Вы можете выбрать элементы просто перечислив их.</phrase>
+    <phrase type="Example1">Например, "124" построит точку, вертикальную линию</phrase>
+    <phrase type="Example2">и параболу. Для возврата в меню нажмите любую клавишу.</phrase>
+    <phrase type="Escape">Для выхода нажмите Esc после построения.</phrase>
+    <phrase type="Choose">Выберите элементы: </phrase>
+    <phrase type="ChoiceIs">Ваш выбор: </phrase>
+    <phrase type="TypeToPlot">Нажмите любую клавишу, чтобы построить.</phrase>
+    <phrase type="EmptyInput">Вы ввели пустую строку.</phrase>
+    <phrase type="IncorrectInput1">В вашем выборе нет подходящих значений.</phrase>
+    <phrase type="IncorrectInput2">Попробуйте снова: </phrase>
+  </language>
+</languages>

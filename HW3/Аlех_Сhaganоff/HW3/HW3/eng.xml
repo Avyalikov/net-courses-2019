@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TextMessages>
+  <Welcome>Welcome! Please press enter to begin</Welcome>
+  <Menu>Please choose:</Menu>
+  <DrawDot> - draw dot</DrawDot>
+  <DrawHorizontalLine> - draw horizontal line</DrawHorizontalLine>
+  <DrawVerticalLine> - draw vertical line</DrawVerticalLine>
+  <DrawSnowFlake> - draw snowflake</DrawSnowFlake>
+  <Clear> - clear</Clear>
+  <Exit> - exit</Exit>
+  <IncorrectOption>Please select an option from the list</IncorrectOption>
+</TextMessages>

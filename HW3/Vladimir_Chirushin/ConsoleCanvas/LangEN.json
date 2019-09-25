@@ -1,0 +1,13 @@
+{
+  "Welcome": "You can draw things by pressing key:",
+  "CanvasDrawMessage": "'1' - Draw canvas",
+  "DotDrawMessage": "'2' - Draw dot",
+  "HorizontalDrawMessage": "'4' - Draw horizontal line",
+  "VerticalDrawMessage": "'3' - Draw vertical line",
+  "GooseDrawMessage": "'5' - Draw goose image",
+  "CanvasEraseMesage": "'Q' - Erase canvas ",
+  "DotEraseMessage": "'W' - Erase dot",
+  "HorizontalEraseMessage": "'R' - Erase horizontal line",
+  "VerticalEraseMessage": "'E' - Erase vertical line",
+  "GooseEraseMessage": "'T' - Erase goose picture"
+}

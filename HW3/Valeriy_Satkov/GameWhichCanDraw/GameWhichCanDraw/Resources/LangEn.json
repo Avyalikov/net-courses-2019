@@ -1,0 +1,6 @@
+﻿{
+  "Welcome": "",
+  "Description": "1 — dot (show/hide) \n2 — Horizontal line (show/hide) \n3 — Vertical line (show/hide) \n4 — Curve (show/hide)",
+  "Enter": "Type the number or '@ExitCode' for exit and press Enter: ",
+  "Bye": "Good Bye."
+}

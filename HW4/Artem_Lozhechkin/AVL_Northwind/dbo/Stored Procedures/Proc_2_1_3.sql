@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [dbo].[Proc_2_1_3]
+AS
+	SELECT COUNT (DISTINCT CustomerID)
+	FROM Orders
+RETURN 0

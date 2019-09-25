@@ -1,0 +1,6 @@
+{
+  "ExitCode": "(char)13",
+  "Language": "Eng",
+  "PauseTrades": "(char)32",
+  "TransactionsTimeout": 20000
+}

@@ -1,0 +1,4 @@
+﻿{
+  "SettingsNames": ["Language", "ExitCode", "DoorNumber", "MaxInitialDoorNumber", "ExitDoorNumber"],
+  "Settings": [ "English", "e", "5", "10","0" ]
+}

@@ -1,0 +1,5 @@
+﻿<configuration>
+  <setting type="language">Russian</setting>
+  <setting type="boardHeight">40</setting>
+  <setting type="boardWidth">100</setting>
+</configuration>

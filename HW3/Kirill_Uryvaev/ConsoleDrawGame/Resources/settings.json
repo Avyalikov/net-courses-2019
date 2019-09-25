@@ -1,0 +1,4 @@
+﻿{
+  "SettingsNames": [ "Language", "ExitCode", "BoardWidth", "BoardHeight" ],
+  "Settings": [ "English", "e", "10", "10" ]
+}

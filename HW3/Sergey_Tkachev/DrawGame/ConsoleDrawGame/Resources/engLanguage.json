@@ -1,0 +1,8 @@
+﻿{
+  "WelcomeStart": "Welcome to the Console Draw Game. Enter '",
+  "WelcomeEnd": "' to exit.",
+  "Instructions": "\nPlease, select any number to print the next components:\n1) Simple dot;\n2) Vertical line;\n3) Horizontal line;\n4) Other curve.\n",
+  "Select": "Select one of existing numbers: ",
+  "Thanks": "\nThanks for playing!",
+  "Incorrect": "Incorrect input. Please try again: "
+}

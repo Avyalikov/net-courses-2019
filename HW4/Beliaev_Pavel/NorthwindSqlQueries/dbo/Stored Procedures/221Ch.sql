@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [dbo].[221Ch]
+AS
+	SELECT COUNT(*) as 'Total'
+	FROM Orders
+RETURN 0

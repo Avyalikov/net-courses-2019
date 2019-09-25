@@ -1,0 +1,12 @@
+﻿{
+  "Welcome": "Welcome to \"Doors and levels game beta\" You can go to a next level by choosing and entering one of the given numbers. ",
+  "ExitDoor": "Go to a previous level by entering: ",
+  "ExitCode": "to finish the game enter: ",
+  "TheNumbersAre": "The numbers are:",
+  "SelectAndEnterNumber": "Select and enter one of the given numbers:",
+  "Bay": "Thank you for playing! Press any button to quit",
+  "WrongValue": "You have entered a wrong value. Please enter a number",
+  "OtherNumber": "You have entered a wrong number. Please enter one of the numbers listed",
+  "StorageExcept": "Now just go ahead ",
+  "Winner": "You are winner"
+}

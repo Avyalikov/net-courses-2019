@@ -1,0 +1,11 @@
+﻿{
+  //"ChooseYourLanguage": "Choose your language, please, and enter a number.\n 1 - English, 2 - Русский",
+  "Welcome": "Welcome to \"Doors and levels game\"! \nYou can go to a next level by choosing and entering one of the given numbers or go to a previous level by entering 0. \nYou can also end your game by entering \"x\".",
+  "TheNumbersAre": "\nThe numbers are:\n",
+  "ChooseYourDoor": "\nChoose your door!\n",
+  "TheNextLevel": "\nCongratulations! You are on the next level!\n",
+  "ThePreviousLevel": "\nSorry! You have returned to the previous level!\n",
+  "ThankYouForPlaying": "Thank you for playing!\nPress any button to quit",
+  "ItIsNotANumber": "It is not a number. Let's try again",
+  "WrongDoor": "Wrong door! Try again."
+}

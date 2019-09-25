@@ -1,0 +1,12 @@
+{
+  "Start": "Welcome to the drawing game !!!",
+  "Select1234": "\nYou need to choose one or more numbers to draw a shape: {1, 2, 3, 4} ",
+  "Select0": "\nTo exit enter the game:",
+  "Select#": "\nIf you understand everything then press any button",
+  "1": "\nСlick 1 to draw a simple point:\n",
+  "2": "\nСlick 2 to draw a simple vertical line:\n",
+  "3": "\nСlick 3 to draw a simple horizontal line:\n",
+  "4": "\nСlick 4 to draw another shape:\n",
+  "WrongValue": "\nYou have entered a wrong value. Please enter a number\n",
+  "#": "########################################"
+}

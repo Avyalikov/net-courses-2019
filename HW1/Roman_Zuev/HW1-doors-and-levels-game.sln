@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW1-doors-and-levels-game", "HW1-doors-and-levels-game\HW1-doors-and-levels-game.csproj", "{D862FF99-8582-4414-BBB1-3BAD038BEF99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D862FF99-8582-4414-BBB1-3BAD038BEF99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D862FF99-8582-4414-BBB1-3BAD038BEF99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D862FF99-8582-4414-BBB1-3BAD038BEF99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D862FF99-8582-4414-BBB1-3BAD038BEF99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC1D2D2B-DB01-492B-BC78-2695B8F8FE98}
+	EndGlobalSection
+EndGlobal

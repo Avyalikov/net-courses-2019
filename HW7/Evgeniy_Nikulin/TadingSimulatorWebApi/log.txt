@@ -1,0 +1,614 @@
+2019-08-31 15:50:37,603  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 15:50:37,693  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 121.69980000000001ms 404 
+ 2019-08-31 16:51:58,282  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 16:51:58,348  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 16:51:58,405  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 16:52:04,421  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 16:52:04,441  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi) in 6029.2312ms
+ 2019-08-31 16:52:04,443  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 16:52:04,448  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 6175.1122000000005ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:18:32,487  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:18:32,691 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:18:32,732  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 258.5699ms 500 text/plain
+ 2019-08-31 17:21:21,817  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:21:21,939 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:21:21,958  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 150.84990000000002ms 500 text/plain
+ 2019-08-31 17:22:07,476  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/greenlist  
+ 2019-08-31 17:22:07,540  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:22:07,587  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "GreenList"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.GreenListController (TadingSimulatorWebApi).
+ 2019-08-31 17:22:12,075  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:22:12,098  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi) in 4504.363ms
+ 2019-08-31 17:22:12,100  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:22:12,108  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 4640.469300000001ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:22:37,936  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:22:38,002 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:22:38,022  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 80.76480000000001ms 500 text/plain
+ 2019-08-31 17:23:19,515  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:23:19,631 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:23:19,652  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 147.4147ms 500 text/plain
+ 2019-08-31 17:23:52,446  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:23:52,557 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:23:52,579  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 143.1121ms 500 text/plain
+ 2019-08-31 17:24:05,398  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/greenlist  
+ 2019-08-31 17:24:05,407  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:24:05,467  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "GreenList"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.GreenListController (TadingSimulatorWebApi).
+ 2019-08-31 17:24:09,094  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:24:09,106  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi) in 3632.5091ms
+ 2019-08-31 17:24:09,110  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:24:09,115  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3714.6113ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:24:48,968  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:24:48,994 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:24:49,001  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 30.729400000000002ms 500 text/plain
+ 2019-08-31 17:25:49,037  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/greenlist  
+ 2019-08-31 17:25:49,040  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:25:49,042  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "GreenList"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.GreenListController (TadingSimulatorWebApi).
+ 2019-08-31 17:25:49,053  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:25:49,080  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi) in 11.056700000000001ms
+ 2019-08-31 17:25:49,081  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:25:49,084  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 46.3926ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:25:53,673  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:25:53,694 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:25:53,700  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 26.7938ms 500 text/plain
+ 2019-08-31 17:28:17,835  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:28:17,985 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:28:18,009  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 183.01520000000002ms 500 text/plain
+ 2019-08-31 17:28:58,306  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:28:58,370  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)'
+ 2019-08-31 17:28:58,424  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "GetTradersList", controller = "Clients"}. Executing controller action with signature System.String GetTradersList() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:29:02,087  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:29:02,103  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi) in 3672.2835ms
+ 2019-08-31 17:29:02,105  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)'
+ 2019-08-31 17:29:02,111  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3814.1633ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:29:38,727  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:29:38,791  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)'
+ 2019-08-31 17:29:38,837  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "GetTradersList", controller = "Clients"}. Executing controller action with signature System.String GetTradersList() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:29:42,429  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:29:42,448  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi) in 3602.2195ms
+ 2019-08-31 17:29:42,449  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)'
+ 2019-08-31 17:29:42,456  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3735.8576000000003ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:30:25,320  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=1&page=3 application/x-www-form-urlencoded 
+ 2019-08-31 17:30:25,323  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:25,341  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:30:25,451  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:30:25,453  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 110.5969ms
+ 2019-08-31 17:30:25,457  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:25,461  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 139.6177ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:30:37,561  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=10&page=1 application/x-www-form-urlencoded 
+ 2019-08-31 17:30:37,563  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:37,565  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:30:37,612  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:30:37,614  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 47.785000000000004ms
+ 2019-08-31 17:30:37,616  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:37,618  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 57.0332ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:30:42,874  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=1 application/x-www-form-urlencoded 
+ 2019-08-31 17:30:42,879  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:42,889  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:30:42,898  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:30:42,901  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 9.6723ms
+ 2019-08-31 17:30:42,902  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:42,906  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 33.2194ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:30:48,020  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=2 application/x-www-form-urlencoded 
+ 2019-08-31 17:30:48,025  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:48,027  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:30:48,046  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:30:48,049  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 19.2375ms
+ 2019-08-31 17:30:48,051  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:48,054  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 33.1161ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:30:54,756  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=3 application/x-www-form-urlencoded 
+ 2019-08-31 17:30:54,760  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:54,764  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:30:54,802  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:30:54,806  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 38.7272ms
+ 2019-08-31 17:30:54,811  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:54,814  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 57.3098ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:30:59,935  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=2 application/x-www-form-urlencoded 
+ 2019-08-31 17:30:59,937  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:59,953  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:30:59,966  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:30:59,967  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 12.803600000000001ms
+ 2019-08-31 17:30:59,970  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:30:59,972  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 37.8742ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:31:14,463  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:31:14,467  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)'
+ 2019-08-31 17:31:14,469  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "GetTradersList", controller = "Clients"}. Executing controller action with signature System.String GetTradersList() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:31:14,477  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:31:14,480  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi) in 9.0886ms
+ 2019-08-31 17:31:14,481  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)'
+ 2019-08-31 17:31:14,484  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 20.311ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:31:40,665  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=2 application/x-www-form-urlencoded 
+ 2019-08-31 17:31:40,727  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:31:40,785  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:31:44,503  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:31:44,514  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 3721.1314ms
+ 2019-08-31 17:31:44,515  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:31:44,519  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3863.5440000000003ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:31:48,186  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:31:48,189  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.CountController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:31:48,193  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Count"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.CountController (TadingSimulatorWebApi).
+ 2019-08-31 17:31:48,436  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:31:48,437  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.CountController.Get (TadingSimulatorWebApi) in 242.99790000000002ms
+ 2019-08-31 17:31:48,440  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.CountController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:31:48,447  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 257.9593ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:31:50,634  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/traderslist  
+ 2019-08-31 17:31:50,694 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:31:50,711  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 74.16850000000001ms 500 text/plain
+ 2019-08-31 17:32:24,153  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:32:24,267 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:32:24,286  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 144.2571ms 500 text/plain
+ 2019-08-31 17:33:07,706  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/greenlist  
+ 2019-08-31 17:33:07,775  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:33:07,826  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "GreenList"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.GreenListController (TadingSimulatorWebApi).
+ 2019-08-31 17:33:11,469  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:33:11,486  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi) in 3652.5904ms
+ 2019-08-31 17:33:11,487  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:33:11,492  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3796.8926ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:33:14,058  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:33:14,063  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.CountController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:33:14,067  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Count"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.CountController (TadingSimulatorWebApi).
+ 2019-08-31 17:33:14,274  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:33:14,279  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.CountController.Get (TadingSimulatorWebApi) in 207.36030000000002ms
+ 2019-08-31 17:33:14,280  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.CountController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:33:14,283  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 226.2623ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:33:16,771  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:33:16,842 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetTradersList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:33:16,854  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 84.8912ms 500 text/plain
+ 2019-08-31 17:34:00,419  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:34:00,536 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:34:00,557  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 148.80360000000002ms 500 text/plain
+ 2019-08-31 17:34:02,582  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/greenlist  
+ 2019-08-31 17:34:02,592  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:34:02,654  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "GreenList"}. Executing controller action with signature System.String Get() on controller TadingSimulatorWebApi.Controllers.Clients.GreenListController (TadingSimulatorWebApi).
+ 2019-08-31 17:34:06,383  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:34:06,389  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi) in 3729.3444000000004ms
+ 2019-08-31 17:34:06,391  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.Clients.GreenListController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:34:06,400  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3811.2612000000004ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:34:49,946  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=2 application/x-www-form-urlencoded 
+ 2019-08-31 17:34:50,007  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:34:50,059  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:34:53,750  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:34:53,760  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 3694.7560000000003ms
+ 2019-08-31 17:34:53,761  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 17:34:53,766  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3827.3042ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:34:55,635  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:34:55,703 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:34:55,718  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 82.006ms 500 text/plain
+ 2019-08-31 17:34:58,180  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:34:58,213 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:34:58,218  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 36.9595ms 500 text/plain
+ 2019-08-31 17:34:59,969  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/greenlist  
+ 2019-08-31 17:34:59,989 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:34:59,997  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 22.767500000000002ms 500 text/plain
+ 2019-08-31 17:35:55,489  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:35:55,630 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:35:55,653  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 172.85420000000002ms 500 text/plain
+ 2019-08-31 17:36:18,141  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:36:18,257 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:36:18,279  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 150.9285ms 500 text/plain
+ 2019-08-31 17:36:40,039  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:36:40,151 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:36:40,181  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 152.3306ms 500 text/plain
+ 2019-08-31 17:37:31,239  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:37:31,358 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:37:31,382  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 154.70600000000002ms 500 text/plain
+ 2019-08-31 17:39:33,349  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:39:33,471 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:39:33,503  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 164.2346ms 500 text/plain
+ 2019-08-31 17:39:52,370  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:39:52,521 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.GetBlackList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetOrangeList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:39:52,548  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 186.6335ms 500 text/plain
+ 2019-08-31 17:40:28,749  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:40:28,819  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 80.60730000000001ms 404 
+ 2019-08-31 17:40:38,974  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:40:38,981  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3.661ms 404 
+ 2019-08-31 17:41:06,342  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:41:06,436  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 81.71480000000001ms 404 
+ 2019-08-31 17:41:30,894  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:41:30,980  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)'
+ 2019-08-31 17:41:31,027  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "CountGet", controller = "Clients"}. Executing controller action with signature System.String CountGet() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:41:35,335  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:41:35,352  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi) in 4318.2606000000005ms
+ 2019-08-31 17:41:35,354  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)'
+ 2019-08-31 17:41:35,359  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 4496.7508ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:41:54,401  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:41:54,519 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:41:54,540  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 152.4011ms 500 text/plain
+ 2019-08-31 17:54:16,245  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:54:16,346  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 81.5377ms 404 
+ 2019-08-31 17:54:26,828  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 17:54:26,835  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 4.3864ms 404 
+ 2019-08-31 17:54:56,673  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:54:56,735  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)'
+ 2019-08-31 17:54:56,784  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "CountGet", controller = "Clients"}. Executing controller action with signature System.String CountGet() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 17:55:01,523  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 17:55:01,540  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi) in 4749.1747000000005ms
+ 2019-08-31 17:55:01,545  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)'
+ 2019-08-31 17:55:01,550  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 4887.9935000000005ms 200 text/plain; charset=utf-8
+ 2019-08-31 17:55:37,187  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:55:37,314 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:55:37,340  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 166.3932ms 500 text/plain
+ 2019-08-31 17:56:09,756  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:56:09,874 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:56:09,893  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 149.2427ms 500 text/plain
+ 2019-08-31 17:56:12,272  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:56:12,292 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:56:12,295  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 23.0226ms 500 text/plain
+ 2019-08-31 17:56:37,616  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 17:56:37,726 ERROR Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.? [?] - MESSAGE: An unhandled exception has occurred while executing the request.
+ Microsoft.AspNetCore.Routing.Matching.AmbiguousMatchException: The request matched multiple endpoints. Matches: 
+
+TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)
+TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, CandidateState[] candidateState)
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher.MatchAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-08-31 17:56:37,745  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 139.95610000000002ms 500 text/plain
+ 2019-08-31 18:03:02,820  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 18:03:02,876  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)'
+ 2019-08-31 18:03:02,924  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "CountGet", controller = "Clients"}. Executing controller action with signature System.String CountGet() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 18:03:07,309  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 18:03:07,326  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi) in 4395.808ms
+ 2019-08-31 18:03:07,328  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.CountGet (TadingSimulatorWebApi)'
+ 2019-08-31 18:03:07,333  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 4523.1368ms 200 text/plain; charset=utf-8
+ 2019-08-31 18:03:10,505  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 18:03:10,509  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)'
+ 2019-08-31 18:03:10,513  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "ListGet", controller = "Clients"}. Executing controller action with signature System.String ListGet() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 18:03:10,855  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 18:03:10,858  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi) in 342.6977ms
+ 2019-08-31 18:03:10,860  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.ListGet (TadingSimulatorWebApi)'
+ 2019-08-31 18:03:10,866  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 361.3197ms 200 text/plain; charset=utf-8
+ 2019-08-31 18:07:21,288  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/list  
+ 2019-08-31 18:07:21,349  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:21,397  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "GetList", controller = "Clients"}. Executing controller action with signature System.String GetList() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 18:07:25,072  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 18:07:25,093  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi) in 3688.5603ms
+ 2019-08-31 18:07:25,095  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetList (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:25,103  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 3820.4082000000003ms 200 text/plain; charset=utf-8
+ 2019-08-31 18:07:27,935  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/greenlist  
+ 2019-08-31 18:07:27,939  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:27,942  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "GetGreenList", controller = "Clients"}. Executing controller action with signature System.String GetGreenList() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 18:07:27,951  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 18:07:27,952  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi) in 8.8713ms
+ 2019-08-31 18:07:27,955  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetGreenList (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:27,958  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 22.3829ms 200 text/plain; charset=utf-8
+ 2019-08-31 18:07:30,363  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients/count application/x-www-form-urlencoded 
+ 2019-08-31 18:07:30,365  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:30,372  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "GetCount", controller = "Clients"}. Executing controller action with signature System.String GetCount() on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 18:07:30,589  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 18:07:30,591  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi) in 217.6089ms
+ 2019-08-31 18:07:30,593  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.GetCount (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:30,596  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 232.5881ms 200 text/plain; charset=utf-8
+ 2019-08-31 18:07:32,401  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request starting HTTP/1.1 GET http://localhost/clients?top=2&page=2 application/x-www-form-urlencoded 
+ 2019-08-31 18:07:32,403  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executing endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:32,419  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Route matched with {action = "Get", controller = "Clients"}. Executing controller action with signature System.String Get(Int32, Int32) on controller TadingSimulatorWebApi.Controllers.ClientsController (TadingSimulatorWebApi).
+ 2019-08-31 18:07:32,444  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.? [?] - MESSAGE: Executing ObjectResult, writing value of type 'System.String'.
+ 2019-08-31 18:07:32,447  INFO Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.? [?] - MESSAGE: Executed action TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi) in 24.927500000000002ms
+ 2019-08-31 18:07:32,450  INFO Microsoft.AspNetCore.Routing.EndpointMiddleware.? [?] - MESSAGE: Executed endpoint 'TadingSimulatorWebApi.Controllers.ClientsController.Get (TadingSimulatorWebApi)'
+ 2019-08-31 18:07:32,453  INFO Microsoft.AspNetCore.Hosting.Diagnostics.? [?] - MESSAGE: Request finished in 55.5944ms 200 text/plain; charset=utf-8
+ 

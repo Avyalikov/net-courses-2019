@@ -1,0 +1,11 @@
+{
+  "Welcome": "Press x to exit, press Space to pause or resume trades",
+  "BuyerInBlackZone": "The buyer is in the black zone",
+  "Success": "Transaction succeed",
+  "Failure": "Transaction failed",
+  "GeneratingTransaction": "Generating Transaction...",
+  "StartingTransaction": "Starting Transaction...",
+  "TransactionDetails": "Transaction Details:",
+  "HistoryError": "Transaction history recording failed: ",
+  "Validation":  "Not enough shares to sell"
+}

@@ -32,6 +32,7 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+HW1/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -253,6 +254,7 @@ UpgradeLog*.htm
 ServiceFabricBackup/
 *.rptproj.bak
 
+
 # SQL Server files
 *.mdf
 *.ldf
@@ -344,7 +346,3 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-
-# Backup folder for Package Reference Convert tool in Visual Studio 2017
-MigrationBackup/
-/HW6/Fedushina Daria/TradingApp.Core

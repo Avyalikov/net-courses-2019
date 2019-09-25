@@ -1,0 +1,8 @@
+﻿{
+  "Welcome": "Welcome to \"Doors and levels game beta\" \n You can go to a next level by choosing and entering one of the given numbers or go to a previous level by entering 0 \nYou can quit the game by entering 'X' in the console",
+  "TheNumbersAre": "\nThe numbers are:\n",
+  "SelectAndEnterNumber": "\nSelect and enter one of the given numbers:\n",
+  "ThankYouForPlaying": "Thank you for playing!\nPress any button to quit",
+  "YouHaveEnteredWrongValue": "You have entered a wrong value. Please enter a number",
+  "YouHaveEnteredWrongValuePleaseEnterNumbersListed": "You have entered a wrong number. Please enter one of the numbers listed"
+}

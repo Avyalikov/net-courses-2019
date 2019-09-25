@@ -1,0 +1,9 @@
+{
+  "rules": "Select element to draw: enter 1 - to draw dot, enter 2 - to draw horizontal, 3 - for vertical line, 4 - for slash",
+  "Selected": "You selected ",
+  "Exit": "Press X- for exit, if you want to continue - press any other key",
+  "WrongValue": "You have entered wrong value"
+
+
+
+}

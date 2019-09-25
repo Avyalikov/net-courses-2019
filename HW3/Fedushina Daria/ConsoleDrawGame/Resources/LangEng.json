@@ -1,0 +1,6 @@
+﻿{
+  "Welcome": "Welcome to the Console Draw Game!/nYou can select one of four figure: simple dot, vertical line, horisontal line and squear./nTo do it you just should type numbers from 1 to 4,/n Type 'exit' to quit",
+  "Select": ""\nPlease select the one of the figure numbers\n" ",
+  "Figure": "Your figure is: ",
+  "PutNumber": "\nYou have entered a wrong value. Please enter a number from 1 to 4\n",
+}
