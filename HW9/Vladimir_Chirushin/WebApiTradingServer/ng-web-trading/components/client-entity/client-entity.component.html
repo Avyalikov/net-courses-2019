@@ -1,0 +1,10 @@
+<div [ngClass]="setClasses()">
+    <p>
+        {{ client.clientID }} &nbsp;&nbsp;&nbsp;&nbsp; {{ client.name }} &nbsp;&nbsp;&nbsp;&nbsp; {{ client.phoneNumber }} &nbsp;&nbsp;&nbsp;&nbsp; {{ client.balance }}$
+        <!-- <td>{{ client.clientID }}</td>
+            <td>{{ client.name }}</td>
+            <td>{{ client.phoneNumber }}</td>
+            <td>{{ client.balance }}$</td>-->
+        <button (click)="onDelete(client)" class="del">Delete</button>
+    </p>
+</div>

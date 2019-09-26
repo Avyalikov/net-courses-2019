@@ -1,0 +1,3 @@
+<app-add-client (addClient)="addClient($event)"></app-add-client>
+<app-client-entity *ngFor="let client of clients" [client]="client" (deleteClient)="deleteClient($event)">
+</app-client-entity>
